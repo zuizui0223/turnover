@@ -1,0 +1,20 @@
+{
+  "version": "v0.4",
+  "status": "HOLD_GLOBI_SUPPORT_TRANSPORT",
+  "workflow_run": 36621977131,
+  "attempts": [
+    {
+      "workflow_job": 109589371656,
+      "transport_error": "HTTPException: HTTP Error: HTTP GET error on 'https://zenodo.org/api/records/22691479/files/interactions.parquet/content' (HTTP 429 Too Many Requests)"
+    },
+    {
+      "workflow_job": 109590182690,
+      "transport_error": "HTTPException: HTTP Error: HTTP GET error on 'https://zenodo.org/api/records/22691479/files/interactions.parquet/content' (HTTP 429 Too Many Requests)"
+    }
+  ],
+  "outcome_blind": true,
+  "aggregate_support_result_returned": false,
+  "biological_turnover_outcomes_opened": false,
+  "scientific_gate_adjudicated": false,
+  "next_action": "Use data/globi_support_transport_amendment_v0_5.json without changing source, file, checksum, projected columns, system definitions or thresholds."
+}

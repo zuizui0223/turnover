@@ -1,0 +1,280 @@
+{
+  "version": "v0.1",
+  "status": "MANGAL_TAXON_SUPPORT_PREFILTER_PASS",
+  "workflow_run": 36547255010,
+  "workflow_job": 109336502561,
+  "design": "data/mangal_taxon_support_design_v0_1.json",
+  "prerequisite": "results/mangal_metadata_preflight_v0_1/result.json",
+  "outcome_blind": true,
+  "endpoints_called": [
+    "network",
+    "node"
+  ],
+  "forbidden_endpoints_called": [],
+  "node_names_opened": false,
+  "taxonomy_names_opened": false,
+  "interaction_edges_opened": false,
+  "interaction_types_opened": false,
+  "trait_values_opened": false,
+  "environment_values_opened": false,
+  "metadata_qualified_datasets": 17,
+  "georeferenced_networks_in_scope": 1134,
+  "node_rows_retrieved_total": 39939,
+  "taxon_level_node_rows_in_scope": 8566,
+  "taxon_rows_missing_taxonomy_id": 1170,
+  "qualification": {
+    "minimum_georeferenced_networks": 5,
+    "minimum_unique_taxa": 20,
+    "minimum_repeated_taxa": 10,
+    "repeated_taxon_definition": "same taxonomy_id appears in at least two georeferenced networks within the dataset",
+    "minimum_qualifying_datasets": 12
+  },
+  "dataset_support": [
+    {
+      "dataset_id": 6,
+      "dataset_name": "kolpelke_et_al_2017",
+      "georeferenced_networks": 783,
+      "unique_taxonomy_ids": 0,
+      "repeated_taxonomy_ids": 0,
+      "support_prefilter_pass": false
+    },
+    {
+      "dataset_id": 15,
+      "dataset_name": "havens_1992",
+      "georeferenced_networks": 50,
+      "unique_taxonomy_ids": 195,
+      "repeated_taxonomy_ids": 149,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 48,
+      "dataset_name": "closs_1994",
+      "georeferenced_networks": 12,
+      "unique_taxonomy_ids": 51,
+      "repeated_taxonomy_ids": 51,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 53,
+      "dataset_name": "dexter_1947",
+      "georeferenced_networks": 5,
+      "unique_taxonomy_ids": 68,
+      "repeated_taxonomy_ids": 27,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 72,
+      "dataset_name": "hadfield_2014",
+      "georeferenced_networks": 51,
+      "unique_taxonomy_ids": 300,
+      "repeated_taxonomy_ids": 223,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 74,
+      "dataset_name": "baeta_2011",
+      "georeferenced_networks": 6,
+      "unique_taxonomy_ids": 36,
+      "repeated_taxonomy_ids": 29,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 75,
+      "dataset_name": "ricciardi_2010",
+      "georeferenced_networks": 16,
+      "unique_taxonomy_ids": 15,
+      "repeated_taxonomy_ids": 13,
+      "support_prefilter_pass": false
+    },
+    {
+      "dataset_id": 80,
+      "dataset_name": "ruzicka_2012",
+      "georeferenced_networks": 5,
+      "unique_taxonomy_ids": 45,
+      "repeated_taxonomy_ids": 45,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 87,
+      "dataset_name": "beaver_1985",
+      "georeferenced_networks": 5,
+      "unique_taxonomy_ids": 35,
+      "repeated_taxonomy_ids": 6,
+      "support_prefilter_pass": false
+    },
+    {
+      "dataset_id": 148,
+      "dataset_name": "hawkins_goeden_1984",
+      "georeferenced_networks": 11,
+      "unique_taxonomy_ids": 31,
+      "repeated_taxonomy_ids": 27,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 151,
+      "dataset_name": "mckinnerney_1978",
+      "georeferenced_networks": 6,
+      "unique_taxonomy_ids": 32,
+      "repeated_taxonomy_ids": 15,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 157,
+      "dataset_name": "thompson_townsend_2004",
+      "georeferenced_networks": 6,
+      "unique_taxonomy_ids": 101,
+      "repeated_taxonomy_ids": 68,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 158,
+      "dataset_name": "tavares-cromar_williams_1996",
+      "georeferenced_networks": 8,
+      "unique_taxonomy_ids": 32,
+      "repeated_taxonomy_ids": 31,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 167,
+      "dataset_name": "kaiser-bunbury_et_al_2010",
+      "georeferenced_networks": 24,
+      "unique_taxonomy_ids": 190,
+      "repeated_taxonomy_ids": 143,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 168,
+      "dataset_name": "kaiser-bunbury_et_al_2014",
+      "georeferenced_networks": 48,
+      "unique_taxonomy_ids": 73,
+      "repeated_taxonomy_ids": 63,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 179,
+      "dataset_name": "bartomeus_2005",
+      "georeferenced_networks": 12,
+      "unique_taxonomy_ids": 135,
+      "repeated_taxonomy_ids": 83,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 181,
+      "dataset_name": "RMBL_pollination",
+      "georeferenced_networks": 86,
+      "unique_taxonomy_ids": 0,
+      "repeated_taxonomy_ids": 0,
+      "support_prefilter_pass": false
+    }
+  ],
+  "n_support_prefilter_pass": 13,
+  "passing_dataset_metadata": [
+    {
+      "dataset_id": 15,
+      "dataset_name": "havens_1992",
+      "georeferenced_networks": 50,
+      "unique_taxonomy_ids": 195,
+      "repeated_taxonomy_ids": 149,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 48,
+      "dataset_name": "closs_1994",
+      "georeferenced_networks": 12,
+      "unique_taxonomy_ids": 51,
+      "repeated_taxonomy_ids": 51,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 53,
+      "dataset_name": "dexter_1947",
+      "georeferenced_networks": 5,
+      "unique_taxonomy_ids": 68,
+      "repeated_taxonomy_ids": 27,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 72,
+      "dataset_name": "hadfield_2014",
+      "georeferenced_networks": 51,
+      "unique_taxonomy_ids": 300,
+      "repeated_taxonomy_ids": 223,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 74,
+      "dataset_name": "baeta_2011",
+      "georeferenced_networks": 6,
+      "unique_taxonomy_ids": 36,
+      "repeated_taxonomy_ids": 29,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 80,
+      "dataset_name": "ruzicka_2012",
+      "georeferenced_networks": 5,
+      "unique_taxonomy_ids": 45,
+      "repeated_taxonomy_ids": 45,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 148,
+      "dataset_name": "hawkins_goeden_1984",
+      "georeferenced_networks": 11,
+      "unique_taxonomy_ids": 31,
+      "repeated_taxonomy_ids": 27,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 151,
+      "dataset_name": "mckinnerney_1978",
+      "georeferenced_networks": 6,
+      "unique_taxonomy_ids": 32,
+      "repeated_taxonomy_ids": 15,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 157,
+      "dataset_name": "thompson_townsend_2004",
+      "georeferenced_networks": 6,
+      "unique_taxonomy_ids": 101,
+      "repeated_taxonomy_ids": 68,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 158,
+      "dataset_name": "tavares-cromar_williams_1996",
+      "georeferenced_networks": 8,
+      "unique_taxonomy_ids": 32,
+      "repeated_taxonomy_ids": 31,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 167,
+      "dataset_name": "kaiser-bunbury_et_al_2010",
+      "georeferenced_networks": 24,
+      "unique_taxonomy_ids": 190,
+      "repeated_taxonomy_ids": 143,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 168,
+      "dataset_name": "kaiser-bunbury_et_al_2014",
+      "georeferenced_networks": 48,
+      "unique_taxonomy_ids": 73,
+      "repeated_taxonomy_ids": 63,
+      "support_prefilter_pass": true
+    },
+    {
+      "dataset_id": 179,
+      "dataset_name": "bartomeus_2005",
+      "georeferenced_networks": 12,
+      "unique_taxonomy_ids": 135,
+      "repeated_taxonomy_ids": 83,
+      "support_prefilter_pass": true
+    }
+  ],
+  "gate_pass": true,
+  "next_gate": "Freeze focal-guild and interaction-type semantics from source metadata/literature before opening any interaction edge.",
+  "science_outcomes_opened": false
+}

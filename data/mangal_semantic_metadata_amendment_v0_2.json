@@ -1,0 +1,21 @@
+{
+  "version": "v0.2",
+  "status": "SEMANTIC_VOCABULARY_AMENDED_BEFORE_INTERACTION_EDGE_OPENING",
+  "amends": "data/mangal_semantic_metadata_design_v0_1.json",
+  "trigger": "Source metadata for hadfield_2014 identifies flea–small-mammal parasitism, which is not correctly represented by the narrower predeclared label host_parasitoid.",
+  "change": {
+    "old_label": "host_parasitoid",
+    "new_label": "host_parasite_or_parasitoid",
+    "focal_guild": "host",
+    "broad_class": "consumer_or_antagonistic_interaction"
+  },
+  "unchanged": [
+    "candidate dataset family",
+    "minimum semantically resolved programmes = 8",
+    "all source-support thresholds",
+    "no interaction edge/type/value opening before semantic adjudication",
+    "no posthoc source replacement based on biological outcomes"
+  ],
+  "interaction_edges_opened_before_amendment": false,
+  "biological_outcomes_opened_before_amendment": false
+}

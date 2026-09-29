@@ -1,0 +1,97 @@
+name: GloBI joint support transport v0.5
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_support_transport_amendment_v0_5.json'
+      - 'results/globi_joint_support_v0_4/transport_attempts.json'
+      - 'scripts/source/audit_globi_joint_support_v0_5.py'
+      - '.github/workflows/globi-joint-support-v0-5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install support runtime
+        run: pip install duckdb
+
+      - name: Validate transport-only amendment
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/globi_joint_support_design_v0_4.json'))
+          a=json.load(open('data/globi_support_transport_amendment_v0_5.json'))
+          p=json.load(open('results/globi_parquet_schema_v0_3/result.json'))
+          old=json.load(open('results/globi_joint_support_v0_4/transport_attempts.json'))
+          assert p['status']=='GLOBI_PARQUET_SCHEMA_ALIAS_PASS'
+          assert old['status']=='HOLD_GLOBI_SUPPORT_TRANSPORT'
+          assert old['scientific_gate_adjudicated'] is False
+          assert a['status']=='TRANSPORT_AMENDED_AFTER_HTTP_429_BEFORE_SUPPORT_RESULT'
+          assert a['source_changed'] is False
+          assert a['file_changed'] is False
+          assert a['checksum_changed'] is False
+          assert a['projected_columns_changed'] is False
+          assert a['support_thresholds_changed'] is False
+          assert a['system_definition_changed'] is False
+          assert a['species_rank_rule_changed'] is False
+          assert a['spatial_support_proxy_changed'] is False
+          assert a['biological_outcomes_opened'] is False
+          assert d['primary_file']['checksum']=='md5:8212776b7ba0c4fa8de26a00b5ce8595'
+          assert d['qualification']['minimum_independent_source_namespaces']==12
+          PY
+
+      - name: Audit frozen support with resilient transport
+        run: |
+          mkdir -p build/globi_joint_support_v0_5
+          mkdir -p "$RUNNER_TEMP/globi-support-cache"
+          python scripts/source/audit_globi_joint_support_v0_5.py \
+            --out build/globi_joint_support_v0_5/result.json \
+            --table-out build/globi_joint_support_v0_5/system_support.csv \
+            --cache-dir "$RUNNER_TEMP/globi-support-cache"
+
+      - name: Enforce scientific outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_joint_support_v0_5/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_edge_identities_persisted'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {
+            'GLOBI_JOINT_SUPPORT_PASS',
+            'HOLD_GLOBI_JOINT_SUPPORT',
+            'HOLD_GLOBI_SUPPORT_TRANSPORT'
+          }
+          if x['status']=='HOLD_GLOBI_SUPPORT_TRANSPORT':
+              assert x['scientific_gate_adjudicated'] is False
+              assert x['gate_pass'] is None
+          else:
+              assert x['scientific_gate_adjudicated'] is True
+              assert isinstance(x['gate_pass'], bool)
+          forbidden={
+            'pairwise_geographic_distance',
+            'pairwise_phylogenetic_distance',
+            'partner_profile_dissimilarity',
+            'rewiring',
+            'delta_rho',
+            'time_space_coupling'
+          }
+          assert forbidden.isdisjoint(x.keys())
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-joint-support-v0-5
+          path: build/globi_joint_support_v0_5/

@@ -1,0 +1,90 @@
+{
+  "version": "v0.4",
+  "status": "FROZEN_BEFORE_GLOBI_ROW_LEVEL_SUPPORT_COUNTING",
+  "frozen_on": "2026-09-30",
+  "prerequisite": "results/globi_parquet_schema_v0_3/result.json",
+  "source_record": {
+    "id": 22691479,
+    "doi": "10.5281/zenodo.22691479",
+    "version": "0.11"
+  },
+  "primary_file": {
+    "key": "interactions.parquet",
+    "size": 2375721521,
+    "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+  },
+  "purpose": "Audit whether the final pre-outcome GloBI route contains enough species-rank, georeferenced and repeated source-programme support to justify a later semantic network audit. This gate computes support only and never computes turnover, distance-dissimilarity association, rewiring, phylogenetic signal or any biological response.",
+  "projected_columns": [
+    "sourceNamespace",
+    "interactionTypeId",
+    "interactionTypeName",
+    "sourceTaxonSpeciesName",
+    "targetTaxonSpeciesName",
+    "decimalLatitude",
+    "decimalLongitude",
+    "eventDate"
+  ],
+  "study_source_rule": {
+    "field": "sourceNamespace",
+    "unit": "exact non-empty sourceNamespace",
+    "reason": "GloBI documents dataset namespaces as the identity of indexed source datasets. No citation-level or observation-level field may be substituted after support is seen."
+  },
+  "system_rule": {
+    "unit": "sourceNamespace x interactionTypeId",
+    "interaction_name_role": "interactionTypeName is retained for semantic adjudication but does not define a second independent system when interactionTypeId is shared",
+    "require_nonempty_interaction_type_id": true,
+    "focal_orientation": "source taxon -> target taxon",
+    "orientation_switch_after_support": false,
+    "reason": "source/target direction is part of the archived relation claim; support cannot be rescued by swapping focal and partner roles."
+  },
+  "species_rank_rule": {
+    "focal_field": "sourceTaxonSpeciesName",
+    "partner_field": "targetTaxonSpeciesName",
+    "include": "both interpreted species-name fields must be non-empty",
+    "genus_or_higher_rescue": false,
+    "raw_taxon_name_rescue": false
+  },
+  "spatial_support_proxy": {
+    "role": "support proxy only; not yet accepted as a biological network",
+    "site_coordinates": "exact parsed decimalLatitude and decimalLongitude; no rounding, clustering or grid aggregation",
+    "time_stratum": "first four-digit year parsed from eventDate",
+    "valid_coordinate_rule": "-90 <= latitude <= 90 and -180 <= longitude <= 180",
+    "valid_year_rule": "1000 <= year <= 2026",
+    "stratum": "exact latitude x exact longitude x year within sourceNamespace x interactionTypeId",
+    "semantic_firewall": "Passing site-year support does not establish that a stratum is a replicated ecological network. Every passing sourceNamespace must later pass a source-semantic audit that excludes opportunistic occurrence/specimen aggregations before any turnover response is computed."
+  },
+  "qualification": {
+    "temporal_min_focal_taxa": 20,
+    "temporal_min_unique_partners_per_focal_taxon": 3,
+    "spatial_min_site_year_strata": 5,
+    "spatial_min_repeated_focal_taxa": 10,
+    "repeated_focal_definition": "same sourceTaxonSpeciesName occurs in at least two distinct valid site-year strata within the same sourceNamespace x interactionTypeId system",
+    "joint_system_pass": "all four frozen requirements above must pass",
+    "minimum_independent_source_namespaces": 12,
+    "independence_rule": "sourceNamespace is the independence cluster for the source gate; multiple interaction types within one namespace do not count as multiple independent programmes toward the >=12 requirement"
+  },
+  "forbidden_outputs": [
+    "pairwise geographic distance",
+    "pairwise phylogenetic distance",
+    "partner-profile dissimilarity",
+    "interaction beta diversity",
+    "rewiring",
+    "null-centered turnover rho",
+    "time-space coupling",
+    "context heterogeneity coefficient",
+    "specialization coefficient",
+    "mobility coefficient"
+  ],
+  "allowed_result_payload": [
+    "aggregate support counts by sourceNamespace x interactionTypeId",
+    "qualifying sourceNamespace x interactionTypeId systems",
+    "qualifying independent sourceNamespaces",
+    "missing geography/time diagnostics",
+    "transport diagnostics"
+  ],
+  "next_gate_if_pass": "Freeze and execute a source-semantic network audit for every qualifying sourceNamespace, requiring evidence that repeated location/time strata represent comparable ecological interaction sampling rather than opportunistic occurrence/specimen aggregation. Freeze relation-direction and interaction-family semantics before any turnover response.",
+  "next_gate_if_hold": "Stop the primary joint GloBI interaction route. The finite-family rule forbids a third primary interaction source.",
+  "no_posthoc_relaxation": true,
+  "biological_turnover_outcomes_opened": false
+}

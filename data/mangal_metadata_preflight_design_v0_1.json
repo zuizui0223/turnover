@@ -1,0 +1,48 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_MANGAL_NODE_OR_INTERACTION_OPENING",
+  "source": "MANGAL_CURATED_NETWORKS",
+  "source_api": "https://mangal.io/api/v2",
+  "allowed_endpoints": [
+    "dataset",
+    "network"
+  ],
+  "forbidden_endpoints_before_gate": [
+    "node",
+    "interaction",
+    "taxonomy",
+    "trait",
+    "environment"
+  ],
+  "allowed_fields": {
+    "dataset": [
+      "id",
+      "name",
+      "date",
+      "public",
+      "ref_id"
+    ],
+    "network": [
+      "id",
+      "name",
+      "date",
+      "geom",
+      "public",
+      "all_interactions",
+      "dataset_id"
+    ]
+  },
+  "forbidden_fields": "any node identity, taxon identity, interaction edge, interaction type/value, trait value, environmental value",
+  "purpose": "Determine whether Mangal contains enough independently replicated georeferenced network programmes to justify opening the interaction arm.",
+  "qualification": {
+    "minimum_georeferenced_networks_per_dataset": 5,
+    "minimum_qualifying_datasets": 12,
+    "count_public_only": true,
+    "geometry_required": true,
+    "date_required_for_primary_space_gate": false,
+    "rationale": "The generalized interaction stratum requires at least 12 independent network programmes before cross-system time-space synthesis is worth opening; each spatial programme needs at least five georeferenced networks under the frozen interaction-system gate."
+  },
+  "next_gate_if_pass": "Freeze dataset-level node/taxon support audit using identities only; still do not open interaction edges.",
+  "next_gate_if_hold": "Stop Mangal primary route without inspecting node or interaction outcomes; GloBI may be considered only under the finite-family source-switch rule.",
+  "no_posthoc_relaxation": true
+}

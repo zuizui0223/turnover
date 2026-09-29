@@ -1,0 +1,65 @@
+name: Mangal metadata preflight v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/mangal_metadata_preflight_design_v0_1.json'
+      - 'scripts/analysis/audit_mangal_metadata_preflight_v0_1.py'
+      - '.github/workflows/mangal-metadata-preflight-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate frozen preflight contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/mangal_metadata_preflight_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_MANGAL_NODE_OR_INTERACTION_OPENING'
+          assert d['allowed_endpoints']==['dataset','network']
+          assert set(d['forbidden_endpoints_before_gate'])=={'node','interaction','taxonomy','trait','environment'}
+          q=d['qualification']
+          assert q['minimum_georeferenced_networks_per_dataset']==5
+          assert q['minimum_qualifying_datasets']==12
+          assert d['no_posthoc_relaxation'] is True
+          PY
+
+      - name: Run metadata-only support audit
+        run: |
+          mkdir -p build/mangal_metadata_preflight_v0_1
+          python scripts/analysis/audit_mangal_metadata_preflight_v0_1.py             --out build/mangal_metadata_preflight_v0_1/result.json
+
+      - name: Validate outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/mangal_metadata_preflight_v0_1/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['endpoints_called']==['dataset','network']
+          assert x['forbidden_endpoints_called']==[]
+          assert x['node_identity_opened'] is False
+          assert x['interaction_edges_opened'] is False
+          assert x['interaction_type_opened'] is False
+          assert x['trait_values_opened'] is False
+          assert x['environment_values_opened'] is False
+          assert x['status'] in {
+              'MANGAL_METADATA_SPATIAL_SUPPORT_PASS',
+              'HOLD_MANGAL_METADATA_SPATIAL_SUPPORT'
+          }
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mangal-metadata-preflight-v0-1
+          path: build/mangal_metadata_preflight_v0_1/

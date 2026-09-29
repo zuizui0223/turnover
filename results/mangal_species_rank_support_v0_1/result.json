@@ -1,0 +1,175 @@
+{
+  "version": "v0.1",
+  "status": "HOLD_MANGAL_SPECIES_RANK_SUPPORT",
+  "workflow_run": 36548103837,
+  "workflow_job": 109339284762,
+  "design": "data/mangal_species_rank_support_design_v0_1.json",
+  "outcome_blind": true,
+  "interaction_edges_opened": false,
+  "interaction_types_opened": false,
+  "taxon_names_opened": true,
+  "taxonomy_ranks_opened": true,
+  "candidate_programmes": 13,
+  "qualification": {
+    "minimum_georeferenced_networks": 5,
+    "minimum_unique_species_rank_taxa": 20,
+    "minimum_repeated_species_rank_taxa": 10,
+    "minimum_qualifying_programmes": 12
+  },
+  "programme_support": [
+    {
+      "dataset_name": "havens_1992",
+      "georeferenced_networks": 50,
+      "unique_species_rank_taxa": 104,
+      "repeated_species_rank_taxa": 83,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "closs_1994",
+      "georeferenced_networks": 12,
+      "unique_species_rank_taxa": 12,
+      "repeated_species_rank_taxa": 12,
+      "species_rank_support_pass": false
+    },
+    {
+      "dataset_name": "dexter_1947",
+      "georeferenced_networks": 5,
+      "unique_species_rank_taxa": 8,
+      "repeated_species_rank_taxa": 5,
+      "species_rank_support_pass": false
+    },
+    {
+      "dataset_name": "hadfield_2014",
+      "georeferenced_networks": 51,
+      "unique_species_rank_taxa": 297,
+      "repeated_species_rank_taxa": 220,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "baeta_2011",
+      "georeferenced_networks": 6,
+      "unique_species_rank_taxa": 31,
+      "repeated_species_rank_taxa": 25,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "ruzicka_2012",
+      "georeferenced_networks": 5,
+      "unique_species_rank_taxa": 13,
+      "repeated_species_rank_taxa": 13,
+      "species_rank_support_pass": false
+    },
+    {
+      "dataset_name": "hawkins_goeden_1984",
+      "georeferenced_networks": 11,
+      "unique_species_rank_taxa": 13,
+      "repeated_species_rank_taxa": 11,
+      "species_rank_support_pass": false
+    },
+    {
+      "dataset_name": "mckinnerney_1978",
+      "georeferenced_networks": 6,
+      "unique_species_rank_taxa": 20,
+      "repeated_species_rank_taxa": 10,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "thompson_townsend_2004",
+      "georeferenced_networks": 6,
+      "unique_species_rank_taxa": 53,
+      "repeated_species_rank_taxa": 38,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "tavares-cromar_williams_1996",
+      "georeferenced_networks": 8,
+      "unique_species_rank_taxa": 18,
+      "repeated_species_rank_taxa": 18,
+      "species_rank_support_pass": false
+    },
+    {
+      "dataset_name": "kaiser-bunbury_et_al_2010",
+      "georeferenced_networks": 24,
+      "unique_species_rank_taxa": 132,
+      "repeated_species_rank_taxa": 108,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "kaiser-bunbury_et_al_2014",
+      "georeferenced_networks": 48,
+      "unique_species_rank_taxa": 63,
+      "repeated_species_rank_taxa": 55,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "bartomeus_2005",
+      "georeferenced_networks": 12,
+      "unique_species_rank_taxa": 8,
+      "repeated_species_rank_taxa": 6,
+      "species_rank_support_pass": false
+    }
+  ],
+  "n_species_rank_support_pass": 7,
+  "passing_programmes": [
+    {
+      "dataset_name": "havens_1992",
+      "georeferenced_networks": 50,
+      "unique_species_rank_taxa": 104,
+      "repeated_species_rank_taxa": 83,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "hadfield_2014",
+      "georeferenced_networks": 51,
+      "unique_species_rank_taxa": 297,
+      "repeated_species_rank_taxa": 220,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "baeta_2011",
+      "georeferenced_networks": 6,
+      "unique_species_rank_taxa": 31,
+      "repeated_species_rank_taxa": 25,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "mckinnerney_1978",
+      "georeferenced_networks": 6,
+      "unique_species_rank_taxa": 20,
+      "repeated_species_rank_taxa": 10,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "thompson_townsend_2004",
+      "georeferenced_networks": 6,
+      "unique_species_rank_taxa": 53,
+      "repeated_species_rank_taxa": 38,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "kaiser-bunbury_et_al_2010",
+      "georeferenced_networks": 24,
+      "unique_species_rank_taxa": 132,
+      "repeated_species_rank_taxa": 108,
+      "species_rank_support_pass": true
+    },
+    {
+      "dataset_name": "kaiser-bunbury_et_al_2014",
+      "georeferenced_networks": 48,
+      "unique_species_rank_taxa": 63,
+      "repeated_species_rank_taxa": 55,
+      "species_rank_support_pass": true
+    }
+  ],
+  "gate_pass": false,
+  "decision": {
+    "lower_thresholds": false,
+    "rescue_with_genus_or_higher_rank_nodes": false,
+    "open_interaction_edges_to_rescue": false,
+    "mangal_joint_time_space_primary": "CLOSED",
+    "mangal_spatial_only_future_role": "RETAINED_AS_POSSIBLE_EXTERNAL_OR_SPATIAL_VALIDATION",
+    "source_switch": "GLOBI_STABLE_ZENODO",
+    "source_switch_reason": "support_geometry_hold_before_biological_interaction_outcomes"
+  },
+  "science_outcomes_opened": false
+}

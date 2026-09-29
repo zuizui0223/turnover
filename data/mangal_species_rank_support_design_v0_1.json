@@ -1,0 +1,53 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_MANGAL_TAXON_NAME_AND_RANK_OPENING",
+  "prerequisite": "results/mangal_semantic_adjudication_v0_2/result.json",
+  "candidate_dataset_ids": [
+    15,
+    48,
+    53,
+    72,
+    74,
+    80,
+    148,
+    151,
+    157,
+    158,
+    167,
+    168,
+    179
+  ],
+  "allowed_endpoints": [
+    "network",
+    "node"
+  ],
+  "allowed_node_fields": [
+    "network_id",
+    "node_level",
+    "taxonomy_id",
+    "taxonomy.name",
+    "taxonomy.rank",
+    "taxonomy.ncbi",
+    "taxonomy.gbif"
+  ],
+  "forbidden_endpoints": [
+    "interaction",
+    "trait",
+    "environment"
+  ],
+  "purpose": "Determine whether source-resolved Mangal programmes retain enough repeated species-rank taxa to support a defensible evolutionary-time partner-profile arm before any interaction edge is opened.",
+  "qualification": {
+    "minimum_georeferenced_networks": 5,
+    "minimum_unique_species_rank_taxa": 20,
+    "minimum_repeated_species_rank_taxa": 10,
+    "repeated_definition": "same taxonomy_id with taxonomy.rank=species occurs in at least two georeferenced networks within the programme",
+    "minimum_qualifying_programmes": 12,
+    "rationale": "The generalized design requires at least 20 focal taxa and at least 10 repeated focal taxa. Before edge roles are opened, applying the threshold to all species-rank taxa is a necessary and conservative prefilter."
+  },
+  "rank_rule": "Only taxonomy.rank exactly equal to species contributes to this gate. Genus/family/higher-rank nodes are retained only as diagnostics and cannot rescue a failing programme.",
+  "name_rule": "Taxon names may be opened only for future phylogeny crosswalk and are not used to alter dataset inclusion thresholds.",
+  "next_gate_if_pass": "Freeze phylogeny-source hierarchy and test dated-tree coverage on the predeclared names before edge opening.",
+  "next_gate_if_hold": "Do not lower the species-rank requirement; either proceed with the reduced eligible Mangal subset if >=8 development programmes remain or stop the Mangal evolutionary-time arm before edges.",
+  "no_posthoc_relaxation": true,
+  "interaction_edges_opened": false
+}

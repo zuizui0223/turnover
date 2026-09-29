@@ -1,0 +1,70 @@
+name: Mangal taxonomy-ID support v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/mangal_taxon_support_design_v0_1.json'
+      - 'results/mangal_metadata_preflight_v0_1/result.json'
+      - 'scripts/analysis/audit_mangal_taxon_support_v0_1.py'
+      - '.github/workflows/mangal-taxon-support-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate frozen taxonomy-ID gate
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/mangal_taxon_support_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_MANGAL_INTERACTION_EDGE_OR_TYPE_OPENING'
+          assert d['allowed_endpoints']==['dataset','network','node']
+          assert set(d['forbidden_endpoints'])=={'interaction','trait','environment'}
+          assert d['allowed_node_fields']==['network_id','node_level','taxonomy_id']
+          q=d['qualification']
+          assert q['minimum_georeferenced_networks']==5
+          assert q['minimum_unique_taxa']==20
+          assert q['minimum_repeated_taxa']==10
+          assert q['minimum_qualifying_datasets']==12
+          assert d['no_posthoc_relaxation'] is True
+          PY
+
+      - name: Run taxonomy-ID-only support audit
+        run: |
+          mkdir -p build/mangal_taxon_support_v0_1
+          python scripts/analysis/audit_mangal_taxon_support_v0_1.py             --out build/mangal_taxon_support_v0_1/result.json
+
+      - name: Validate edge firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/mangal_taxon_support_v0_1/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['endpoints_called']==['network','node']
+          assert x['forbidden_endpoints_called']==[]
+          assert x['node_names_opened'] is False
+          assert x['taxonomy_names_opened'] is False
+          assert x['interaction_edges_opened'] is False
+          assert x['interaction_types_opened'] is False
+          assert x['trait_values_opened'] is False
+          assert x['environment_values_opened'] is False
+          assert x['status'] in {
+              'MANGAL_TAXON_SUPPORT_PREFILTER_PASS',
+              'HOLD_MANGAL_TAXON_SUPPORT'
+          }
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mangal-taxon-support-v0-1
+          path: build/mangal_taxon_support_v0_1/

@@ -1,0 +1,133 @@
+{
+  "version": "v0.2",
+  "status": "MANGAL_SOURCE_SEMANTICS_PASS",
+  "metadata_source_workflow_run": 36547585364,
+  "metadata_source_workflow_job": 109337591358,
+  "design_v0_1": "data/mangal_semantic_metadata_design_v0_1.json",
+  "amendment_v0_2": "data/mangal_semantic_metadata_amendment_v0_2.json",
+  "interaction_edges_opened": false,
+  "interaction_types_opened": false,
+  "taxon_names_opened": false,
+  "biological_outcomes_opened": false,
+  "candidate_programmes": 13,
+  "semantically_resolved_programmes": 13,
+  "frozen_minimum_semantically_resolved_programmes": 8,
+  "gate_pass": true,
+  "adjudications": [
+    {
+      "dataset_id": 15,
+      "dataset_name": "havens_1992",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description: pelagic communities; title: Scale and Structure in Natural Food Webs"
+    },
+    {
+      "dataset_id": 48,
+      "dataset_name": "closs_1994",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description and title explicitly identify an intermittent-stream food web"
+    },
+    {
+      "dataset_id": 53,
+      "dataset_name": "dexter_1947",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "Mangal dataset description explicitly labels the tidal-inlet data as a food web"
+    },
+    {
+      "dataset_id": 72,
+      "dataset_name": "hadfield_2014",
+      "interaction_family": "host_parasite_or_parasitoid",
+      "broad_class": "parasitism",
+      "focal_guild": "host",
+      "source_basis": "dataset description: flea distribution and abundance on small mammals; source title: comparative analyses of ecological interactions"
+    },
+    {
+      "dataset_id": 74,
+      "dataset_name": "baeta_2011",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description/title explicitly identify estuarine benthic food webs"
+    },
+    {
+      "dataset_id": 80,
+      "dataset_name": "ruzicka_2012",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description/title explicitly identify Northern California Current food-web structure"
+    },
+    {
+      "dataset_id": 148,
+      "dataset_name": "hawkins_goeden_1984",
+      "interaction_family": "host_parasite_or_parasitoid",
+      "broad_class": "parasitism",
+      "focal_guild": "host",
+      "source_basis": "dataset description/title explicitly identify parasitoid communities associated with Atriplex galls"
+    },
+    {
+      "dataset_id": 151,
+      "dataset_name": "mckinnerney_1978",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description labels rabbit-carrion food-web/community structure"
+    },
+    {
+      "dataset_id": 157,
+      "dataset_name": "thompson_townsend_2004",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description/title explicitly identify stream food-web structure"
+    },
+    {
+      "dataset_id": 158,
+      "dataset_name": "tavares-cromar_williams_1996",
+      "interaction_family": "consumer_resource_foodweb",
+      "broad_class": "consumer_resource",
+      "focal_guild": "consumer",
+      "source_basis": "dataset description/title explicitly identify a detritus-based stream food web"
+    },
+    {
+      "dataset_id": 167,
+      "dataset_name": "kaiser-bunbury_et_al_2010",
+      "interaction_family": "pollination_mutualism",
+      "broad_class": "mutualism",
+      "focal_guild": "plant",
+      "source_basis": "dataset description/title explicitly identify plant-pollinator networks"
+    },
+    {
+      "dataset_id": 168,
+      "dataset_name": "kaiser-bunbury_et_al_2014",
+      "interaction_family": "pollination_mutualism",
+      "broad_class": "mutualism",
+      "focal_guild": "plant",
+      "source_basis": "dataset description/title explicitly identify plant-pollinator networks"
+    },
+    {
+      "dataset_id": 179,
+      "dataset_name": "bartomeus_2005",
+      "interaction_family": "pollination_mutualism",
+      "broad_class": "mutualism",
+      "focal_guild": "plant",
+      "source_basis": "dataset description and source abstract explicitly identify plant-pollinator networks"
+    }
+  ],
+  "class_counts": {
+    "pollination_mutualism": 3,
+    "host_parasite_or_parasitoid": 2,
+    "consumer_resource_foodweb": 8
+  },
+  "broad_class_counts": {
+    "mutualism": 3,
+    "parasitism": 2,
+    "consumer_resource": 8
+  },
+  "next_gate": "Run pre-edge observed-support informativeness and phylogeny-feasibility gates under the frozen focal-guild semantics."
+}

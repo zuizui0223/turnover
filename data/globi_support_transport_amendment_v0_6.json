@@ -1,0 +1,41 @@
+{
+  "version": "v0.6",
+  "status": "TRANSPORT_IMPLEMENTATION_CORRECTED_BEFORE_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "scientific_design": "data/globi_joint_support_design_v0_4.json",
+  "predecessor": "results/globi_joint_support_v0_5/result.json",
+  "reason": "v0.5 returned no scientific support result: DuckDB custom_user_agent was applied after database startup and the fallback request used an Accept header rejected by the pinned Zenodo endpoint.",
+  "source_changed": false,
+  "file_changed": false,
+  "checksum_changed": false,
+  "projected_columns_changed": false,
+  "support_thresholds_changed": false,
+  "system_definition_changed": false,
+  "species_rank_rule_changed": false,
+  "spatial_support_proxy_changed": false,
+  "biological_outcomes_opened": false,
+  "transport_protocol": {
+    "mode": "single_sequential_verified_download_then_local_scan",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content",
+    "user_agent": "turnover-spatiotemporal-support/0.6 (+https://github.com/zuizui0223/turnover)",
+    "custom_accept_header": null,
+    "redirects": true,
+    "download_retries": 5,
+    "retry_all_errors": true,
+    "retry_max_time_seconds": 1200,
+    "connect_timeout_seconds": 60,
+    "expected_size_bytes": 2375721521,
+    "expected_md5": "8212776b7ba0c4fa8de26a00b5ce8595",
+    "post_download_scan": {
+      "engine": "DuckDB",
+      "input": "local verified Parquet only",
+      "threads": 2,
+      "network_access_during_scan": false
+    }
+  },
+  "scientific_gate_semantics": {
+    "transport_failure": "HOLD_GLOBI_SUPPORT_TRANSPORT; scientific gate remains unadjudicated and may be retried only on the identical pinned source/file.",
+    "support_failure": "HOLD_GLOBI_JOINT_SUPPORT; this is the terminal scientific support HOLD and the finite-family rule forbids a third primary interaction source.",
+    "support_pass": "GLOBI_JOINT_SUPPORT_PASS; advance only to source-semantic network qualification, not turnover analysis."
+  }
+}

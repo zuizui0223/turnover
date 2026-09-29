@@ -1,0 +1,101 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_SCHEMA_ALIAS_CONTRACT_BEFORE_GLOBI_ROW_OPENING",
+  "source_record": {
+    "id": 22691479,
+    "doi": "10.5281/zenodo.22691479",
+    "version": "0.11"
+  },
+  "primary_file": {
+    "key": "interactions.parquet",
+    "size": 2375721521,
+    "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+  },
+  "alias_contract": {
+    "geography": [
+      [
+        "latitude",
+        "decimalLatitude"
+      ],
+      [
+        "longitude",
+        "decimalLongitude"
+      ]
+    ],
+    "time": [
+      [
+        "event_date",
+        "eventDate"
+      ]
+    ],
+    "source_group": [
+      [
+        "study_source_id",
+        "sourceNamespace"
+      ]
+    ],
+    "interaction": [
+      [
+        "interaction_type",
+        "interaction_type_name",
+        "interactionTypeName"
+      ]
+    ],
+    "source_taxon": [
+      [
+        "source_taxon_name",
+        "sourceTaxonName",
+        "sourceTaxonSpeciesName"
+      ],
+      [
+        "source_taxon_external_id",
+        "sourceTaxonId",
+        "sourceTaxonIds",
+        "sourceTaxonSpeciesId"
+      ],
+      [
+        "source_taxon_path",
+        "sourceTaxonPathNames"
+      ],
+      [
+        "source_taxon_path_ranks",
+        "sourceTaxonPathRankNames"
+      ]
+    ],
+    "target_taxon": [
+      [
+        "target_taxon_name",
+        "targetTaxonName",
+        "targetTaxonSpeciesName"
+      ],
+      [
+        "target_taxon_external_id",
+        "targetTaxonId",
+        "targetTaxonIds",
+        "targetTaxonSpeciesId"
+      ],
+      [
+        "target_taxon_path",
+        "targetTaxonPathNames"
+      ],
+      [
+        "target_taxon_path_ranks",
+        "targetTaxonPathRankNames"
+      ]
+    ]
+  },
+  "primary_interaction_representation": {
+    "edge": "binary distinct source-target interaction presence within a declared study/location/time stratum",
+    "duplicate_rule": "duplicate normalized source-target edges collapse to one",
+    "weights": "not used in the primary cross-system estimator"
+  },
+  "gate": {
+    "require_all_semantic_groups": true,
+    "require_schema_only_query": true,
+    "forbid_row_count_before_schema_pass": true,
+    "forbid_row_sample_before_schema_pass": true
+  },
+  "next_gate_if_pass": "Freeze projected columns, study-source unit, species-rank rule, location/time strata and support thresholds before row-level support counting.",
+  "row_data_opened": false
+}

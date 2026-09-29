@@ -1,0 +1,43 @@
+{
+  "version": "v0.3",
+  "status": "GLOBI_PARQUET_SCHEMA_ALIAS_PASS",
+  "workflow_run": 36549816870,
+  "workflow_job": 109345055857,
+  "schema_only": true,
+  "row_count_query_executed": false,
+  "row_sample_query_executed": false,
+  "row_returning_query_executed": false,
+  "interaction_rows_opened": false,
+  "source_record": {
+    "id": 22691479,
+    "doi": "10.5281/zenodo.22691479",
+    "version": "0.11"
+  },
+  "primary_file": {
+    "key": "interactions.parquet",
+    "size": 2375721521,
+    "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595"
+  },
+  "required_group_checks": {
+    "geography": true,
+    "time": true,
+    "source_group": true,
+    "interaction": true,
+    "source_taxon": true,
+    "target_taxon": true
+  },
+  "resolved_primary_fields": {
+    "latitude": "decimalLatitude",
+    "longitude": "decimalLongitude",
+    "time": "eventDate",
+    "source_group": "sourceNamespace",
+    "interaction": "interactionTypeName",
+    "source_taxon_name": "sourceTaxonName",
+    "source_taxon_species_name": "sourceTaxonSpeciesName",
+    "target_taxon_name": "targetTaxonName",
+    "target_taxon_species_name": "targetTaxonSpeciesName"
+  },
+  "transport_error": null,
+  "gate_pass": true,
+  "next_gate": "Freeze projected columns, study-source unit, species-rank rule, location/time strata and support thresholds before row-level support counting."
+}

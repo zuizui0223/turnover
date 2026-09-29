@@ -1,0 +1,101 @@
+name: GloBI joint support transport v0.6
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_support_transport_amendment_v0_6.json'
+      - 'scripts/source/audit_globi_joint_support_v0_6.py'
+      - '.github/workflows/globi-joint-support-v0-6.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install local scan runtime
+        run: pip install duckdb
+
+      - name: Validate transport-only chronology
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/globi_joint_support_design_v0_4.json'))
+          a=json.load(open('data/globi_support_transport_amendment_v0_6.json'))
+          old=json.load(open('results/globi_joint_support_v0_5/result.json'))
+          schema=json.load(open('results/globi_parquet_schema_v0_3/result.json'))
+          assert schema['status']=='GLOBI_PARQUET_SCHEMA_ALIAS_PASS'
+          assert old['status']=='HOLD_GLOBI_SUPPORT_TRANSPORT'
+          assert old['scientific_gate_adjudicated'] is False
+          assert old['gate_pass'] is None
+          assert a['status']=='TRANSPORT_IMPLEMENTATION_CORRECTED_BEFORE_SUPPORT_RESULT'
+          for k in [
+              'source_changed','file_changed','checksum_changed',
+              'projected_columns_changed','support_thresholds_changed',
+              'system_definition_changed','species_rank_rule_changed',
+              'spatial_support_proxy_changed','biological_outcomes_opened'
+          ]:
+              assert a[k] is False, k
+          assert a['transport_protocol']['expected_size_bytes']==2375721521
+          assert a['transport_protocol']['expected_md5']=='8212776b7ba0c4fa8de26a00b5ce8595'
+          assert a['transport_protocol']['custom_accept_header'] is None
+          assert d['qualification']['temporal_min_focal_taxa']==20
+          assert d['qualification']['temporal_min_unique_partners_per_focal_taxon']==3
+          assert d['qualification']['spatial_min_site_year_strata']==5
+          assert d['qualification']['spatial_min_repeated_focal_taxa']==10
+          assert d['qualification']['minimum_independent_source_namespaces']==12
+          PY
+
+      - name: Download once, verify, and audit frozen support
+        run: |
+          mkdir -p build/globi_joint_support_v0_6
+          mkdir -p "$RUNNER_TEMP/globi-support-cache"
+          python scripts/source/audit_globi_joint_support_v0_6.py \
+            --out build/globi_joint_support_v0_6/result.json \
+            --table-out build/globi_joint_support_v0_6/system_support.csv \
+            --cache-dir "$RUNNER_TEMP/globi-support-cache"
+
+      - name: Enforce scientific outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_joint_support_v0_6/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_edge_identities_persisted'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {
+            'GLOBI_JOINT_SUPPORT_PASS',
+            'HOLD_GLOBI_JOINT_SUPPORT',
+            'HOLD_GLOBI_SUPPORT_TRANSPORT'
+          }
+          if x['status']=='HOLD_GLOBI_SUPPORT_TRANSPORT':
+              assert x['scientific_gate_adjudicated'] is False
+              assert x['gate_pass'] is None
+          else:
+              assert x['scientific_gate_adjudicated'] is True
+              assert isinstance(x['gate_pass'], bool)
+          forbidden={
+            'pairwise_geographic_distance',
+            'pairwise_phylogenetic_distance',
+            'partner_profile_dissimilarity',
+            'rewiring',
+            'delta_rho',
+            'time_space_coupling'
+          }
+          assert forbidden.isdisjoint(x.keys())
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-joint-support-v0-6
+          path: build/globi_joint_support_v0_6/

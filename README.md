@@ -39,11 +39,15 @@ Trait arm:
 3. TRY v7 — currently source-access HOLD
 
 Interaction arm:
-1. Mangal curated networks
-2. GloBI stable versioned archive
+1. Mangal curated networks — joint time/space route closed at species-rank support gate; retained as possible spatial validation
+2. GloBI stable versioned archive — active second and final primary joint source
 
 No biological response is opened until source identity, schema/support eligibility and observed-geometry informativeness are frozen.
 
 ## Project boundary
 
 This repository is independent of current submission claims in CHUN, FCP and IWE. Those repositories remain external anchors and are not silently modified by this programme.
+
+## Current source-gate state
+
+Mangal passed spatial-network and taxonomy-ID gates but failed the frozen species-rank joint gate: 7 programmes qualified versus 12 required. No interaction edge was opened. The finite-family contract therefore authorizes one source switch to GloBI; if GloBI fails a pre-outcome access/schema/support/informativeness gate, the primary joint interaction route stops.

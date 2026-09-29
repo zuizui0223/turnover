@@ -1,0 +1,73 @@
+name: GloBI Parquet schema aliases v0.3
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_parquet_schema_design_v0_3.json'
+      - 'data/globi_schema_alias_amendment_v0_3.json'
+      - 'results/globi_parquet_schema_v0_2/result.json'
+      - 'scripts/source/audit_globi_parquet_schema_v0_3.py'
+      - '.github/workflows/globi-parquet-schema-v0-3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install schema runtime
+        run: pip install duckdb
+
+      - name: Validate alias amendment chronology
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('data/globi_schema_alias_amendment_v0_3.json'))
+          d=json.load(open('data/globi_parquet_schema_design_v0_3.json'))
+          prior=json.load(open('results/globi_parquet_schema_v0_2/result.json'))
+          assert prior['status']=='HOLD_GLOBI_REQUIRED_SCHEMA_MISSING'
+          assert prior['interaction_rows_opened'] is False
+          assert prior['row_returning_query_executed'] is False
+          assert a['status']=='SCHEMA_ALIAS_AMENDED_BEFORE_GLOBI_ROW_OPENING'
+          assert a['thresholds_changed'] is False
+          assert a['source_changed'] is False
+          assert a['file_changed'] is False
+          assert a['biological_outcomes_opened'] is False
+          assert d['status']=='FROZEN_SCHEMA_ALIAS_CONTRACT_BEFORE_GLOBI_ROW_OPENING'
+          assert d['primary_file']['checksum']=='md5:8212776b7ba0c4fa8de26a00b5ce8595'
+          assert d['row_data_opened'] is False
+          PY
+
+      - name: Read Parquet schema metadata only
+        run: |
+          mkdir -p build/globi_parquet_schema_v0_3
+          python scripts/source/audit_globi_parquet_schema_v0_3.py             --out build/globi_parquet_schema_v0_3/result.json
+
+      - name: Validate row firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_parquet_schema_v0_3/result.json'))
+          assert x['schema_only'] is True
+          assert x['row_count_query_executed'] is False
+          assert x['row_sample_query_executed'] is False
+          assert x['row_returning_query_executed'] is False
+          assert x['interaction_rows_opened'] is False
+          assert x['status'] in {
+            'GLOBI_PARQUET_SCHEMA_ALIAS_PASS',
+            'HOLD_GLOBI_PARQUET_SCHEMA_TRANSPORT',
+            'HOLD_GLOBI_REQUIRED_SCHEMA_ALIAS_MISSING'
+          }
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-parquet-schema-v0-3
+          path: build/globi_parquet_schema_v0_3/

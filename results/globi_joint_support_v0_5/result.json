@@ -1,0 +1,26 @@
+{
+  "version": "v0.5",
+  "status": "HOLD_GLOBI_SUPPORT_TRANSPORT",
+  "workflow_run": 36622696389,
+  "workflow_job": 109591815001,
+  "outcome_blind": true,
+  "scientific_gate_adjudicated": false,
+  "gate_pass": null,
+  "biological_turnover_outcomes_opened": false,
+  "remote_transport_error": "InvalidInputException: Invalid Input Error: Cannot change custom_user_agent setting while database is running",
+  "fallback_transport_error": "RuntimeError: verified download failed: attempt 1: HTTP 406 NOT ACCEPTABLE | attempt 2: HTTP 406 NOT ACCEPTABLE | attempt 3: HTTP 406 NOT ACCEPTABLE | attempt 4: HTTP 406 NOT ACCEPTABLE",
+  "diagnosis": [
+    "DuckDB custom_user_agent is a startup/configuration concern and was applied too late in v0.5.",
+    "The sequential urllib fallback added an explicit Accept: application/octet-stream header and received HTTP 406 from the pinned Zenodo content endpoint."
+  ],
+  "scientific_contract_changes": {
+    "source": false,
+    "file": false,
+    "checksum": false,
+    "projected_columns": false,
+    "system_definition": false,
+    "species_rank_rule": false,
+    "support_thresholds": false
+  },
+  "next_action": "Retire v0.5 automatic execution and run a transport-only v0.6 using one explicit-user-agent sequential download with no custom Accept header, exact byte-size/MD5 verification, and local DuckDB support aggregation."
+}

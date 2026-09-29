@@ -1,0 +1,154 @@
+{
+  "version": "v0.1",
+  "status": "MANGAL_METADATA_SPATIAL_SUPPORT_PASS",
+  "workflow_run": 36546918783,
+  "workflow_job": 109335413553,
+  "outcome_blind": true,
+  "endpoints_called": [
+    "dataset",
+    "network"
+  ],
+  "forbidden_endpoints_called": [],
+  "node_identity_opened": false,
+  "interaction_edges_opened": false,
+  "interaction_type_opened": false,
+  "trait_values_opened": false,
+  "environment_values_opened": false,
+  "public_dataset_rows": 175,
+  "public_network_rows": 1487,
+  "georeferenced_public_networks": 1307,
+  "dated_public_networks": 1458,
+  "georeferenced_dated_public_networks": 1283,
+  "qualification": {
+    "minimum_georeferenced_networks_per_dataset": 5,
+    "minimum_qualifying_datasets": 12,
+    "count_public_only": true,
+    "geometry_required": true,
+    "date_required_for_primary_space_gate": false
+  },
+  "n_qualifying_datasets": 17,
+  "qualifying_dataset_metadata": [
+    {
+      "dataset_id": 6,
+      "dataset_name": "kolpelke_et_al_2017",
+      "public_networks": 783,
+      "georeferenced_networks": 783,
+      "georeferenced_dated_networks": 783
+    },
+    {
+      "dataset_id": 15,
+      "dataset_name": "havens_1992",
+      "public_networks": 50,
+      "georeferenced_networks": 50,
+      "georeferenced_dated_networks": 50
+    },
+    {
+      "dataset_id": 48,
+      "dataset_name": "closs_1994",
+      "public_networks": 12,
+      "georeferenced_networks": 12,
+      "georeferenced_dated_networks": 12
+    },
+    {
+      "dataset_id": 53,
+      "dataset_name": "dexter_1947",
+      "public_networks": 5,
+      "georeferenced_networks": 5,
+      "georeferenced_dated_networks": 5
+    },
+    {
+      "dataset_id": 72,
+      "dataset_name": "hadfield_2014",
+      "public_networks": 51,
+      "georeferenced_networks": 51,
+      "georeferenced_dated_networks": 51
+    },
+    {
+      "dataset_id": 74,
+      "dataset_name": "baeta_2011",
+      "public_networks": 6,
+      "georeferenced_networks": 6,
+      "georeferenced_dated_networks": 6
+    },
+    {
+      "dataset_id": 75,
+      "dataset_name": "ricciardi_2010",
+      "public_networks": 16,
+      "georeferenced_networks": 16,
+      "georeferenced_dated_networks": 16
+    },
+    {
+      "dataset_id": 80,
+      "dataset_name": "ruzicka_2012",
+      "public_networks": 5,
+      "georeferenced_networks": 5,
+      "georeferenced_dated_networks": 5
+    },
+    {
+      "dataset_id": 87,
+      "dataset_name": "beaver_1985",
+      "public_networks": 5,
+      "georeferenced_networks": 5,
+      "georeferenced_dated_networks": 0
+    },
+    {
+      "dataset_id": 148,
+      "dataset_name": "hawkins_goeden_1984",
+      "public_networks": 11,
+      "georeferenced_networks": 11,
+      "georeferenced_dated_networks": 11
+    },
+    {
+      "dataset_id": 151,
+      "dataset_name": "mckinnerney_1978",
+      "public_networks": 6,
+      "georeferenced_networks": 6,
+      "georeferenced_dated_networks": 6
+    },
+    {
+      "dataset_id": 157,
+      "dataset_name": "thompson_townsend_2004",
+      "public_networks": 12,
+      "georeferenced_networks": 6,
+      "georeferenced_dated_networks": 6
+    },
+    {
+      "dataset_id": 158,
+      "dataset_name": "tavares-cromar_williams_1996",
+      "public_networks": 8,
+      "georeferenced_networks": 8,
+      "georeferenced_dated_networks": 8
+    },
+    {
+      "dataset_id": 167,
+      "dataset_name": "kaiser-bunbury_et_al_2010",
+      "public_networks": 24,
+      "georeferenced_networks": 24,
+      "georeferenced_dated_networks": 24
+    },
+    {
+      "dataset_id": 168,
+      "dataset_name": "kaiser-bunbury_et_al_2014",
+      "public_networks": 48,
+      "georeferenced_networks": 48,
+      "georeferenced_dated_networks": 48
+    },
+    {
+      "dataset_id": 179,
+      "dataset_name": "bartomeus_2005",
+      "public_networks": 12,
+      "georeferenced_networks": 12,
+      "georeferenced_dated_networks": 0
+    },
+    {
+      "dataset_id": 181,
+      "dataset_name": "RMBL_pollination",
+      "public_networks": 86,
+      "georeferenced_networks": 86,
+      "georeferenced_dated_networks": 86
+    }
+  ],
+  "gate_pass": true,
+  "next_gate": "Freeze dataset-level node/taxon support audit using identities only; still do not open interaction edges.",
+  "science_outcomes_opened": false
+}

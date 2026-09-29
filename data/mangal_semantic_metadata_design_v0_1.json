@@ -1,0 +1,76 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_MANGAL_INTERACTION_SEMANTIC_ADJUDICATION",
+  "prerequisite": "results/mangal_taxon_support_v0_1/result.json",
+  "candidate_dataset_ids": [
+    15,
+    48,
+    53,
+    72,
+    74,
+    80,
+    148,
+    151,
+    157,
+    158,
+    167,
+    168,
+    179
+  ],
+  "allowed_endpoints": [
+    "dataset",
+    "reference"
+  ],
+  "allowed_dataset_fields": [
+    "id",
+    "name",
+    "date",
+    "description",
+    "public",
+    "ref_id"
+  ],
+  "allowed_reference_fields": [
+    "id",
+    "doi",
+    "author",
+    "year",
+    "bibtex",
+    "paper_url",
+    "data_url"
+  ],
+  "forbidden_endpoints": [
+    "interaction",
+    "trait",
+    "environment"
+  ],
+  "node_endpoint_reuse": false,
+  "purpose": "Recover source metadata sufficient to freeze interaction family and focal-guild semantics before any interaction edge/type/value is opened.",
+  "adjudication_vocabulary": {
+    "interaction_family": [
+      "pollination_mutualism",
+      "host_parasitoid",
+      "herbivory",
+      "consumer_resource_foodweb",
+      "mixed_or_other",
+      "unresolved"
+    ],
+    "focal_guild_rule": {
+      "pollination_mutualism": "plant",
+      "host_parasitoid": "host",
+      "herbivory": "plant_host",
+      "consumer_resource_foodweb": "consumer",
+      "mixed_or_other": "must define source-specific focal guild before admission",
+      "unresolved": "HOLD"
+    }
+  },
+  "semantic_gate": {
+    "require_source_metadata_support": true,
+    "allow_bibtex_title_and_abstract_like_description": true,
+    "do_not_use_interaction_edges_to_resolve_semantics": true,
+    "minimum_semantically_resolved_programmes": 8,
+    "rationale": "At least eight programmes should survive source-level semantic adjudication before investing in cross-taxon phylogeny and geometry qualification; this is a development gate, not the final >=12-system inference gate."
+  },
+  "next_gate_if_pass": "Freeze programme-level interaction family/focal guild and then perform taxonomy-name/phylogeny feasibility without opening interaction edges.",
+  "next_gate_if_hold": "Stop Mangal route before edge opening; consider GloBI under the finite-family source rule.",
+  "no_posthoc_relaxation": true
+}

@@ -1,0 +1,32 @@
+{
+  "version": "0.11",
+  "status": "GLOBI_STABLE_ARCHIVE_IDENTITY_PASS",
+  "workflow_run": 36548842699,
+  "workflow_job": 109341739541,
+  "outcome_blind": true,
+  "interaction_rows_opened": false,
+  "archive_content_downloaded": false,
+  "concept_doi": "10.5281/zenodo.3950589",
+  "latest_record_id": 22691479,
+  "latest_record_doi": "10.5281/zenodo.22691479",
+  "latest_record_conceptdoi": "10.5281/zenodo.3950589",
+  "publication_date": "2026-09-10",
+  "resource_type": "dataset",
+  "title": "Global Biotic Interactions: Interpreted Data Products hash://md5/77424dadd5b16a3e617643c8e2a4fbc4 hash://sha256/c277901ff9d1d8bf19f3bf3ced19c810f500f1542948291bfe755cbb348d6599",
+  "selected_metadata_candidates": [
+    {
+      "key": "interactions.parquet",
+      "size": 2375721521,
+      "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595",
+      "download": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+    },
+    {
+      "key": "interactions.tsv.gz",
+      "size": 2459603806,
+      "checksum": "md5:c07ce1a5895b5bbcb822c7fb90f920c9",
+      "download": "https://zenodo.org/api/records/22691479/files/interactions.tsv.gz/content"
+    }
+  ],
+  "gate_pass": true,
+  "next_gate": "Freeze serialization choice and actual schema before any row values are read."
+}

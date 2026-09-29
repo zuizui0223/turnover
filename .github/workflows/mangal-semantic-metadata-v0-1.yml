@@ -1,0 +1,62 @@
+name: Mangal semantic metadata recovery v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/mangal_semantic_metadata_design_v0_1.json'
+      - 'scripts/analysis/recover_mangal_semantic_metadata_v0_1.py'
+      - '.github/workflows/mangal-semantic-metadata-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate semantic metadata firewall
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/mangal_semantic_metadata_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_MANGAL_INTERACTION_SEMANTIC_ADJUDICATION'
+          assert d['allowed_endpoints']==['dataset','reference']
+          assert set(d['forbidden_endpoints'])=={'interaction','trait','environment'}
+          assert d['node_endpoint_reuse'] is False
+          assert len(d['candidate_dataset_ids'])==13
+          assert d['semantic_gate']['minimum_semantically_resolved_programmes']==8
+          assert d['no_posthoc_relaxation'] is True
+          PY
+
+      - name: Recover source metadata only
+        run: |
+          mkdir -p build/mangal_semantic_metadata_v0_1
+          python scripts/analysis/recover_mangal_semantic_metadata_v0_1.py             --out build/mangal_semantic_metadata_v0_1/result.json
+
+      - name: Validate edge firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/mangal_semantic_metadata_v0_1/result.json'))
+          assert x['status']=='MANGAL_SOURCE_SEMANTIC_METADATA_RECOVERED'
+          assert x['outcome_blind'] is True
+          assert x['endpoints_called']==['dataset','reference']
+          assert x['forbidden_endpoints_called']==[]
+          assert x['interaction_edges_opened'] is False
+          assert x['interaction_types_opened'] is False
+          assert x['node_names_opened'] is False
+          assert x['taxon_names_opened'] is False
+          assert x['candidate_programmes']==13
+          assert x['semantic_adjudication_completed'] is False
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mangal-semantic-metadata-v0-1
+          path: build/mangal_semantic_metadata_v0_1/

@@ -1,0 +1,93 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_GLOBI_PARQUET_SCHEMA_OPENING",
+  "source_record": {
+    "id": 22691479,
+    "doi": "10.5281/zenodo.22691479",
+    "version": "0.11"
+  },
+  "primary_file": {
+    "key": "interactions.parquet",
+    "size": 2375721521,
+    "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+  },
+  "allowed_operation": "Read Parquet schema/footer metadata only. Do not execute any row-returning query.",
+  "primary_interaction_representation": {
+    "edge": "binary distinct source-target interaction presence within a declared study/location/time stratum",
+    "duplicate_rule": "duplicate records of the same normalized source-target edge collapse to one for the primary representation",
+    "weights": "not used in the primary cross-system estimator because GloBI integrates heterogeneous measurement attributes"
+  },
+  "required_semantic_fields": {
+    "geography": [
+      [
+        "latitude"
+      ],
+      [
+        "longitude"
+      ]
+    ],
+    "time": [
+      [
+        "event_date"
+      ]
+    ],
+    "source_group": [
+      [
+        "study_source_id"
+      ]
+    ],
+    "interaction": [
+      [
+        "interaction_type",
+        "interaction_type_name"
+      ]
+    ],
+    "source_taxon": [
+      [
+        "source_taxon_name"
+      ],
+      [
+        "source_taxon_external_id"
+      ],
+      [
+        "source_taxon_path"
+      ],
+      [
+        "source_taxon_path_ranks"
+      ]
+    ],
+    "target_taxon": [
+      [
+        "target_taxon_name"
+      ],
+      [
+        "target_taxon_external_id"
+      ],
+      [
+        "target_taxon_path"
+      ],
+      [
+        "target_taxon_path_ranks"
+      ]
+    ]
+  },
+  "optional_fields": [
+    "study_source_citation",
+    "study_citation",
+    "study_doi",
+    "study_source_doi",
+    "study_title",
+    "study_source_format",
+    "study_source_archive_uri"
+  ],
+  "gate": {
+    "require_all_semantic_groups": true,
+    "require_schema_only_query": true,
+    "forbid_row_count_before_schema_pass": true,
+    "forbid_row_sample_before_schema_pass": true
+  },
+  "next_gate_if_pass": "Freeze source/study grouping, taxonomic rank filters, location/time strata and support thresholds; only then run projected-column support counts.",
+  "next_gate_if_parquet_transport_hold": "Use the already-frozen TSV fallback only to recover the header/schema; do not inspect data rows.",
+  "interaction_rows_opened": false
+}

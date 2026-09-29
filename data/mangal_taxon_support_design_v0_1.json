@@ -1,0 +1,42 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_MANGAL_INTERACTION_EDGE_OR_TYPE_OPENING",
+  "source": "MANGAL_CURATED_NETWORKS",
+  "prerequisite": "results/mangal_metadata_preflight_v0_1/result.json",
+  "allowed_endpoints": [
+    "dataset",
+    "network",
+    "node"
+  ],
+  "forbidden_endpoints": [
+    "interaction",
+    "trait",
+    "environment"
+  ],
+  "allowed_node_fields": [
+    "network_id",
+    "node_level",
+    "taxonomy_id"
+  ],
+  "forbidden_node_fields": [
+    "original_name",
+    "taxonomy.name",
+    "taxonomy.rank",
+    "all trait or interaction content"
+  ],
+  "purpose": "Necessary-support prefilter for the evolutionary partner-profile and spatial rewiring arms using taxon identity IDs only.",
+  "support_unit": "one Mangal dataset programme",
+  "taxon_rule": "Use only node_level=taxon with non-null taxonomy_id in public georeferenced networks belonging to the 17 metadata-qualified datasets.",
+  "qualification": {
+    "minimum_georeferenced_networks": 5,
+    "minimum_unique_taxa": 20,
+    "minimum_repeated_taxa": 10,
+    "repeated_taxon_definition": "same taxonomy_id appears in at least two georeferenced networks within the dataset",
+    "minimum_qualifying_datasets": 12,
+    "rationale": "The main design requires >=20 temporal focal taxa and >=10 repeated focal taxa for the spatial arm. Because focal-versus-partner guild is still sealed, this gate is necessary but not sufficient and is applied to all taxon-level nodes."
+  },
+  "next_gate_if_pass": "Freeze focal-guild and interaction-type semantics from source metadata/literature before opening any interaction edge.",
+  "next_gate_if_hold": "Stop Mangal route without opening interaction edges; consider GloBI only under the finite-family source-switch rule.",
+  "no_posthoc_relaxation": true,
+  "biological_outcomes_opened": false
+}

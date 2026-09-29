@@ -1,0 +1,20 @@
+{
+  "version": "v0.7.1",
+  "status": "SOURCE_PROVENANCE_AMENDED_BEFORE_SEMANTIC_GATE_RESULT",
+  "frozen_on": "2026-09-30",
+  "parent_design": "data/globi_source_semantic_design_v0_7.json",
+  "reason": "The structural candidate list contains source mirrors/indices and the previously rejected Mangal source inside GloBI. Counting those as independent GloBI programmes would violate the frozen independence and finite-family rules.",
+  "biological_outcomes_opened": false,
+  "threshold_changed": false,
+  "evidence_order_changed": false,
+  "added_adjudication_class": {
+    "FAIL_NONINDEPENDENT_OR_NONDATA_SOURCE": "Namespace is a mirror/index of another candidate or the previously rejected primary source, or is a template/catalogue rather than an ecological interaction dataset. It cannot contribute to the independent-source count."
+  },
+  "provenance_rules": [
+    "globalbioticinteractions/mangal cannot count because it republishes the first primary source that already failed the frozen Mangal joint gate.",
+    "When a GloBI index namespace and its source repository represent the same underlying dataset, count at most one underlying source.",
+    "Template/example repositories and literature catalogues are not ecological sampling programmes even if indexed rows pass structural counts."
+  ],
+  "pass_semantics": "PASS_REPLICATED_ECOLOGICAL_INTERACTIONS means only that the source has documented study/site/date or explicit network units sufficient to attempt source-specific reconstruction. It does not mean the source is admitted to turnover analysis.",
+  "minimum_pass_namespaces": 12
+}

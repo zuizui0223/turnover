@@ -1,0 +1,54 @@
+name: GloBI stable archive preflight v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_stable_archive_preflight_design_v0_1.json'
+      - 'scripts/source/audit_globi_stable_archive_preflight_v0_1.py'
+      - '.github/workflows/globi-stable-archive-preflight-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate archive-content firewall
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/globi_stable_archive_preflight_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_GLOBI_STABLE_ARCHIVE_CONTENT_OPENING'
+          assert d['concept_doi']=='10.5281/zenodo.3950589'
+          assert d['admission_gate']['require_at_least_one_interaction_file_candidate'] is True
+          assert d['admission_gate']['no_posthoc_file_choice_after_content_opening'] is True
+          assert d['further_primary_source_allowed'] is False
+          PY
+
+      - name: Resolve latest stable archive metadata
+        run: |
+          mkdir -p build/globi_stable_archive_preflight_v0_1
+          python scripts/source/audit_globi_stable_archive_preflight_v0_1.py             --out build/globi_stable_archive_preflight_v0_1/result.json
+
+      - name: Validate no content opening
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_stable_archive_preflight_v0_1/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['interaction_rows_opened'] is False
+          assert x['archive_content_downloaded'] is False
+          assert x['status'] in {'GLOBI_STABLE_ARCHIVE_IDENTITY_PASS','HOLD_GLOBI_STABLE_ARCHIVE_IDENTITY'}
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-stable-archive-preflight-v0-1
+          path: build/globi_stable_archive_preflight_v0_1/

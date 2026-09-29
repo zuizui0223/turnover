@@ -1,0 +1,53 @@
+{
+  "version": "v0.5",
+  "status": "TRANSPORT_AMENDED_AFTER_HTTP_429_BEFORE_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "scientific_design": "data/globi_joint_support_design_v0_4.json",
+  "failed_attempts": [
+    {
+      "workflow_run": 36621977131,
+      "attempt": 1,
+      "status": "HOLD_GLOBI_SUPPORT_TRANSPORT",
+      "error": "HTTP 429 Too Many Requests"
+    },
+    {
+      "workflow_run": 36621977131,
+      "attempt": 2,
+      "status": "HOLD_GLOBI_SUPPORT_TRANSPORT",
+      "error": "HTTP 429 Too Many Requests"
+    }
+  ],
+  "adjudication": "Transport failure occurred before any aggregate support result was returned. It is not a scientific support-gate failure and does not activate the finite-family stop rule.",
+  "source_changed": false,
+  "file_changed": false,
+  "checksum_changed": false,
+  "projected_columns_changed": false,
+  "support_thresholds_changed": false,
+  "system_definition_changed": false,
+  "species_rank_rule_changed": false,
+  "spatial_support_proxy_changed": false,
+  "biological_outcomes_opened": false,
+  "transport_protocol": {
+    "user_agent": "turnover-spatiotemporal-support/0.5 (+https://github.com/zuizui0223/turnover)",
+    "remote_scan": {
+      "duckdb_threads": 1,
+      "http_retries": 12,
+      "http_retry_wait_ms": 1000,
+      "http_retry_backoff": 2,
+      "http_timeout_seconds": 120,
+      "disable_parquet_prefetching": true
+    },
+    "fallback_on_http_429_or_remote_failure": {
+      "method": "single sequential HTTPS download with explicit User-Agent, then local DuckDB scan",
+      "download_retries": 4,
+      "respect_retry_after": true,
+      "verify_size_bytes": 2375721521,
+      "verify_md5": "8212776b7ba0c4fa8de26a00b5ce8595"
+    }
+  },
+  "status_rule": {
+    "HOLD_GLOBI_SUPPORT_TRANSPORT": "temporary infrastructure hold; same frozen source/file may be retried under this transport protocol",
+    "HOLD_GLOBI_JOINT_SUPPORT": "scientific support hold; stop the primary joint interaction route and do not add a third source",
+    "GLOBI_JOINT_SUPPORT_PASS": "advance to source-semantic network audit"
+  }
+}

@@ -1,11 +1,6 @@
 name: Trait permutation null exact-zero v0.4.1
 
 on:
-  pull_request:
-    paths:
-      - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
-      - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
-      - '.github/workflows/trait-null-zero-v0-4-1.yml'
   workflow_dispatch:
 
 permissions:

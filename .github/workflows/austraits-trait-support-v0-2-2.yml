@@ -1,11 +1,6 @@
 name: AusTraits v7 corrected trait support v0.2.2
 
 on:
-  pull_request:
-    paths:
-      - 'data/austraits_record_key_fix_v0_2_2.json'
-      - 'scripts/source/audit_austraits_trait_support_v0_2_2.py'
-      - '.github/workflows/austraits-trait-support-v0-2-2.yml'
   workflow_dispatch:
 
 permissions:

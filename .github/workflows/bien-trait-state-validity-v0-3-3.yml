@@ -1,8 +1,5 @@
 name: BIEN trait state validity v0.3.3
 on:
-  pull_request:
-    paths:
-      - '.triggers/bien-state-validity-v0-3-3'
   workflow_dispatch:
 permissions:
   contents: read

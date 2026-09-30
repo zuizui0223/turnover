@@ -1,11 +1,11 @@
 {
   "version": "v0.1",
-  "status": "TRAIT_PRIMARY_BIEN_SEMANTIC_PASS_SECOND_SOURCE_TERMINAL_HOLD",
+  "status": "TRAIT_PRIMARY_BIEN_CROSSWALK_PASS_SECOND_SOURCE_TERMINAL_HOLD",
   "frozen_on": "2026-10-01",
   "finite_family_contract": "data/spatiotemporal_memory_turnover_design_v0_1.json",
   "maximum_primary_trait_sources": 2,
   "first_source": "BIEN_4_2",
-  "first_source_state": "SEMANTIC_PASS_PHYLOGENY_CROSSWALK_PENDING",
+  "first_source_state": "CROSSWALK_PASS_INFORMATIVENESS_PENDING",
   "first_source_support_contract": "data/bien_trait_support_design_v0_2.json",
   "second_source": "AUSTRAITS_OPEN_RELEASE",
   "second_source_terminal": "HOLD_AUSTRAITS_TRAIT_SUPPORT",
@@ -45,5 +45,13 @@
     "semantic_pass_systems": 43,
     "independent_qualifying_families": 34,
     "minimum_required_families": 12
+  },
+  "first_source_crosswalk_result": "results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json",
+  "first_source_crosswalk_evidence": {
+    "candidate_systems": 43,
+    "crosswalk_pass_systems": 39,
+    "independent_qualifying_families": 31,
+    "minimum_required_families": 12,
+    "failed_prune_only_systems": 4
   }
 }

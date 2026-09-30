@@ -29,7 +29,7 @@ version_df <- BIEN_metadata_database_version()
 observed_version <- if (is.data.frame(version_df) && nrow(version_df) >= 1) as.character(version_df$db_version[[1]]) else NA_character_
 if (!identical(observed_version, design$source$exact_patch_pin)) {
   result <- list(
-    version="v0.2",
+    version="v0.2.1",
     status="HOLD_BIEN_PATCH_CHANGED_BEFORE_SUPPORT",
     outcome_blind=TRUE,
     generalized_trait_values_opened=FALSE,
@@ -69,6 +69,8 @@ WITH base AS (
     AND trim(scrubbed_species_binomial) <> ''
     AND trait_name IS NOT NULL
     AND trim(trait_name) <> ''
+    AND trait_value IS NOT NULL
+    AND trim(trait_value::text) <> ''
     AND (is_cultivated_observation = 0 OR is_cultivated_observation IS NULL)
 ),
 temporal_species AS (
@@ -148,7 +150,8 @@ ORDER BY t.family,t.trait_name
 ;",
 min_temp,R,std,cell,R,std,cell,min_geo,min_cells,min_temp,min_spatial)
 
-if (grepl("trait_value", sql, fixed=TRUE)) stop("outcome firewall: trait_value appears in support SQL")
+if (grepl("SELECT[[:space:]]+[^;]*trait_value", sql, ignore.case=TRUE, perl=TRUE)) stop("outcome firewall: trait_value selected")
+if (!grepl("trait_value IS NOT NULL", sql, fixed=TRUE)) stop("validity firewall: trait_value presence predicate missing")
 
 support <- .BIEN_sql(sql)
 if (!is.data.frame(support)) stop("BIEN support query returned no dataframe")
@@ -179,7 +182,8 @@ result <- list(
   outcome_blind=TRUE,
   generalized_trait_values_opened=FALSE,
   biological_turnover_outcomes_opened=FALSE,
-  trait_value_referenced_in_query=FALSE,
+  trait_value_presence_only=TRUE,
+  trait_value_returned=FALSE,
   row_level_species_returned=FALSE,
   row_level_coordinates_returned=FALSE,
   observed_database_version=observed_version,

@@ -114,6 +114,7 @@ continuous_system AS (
     count(*) AS n_total,
     count(value_num) AS n_numeric_valid,
     count(*) - count(value_num) AS n_invalid,
+    count(*) FILTER (WHERE unit IS NULL OR trim(unit)='') AS n_missing_unit,
     count(DISTINCT unit) FILTER (WHERE unit IS NOT NULL AND trim(unit)<>'') AS distinct_units,
     string_agg(DISTINCT unit,' | ' ORDER BY unit) FILTER (WHERE unit IS NOT NULL AND trim(unit)<>'') AS unit_labels
   FROM continuous_rows
@@ -223,6 +224,7 @@ SELECT
   coalesce(cs.n_total,0) AS n_total,
   coalesce(cs.n_numeric_valid,0) AS n_numeric_valid,
   coalesce(cs.n_invalid,0) AS n_invalid,
+  CASE WHEN c.semantic_class='continuous_scalar' THEN coalesce(cs.n_missing_unit,0) ELSE 0 END AS n_missing_unit,
   CASE WHEN c.semantic_class='continuous_scalar' THEN coalesce(cs.distinct_units,0)
        WHEN c.semantic_class='nominal_categorical' THEN coalesce(ks.distinct_nonempty_units,0)
        ELSE 0 END AS distinct_units,
@@ -264,6 +266,7 @@ for (i in seq_len(nrow(audit))) {
     reasons <- c(reasons,"PRIMARY_HOLD_OR_UNCLASSIFIED")
   } else if (cls=="continuous_scalar") {
     if (audit$n_invalid[[i]] != 0) reasons <- c(reasons,"NONNUMERIC_OR_NONFINITE_VALUE")
+    if (audit$n_missing_unit[[i]] != 0) reasons <- c(reasons,"CONTINUOUS_MISSING_UNIT")
     if (audit$distinct_units[[i]] != 1) reasons <- c(reasons,"CONTINUOUS_UNIT_COUNT_NOT_ONE")
     if (audit$temporal_resolvable_species[[i]] < 20) reasons <- c(reasons,"TEMPORAL_SPECIES_LT20")
     if (audit$temporal_distinct_states[[i]] < 2) reasons <- c(reasons,"NO_TEMPORAL_STATE_VARIATION")
@@ -292,6 +295,7 @@ summary_systems <- lapply(seq_len(nrow(audit)), function(i) {
     n_total=as.integer(audit$n_total[[i]]),
     n_numeric_valid=as.integer(audit$n_numeric_valid[[i]]),
     n_invalid=as.integer(audit$n_invalid[[i]]),
+    n_missing_unit=as.integer(audit$n_missing_unit[[i]]),
     distinct_units=as.integer(audit$distinct_units[[i]]),
     unit_labels=if(is.na(audit$unit_labels[[i]])) NULL else as.character(audit$unit_labels[[i]]),
     temporal_resolvable_species=as.integer(audit$temporal_resolvable_species[[i]]),

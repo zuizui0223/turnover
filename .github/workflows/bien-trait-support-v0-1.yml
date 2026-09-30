@@ -1,0 +1,82 @@
+name: BIEN trait support v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/bien_trait_support_design_v0_1.json'
+      - 'scripts/source/audit_bien_trait_support_v0_1.py'
+      - '.github/workflows/bien-trait-support-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install BIEN audit runtime
+        run: pip install psycopg2-binary
+
+      - name: Validate frozen pre-value contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_trait_support_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_BIEN_TRAIT_VALUE_OPENING'
+          assert d['source']['expected_database_version']=='4.2'
+          assert d['source']['rbien_commit']=='531cb221bd44cf43419e89b2354f6424e718cd53'
+          assert d['primary_clade_definition']['unit']=='accepted BIEN scrubbed_family'
+          assert d['spatial_cell_rule']['crs']=='EPSG:6933'
+          assert d['spatial_cell_rule']['cell_size_m']==25000
+          assert d['eligibility']['temporal_min_species_per_family_trait']==20
+          assert d['eligibility']['spatial_min_species_per_family_trait']==8
+          assert d['eligibility']['spatial_min_georeferenced_records_per_species']==20
+          assert d['eligibility']['spatial_min_unique_25km_cells_per_species']==5
+          assert d['source_viability_gate']['minimum_distinct_passing_families']==12
+          assert d['source_viability_gate']['minimum_distinct_passing_traits']==3
+          assert d['biological_trait_values_opened'] is False
+          assert d['biological_turnover_outcomes_opened'] is False
+          PY
+
+      - name: Audit BIEN 4.2 schema and trait support
+        run: |
+          mkdir -p build/bien_trait_support_v0_1
+          python scripts/source/audit_bien_trait_support_v0_1.py \
+            --out build/bien_trait_support_v0_1/result.json \
+            --support-table build/bien_trait_support_v0_1/family_trait_support.csv \
+            --trait-list build/bien_trait_support_v0_1/trait_names.csv
+
+      - name: Enforce trait-value firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_trait_support_v0_1/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['biological_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {
+            'BIEN_TRAIT_SUPPORT_PASS',
+            'HOLD_BIEN_TRAIT_SUPPORT',
+            'HOLD_BIEN_SOURCE_ACCESS',
+            'HOLD_BIEN_VERSION_UNRESOLVED',
+            'HOLD_BIEN_VERSION_DRIFT',
+            'HOLD_BIEN_REQUIRED_SCHEMA_MISSING',
+            'HOLD_BIEN_POSTGIS_UNAVAILABLE',
+            'HOLD_BIEN_SUPPORT_QUERY'
+          }
+          forbidden={'trait_value','delta_rho','trait_dissimilarity','phylogenetic_distance','geographic_distance'}
+          assert forbidden.isdisjoint(x.keys())
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-trait-support-v0-1
+          path: build/bien_trait_support_v0_1/

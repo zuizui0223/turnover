@@ -1,0 +1,38 @@
+{
+  "version": "v0.2.4",
+  "status": "BIEN_SPATIAL_NONCENTROID_FILTER_FROZEN_PRE_SUPPORT_RESULT",
+  "frozen_on": "2026-10-01",
+  "amends": [
+    "data/bien_trait_support_design_v0_2.json",
+    "data/bien_trait_support_queryplan_fallback_v0_2_3.json",
+    "data/bien_trait_state_validity_design_v0_3_2.json"
+  ],
+  "chronology": {
+    "bien_structural_support_result_seen_before_freeze": false,
+    "real_trait_states_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "source_basis": {
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "convention": "RBIEN georeferenced occurrence queries require is_geovalid=1 and exclude county centroid / is_centroid=1 records."
+  },
+  "effective_spatial_record_filter": [
+    "is_geovalid = 1",
+    "is_centroid IS NULL OR is_centroid = 0",
+    "georef_protocol IS NULL OR georef_protocol <> 'county centroid'",
+    "latitude BETWEEN -90 AND 90",
+    "longitude BETWEEN -180 AND 180",
+    "is_cultivated_observation = 0 OR NULL",
+    "trait_value nonmissing presence"
+  ],
+  "uncertainty_rule": "Do not add a new coordinate-uncertainty threshold; none was in the original frozen support contract and RBIEN's own standard validity convention supplies the non-centroid filter.",
+  "direction_of_change": "STRICTER_ONLY",
+  "can_rescue_failure": false,
+  "can_increase_spatial_support": false,
+  "support_thresholds_changed": false,
+  "cell_grid_changed": false,
+  "trait_selection_changed": false,
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "decision_rule": "Any pre-amendment BIEN structural result is provisional for spatial support and must be rechecked under the non-centroid filter before admission."
+}

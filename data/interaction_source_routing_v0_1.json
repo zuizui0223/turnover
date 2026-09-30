@@ -1,11 +1,15 @@
 {
   "version": "v0.1",
-  "status": "INTERACTION_PRIMARY_SOURCE_SWITCH_AUTHORIZED_PREOUTCOME",
+  "status": "INTERACTION_PRIMARY_ROUTE_TERMINAL_PREOUTCOME_HOLD",
   "first_source": "MANGAL_CURATED_NETWORKS",
   "first_source_terminal": "HOLD_MANGAL_SPECIES_RANK_SUPPORT",
   "biological_interaction_edges_opened": false,
   "authorized_second_source": "GLOBI_STABLE_ZENODO",
   "rule_basis": "finite_family_rule.source_switch_allowed_only_after includes support_geometry_hold",
   "further_primary_source_after_globi": false,
-  "note": "If GloBI fails an admissible pre-outcome source/schema/support/informativeness gate, the primary joint interaction route stops rather than generating a third source."
+  "note": "Mangal failed the frozen species-rank joint gate. GloBI then passed archive/schema/structural gates but failed the pre-frozen semantic/provenance gate: after correct-grain support, 20 namespaces remained and 9 were decisively ineligible, so at most 11 could pass versus 12 required. The primary joint interaction route stops before any turnover outcome.",
+  "second_source_terminal": "HOLD_GLOBI_SOURCE_SEMANTIC_UPPER_BOUND",
+  "second_source_result": "results/globi_source_semantic_v0_5_3/result.json",
+  "primary_joint_interaction_route_closed": true,
+  "biological_interaction_turnover_outcomes_opened": false
 }

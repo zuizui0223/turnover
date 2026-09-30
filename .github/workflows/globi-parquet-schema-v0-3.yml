@@ -1,13 +1,6 @@
 name: GloBI Parquet schema aliases v0.3
 
 on:
-  pull_request:
-    paths:
-      - 'data/globi_parquet_schema_design_v0_3.json'
-      - 'data/globi_schema_alias_amendment_v0_3.json'
-      - 'results/globi_parquet_schema_v0_2/result.json'
-      - 'scripts/source/audit_globi_parquet_schema_v0_3.py'
-      - '.github/workflows/globi-parquet-schema-v0-3.yml'
   workflow_dispatch:
 
 permissions:

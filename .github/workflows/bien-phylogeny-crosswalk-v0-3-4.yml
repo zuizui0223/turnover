@@ -1,5 +1,8 @@
 name: BIEN phylogeny crosswalk v0.3.4
 on:
+  pull_request:
+    paths:
+      - '.triggers/bien-phylogeny-crosswalk-v0-3-4'
   workflow_dispatch:
 permissions:
   contents: read

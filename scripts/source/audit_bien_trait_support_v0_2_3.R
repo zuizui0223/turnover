@@ -45,6 +45,13 @@ base_filter <- "
   AND trait_value IS NOT NULL AND trim(trait_value::text)<>''
   AND (is_cultivated_observation=0 OR is_cultivated_observation IS NULL)
 "
+base_filter_a <- "
+  a.scrubbed_family IS NOT NULL AND trim(a.scrubbed_family)<>''
+  AND a.scrubbed_species_binomial IS NOT NULL AND trim(a.scrubbed_species_binomial)<>''
+  AND a.trait_name IS NOT NULL AND trim(a.trait_name)<>''
+  AND a.trait_value IS NOT NULL AND trim(a.trait_value::text)<>''
+  AND (a.is_cultivated_observation=0 OR a.is_cultivated_observation IS NULL)
+"
 
 q1<-paste0("
 SELECT scrubbed_family AS family, trait_name,
@@ -88,7 +95,7 @@ SELECT family,trait_name,
 FROM sp
 GROUP BY family,trait_name
 ORDER BY family,trait_name;
-",candidate_values,R,std,cell,R,std,cell,base_filter,min_geo,min_cells)
+",candidate_values,R,std,cell,R,std,cell,base_filter_a,min_geo,min_cells)
   spatial<-.BIEN_sql(q2)
   if(!is.data.frame(spatial)) stop("spatial aggregate query failed")
 }else{

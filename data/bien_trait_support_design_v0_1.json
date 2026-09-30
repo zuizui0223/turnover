@@ -1,0 +1,108 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_VALUE_OPENING",
+  "frozen_on": "2026-09-30",
+  "source": {
+    "id": "BIEN_4_2",
+    "expected_database_version": "4.2",
+    "primary_citation_doi": "10.1111/2041-210X.70274",
+    "official_data_page": "https://bien.nceas.ucsb.edu/bien/biendata/",
+    "rbien_repository": "bmaitner/RBIEN",
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "public_database_contract_from_pinned_rbien": {
+      "host": "vegbiendev.nceas.ucsb.edu",
+      "dbname": "public_vegbien",
+      "user": "public_bien"
+    }
+  },
+  "purpose": "Determine whether BIEN 4.2 contains enough taxonomically resolved and geographically repeated observation-level trait support for prospective family-by-trait time/space turnover systems before any trait values are inspected.",
+  "primary_clade_definition": {
+    "unit": "accepted BIEN scrubbed_family",
+    "system": "scrubbed_family x trait_name",
+    "independence_cluster": "scrubbed_family",
+    "reason": "Family is frozen as the primary repeated clade unit before outcomes because it is source-native, stable enough for BIEN-to-megatree crosswalk, and avoids outcome-informed slicing of the plant phylogeny.",
+    "genus_or_order_rescue_after_support": false
+  },
+  "required_agg_traits_fields": [
+    "id",
+    "scrubbed_family",
+    "scrubbed_species_binomial",
+    "trait_name",
+    "trait_value",
+    "unit",
+    "method",
+    "latitude",
+    "longitude",
+    "url_source",
+    "source_citation"
+  ],
+  "support_query_fields_allowed": [
+    "id",
+    "scrubbed_family",
+    "scrubbed_species_binomial",
+    "trait_name",
+    "latitude",
+    "longitude"
+  ],
+  "forbidden_support_query_fields": [
+    "trait_value",
+    "unit",
+    "method",
+    "url_source",
+    "source_citation"
+  ],
+  "record_identity": {
+    "rule": "distinct non-null agg_traits.id",
+    "duplicate_rule": "multiple physical rows with the same id count once",
+    "missing_id": "exclude from support qualification"
+  },
+  "spatial_cell_rule": {
+    "crs": "EPSG:6933",
+    "cell_size_m": 25000,
+    "cell_id": "floor(projected_x/25000) x floor(projected_y/25000)",
+    "coordinate_rule": "latitude and longitude non-null and within physical bounds; support counting does not infer or repair missing coordinates",
+    "postgis_required": true
+  },
+  "eligibility": {
+    "temporal_min_species_per_family_trait": 20,
+    "spatial_min_species_per_family_trait": 8,
+    "spatial_min_georeferenced_records_per_species": 20,
+    "spatial_min_unique_25km_cells_per_species": 5,
+    "system_pass": "family x trait passes only when both temporal and spatial requirements pass"
+  },
+  "source_viability_gate": {
+    "minimum_distinct_passing_families": 12,
+    "minimum_distinct_passing_traits": 3,
+    "reason": "The prospective trait stratum requires replication across independent clades and more than one trait definition before outcome opening."
+  },
+  "allowed_operations": [
+    "BIEN database-version query",
+    "information_schema column-name/type query for agg_traits",
+    "distinct trait-name enumeration",
+    "aggregate support counting using only support_query_fields_allowed",
+    "PostGIS 25-km cell assignment from coordinates inside an aggregate query"
+  ],
+  "forbidden_operations": [
+    "selecting or returning trait_value",
+    "selecting or returning unit or method",
+    "selecting or returning source_citation or url_source",
+    "computing trait dissimilarity",
+    "computing phylogenetic distance",
+    "computing geographic distance",
+    "computing null-centered turnover rho",
+    "testing time-space coupling",
+    "choosing traits or families by any biological outcome"
+  ],
+  "gate_order": [
+    "verify live database is exactly BIEN 4.2",
+    "verify required schema and PostGIS availability",
+    "enumerate trait names without values",
+    "run aggregate family x trait support counts",
+    "apply frozen viability thresholds"
+  ],
+  "next_gate_if_pass": "Freeze eligible trait representations (continuous/categorical), taxonomic/phylogeny crosswalk and observed-geometry informativeness simulations using only passing family x trait systems before opening trait values.",
+  "next_gate_if_hold": "Do not relax thresholds. Proceed to the already-frozen second trait source, AusTraits, only because the finite-family rule allows a pre-outcome support/schema/access switch.",
+  "biological_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_relaxation": true
+}

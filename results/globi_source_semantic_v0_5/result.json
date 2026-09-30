@@ -1,0 +1,88 @@
+{
+  "version": "v0.5",
+  "status": "HOLD_GLOBI_SOURCE_SEMANTIC",
+  "adjudicated_on": "2026-09-30",
+  "prerequisite": "results/globi_within_programme_support_v0_5_2/result_summary.json",
+  "outcome_blind": true,
+  "biological_turnover_outcomes_opened": false,
+  "starting_namespaces_after_within_programme_gate": 20,
+  "minimum_independent_semantic_pass_namespaces": 12,
+  "early_stop_logic": "If at least 9 of the 20 candidates are definitively ineligible under pre-frozen semantic/provenance rules, then at most 11 can remain and the >=12 gate is unreachable. Uncertain candidates need not be forced into PASS/HOLD categories to establish the gate result.",
+  "definitive_exclusions": [
+    {
+      "namespace": "globalbioticinteractions/arthropodEasyCaptureAMNH",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README describes an RSS feed indexing natural-history collection projects such as Digital Bee Collection Network and Tri-Trophic Thematic Collection Network, not one repeatable ecological interaction survey.",
+      "source_url": "https://github.com/globalbioticinteractions/arthropodEasyCaptureAMNH/blob/main/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/ecoab-host-plant",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README explicitly identifies the upstream material as an occurrence dataset of potential host-plant records recovered from the ECOAB wild bee collection.",
+      "source_url": "https://github.com/globalbioticinteractions/ecoab-host-plant/blob/main/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/fmnh",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README states that GloBI indexes biotic-association records in Field Museum biological collections.",
+      "source_url": "https://github.com/globalbioticinteractions/fmnh/blob/main/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/gbif-us-bees",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README describes GBIF-US species occurrence data rather than replicated ecological network surveys.",
+      "source_url": "https://github.com/globalbioticinteractions/gbif-us-bees/blob/main/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/life4pollinators",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README explicitly identifies the indexed material as a Citizen Science insect-flower interaction dataset; citizen-science aggregation is a pre-frozen exclusion class for the primary rewiring analysis.",
+      "source_url": "https://github.com/globalbioticinteractions/life4pollinators/blob/main/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/pensoft-ipt",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README describes an IPT aggregator of Darwin Core Archives rather than one repeatable ecological sampling programme; the v0.5.2 passing block is an occurrence-record source (AnthWest).",
+      "source_url": "https://github.com/globalbioticinteractions/pensoft-ipt/blob/main/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/syrphids-of-ireland",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README identifies the upstream resource as an occurrence dataset from the National Biodiversity Data Centre and online record submission.",
+      "source_url": "https://github.com/globalbioticinteractions/syrphids-of-ireland/blob/main/README.md"
+    },
+    {
+      "namespace": "millerse/Biological-Station-Arthropod-Collection",
+      "decision": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "evidence": "Source README describes interactions extracted from an iDigBio arthropod collection recordset, not a replicated ecological network survey.",
+      "source_url": "https://github.com/millerse/Biological-Station-Arthropod-Collection/blob/master/README.md"
+    },
+    {
+      "namespace": "globalbioticinteractions/mangal",
+      "decision": "EXCLUDE_FIRST_SOURCE_CONTAMINATION",
+      "evidence": "This namespace is the GloBI adapter of Mangal, the already-adjudicated first primary interaction source that terminated at HOLD_MANGAL_SPECIES_RANK_SUPPORT. It cannot count as independent second-source evidence under v0.5.3.",
+      "source_url": "https://github.com/globalbioticinteractions/mangal/blob/main/README.md"
+    }
+  ],
+  "n_definitive_exclusions": 9,
+  "maximum_possible_remaining_independent_namespaces": 11,
+  "gate_pass": false,
+  "gate_mathematically_unreachable": true,
+  "uncertain_candidates_not_needed_for_gate_decision": true,
+  "uncertain_candidates_left_unadjudicated": [
+    "JoseBSL/EuPPollNet",
+    "globalbioticinteractions/brose-gateway",
+    "globalbioticinteractions/dopi",
+    "globalbioticinteractions/globalamfungi",
+    "globalbioticinteractions/guzman2022",
+    "globalbioticinteractions/ices",
+    "globalbioticinteractions/lamanna2020",
+    "globalbioticinteractions/limbu2025",
+    "globalbioticinteractions/russo2022",
+    "globalbioticinteractions/scar",
+    "globalbioticinteractions/usgs-pollinator-library"
+  ],
+  "next_gate": "STOP_PRIMARY_JOINT_INTERACTION_ROUTE",
+  "finite_family_consequence": "Do not lower the >=12 threshold and do not introduce a third primary interaction source.",
+  "interpretation": "GloBI contains abundant interaction records and 20 namespaces with correct-grain structural support, but the pre-frozen semantic/provenance requirements make the required >=12 independent replicated ecological programmes unreachable before any turnover outcome is opened."
+}

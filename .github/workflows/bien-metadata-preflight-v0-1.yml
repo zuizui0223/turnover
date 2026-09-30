@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'data/bien_metadata_preflight_design_v0_1.json'
+      - 'data/bien_version_amendment_v0_1_1.json'
+      - 'results/bien_metadata_preflight_v0_1/result_hold.json'
       - 'scripts/source/audit_bien_metadata_preflight_v0_1.R'
       - '.github/workflows/bien-metadata-preflight-v0-1.yml'
   workflow_dispatch:
@@ -46,6 +48,16 @@ jobs:
           assert d['source_contract']['access_client']['pinned_commit']=='531cb221bd44cf43419e89b2354f6424e718cd53'
           assert d['generalized_trait_values_opened'] is False
           assert d['biological_turnover_outcomes_opened'] is False
+          a=json.load(open('data/bien_version_amendment_v0_1_1.json'))
+          h=json.load(open('results/bien_metadata_preflight_v0_1/result_hold.json'))
+          assert h['status']=='HOLD_BIEN_METADATA_PREFLIGHT_VERSION_EXACT_MISMATCH'
+          assert h['generalized_trait_values_opened'] is False
+          assert h['biological_turnover_outcomes_opened'] is False
+          assert h['observed_database_version']=='4.2.8'
+          assert a['status']=='BIEN_PATCH_VERSION_CONTRACT_AMENDED_PREVALUE'
+          assert a['version_rule']['downstream_exact_patch_pin']=='4.2.8'
+          assert a['unchanged']['generalized_trait_values_opened'] is False
+          assert a['unchanged']['biological_turnover_outcomes_opened'] is False
           PY
 
       - name: Audit BIEN identity schema and trait vocabulary only
@@ -66,6 +78,8 @@ jobs:
           assert x['biological_turnover_outcomes_opened'] is False
           assert x['row_level_trait_records_returned'] is False
           assert x['row_level_coordinates_returned'] is False
+          assert x['version']=='v0.1.1'
+          assert x['version_amendment']=='data/bien_version_amendment_v0_1_1.json'
           assert x['status'] in {'BIEN_METADATA_PREFLIGHT_PASS','HOLD_BIEN_METADATA_PREFLIGHT'}
           PY
 

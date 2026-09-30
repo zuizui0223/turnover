@@ -6,6 +6,7 @@ on:
       - 'data/bien_trait_support_design_v0_1.json'
       - 'data/bien_version_semantics_amendment_v0_1_1.json'
       - 'data/bien_support_query_plan_amendment_v0_1_2.json'
+      - 'data/bien_coordinate_dedup_amendment_v0_1_3.json'
       - 'scripts/source/audit_bien_trait_support_v0_1.py'
       - '.github/workflows/bien-trait-support-v0-1.yml'
   workflow_dispatch:
@@ -47,6 +48,10 @@ jobs:
           assert p['status']=='BIEN_SUPPORT_QUERY_PLAN_OPTIMIZED_BEFORE_ANY_SUPPORT_RESULT'
           assert p['biological_thresholds_changed'] is False
           assert p['candidate_definition_changed'] is False
+          c=json.load(open('data/bien_coordinate_dedup_amendment_v0_1_3.json'))
+          assert c['status']=='BIEN_COORDINATE_DEDUP_OPTIMIZED_BEFORE_ANY_SUPPORT_RESULT'
+          assert c['biological_thresholds_changed'] is False
+          assert c['candidate_definition_changed'] is False
           assert d['primary_clade_definition']['unit']=='accepted BIEN scrubbed_family'
           assert d['spatial_cell_rule']['crs']=='EPSG:6933'
           assert d['spatial_cell_rule']['cell_size_m']==25000

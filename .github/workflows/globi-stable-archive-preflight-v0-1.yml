@@ -1,11 +1,6 @@
 name: GloBI stable archive preflight v0.1
 
 on:
-  pull_request:
-    paths:
-      - 'data/globi_stable_archive_preflight_design_v0_1.json'
-      - 'scripts/source/audit_globi_stable_archive_preflight_v0_1.py'
-      - '.github/workflows/globi-stable-archive-preflight-v0-1.yml'
   workflow_dispatch:
 
 permissions:

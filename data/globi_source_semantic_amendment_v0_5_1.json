@@ -1,0 +1,31 @@
+{
+  "version": "v0.5.1",
+  "status": "PROVENANCE_DEDUPLICATION_AMENDMENT_AFTER_STRUCTURAL_SUPPORT_PASS_BEFORE_SEMANTIC_ADJUDICATION",
+  "frozen_on": "2026-09-30",
+  "amends": "data/globi_source_semantic_design_v0_5.json",
+  "trigger": {
+    "observation": "The v0.4 structural PASS list contains distinct sourceNamespace values that can be mirrors/adapters of the same underlying study or dataset.",
+    "concrete_example": [
+      "globalbioticinteractions/tmh-across-systems",
+      "jeremy-cohen/tmh-across-systems"
+    ],
+    "shared_underlying_citation": "Cohen JM et al. 2020. Divergent impacts of warming weather on wildlife disease risk across climates. Science. doi:10.1126/science.abb1702"
+  },
+  "rule": {
+    "independence_cluster": "underlying programme identity, not repository namespace",
+    "collapse_when": [
+      "same canonical DOI",
+      "same canonical source citation plus same underlying data file identity",
+      "explicit adapter/mirror relationship documented by source repositories"
+    ],
+    "do_not_collapse_when": "two genuinely independent studies happen to share a database or consortium citation",
+    "count_rule": "a provenance cluster contributes at most one independent programme toward the >=12 semantic gate"
+  },
+  "direction_of_change": "STRICTER_ONLY",
+  "can_rescue_failing_source": false,
+  "can_increase_independent_count": false,
+  "biological_thresholds_changed": false,
+  "semantic_pass_criteria_changed": false,
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_relaxation": true
+}

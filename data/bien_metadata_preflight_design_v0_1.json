@@ -1,0 +1,57 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_VALUE_OPENING",
+  "frozen_on": "2026-09-30",
+  "source_id": "BIEN_4_2",
+  "purpose": "Qualify the live BIEN 4.2 database identity, agg_traits schema, and trait-name vocabulary before any generalized trait value is selected or returned.",
+  "source_contract": {
+    "expected_database_version": "4.2",
+    "official_primary_citation": "Enquist et al. 2026, Methods in Ecology and Evolution, DOI 10.1111/2041-210X.70274",
+    "access_client": {
+      "repository": "bmaitner/RBIEN",
+      "pinned_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+      "package_version": "1.2.9"
+    },
+    "public_database": {
+      "host": "vegbiendev.nceas.ucsb.edu",
+      "dbname": "public_vegbien",
+      "identity_basis": "RBIEN R/BIEN_sql.R at pinned commit"
+    }
+  },
+  "allowed_queries": [
+    "latest BIEN database version and release date from bien_metadata",
+    "information_schema column names/types for agg_traits",
+    "SELECT DISTINCT trait_name FROM agg_traits",
+    "SELECT COUNT(*) FROM agg_traits"
+  ],
+  "forbidden_queries": [
+    "trait_value",
+    "row-level latitude or longitude return",
+    "row-level species-trait records",
+    "trait dissimilarity",
+    "phylogenetic distance",
+    "geographic distance",
+    "turnover or delta_rho",
+    "any predictor-response association"
+  ],
+  "required_agg_traits_fields": [
+    "scrubbed_species_binomial",
+    "scrubbed_family",
+    "trait_name",
+    "trait_value",
+    "unit",
+    "latitude",
+    "longitude"
+  ],
+  "gate": {
+    "require_database_version": "4.2",
+    "require_all_fields": true,
+    "expected_trait_vocabulary_size_reference": 54,
+    "trait_count_rule": "record observed distinct trait-name count; do not fail solely on a harmless count difference if database version remains 4.2, but require explicit adjudication before support counting",
+    "require_nonzero_rows": true
+  },
+  "next_gate_if_pass": "Freeze family x trait system grain, 25-km equal-area spatial cell definition, and aggregate-only support queries before counting species/geographic support.",
+  "next_gate_if_hold": "Do not query trait values. Resolve source/version/schema mismatch or stop BIEN as the primary trait source under the finite-family rule.",
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false
+}

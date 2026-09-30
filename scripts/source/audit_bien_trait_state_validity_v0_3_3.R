@@ -28,7 +28,8 @@ if (!identical(recon$raw_trait_values_opened,FALSE)) stop("raw values unexpected
 support <- read.csv(support_path, stringsAsFactors=FALSE, check.names=FALSE)
 req <- c("family","trait_name","joint_support_pass")
 if (!all(req %in% names(support))) stop("support table missing required columns")
-pass <- support[support$joint_support_pass %in% c(TRUE,"TRUE","t","1",1),c("family","trait_name"),drop=FALSE]
+pass_flag <- tolower(trimws(as.character(support$joint_support_pass))) %in% c("true","t","1")
+pass <- support[pass_flag,c("family","trait_name"),drop=FALSE]
 pass <- unique(pass)
 if (!nrow(pass)) {
   result <- list(

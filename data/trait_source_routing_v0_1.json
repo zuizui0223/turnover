@@ -1,6 +1,6 @@
 {
   "version": "v0.1",
-  "status": "TRAIT_PRIMARY_BIEN_PENDING_AUSTRAITS_TECHNICAL_RECHECK",
+  "status": "TRAIT_PRIMARY_BIEN_PENDING_SECOND_SOURCE_TERMINAL_HOLD",
   "frozen_on": "2026-10-01",
   "finite_family_contract": "data/spatiotemporal_memory_turnover_design_v0_1.json",
   "maximum_primary_trait_sources": 2,
@@ -8,9 +8,10 @@
   "first_source_state": "METADATA_AND_PHYLOGENY_SOURCE_PASS_SUPPORT_PENDING",
   "first_source_support_contract": "data/bien_trait_support_design_v0_2.json",
   "second_source": "AUSTRAITS_OPEN_RELEASE",
-  "second_source_terminal": null,
-  "second_source_result": "results/austraits_trait_support_v0_2/result.json",
+  "second_source_terminal": "HOLD_AUSTRAITS_TRAIT_SUPPORT",
+  "second_source_result": "results/austraits_trait_support_v0_2_2/result.json",
   "second_source_evidence": {
+    "corrected_record_key": true,
     "family_trait_systems_audited": 30821,
     "joint_support_systems": 10,
     "independent_qualifying_families": 3,
@@ -20,9 +21,9 @@
   "raw_trait_values_opened": false,
   "biological_trait_turnover_outcomes_opened": false,
   "decision_if_bien_passes": "Continue the BIEN lane through frozen post-support gates. AusTraits remains an independent transport whose corrected structural support is evaluated under identical thresholds.",
-  "decision_if_bien_holds": "Wait for the corrected AusTraits v0.2.2 support result. If it also HOLDs, the generalized trait route closes pre-outcome; no third source.",
+  "decision_if_bien_holds": "Primary generalized trait route becomes terminal pre-outcome HOLD because both pre-frozen trait sources are exhausted; do not introduce TRY or another third primary source.",
   "thresholds_may_be_lowered": false,
-  "second_source_state": "RECHECK_AUSTRAITS_COMPOSITE_RECORD_KEY",
+  "second_source_state": "TERMINAL_STRUCTURAL_HOLD",
   "second_source_technical_issue": {
     "audit": "results/austraits_observation_id_v0_2_1/result.json",
     "finding": "39,207 observation_id values occur in multiple datasets; DISTINCT observation_id undercounted structural records",

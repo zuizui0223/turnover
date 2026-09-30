@@ -1,0 +1,42 @@
+name: AusTraits observation-id identity audit v0.2.1
+on:
+  pull_request:
+    paths:
+      - 'data/austraits_observation_id_audit_v0_2_1.json'
+      - 'scripts/source/audit_austraits_observation_id_v0_2_1.py'
+      - '.github/workflows/austraits-observation-id-v0-2-1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - name: Validate audit contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_observation_id_audit_v0_2_1.json'))
+          assert d['status']=='AUSTRAITS_OBSERVATION_ID_IDENTITY_AUDIT_POST_SUPPORT_PRE_OUTCOME'
+          assert d['aggregate_only'] is True
+          assert d['raw_trait_values_opened'] is False
+          assert d['biological_turnover_outcomes_opened'] is False
+          assert d['can_lower_thresholds'] is False
+          PY
+      - name: Download exact pinned parquet
+        run: |
+          mkdir -p build/austraits_obsid_v0_2_1
+          curl -L --fail --retry 4 --retry-delay 10 -o build/austraits_obsid_v0_2_1/austraits.parquet             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/austraits_obsid_v0_2_1/austraits.parquet" | sha256sum -c -
+      - name: Audit observation id identity
+        run: |
+          python scripts/source/audit_austraits_observation_id_v0_2_1.py --parquet build/austraits_obsid_v0_2_1/austraits.parquet --out build/austraits_obsid_v0_2_1/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-observation-id-v0-2-1
+          path: build/austraits_obsid_v0_2_1/result.json

@@ -1,0 +1,106 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_BEFORE_BIEN_V0_2_SUPPORT_RESULT_OPENING",
+  "frozen_on": "2026-09-30",
+  "source": "BIEN 4.2.8",
+  "prerequisite_vocabulary": "results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json",
+  "chronology": {
+    "v0_2_support_result_seen_before_freeze": false,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "purpose": "Fix trait-state semantics before learning which family x trait systems have structural support.",
+  "representation_rules": {
+    "continuous_scalar": {
+      "traits": [
+        "diameter at breast height (1.3 m)",
+        "inflorescence length",
+        "leaf area",
+        "leaf area per leaf dry mass",
+        "leaf carbon content per leaf dry mass",
+        "leaf carbon content per leaf nitrogen content",
+        "leaf dry mass",
+        "leaf dry mass per leaf fresh mass",
+        "leaf fresh mass",
+        "Leaf lamina fracture toughness",
+        "leaf life span",
+        "leaf nitrogen content per leaf area",
+        "leaf nitrogen content per leaf dry mass",
+        "leaf phosphorus content per leaf area",
+        "leaf phosphorus content per leaf dry mass",
+        "leaf photosynthetic rate per leaf area",
+        "leaf photosynthetic rate per leaf dry mass",
+        "leaf relative growth rate",
+        "leaf stomatal conductance for H2O per leaf area",
+        "leaf stomatal conductance per leaf area",
+        "leaf thickness",
+        "longest whole plant longevity",
+        "maximum fruit length",
+        "maximum leaf length",
+        "maximum leaf width",
+        "maximum whole plant height",
+        "maximum whole plant longevity",
+        "minimum fruit length",
+        "minimum leaf length",
+        "minimum leaf width",
+        "minimum whole plant height",
+        "plant flowering duration",
+        "plant fruiting duration",
+        "root dry mass",
+        "seed length",
+        "seed mass",
+        "stem dry mass",
+        "stem relative growth rate",
+        "stem wood density",
+        "vessel lumen area",
+        "vessel number",
+        "whole plant height",
+        "whole plant primary juvenile period length"
+      ],
+      "temporal_species_state": "median of all valid measurements for that species within the family x trait system after canonical-unit validation",
+      "temporal_dissimilarity": "absolute difference after positive affine standardization within the family x trait system",
+      "spatial_state": "individual valid measurement rows",
+      "spatial_dissimilarity": "the same absolute-difference definition; any positive common scaling is rank-invariant for the primary Spearman effect",
+      "numeric_validity_before_value_opening": "aggregate-only parseability audit must show all nonmissing eligible trait_value entries are numeric; raw values are not returned",
+      "unit_rule": "exactly one nonempty canonical BIEN unit label for the trait among qualifying records, unless a conversion is explicitly frozen from source documentation before values are opened"
+    },
+    "nominal_categorical": {
+      "traits": [
+        "flower color",
+        "flower pollination syndrome",
+        "fruit type",
+        "leaf compoundness",
+        "whole plant dispersal syndrome",
+        "whole plant growth form",
+        "whole plant sexual system",
+        "whole plant vegetative phenology",
+        "whole plant woodiness"
+      ],
+      "temporal_species_state": "unique modal category across valid measurements; species with a tied mode are excluded deterministically and cannot be rescued by alternative aggregation",
+      "temporal_dissimilarity": "0/1 mismatch",
+      "spatial_state": "individual valid categorical measurement rows",
+      "spatial_dissimilarity": "0/1 mismatch",
+      "unit_rule": "no physical-unit conversion is permitted; unit labels must be absent or source-documented as unitless"
+    },
+    "primary_hold": {
+      "traits": [
+        {
+          "trait_name": "plant flowering begin",
+          "reason": "Cyclic calendar/phenological phase is not represented by the frozen scalar absolute-difference or nominal mismatch dissimilarities; no circular metric was predeclared."
+        },
+        {
+          "trait_name": "whole plant growth form diversity",
+          "reason": "The trait name alone does not uniquely establish scalar versus categorical state semantics; fail closed before support results rather than infer representation from values."
+        }
+      ],
+      "rule": "These traits cannot enter the primary H1/H2 trait synthesis in BIEN v0.3. They are not replaced by nearby traits and may only be reconsidered in a separately preregistered future extension."
+    }
+  },
+  "post_value_fail_closed_rules": [
+    "If deterministic species-state aggregation reduces temporal support below 20 species, exclude that family x trait system.",
+    "If valid measurement filtering reduces spatial support below 8 species each meeting the frozen 20-record/5-cell rule, exclude that family x trait system.",
+    "Do not substitute a different trait, unit, aggregation, or dissimilarity after values are opened."
+  ],
+  "independence_rule": "scrubbed_family remains the independence cluster; multiple qualifying traits from one family do not create additional independent families for the >=12 gate.",
+  "no_outcome_informed_trait_selection": true
+}

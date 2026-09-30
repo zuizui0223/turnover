@@ -1,14 +1,6 @@
 name: BIEN trait support v0.2
 
 on:
-  pull_request:
-    paths:
-      - 'data/bien_trait_support_design_v0_2.json'
-      - 'data/bien_trait_support_amendment_v0_2_1.json'
-      - 'data/bien_trait_support_firewall_fix_v0_2_2.json'
-      - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
-      - 'scripts/source/audit_bien_trait_support_v0_2.R'
-      - '.github/workflows/bien-trait-support-v0-2.yml'
   workflow_dispatch:
 
 permissions:

@@ -54,6 +54,11 @@
       "y_formula": "R * sin(radians(latitude)) / cos(radians(30))",
       "cell_formula": "floor(x/25000), floor(y/25000)",
       "reason": "Defines a deterministic global equal-area support grid without relying on server-side PostGIS transformation availability."
+    },
+    "noncentroid_filter": {
+      "is_centroid": "IS NULL OR = 0",
+      "georef_protocol": "IS NULL OR <> 'county centroid'",
+      "source": "data/bien_spatial_noncentroid_amendment_v0_2_4.json"
     }
   },
   "joint_gate": {
@@ -92,5 +97,8 @@
   "next_gate_if_hold": "Do not lower 20/8/20/5 or 12-family thresholds. Move to the already-frozen second trait source AusTraits only if the finite-family source-switch rule permits the BIEN structural HOLD.",
   "generalized_trait_values_opened": false,
   "biological_turnover_outcomes_opened": false,
-  "amendment": "data/bien_trait_support_amendment_v0_2_1.json"
+  "amendments": [
+    "data/bien_trait_support_amendment_v0_2_1.json",
+    "data/bien_spatial_noncentroid_amendment_v0_2_4.json"
+  ]
 }

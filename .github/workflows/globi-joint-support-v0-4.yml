@@ -1,14 +1,6 @@
 name: GloBI joint support v0.4
 
 on:
-  pull_request:
-    paths:
-      - 'data/globi_joint_support_design_v0_4.json'
-      - 'data/globi_transport_amendment_v0_4_1.json'
-      - 'data/globi_tsv_support_fallback_v0_4_2.json'
-      - 'results/globi_parquet_schema_v0_3/result.json'
-      - 'scripts/source/audit_globi_joint_support_v0_4.py'
-      - '.github/workflows/globi-joint-support-v0-4.yml'
   workflow_dispatch:
 
 permissions:

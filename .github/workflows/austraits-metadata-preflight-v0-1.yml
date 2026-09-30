@@ -1,0 +1,76 @@
+name: AusTraits v7 schema preflight v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/austraits_metadata_preflight_design_v0_1.json'
+      - 'scripts/source/audit_austraits_metadata_preflight_v0_1.py'
+      - '.github/workflows/austraits-metadata-preflight-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install schema runtime
+        run: pip install duckdb
+
+      - name: Validate pre-row contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_metadata_preflight_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_ROW_OPENING'
+          assert d['release']['version']=='7.0.0'
+          assert d['release']['github_tag_commit']=='7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c'
+          assert d['primary_file']['size_bytes']==43531865
+          assert d['primary_file']['github_release_sha256']=='5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99'
+          assert d['primary_file']['zenodo_md5']=='a0283adce2c924ffbfee89db9899316f'
+          assert d['raw_trait_values_opened'] is False
+          assert d['biological_turnover_outcomes_opened'] is False
+          PY
+
+      - name: Download exact flattened Parquet
+        run: |
+          mkdir -p build/austraits_metadata_preflight_v0_1
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/austraits_metadata_preflight_v0_1/austraits-7.0.0-flattened.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          test "$(stat -c%s build/austraits_metadata_preflight_v0_1/austraits-7.0.0-flattened.parquet)" = "43531865"
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/austraits_metadata_preflight_v0_1/austraits-7.0.0-flattened.parquet" | sha256sum -c -
+          echo "a0283adce2c924ffbfee89db9899316f  build/austraits_metadata_preflight_v0_1/austraits-7.0.0-flattened.parquet" | md5sum -c -
+
+      - name: Inspect schema only
+        run: |
+          python scripts/source/audit_austraits_metadata_preflight_v0_1.py \
+            --parquet build/austraits_metadata_preflight_v0_1/austraits-7.0.0-flattened.parquet \
+            --out build/austraits_metadata_preflight_v0_1/result.json
+
+      - name: Enforce row firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/austraits_metadata_preflight_v0_1/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['row_count_query_executed'] is False
+          assert x['row_returning_query_executed'] is False
+          assert x['row_level_coordinates_returned'] is False
+          assert x['status'] in {'AUSTRAITS_SCHEMA_PREFLIGHT_PASS','HOLD_AUSTRAITS_SCHEMA_PREFLIGHT'}
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-metadata-preflight-v0-1
+          path: build/austraits_metadata_preflight_v0_1/result.json

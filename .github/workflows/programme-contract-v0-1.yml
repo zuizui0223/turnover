@@ -10,6 +10,8 @@ on:
       - 'results/globi_source_semantic_v0_5_3/result.json'
       - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
       - 'results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'
+      - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
+      - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
       - '.github/workflows/programme-contract-v0-1.yml'
   workflow_dispatch:
 
@@ -90,4 +92,13 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
           assert by['BIEN_4_2']['metadata_status']=='METADATA_PASS_SUPPORT_PENDING'
           assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
+
+          z=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))
+          assert z['status']=='TRAIT_PERMUTATION_NULL_MEAN_EXACT_ZERO_FROZEN_PRE_OUTCOME'
+          assert z['consequence']['canonical_trait_effect']=='delta_rho = observed Spearman rho exactly, because the exact null mean is zero'
+          assert z['computational_rule']['primary_effect_uses_all_unordered_pairs'] is True
+          assert z['thresholds_changed'] is False
           PY
+
+      - name: Verify exact-zero trait permutation null
+        run: python scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py

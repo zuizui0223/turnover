@@ -1,11 +1,6 @@
 name: AusTraits v7 schema preflight v0.1
 
 on:
-  pull_request:
-    paths:
-      - 'data/austraits_metadata_preflight_design_v0_1.json'
-      - 'scripts/source/audit_austraits_metadata_preflight_v0_1.py'
-      - '.github/workflows/austraits-metadata-preflight-v0-1.yml'
   workflow_dispatch:
 
 permissions:

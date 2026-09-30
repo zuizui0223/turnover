@@ -6,6 +6,8 @@ on:
       - 'data/spatiotemporal_memory_turnover_design_v0_1.json'
       - 'data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv'
       - 'data/interaction_source_routing_v0_1.json'
+      - 'data/trait_source_routing_v0_1.json'
+      - 'results/austraits_trait_support_v0_2/result.json'
       - 'results/mangal_species_rank_support_v0_1/result.json'
       - 'results/globi_source_semantic_v0_5_3/result.json'
       - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
@@ -90,6 +92,28 @@ jobs:
           by={x['source_id']:x for x in rows}
           assert by['MANGAL_CURATED_NETWORKS']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SPECIES_RANK_SUPPORT'
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
+
+          tr=json.load(open('data/trait_source_routing_v0_1.json'))
+          assert tr['status']=='TRAIT_PRIMARY_BIEN_PENDING_SECOND_SOURCE_HOLD'
+          assert tr['maximum_primary_trait_sources']==2
+          assert tr['first_source']=='BIEN_4_2'
+          assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
+          assert tr['second_source_terminal']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert tr['further_primary_trait_source_allowed'] is False
+          assert tr['raw_trait_values_opened'] is False
+          assert tr['biological_trait_turnover_outcomes_opened'] is False
+          assert tr['thresholds_may_be_lowered'] is False
+
+          a=json.load(open('results/austraits_trait_support_v0_2/result.json'))
+          assert a['status']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert a['n_family_trait_systems']==30821
+          assert a['n_joint_support_family_trait_systems']==10
+          assert a['n_independent_qualifying_families']==3
+          assert a['thresholds']['minimum_independent_families']==12
+          assert a['gate_pass'] is False
+          assert a['raw_trait_values_opened'] is False
+          assert a['biological_turnover_outcomes_opened'] is False
+          assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='JOINT_TIME_SPACE_HOLD_STRUCTURAL_SUPPORT'
           assert by['BIEN_4_2']['metadata_status']=='METADATA_PASS_SUPPORT_PENDING'
           assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
 

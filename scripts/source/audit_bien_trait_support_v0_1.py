@@ -157,54 +157,73 @@ def main() -> int:
                       AND btrim(trait_name) <> ''
                     GROUP BY scrubbed_family, trait_name
                 ),
-                geo_species AS (
+                eligible_temporal AS (
+                    SELECT scrubbed_family, trait_name
+                    FROM temporal
+                    WHERE temporal_species >= %s
+                ),
+                geo_record_counts AS (
                     SELECT
-                        scrubbed_family,
-                        trait_name,
-                        scrubbed_species_binomial,
-                        COUNT(DISTINCT id) AS georeferenced_records,
+                        a.scrubbed_family,
+                        a.trait_name,
+                        a.scrubbed_species_binomial,
+                        COUNT(DISTINCT a.id) AS georeferenced_records
+                    FROM agg_traits a
+                    INNER JOIN eligible_temporal e
+                      ON a.scrubbed_family = e.scrubbed_family
+                     AND a.trait_name = e.trait_name
+                    WHERE a.id IS NOT NULL
+                      AND a.scrubbed_species_binomial IS NOT NULL
+                      AND btrim(a.scrubbed_species_binomial) <> ''
+                      AND a.latitude IS NOT NULL
+                      AND a.longitude IS NOT NULL
+                      AND a.latitude BETWEEN -90 AND 90
+                      AND a.longitude BETWEEN -180 AND 180
+                    GROUP BY
+                        a.scrubbed_family,
+                        a.trait_name,
+                        a.scrubbed_species_binomial
+                    HAVING COUNT(DISTINCT a.id) >= %s
+                ),
+                geo_cells AS (
+                    SELECT
+                        a.scrubbed_family,
+                        a.trait_name,
+                        a.scrubbed_species_binomial,
                         COUNT(DISTINCT (
-                            floor(
-                                ST_X(
-                                    ST_Transform(
-                                        ST_SetSRID(ST_MakePoint(longitude, latitude), 4326),
-                                        6933
-                                    )
-                                ) / 25000.0
-                            )::bigint::text
+                            floor(ST_X(p.geom) / 25000.0)::bigint::text
                             || ':' ||
-                            floor(
-                                ST_Y(
-                                    ST_Transform(
-                                        ST_SetSRID(ST_MakePoint(longitude, latitude), 4326),
-                                        6933
-                                    )
-                                ) / 25000.0
-                            )::bigint::text
+                            floor(ST_Y(p.geom) / 25000.0)::bigint::text
                         )) AS unique_25km_cells
-                    FROM agg_traits
-                    WHERE id IS NOT NULL
-                      AND scrubbed_family IS NOT NULL
-                      AND btrim(scrubbed_family) <> ''
-                      AND scrubbed_species_binomial IS NOT NULL
-                      AND btrim(scrubbed_species_binomial) <> ''
-                      AND trait_name IS NOT NULL
-                      AND btrim(trait_name) <> ''
-                      AND latitude IS NOT NULL
-                      AND longitude IS NOT NULL
-                      AND latitude BETWEEN -90 AND 90
-                      AND longitude BETWEEN -180 AND 180
-                    GROUP BY scrubbed_family, trait_name, scrubbed_species_binomial
+                    FROM agg_traits a
+                    INNER JOIN geo_record_counts g
+                      ON a.scrubbed_family = g.scrubbed_family
+                     AND a.trait_name = g.trait_name
+                     AND a.scrubbed_species_binomial = g.scrubbed_species_binomial
+                    CROSS JOIN LATERAL (
+                        SELECT ST_Transform(
+                            ST_SetSRID(ST_MakePoint(a.longitude, a.latitude), 4326),
+                            6933
+                        ) AS geom
+                    ) p
+                    WHERE a.id IS NOT NULL
+                      AND a.latitude IS NOT NULL
+                      AND a.longitude IS NOT NULL
+                      AND a.latitude BETWEEN -90 AND 90
+                      AND a.longitude BETWEEN -180 AND 180
+                    GROUP BY
+                        a.scrubbed_family,
+                        a.trait_name,
+                        a.scrubbed_species_binomial
                 ),
                 spatial AS (
                     SELECT
                         scrubbed_family,
                         trait_name,
                         COUNT(*) FILTER (
-                            WHERE georeferenced_records >= %s
-                              AND unique_25km_cells >= %s
+                            WHERE unique_25km_cells >= %s
                         ) AS spatial_species
-                    FROM geo_species
+                    FROM geo_cells
                     GROUP BY scrubbed_family, trait_name
                 )
                 SELECT
@@ -228,6 +247,7 @@ def main() -> int:
             cur.execute(
                 support_sql,
                 (
+                    int(q["temporal_min_species_per_family_trait"]),
                     int(q["spatial_min_georeferenced_records_per_species"]),
                     int(q["spatial_min_unique_25km_cells_per_species"]),
                 ),

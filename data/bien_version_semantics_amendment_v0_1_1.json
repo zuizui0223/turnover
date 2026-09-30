@@ -1,0 +1,34 @@
+{
+  "version": "v0.1.1",
+  "status": "BIEN_VERSION_SEMANTICS_AMENDED_AFTER_ZERO_VALUE_VERSION_HOLD",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_trait_support_design_v0_1.json",
+  "trigger": {
+    "workflow_run": 36719625795,
+    "prior_status": "HOLD_BIEN_VERSION_DRIFT",
+    "observed_db_version": "4.2.8",
+    "observed_db_release_date": "2023-06-27",
+    "schema_opened": false,
+    "support_query_executed": false,
+    "trait_values_opened": false
+  },
+  "source_only_resolution": {
+    "public_product_release_name": "BIEN 4.2",
+    "metadata_database_version": "4.2.8",
+    "evidence": [
+      "Enquist et al. 2026 explicitly refers to the BIEN db 4.2.8 pipeline while describing the released database as BIEN 4.2.",
+      "The official BIEN data-contributors page labels BIEN 4.2.8 as the BIEN metadata database version."
+    ]
+  },
+  "changes": {
+    "expected_database_version": "4.2 -> 4.2.8",
+    "biological_thresholds_changed": false,
+    "primary_clade_definition_changed": false,
+    "spatial_cell_rule_changed": false,
+    "support_query_fields_changed": false,
+    "source_changed": false,
+    "trait_values_opened": false,
+    "biological_outcomes_opened": false
+  },
+  "reason": "The initial contract incorrectly required the public product label and internal metadata database version to be identical strings. The correction is based only on source/version documentation and a zero-value metadata query."
+}

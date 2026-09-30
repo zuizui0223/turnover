@@ -9,7 +9,7 @@
     "raw_trait_values_opened": false,
     "biological_turnover_outcomes_opened": false
   },
-  "trigger_condition": "Use only if the already-running frozen v0.2.2 aggregate query fails or times out without returning a support result.",
+  "trigger_condition": "Use only if the already-running pre-amendment v0.2.2 aggregate query fails/times out, or to produce the required post-amendment non-centroid structural result.",
   "scientific_equivalence": {
     "record_filter_unchanged": true,
     "temporal_min_species": 20,
@@ -20,7 +20,7 @@
     "minimum_independent_families": 12,
     "trait_value_rule": "presence predicate only",
     "cultivated_filter": "is_cultivated_observation = 0 OR NULL",
-    "geovalid_rule": "is_geovalid = 1 and coordinate bounds",
+    "geovalid_rule": "is_geovalid = 1; is_centroid NULL/0; georef_protocol NULL/not county centroid; coordinate bounds",
     "cell_projection": "identical frozen spherical Lambert cylindrical equal-area formula"
   },
   "query_plan": [
@@ -41,5 +41,8 @@
   "support_thresholds_changed": false,
   "can_rescue_failure": false,
   "can_change_support_definition": false,
-  "no_posthoc_relaxation": true
+  "no_posthoc_relaxation": true,
+  "amendments": [
+    "data/bien_spatial_noncentroid_amendment_v0_2_4.json"
+  ]
 }

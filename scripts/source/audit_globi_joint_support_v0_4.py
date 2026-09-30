@@ -5,6 +5,7 @@ import argparse
 import csv
 import hashlib
 import json
+import time
 from pathlib import Path
 
 import duckdb
@@ -36,8 +37,9 @@ def main() -> int:
     url = design["primary_file"]["url"]
     q = design["qualification"]
 
-    con = duckdb.connect(database=":memory:")
     transport_error = None
+    transport_errors: list[str] = []
+    transport_attempts = 0
     rows: list[dict] = []
 
     sql = r"""
@@ -132,28 +134,61 @@ def main() -> int:
     ORDER BY s.ns, s.itid
     """
 
-    try:
-        con.execute("INSTALL httpfs")
-        con.execute("LOAD httpfs")
-        cur = con.execute(sql, [url])
-        columns = [x[0] for x in cur.description]
-        rows = [dict(zip(columns, row)) for row in cur.fetchall()]
-    except Exception as exc:
-        transport_error = f"{type(exc).__name__}: {exc}"
+    policy = design["transport_policy"]
+    max_attempts = int(policy["maximum_attempts_per_workflow"])
+    backoff = [int(x) for x in policy["backoff_seconds"]]
+
+    def is_retriable_transport(message: str) -> bool:
+        m = message.lower()
+        return (
+            "429" in m
+            or "http 500" in m
+            or "http 502" in m
+            or "http 503" in m
+            or "http 504" in m
+            or "timeout" in m
+            or "timed out" in m
+            or "connection reset" in m
+            or "temporary" in m
+        )
+
+    for attempt in range(max_attempts):
+        transport_attempts = attempt + 1
+        if attempt > 0:
+            time.sleep(backoff[attempt])
+        con = duckdb.connect(database=":memory:")
+        try:
+            con.execute("INSTALL httpfs")
+            con.execute("LOAD httpfs")
+            cur = con.execute(sql, [url])
+            columns = [x[0] for x in cur.description]
+            rows = [dict(zip(columns, row)) for row in cur.fetchall()]
+            transport_error = None
+            break
+        except Exception as exc:
+            transport_error = f"{type(exc).__name__}: {exc}"
+            transport_errors.append(transport_error)
+            if not is_retriable_transport(transport_error):
+                break
+        finally:
+            con.close()
 
     if transport_error is not None:
         result = {
             "version": "v0.4",
-            "status": "HOLD_GLOBI_SUPPORT_TRANSPORT",
+            "status": policy["terminal_status_after_exhaustion"],
             "design": str(DESIGN.relative_to(ROOT)),
+            "transport_policy_amendment": design["transport_policy_amendment"],
             "outcome_blind": True,
             "support_query_executed": False,
             "interaction_rows_opened_for_support_only": False,
             "raw_edge_identities_persisted": False,
             "biological_turnover_outcomes_opened": False,
+            "transport_attempts": transport_attempts,
+            "transport_errors": transport_errors,
             "transport_error": transport_error,
             "gate_pass": False,
-            "next_gate": design["next_gate_if_hold"],
+            "next_gate": design["next_gate_if_persistent_transport_hold"],
         }
         args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         print(json.dumps(result, indent=2, sort_keys=True))

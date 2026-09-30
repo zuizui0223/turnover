@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'data/bien_trait_support_design_v0_2.json'
+      - 'data/bien_trait_support_amendment_v0_2_1.json'
       - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
       - 'scripts/source/audit_bien_trait_support_v0_2.R'
       - '.github/workflows/bien-trait-support-v0-2.yml'
@@ -55,6 +56,13 @@ jobs:
           assert d['joint_gate']['minimum_independent_families']==12
           assert d['generalized_trait_values_opened'] is False
           assert d['biological_turnover_outcomes_opened'] is False
+          a=json.load(open('data/bien_trait_support_amendment_v0_2_1.json'))
+          assert a['status']=='TRAIT_VALUE_PRESENCE_FILTER_ADDED_PRE_SUPPORT_RESULT'
+          assert a['stricter_only'] is True
+          assert a['chronology']['support_result_seen_before_fix'] is False
+          assert a['can_rescue_failure'] is False
+          assert a['can_increase_support_counts'] is False
+          assert d['record_filter']['require_nonmissing_trait_value'] is True
           PY
 
       - name: Run aggregate-only support audit
@@ -74,7 +82,9 @@ jobs:
           assert x['outcome_blind'] is True
           assert x['generalized_trait_values_opened'] is False
           assert x['biological_turnover_outcomes_opened'] is False
-          assert x['trait_value_referenced_in_query'] is False
+          assert x['version']=='v0.2.1'
+          assert x['trait_value_presence_only'] is True
+          assert x['trait_value_returned'] is False
           assert x['row_level_species_returned'] is False
           assert x['row_level_coordinates_returned'] is False
           assert x['status'] in {'BIEN_TRAIT_SUPPORT_PASS','HOLD_BIEN_TRAIT_SUPPORT','HOLD_BIEN_PATCH_CHANGED_BEFORE_SUPPORT'}

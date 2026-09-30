@@ -1,12 +1,6 @@
 name: AusTraits v7 trait support v0.2
 
 on:
-  pull_request:
-    paths:
-      - 'data/austraits_trait_support_design_v0_2.json'
-      - 'results/austraits_metadata_preflight_v0_1/result.json'
-      - 'scripts/source/audit_austraits_trait_support_v0_2.py'
-      - '.github/workflows/austraits-trait-support-v0-2.yml'
   workflow_dispatch:
 
 permissions:

@@ -88,6 +88,8 @@ base AS (
     a.trait_value::text AS value_text,
     a.unit::text AS unit,
     a.is_geovalid,
+    a.is_centroid,
+    a.georef_protocol,
     a.latitude::double precision AS latitude,
     a.longitude::double precision AS longitude
   FROM agg_traits a
@@ -141,6 +143,8 @@ continuous_geo AS (
   FROM continuous_rows
   WHERE value_num IS NOT NULL
     AND is_geovalid=1
+    AND (is_centroid IS NULL OR is_centroid=0)
+    AND (georef_protocol IS NULL OR georef_protocol<>'county centroid')
     AND latitude BETWEEN -90 AND 90
     AND longitude BETWEEN -180 AND 180
 ),
@@ -200,6 +204,8 @@ categorical_geo_base AS (
   FROM base
   WHERE semantic_class='nominal_categorical'
     AND is_geovalid=1
+    AND (is_centroid IS NULL OR is_centroid=0)
+    AND (georef_protocol IS NULL OR georef_protocol<>'county centroid')
     AND latitude BETWEEN -90 AND 90
     AND longitude BETWEEN -180 AND 180
 ),

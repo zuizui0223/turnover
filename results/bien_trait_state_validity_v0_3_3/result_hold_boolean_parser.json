@@ -1,0 +1,15 @@
+{
+  "version": "v0.3.3",
+  "status": "HOLD_BIEN_TRAIT_STATE_VALIDITY_BOOLEAN_PARSER",
+  "evidence_workflow_run": 36787281516,
+  "evidence_workflow_job": 110131608864,
+  "artifact_id": 11130496556,
+  "artifact_sha256": "b5ae7fa351598d2b337646c7bce76196b7ed374b8cf323793bb83bf022f80e33",
+  "outcome_blind": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "n_structural_candidates_reported": 0,
+  "diagnosis": "The support CSV was written by Python with joint_support_pass values 'True'. read.csv treated the column as character, while the R filter accepted only TRUE/'TRUE'/'t'/'1'/1. Therefore all 73 structurally passing systems were excluded before any BIEN state-validity query was executed.",
+  "scientific_interpretation": "TECHNICAL_HOLD_ONLY",
+  "gate_result_valid": false
+}

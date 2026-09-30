@@ -1,0 +1,73 @@
+{
+  "version": "v0.4.2",
+  "status": "BIEN_INFORMATIVENESS_EXECUTION_RULES_FROZEN_PRE_SIMULATION_RESULT",
+  "frozen_on": "2026-10-01",
+  "amends": "data/bien_informativeness_design_v0_4.json",
+  "chronology": {
+    "informativeness_simulation_result_seen_before_freeze": false,
+    "real_trait_turnover_outcomes_opened": false
+  },
+  "exact_gate_execution_order": [
+    "temporal S3",
+    "temporal prune-only",
+    "spatial"
+  ],
+  "early_stop_rule": "Because joint_system_pass is the conjunction of all three frozen geometry gates, a system that fails an earlier gate may skip later simulation without changing PASS/HOLD.",
+  "lambda_search": {
+    "initial_log10_grid": [
+      -2,
+      -1.5,
+      -1,
+      -0.5,
+      0,
+      0.5,
+      1,
+      1.5,
+      2
+    ],
+    "lambda_values": [
+      0.01,
+      0.03162277660168379,
+      0.1,
+      0.31622776601683794,
+      1,
+      3.1622776601683795,
+      10,
+      31.622776601683793,
+      100
+    ],
+    "pilot_replicates_per_value": 200,
+    "bracket_rule": "Use the first adjacent lambda pair whose pilot median effects straddle 0.15. If none straddles, HOLD.",
+    "bisection": "bisect log(lambda) using 200 pilot replicates at each step until abs(median_effect-0.15)<=0.01 or 20 steps",
+    "common_random_numbers": "Within one geometry, use identical replicate innovation seeds across candidate lambda values to stabilize monotone calibration comparisons.",
+    "evaluation_replicates": 1000
+  },
+  "deterministic_seed": {
+    "algorithm": "FNV-1a 32-bit over UTF-8 bytes of master_seed|family|trait|axis|phase|replicate",
+    "master_seed": 20260930,
+    "rerun_with_new_seed_forbidden": true
+  },
+  "temporal_gp_implementation": {
+    "equivalence": "For covariance exp(-patristic_distance/scale), simulate a stationary OU process directly down the rooted tree.",
+    "root_state": "N(0,1)",
+    "edge_transition": "child = exp(-edge_length/scale)*parent + sqrt(1-exp(-2*edge_length/scale))*N(0,1)",
+    "scale": "lambda * median positive pairwise patristic distance",
+    "consequence": "This is exactly the frozen zero-mean Gaussian process with covariance exp(-d/lambda) after median-distance normalization, without dense covariance factorization."
+  },
+  "spatial_duplicate_compression": {
+    "rule": "Collapse records at exactly identical latitude/longitude within species to one geometry node with integer multiplicity.",
+    "exactness": "Under exp(-d/lambda), d=0 implies correlation 1; duplicate coordinates therefore receive identical synthetic latent states. All original unordered record-pairs are preserved algebraically by multiplicity weights, including choose(m,2) within-coordinate zero-distance/zero-dissimilarity pairs.",
+    "primary_pair_set_changed": false,
+    "coordinate_rounding": false,
+    "grid_aggregation_for_simulation": false
+  },
+  "binary_spearman_optimization": {
+    "rule": "For synthetic binary mismatch dissimilarity, Spearman(rank(separation), mismatch) is computed exactly from mismatch count and the sum of fixed separation ranks over mismatched pairs; no mismatch-rank vector need be materialized.",
+    "approximation": false
+  },
+  "continuous_pair_rule": "Use every unordered pair exactly; no pair subsampling.",
+  "thresholds_changed": false,
+  "generator_changed": false,
+  "benchmark_changed": false,
+  "no_posthoc_relaxation": true
+}

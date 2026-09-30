@@ -34,9 +34,13 @@ tip_meta_complete <- all(c("group","species","genus","family") %in% names(tips.i
   all(nzchar(trimws(as.character(tips.info.TPL$genus)))) &&
   all(nzchar(trimws(as.character(tips.info.TPL$family))))
 
-norm_tree <- gsub("_", " ", as.character(tree$tip.label), fixed=TRUE)
-norm_meta <- as.character(tips.info.TPL$species)
-tip_set_match <- length(setdiff(norm_tree, norm_meta)) == 0 && length(setdiff(norm_meta, norm_tree)) == 0
+tree_tips <- as.character(tree$tip.label)
+meta_tips <- as.character(tips.info.TPL$species)
+tree_tips_unique <- !anyDuplicated(tree_tips)
+meta_tips_unique <- !anyDuplicated(meta_tips)
+tip_set_match <- tree_tips_unique && meta_tips_unique &&
+  length(setdiff(tree_tips, meta_tips)) == 0 &&
+  length(setdiff(meta_tips, tree_tips)) == 0
 
 nodes_nonempty <- is.data.frame(nodes.info.1.TPL) && nrow(nodes.info.1.TPL) > 0
 
@@ -52,7 +56,7 @@ gate <- inherits(tree, "phylo") &&
   nodes_nonempty
 
 result <- list(
-  version="v0.3.1",
+  version="v0.3.1.1",
   status=if (gate) "BIEN_PHYLOGENY_SOURCE_PASS" else "HOLD_BIEN_PHYLOGENY_SOURCE",
   outcome_blind=TRUE,
   generalized_trait_values_opened=FALSE,
@@ -64,7 +68,9 @@ result <- list(
   observed_tip_count=n_tip,
   tips_metadata_rows=tip_meta_n,
   tips_metadata_complete=tip_meta_complete,
-  normalized_tip_set_match=tip_set_match,
+  raw_tip_set_match=tip_set_match,
+  tree_tip_labels_unique=tree_tips_unique,
+  tips_metadata_species_unique=meta_tips_unique,
   edge_count=n_edge,
   edge_lengths_present=edge_lengths_present,
   edge_lengths_finite=edge_lengths_finite,

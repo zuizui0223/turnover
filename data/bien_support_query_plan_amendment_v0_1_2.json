@@ -1,0 +1,34 @@
+{
+  "version": "v0.1.2",
+  "status": "BIEN_SUPPORT_QUERY_PLAN_OPTIMIZED_BEFORE_ANY_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "amends": "scripts/source/audit_bien_trait_support_v0_1.py",
+  "trigger": {
+    "workflow_run": 36719804742,
+    "state_when_amended": "support query still in progress",
+    "support_result_returned": false,
+    "trait_values_opened": false,
+    "biological_outcomes_opened": false
+  },
+  "semantic_equivalence": {
+    "temporal_threshold": "unchanged: >=20 species per family x trait",
+    "georeferenced_record_threshold": "unchanged: >=20 distinct agg_traits.id per species",
+    "spatial_cell_threshold": "unchanged: >=5 unique EPSG:6933 25-km cells per species",
+    "spatial_species_threshold": "unchanged: >=8 species per family x trait",
+    "coordinate_rule": "unchanged",
+    "cell_rule": "unchanged",
+    "source": "unchanged",
+    "trait_values_selected": false
+  },
+  "plan_change": [
+    "calculate temporal family x trait species counts first",
+    "restrict geospatial work to family x trait systems that can still pass the temporal threshold",
+    "calculate georeferenced record counts per species before coordinate transformation",
+    "restrict EPSG:6933 transformation to species that already meet the >=20-record threshold",
+    "retain the original final pass/fail criteria"
+  ],
+  "direction": "EXECUTION_PLAN_ONLY",
+  "biological_thresholds_changed": false,
+  "candidate_definition_changed": false,
+  "no_posthoc_relaxation": true
+}

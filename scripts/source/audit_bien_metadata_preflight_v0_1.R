@@ -12,6 +12,7 @@ dir.create(dirname(out_path), recursive = TRUE, showWarnings = FALSE)
 
 root <- normalizePath(".")
 design <- fromJSON(file.path(root, "data", "bien_metadata_preflight_design_v0_1.json"), simplifyVector = FALSE)
+amend <- fromJSON(file.path(root, "data", "bien_version_amendment_v0_1_1.json"), simplifyVector = FALSE)
 
 rbien_dir <- Sys.getenv("RBIEN_SOURCE_DIR", unset = "build/RBIEN")
 source(file.path(rbien_dir, "R", "internals.R"))
@@ -23,7 +24,7 @@ version_df <- schema_df <- trait_df <- count_df <- NULL
 
 tryCatch({
   version_df <- BIEN_metadata_database_version()
-  schema_df <- .BIEN_sql("SELECT column_name, data_type FROM information_schema.columns WHERE table_name='agg_traits' ORDER BY ordinal_position ;")
+  schema_df <- .BIEN_sql("SELECT DISTINCT column_name, data_type FROM information_schema.columns WHERE table_name='agg_traits' ORDER BY column_name, data_type ;")
   trait_df <- BIEN_trait_list()
   count_df <- .BIEN_sql("SELECT COUNT(*) AS n FROM agg_traits ;")
 }, error = function(e) {
@@ -41,14 +42,16 @@ missing <- setdiff(required, fields)
 observed_version <- if (is.data.frame(version_df) && nrow(version_df) >= 1 && "db_version" %in% names(version_df)) as.character(version_df$db_version[[1]]) else NULL
 
 pass_core <- is.null(transport_error) &&
-  identical(observed_version, design$gate$require_database_version) &&
+  grepl(amend$version_rule$accepted_prefix_regex, observed_version) &&
+  identical(observed_version, amend$version_rule$downstream_exact_patch_pin) &&
   length(missing) == 0 &&
   !is.null(n_rows) && is.finite(n_rows) && n_rows > 0 &&
   length(traits) > 0
 
 result <- list(
-  version = "v0.1",
+  version = "v0.1.1",
   status = if (pass_core) "BIEN_METADATA_PREFLIGHT_PASS" else "HOLD_BIEN_METADATA_PREFLIGHT",
+  version_amendment = "data/bien_version_amendment_v0_1_1.json",
   design = "data/bien_metadata_preflight_design_v0_1.json",
   outcome_blind = TRUE,
   generalized_trait_values_opened = FALSE,
@@ -58,6 +61,8 @@ result <- list(
   transport_error = transport_error,
   database_version_rows = version_rows,
   observed_database_version = observed_version,
+  accepted_release_family = amend$version_rule$accepted_release_family,
+  downstream_exact_patch_pin = amend$version_rule$downstream_exact_patch_pin,
   agg_traits_row_count = n_rows,
   agg_traits_schema = schema_rows,
   missing_required_fields = as.list(missing),

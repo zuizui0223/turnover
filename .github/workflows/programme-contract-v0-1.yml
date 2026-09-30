@@ -149,7 +149,7 @@ jobs:
           assert bs['n_joint_support_family_trait_systems']==73
           assert bs['n_independent_qualifying_families']==37
           assert bs['thresholds']['minimum_independent_families']==12
-          assert bs['noncentroid_amendment']=='data/bien_spatial_noncentroid_amendment_v0_2_4.json'
+          assert 'data/bien_spatial_noncentroid_amendment_v0_2_4.json' in bs['effective_contracts']
           assert bs['gate_pass'] is True
           assert bs['generalized_trait_values_opened'] is False
           assert bs['biological_turnover_outcomes_opened'] is False

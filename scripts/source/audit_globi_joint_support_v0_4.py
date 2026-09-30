@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import hashlib
 import json
 import time
@@ -23,6 +24,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--table-out", type=Path, required=True)
+    ap.add_argument("--local-tsv-gz", type=Path)
     args = ap.parse_args()
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.table_out.parent.mkdir(parents=True, exist_ok=True)
@@ -34,8 +36,40 @@ def main() -> int:
     if prereq["interaction_rows_opened"] is not False:
         raise RuntimeError("schema prerequisite unexpectedly opened rows")
 
-    url = design["primary_file"]["url"]
     q = design["qualification"]
+    local_tsv = args.local_tsv_gz
+    if local_tsv is not None:
+        if not local_tsv.exists():
+            raise RuntimeError(f"local TSV fallback not found: {local_tsv}")
+        with gzip.open(local_tsv, "rt", encoding="utf-8", newline="") as fh:
+            header = next(csv.reader(fh, delimiter="\t"))
+        missing_header = [x for x in design["projected_columns"] if x not in header]
+        if missing_header:
+            result = {
+                "version": "v0.4",
+                "status": "HOLD_GLOBI_TSV_HEADER_MISMATCH",
+                "design": str(DESIGN.relative_to(ROOT)),
+                "outcome_blind": True,
+                "support_query_executed": False,
+                "interaction_rows_opened_for_support_only": False,
+                "raw_edge_identities_persisted": False,
+                "biological_turnover_outcomes_opened": False,
+                "transport": "TSV_LOCAL_FALLBACK",
+                "header_field_count": len(header),
+                "missing_projected_columns": missing_header,
+                "gate_pass": False,
+                "next_gate": design["next_gate_if_persistent_transport_hold"],
+            }
+            args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+        source_expr = "read_csv_auto(?, delim='\\t', header=true, all_varchar=true, compression='gzip')"
+        source_arg = str(local_tsv)
+        transport_name = "TSV_LOCAL_FALLBACK"
+    else:
+        source_expr = "read_parquet(?)"
+        source_arg = design["primary_file"]["url"]
+        transport_name = "PARQUET_REMOTE"
 
     transport_error = None
     transport_errors: list[str] = []
@@ -53,7 +87,7 @@ def main() -> int:
         try_cast(decimalLatitude AS DOUBLE) AS lat,
         try_cast(decimalLongitude AS DOUBLE) AS lon,
         try_cast(regexp_extract(CAST(eventDate AS VARCHAR), '^([0-9]{4})', 1) AS INTEGER) AS yr
-      FROM read_parquet(?)
+      FROM {SOURCE_EXPR}
       WHERE sourceNamespace IS NOT NULL
         AND interactionTypeId IS NOT NULL
         AND sourceTaxonSpeciesName IS NOT NULL
@@ -133,6 +167,7 @@ def main() -> int:
     LEFT JOIN repeated r USING (ns, itid)
     ORDER BY s.ns, s.itid
     """
+    sql = sql.replace("{SOURCE_EXPR}", source_expr)
 
     policy = design["transport_policy"]
     max_attempts = int(policy["maximum_attempts_per_workflow"])
@@ -152,15 +187,17 @@ def main() -> int:
             or "temporary" in m
         )
 
-    for attempt in range(max_attempts):
+    execution_attempts = max_attempts if local_tsv is None else 1
+    for attempt in range(execution_attempts):
         transport_attempts = attempt + 1
-        if attempt > 0:
+        if local_tsv is None and attempt > 0:
             time.sleep(backoff[attempt])
         con = duckdb.connect(database=":memory:")
         try:
-            con.execute("INSTALL httpfs")
-            con.execute("LOAD httpfs")
-            cur = con.execute(sql, [url])
+            if local_tsv is None:
+                con.execute("INSTALL httpfs")
+                con.execute("LOAD httpfs")
+            cur = con.execute(sql, [source_arg])
             columns = [x[0] for x in cur.description]
             rows = [dict(zip(columns, row)) for row in cur.fetchall()]
             transport_error = None
@@ -168,7 +205,7 @@ def main() -> int:
         except Exception as exc:
             transport_error = f"{type(exc).__name__}: {exc}"
             transport_errors.append(transport_error)
-            if not is_retriable_transport(transport_error):
+            if local_tsv is not None or not is_retriable_transport(transport_error):
                 break
         finally:
             con.close()
@@ -179,6 +216,7 @@ def main() -> int:
             "status": policy["terminal_status_after_exhaustion"],
             "design": str(DESIGN.relative_to(ROOT)),
             "transport_policy_amendment": design["transport_policy_amendment"],
+            "transport": transport_name,
             "outcome_blind": True,
             "support_query_executed": False,
             "interaction_rows_opened_for_support_only": False,
@@ -233,6 +271,7 @@ def main() -> int:
         "raw_edge_identities_persisted": False,
         "biological_turnover_outcomes_opened": False,
         "transport_error": None,
+        "transport": transport_name,
         "qualification": q,
         "n_candidate_systems": len(rows),
         "n_joint_support_systems": len(passing),

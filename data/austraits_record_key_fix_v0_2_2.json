@@ -1,0 +1,36 @@
+{
+  "version": "v0.2.2",
+  "status": "AUSTRAITS_COMPOSITE_RECORD_KEY_FIXED_POST_SUPPORT_PRE_OUTCOME",
+  "frozen_on": "2026-10-01",
+  "amends": "data/austraits_trait_support_design_v0_2.json",
+  "trigger_result": "results/austraits_observation_id_v0_2_1/result.json",
+  "prior_support_result": "results/austraits_trait_support_v0_2/result.json",
+  "chronology": {
+    "prior_structural_support_seen": true,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "diagnosis": "AusTraits observation_id is not globally unique across dataset_id. The prior support query used DISTINCT observation_id and therefore could only undercount structural measurement support.",
+  "corrected_record_identity": "dataset_id + ASCII unit-separator + observation_id",
+  "biological_rules_unchanged": {
+    "species_rank": "species",
+    "family_trait_grain": true,
+    "temporal_min_species": 20,
+    "spatial_min_species": 8,
+    "spatial_min_records_per_species": 20,
+    "spatial_min_cells_per_species": 5,
+    "cell_size_m": 25000,
+    "minimum_independent_families": 12,
+    "coordinate_rule": true,
+    "equal_area_projection": true,
+    "raw_value_rule": "presence predicate only"
+  },
+  "direction_of_change": "TECHNICAL_IDENTITY_CORRECTION",
+  "thresholds_changed": false,
+  "source_changed": false,
+  "trait_selection_changed": false,
+  "can_lower_thresholds": false,
+  "can_change_grid": false,
+  "third_source_allowed": false,
+  "next_action": "Re-run the identical v0.2 structural gate using the corrected composite record key. Treat the earlier 3-family result as superseded/non-terminal."
+}

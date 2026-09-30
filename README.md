@@ -50,16 +50,30 @@ This repository is independent of current submission claims in CHUN, FCP and IWE
 
 ## Current source-gate state
 
+### Interaction arm — terminal pre-outcome HOLD
+
 Mangal passed spatial-network and taxonomy-ID gates but failed the frozen species-rank joint gate: 7 programmes qualified versus 12 required. No interaction edge was opened. The finite-family contract therefore authorized one pre-outcome switch to GloBI.
 
-GloBI chronology:
+GloBI then passed several increasingly strict gates:
 
 1. Stable Zenodo archive identity (record 22691479, version 0.11): **PASS**.
-2. Parquet semantic schema / archive-field aliases: **PASS** without row opening.
-3. Remote Parquet row-support access: two zero-row HTTP 429 transport failures. These are recorded as transport failures, not biological support failures.
-4. The previously frozen `interactions.tsv.gz` serialization fallback is therefore active for the v0.4 structural support gate. Source record, biological thresholds, projected columns and grouping rules are unchanged.
-5. Before the v0.4 result is interpreted, v0.5 freezes the source-semantic firewall: opportunistic occurrence/specimen/literature aggregation cannot count as replicated ecological networks, network units must be reconstructable without coordinate/time clustering, and primary rewiring requires acceptable sampling-effort semantics.
+2. Archive schema / aliases: **PASS** without row opening.
+3. Structural support v0.4: **PASS** — 815 candidate systems -> 92 structural systems -> 62 sourceNamespace clusters.
+4. Correct-grain support v0.5.2: **PASS** — 58 provenance-resolved programme blocks in 20 namespaces independently satisfy the same frozen 20-focal / 5-site-year / 10-repeated-focal thresholds.
+5. Source-semantic / provenance gate v0.5: **HOLD**.
 
-The v0.4 support thresholds remain: >=20 focal taxa with >=3 partners, >=5 site-year support strata, >=10 repeated focal taxa, and >=12 independent `sourceNamespace` clusters. No turnover, rewiring, distance-dissimilarity, phylogenetic or predictor-response outcome has been opened.
+The terminal HOLD is fail-closed. Nine of the 20 remaining namespaces are definitively ineligible under rules frozen before any turnover outcome: occurrence/specimen/collection aggregators, a citizen-science aggregation, an IPT occurrence archive, or the GloBI mirror of the already-failed first source Mangal. Therefore at most 11 independent namespaces can remain, below the frozen requirement of 12.
 
-If the frozen GloBI transport, structural support, semantic-network, phylogeny/informativeness route fails, the primary joint interaction arm stops; the programme does not add a third primary interaction source.
+No turnover, rewiring, distance-dissimilarity, phylogenetic, predictor-response or time-space coupling outcome was opened. The threshold is not lowered and a third primary interaction source is not introduced.
+
+See: `docs/GLOBI_SOURCE_SEMANTIC_V0_5.md`.
+
+### Trait arm — active
+
+The trait arm remains independent of the interaction HOLD and proceeds under the pre-frozen source order:
+
+1. BIEN 4.2
+2. AusTraits independent transport
+3. TRY v7 — source-access HOLD
+
+The next active development gate is BIEN source/schema/support qualification before any generalized trait-turnover response is opened.

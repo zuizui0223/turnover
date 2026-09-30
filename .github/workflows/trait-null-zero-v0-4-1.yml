@@ -1,0 +1,52 @@
+name: Trait permutation null exact-zero v0.4.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
+      - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
+      - '.github/workflows/trait-null-zero-v0-4-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate theorem contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))
+          assert d['status']=='TRAIT_PERMUTATION_NULL_MEAN_EXACT_ZERO_FROZEN_PRE_OUTCOME'
+          assert d['chronology']['bien_structural_support_result_seen_before_freeze'] is False
+          assert d['chronology']['real_trait_states_opened'] is False
+          assert d['chronology']['real_trait_turnover_outcomes_opened'] is False
+          assert d['computational_rule']['primary_effect_uses_all_unordered_pairs'] is True
+          assert d['computational_rule']['pair_subsampling_for_primary_effect'] is False
+          assert d['consequence']['canonical_trait_effect'].startswith('delta_rho = observed Spearman rho exactly')
+          PY
+      - name: Exact enumerate small-n nulls
+        run: |
+          mkdir -p build/trait_null_zero_v0_4_1
+          python scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py | tee build/trait_null_zero_v0_4_1/result.json
+      - name: Enforce verification result
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/trait_null_zero_v0_4_1/result.json'))
+          assert x['status']=='TRAIT_PERMUTATION_NULL_ZERO_VERIFIED'
+          assert x['complete_pair_set'] is True
+          assert x['tolerance']==1e-12
+          assert all(abs(t['mean_spearman']) <= 1e-12 for t in x['tests'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-null-zero-v0-4-1
+          path: build/trait_null_zero_v0_4_1/result.json

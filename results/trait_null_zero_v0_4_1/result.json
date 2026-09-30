@@ -1,0 +1,38 @@
+{
+  "version": "v0.4.1",
+  "status": "TRAIT_PERMUTATION_NULL_ZERO_VERIFIED",
+  "evidence_workflow_run": 36740873480,
+  "evidence_workflow_job": 109974627487,
+  "artifact_id": 11110462157,
+  "complete_pair_set": true,
+  "tolerance": 1e-12,
+  "tests": [
+    {
+      "kind": "continuous",
+      "case": "distinct",
+      "n_permutations": 120,
+      "mean_spearman": 7.806255641895632e-19
+    },
+    {
+      "kind": "continuous",
+      "case": "ties",
+      "n_permutations": 120,
+      "mean_spearman": 3.7007434154171884e-18
+    },
+    {
+      "kind": "categorical",
+      "case": "three_categories_with_ties",
+      "n_permutations": 120,
+      "mean_spearman": 5.088522196198634e-18
+    },
+    {
+      "kind": "categorical",
+      "case": "binary_imbalanced",
+      "n_permutations": 120,
+      "mean_spearman": 1.3877787807814458e-18
+    }
+  ],
+  "implication": "For the frozen complete unordered-pair trait label-permutation null, the exact null mean Spearman rho is zero; primary trait delta_rho therefore equals observed Spearman rho. Permutations remain for dispersion and diagnostics.",
+  "real_trait_states_opened": false,
+  "real_trait_turnover_outcomes_opened": false
+}

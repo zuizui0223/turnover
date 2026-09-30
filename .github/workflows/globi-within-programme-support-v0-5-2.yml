@@ -1,12 +1,6 @@
 name: GloBI within-programme support v0.5.2
 
 on:
-  pull_request:
-    paths:
-      - 'data/globi_source_semantic_amendment_v0_5_2.json'
-      - 'results/globi_joint_support_v0_4/result_summary.json'
-      - 'scripts/source/audit_globi_within_programme_support_v0_5_2.py'
-      - '.github/workflows/globi-within-programme-support-v0-5-2.yml'
   workflow_dispatch:
 
 permissions:

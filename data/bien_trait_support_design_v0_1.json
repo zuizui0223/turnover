@@ -4,7 +4,7 @@
   "frozen_on": "2026-09-30",
   "source": {
     "id": "BIEN_4_2",
-    "expected_database_version": "4.2",
+    "expected_database_version": "4.2.8",
     "primary_citation_doi": "10.1111/2041-210X.70274",
     "official_data_page": "https://bien.nceas.ucsb.edu/bien/biendata/",
     "rbien_repository": "bmaitner/RBIEN",
@@ -13,7 +13,10 @@
       "host": "vegbiendev.nceas.ucsb.edu",
       "dbname": "public_vegbien",
       "user": "public_bien"
-    }
+    },
+    "public_product_release": "BIEN 4.2",
+    "expected_database_release_date": "2023-06-27",
+    "version_semantics": "BIEN 4.2 is the public release label; BIEN 4.2.8 is the internal metadata database version reported by bien_metadata and documented in the 2026 BIEN paper."
   },
   "purpose": "Determine whether BIEN 4.2 contains enough taxonomically resolved and geographically repeated observation-level trait support for prospective family-by-trait time/space turnover systems before any trait values are inspected.",
   "primary_clade_definition": {
@@ -104,5 +107,6 @@
   "next_gate_if_hold": "Do not relax thresholds. Proceed to the already-frozen second trait source, AusTraits, only because the finite-family rule allows a pre-outcome support/schema/access switch.",
   "biological_trait_values_opened": false,
   "biological_turnover_outcomes_opened": false,
-  "no_posthoc_relaxation": true
+  "no_posthoc_relaxation": true,
+  "version_semantics_amendment": "data/bien_version_semantics_amendment_v0_1_1.json"
 }

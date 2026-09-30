@@ -1,9 +1,6 @@
 name: BIEN trait support exact-equivalent fallback v0.2.3
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/bien-support-v0-2-3'
   workflow_dispatch:
 
 permissions:

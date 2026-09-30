@@ -1,0 +1,35 @@
+{
+  "version": "v0.3.3",
+  "status": "BIEN_TRAIT_SEMANTIC_CONTRACT_RECONCILED_PRE_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "reconciles": [
+    "data/bien_trait_semantic_gate_v0_3_2.json",
+    "data/bien_trait_state_validity_design_v0_3_2.json"
+  ],
+  "chronology": {
+    "structural_support_result_seen_before_reconciliation": false,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "conflict": "The two pre-result v0.3.2 documents differed only in how nominal-categorical nonempty unit tokens were treated.",
+  "resolution_rule": "Use the stricter intersection of both frozen contracts.",
+  "effective_nominal_categorical_unit_rule": {
+    "allowed": "NULL or empty/whitespace-only unit only",
+    "forbidden": "every nonempty unit token, including labels such as unitless, categorical, category, dimensionless, NA or N/A",
+    "reason": "This cannot rescue any candidate and avoids interpreting a nonempty unit token after structural support is known."
+  },
+  "effective_continuous_rule": "unchanged: 100% finite numeric castability and exactly one nonempty unit label; no posthoc conversion",
+  "effective_state_variation_rule": "retain the stricter v0.3.2 state-validity requirement: >=2 temporal species states and >=2 within-species measurement states for each spatially qualifying species",
+  "effective_primary_hold_traits": [
+    "plant flowering begin",
+    "whole plant growth form diversity"
+  ],
+  "direction_of_change": "STRICTER_ONLY",
+  "can_rescue_failure": false,
+  "can_increase_eligible_system_count": false,
+  "thresholds_changed": false,
+  "trait_classification_changed": false,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_relaxation": true
+}

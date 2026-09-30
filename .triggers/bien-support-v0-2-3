@@ -1,0 +1,2 @@
+triggered_on: 2026-10-01
+reason: v0.2.2 timed out/cancelled without returning support results; run the pre-frozen exact-equivalent v0.2.3 fallback with v0.2.4 non-centroid spatial filter.

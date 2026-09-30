@@ -1,0 +1,84 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_SCHEMA_PREFLIGHT_PASS",
+  "evidence_workflow_run": 36737992894,
+  "evidence_workflow_job": 109964635942,
+  "artifact_id": 11107927084,
+  "outcome_blind": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "row_count_query_executed": false,
+  "row_returning_query_executed": false,
+  "row_level_coordinates_returned": false,
+  "source_record": {
+    "version": "7.0.0",
+    "zenodo_record": 15718081,
+    "zenodo_doi": "10.5281/zenodo.15718081",
+    "github_tag_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c"
+  },
+  "file_integrity": {
+    "size_bytes": 43531865,
+    "sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "md5": "a0283adce2c924ffbfee89db9899316f",
+    "pass": true
+  },
+  "n_schema_columns": 68,
+  "required_group_matches": {
+    "dataset_id": [
+      "dataset_id"
+    ],
+    "family": [
+      "family"
+    ],
+    "latitude": [
+      "latitude (deg)"
+    ],
+    "longitude": [
+      "longitude (deg)"
+    ],
+    "observation_id": [
+      "observation_id"
+    ],
+    "taxon_name": [
+      "taxon_name"
+    ],
+    "trait_name": [
+      "trait_name"
+    ],
+    "trait_value": [
+      "value"
+    ],
+    "unit": [
+      "unit"
+    ]
+  },
+  "optional_group_matches": {
+    "basis_of_value": [
+      "basis_of_value"
+    ],
+    "entity_type": [
+      "entity_type"
+    ],
+    "genus": [
+      "genus"
+    ],
+    "location_id": [
+      "location_id",
+      "location_name"
+    ],
+    "taxon_id": [
+      "taxon_id"
+    ],
+    "value_type": [
+      "value_type"
+    ]
+  },
+  "additional_support_fields": {
+    "taxon_rank": "taxon_rank",
+    "binomial": "binomial",
+    "basis_of_record": "basis_of_record"
+  },
+  "missing_required_groups": [],
+  "gate_pass": true,
+  "next_gate": "Freeze AusTraits family x trait grain and aggregate-only support thresholds matched to BIEN before any value or row-level coordinate is returned."
+}

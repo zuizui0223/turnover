@@ -15,6 +15,7 @@ on:
       - 'results/globi_source_semantic_v0_5_3/result.json'
       - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
       - 'results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'
+      - 'results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
       - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
       - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
       - '.github/workflows/programme-contract-v0-1.yml'
@@ -97,9 +98,11 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
 
           tr=json.load(open('data/trait_source_routing_v0_1.json'))
-          assert tr['status']=='TRAIT_PRIMARY_BIEN_PENDING_SECOND_SOURCE_TERMINAL_HOLD'
+          assert tr['status']=='TRAIT_PRIMARY_BIEN_STRUCTURAL_PASS_SECOND_SOURCE_TERMINAL_HOLD'
           assert tr['maximum_primary_trait_sources']==2
           assert tr['first_source']=='BIEN_4_2'
+          assert tr['first_source_state']=='STRUCTURAL_PASS_STATE_VALIDITY_PENDING'
+          assert tr['first_source_result']=='results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
           assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
           assert tr['second_source_state']=='TERMINAL_STRUCTURAL_HOLD'
           assert tr['second_source_terminal']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
@@ -139,7 +142,18 @@ jobs:
           assert ac['raw_trait_values_opened'] is False
           assert ac['biological_turnover_outcomes_opened'] is False
           assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='JOINT_TIME_SPACE_HOLD_STRUCTURAL_SUPPORT'
-          assert by['BIEN_4_2']['metadata_status']=='METADATA_PASS_SUPPORT_PENDING'
+          bs=json.load(open('results/bien_trait_support_v0_2/result_pass_v0_2_4.json'))
+          assert bs['status']=='BIEN_TRAIT_SUPPORT_PASS'
+          assert bs['n_family_trait_systems']==8215
+          assert bs['n_temporal_candidate_systems']==1705
+          assert bs['n_joint_support_family_trait_systems']==73
+          assert bs['n_independent_qualifying_families']==37
+          assert bs['thresholds']['minimum_independent_families']==12
+          assert bs['noncentroid_amendment']=='data/bien_spatial_noncentroid_amendment_v0_2_4.json'
+          assert bs['gate_pass'] is True
+          assert bs['generalized_trait_values_opened'] is False
+          assert bs['biological_turnover_outcomes_opened'] is False
+          assert by['BIEN_4_2']['metadata_status']=='STRUCTURAL_SUPPORT_PASS_STATE_VALIDITY_PENDING'
           assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
 
           z=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))

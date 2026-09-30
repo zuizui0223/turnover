@@ -42,7 +42,8 @@ missing <- setdiff(required, fields)
 observed_version <- if (is.data.frame(version_df) && nrow(version_df) >= 1 && "db_version" %in% names(version_df)) as.character(version_df$db_version[[1]]) else NULL
 
 pass_core <- is.null(transport_error) &&
-  grepl(amend$version_rule$accepted_prefix_regex, observed_version) &&
+  !is.null(observed_version) &&
+  grepl(amend$version_rule$accepted_prefix_regex, observed_version, perl = TRUE) &&
   identical(observed_version, amend$version_rule$downstream_exact_patch_pin) &&
   length(missing) == 0 &&
   !is.null(n_rows) && is.finite(n_rows) && n_rows > 0 &&

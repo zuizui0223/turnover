@@ -1,0 +1,43 @@
+{
+  "version": "v0.1.1",
+  "status": "BIEN_PATCH_VERSION_CONTRACT_AMENDED_PREVALUE",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_metadata_preflight_design_v0_1.json",
+  "trigger_result": "results/bien_metadata_preflight_v0_1/result_hold.json",
+  "trigger": {
+    "original_required_version": "4.2",
+    "observed_database_version": "4.2.8",
+    "observed_database_release_date": "2023-06-27",
+    "observed_trait_count": 54,
+    "observed_row_count": 25932628,
+    "missing_required_fields": [],
+    "transport_error": null
+  },
+  "interpretation": "The source contract named the BIEN 4.2 release family, while the live database reports the patch-level identifier 4.2.8. This is a version-granularity mismatch detected before trait values or biological outcomes.",
+  "version_rule": {
+    "accepted_release_family": "4.2.x",
+    "accepted_prefix_regex": "^4\\\\.2(?:\\\\.|$)",
+    "downstream_exact_patch_pin": "4.2.8",
+    "downstream_rule": "All subsequent BIEN support queries in this prospective lane must first verify exact live db_version=4.2.8. If it changes, stop and rerun source qualification before any trait values are opened."
+  },
+  "unchanged": {
+    "source": "BIEN public database",
+    "source_family": "BIEN 4.2",
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "rbien_package_version": "1.2.9",
+    "trait_vocabulary_reference": 54,
+    "required_schema_fields": true,
+    "biological_support_thresholds": true,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "allowed_change": "version matching semantics only",
+  "forbidden_changes": [
+    "trait selection by observed effect",
+    "support-threshold relaxation",
+    "source substitution",
+    "trait-value opening",
+    "turnover opening"
+  ],
+  "no_posthoc_biological_relaxation": true
+}

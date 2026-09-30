@@ -44,6 +44,13 @@ jobs:
           assert d['scientific_equivalence']['spatial_min_cells_per_species']==5
           assert d['scientific_equivalence']['spatial_min_species_per_family_trait']==8
           assert d['scientific_equivalence']['minimum_independent_families']==12
+          a=json.load(open('data/bien_spatial_noncentroid_amendment_v0_2_4.json'))
+          assert a['status']=='BIEN_SPATIAL_NONCENTROID_FILTER_FROZEN_PRE_SUPPORT_RESULT'
+          assert a['direction_of_change']=='STRICTER_ONLY'
+          assert a['can_rescue_failure'] is False
+          assert a['can_increase_spatial_support'] is False
+          assert a['support_thresholds_changed'] is False
+          assert 'is_centroid NULL/0' in d['scientific_equivalence']['geovalid_rule']
           PY
       - name: Run two-stage aggregate-only fallback
         env:

@@ -8,6 +8,8 @@ on:
       - 'data/interaction_source_routing_v0_1.json'
       - 'data/trait_source_routing_v0_1.json'
       - 'results/austraits_trait_support_v0_2/result.json'
+      - 'results/austraits_observation_id_v0_2_1/result.json'
+      - 'data/austraits_record_key_fix_v0_2_2.json'
       - 'results/mangal_species_rank_support_v0_1/result.json'
       - 'results/globi_source_semantic_v0_5_3/result.json'
       - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
@@ -94,11 +96,11 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
 
           tr=json.load(open('data/trait_source_routing_v0_1.json'))
-          assert tr['status']=='TRAIT_PRIMARY_BIEN_PENDING_SECOND_SOURCE_HOLD'
+          assert tr['status']=='TRAIT_PRIMARY_BIEN_PENDING_AUSTRAITS_TECHNICAL_RECHECK'
           assert tr['maximum_primary_trait_sources']==2
           assert tr['first_source']=='BIEN_4_2'
           assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
-          assert tr['second_source_terminal']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert tr['second_source_state']=='RECHECK_AUSTRAITS_COMPOSITE_RECORD_KEY'
           assert tr['further_primary_trait_source_allowed'] is False
           assert tr['raw_trait_values_opened'] is False
           assert tr['biological_trait_turnover_outcomes_opened'] is False
@@ -110,10 +112,21 @@ jobs:
           assert a['n_joint_support_family_trait_systems']==10
           assert a['n_independent_qualifying_families']==3
           assert a['thresholds']['minimum_independent_families']==12
-          assert a['gate_pass'] is False
           assert a['raw_trait_values_opened'] is False
           assert a['biological_turnover_outcomes_opened'] is False
-          assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='JOINT_TIME_SPACE_HOLD_STRUCTURAL_SUPPORT'
+
+          aid=json.load(open('results/austraits_observation_id_v0_2_1/result.json'))
+          assert aid['status']=='HOLD_AUSTRAITS_OBSERVATION_ID_NOT_GLOBAL'
+          assert aid['cross_dataset_colliding_ids']==39207
+          assert aid['distinct_observation_ids']==39598
+          assert aid['distinct_composite_ids']==425711
+          assert aid['v0_2_record_identity_validated'] is False
+          fix=json.load(open('data/austraits_record_key_fix_v0_2_2.json'))
+          assert fix['status']=='AUSTRAITS_COMPOSITE_RECORD_KEY_FIXED_POST_SUPPORT_PRE_OUTCOME'
+          assert fix['thresholds_changed'] is False
+          assert fix['source_changed'] is False
+          assert fix['third_source_allowed'] is False
+          assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='SUPPORT_RECHECK_PENDING_RECORD_ID'
           assert by['BIEN_4_2']['metadata_status']=='METADATA_PASS_SUPPORT_PENDING'
           assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
 

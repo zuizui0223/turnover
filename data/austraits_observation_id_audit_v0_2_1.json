@@ -1,0 +1,25 @@
+{
+  "version": "v0.2.1",
+  "status": "AUSTRAITS_OBSERVATION_ID_IDENTITY_AUDIT_POST_SUPPORT_PRE_OUTCOME",
+  "frozen_on": "2026-10-01",
+  "prerequisite": "results/austraits_trait_support_v0_2/result.json",
+  "source_version": "7.0.0",
+  "purpose": "Verify whether observation_id is globally unique across dataset_id in the exact pinned flattened release, because the v0.2 structural support gate counted distinct observation_id as measurement records.",
+  "aggregate_only": true,
+  "raw_rows_returned": false,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "checks": [
+    "count nonempty observation_id values",
+    "count distinct observation_id",
+    "count distinct dataset_id + observation_id composite keys",
+    "count observation_id values associated with more than one distinct dataset_id",
+    "maximum number of datasets associated with one observation_id"
+  ],
+  "decision": {
+    "zero_cross_dataset_collisions": "v0.2 record identity is validated; HOLD_AUSTRAITS_TRAIT_SUPPORT remains terminal under the frozen thresholds.",
+    "any_cross_dataset_collision": "v0.2 support result is technically non-terminal because distinct observation_id may undercount records. Re-run the identical biological gate with (dataset_id, observation_id) as the record key; no threshold, rank, cell, or trait rule may change."
+  },
+  "can_lower_thresholds": false,
+  "can_add_third_trait_source": false
+}

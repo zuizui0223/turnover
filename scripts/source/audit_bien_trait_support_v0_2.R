@@ -29,7 +29,7 @@ version_df <- BIEN_metadata_database_version()
 observed_version <- if (is.data.frame(version_df) && nrow(version_df) >= 1) as.character(version_df$db_version[[1]]) else NA_character_
 if (!identical(observed_version, design$source$exact_patch_pin)) {
   result <- list(
-    version="v0.2.1",
+    version="v0.2.2",
     status="HOLD_BIEN_PATCH_CHANGED_BEFORE_SUPPORT",
     outcome_blind=TRUE,
     generalized_trait_values_opened=FALSE,
@@ -150,11 +150,11 @@ ORDER BY t.family,t.trait_name
 ;",
 min_temp,R,std,cell,R,std,cell,min_geo,min_cells,min_temp,min_spatial)
 
-if (grepl("SELECT[[:space:]]+[^;]*trait_value", sql, ignore.case=TRUE, perl=TRUE)) stop("outcome firewall: trait_value selected")
 if (!grepl("trait_value IS NOT NULL", sql, fixed=TRUE)) stop("validity firewall: trait_value presence predicate missing")
 
 support <- .BIEN_sql(sql)
 if (!is.data.frame(support)) stop("BIEN support query returned no dataframe")
+if ("trait_value" %in% names(support)) stop("outcome firewall: trait_value returned")
 write.csv(support,table_path,row.names=FALSE,na="")
 
 pass_rows <- support[which(support$joint_support_pass %in% c(TRUE,"TRUE","t","1",1)),,drop=FALSE]

@@ -1,0 +1,18 @@
+{
+  "version": "v0.2.1",
+  "status": "HOLD_AUSTRAITS_OBSERVATION_ID_NOT_GLOBAL",
+  "evidence_workflow_run": 36741823200,
+  "evidence_workflow_job": 109977856853,
+  "artifact_id": 11110788872,
+  "outcome_blind": true,
+  "raw_rows_returned": false,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "rows_with_ids": 1798215,
+  "distinct_observation_ids": 39598,
+  "distinct_composite_ids": 425711,
+  "cross_dataset_colliding_ids": 39207,
+  "max_datasets_per_observation_id": 178,
+  "v0_2_record_identity_validated": false,
+  "consequence": "The v0.2 structural HOLD is non-terminal because counting DISTINCT observation_id alone undercounts measurements across datasets. Re-run the identical biological support gate with (dataset_id, observation_id) as the record key."
+}

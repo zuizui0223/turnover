@@ -1,0 +1,23 @@
+{
+  "version": "v0.1",
+  "status": "HOLD_BIEN_METADATA_PREFLIGHT_VERSION_EXACT_MISMATCH",
+  "workflow_run": 36725408639,
+  "workflow_job": 109920892140,
+  "artifact_id": 11101169434,
+  "outcome_blind": true,
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "row_level_trait_records_returned": false,
+  "row_level_coordinates_returned": false,
+  "transport_error": null,
+  "original_required_version": "4.2",
+  "observed_database_version": "4.2.8",
+  "observed_database_release_date": "2023-06-27",
+  "agg_traits_row_count": 25932628,
+  "missing_required_fields": [],
+  "n_trait_names": 54,
+  "reference_trait_count": 54,
+  "trait_count_matches_reference": true,
+  "gate_pass": false,
+  "diagnosis": "All source/schema/vocabulary checks passed except exact string equality of the BIEN 4.2 family label versus the live patch version 4.2.8. No trait values or biological outcomes were opened."
+}

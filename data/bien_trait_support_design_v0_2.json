@@ -24,7 +24,9 @@
       "trait_name"
     ],
     "cultivated_primary": "include only records where is_cultivated_observation = 0 OR is_cultivated_observation IS NULL",
-    "rationale": "Exclude records explicitly marked cultivated while retaining unknown status, matching BIEN's conservative non-cultivated query convention as closely as agg_traits permits."
+    "rationale": "Exclude records explicitly marked cultivated while retaining unknown status, matching BIEN's conservative non-cultivated query convention as closely as agg_traits permits.",
+    "require_nonmissing_trait_value": true,
+    "trait_value_use": "presence predicate only; never selected or returned"
   },
   "temporal_support": {
     "minimum_species_per_family_trait": 20,
@@ -89,5 +91,6 @@
   "next_gate_if_pass": "Freeze trait representation/type, unit semantics, plant phylogeny crosswalk and observed-geometry informativeness simulations for the structurally qualifying family x trait systems before any trait values are opened.",
   "next_gate_if_hold": "Do not lower 20/8/20/5 or 12-family thresholds. Move to the already-frozen second trait source AusTraits only if the finite-family source-switch rule permits the BIEN structural HOLD.",
   "generalized_trait_values_opened": false,
-  "biological_turnover_outcomes_opened": false
+  "biological_turnover_outcomes_opened": false,
+  "amendment": "data/bien_trait_support_amendment_v0_2_1.json"
 }

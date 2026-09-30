@@ -103,7 +103,7 @@ continuous_rows AS (
   SELECT *,
     CASE
       WHEN value_text ~ '^[[:space:]]*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[[:space:]]*$'
-      THEN value_text::double precision
+      THEN value_text::numeric
       ELSE NULL
     END AS value_num
   FROM base
@@ -112,8 +112,8 @@ continuous_rows AS (
 continuous_system AS (
   SELECT family,trait_name,
     count(*) AS n_total,
-    count(value_num) FILTER (WHERE isfinite(value_num)) AS n_numeric_valid,
-    count(*) - count(value_num) FILTER (WHERE isfinite(value_num)) AS n_invalid,
+    count(value_num) AS n_numeric_valid,
+    count(*) - count(value_num) AS n_invalid,
     count(DISTINCT unit) FILTER (WHERE unit IS NOT NULL AND trim(unit)<>'') AS distinct_units,
     string_agg(DISTINCT unit,' | ' ORDER BY unit) FILTER (WHERE unit IS NOT NULL AND trim(unit)<>'') AS unit_labels
   FROM continuous_rows
@@ -123,7 +123,7 @@ continuous_species_state AS (
   SELECT family,trait_name,species,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY value_num) AS species_median
   FROM continuous_rows
-  WHERE value_num IS NOT NULL AND isfinite(value_num)
+  WHERE value_num IS NOT NULL
   GROUP BY family,trait_name,species
 ),
 continuous_temporal AS (
@@ -138,7 +138,7 @@ continuous_geo AS (
     floor((%f*radians(longitude)*cos(%f))/%f)::bigint AS cell_x,
     floor((%f*sin(radians(latitude))/cos(%f))/%f)::bigint AS cell_y
   FROM continuous_rows
-  WHERE value_num IS NOT NULL AND isfinite(value_num)
+  WHERE value_num IS NOT NULL
     AND is_geovalid=1
     AND latitude BETWEEN -90 AND 90
     AND longitude BETWEEN -180 AND 180

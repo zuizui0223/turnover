@@ -8,6 +8,7 @@ on:
       - 'data/interaction_source_routing_v0_1.json'
       - 'data/trait_source_routing_v0_1.json'
       - 'results/austraits_trait_support_v0_2/result.json'
+      - 'results/austraits_trait_support_v0_2_2/result.json'
       - 'results/austraits_observation_id_v0_2_1/result.json'
       - 'data/austraits_record_key_fix_v0_2_2.json'
       - 'results/mangal_species_rank_support_v0_1/result.json'
@@ -96,11 +97,12 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
 
           tr=json.load(open('data/trait_source_routing_v0_1.json'))
-          assert tr['status']=='TRAIT_PRIMARY_BIEN_PENDING_AUSTRAITS_TECHNICAL_RECHECK'
+          assert tr['status']=='TRAIT_PRIMARY_BIEN_PENDING_SECOND_SOURCE_TERMINAL_HOLD'
           assert tr['maximum_primary_trait_sources']==2
           assert tr['first_source']=='BIEN_4_2'
           assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
-          assert tr['second_source_state']=='RECHECK_AUSTRAITS_COMPOSITE_RECORD_KEY'
+          assert tr['second_source_state']=='TERMINAL_STRUCTURAL_HOLD'
+          assert tr['second_source_terminal']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
           assert tr['further_primary_trait_source_allowed'] is False
           assert tr['raw_trait_values_opened'] is False
           assert tr['biological_trait_turnover_outcomes_opened'] is False
@@ -126,7 +128,17 @@ jobs:
           assert fix['thresholds_changed'] is False
           assert fix['source_changed'] is False
           assert fix['third_source_allowed'] is False
-          assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='SUPPORT_RECHECK_PENDING_RECORD_ID'
+          ac=json.load(open('results/austraits_trait_support_v0_2_2/result.json'))
+          assert ac['status']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert ac['record_key']=='dataset_id + ASCII unit-separator + observation_id'
+          assert ac['n_family_trait_systems']==30821
+          assert ac['n_joint_support_family_trait_systems']==10
+          assert ac['n_independent_qualifying_families']==3
+          assert ac['thresholds']['minimum_independent_families']==12
+          assert ac['gate_pass'] is False
+          assert ac['raw_trait_values_opened'] is False
+          assert ac['biological_turnover_outcomes_opened'] is False
+          assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='JOINT_TIME_SPACE_HOLD_STRUCTURAL_SUPPORT'
           assert by['BIEN_4_2']['metadata_status']=='METADATA_PASS_SUPPORT_PENDING'
           assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
 

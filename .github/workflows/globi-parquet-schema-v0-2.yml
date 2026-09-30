@@ -1,13 +1,6 @@
 name: GloBI Parquet schema v0.2
 
 on:
-  pull_request:
-    paths:
-      - 'data/globi_parquet_schema_design_v0_2.json'
-      - 'data/globi_file_format_amendment_v0_2.json'
-      - 'results/globi_stable_archive_preflight_v0_1/result.json'
-      - 'scripts/source/audit_globi_parquet_schema_v0_2.py'
-      - '.github/workflows/globi-parquet-schema-v0-2.yml'
   workflow_dispatch:
 
 permissions:

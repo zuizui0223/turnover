@@ -1,15 +1,6 @@
 name: BIEN metadata preflight v0.1
 
 on:
-  pull_request:
-    paths:
-      - 'data/bien_metadata_preflight_design_v0_1.json'
-      - 'data/bien_version_amendment_v0_1_1.json'
-      - 'data/bien_version_regex_fix_v0_1_2.json'
-      - 'results/bien_metadata_preflight_v0_1/result_hold.json'
-      - 'results/bien_metadata_preflight_v0_1/result_hold_v0_1_1.json'
-      - 'scripts/source/audit_bien_metadata_preflight_v0_1.R'
-      - '.github/workflows/bien-metadata-preflight-v0-1.yml'
   workflow_dispatch:
 
 permissions:

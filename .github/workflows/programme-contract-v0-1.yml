@@ -8,6 +8,8 @@ on:
       - 'data/interaction_source_routing_v0_1.json'
       - 'results/mangal_species_rank_support_v0_1/result.json'
       - 'results/globi_source_semantic_v0_5_3/result.json'
+      - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
+      - 'results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'
       - '.github/workflows/programme-contract-v0-1.yml'
   workflow_dispatch:
 
@@ -64,8 +66,28 @@ jobs:
           assert g['biological_turnover_outcomes_opened'] is False
           assert g['interaction_primary_route']=='STOP'
 
+          b=json.load(open('results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'))
+          assert b['status']=='BIEN_METADATA_PREFLIGHT_PASS'
+          assert b['observed_database_version']=='4.2.8'
+          assert b['agg_traits_row_count']==25932628
+          assert b['n_trait_names']==54
+          assert b['gate_pass'] is True
+          assert b['generalized_trait_values_opened'] is False
+          assert b['biological_turnover_outcomes_opened'] is False
+
+          p=json.load(open('results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'))
+          assert p['status']=='BIEN_PHYLOGENY_SOURCE_PASS'
+          assert p['commit']=='7af3fb5152f691af2e4ec9d5e2e467d1b50505e9'
+          assert p['backbone']=='GBOTB.extended.TPL'
+          assert p['observed_tip_count']==74529
+          assert p['raw_tip_set_match'] is True
+          assert p['gate_pass'] is True
+          assert p['generalized_trait_values_opened'] is False
+
           rows=list(csv.DictReader(open('data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv')))
           by={x['source_id']:x for x in rows}
           assert by['MANGAL_CURATED_NETWORKS']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SPECIES_RANK_SUPPORT'
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
+          assert by['BIEN_4_2']['metadata_status']=='METADATA_PASS_SUPPORT_PENDING'
+          assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
           PY

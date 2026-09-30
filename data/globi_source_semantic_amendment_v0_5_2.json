@@ -1,0 +1,36 @@
+{
+  "version": "v0.5.2",
+  "status": "WITHIN_PROGRAMME_SUPPORT_RECHECK_FROZEN_BEFORE_SEMANTIC_PASS_ASSIGNMENT",
+  "frozen_on": "2026-09-30",
+  "amends": [
+    "data/globi_source_semantic_design_v0_5.json",
+    "data/globi_source_semantic_amendment_v0_5_1.json"
+  ],
+  "reason": "A sourceNamespace may aggregate multiple unrelated studies. Structural eligibility must not be created by pooling focal taxa and site-years across unrelated underlying programmes.",
+  "programme_identity_hierarchy": [
+    "non-empty referenceDoi",
+    "else non-empty normalized referenceCitation",
+    "else non-empty sourceDOI",
+    "else non-empty normalized sourceCitation"
+  ],
+  "normalization": {
+    "doi": "trim, lowercase, remove leading https://doi.org/, http://doi.org/, doi:",
+    "citation": "trim and collapse internal whitespace only; do not fuzzy-match distinct citations"
+  },
+  "within_programme_gate": {
+    "temporal_min_focal_taxa_with_3plus_partners": 20,
+    "spatial_min_site_year_strata": 5,
+    "spatial_min_repeated_focal_taxa": 10,
+    "site_year_definition": "exact valid decimalLatitude x decimalLongitude x four-digit event year",
+    "repeated_focal_definition": "same sourceTaxonSpeciesName in at least two distinct valid site-year strata",
+    "species_rule": "both sourceTaxonSpeciesName and targetTaxonSpeciesName non-empty"
+  },
+  "namespace_semantic_candidate_rule": "A v0.4 qualifying sourceNamespace remains eligible for source-method adjudication only if at least one provenance-resolved programme block independently passes all within-programme structural thresholds.",
+  "independent_count_rule": "For the >=12 gate, a sourceNamespace contributes at most one unit even if multiple internal programme blocks pass; v0.5.1 mirror/provenance deduplication can only reduce this further.",
+  "can_rescue_v0_4_failure": false,
+  "can_increase_independent_count_relative_to_v0_4": false,
+  "biological_thresholds_changed": false,
+  "turnover_outcomes_opened": false,
+  "next_if_below_12": "Stop the primary joint interaction arm before semantic-method adjudication because fewer than 12 independent namespaces can satisfy the frozen joint support criteria at the correct programme grain.",
+  "next_if_at_least_12": "Proceed to the already-frozen source-semantic and effort adjudication only for namespaces with at least one within-programme PASS block."
+}

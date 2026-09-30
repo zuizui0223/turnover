@@ -86,5 +86,17 @@
   "next_gate_if_pass": "Freeze and execute a source-semantic network audit for every qualifying sourceNamespace, requiring evidence that repeated location/time strata represent comparable ecological interaction sampling rather than opportunistic occurrence/specimen aggregation. Freeze relation-direction and interaction-family semantics before any turnover response.",
   "next_gate_if_hold": "Stop the primary joint GloBI interaction route. The finite-family rule forbids a third primary interaction source.",
   "no_posthoc_relaxation": true,
-  "biological_turnover_outcomes_opened": false
+  "biological_turnover_outcomes_opened": false,
+  "transport_policy_amendment": "data/globi_transport_amendment_v0_4_1.json",
+  "transport_policy": {
+    "maximum_attempts_per_workflow": 3,
+    "backoff_seconds": [
+      0,
+      20,
+      60
+    ],
+    "terminal_status_after_exhaustion": "HOLD_GLOBI_SUPPORT_TRANSPORT_PERSISTENT",
+    "rule": "Transient transport failures are retried without changing source, file, projected columns, support thresholds, or biological rules. A biological support HOLD is returned only after the support query completes."
+  },
+  "next_gate_if_persistent_transport_hold": "Stop the primary joint GloBI interaction route after the frozen transport retry budget is exhausted. The finite-family rule forbids a third primary interaction source."
 }

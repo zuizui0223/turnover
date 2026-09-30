@@ -13,6 +13,7 @@ dir.create(dirname(out_path), recursive = TRUE, showWarnings = FALSE)
 root <- normalizePath(".")
 design <- fromJSON(file.path(root, "data", "bien_metadata_preflight_design_v0_1.json"), simplifyVector = FALSE)
 amend <- fromJSON(file.path(root, "data", "bien_version_amendment_v0_1_1.json"), simplifyVector = FALSE)
+regex_fix <- fromJSON(file.path(root, "data", "bien_version_regex_fix_v0_1_2.json"), simplifyVector = FALSE)
 
 rbien_dir <- Sys.getenv("RBIEN_SOURCE_DIR", unset = "build/RBIEN")
 source(file.path(rbien_dir, "R", "internals.R"))
@@ -43,16 +44,17 @@ observed_version <- if (is.data.frame(version_df) && nrow(version_df) >= 1 && "d
 
 pass_core <- is.null(transport_error) &&
   !is.null(observed_version) &&
-  grepl(amend$version_rule$accepted_prefix_regex, observed_version, perl = TRUE) &&
-  identical(observed_version, amend$version_rule$downstream_exact_patch_pin) &&
+  grepl(regex_fix$corrected_prefix_regex, observed_version, perl = TRUE) &&
+  identical(observed_version, regex_fix$downstream_exact_patch_pin) &&
   length(missing) == 0 &&
   !is.null(n_rows) && is.finite(n_rows) && n_rows > 0 &&
   length(traits) > 0
 
 result <- list(
-  version = "v0.1.1",
+  version = "v0.1.2",
   status = if (pass_core) "BIEN_METADATA_PREFLIGHT_PASS" else "HOLD_BIEN_METADATA_PREFLIGHT",
   version_amendment = "data/bien_version_amendment_v0_1_1.json",
+  technical_regex_fix = "data/bien_version_regex_fix_v0_1_2.json",
   design = "data/bien_metadata_preflight_design_v0_1.json",
   outcome_blind = TRUE,
   generalized_trait_values_opened = FALSE,
@@ -63,7 +65,8 @@ result <- list(
   database_version_rows = version_rows,
   observed_database_version = observed_version,
   accepted_release_family = amend$version_rule$accepted_release_family,
-  downstream_exact_patch_pin = amend$version_rule$downstream_exact_patch_pin,
+  corrected_prefix_regex = regex_fix$corrected_prefix_regex,
+  downstream_exact_patch_pin = regex_fix$downstream_exact_patch_pin,
   agg_traits_row_count = n_rows,
   agg_traits_schema = schema_rows,
   missing_required_fields = as.list(missing),

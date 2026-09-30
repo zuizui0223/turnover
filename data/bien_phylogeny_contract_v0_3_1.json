@@ -1,0 +1,62 @@
+{
+  "version": "v0.3.1",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING",
+  "frozen_on": "2026-09-30",
+  "chronology": {
+    "bien_support_result_seen_before_freeze": false,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "purpose": "Fix the dated vascular-plant phylogeny source and crosswalk rules before learning which BIEN family x trait systems qualify structurally.",
+  "phylogeny_source": {
+    "repository": "jinyizju/V.PhyloMaker2",
+    "commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "citation": "Jin & Qian 2022, Plant Diversity, DOI 10.1016/j.pld.2022.05.005",
+    "backbone": "GBOTB.extended.TPL",
+    "node_table": "nodes.info.1.TPL",
+    "documented_backbone_tip_count": 74529,
+    "reason": "This is the package default dated vascular-plant megatree and was named in the original programme source matrix before BIEN outcomes."
+  },
+  "construction": {
+    "function": "phylo.maker",
+    "scenario": "S3",
+    "species_input": "BIEN scrubbed_species_binomial with BIEN scrubbed genus and family",
+    "status_tracking": [
+      "prune",
+      "bind",
+      "fail to bind"
+    ],
+    "rule": "No outcome-informed switching among S1/S2/S3 or TPL/LCVP/WP backbones."
+  },
+  "temporal_primary": {
+    "tree": "S3 tree for the eligible BIEN species list",
+    "allow_status": [
+      "prune",
+      "bind"
+    ],
+    "separation": "patristic distance normalized within family x trait as frozen in the core programme",
+    "failed_bind": "exclude deterministically"
+  },
+  "mandatory_backbone_native_sensitivity": {
+    "include_status": [
+      "prune"
+    ],
+    "minimum_native_species_per_family_trait": 20,
+    "admission_rule": "A family x trait system cannot enter the primary cross-axis H1/H2 synthesis unless the prune-only backbone-native subset independently retains at least the original temporal minimum of 20 species.",
+    "reason": "The mandatory sensitivity must itself be estimable rather than becoming a token analysis based on a handful of directly represented tips."
+  },
+  "reporting": [
+    "number and fraction of prune/bind/fail-to-bind species per family x trait",
+    "primary S3 delta_rho",
+    "prune-only sensitivity delta_rho",
+    "whether sign/direction agrees"
+  ],
+  "forbidden": [
+    "fuzzy taxonomic matching chosen after turnover results",
+    "switching backbone by fit",
+    "dropping bound tips only when they weaken an effect",
+    "using Open Tree synthetic branch lengths as calibrated time"
+  ],
+  "crosswalk_gate_after_structural_support": "Run only on structurally qualifying family x trait systems; this reduces computation but does not alter the pre-frozen crosswalk/admission rules.",
+  "no_posthoc_relaxation": true
+}

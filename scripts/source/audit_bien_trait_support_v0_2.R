@@ -176,7 +176,7 @@ qualifying <- if (nrow(pass_rows)) {
 } else list()
 
 result <- list(
-  version="v0.2",
+  version="v0.2.2",
   status=if (gate) "BIEN_TRAIT_SUPPORT_PASS" else "HOLD_BIEN_TRAIT_SUPPORT",
   design="data/bien_trait_support_design_v0_2.json",
   outcome_blind=TRUE,

@@ -10,8 +10,7 @@ if (length(args) != 2 || args[[1]] != "--out") stop("usage: audit_bien_metadata_
 out_path <- args[[2]]
 dir.create(dirname(out_path), recursive = TRUE, showWarnings = FALSE)
 
-root <- normalizePath(file.path(dirname(sys.frame(1)$ofile %||% "scripts/source/audit_bien_metadata_preflight_v0_1.R"), "..", ".."), mustWork = FALSE)
-if (!file.exists(file.path(root, "data", "bien_metadata_preflight_design_v0_1.json"))) root <- normalizePath(".")
+root <- normalizePath(".")
 design <- fromJSON(file.path(root, "data", "bien_metadata_preflight_design_v0_1.json"), simplifyVector = FALSE)
 
 rbien_dir <- Sys.getenv("RBIEN_SOURCE_DIR", unset = "build/RBIEN")

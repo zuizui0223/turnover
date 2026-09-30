@@ -98,5 +98,18 @@
     "terminal_status_after_exhaustion": "HOLD_GLOBI_SUPPORT_TRANSPORT_PERSISTENT",
     "rule": "Transient transport failures are retried without changing source, file, projected columns, support thresholds, or biological rules. A biological support HOLD is returned only after the support query completes."
   },
-  "next_gate_if_persistent_transport_hold": "Stop the primary joint GloBI interaction route after the frozen transport retry budget is exhausted. The finite-family rule forbids a third primary interaction source."
+  "next_gate_if_persistent_transport_hold": "Stop the primary joint GloBI interaction route after the frozen transport retry budget is exhausted. The finite-family rule forbids a third primary interaction source.",
+  "support_transport": {
+    "active": "TSV_LOCAL_FALLBACK",
+    "activation_amendment": "data/globi_tsv_support_fallback_v0_4_2.json",
+    "fallback_file": {
+      "key": "interactions.tsv.gz",
+      "size": 2459603806,
+      "checksum": "md5:c07ce1a5895b5bbcb822c7fb90f920c9",
+      "url": "https://zenodo.org/api/records/22691479/files/interactions.tsv.gz/content"
+    },
+    "header_gate": "require all projected_columns exactly before any support aggregation",
+    "remote_random_access": false,
+    "raw_edge_persistence": false
+  }
 }

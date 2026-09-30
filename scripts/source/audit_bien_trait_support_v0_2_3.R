@@ -79,6 +79,8 @@ geo AS (
  JOIN candidates c ON a.scrubbed_family=c.family AND a.trait_name=c.trait_name
  WHERE %s
    AND a.is_geovalid=1
+   AND (a.is_centroid IS NULL OR a.is_centroid=0)
+   AND (a.georef_protocol IS NULL OR a.georef_protocol<>'county centroid')
    AND a.latitude BETWEEN -90 AND 90
    AND a.longitude BETWEEN -180 AND 180
 ),

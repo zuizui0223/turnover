@@ -1,0 +1,37 @@
+{
+  "version": "v0.4.1",
+  "status": "TRANSPORT_RETRY_POLICY_FROZEN_AFTER_ZERO_ROW_HTTP_429",
+  "frozen_on": "2026-09-30",
+  "trigger": {
+    "workflow_run": 36621977131,
+    "first_attempt_status": "HOLD_GLOBI_SUPPORT_TRANSPORT",
+    "error": "HTTP 429 Too Many Requests",
+    "support_query_executed": false,
+    "interaction_rows_opened_for_support_only": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "changes": {
+    "biological_thresholds_changed": false,
+    "source_changed": false,
+    "file_changed": false,
+    "projected_columns_changed": false,
+    "study_source_rule_changed": false,
+    "system_rule_changed": false,
+    "species_rank_rule_changed": false,
+    "spatial_support_proxy_changed": false,
+    "transport_only": true
+  },
+  "retry_policy": {
+    "maximum_attempts_per_workflow": 3,
+    "backoff_seconds": [0, 20, 60],
+    "retriable_classes": [
+      "HTTP 429",
+      "HTTP 5xx",
+      "timeout",
+      "temporary connection failure",
+      "connection reset"
+    ],
+    "terminal_rule": "Only after the frozen retry budget is exhausted without a completed support query is the GloBI route classified as persistent transport HOLD.",
+    "reason": "A transient repository rate limit before any row is returned is an execution failure, not evidence that the frozen biological support gate failed."
+  }
+}

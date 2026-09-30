@@ -5,7 +5,9 @@ on:
     paths:
       - 'data/bien_metadata_preflight_design_v0_1.json'
       - 'data/bien_version_amendment_v0_1_1.json'
+      - 'data/bien_version_regex_fix_v0_1_2.json'
       - 'results/bien_metadata_preflight_v0_1/result_hold.json'
+      - 'results/bien_metadata_preflight_v0_1/result_hold_v0_1_1.json'
       - 'scripts/source/audit_bien_metadata_preflight_v0_1.R'
       - '.github/workflows/bien-metadata-preflight-v0-1.yml'
   workflow_dispatch:
@@ -58,6 +60,16 @@ jobs:
           assert a['version_rule']['downstream_exact_patch_pin']=='4.2.8'
           assert a['unchanged']['generalized_trait_values_opened'] is False
           assert a['unchanged']['biological_turnover_outcomes_opened'] is False
+          h2=json.load(open('results/bien_metadata_preflight_v0_1/result_hold_v0_1_1.json'))
+          f=json.load(open('data/bien_version_regex_fix_v0_1_2.json'))
+          assert h2['status']=='HOLD_BIEN_METADATA_PREFLIGHT_REGEX_ENCODING'
+          assert h2['generalized_trait_values_opened'] is False
+          assert h2['biological_turnover_outcomes_opened'] is False
+          assert f['status']=='BIEN_VERSION_REGEX_ENCODING_FIXED_PREVALUE'
+          assert f['semantic_version_rule_unchanged'] is True
+          assert f['downstream_exact_patch_pin']=='4.2.8'
+          assert f['unchanged']['generalized_trait_values_opened'] is False
+          assert f['unchanged']['biological_turnover_outcomes_opened'] is False
           PY
 
       - name: Audit BIEN identity schema and trait vocabulary only
@@ -78,8 +90,9 @@ jobs:
           assert x['biological_turnover_outcomes_opened'] is False
           assert x['row_level_trait_records_returned'] is False
           assert x['row_level_coordinates_returned'] is False
-          assert x['version']=='v0.1.1'
+          assert x['version']=='v0.1.2'
           assert x['version_amendment']=='data/bien_version_amendment_v0_1_1.json'
+          assert x['technical_regex_fix']=='data/bien_version_regex_fix_v0_1_2.json'
           assert x['status'] in {'BIEN_METADATA_PREFLIGHT_PASS','HOLD_BIEN_METADATA_PREFLIGHT'}
           PY
 

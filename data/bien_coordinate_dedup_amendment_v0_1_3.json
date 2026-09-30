@@ -1,0 +1,29 @@
+{
+  "version": "v0.1.3",
+  "status": "BIEN_COORDINATE_DEDUP_OPTIMIZED_BEFORE_ANY_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_support_query_plan_amendment_v0_1_2.json",
+  "trigger": {
+    "workflow_run": 36720922558,
+    "state_when_amended": "optimized support query still in progress",
+    "support_result_returned": false,
+    "trait_values_opened": false,
+    "biological_outcomes_opened": false
+  },
+  "semantic_equivalence": {
+    "occupied_cell_property": "The set of occupied 25-km cells depends only on distinct coordinates, not on duplicate rows at the same coordinate.",
+    "crs": "unchanged: EPSG:6933",
+    "cell_size_m": 25000,
+    "floor_cell_rule": "unchanged",
+    "all_thresholds": "unchanged"
+  },
+  "plan_change": [
+    "after the >=20 distinct-record species prefilter, reduce rows to distinct family x trait x species x latitude x longitude",
+    "apply EPSG:6933 transformation only to those distinct coordinates",
+    "count distinct frozen 25-km cell identifiers exactly as before"
+  ],
+  "direction": "EXECUTION_PLAN_ONLY",
+  "biological_thresholds_changed": false,
+  "candidate_definition_changed": false,
+  "no_posthoc_relaxation": true
+}

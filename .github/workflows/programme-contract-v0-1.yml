@@ -17,6 +17,7 @@ on:
       - 'results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'
       - 'results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
       - 'results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json'
+      - 'results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'
       - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
       - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
       - '.github/workflows/programme-contract-v0-1.yml'
@@ -99,10 +100,10 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
 
           tr=json.load(open('data/trait_source_routing_v0_1.json'))
-          assert tr['status']=='TRAIT_PRIMARY_BIEN_SEMANTIC_PASS_SECOND_SOURCE_TERMINAL_HOLD'
+          assert tr['status']=='TRAIT_PRIMARY_BIEN_CROSSWALK_PASS_SECOND_SOURCE_TERMINAL_HOLD'
           assert tr['maximum_primary_trait_sources']==2
           assert tr['first_source']=='BIEN_4_2'
-          assert tr['first_source_state']=='SEMANTIC_PASS_PHYLOGENY_CROSSWALK_PENDING'
+          assert tr['first_source_state']=='CROSSWALK_PASS_INFORMATIVENESS_PENDING'
           assert tr['first_source_result']=='results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
           assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
           assert tr['second_source_state']=='TERMINAL_STRUCTURAL_HOLD'
@@ -162,7 +163,15 @@ jobs:
           assert sv['gate_pass'] is True
           assert sv['raw_trait_values_opened'] is False
           assert sv['biological_turnover_outcomes_opened'] is False
-          assert by['BIEN_4_2']['metadata_status']=='SEMANTIC_STATE_VALIDITY_PASS_CROSSWALK_PENDING'
+          cw=json.load(open('results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'))
+          assert cw['status']=='BIEN_PHYLOGENY_CROSSWALK_PASS'
+          assert cw['n_candidate_systems']==43
+          assert cw['n_crosswalk_pass']==39
+          assert cw['n_independent_families']==31
+          assert cw['gate_pass'] is True
+          assert cw['raw_trait_values_opened'] is False
+          assert cw['biological_turnover_outcomes_opened'] is False
+          assert by['BIEN_4_2']['metadata_status']=='PHYLOGENY_CROSSWALK_PASS_INFORMATIVENESS_PENDING'
           assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
 
           z=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))

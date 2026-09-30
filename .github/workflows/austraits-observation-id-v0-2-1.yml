@@ -1,10 +1,5 @@
 name: AusTraits observation-id identity audit v0.2.1
 on:
-  pull_request:
-    paths:
-      - 'data/austraits_observation_id_audit_v0_2_1.json'
-      - 'scripts/source/audit_austraits_observation_id_v0_2_1.py'
-      - '.github/workflows/austraits-observation-id-v0-2-1.yml'
   workflow_dispatch:
 permissions:
   contents: read

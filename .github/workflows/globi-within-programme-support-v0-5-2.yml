@@ -1,0 +1,87 @@
+name: GloBI within-programme support v0.5.2
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_source_semantic_amendment_v0_5_2.json'
+      - 'results/globi_joint_support_v0_4/result_summary.json'
+      - 'scripts/source/audit_globi_within_programme_support_v0_5_2.py'
+      - '.github/workflows/globi-within-programme-support-v0-5-2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install runtime
+        run: pip install duckdb
+
+      - name: Validate stricter-only amendment
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/globi_source_semantic_amendment_v0_5_2.json'))
+          p=json.load(open('results/globi_joint_support_v0_4/result_summary.json'))
+          assert p['status']=='GLOBI_JOINT_SUPPORT_PASS'
+          assert p['biological_turnover_outcomes_opened'] is False
+          assert d['status']=='WITHIN_PROGRAMME_SUPPORT_RECHECK_FROZEN_BEFORE_SEMANTIC_PASS_ASSIGNMENT'
+          assert d['can_rescue_v0_4_failure'] is False
+          assert d['can_increase_independent_count_relative_to_v0_4'] is False
+          assert d['biological_thresholds_changed'] is False
+          assert d['turnover_outcomes_opened'] is False
+          assert d['within_programme_gate']['temporal_min_focal_taxa_with_3plus_partners']==20
+          assert d['within_programme_gate']['spatial_min_site_year_strata']==5
+          assert d['within_programme_gate']['spatial_min_repeated_focal_taxa']==10
+          PY
+
+      - name: Download frozen GloBI TSV
+        run: |
+          mkdir -p build/globi_within_programme_support_v0_5_2/cache
+          FILE=build/globi_within_programme_support_v0_5_2/cache/interactions.tsv.gz
+          URL=https://zenodo.org/api/records/22691479/files/interactions.tsv.gz/content
+          curl -L --fail --retry 5 --retry-delay 20 --retry-all-errors -C - -o "$FILE" "$URL"
+          echo "c07ce1a5895b5bbcb822c7fb90f920c9  $FILE" | md5sum -c -
+
+      - name: Recheck support at programme grain
+        run: |
+          python scripts/source/audit_globi_within_programme_support_v0_5_2.py \
+            --local-tsv-gz build/globi_within_programme_support_v0_5_2/cache/interactions.tsv.gz \
+            --out build/globi_within_programme_support_v0_5_2/result.json \
+            --table-out build/globi_within_programme_support_v0_5_2/programme_support.csv
+
+      - name: Enforce outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_within_programme_support_v0_5_2/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {
+            'GLOBI_WITHIN_PROGRAMME_SUPPORT_PASS',
+            'HOLD_GLOBI_WITHIN_PROGRAMME_SUPPORT',
+            'HOLD_GLOBI_PROGRAMME_HEADER_MISSING'
+          }
+          for forbidden in [
+            'delta_rho','rewiring','partner_profile_dissimilarity',
+            'pairwise_geographic_distance','phylogenetic_distance',
+            'time_space_coupling'
+          ]:
+            assert forbidden not in x
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-within-programme-support-v0-5-2
+          path: |
+            build/globi_within_programme_support_v0_5_2/result.json
+            build/globi_within_programme_support_v0_5_2/programme_support.csv

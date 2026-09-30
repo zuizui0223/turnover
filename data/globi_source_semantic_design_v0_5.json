@@ -81,5 +81,11 @@
   },
   "next_gate_if_pass": "Freeze exact network-unit construction and phylogeny coverage for each passing sourceNamespace x interaction family, then run observed-geometry informativeness simulations before any biological turnover effect.",
   "biological_turnover_outcomes_opened": false,
-  "no_posthoc_relaxation": true
+  "no_posthoc_relaxation": true,
+  "amendments": [
+    "data/globi_source_semantic_amendment_v0_5_1.json",
+    "data/globi_source_semantic_amendment_v0_5_2.json"
+  ],
+  "effective_independence_rule": "Count at most one unit per v0.4 sourceNamespace, then collapse documented mirrors/adapters of the same underlying programme; never split one namespace into multiple gate units to increase the >=12 count.",
+  "within_programme_support_recheck": "Before assigning semantic PASS, require at least one provenance-resolved programme block inside the namespace to independently satisfy the original 20-focal / 5-site-year / 10-repeated-focal thresholds."
 }

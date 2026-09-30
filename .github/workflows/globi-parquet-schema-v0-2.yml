@@ -1,0 +1,58 @@
+name: GloBI Parquet schema v0.2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install schema runtime
+        run: pip install duckdb
+
+      - name: Validate pre-row schema contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/globi_parquet_schema_design_v0_2.json'))
+          assert d['status']=='FROZEN_BEFORE_GLOBI_PARQUET_SCHEMA_OPENING'
+          assert d['primary_file']['key']=='interactions.parquet'
+          assert d['primary_file']['checksum']=='md5:8212776b7ba0c4fa8de26a00b5ce8595'
+          assert d['gate']['require_schema_only_query'] is True
+          assert d['gate']['forbid_row_count_before_schema_pass'] is True
+          assert d['gate']['forbid_row_sample_before_schema_pass'] is True
+          assert d['interaction_rows_opened'] is False
+          PY
+
+      - name: Read Parquet schema metadata only
+        run: |
+          mkdir -p build/globi_parquet_schema_v0_2
+          python scripts/source/audit_globi_parquet_schema_v0_2.py             --out build/globi_parquet_schema_v0_2/result.json
+
+      - name: Validate row firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_parquet_schema_v0_2/result.json'))
+          assert x['schema_only'] is True
+          assert x['row_returning_query_executed'] is False
+          assert x['interaction_rows_opened'] is False
+          assert x['status'] in {
+            'GLOBI_PARQUET_SCHEMA_PASS',
+            'HOLD_GLOBI_PARQUET_SCHEMA_TRANSPORT_TSV_FALLBACK_AUTHORIZED',
+            'HOLD_GLOBI_REQUIRED_SCHEMA_MISSING'
+          }
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-parquet-schema-v0-2
+          path: build/globi_parquet_schema_v0_2/

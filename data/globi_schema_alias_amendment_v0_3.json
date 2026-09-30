@@ -1,0 +1,83 @@
+{
+  "version": "v0.3",
+  "status": "SCHEMA_ALIAS_AMENDED_BEFORE_GLOBI_ROW_OPENING",
+  "amends": "data/globi_parquet_schema_design_v0_2.json",
+  "trigger": "v0.2 schema-only audit exposed archive camelCase field names; no row data were read.",
+  "alias_changes": {
+    "geography": [
+      [
+        "latitude",
+        "decimalLatitude"
+      ],
+      [
+        "longitude",
+        "decimalLongitude"
+      ]
+    ],
+    "time": [
+      [
+        "event_date",
+        "eventDate"
+      ]
+    ],
+    "source_group": [
+      [
+        "study_source_id",
+        "sourceNamespace"
+      ]
+    ],
+    "interaction": [
+      [
+        "interaction_type",
+        "interaction_type_name",
+        "interactionTypeName"
+      ]
+    ],
+    "source_taxon": [
+      [
+        "source_taxon_name",
+        "sourceTaxonName",
+        "sourceTaxonSpeciesName"
+      ],
+      [
+        "source_taxon_external_id",
+        "sourceTaxonId",
+        "sourceTaxonIds",
+        "sourceTaxonSpeciesId"
+      ],
+      [
+        "source_taxon_path",
+        "sourceTaxonPathNames"
+      ],
+      [
+        "source_taxon_path_ranks",
+        "sourceTaxonPathRankNames"
+      ]
+    ],
+    "target_taxon": [
+      [
+        "target_taxon_name",
+        "targetTaxonName",
+        "targetTaxonSpeciesName"
+      ],
+      [
+        "target_taxon_external_id",
+        "targetTaxonId",
+        "targetTaxonIds",
+        "targetTaxonSpeciesId"
+      ],
+      [
+        "target_taxon_path",
+        "targetTaxonPathNames"
+      ],
+      [
+        "target_taxon_path_ranks",
+        "targetTaxonPathRankNames"
+      ]
+    ]
+  },
+  "thresholds_changed": false,
+  "source_changed": false,
+  "file_changed": false,
+  "biological_outcomes_opened": false
+}

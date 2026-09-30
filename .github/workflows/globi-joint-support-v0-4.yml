@@ -1,0 +1,96 @@
+name: GloBI joint support v0.4
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install support runtime
+        run: pip install duckdb
+
+      - name: Validate frozen pre-outcome contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/globi_joint_support_design_v0_4.json'))
+          p=json.load(open('results/globi_parquet_schema_v0_3/result.json'))
+          assert p['status']=='GLOBI_PARQUET_SCHEMA_ALIAS_PASS'
+          assert p['interaction_rows_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_GLOBI_ROW_LEVEL_SUPPORT_COUNTING'
+          assert d['primary_file']['checksum']=='md5:8212776b7ba0c4fa8de26a00b5ce8595'
+          assert d['qualification']['temporal_min_focal_taxa']==20
+          assert d['qualification']['temporal_min_unique_partners_per_focal_taxon']==3
+          assert d['qualification']['spatial_min_site_year_strata']==5
+          assert d['qualification']['spatial_min_repeated_focal_taxa']==10
+          assert d['qualification']['minimum_independent_source_namespaces']==12
+          assert d['biological_turnover_outcomes_opened'] is False
+          a=json.load(open('data/globi_transport_amendment_v0_4_1.json'))
+          assert a['status']=='TRANSPORT_RETRY_POLICY_FROZEN_AFTER_ZERO_ROW_HTTP_429'
+          assert a['changes']['biological_thresholds_changed'] is False
+          assert a['changes']['source_changed'] is False
+          assert a['changes']['file_changed'] is False
+          assert d['transport_policy']['maximum_attempts_per_workflow']==3
+          t=json.load(open('data/globi_tsv_support_fallback_v0_4_2.json'))
+          assert t['status']=='TSV_SUPPORT_TRANSPORT_FALLBACK_ACTIVATED_PREOUTCOME'
+          assert t['unchanged']['biological_thresholds'] is True
+          assert d['support_transport']['active']=='TSV_LOCAL_FALLBACK'
+          PY
+
+      - name: Download frozen TSV fallback as one local stream
+        run: |
+          mkdir -p build/globi_joint_support_v0_4/cache
+          FILE=build/globi_joint_support_v0_4/cache/interactions.tsv.gz
+          URL=https://zenodo.org/api/records/22691479/files/interactions.tsv.gz/content
+          curl -L --fail --retry 5 --retry-delay 20 --retry-all-errors -C - -o "$FILE" "$URL"
+          echo "c07ce1a5895b5bbcb822c7fb90f920c9  $FILE" | md5sum -c -
+
+      - name: Audit row-level support only
+        run: |
+          python scripts/source/audit_globi_joint_support_v0_4.py \
+            --local-tsv-gz build/globi_joint_support_v0_4/cache/interactions.tsv.gz \
+            --out build/globi_joint_support_v0_4/result.json \
+            --table-out build/globi_joint_support_v0_4/system_support.csv
+
+      - name: Enforce outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_joint_support_v0_4/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_edge_identities_persisted'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {
+            'GLOBI_JOINT_SUPPORT_PASS',
+            'HOLD_GLOBI_JOINT_SUPPORT',
+            'HOLD_GLOBI_SUPPORT_TRANSPORT_PERSISTENT',
+            'HOLD_GLOBI_TSV_HEADER_MISMATCH'
+          }
+          forbidden={
+            'pairwise_geographic_distance',
+            'pairwise_phylogenetic_distance',
+            'partner_profile_dissimilarity',
+            'rewiring',
+            'delta_rho',
+            'time_space_coupling'
+          }
+          assert forbidden.isdisjoint(x.keys())
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-joint-support-v0-4
+          path: |
+            build/globi_joint_support_v0_4/result.json
+            build/globi_joint_support_v0_4/system_support.csv

@@ -1,0 +1,33 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_STABLE_ARCHIVE_CONTENT_OPENING",
+  "source": "GLOBI_STABLE_ZENODO",
+  "concept_doi": "10.5281/zenodo.3950589",
+  "expected_title_contains": "Global Biotic Interactions",
+  "purpose": "Resolve the exact latest stable GloBI archive record and interaction-file byte identities before any interaction row is read.",
+  "allowed_operations": [
+    "Zenodo record metadata retrieval",
+    "version/DOI resolution",
+    "file-name, byte-size, checksum and download-link inspection"
+  ],
+  "forbidden_operations": [
+    "download or decompress interaction data files",
+    "read TSV/CSV headers from archive content",
+    "inspect source/target taxa",
+    "inspect interaction types",
+    "inspect coordinates or dates from interaction rows"
+  ],
+  "admission_gate": {
+    "require_latest_record_resolution": true,
+    "require_dataset_resource_type": true,
+    "require_at_least_one_interaction_file_candidate": true,
+    "require_file_checksum": true,
+    "require_file_size": true,
+    "require_download_link": true,
+    "no_posthoc_file_choice_after_content_opening": true
+  },
+  "file_candidate_rule": "Filename must contain interaction (case-insensitive) and end in .tsv, .tsv.gz, .csv, .csv.gz or .zip. If multiple candidates exist, retain all as candidates until a separate schema-only gate selects one before row content is opened.",
+  "next_gate_if_pass": "Freeze schema from public GloBI field definitions and archive file metadata before any full-file download.",
+  "next_gate_if_hold": "Stop the primary joint interaction route; finite source family is exhausted.",
+  "further_primary_source_allowed": false
+}

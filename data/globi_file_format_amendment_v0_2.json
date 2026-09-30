@@ -1,0 +1,33 @@
+{
+  "version": "v0.2",
+  "status": "FILE_FORMAT_AMENDED_BEFORE_GLOBI_ROW_OPENING",
+  "amends": "data/globi_stable_archive_preflight_design_v0_1.json",
+  "trigger": "Stable record metadata exposes interactions.parquet in addition to TSV/CSV interpreted products. Columnar projection allows schema/support auditing without reading irrelevant biological columns.",
+  "source_record_unchanged": {
+    "record_id": 22691479,
+    "doi": "10.5281/zenodo.22691479",
+    "version": "0.11"
+  },
+  "primary_serialization": {
+    "key": "interactions.parquet",
+    "size": 2375721521,
+    "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595"
+  },
+  "transport_fallback": {
+    "key": "interactions.tsv.gz",
+    "size": 2459603806,
+    "checksum": "md5:c07ce1a5895b5bbcb822c7fb90f920c9",
+    "allowed_only_for": [
+      "Parquet transport failure",
+      "Parquet schema unreadable before any row-level biological analysis"
+    ],
+    "forbidden_after": "any interaction row outcome or support statistic has been interpreted"
+  },
+  "unchanged": [
+    "GloBI concept DOI and stable record version",
+    "finite source family limit",
+    "all biological eligibility thresholds",
+    "no interaction row opening before schema freeze"
+  ],
+  "interaction_rows_opened_before_amendment": false
+}

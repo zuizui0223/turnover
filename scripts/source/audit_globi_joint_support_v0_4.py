@@ -63,7 +63,7 @@ def main() -> int:
             args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
             print(json.dumps(result, indent=2, sort_keys=True))
             return 0
-        source_expr = "read_csv_auto(?, delim='\\t', header=true, all_varchar=true, compression='gzip')"
+        source_expr = "read_csv_auto(?, delim='\t', header=true, all_varchar=true, compression='gzip')"
         source_arg = str(local_tsv)
         transport_name = "TSV_LOCAL_FALLBACK"
     else:

@@ -1,5 +1,8 @@
 name: BIEN trait state validity v0.3.3
 on:
+  pull_request:
+    paths:
+      - '.triggers/bien-state-validity-v0-3-3-2'
   workflow_dispatch:
 permissions:
   contents: read
@@ -32,6 +35,11 @@ jobs:
           assert r['direction_of_change']=='STRICTER_ONLY'
           assert r['can_rescue_failure'] is False
           assert r['effective_nominal_categorical_unit_rule']['allowed']=='NULL or empty/whitespace-only unit only'
+          f=json.load(open('data/bien_trait_state_boolean_parser_fix_v0_3_3_2.json'))
+          assert f['status']=='BIEN_STATE_VALIDITY_BOOLEAN_PARSER_FIXED_PRE_VALUE_QUERY'
+          assert f['chronology']['state_validity_database_query_executed_before_fix'] is False
+          assert f['support_thresholds_changed'] is False
+          assert f['trait_semantics_changed'] is False
           PY
       - name: Run aggregate-only state validity
         env:

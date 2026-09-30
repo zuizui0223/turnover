@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'data/globi_joint_support_design_v0_4.json'
+      - 'data/globi_transport_amendment_v0_4_1.json'
       - 'results/globi_parquet_schema_v0_3/result.json'
       - 'scripts/source/audit_globi_joint_support_v0_4.py'
       - '.github/workflows/globi-joint-support-v0-4.yml'
@@ -42,6 +43,12 @@ jobs:
           assert d['qualification']['spatial_min_repeated_focal_taxa']==10
           assert d['qualification']['minimum_independent_source_namespaces']==12
           assert d['biological_turnover_outcomes_opened'] is False
+          a=json.load(open('data/globi_transport_amendment_v0_4_1.json'))
+          assert a['status']=='TRANSPORT_RETRY_POLICY_FROZEN_AFTER_ZERO_ROW_HTTP_429'
+          assert a['changes']['biological_thresholds_changed'] is False
+          assert a['changes']['source_changed'] is False
+          assert a['changes']['file_changed'] is False
+          assert d['transport_policy']['maximum_attempts_per_workflow']==3
           PY
 
       - name: Audit row-level support only
@@ -62,7 +69,7 @@ jobs:
           assert x['status'] in {
             'GLOBI_JOINT_SUPPORT_PASS',
             'HOLD_GLOBI_JOINT_SUPPORT',
-            'HOLD_GLOBI_SUPPORT_TRANSPORT'
+            'HOLD_GLOBI_SUPPORT_TRANSPORT_PERSISTENT'
           }
           forbidden={
             'pairwise_geographic_distance',

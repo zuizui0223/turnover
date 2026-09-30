@@ -1,0 +1,124 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_AUSTRAITS_ROW_OPENING",
+  "frozen_on": "2026-10-01",
+  "source_id": "AUSTRAITS_OPEN_RELEASE",
+  "purpose": "Qualify an exact open AusTraits release and flattened Parquet schema as the predeclared independent trait transport before any trait row/value is returned.",
+  "release": {
+    "version": "7.0.0",
+    "github_repository": "traitecoevo/austraits.build",
+    "github_tag": "v7.0.0",
+    "github_tag_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "zenodo_record": 15718081,
+    "zenodo_doi": "10.5281/zenodo.15718081",
+    "published": "2025-06-20"
+  },
+  "primary_file": {
+    "name": "austraits-7.0.0-flattened.parquet",
+    "size_bytes": 43531865,
+    "github_release_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "zenodo_md5": "a0283adce2c924ffbfee89db9899316f",
+    "download_url": "https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet"
+  },
+  "build_contract": {
+    "description_version": "7.0.0",
+    "traits_build_minimum": "2.1.0",
+    "trait_vocabulary": "AusTraits Plant Dictionary / APD",
+    "reason": "Pin both the compiled release and the source-build tag before inspecting support."
+  },
+  "schema_only_gate": {
+    "permitted_operations": [
+      "download the exact pinned Parquet",
+      "verify byte size and SHA256/MD5",
+      "read Parquet metadata/schema only",
+      "record column names and types"
+    ],
+    "forbidden_operations": [
+      "SELECT rows",
+      "COUNT rows",
+      "sample rows",
+      "return taxon names from records",
+      "return trait values",
+      "return row-level coordinates",
+      "compute support counts",
+      "compute turnover or predictors"
+    ]
+  },
+  "required_semantic_groups": {
+    "dataset_id": [
+      "dataset_id"
+    ],
+    "taxon_name": [
+      "taxon_name"
+    ],
+    "trait_name": [
+      "trait_name"
+    ],
+    "trait_value": [
+      "value",
+      "trait_value"
+    ],
+    "unit": [
+      "unit"
+    ],
+    "observation_id": [
+      "observation_id"
+    ],
+    "family": [
+      "family",
+      "family_name",
+      "taxon_family"
+    ],
+    "latitude": [
+      "latitude",
+      "latitude_deg",
+      "location_latitude",
+      "site_latitude",
+      "latitude (deg)"
+    ],
+    "longitude": [
+      "longitude",
+      "longitude_deg",
+      "location_longitude",
+      "site_longitude",
+      "longitude (deg)"
+    ]
+  },
+  "optional_semantic_groups": {
+    "location_id": [
+      "location_id",
+      "site_id",
+      "plot_id",
+      "location_name",
+      "site_name"
+    ],
+    "entity_type": [
+      "entity_type",
+      "entity_measured"
+    ],
+    "value_type": [
+      "value_type"
+    ],
+    "basis_of_value": [
+      "basis_of_value"
+    ],
+    "taxon_id": [
+      "taxon_id"
+    ],
+    "genus": [
+      "genus",
+      "genus_name",
+      "taxon_genus"
+    ]
+  },
+  "alias_rule": "An exact case-insensitive column-name match to a predeclared alias is allowed. No new alias may be added after row content is inspected.",
+  "gate": {
+    "require_all_required_groups": true,
+    "require_exact_file_integrity": true,
+    "require_build_version_7_0_0": true
+  },
+  "next_gate_if_pass": "Freeze AusTraits family x trait grain and aggregate-only support thresholds matched to BIEN before any value or row-level coordinate is returned.",
+  "next_gate_if_hold": "Do not inspect row content. If the flattened serialization lacks required semantic groups, the only permitted next step is a predeclared serialization switch within the same exact v7.0.0 release, not a new biological source or relaxed support threshold.",
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false
+}

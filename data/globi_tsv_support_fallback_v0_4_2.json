@@ -1,0 +1,45 @@
+{
+  "version": "v0.4.2",
+  "status": "TSV_SUPPORT_TRANSPORT_FALLBACK_ACTIVATED_PREOUTCOME",
+  "frozen_on": "2026-09-30",
+  "basis": "data/globi_file_format_amendment_v0_2.json",
+  "parquet_support_failures": [
+    {
+      "workflow_run": 36621977131,
+      "attempt": 1,
+      "error": "HTTP 429 Too Many Requests",
+      "support_query_executed": false,
+      "interaction_rows_opened_for_support_only": false
+    },
+    {
+      "workflow_run": 36621977131,
+      "attempt": 2,
+      "error": "HTTP 429 Too Many Requests",
+      "support_query_executed": false,
+      "interaction_rows_opened_for_support_only": false
+    }
+  ],
+  "fallback_file": {
+    "key": "interactions.tsv.gz",
+    "size": 2459603806,
+    "checksum": "md5:c07ce1a5895b5bbcb822c7fb90f920c9",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.tsv.gz/content"
+  },
+  "transport_rule": {
+    "download": "single-stream local download with retry/resume; do not issue remote random-range analytical queries",
+    "header_gate": "after download, read only the decompressed TSV header and require the exact frozen projected columns before any support aggregation",
+    "row_support_after_header_pass": "run the already-frozen v0.4 aggregate support query locally; do not persist raw edge identities",
+    "fallback_after_this": false
+  },
+  "unchanged": {
+    "source_record": "10.5281/zenodo.22691479",
+    "biological_thresholds": true,
+    "projected_columns": true,
+    "study_source_rule": true,
+    "system_rule": true,
+    "species_rank_rule": true,
+    "spatial_support_proxy": true,
+    "biological_turnover_outcomes_opened": false
+  },
+  "terminal_rule": "If the frozen TSV fallback cannot be downloaded, fails checksum/header validation, or cannot complete the support aggregation, stop the primary joint interaction route; no third source or serialization is allowed."
+}

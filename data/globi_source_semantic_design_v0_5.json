@@ -1,0 +1,85 @@
+{
+  "version": "v0.5",
+  "status": "FROZEN_BEFORE_GLOBI_SUPPORT_RESULT_INTERPRETATION",
+  "frozen_on": "2026-09-30",
+  "prerequisite": "results/globi_joint_support_v0_4/result.json",
+  "purpose": "Distinguish source programmes that genuinely contain repeated, comparable ecological interaction sampling from opportunistic occurrence/specimen/literature aggregation before any interaction-turnover response is computed.",
+  "candidate_rule": "Only sourceNamespace x interactionTypeId systems that pass the frozen v0.4 structural support gate may enter. No failing system can be rescued here.",
+  "independence_unit": "sourceNamespace",
+  "minimum_independent_semantic_pass_namespaces": 12,
+  "allowed_metadata_fields": [
+    "sourceNamespace",
+    "sourceCitation",
+    "sourceDOI",
+    "sourceArchiveURI",
+    "referenceCitation",
+    "referenceDoi",
+    "referenceUrl",
+    "interactionTypeId",
+    "interactionTypeName",
+    "localityId",
+    "localityName",
+    "eventDate",
+    "decimalLatitude",
+    "decimalLongitude"
+  ],
+  "forbidden_before_semantic_pass": [
+    "pairwise geographic distances",
+    "phylogenetic distances",
+    "partner-profile dissimilarities",
+    "network beta diversity",
+    "rewiring values",
+    "null-centered turnover rho",
+    "time-space coupling",
+    "predictor-response associations"
+  ],
+  "adjudication": {
+    "PASS_REPLICATED_ECOLOGICAL_NETWORK": [
+      "A public source description or methods section explicitly defines biological interaction sampling at identifiable sites/localities and dates or sampling periods.",
+      "The source records represent observed interactions collected under a repeatable sampling design, not merely independent occurrence/specimen records.",
+      "At least five v0.4-supported sampling strata can be mapped to comparable site/time units using metadata retained in GloBI.",
+      "At least ten supported focal taxa recur across at least two such comparable units.",
+      "The focal-to-partner relation represented by the frozen GloBI interaction type is biologically interpretable without reversing source and target roles after support is known."
+    ],
+    "HOLD_SOURCE_UNIT_NOT_RECONSTRUCTABLE": [
+      "The underlying study is ecological, but GloBI does not retain enough event/site metadata to reconstruct comparable network units without guessing or outcome-informed clustering."
+    ],
+    "EXCLUDE_OPPORTUNISTIC_AGGREGATION": [
+      "The source is primarily an occurrence, specimen, citizen-science, taxonomic, literature-mined, or heterogeneous compilation in which each row is not part of a common interaction survey unit.",
+      "Geographic coordinates are observation locations but do not define replicated networks with comparable sampling effort/opportunity."
+    ],
+    "EXCLUDE_SEMANTIC_AMBIGUITY": [
+      "The interaction relation or focal/partner orientation cannot be mapped to one frozen biological interaction family from source documentation.",
+      "Source documentation is unavailable or insufficient to distinguish sampled interaction networks from aggregated records."
+    ]
+  },
+  "network_unit_priority": [
+    "Use a source-native sampling-event/network identifier when GloBI retains one and the source documents its meaning.",
+    "Otherwise use documented localityId plus the documented sampling period.",
+    "Otherwise use exact latitude/longitude plus the finest eventDate resolution that the source protocol declares comparable.",
+    "Never round coordinates, cluster observations, widen time windows, or merge sites to make a source pass."
+  ],
+  "sampling_effort_rule": {
+    "requirement": "Before turnover is opened, document whether effort is comparable, explicitly effort-standardized, or unavailable for each passing namespace.",
+    "if_effort_unavailable": "The namespace cannot enter the primary rewiring analysis; it may be retained only as a labelled sensitivity/validation source if a frozen detection-robust estimator is later justified independently.",
+    "reason": "Apparent rewiring must not be created by changing observation effort."
+  },
+  "interaction_family_rule": {
+    "freeze_before_outcomes": true,
+    "families": [
+      "mutualism",
+      "herbivory",
+      "parasitism",
+      "predation_or_consumer_resource"
+    ],
+    "other_labels": "HOLD unless their biological meaning can be assigned from source documentation without inspecting turnover results",
+    "multiple_interaction_types_per_namespace": "do not create independent replicates; sourceNamespace remains the independence cluster"
+  },
+  "gate": {
+    "pass": "At least 12 independent sourceNamespaces contain one or more structurally supported systems adjudicated PASS_REPLICATED_ECOLOGICAL_NETWORK with reconstructable units and acceptable effort semantics.",
+    "hold": "Fewer than 12 independent sourceNamespaces pass. Stop the primary joint interaction arm; do not lower the threshold and do not introduce a third source."
+  },
+  "next_gate_if_pass": "Freeze exact network-unit construction and phylogeny coverage for each passing sourceNamespace x interaction family, then run observed-geometry informativeness simulations before any biological turnover effect.",
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_relaxation": true
+}

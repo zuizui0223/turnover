@@ -185,36 +185,45 @@ def main() -> int:
                         a.scrubbed_species_binomial
                     HAVING COUNT(DISTINCT a.id) >= %s
                 ),
-                geo_cells AS (
-                    SELECT
+                geo_coords AS (
+                    SELECT DISTINCT
                         a.scrubbed_family,
                         a.trait_name,
                         a.scrubbed_species_binomial,
-                        COUNT(DISTINCT (
-                            floor(ST_X(p.geom) / 25000.0)::bigint::text
-                            || ':' ||
-                            floor(ST_Y(p.geom) / 25000.0)::bigint::text
-                        )) AS unique_25km_cells
+                        a.latitude,
+                        a.longitude
                     FROM agg_traits a
                     INNER JOIN geo_record_counts g
                       ON a.scrubbed_family = g.scrubbed_family
                      AND a.trait_name = g.trait_name
                      AND a.scrubbed_species_binomial = g.scrubbed_species_binomial
-                    CROSS JOIN LATERAL (
-                        SELECT ST_Transform(
-                            ST_SetSRID(ST_MakePoint(a.longitude, a.latitude), 4326),
-                            6933
-                        ) AS geom
-                    ) p
                     WHERE a.id IS NOT NULL
                       AND a.latitude IS NOT NULL
                       AND a.longitude IS NOT NULL
                       AND a.latitude BETWEEN -90 AND 90
                       AND a.longitude BETWEEN -180 AND 180
+                ),
+                geo_cells AS (
+                    SELECT
+                        c.scrubbed_family,
+                        c.trait_name,
+                        c.scrubbed_species_binomial,
+                        COUNT(DISTINCT (
+                            floor(ST_X(p.geom) / 25000.0)::bigint::text
+                            || ':' ||
+                            floor(ST_Y(p.geom) / 25000.0)::bigint::text
+                        )) AS unique_25km_cells
+                    FROM geo_coords c
+                    CROSS JOIN LATERAL (
+                        SELECT ST_Transform(
+                            ST_SetSRID(ST_MakePoint(c.longitude, c.latitude), 4326),
+                            6933
+                        ) AS geom
+                    ) p
                     GROUP BY
-                        a.scrubbed_family,
-                        a.trait_name,
-                        a.scrubbed_species_binomial
+                        c.scrubbed_family,
+                        c.trait_name,
+                        c.scrubbed_species_binomial
                 ),
                 spatial AS (
                     SELECT

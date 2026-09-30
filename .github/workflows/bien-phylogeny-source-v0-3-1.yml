@@ -1,9 +1,10 @@
-name: BIEN phylogeny source preflight v0.3.1
+name: BIEN phylogeny source preflight v0.3.1.1
 
 on:
   pull_request:
     paths:
       - 'data/bien_phylogeny_contract_v0_3_1.json'
+      - 'data/bien_phylogeny_name_checker_fix_v0_3_1_1.json'
       - 'scripts/source/audit_bien_phylogeny_source_v0_3_1.R'
       - '.github/workflows/bien-phylogeny-source-v0-3-1.yml'
   workflow_dispatch:
@@ -47,6 +48,11 @@ jobs:
           assert d['phylogeny_source']['documented_backbone_tip_count']==74529
           assert d['mandatory_backbone_native_sensitivity']['minimum_native_species_per_family_trait']==20
           assert d['no_posthoc_relaxation'] is True
+          a=json.load(open('data/bien_phylogeny_name_checker_fix_v0_3_1_1.json'))
+          assert a['status']=='PHYLOGENY_TIP_LABEL_CHECKER_FIXED_PRE_TRAIT_OUTCOME'
+          assert a['source_changed'] is False
+          assert a['backbone_changed'] is False
+          assert a['biological_rules_changed'] is False
           PY
 
       - name: Audit pinned TPL backbone
@@ -62,6 +68,7 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open('build/bien_phylogeny_source_v0_3_1/result.json'))
+          assert x['version']=='v0.3.1.1'
           assert x['outcome_blind'] is True
           assert x['generalized_trait_values_opened'] is False
           assert x['biological_turnover_outcomes_opened'] is False

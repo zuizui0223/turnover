@@ -7,6 +7,7 @@ on:
       - 'data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv'
       - 'data/interaction_source_routing_v0_1.json'
       - 'results/mangal_species_rank_support_v0_1/result.json'
+      - 'results/globi_source_semantic_v0_5_3/result.json'
       - '.github/workflows/programme-contract-v0-1.yml'
   workflow_dispatch:
 
@@ -44,14 +45,27 @@ jobs:
           assert m['decision']['open_interaction_edges_to_rescue'] is False
 
           r=json.load(open('data/interaction_source_routing_v0_1.json'))
-          assert r['status']=='INTERACTION_PRIMARY_SOURCE_SWITCH_AUTHORIZED_PREOUTCOME'
+          assert r['status']=='INTERACTION_PRIMARY_ROUTE_TERMINAL_PREOUTCOME_HOLD'
           assert r['first_source_terminal']=='HOLD_MANGAL_SPECIES_RANK_SUPPORT'
           assert r['authorized_second_source']=='GLOBI_STABLE_ZENODO'
+          assert r['second_source_terminal']=='HOLD_GLOBI_SOURCE_SEMANTIC_UPPER_BOUND'
+          assert r['primary_joint_interaction_route_closed'] is True
           assert r['further_primary_source_after_globi'] is False
           assert r['biological_interaction_edges_opened'] is False
+          assert r['biological_interaction_turnover_outcomes_opened'] is False
+
+          g=json.load(open('results/globi_source_semantic_v0_5_3/result.json'))
+          assert g['status']=='HOLD_GLOBI_SOURCE_SEMANTIC_UPPER_BOUND'
+          assert g['v0_5_2_namespaces_with_programme_pass_before_mirror_dedup']==20
+          assert g['n_decisive_exclusions']==9
+          assert g['semantic_pass_upper_bound_before_any_further_exclusion']==11
+          assert g['minimum_independent_semantic_pass_namespaces']==12
+          assert g['gate_pass'] is False
+          assert g['biological_turnover_outcomes_opened'] is False
+          assert g['interaction_primary_route']=='STOP'
 
           rows=list(csv.DictReader(open('data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv')))
           by={x['source_id']:x for x in rows}
           assert by['MANGAL_CURATED_NETWORKS']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SPECIES_RANK_SUPPORT'
-          assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='ACTIVE_SECOND_AND_FINAL_PRIMARY_SOURCE'
+          assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
           PY

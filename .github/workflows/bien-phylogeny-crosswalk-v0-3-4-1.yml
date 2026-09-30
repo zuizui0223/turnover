@@ -1,8 +1,5 @@
 name: BIEN phylogeny crosswalk status fallback v0.3.4.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/bien-phylogeny-crosswalk-v0-3-4-1'
   workflow_dispatch:
 permissions:
   contents: read

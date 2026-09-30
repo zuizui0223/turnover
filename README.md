@@ -39,8 +39,8 @@ Trait arm:
 3. TRY v7 — currently source-access HOLD
 
 Interaction arm:
-1. Mangal curated networks — joint time/space route closed at species-rank support gate; retained as possible spatial validation
-2. GloBI stable versioned archive — active second and final primary joint source
+1. Mangal curated networks — joint time/space route closed at species-rank support gate; retained only as non-primary spatial validation candidate
+2. GloBI stable versioned archive — second and final primary source; terminal pre-outcome HOLD at source-semantic gate
 
 No biological response is opened until source identity, schema/support eligibility and observed-geometry informativeness are frozen.
 
@@ -76,4 +76,8 @@ The trait arm remains independent of the interaction HOLD and proceeds under the
 2. AusTraits independent transport
 3. TRY v7 — source-access HOLD
 
-The next active development gate is BIEN source/schema/support qualification before any generalized trait-turnover response is opened.
+BIEN source/schema qualification has now passed at exact patch **4.2.8**: 25,932,628 rows, required `agg_traits` fields present, and 54/54 expected trait names. No raw trait values were opened.
+
+The active gate is aggregate-only **BIEN trait support v0.2.2**. Systems are family × trait; admission requires >=20 temporal species, >=8 spatial species each with >=20 georeferenced measurements in >=5 deterministic 25-km equal-area cells, and >=12 independent families. A stricter-only pre-result amendment requires nonmissing trait values but uses them only as a presence predicate.
+
+Before structural support results were opened, trait semantics and phylogeny were also frozen: 43 continuous scalar traits, 9 nominal categorical traits, 2 semantic HOLD traits; V.PhyloMaker2 commit `7af3fb5...` with `GBOTB.extended.TPL`; and a mandatory backbone-native >=20-tip sensitivity gate.

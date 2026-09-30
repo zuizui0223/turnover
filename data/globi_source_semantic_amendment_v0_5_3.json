@@ -1,0 +1,19 @@
+{
+  "version": "v0.5.3",
+  "status": "FIRST_SOURCE_CONTAMINATION_FIREWALL_FROZEN_BEFORE_SEMANTIC_PASS_ASSIGNMENT",
+  "frozen_on": "2026-09-30",
+  "amends": [
+    "data/globi_source_semantic_design_v0_5.json",
+    "data/globi_source_semantic_amendment_v0_5_1.json",
+    "data/globi_source_semantic_amendment_v0_5_2.json"
+  ],
+  "rule": "Rows or namespaces in GloBI that are explicit mirrors/adapters of Mangal, the already-adjudicated first primary source that terminated at HOLD_MANGAL_SPECIES_RANK_SUPPORT, cannot count as independent second-source evidence for the GloBI route.",
+  "affected_namespace": "globalbioticinteractions/mangal",
+  "reason": "The finite-family source switch was authorized because the first source failed pre-outcome support. Re-importing the same underlying source through the second-source integrator would not constitute an independent source and could silently rescue the failed source via a different taxonomic transformation.",
+  "direction_of_change": "STRICTER_ONLY",
+  "can_increase_pass_count": false,
+  "can_rescue_mangal": false,
+  "biological_thresholds_changed": false,
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_relaxation": true
+}

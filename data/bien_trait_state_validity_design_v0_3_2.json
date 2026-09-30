@@ -1,0 +1,82 @@
+{
+  "version": "v0.3.2",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING",
+  "frozen_on": "2026-09-30",
+  "prerequisites": [
+    "data/bien_trait_semantic_contract_v0_3.json",
+    "data/bien_phylogeny_contract_v0_3_1.json"
+  ],
+  "chronology": {
+    "bien_structural_support_result_seen_before_freeze": false,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "purpose": "Define aggregate-only state-validity checks that structurally qualifying BIEN family x trait systems must pass before raw trait values or biological turnover responses can be opened.",
+  "applies_only_after_v0_2_structural_pass": true,
+  "raw_value_firewall": {
+    "allowed_internal_uses": [
+      "test nonmissing trait_value presence",
+      "test numeric castability for predeclared continuous traits",
+      "compute species medians without returning them",
+      "count distinct states without returning state labels",
+      "compute category frequency ranks to test whether a unique modal state exists"
+    ],
+    "forbidden_outputs": [
+      "raw trait_value",
+      "species-level median values",
+      "category labels",
+      "row-level species names paired with values",
+      "row-level coordinates",
+      "any trait dissimilarity or turnover effect"
+    ]
+  },
+  "continuous_scalar_gate": {
+    "numeric_castability": "100% of nonmissing eligible measurements must parse as finite numeric values",
+    "unit_rule": "exactly one distinct nonempty unit label within each family x trait system; multiple or missing physical units cause HOLD with no posthoc conversion in the primary BIEN lane",
+    "temporal_species_state": "median per species",
+    "temporal_min_resolvable_species": 20,
+    "temporal_variation": "at least 2 distinct species-median states",
+    "spatial_species_rule": {
+      "original_min_records": 20,
+      "original_min_cells": 5,
+      "additional_variation": "at least 2 distinct numeric measurement values within the species",
+      "minimum_spatial_species": 8
+    }
+  },
+  "nominal_categorical_gate": {
+    "unit_nonphysical_tokens": [
+      "",
+      "na",
+      "n/a",
+      "none",
+      "unitless",
+      "categorical",
+      "category",
+      "dimensionless"
+    ],
+    "unit_rule": "after trim/lowercase, every non-null unit label must be in the predeclared nonphysical-token set; otherwise HOLD",
+    "temporal_species_state": "unique modal category; ties are unresolved and excluded",
+    "temporal_min_resolvable_species": 20,
+    "temporal_variation": "at least 2 distinct modal states across resolvable species",
+    "spatial_species_rule": {
+      "original_min_records": 20,
+      "original_min_cells": 5,
+      "additional_variation": "at least 2 distinct category states within the species",
+      "minimum_spatial_species": 8
+    }
+  },
+  "primary_hold_traits": [
+    "plant flowering begin",
+    "whole plant growth form diversity"
+  ],
+  "joint_semantic_pass": "A family x trait system must already pass v0.2 structural support, be assigned continuous_scalar or nominal_categorical in v0.3, and pass all type-specific state-validity rules above.",
+  "independence_gate": {
+    "minimum_independent_families": 12,
+    "family_contributes_at_most_one": true,
+    "rule": "After semantic filtering and later phylogeny crosswalk, at least 12 families must retain at least one eligible trait system; thresholds are never lowered."
+  },
+  "no_posthoc_trait_substitution": true,
+  "no_posthoc_unit_conversion": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false
+}

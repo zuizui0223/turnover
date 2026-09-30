@@ -1,0 +1,2 @@
+triggered_on: 2026-10-01
+reason: direct phylo.maker crosswalk still running; execute pre-frozen exact-equivalent status-only fallback without changing tree/scenario/thresholds.

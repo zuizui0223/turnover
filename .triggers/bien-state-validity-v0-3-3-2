@@ -1,0 +1,2 @@
+triggered_on: 2026-10-01
+reason: rerun pre-frozen state-validity after technical boolean parser fix; prior run excluded all 73 systems before DB query.

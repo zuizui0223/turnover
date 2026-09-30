@@ -1,0 +1,44 @@
+{
+  "version": "v0.3.4.1",
+  "status": "BIEN_PHYLOGENY_CROSSWALK_STATUS_ONLY_FALLBACK_FROZEN_PRE_RESULT",
+  "frozen_on": "2026-10-01",
+  "amends": "data/bien_phylogeny_crosswalk_design_v0_3_4.json",
+  "chronology": {
+    "v0_3_4_crosswalk_result_seen_before_freeze": false,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "trigger_condition": "Use only if the direct phylo.maker S3 crosswalk times out or fails before returning a complete candidate-system result.",
+  "equivalence_basis": {
+    "pinned_source": "jinyizju/V.PhyloMaker2@7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "package_status_logic": [
+      "prune if normalized species is present in tree$tip.label",
+      "bind if species is absent but normalized genus occurs in nodes[level='G'] OR normalized family occurs in nodes[level='F']",
+      "fail to bind otherwise"
+    ],
+    "scenario_invariance": "The species.list status vector is determined before S1/S2/S3 tree construction; S3 changes placement geometry for bound tips, not prune/bind/fail status.",
+    "count_equivalence": "The frozen crosswalk admission uses only primary_resolvable_species = prune+bind and prune-only species >=20; therefore vectorized status counts are exactly sufficient for the admission gate."
+  },
+  "unchanged": {
+    "tree": "GBOTB.extended.TPL",
+    "nodes": "nodes.info.1.TPL",
+    "scenario": "S3",
+    "primary_min_species": 20,
+    "mandatory_prune_only_min_species": 20,
+    "independence_min_families": 12,
+    "taxonomy_fields": [
+      "scrubbed_species_binomial",
+      "scrubbed_genus",
+      "scrubbed_family"
+    ]
+  },
+  "normalization": "Apply the same V.PhyloMaker2 normalization: species spaces -> underscores; uppercase first alphabetic character of species/genus/family; no fuzzy matching.",
+  "source_changed": false,
+  "backbone_changed": false,
+  "scenario_changed": false,
+  "thresholds_changed": false,
+  "can_rescue_failure": false,
+  "no_posthoc_taxonomic_matching": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false
+}

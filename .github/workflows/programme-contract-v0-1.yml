@@ -19,6 +19,9 @@ on:
       - 'results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json'
       - 'results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'
       - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
+      - 'data/bien_informativeness_design_v0_4.json'
+      - 'data/bien_informativeness_execution_v0_4_2.json'
+      - 'data/bien_spatial_informativeness_execution_v0_4_3.json'
       - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
       - '.github/workflows/programme-contract-v0-1.yml'
   workflow_dispatch:
@@ -179,6 +182,26 @@ jobs:
           assert z['consequence']['canonical_trait_effect']=='delta_rho = observed Spearman rho exactly, because the exact null mean is zero'
           assert z['computational_rule']['primary_effect_uses_all_unordered_pairs'] is True
           assert z['thresholds_changed'] is False
+
+          inf=json.load(open('data/bien_informativeness_design_v0_4.json'))
+          assert inf['status']=='FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING'
+          assert inf['canonical_effect']['benchmark_delta_rho']==0.15
+          assert inf['canonical_effect']['admission_thresholds']['median_absolute_recovery_error_max']==0.10
+          assert inf['canonical_effect']['admission_thresholds']['directional_recovery_min']==0.80
+          assert inf['canonical_effect']['admission_thresholds']['valid_replicate_fraction_min']==0.90
+          assert inf['continuous_scalar_generator']['evaluation_replicates']==1000
+          assert inf['randomization']['master_seed']==20260930
+          ex=json.load(open('data/bien_informativeness_execution_v0_4_2.json'))
+          assert ex['status']=='BIEN_INFORMATIVENESS_EXECUTION_RULES_FROZEN_PRE_SIMULATION_RESULT'
+          assert ex['lambda_search']['initial_log10_grid']==[-2,-1.5,-1,-0.5,0,0.5,1,1.5,2]
+          assert ex['lambda_search']['pilot_replicates_per_value']==200
+          assert ex['continuous_pair_rule']=='Use every unordered pair exactly; no pair subsampling.'
+          assert ex['thresholds_changed'] is False
+          sp=json.load(open('data/bien_spatial_informativeness_execution_v0_4_3.json'))
+          assert sp['status']=='BIEN_SPATIAL_INFORMATIVENESS_EXECUTION_FROZEN_PRE_SPATIAL_RESULT'
+          assert sp['family_replicate_rule']['minimum_finite_species']==8
+          assert sp['weighted_pair_spearman']['pair_subsampling'] is False
+          assert sp['thresholds_changed'] is False
           PY
 
       - name: Verify exact-zero trait permutation null

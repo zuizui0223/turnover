@@ -107,16 +107,29 @@ if(any(!prune_names %in% GBOTB.extended.TPL$tip.label)) stop("prune species not 
 tree_s3 <- phy$scenario.3
 tree_prune <- keep.tip(GBOTB.extended.TPL,prune_names)
 
-fnv_seed <- function(key){
+fnv1a32_unsigned <- function(key){
   h <- 2166136261
   bytes <- as.integer(charToRaw(enc2utf8(key)))
   for(b in bytes){
-    low <- h %% 256
-    h <- h - low + bitwXor(as.integer(low),as.integer(b))
-    h <- (h * 16777619) %% 4294967296
+    # XOR affects only the low byte because b is uint8.
+    low8 <- h %% 256
+    h <- h - low8 + bitwXor(as.integer(low8),as.integer(b))
+    # Exact multiply by FNV prime 0x01000193 modulo 2^32 using 16-bit limbs.
+    lo <- h %% 65536
+    hi <- floor(h/65536)
+    prodlo <- lo*403
+    newlo <- prodlo %% 65536
+    carry <- floor(prodlo/65536)
+    newhi <- (carry + lo*256 + hi*403) %% 65536
+    h <- newlo + newhi*65536
   }
-  as.integer((h %% 2147483646)+1)
+  h
 }
+if(fnv1a32_unsigned("") != 2166136261 ||
+   fnv1a32_unsigned("a") != 3826002220 ||
+   fnv1a32_unsigned("foobar") != 3214735720)
+  stop("FNV-1a 32-bit self-test failed")
+fnv_seed <- function(key) as.integer((fnv1a32_unsigned(key) %% 2147483646)+1)
 
 prepare_geometry <- function(tree,cls){
   tree <- reorder.phylo(tree,"cladewise")

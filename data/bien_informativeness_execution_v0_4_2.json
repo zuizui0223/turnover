@@ -40,7 +40,10 @@
     "bracket_rule": "Use the first adjacent lambda pair whose pilot median effects straddle 0.15. If none straddles, HOLD.",
     "bisection": "bisect log(lambda) using 200 pilot replicates at each step until abs(median_effect-0.15)<=0.01 or 20 steps",
     "common_random_numbers": "Within one geometry, use identical replicate innovation seeds across candidate lambda values to stabilize monotone calibration comparisons.",
-    "evaluation_replicates": 1000
+    "evaluation_replicates": 1000,
+    "pilot_valid_fraction_min": 0.9,
+    "pilot_median_rule": "A lambda may enter the bracket/bisection only when >=90% of its 200 pilot replicates are valid; medians are computed over valid replicates only.",
+    "invalid_bisection_rule": "If a bisection midpoint has <90% valid pilot replicates, classify that geometry as INFORMATIVENESS_HOLD; do not search around the invalid point."
   },
   "deterministic_seed": {
     "algorithm": "FNV-1a 32-bit over UTF-8 bytes of master_seed|family|trait|axis|phase|replicate",
@@ -69,5 +72,15 @@
   "thresholds_changed": false,
   "generator_changed": false,
   "benchmark_changed": false,
-  "no_posthoc_relaxation": true
+  "no_posthoc_relaxation": true,
+  "parallel_execution": {
+    "unit": "family x trait system",
+    "temporal_axes_in_same_job": [
+      "S3",
+      "prune-only"
+    ],
+    "max_parallel_jobs": 4,
+    "aggregation": "count an independent family once if at least one system passes both temporal axes",
+    "early_terminal_rule": "If fewer than 12 independent families pass both temporal axes, stop before spatial simulation because the final >=12-family conjunction is impossible."
+  }
 }

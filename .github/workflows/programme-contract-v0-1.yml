@@ -23,6 +23,7 @@ on:
       - 'data/bien_informativeness_execution_v0_4_2.json'
       - 'data/bien_spatial_informativeness_execution_v0_4_3.json'
       - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
+      - 'scripts/analysis/verify_spatial_weighted_spearman_v0_4_3.py'
       - '.github/workflows/programme-contract-v0-1.yml'
   workflow_dispatch:
 
@@ -206,3 +207,6 @@ jobs:
 
       - name: Verify exact-zero trait permutation null
         run: python scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py
+
+      - name: Verify exact spatial duplicate-compression algebra
+        run: python scripts/analysis/verify_spatial_weighted_spearman_v0_4_3.py

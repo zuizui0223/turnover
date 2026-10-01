@@ -1,6 +1,9 @@
 name: BIEN temporal informativeness v0.4.2
 
 on:
+  pull_request:
+    paths:
+      - '.triggers/bien-temporal-informativeness-v0-4-2'
   workflow_dispatch:
 
 permissions:

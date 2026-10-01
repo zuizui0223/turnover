@@ -1,0 +1,131 @@
+name: BIEN spatial informativeness v0.4.3
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: matrix
+        name: Build frozen temporal-PASS matrix
+        run: |
+          python - <<'PY'
+          import csv,json,os
+          result=json.load(open('results/bien_temporal_informativeness_v0_4_2/result.json'))
+          assert result['status']=='BIEN_TEMPORAL_INFORMATIVENESS_PASS'
+          assert result['gate_pass'] is True
+          rows=[]
+          with open('results/bien_temporal_informativeness_v0_4_2/temporal_informativeness.csv',newline='') as fh:
+              for r in csv.DictReader(fh):
+                  if str(r['system_temporal_pass']).strip().lower() not in {'true','t','1'}:
+                      continue
+                  rows.append({
+                    'id':r['system_id'],
+                    'family':r['family'],
+                    'trait_name':r['trait_name'],
+                    'semantic_class':r['semantic_class']
+                  })
+          assert len(rows)==result['n_temporal_pass_systems']
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('matrix='+json.dumps({'include':rows},separators=(',',':'))+'\n')
+          PY
+
+  spatial:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+      - name: Pin RBIEN source
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Validate spatial informativeness contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_informativeness_design_v0_4.json'))
+          e=json.load(open('data/bien_informativeness_execution_v0_4_2.json'))
+          s=json.load(open('data/bien_spatial_informativeness_execution_v0_4_3.json'))
+          assert d['canonical_effect']['benchmark_delta_rho']==0.15
+          assert d['canonical_effect']['admission_thresholds']['median_absolute_recovery_error_max']==0.10
+          assert d['canonical_effect']['admission_thresholds']['directional_recovery_min']==0.80
+          assert d['canonical_effect']['admission_thresholds']['valid_replicate_fraction_min']==0.90
+          assert e['continuous_pair_rule']=='Use every unordered pair exactly; no pair subsampling.'
+          assert s['status']=='BIEN_SPATIAL_INFORMATIVENESS_EXECUTION_FROZEN_PRE_SPATIAL_RESULT'
+          assert s['family_replicate_rule']['minimum_finite_species']==8
+          assert s['raw_state_firewall']['simulator_receives_trait_value'] is False
+          assert s['weighted_pair_spearman']['pair_subsampling'] is False
+          assert s['thresholds_changed'] is False
+          PY
+      - name: Run spatial recovery
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+          FAMILY: ${{ matrix.family }}
+          TRAIT_NAME: ${{ matrix.trait_name }}
+          SEMANTIC_CLASS: ${{ matrix.semantic_class }}
+          SYSTEM_ID: ${{ matrix.id }}
+        run: |
+          mkdir -p build/spatial-info
+          Rscript scripts/analysis/run_bien_spatial_informativeness_v0_4_3.R \
+            --family "$FAMILY" --trait "$TRAIT_NAME" --class "$SEMANTIC_CLASS" --id "$SYSTEM_ID" \
+            --out "build/spatial-info/$SYSTEM_ID.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-spatial-info-${{ matrix.id }}
+          path: build/spatial-info/${{ matrix.id }}.json
+          retention-days: 30
+
+  aggregate:
+    needs: spatial
+    if: always() && needs.spatial.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bien-spatial-info-*
+          path: build/all-spatial
+          merge-multiple: true
+      - name: Aggregate spatial informativeness
+        run: |
+          mkdir -p build/bien_spatial_informativeness_v0_4_3
+          python scripts/analysis/aggregate_bien_spatial_informativeness_v0_4_3.py \
+            --input-dir build/all-spatial \
+            --out build/bien_spatial_informativeness_v0_4_3/result.json \
+            --table-out build/bien_spatial_informativeness_v0_4_3/spatial_informativeness.csv
+      - name: Enforce outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_spatial_informativeness_v0_4_3/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['real_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {'BIEN_SPATIAL_INFORMATIVENESS_PASS','HOLD_BIEN_SPATIAL_INFORMATIVENESS'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-spatial-informativeness-v0-4-3
+          path: build/bien_spatial_informativeness_v0_4_3/

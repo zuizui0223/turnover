@@ -207,7 +207,13 @@ prepare_species_geometry <- function(df){
     pd <- c(pd,rep(0,length(within)))
     pw <- c(pw,as.numeric(mult[within])*(as.numeric(mult[within])-1)/2)
   }
-  if(any(!is.finite(pw)) || any(pw<=0)) stop("invalid expanded pair multiplicity weights")
+  if(any(!is.finite(pw)) || any(pw<=0)){
+    stop(sprintf(
+      "invalid expanded pair multiplicity weights: n_records=%d n_nodes=%d mult_min=%g mult_max=%g mult_nonfinite=%d pi_na=%d pj_na=%d pw_na=%d pw_inf=%d pw_nonpos=%d",
+      nrow(df),n,min(mult),max(mult),sum(!is.finite(mult)),sum(is.na(pi)),sum(is.na(pj)),
+      sum(is.na(pw)),sum(is.infinite(pw)),sum(pw<=0,na.rm=TRUE)
+    ))
+  }
   N <- sum(mult)
   M_expected <- N*(N-1)/2
   M <- sum(pw)

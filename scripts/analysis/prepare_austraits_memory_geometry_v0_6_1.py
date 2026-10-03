@@ -111,6 +111,7 @@ def main()->int:
         AND isfinite(try_cast(value_text AS DOUBLE))
         AND expected_unit<>'' AND unit=expected_unit
       GROUP BY family,trait_name,config_type,species
+      HAVING count(DISTINCT genus)=1
     ),
     cat_counts AS (
       SELECT family,trait_name,config_type,species,value_text,count(*) AS n
@@ -131,6 +132,7 @@ def main()->int:
       FROM dedup
       WHERE config_type='categorical' AND expected_unit='' AND unit=''
       GROUP BY family,trait_name,config_type,species
+      HAVING count(DISTINCT genus)=1
     ),
     cat_unique AS (
       SELECT s.family,s.trait_name,s.config_type,s.species,g.genus

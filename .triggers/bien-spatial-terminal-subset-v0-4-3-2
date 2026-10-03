@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: six singleton temporal-PASS families are sufficient to test the frozen >=12-family spatial upper bound; identical v0.4.3.2 simulator and thresholds, no new scientific rule.

@@ -126,6 +126,18 @@ There was essentially no association between family patristic distance and diffe
 
 Because this analysis was designed after the real memory effects had been opened, it is complementary rather than a prospective primary result. It nevertheless sharpens the scale of the family component: the recurring context is detectable at the family level but is not detectably arranged as a smooth function of deeper family relatedness. At this resolution it is better described as a **family-specific mosaic** than as one continuously inherited deep-phylogeny regime.
 
+## Core ecological novelty
+
+The strongest contribution is **not** that phylogenetic signal differs among clades; that is already well established. The new result is a directional asymmetry in what can be generalized from a crossed family × trait design.
+
+- **Trait → new lineage fails:** knowing the memory gradient of the same named trait in other families does not robustly predict that trait in a held-out family.
+- **Lineage → other traits leaves a residue:** after trait-specific means are removed, family identity retains a modest repeatable deviation across multiple traits.
+- **Deep lineage distance does not organize that residue:** the complementary family-phylogeny analysis finds no smooth increase in context difference with deeper family separation.
+
+Together, these results point away from a single transferable “memory of trait X” and also away from one smooth deep-phylogenetic conservatism axis. The empirical unit that remains is closer to a **trait embedded in a particular lineage context**.
+
+This asymmetry concerns predictive generalization. It is not a statistical claim that family variance exceeds trait variance.
+
 ## Integrated interpretation
 
 The evidence supports a **context-dependent memory architecture**:

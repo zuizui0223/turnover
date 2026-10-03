@@ -1,0 +1,51 @@
+name: Lineage memory repeatability contract v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/lineage_memory_repeatability_design_v0_1.json'
+      - 'results/lineage_memory_model_informativeness_v0_1/result.json'
+      - '.github/workflows/lineage-memory-contract-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Guard independent lineage-repeatability study
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/lineage_memory_repeatability_design_v0_1.json'))
+          m=json.load(open('results/lineage_memory_model_informativeness_v0_1/result.json'))
+          prior=json.load(open('results/trait_memory_model_informativeness_v0_6_1/result.json'))
+          assert prior['status']=='HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS'
+          assert prior['real_memory_effects_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_LINEAGE_MEMORY_EFFECT_OPENING'
+          assert d['relationship_to_prior_studies']['prior_real_memory_effects_opened'] is False
+          assert d['admission_set']['n_systems']==201
+          assert d['admission_set']['n_families']==45
+          assert d['admission_set']['n_traits']==12
+          assert d['primary_model']['formula']=='rho ~ 0 + trait_name + (1|family)'
+          assert d['practical_reference']['meaningful_repeatability']==0.10
+          assert d['model_informativeness_gate']['benchmark_meaningful']['conditional_family_repeatability']==0.20
+          assert d['model_informativeness_gate']['benchmark_null']['conditional_family_repeatability']==0
+          assert d['model_informativeness_gate']['replicates_per_benchmark']==1000
+          assert d['real_analysis_if_gate_passes']['bootstrap']['replicates']==2000
+          assert d['real_memory_effects_opened'] is False
+          assert m['status']=='LINEAGE_MEMORY_MODEL_INFORMATIVENESS_PASS'
+          assert m['n_core_systems']==201
+          assert m['n_families']==45
+          assert m['n_traits']==12
+          assert m['benchmarks']['meaningful']['pass'] is True
+          assert m['benchmarks']['null']['pass'] is True
+          assert m['gate_pass'] is True
+          assert m['real_memory_effects_opened'] is False
+          PY

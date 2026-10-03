@@ -40,10 +40,17 @@ jobs:
               k=min(range(64),key=lambda i:(weights[i],i))
               bins[k].append(r);weights[k]+=int(r['n_species'])**2
           inc=[]
+          assignments=[]
           for i,b in enumerate(bins,1):
-              raw=json.dumps(b,separators=(',',':')).encode()
-              inc.append({'batch_id':f'X{i:03d}','systems_b64':base64.b64encode(raw).decode(),'n':len(b),'weight':weights[i-1]})
-          assert sum(x['n'] for x in inc)==3593
+              bid=f'X{i:03d}'
+              inc.append({'batch_id':bid})
+              for r in b:
+                  z=dict(r);z['batch_id']=bid;assignments.append(z)
+          assert len(assignments)==3593
+          import csv
+          with open('build/assignments.csv','w',newline='') as fh:
+              w=csv.DictWriter(fh,fieldnames=['batch_id','system_id','family','trait_name','config_type','n_species'])
+              w.writeheader();w.writerows(assignments)
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
           PY
       - uses: actions/upload-artifact@v4
@@ -52,6 +59,7 @@ jobs:
           path: |
             build/species/
             build/manifest.csv
+            build/assignments.csv
           retention-days: 30
   crosswalk:
     needs: prepare
@@ -77,14 +85,15 @@ jobs:
           git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
           git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
           R CMD INSTALL build/V.PhyloMaker2
-      - name: Decode and run exact systems
+      - name: Run exact systems assigned to batch
         env:
-          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+          BATCH_ID: ${{ matrix.batch_id }}
         run: |
           mkdir -p build/results
           python - <<'PY'
-          import base64,json,os,subprocess
-          rows=json.loads(base64.b64decode(os.environ['SYSTEMS_B64']))
+          import csv,os,subprocess
+          rows=[r for r in csv.DictReader(open('build/input/assignments.csv')) if r['batch_id']==os.environ['BATCH_ID']]
+          if not rows: raise SystemExit('empty batch')
           for r in rows:
               cmd=['Rscript','scripts/source/run_austraits_exact_crosswalk_v0_4_3.R',
                    '--species-table',f"build/input/species/{r['system_id']}.csv",'--id',r['system_id'],

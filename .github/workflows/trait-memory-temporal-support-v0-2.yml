@@ -1,11 +1,5 @@
 name: Trait memory temporal support v0.2
 on:
-  pull_request:
-    paths:
-      - 'data/trait_memory_spectrum_design_v0_1.json'
-      - 'data/trait_memory_temporal_support_design_v0_2.json'
-      - 'scripts/source/audit_trait_memory_temporal_support_v0_2.R'
-      - '.github/workflows/trait-memory-temporal-support-v0-2.yml'
   workflow_dispatch:
 permissions:
   contents: read

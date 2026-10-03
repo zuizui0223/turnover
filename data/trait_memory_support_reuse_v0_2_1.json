@@ -1,0 +1,32 @@
+{
+  "version": "v0.2.1",
+  "status": "TEMPORAL_SUPPORT_EXACT_AGGREGATE_REUSE_FROZEN",
+  "frozen_on": "2026-10-03",
+  "source_artifact": {
+    "workflow_run": 36743999788,
+    "artifact_id": 11112460603,
+    "artifact_name": "bien-trait-support-v0-2-3",
+    "artifact_sha256": "64c4ea037035cab6f22a098a123704be7ed213444890871b8892dac0da934c5a",
+    "source_database": "BIEN 4.2.8"
+  },
+  "equivalence": {
+    "old_temporal_count": "count distinct scrubbed_species_binomial by scrubbed_family x trait_name",
+    "old_record_filter": [
+      "scrubbed_family nonempty",
+      "scrubbed_species_binomial nonempty",
+      "trait_name nonempty",
+      "trait_value nonmissing",
+      "is_cultivated_observation = 0 OR NULL"
+    ],
+    "new_temporal_count": "identical",
+    "new_record_filter": "identical",
+    "new_change": "Filter the already-aggregated table to the predeclared temporal-only 52-trait universe and apply temporal_species >=20.",
+    "spatial_columns_ignored": true
+  },
+  "chronology": {
+    "new_direct_query_result_seen_before_reuse": false,
+    "real_memory_effects_opened": false
+  },
+  "scientific_rule_changed": false,
+  "can_rescue_by_new_support_definition": false
+}

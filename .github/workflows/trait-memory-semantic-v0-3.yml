@@ -1,8 +1,5 @@
 name: Trait memory semantic validity v0.3
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-semantic-v0-3'
   workflow_dispatch:
 permissions:
   contents: read

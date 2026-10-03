@@ -1,0 +1,37 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_TECHNICAL_IDENTITY_CHECK",
+  "source_runs": {
+    "repeatability": {
+      "workflow_run": 37095981751,
+      "artifact": "trait-memory-repeatability-real-effects-batched-v0-2-1"
+    },
+    "portability": {
+      "workflow_run": 37101640332,
+      "artifact": "trait-memory-real-portability-v0-2"
+    },
+    "lineage": {
+      "workflow_run": 37105207171,
+      "artifact": "lineage-memory-real-effects-v0-2"
+    }
+  },
+  "expected_systems": 201,
+  "key": [
+    "family",
+    "trait_name"
+  ],
+  "exact_columns": [
+    "family",
+    "trait_name",
+    "semantic_class",
+    "n_species_S3",
+    "n_species_prune",
+    "S3_rho",
+    "prune_only_rho",
+    "informativeness_n_input_species",
+    "informativeness_n_prune",
+    "informativeness_s3_lambda"
+  ],
+  "tolerance": 0,
+  "purpose": "Technical reproducibility only. This check introduces no new biological inference."
+}

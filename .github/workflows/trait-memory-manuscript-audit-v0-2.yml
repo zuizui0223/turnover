@@ -1,0 +1,29 @@
+name: Trait memory manuscript audit v0.2
+
+on:
+  pull_request:
+    paths:
+      - 'paper/trait_memory_context_manuscript_v0_2.md'
+      - 'results/trait_memory_context_synthesis_v0_1/**'
+      - 'results/trait_memory_repeatability_v0_2/result.json'
+      - 'results/trait_memory_portability_v0_2/result.json'
+      - 'results/lineage_memory_repeatability_v0_2/result.json'
+      - 'data/trait_memory_context_submission_manifest_v0_1.json'
+      - 'figures/trait_memory_context_v0_2/**'
+      - 'scripts/manuscript/audit_trait_memory_context_v0_2.py'
+      - '.github/workflows/trait-memory-manuscript-audit-v0-2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit manuscript against frozen results
+        run: python scripts/manuscript/audit_trait_memory_context_v0_2.py

@@ -1,9 +1,6 @@
 name: Backbone-stable context model informativeness v0.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/backbone-stable-context-model-info-v0-1'
   workflow_dispatch:
 
 permissions:

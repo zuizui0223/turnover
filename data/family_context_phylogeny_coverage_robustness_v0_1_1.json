@@ -1,0 +1,17 @@
+{
+  "version": "v0.1.1",
+  "status": "POST_OUTCOME_EXPLORATORY_COVERAGE_ROBUSTNESS_FROZEN_PRE_RESULT",
+  "frozen_on": "2026-10-04",
+  "amends": "data/family_context_phylogeny_design_v0_1.json",
+  "chronology": {
+    "family_phylogeny_result_seen": false
+  },
+  "coverage_robustness": {
+    "purpose": "Check whether deep-phylogeny association depends on unequal trait coverage among families.",
+    "rule": "Find the largest deterministic complete family x trait submatrix by iteratively removing the trait with lowest family coverage, recomputing eligible families that contain every retained trait, and recording all stages. Choose the stage with maximum edge count subject to >=30 families and >=2 traits; break ties by more families, then more traits, then lexicographic trait list.",
+    "context_score": "Recompute leave-self-out trait-centered median using only the selected common trait set.",
+    "statistic": "Same family-distance vs absolute context-score-difference Spearman and 9999 score permutations.",
+    "role": "robustness only; primary exploratory statistic remains all admitted traits."
+  },
+  "no_result_driven_trait_choice": true
+}

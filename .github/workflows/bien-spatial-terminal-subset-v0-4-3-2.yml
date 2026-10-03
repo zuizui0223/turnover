@@ -1,0 +1,76 @@
+name: BIEN spatial informativeness terminal subset v0.4.3.2
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/bien-spatial-terminal-subset-v0-4-3-2'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  spatial:
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include:
+          - {id: S023, family: Melastomataceae, trait_name: "diameter at breast height (1.3 m)", semantic_class: continuous_scalar}
+          - {id: S024, family: Meliaceae, trait_name: "diameter at breast height (1.3 m)", semantic_class: continuous_scalar}
+          - {id: S032, family: Rubiaceae, trait_name: "diameter at breast height (1.3 m)", semantic_class: continuous_scalar}
+          - {id: S036, family: Sapotaceae, trait_name: "diameter at breast height (1.3 m)", semantic_class: continuous_scalar}
+          - {id: S037, family: Urticaceae, trait_name: "diameter at breast height (1.3 m)", semantic_class: continuous_scalar}
+          - {id: S038, family: Violaceae, trait_name: "diameter at breast height (1.3 m)", semantic_class: continuous_scalar}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+      - name: Pin RBIEN source
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Validate unchanged spatial contract and technical fixes
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_informativeness_design_v0_4.json'))
+          s=json.load(open('data/bien_spatial_informativeness_execution_v0_4_3.json'))
+          g=json.load(open('data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json'))
+          assert d['canonical_effect']['benchmark_delta_rho']==0.15
+          assert d['canonical_effect']['admission_thresholds']['median_absolute_recovery_error_max']==0.10
+          assert d['canonical_effect']['admission_thresholds']['directional_recovery_min']==0.80
+          assert d['canonical_effect']['admission_thresholds']['valid_replicate_fraction_min']==0.90
+          assert s['family_replicate_rule']['minimum_finite_species']==8
+          assert s['weighted_pair_spearman']['pair_subsampling'] is False
+          assert g['thresholds_changed'] is False
+          assert g['generator_changed'] is False
+          assert g['scientific_equivalence']['pair_set_unchanged'] is True
+          PY
+      - name: Run unchanged spatial recovery
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+          FAMILY: ${{ matrix.family }}
+          TRAIT_NAME: ${{ matrix.trait_name }}
+          SEMANTIC_CLASS: ${{ matrix.semantic_class }}
+          SYSTEM_ID: ${{ matrix.id }}
+        run: |
+          mkdir -p build/spatial-info
+          Rscript scripts/analysis/run_bien_spatial_informativeness_v0_4_3.R \
+            --family "$FAMILY" --trait "$TRAIT_NAME" --class "$SEMANTIC_CLASS" --id "$SYSTEM_ID" \
+            --out "build/spatial-info/$SYSTEM_ID.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-spatial-terminal-${{ matrix.id }}
+          path: build/spatial-info/${{ matrix.id }}.json
+          retention-days: 30

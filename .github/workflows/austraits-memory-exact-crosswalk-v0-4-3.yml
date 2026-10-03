@@ -1,5 +1,8 @@
 name: AusTraits exact V.PhyloMaker2 crosswalk v0.4.3
 on:
+  pull_request:
+    paths:
+      - '.triggers/austraits-exact-crosswalk-v0-4-3-2'
   workflow_dispatch:
 permissions:
   contents: read

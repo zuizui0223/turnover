@@ -1,5 +1,8 @@
 name: Trait memory phylogeny crosswalk v0.4
 on:
+  pull_request:
+    paths:
+      - '.triggers/trait-memory-crosswalk-v0-4'
   workflow_dispatch:
 permissions:
   contents: read

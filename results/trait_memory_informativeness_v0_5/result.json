@@ -1,0 +1,17 @@
+{
+  "version": "v0.5",
+  "status": "TRAIT_MEMORY_TEMPORAL_INFORMATIVENESS_COMPLETE",
+  "evidence_workflow_run": 37086693588,
+  "evidence_artifact_id": 11263253304,
+  "evidence_artifact_sha256": "08ecf052a2071c63205ff6fce82ec9b7639c1fa59ab85beae208b3cced14ff6f",
+  "outcome_blind": true,
+  "real_trait_values_opened": false,
+  "real_memory_effects_opened": false,
+  "n_candidate_systems": 722,
+  "n_reused_prior_systems": 39,
+  "n_newly_simulated_systems": 683,
+  "n_temporal_pass_systems": 255,
+  "n_pass_families_before_final_core": 70,
+  "n_pass_traits_before_final_core": 22,
+  "next_gate": "Apply frozen crossed-core degree/connectivity gate before real memory rho."
+}

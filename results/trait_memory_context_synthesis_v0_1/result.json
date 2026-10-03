@@ -69,7 +69,7 @@
         "R_trait": 0.0207,
         "R_residual": 0.8312
       },
-      "interpretation": "Most variation is family-by-trait-specific/residual. Family identity has an estimable repeatable component; trait repeatability is small and uncertain. Do not compare R_family and R_trait as a formal dominance test."
+      "interpretation": "Most variation is not repeatable as family or trait main effects and remains in the residual/system-level component. That residual can include true family x trait interaction plus effect-estimation error, measurement heterogeneity and other model residual; it is not a direct biological interaction variance. Family identity has an estimable repeatable component; trait repeatability is small and uncertain. Do not compare R_family and R_trait as a formal dominance test."
     },
     "cross_lineage_trait_portability": {
       "S3": {
@@ -101,13 +101,13 @@
       ],
       "practical_reference": 0.1,
       "frozen_interpretation": "UNCERTAIN_RELATIVE_TO_10_PERCENT_REFERENCE",
-      "interpretation": "After trait-specific means are removed, family identity retains a stable estimated cross-trait component, but the 95% interval spans the predeclared 10% reference."
+      "interpretation": "After trait-specific means are removed, family identity retains a stable estimated grouping-level component across traits, but the 95% interval spans the predeclared 10% reference. Because covariance among families on the deeper angiosperm phylogeny is not modeled, interpret this as family-level lineage context rather than a uniquely family-specific causal effect."
     }
   },
   "synthesis_claims_allowed": [
-    "Phylogenetic memory-loss strength is not a portable trait-intrinsic signature across plant families under the predeclared cross-lineage prediction test.",
-    "Family identity contains a modest repeatable cross-trait component after trait-specific means are controlled.",
-    "Most family x trait variation remains system-specific/residual rather than being captured by family identity or trait identity alone.",
+    "Phylogenetic memory-loss strength is not a robustly portable trait-intrinsic signature across plant families under the predeclared cross-lineage prediction test.",
+    "Family identity contains a modest repeatable cross-trait grouping-level component after trait-specific means are controlled.",
+    "Most variation is not repeatable as family or trait main effects and remains in an unresolved system-level/residual component.",
     "Macroevolutionary memory estimates should not automatically be transferred among clades solely by trait name."
   ],
   "synthesis_claims_prohibited": [
@@ -116,7 +116,9 @@
     "Trait effects are zero.",
     "Family effects exceed the 10% practical repeatability reference with high confidence.",
     "The failed spatial-turnover programme implies weak spatial turnover.",
-    "Any causal mechanism for the family component."
+    "Any causal mechanism for the family component.",
+    "The residual 80.6% is pure biological family x trait interaction.",
+    "Families are phylogenetically independent causal units."
   ],
   "synthesis_type": "Interpretive triangulation of three separately prequalified analyses; no new p-values, thresholds, filtering, or model selection are introduced."
 }

@@ -1,0 +1,72 @@
+{
+  "version": "v0.6.2",
+  "status": "FROZEN_AFTER_VARIANCE_RATIO_HOLD_BEFORE_REAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-04",
+  "prerequisite": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+  "relationship_to_primary": {
+    "primary_question_closed": true,
+    "primary_question": "Is trait variance larger than family variance, or vice versa?",
+    "primary_hold_reason": "The 201-edge graph recovered the sign of a twofold variance contrast but failed the predeclared MAE<=0.35 magnitude-recovery criterion.",
+    "no_threshold_relaxation": true,
+    "new_question_independent": "Does trait identity and/or family identity contribute a reproducible nonzero component of phylogenetic memory loss, without ranking the two components?"
+  },
+  "biological_hypotheses": {
+    "trait_repeatability": "The same trait carries some repeatable memory-loss tendency across independent families.",
+    "lineage_repeatability": "The same family carries some repeatable memory-loss tendency across multiple traits.",
+    "both": "Both crossed identities contribute repeatable structure.",
+    "neither": "Observed family x trait heterogeneity is not recoverably structured by either crossed identity at this graph size."
+  },
+  "graph": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "connected": true,
+    "source": "frozen final crossed core from workflow run 37086693588 artifact 11263253304"
+  },
+  "model": "y ~ 1 + (1|family) + (1|trait_name), REML",
+  "benchmarks": {
+    "intercept": 0.15,
+    "residual_variance": 0.01,
+    "null": {
+      "family_variance": 0,
+      "trait_variance": 0
+    },
+    "trait_component": {
+      "family_variance": 0,
+      "trait_variance": 0.005
+    },
+    "family_component": {
+      "family_variance": 0.005,
+      "trait_variance": 0
+    },
+    "both_components": {
+      "family_variance": 0.005,
+      "trait_variance": 0.005
+    }
+  },
+  "replicates_per_benchmark": 1000,
+  "master_seed": 20261004,
+  "component_statistic": {
+    "trait": "REML trait random-intercept variance",
+    "family": "REML family random-intercept variance"
+  },
+  "calibration_and_admission": {
+    "null_calibration": "For each component, set a one-sided 95th-percentile detection threshold from its estimated variance under the null benchmark.",
+    "trait_power_min": 0.8,
+    "family_power_min": 0.8,
+    "valid_nonsingular_fit_fraction_min": 0.9,
+    "required_benchmarks": [
+      "trait_component",
+      "family_component"
+    ],
+    "both_components": "diagnostic only",
+    "rule": "PASS only if null-calibrated power is >=0.80 for the corresponding 0.005 component on both axes and >=90% fits are valid. Do not compare component magnitudes."
+  },
+  "if_pass": {
+    "real_effect_question": "Fit the frozen crossed model to real rho and report whether each variance component exceeds its independently calibrated null threshold; do not classify trait-dominant versus lineage-dominant.",
+    "multiplicity": "The two component-presence decisions are co-primary and use separate pre-calibrated 5% null thresholds; report both without selecting the more favorable axis."
+  },
+  "if_hold": "Stop before opening real rho. Do not lower component size or power requirement.",
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

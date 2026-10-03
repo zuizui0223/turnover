@@ -1,0 +1,22 @@
+{
+  "version": "v0.2.1",
+  "status": "TRAIT_MEMORY_REAL_EFFECT_BATCH_EXECUTION_TECHNICAL_MIRROR",
+  "frozen_on": "2026-10-03",
+  "amends": ".github/workflows/trait-memory-repeatability-real-effects-v0-2.yml",
+  "chronology": {
+    "real_effect_matrix_run_started": true,
+    "biological_selection_complete": true,
+    "estimator_complete": true
+  },
+  "scientific_changes": false,
+  "core_changed": false,
+  "estimator_changed": false,
+  "tree_changed": false,
+  "species_state_changed": false,
+  "batch_rule": "Use the exact same run_trait_memory_real_effect_v0_7.R once per frozen core system; only group multiple systems into one runner to amortize setup.",
+  "batch_count": 32,
+  "max_parallel": 8,
+  "balancing_weight": "n_input_species^2 from the frozen core table",
+  "crosscheck": "If both original 201-job and batch mirror complete, require exact family/trait keys and absolute S3/prune rho difference <=1e-12 before choosing either artifact for modeling.",
+  "no_scientific_reinterpretation": true
+}

@@ -1,9 +1,7 @@
 name: Render trait-memory summary figures v0.2
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/render-trait-memory-summary-v0-2'
+  workflow_dispatch:
 
 permissions:
   contents: write

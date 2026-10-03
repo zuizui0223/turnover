@@ -1,0 +1,69 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_REPEATABILITY_MODEL_INFORMATIVENESS_PASS",
+  "evidence_workflow_run": 37095576401,
+  "evidence_job_id": 111124690935,
+  "evidence_artifact_id": 11263044791,
+  "evidence_artifact_sha256": "e6725077f64dd9e0534d363911e9849bb58f94e267b4003f180f0b3e005f2a05",
+  "outcome_blind": true,
+  "real_memory_effects_opened": false,
+  "n_core_systems": 201,
+  "n_core_families": 45,
+  "n_core_traits": 12,
+  "replicates_per_benchmark": 1000,
+  "master_seed": 20261003,
+  "benchmarks": {
+    "trait_dominant": {
+      "true_R_family": 0.16666666666666666,
+      "true_R_trait": 0.3333333333333333,
+      "true_R_residual": 0.5,
+      "valid_fraction": 0.999,
+      "median_absolute_error_R_family": 0.0406,
+      "median_absolute_error_R_trait": 0.0782,
+      "median_absolute_error_R_residual": 0.064,
+      "median_estimated_R_family": 0.1695,
+      "median_estimated_R_trait": 0.3201,
+      "median_estimated_R_residual": 0.5022,
+      "singular_fraction": 0.001,
+      "failed_fraction": 0,
+      "pass": true
+    },
+    "lineage_dominant": {
+      "true_R_family": 0.3333333333333333,
+      "true_R_trait": 0.16666666666666666,
+      "true_R_residual": 0.5,
+      "valid_fraction": 0.998,
+      "median_absolute_error_R_family": 0.0521,
+      "median_absolute_error_R_trait": 0.0504,
+      "median_absolute_error_R_residual": 0.0549,
+      "median_estimated_R_family": 0.3272,
+      "median_estimated_R_trait": 0.1583,
+      "median_estimated_R_residual": 0.5045,
+      "singular_fraction": 0.002,
+      "failed_fraction": 0,
+      "pass": true
+    },
+    "mixed": {
+      "true_R_family": 0.25,
+      "true_R_trait": 0.25,
+      "true_R_residual": 0.5,
+      "valid_fraction": 1,
+      "median_absolute_error_R_family": 0.046,
+      "median_absolute_error_R_trait": 0.0648,
+      "median_absolute_error_R_residual": 0.0566,
+      "median_estimated_R_family": 0.25,
+      "median_estimated_R_trait": 0.2357,
+      "median_estimated_R_residual": 0.5034,
+      "singular_fraction": 0,
+      "failed_fraction": 0,
+      "pass": true
+    }
+  },
+  "admission": {
+    "valid_nonsingular_fraction_min": 0.9,
+    "median_absolute_error_R_family_max": 0.1,
+    "median_absolute_error_R_trait_max": 0.1
+  },
+  "gate_pass": true,
+  "next_gate": "Open real memory-loss rho only for the frozen 201-system core and estimate R_family, R_trait, R_residual without dominance comparison."
+}

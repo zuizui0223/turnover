@@ -1,0 +1,70 @@
+{
+  "version": "v0.2",
+  "status": "TRAIT_MEMORY_REPEATABILITY_ESTIMATED",
+  "evidence": {
+    "workflow_run": 37095981751,
+    "artifact_id": 11264597069,
+    "artifact_sha256": "2ccabde54a13220d2f39efcd641cf57e7e5fe0470cbf7aa24cc03444b712bbf0"
+  },
+  "real_memory_effects_opened": true,
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "primary_S3": {
+    "var_family": 0.0031,
+    "var_trait": 0.0009,
+    "var_residual": 0.0167,
+    "R_family": 0.1504,
+    "R_trait": 0.0433,
+    "R_residual": 0.8063,
+    "singular": false
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "success_fraction": 1,
+    "successful": 2000,
+    "singular_fraction_among_success": 0.1585,
+    "ci95": {
+      "R_family": [
+        0.0204,
+        0.2861
+      ],
+      "R_trait": [
+        0,
+        0.1335
+      ],
+      "R_residual": [
+        0.66,
+        0.9522
+      ]
+    },
+    "master_seed": 20261003
+  },
+  "prune_only_sensitivity": {
+    "var_family": 0.0044,
+    "var_trait": 0.0006,
+    "var_residual": 0.0246,
+    "R_family": 0.1482,
+    "R_trait": 0.0207,
+    "R_residual": 0.8312,
+    "singular": false
+  },
+  "leave_one_out": {
+    "n_leave_one_trait": 12,
+    "n_leave_one_family": 45,
+    "R_family_range": {
+      "min": 0.0935,
+      "max": 0.1897
+    },
+    "R_trait_range": {
+      "min": 0.0241,
+      "max": 0.0606
+    }
+  },
+  "dominance_comparison_performed": false,
+  "dominance_label": null,
+  "analysis_gate_pass": true,
+  "raw_trait_measurements_persisted": false,
+  "species_states_persisted": false,
+  "species_names_persisted": false
+}

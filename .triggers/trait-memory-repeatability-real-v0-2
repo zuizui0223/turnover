@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: repeatability-share model informativeness PASS on the frozen 201-system core; open real memory rho only for R_family/R_trait/R_residual estimation, with no dominance comparison.

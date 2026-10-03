@@ -1,0 +1,181 @@
+name: Trait memory repeatability real effects batched v0.2.1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Validate scientific identity
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_repeatability_design_v0_1.json'))
+          m=json.load(open('results/trait_memory_repeatability_model_info_v0_1/result.json'))
+          e=json.load(open('data/trait_memory_real_effect_batch_execution_v0_2_1.json'))
+          assert m['status']=='TRAIT_MEMORY_REPEATABILITY_MODEL_INFORMATIVENESS_PASS'
+          assert m['gate_pass'] is True
+          assert d['model']['hard_rule']=='Do not label one axis dominant or test R_trait > R_family in this version.'
+          assert e['scientific_changes'] is False
+          assert e['core_changed'] is False
+          assert e['estimator_changed'] is False
+          assert e['batch_count']==32
+          assert e['max_parallel']==8
+          PY
+      - id: matrix
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os
+          rows=list(csv.DictReader(open('build/core/trait_memory_crossed_core_v0_6/core_systems.csv',newline='')))
+          assert len(rows)==201
+          systems=[]
+          for i,r in enumerate(rows,1):
+              systems.append({
+                'id':f'Q{i:04d}','family':r['family'],'trait_name':r['trait_name'],
+                'semantic_class':r['semantic_class'],'weight':int(r['n_input_species'])**2
+              })
+          bins=[{'weight':0,'systems':[]} for _ in range(32)]
+          for s in sorted(systems,key=lambda z:(-z['weight'],z['family'],z['trait_name'])):
+              k=min(range(32),key=lambda i:(bins[i]['weight'],i))
+              bins[k]['systems'].append({q:s[q] for q in ['id','family','trait_name','semantic_class']})
+              bins[k]['weight']+=s['weight']
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({'batch_id':f'C{i:03d}','systems_b64':base64.b64encode(raw).decode(),'n_systems':len(b['systems']),'weight':b['weight']})
+          assert sum(x['n_systems'] for x in include)==201
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          PY
+
+  effect-batch:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Download frozen core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
+          cp build/core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+      - name: Pin BIEN and V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Decode batch
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/effects
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+      - name: Run exact same real-effect estimator for batch
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          python scripts/analysis/run_trait_memory_real_effect_batch_v0_2_1.py \
+            --batch-json build/batch/systems.json \
+            --out-dir build/effects
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-real-batch-${{ matrix.batch_id }}
+          path: build/effects/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: effect-batch
+    if: always() && needs.effect-batch.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: trait-memory-repeatability-real-batch-C*
+          path: build/all-effects
+          merge-multiple: true
+      - name: Download frozen core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+      - name: Aggregate exact 201 effects
+        run: |
+          mkdir -p build/real
+          python scripts/analysis/aggregate_trait_memory_real_effects_v0_7.py \
+            --input-dir build/all-effects \
+            --core-table build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/real/effects.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-real-effects-batched-v0-2-1
+          path: build/real/effects.csv
+
+  model:
+    needs: aggregate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: trait-memory-repeatability-real-effects-batched-v0-2-1
+          path: build/real
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit frozen repeatability model
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/fit_trait_memory_repeatability_v0_2.R \
+            --effects build/real/effects.csv \
+            --out build/model/result.json \
+            --bootstrap-table build/model/bootstrap.csv \
+            --loo-table build/model/leave_one_out.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-v0-2-1
+          path: build/model/

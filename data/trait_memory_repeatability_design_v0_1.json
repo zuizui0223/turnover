@@ -1,0 +1,107 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_REAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "programme_name": "Plant trait phylogenetic memory repeatability",
+  "relationship_to_prior": {
+    "prior_variance_ratio_result": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+    "prior_status": "HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS",
+    "real_memory_effects_opened_in_prior": false,
+    "new_question": "Estimate trait-axis and family-axis repeatability separately; do not classify which axis dominates.",
+    "independence_rule": "The previous log variance-ratio precision failure is retained and cannot be overwritten by this study."
+  },
+  "biological_question": "How much of the variation in phylogenetic memory-loss rate is repeatable across lineages for the same trait, and how much is repeatable across traits within the same lineage?",
+  "source_and_core": {
+    "source": "BIEN 4.2.8",
+    "final_core_artifact_run": 37086693588,
+    "final_core_artifact_id": 11263253304,
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12,
+    "connected": true,
+    "all_traits_semantic_class": "continuous_scalar"
+  },
+  "response": {
+    "effect": "all-pair Spearman(patristic separation, absolute species-state difference)",
+    "species_state": "median valid measurement",
+    "null_mean_exact": 0,
+    "canonical_name": "memory_loss_rho",
+    "primary_tree": "S3",
+    "mandatory_sensitivity": "prune-only on identical 201-system set"
+  },
+  "model": {
+    "formula": "rho ~ 1 + (1|family) + (1|trait_name)",
+    "estimation": "REML",
+    "weighting": "none",
+    "variance_components": [
+      "family",
+      "trait",
+      "residual"
+    ],
+    "repeatability": {
+      "family": "R_family = var_family / (var_family + var_trait + var_residual)",
+      "trait": "R_trait = var_trait / (var_family + var_trait + var_residual)",
+      "residual": "R_residual = var_residual / total"
+    },
+    "interpretation": {
+      "R_trait": "cross-lineage portability of trait-specific phylogenetic memory",
+      "R_family": "cross-trait repeatability of lineage-level evolutionary memory regime",
+      "R_residual": "family-by-trait specificity plus measurement/model residual; no mechanistic decomposition claimed"
+    },
+    "hard_rule": "Do not label one axis dominant or test R_trait > R_family in this version."
+  },
+  "model_informativeness": {
+    "benchmark_source": "Reuse the exact three pre-outcome known-truth parameter sets from data/trait_memory_model_informativeness_v0_6_1.json.",
+    "benchmarks": {
+      "trait_dominant": {
+        "true_R_family": 0.16666666666666666,
+        "true_R_trait": 0.3333333333333333,
+        "true_R_residual": 0.5
+      },
+      "lineage_dominant": {
+        "true_R_family": 0.3333333333333333,
+        "true_R_trait": 0.16666666666666666,
+        "true_R_residual": 0.5
+      },
+      "mixed": {
+        "true_R_family": 0.25,
+        "true_R_trait": 0.25,
+        "true_R_residual": 0.5
+      }
+    },
+    "replicates_per_benchmark": 1000,
+    "master_seed": 20261003,
+    "admission": {
+      "valid_nonsingular_fraction_min": 0.9,
+      "median_absolute_error_R_family_max": 0.1,
+      "median_absolute_error_R_trait_max": 0.1,
+      "required_benchmarks": [
+        "trait_dominant",
+        "lineage_dominant",
+        "mixed"
+      ]
+    },
+    "failure_rule": "If any benchmark fails any criterion, stop before opening real memory rho. Do not change the core, model, benchmark, or error tolerance."
+  },
+  "real_analysis_if_admitted": {
+    "primary_outputs": [
+      "R_family",
+      "R_trait",
+      "R_residual"
+    ],
+    "uncertainty": "2000 parametric bootstrap replicates under seed 20261003",
+    "intervals": "2.5% and 97.5% percentile intervals for each repeatability share",
+    "prune_only": "same model and identical system set using prune-only rho",
+    "leave_one_out": "pre-frozen leave-one-trait and leave-one-family descriptive robustness",
+    "no_dominance_label": true
+  },
+  "hard_nonclaims": [
+    "No claim that trait repeatability exceeds family repeatability or vice versa.",
+    "No spatial-turnover inference.",
+    "No mechanistic interpretation of the residual component.",
+    "No outcome-driven removal of families or traits.",
+    "No new data source or threshold relaxation."
+  ],
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

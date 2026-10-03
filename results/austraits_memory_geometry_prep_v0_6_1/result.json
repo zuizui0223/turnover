@@ -1,0 +1,28 @@
+{
+  "version": "v0.6.1",
+  "status": "AUSTRAITS_MEMORY_GEOMETRY_PREP_PASS",
+  "evidence_workflow_run": 37114360344,
+  "evidence_job_id": 111178162531,
+  "evidence_artifact_id": 11271292262,
+  "evidence_artifact_sha256": "37f032356ffe3bd3df2c98700c4e8e51510488344b67e00841af90afc1267c1a",
+  "outcome_blind": true,
+  "austraits_memory_effects_opened": false,
+  "n_candidate_systems": 1463,
+  "n_unique_geometries": 1442,
+  "n_duplicate_systems_saved": 21,
+  "n_geometry_groups_gt1": 19,
+  "max_geometry_group_size": 3,
+  "config_type_system_counts": {
+    "categorical": 1002,
+    "numeric": 461
+  },
+  "config_type_geometry_counts": {
+    "categorical": 991,
+    "numeric": 451
+  },
+  "core_families": 64,
+  "core_traits": 73,
+  "connected": true,
+  "geometry_artifact": "austraits-memory-geometry-prep-v0-6-1",
+  "next_gate": "Run inherited temporal informativeness once per unique geometry, prune-only first."
+}

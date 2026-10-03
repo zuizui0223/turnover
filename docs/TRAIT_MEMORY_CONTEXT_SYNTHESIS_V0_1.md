@@ -123,3 +123,19 @@ If emphasizing the paired evidence:
 **Trait memory fails to transfer across plant families despite repeatable lineage context**
 
 The third title should be used cautiously because the conditional family interval spans the frozen 10% practical reference.
+
+
+## Publication boundary
+
+The completed empirical paper should be scoped as a **temporal comparative plant-trait study**, not as a partially successful version of the original time × space turnover programme.
+
+The original generalized programme remains valuable as the prospective qualification history that produced the temporal core, but its interaction and spatial arms closed before biological outcomes. Their failures are therefore not biological results to be combined with the 201-system temporal analysis.
+
+For publication, the clean boundary is:
+
+- **Main paper:** phylogenetic memory gradients across 201 family × trait systems; cross-lineage portability; crossed repeatability; conditional lineage context.
+- **Methods / Supplement:** prospective source, semantic, phylogeny and known-truth informativeness qualification; exact-null derivation; S3/prune-only sensitivity.
+- **Do not frame as a result:** the failed generalized interaction/spatial source routes.
+- **Future/replication:** independently qualified AusTraits analysis, if it passes all source-native gates.
+
+This boundary keeps the ecological question recognizable: **can the evolutionary memory learned for a trait be transported to another lineage?**

@@ -14,14 +14,14 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
-      - name: Download frozen geometry preparation
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Block superseded geometry lineage
         run: |
-          mkdir -p build/geometry
-          gh run download 37128923077 -R "$GITHUB_REPOSITORY" -n austraits-memory-geometry-prep-v0-6-3 -D build/geometry
-          test -f build/geometry/groups.csv
-          test -f build/geometry/systems.csv
+          python - <<'PY'
+          import json
+          g=json.load(open('data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json'))
+          assert g['status']=='AUSTRAITS_DOWNSTREAM_EXACT_CROSSWALK_GUARD_FROZEN'
+          raise SystemExit('This v0.6.2 workflow is intentionally blocked: rebuild geometry from the completed exact v0.4.3 crosswalk before running informativeness.')
+          PY
       - name: Download pinned trait config
         run: |
           curl -L --fail -o build/traits.yml             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml

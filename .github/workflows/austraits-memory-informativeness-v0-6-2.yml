@@ -1,9 +1,6 @@
 name: AusTraits memory temporal informativeness v0.6.2
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/austraits-memory-informativeness-v0-6-2'
   workflow_dispatch:
 
 permissions:

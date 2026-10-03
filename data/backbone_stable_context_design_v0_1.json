@@ -1,0 +1,59 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_SUPPORTING_MODEL_FROZEN_BEFORE_BACKBONE_STABILITY_ESTIMATE",
+  "frozen_on": "2026-10-03",
+  "role": "Supporting decomposition of the already-opened 201 system-level memory effects; no new primary claim or family-vs-trait dominance test.",
+  "source_effects": {
+    "workflow_run": 37095981751,
+    "artifact_id": 11264513111,
+    "artifact_name": "trait-memory-repeatability-real-effects-batched-v0-2-1",
+    "expected_systems": 201,
+    "expected_families": 45,
+    "expected_traits": 12,
+    "exact_effect_identity": "results/trait_memory_context_synthesis_v0_1/effect_identity.json"
+  },
+  "question": "How much of the previously labeled family-by-trait-specific/residual heterogeneity is stable across S3 and prune-only phylogenetic treatments, rather than specific to backbone treatment?",
+  "repeated_measure_model": {
+    "stacked_rows": "two rows per family x trait system: S3 rho and prune-only rho",
+    "formula": "rho ~ backbone + (1|family) + (1|trait_name) + (1|system_id)",
+    "backbone_reference": "S3",
+    "estimation": "REML with lme4::lmer and bobyqa",
+    "weights": "none",
+    "common_residual_variance_assumption": true
+  },
+  "primary_quantities": {
+    "variance_family": "stable family-level component across both backbones",
+    "variance_trait": "stable trait-level component across both backbones",
+    "variance_system": "stable family x trait-specific component across both backbones",
+    "variance_residual": "backbone-specific / estimator-specific within-system remainder under the common-residual model",
+    "share_system_total": "variance_system / total variance",
+    "conditional_system_stability": "variance_system / (variance_system + variance_residual)",
+    "backbone_stable_total_share": "(variance_family + variance_trait + variance_system) / total variance",
+    "backbone_specific_share": "variance_residual / total variance",
+    "prune_mean_shift": "fixed prune-only coefficient relative to S3"
+  },
+  "interpretation_rule": "A large conditional_system_stability means that the dominant family x trait heterogeneity observed previously is reproducible across the two predeclared phylogenetic treatments; it does not identify a biological mechanism.",
+  "uncertainty": {
+    "parametric_bootstrap_replicates": 2000,
+    "master_seed": 20261003,
+    "ci": "2.5 and 97.5 percentile intervals",
+    "minimum_valid_fraction": 0.9
+  },
+  "heteroskedasticity_sensitivity": {
+    "transform": "Within each backbone separately, z-standardize rho to mean 0 and SD 1, then refit the identical random-effects structure without the backbone fixed effect.",
+    "primary_quantity": "conditional_system_stability_z",
+    "role": "Mandatory sensitivity to different S3 versus prune-only marginal variances; not a replacement for the raw-rho model."
+  },
+  "leave_one_out": {
+    "trait": "Refit raw-rho model after omitting each trait once.",
+    "family": "Refit raw-rho model after omitting each family once.",
+    "output": "Range of conditional_system_stability and share_system_total; descriptive only."
+  },
+  "hard_nonclaims": [
+    "Do not claim family effects dominate trait effects.",
+    "Do not treat prune-only as an independent biological replicate; it is a second predeclared phylogenetic treatment.",
+    "Do not equate variance_system with causal family x trait interaction.",
+    "Do not reinterpret the failed spatial-turnover programme.",
+    "Do not change the 201-system core."
+  ]
+}

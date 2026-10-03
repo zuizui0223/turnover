@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   crosswalk:
     runs-on: ubuntu-24.04
@@ -18,6 +19,14 @@ jobs:
             any::DBI
             any::jsonlite
             any::ape
+      - name: Download frozen semantic artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/semantic
+          gh run download 37085441662 -R "$GITHUB_REPOSITORY" -n trait-memory-semantic-v0-3 -D build/semantic
+          test -f build/semantic/semantic.csv
+          test -f build/semantic/result.json
       - name: Pin sources
         run: |
           mkdir -p build
@@ -30,10 +39,9 @@ jobs:
         env:
           RBIEN_SOURCE_DIR: build/RBIEN
         run: |
-          test -f results/trait_memory_semantic_v0_3/semantic.csv
           mkdir -p build/trait_memory_crosswalk_v0_4
           Rscript scripts/source/audit_trait_memory_crosswalk_v0_4.R \
-            --semantic-table results/trait_memory_semantic_v0_3/semantic.csv \
+            --semantic-table build/semantic/semantic.csv \
             --out build/trait_memory_crosswalk_v0_4/result.json \
             --table-out build/trait_memory_crosswalk_v0_4/crosswalk.csv
       - uses: actions/upload-artifact@v4

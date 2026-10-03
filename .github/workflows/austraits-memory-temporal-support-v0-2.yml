@@ -1,11 +1,5 @@
 name: AusTraits memory temporal support v0.2
 on:
-  pull_request:
-    paths:
-      - 'data/austraits_memory_context_replication_v0_1.json'
-      - 'data/austraits_memory_temporal_support_v0_2.json'
-      - 'scripts/source/audit_austraits_memory_temporal_support_v0_2.py'
-      - '.github/workflows/austraits-memory-temporal-support-v0-2.yml'
   workflow_dispatch:
 permissions:
   contents: read

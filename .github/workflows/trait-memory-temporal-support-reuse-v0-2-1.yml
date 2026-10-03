@@ -1,8 +1,5 @@
 name: Trait memory temporal support reuse v0.2.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-support-reuse-v0-2-1'
   workflow_dispatch:
 permissions:
   contents: read

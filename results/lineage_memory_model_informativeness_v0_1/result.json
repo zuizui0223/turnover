@@ -1,0 +1,37 @@
+{
+  "version": "v0.1",
+  "status": "LINEAGE_MEMORY_MODEL_INFORMATIVENESS_PASS",
+  "evidence_workflow_run": 37104973075,
+  "evidence_job_id": 111151585420,
+  "evidence_artifact_id": 11267552293,
+  "evidence_artifact_sha256": "86b1893096789df017120fc8051f65346ecbc32b757dcde0c3a1a0e8d5164c6d",
+  "outcome_blind": true,
+  "real_memory_effects_opened": false,
+  "n_core_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "replicates_per_benchmark": 1000,
+  "master_seed": 20261003,
+  "benchmarks": {
+    "meaningful": {
+      "target_repeatability": 0.2,
+      "successful_fit_fraction": 1,
+      "singular_fraction": 0.003,
+      "median_estimate": 0.1938,
+      "median_absolute_error": 0.0538,
+      "fraction_estimate_gt_0_10": 0.891,
+      "pass": true
+    },
+    "null": {
+      "target_repeatability": 0,
+      "successful_fit_fraction": 1,
+      "singular_fraction": 0.506,
+      "median_estimate": 2.8894e-14,
+      "median_absolute_error": 2.8894e-14,
+      "fraction_estimate_gt_0_10": 0.043,
+      "pass": true
+    }
+  },
+  "gate_pass": true,
+  "next_gate": "Open real memory rho only under the frozen lineage-repeatability estimator."
+}

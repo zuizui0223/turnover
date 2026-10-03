@@ -1,9 +1,6 @@
 name: Trait memory temporal informativeness v0.5
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-informativeness-v0-5'
   workflow_dispatch:
 
 permissions:

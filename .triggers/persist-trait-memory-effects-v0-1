@@ -1,0 +1,4 @@
+triggered_on: 2026-10-03
+source_run: 37095981751
+source_artifact: trait-memory-repeatability-real-effects-batched-v0-2-1
+expected_sha256: 5fffdfbc9ab50ff7bf568e80537a290e11c2bfde02f1d5484c7e896ed5f9415b

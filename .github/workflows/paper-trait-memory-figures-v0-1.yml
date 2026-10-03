@@ -1,0 +1,77 @@
+name: Trait-memory manuscript figures v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'paper/manuscript_trait_memory_context_v0_1.md'
+      - 'paper/make_main_figures.py'
+      - '.github/workflows/paper-trait-memory-figures-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  figures:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install figure runtime
+        run: pip install matplotlib pandas numpy
+
+      - name: Download frozen 201-system effect artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" \
+            -n trait-memory-repeatability-real-effects-batched-v0-2-1 \
+            -D build/effects
+          test -f build/effects/effects.csv
+
+      - name: Validate manuscript source results
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('results/trait_memory_repeatability_v0_2/result.json'))
+          p=json.load(open('results/trait_memory_portability_v0_2/result.json'))
+          l=json.load(open('results/lineage_memory_repeatability_v0_2/result.json'))
+          s=json.load(open('results/trait_memory_context_synthesis_v0_1/result.json'))
+          assert r['status']=='TRAIT_MEMORY_REPEATABILITY_ESTIMATED'
+          assert p['status']=='HOLD_TRAIT_MEMORY_PORTABILITY'
+          assert l['status']=='LINEAGE_MEMORY_REPEATABILITY_ESTIMATED'
+          assert s['status']=='POST_OUTCOME_INTEGRATIVE_SYNTHESIS_NO_NEW_INFERENCE'
+          assert r['n_systems']==p['n_systems']==l['n_systems']==201
+          assert s['common_core']['systems']==201
+          assert s['common_core']['S3_effect_identity_across_three_execution_routes']['max_absolute_difference']==0
+          PY
+
+      - name: Generate manuscript figures
+        run: |
+          mkdir -p build/figures
+          python paper/make_main_figures.py \
+            --effects build/effects/effects.csv \
+            --repeatability results/trait_memory_repeatability_v0_2/result.json \
+            --portability results/trait_memory_portability_v0_2/result.json \
+            --lineage results/lineage_memory_repeatability_v0_2/result.json \
+            --synthesis results/trait_memory_context_synthesis_v0_1/result.json \
+            --outdir build/figures
+
+      - name: Validate expected figure set
+        run: |
+          for f in fig1_qualification fig2_memory_heatmap fig3_backbone_concordance fig4_triangulation; do
+            test -s "build/figures/$f.pdf"
+            test -s "build/figures/$f.svg"
+            test -s "build/figures/$f.png"
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-manuscript-figures-v0-1
+          path: build/figures/

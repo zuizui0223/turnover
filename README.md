@@ -94,15 +94,19 @@ For trait-time and trait-space, the complete label-permutation null has also bee
 
 ## Independent temporal follow-up
 
-The generalized time-space programme above remains terminal pre-outcome HOLD and is not being relaxed. A separate prospective follow-up is being developed on `followup/trait-memory-spectrum-v0-1`: **is phylogenetic trait-memory loss primarily trait-specific or lineage-specific?**
+The generalized time-space programme above remains terminal pre-outcome HOLD and was not relaxed. A separate prospective temporal-only follow-up asked whether **phylogenetic trait-memory loss is primarily trait-specific or lineage-specific**.
 
-This follow-up uses BIEN 4.2.8 and the same pinned V.PhyloMaker2 backbone but drops the geographic question entirely. Before any real family × trait memory-loss rho is opened, it has passed:
+This follow-up remained outcome-blind through all system-selection gates:
 
 - temporal structural support: **1,455 systems / 240 families / 49 traits**;
-- temporal semantic validity: **1,219 systems / 219 families / 47 traits**;
+- semantic validity: **1,219 systems / 219 families / 47 traits**;
 - S3 + prune-only phylogeny crosswalk: **802 systems / 160 families / 47 traits**;
-- exact necessary crossed-repeat pruning: **722 systems / 120 families / 25 traits**, one connected family–trait graph.
+- necessary pre-informativeness crossed core: **722 systems / 120 families / 25 traits**;
+- temporal known-truth informativeness: **255 systems / 70 families / 22 traits**;
+- final crossed degree/connectivity core: **201 systems / 45 families / 12 traits**, one connected bipartite graph.
 
-The inherited known-truth temporal informativeness test is now running on those 722 systems. The 39 systems already evaluated under the identical frozen contract reuse their prior result exactly; only 683 novel systems are simulated. If the final informativeness-PASS graph retains family degree ≥2, trait degree ≥5, ≥12 families, ≥4 traits and one connected component, the pre-frozen primary model is an unweighted crossed REML variance decomposition `rho ~ 1 + (1|family) + (1|trait_name)`. Its primary contrast is `log(var_trait / var_family)` with 2,000 fixed-seed parametric bootstrap replicates.
+The final pre-outcome gate tested whether that realized 201-edge graph could recover a predeclared twofold trait-vs-family variance architecture before any real family × trait memory-loss rho was opened. Directional recovery was adequate (trait-dominant 0.833; lineage-dominant 0.886), but the median absolute error of the log variance ratio was **0.442–0.452**, above the frozen maximum **0.35**.
 
-Real trait-memory effects remain unopened until that final gate passes.
+Therefore the trait-dominant versus lineage-dominant variance-ratio question is **terminal pre-outcome HOLD**. Real memory-loss rho was not opened, the precision threshold was not relaxed, and no outcome-driven family/trait deletion was performed.
+
+The qualification trail is retained because it identifies a broad and well-connected temporal trait matrix while also showing that the crossed graph is not precise enough for the predeclared twofold variance-ratio classification.

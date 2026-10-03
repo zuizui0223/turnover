@@ -1,0 +1,60 @@
+name: Lineage memory model informativeness v0.1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  model-info:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Download frozen 201-system core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+          test -f build/core/trait_memory_crossed_core_v0_6/result.json
+      - name: Validate independent lineage-repeatability contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/lineage_memory_repeatability_design_v0_1.json'))
+          prior=json.load(open('results/trait_memory_model_informativeness_v0_6_1/result.json'))
+          assert prior['status']=='HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS'
+          assert prior['real_memory_effects_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_LINEAGE_MEMORY_EFFECT_OPENING'
+          assert d['primary_model']['formula']=='rho ~ 0 + trait_name + (1|family)'
+          assert d['primary_model']['primary_parameter']=='conditional_family_repeatability = variance_family / (variance_family + variance_residual)'
+          assert d['practical_reference']['meaningful_repeatability']==0.10
+          g=d['model_informativeness_gate']
+          assert g['benchmark_meaningful']['conditional_family_repeatability']==0.20
+          assert g['benchmark_null']['conditional_family_repeatability']==0
+          assert g['replicates_per_benchmark']==1000
+          assert g['master_seed']==20261003
+          assert d['real_memory_effects_opened'] is False
+          PY
+      - name: Run lineage-repeatability known-truth simulations
+        run: |
+          mkdir -p build/model-info
+          Rscript scripts/analysis/run_lineage_memory_model_informativeness_v0_1.R \
+            --core-table build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/model-info/result.json \
+            --table-out build/model-info/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lineage-memory-model-informativeness-v0-1
+          path: build/model-info/

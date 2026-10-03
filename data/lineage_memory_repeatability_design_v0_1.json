@@ -1,0 +1,91 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_LINEAGE_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "programme_name": "Lineage repeatability of phylogenetic trait memory",
+  "relationship_to_prior_studies": {
+    "generalized_time_space_terminal": "results/bien_spatial_informativeness_v0_4_3/result.json",
+    "trait_vs_lineage_ratio_terminal": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+    "prior_real_memory_effects_opened": false,
+    "new_question": "Does family identity explain a repeatable component of memory-loss rate across different traits after trait-specific means are controlled?",
+    "prohibited_reinterpretation": "Do not compare family variance against trait variance; the prior variance-ratio question remains terminal HOLD."
+  },
+  "admission_set": {
+    "source": "frozen 201-system crossed core from workflow run 37086693588 / artifact 11263253304",
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12,
+    "semantic_class": "continuous_scalar only",
+    "reuse_rule": "Use this outcome-blind final core exactly. Do not add or remove systems based on real rho."
+  },
+  "response": {
+    "estimator": "memory_loss_rho = Spearman(all unordered S3 patristic distances, absolute species-state differences)",
+    "species_state": "median valid BIEN measurement per species",
+    "null_mean_exact": 0,
+    "interpretation": "larger positive rho means faster loss of trait similarity with phylogenetic separation"
+  },
+  "primary_model": {
+    "formula": "rho ~ 0 + trait_name + (1|family)",
+    "estimation": "REML",
+    "trait_role": "fixed nuisance effect; each admitted trait gets its own mean",
+    "family_role": "random intercept representing a lineage-wide shift shared across multiple traits",
+    "primary_parameter": "conditional_family_repeatability = variance_family / (variance_family + variance_residual)",
+    "rationale": "The parameter asks whether family identity is repeatable across traits after all trait-specific mean memory rates are removed. It does not compare family variance with between-trait variance."
+  },
+  "practical_reference": {
+    "meaningful_repeatability": 0.1,
+    "reporting_rule": {
+      "repeatable_lineage_regime": "95% parametric-bootstrap CI lower bound > 0.10",
+      "weak_lineage_repeatability": "95% CI upper bound < 0.10",
+      "uncertain": "otherwise"
+    },
+    "note": "The 10% threshold is frozen before real rho is opened and is not used for system selection."
+  },
+  "model_informativeness_gate": {
+    "benchmark_meaningful": {
+      "conditional_family_repeatability": 0.2,
+      "conditional_total_variance": 0.02,
+      "family_variance": 0.004,
+      "residual_variance": 0.016
+    },
+    "benchmark_null": {
+      "conditional_family_repeatability": 0,
+      "conditional_total_variance": 0.02,
+      "family_variance": 0,
+      "residual_variance": 0.02
+    },
+    "trait_fixed_effects": "12 deterministic centered means equally spaced from -0.10 to +0.10 and assigned by sorted trait name; these are simulation-only nuisance means",
+    "replicates_per_benchmark": 1000,
+    "master_seed": 20261003,
+    "fit": "same REML primary model",
+    "admission": {
+      "successful_fit_fraction_min": 0.95,
+      "meaningful_median_absolute_icc_error_max": 0.08,
+      "meaningful_abs_median_bias_max": 0.05,
+      "meaningful_fraction_estimate_gt_0_10_min": 0.8,
+      "null_fraction_estimate_gt_0_10_max": 0.1,
+      "null_median_estimate_max": 0.03
+    },
+    "failure_rule": "If either benchmark fails, stop before opening real rho; do not change the core, benchmark, threshold or model."
+  },
+  "real_analysis_if_gate_passes": {
+    "bootstrap": {
+      "replicates": 2000,
+      "master_seed": 20261003,
+      "simulation": "parametric bootstrap from fitted trait fixed effects, family random intercept variance, and residual variance",
+      "confidence_interval": "2.5 and 97.5 percentiles of finite conditional family repeatability",
+      "minimum_valid_fraction": 0.9
+    },
+    "prune_only_sensitivity": "Repeat the identical model on prune-only rho for the identical 201 systems; descriptive mandatory sensitivity only.",
+    "leave_one_trait_out": "Refit primary S3 model after removing each trait in turn; descriptive robustness only.",
+    "leave_one_family_out": "Refit primary S3 model after removing each family in turn; descriptive robustness only."
+  },
+  "hard_nonclaims": [
+    "No claim that family effects dominate trait effects.",
+    "No spatial turnover claim.",
+    "No use of systems outside the frozen 201-edge core.",
+    "No source or threshold rescue after real rho is opened."
+  ],
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

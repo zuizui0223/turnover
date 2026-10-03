@@ -27,8 +27,8 @@ con.execute("CREATE TEMP TABLE candidates(system_id VARCHAR,family VARCHAR,trait
 con.executemany("INSERT INTO candidates VALUES (?,?,?,?,?)",cand)
 sql=r"""
 WITH base AS (
- SELECT c.system_id,trim(CAST(a.family AS VARCHAR)) family,trim(CAST(a.genus AS VARCHAR)) genus,
-        trim(CAST(a.binomial AS VARCHAR)) species,trim(CAST(a.trait_name AS VARCHAR)) trait_name,
+ SELECT c.system_id,trim(CAST(a.family AS VARCHAR)) AS "family",trim(CAST(a.genus AS VARCHAR)) AS genus,
+        trim(CAST(a.binomial AS VARCHAR)) AS species,trim(CAST(a.trait_name AS VARCHAR)) AS trait_name,
         c.config_type,c.expected_unit,
         trim(CAST(a.dataset_id AS VARCHAR))||chr(31)||trim(CAST(a.observation_id AS VARCHAR)) record_key,
         trim(CAST(a.value AS VARCHAR)) value_text,coalesce(trim(CAST(a.unit AS VARCHAR)),'') unit

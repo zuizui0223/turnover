@@ -1,0 +1,40 @@
+system_id,family,trait_name,semantic_class,n_input_species,n_prune,n_bind,s3_lambda,s3_mae,s3_directional,s3_valid_fraction,s3_pass,prune_lambda,prune_mae,prune_directional,prune_valid_fraction,prune_pass,system_temporal_pass
+S001,Anacardiaceae,diameter at breast height (1.3 m),continuous_scalar,134,57,77,1,0.0659,0.967,1,True,1.3335,0.0934,0.885,1,True,True
+S002,Annonaceae,diameter at breast height (1.3 m),continuous_scalar,322,190,132,,,,,False,,,,,False,False
+S003,Apocynaceae,diameter at breast height (1.3 m),continuous_scalar,217,81,136,,,,,False,,,,,False,False
+S004,Aquifoliaceae,diameter at breast height (1.3 m),continuous_scalar,42,25,17,,,,,False,,,,,False,False
+S005,Arecaceae,diameter at breast height (1.3 m),continuous_scalar,174,108,66,1,0.0671,0.985,1,True,0.7499,0.066,0.953,1,True,True
+S006,Betulaceae,diameter at breast height (1.3 m),continuous_scalar,24,20,4,10,0.1072,0.883,1,False,,,,,False,False
+S007,Betulaceae,whole plant height,continuous_scalar,33,27,6,31.6228,0.0982,0.903,1,True,3.1623,0.1008,0.897,1,False,False
+S008,Bignoniaceae,diameter at breast height (1.3 m),continuous_scalar,221,37,184,0.866,0.0527,0.986,1,True,1,0.083,0.905,1,True,True
+S009,Bignoniaceae,whole plant growth form,nominal_categorical,514,68,446,,,,,False,,,,,False,False
+S010,Burseraceae,diameter at breast height (1.3 m),continuous_scalar,143,76,67,0.7499,0.0708,0.992,1,True,0.4217,0.0704,0.967,1,True,True
+S011,Celastraceae,diameter at breast height (1.3 m),continuous_scalar,124,52,72,1,0.0698,0.97,1,True,1,0.0965,0.917,1,True,True
+S012,Chrysobalanaceae,diameter at breast height (1.3 m),continuous_scalar,143,35,108,2.3714,0.0723,0.974,1,True,1.1548,0.1109,0.857,1,False,False
+S013,Clusiaceae,diameter at breast height (1.3 m),continuous_scalar,138,61,77,0.4217,0.092,0.989,1,True,0.2371,0.0938,0.961,1,True,True
+S014,Cupressaceae,diameter at breast height (1.3 m),continuous_scalar,26,24,2,0.1334,0.0955,0.892,1,True,0.1155,0.0985,0.87,1,True,True
+S015,Cupressaceae,whole plant height,continuous_scalar,37,30,7,0.1778,0.0903,0.914,1,True,0.1778,0.0871,0.916,1,True,True
+S016,Ericaceae,diameter at breast height (1.3 m),continuous_scalar,99,70,29,0.7499,0.0802,0.953,1,True,0.7499,0.091,0.956,1,True,True
+S017,Euphorbiaceae,diameter at breast height (1.3 m),continuous_scalar,274,126,148,,,,,False,,,,,False,False
+S018,Fabaceae,whole plant growth form,nominal_categorical,5392,1503,3889,,,,,False,,,,,False,False
+S019,Fabaceae,whole plant height,continuous_scalar,573,369,204,1.7783,0.0529,1,1,True,1,0.0545,1,1,True,True
+S020,Fagaceae,diameter at breast height (1.3 m),continuous_scalar,130,74,56,,,,,False,,,,,False,False
+S021,Fagaceae,whole plant height,continuous_scalar,95,64,31,3.1623,0.0628,0.945,1,True,1,0.071,0.946,1,True,True
+S022,Lecythidaceae,diameter at breast height (1.3 m),continuous_scalar,116,56,60,0.5623,0.0602,0.972,1,True,0.866,0.0839,0.945,1,True,True
+S023,Melastomataceae,diameter at breast height (1.3 m),continuous_scalar,268,141,127,0.4217,0.0752,0.988,1,True,1,0.0664,0.971,1,True,True
+S024,Meliaceae,diameter at breast height (1.3 m),continuous_scalar,179,88,91,3.1623,0.0744,0.977,1,True,3.1623,0.0874,0.971,1,True,True
+S025,Moraceae,diameter at breast height (1.3 m),continuous_scalar,226,98,128,0.5623,0.0698,0.985,1,True,0.3162,0.0799,0.98,1,True,True
+S026,Moraceae,whole plant growth form,nominal_categorical,348,144,204,,,,,False,,,,,False,False
+S027,Moraceae,whole plant height,continuous_scalar,86,42,44,1,0.0736,0.978,1,True,0.2738,0.074,0.958,1,True,True
+S028,Myristicaceae,diameter at breast height (1.3 m),continuous_scalar,114,31,83,,,,,False,,,,,False,False
+S029,Myrtaceae,diameter at breast height (1.3 m),continuous_scalar,279,91,188,,,,,False,,,,,False,False
+S030,Piperaceae,diameter at breast height (1.3 m),continuous_scalar,67,24,43,,,,,False,,,,,False,False
+S031,Rosaceae,whole plant height,continuous_scalar,312,185,127,3.1623,0.0572,1,1,True,1.7783,0.0609,1,1,True,True
+S032,Rubiaceae,diameter at breast height (1.3 m),continuous_scalar,566,171,395,0.5623,0.0685,0.999,1,True,1,0.0744,0.988,1,True,True
+S033,Salicaceae,whole plant height,continuous_scalar,121,72,49,0.1334,0.0493,0.998,1,True,0.1334,0.0448,0.996,1,True,True
+S034,Sapindaceae,diameter at breast height (1.3 m),continuous_scalar,286,50,236,0.7499,0.0516,0.977,1,True,10,0.0953,0.966,1,True,True
+S035,Sapindaceae,whole plant height,continuous_scalar,105,34,71,1,0.058,0.984,1,True,0.5623,0.0762,0.962,1,True,True
+S036,Sapotaceae,diameter at breast height (1.3 m),continuous_scalar,242,144,98,1.7783,0.0708,0.986,1,True,1.7783,0.082,0.939,1,True,True
+S037,Urticaceae,diameter at breast height (1.3 m),continuous_scalar,77,20,57,1.1548,0.0737,0.966,1,True,0.2738,0.0959,0.854,1,True,True
+S038,Violaceae,diameter at breast height (1.3 m),continuous_scalar,59,37,22,3.1623,0.0912,0.93,1,True,0.7499,0.0915,0.905,1,True,True
+S039,Vitaceae,diameter at breast height (1.3 m),continuous_scalar,40,27,13,31.6228,0.1021,0.858,1,False,,,,,False,False

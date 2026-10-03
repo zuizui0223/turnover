@@ -1,0 +1,41 @@
+name: BIEN spatial geometry debug v0.4.3.2
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/bien-spatial-geometry-debug-v0-4-3-2'
+
+permissions:
+  contents: read
+
+jobs:
+  debug:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+      - name: Pin RBIEN
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Run S001 with aggregate diagnostic
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/spatial-debug
+          Rscript scripts/analysis/run_bien_spatial_informativeness_v0_4_3.R \
+            --family "Anacardiaceae" \
+            --trait "diameter at breast height (1.3 m)" \
+            --class "continuous_scalar" \
+            --id "S001" \
+            --out build/spatial-debug/S001.json

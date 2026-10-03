@@ -1,0 +1,54 @@
+name: AusTraits memory model informativeness v0.7
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  model-info:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Download frozen final AusTraits core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37114644733 -R "$GITHUB_REPOSITORY" -n austraits-memory-informativeness-v0-6 -D build/core
+          test -f build/core/austraits_memory_crossed_core_v0_6/result.json
+          test -f build/core/austraits_memory_crossed_core_v0_6/core_systems.csv
+      - name: Validate frozen replication model gate
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_memory_context_replication_v0_1.json'))
+          c=json.load(open('build/core/austraits_memory_crossed_core_v0_6/result.json'))
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert d['primary_prediction']['practical_reference']==0.10
+          assert d['model_informativeness']['meaningful_benchmark']['conditional_family_repeatability']==0.20
+          assert d['model_informativeness']['null_benchmark']['conditional_family_repeatability']==0
+          assert d['model_informativeness']['replicates_per_benchmark']==1000
+          assert d['model_informativeness']['master_seed']==20261003
+          assert c['status']=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS'
+          assert c['gate_pass'] is True
+          assert d['austraits_memory_effects_opened'] is False
+          PY
+      - name: Run graph-specific known-truth model gate
+        run: |
+          mkdir -p build/model-info
+          Rscript scripts/analysis/run_austraits_memory_model_informativeness_v0_7.R             --core-table build/core/austraits_memory_crossed_core_v0_6/core_systems.csv             --out build/model-info/result.json             --table-out build/model-info/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-memory-model-informativeness-v0-7
+          path: build/model-info/

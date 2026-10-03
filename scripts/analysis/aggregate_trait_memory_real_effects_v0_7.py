@@ -11,7 +11,8 @@ a=ap.parse_args()
 
 with a.core_table.open(newline="") as fh:
     core=list(csv.DictReader(fh))
-core_keys={(r["family"],r["trait_name"]) for r in core}
+core_map={(r["family"],r["trait_name"]):r for r in core}
+core_keys=set(core_map)
 rows=[]
 for p in sorted(a.input_dir.glob("*.json")):
     x=json.loads(p.read_text())
@@ -20,6 +21,7 @@ for p in sorted(a.input_dir.glob("*.json")):
     k=(x["family"],x["trait_name"])
     if k not in core_keys:
         raise SystemExit(f"effect outside frozen core: {k}")
+    cr=core_map[k]
     rows.append({
       "system_id":x["system_id"],
       "family":x["family"],
@@ -28,7 +30,10 @@ for p in sorted(a.input_dir.glob("*.json")):
       "n_species_S3":x["n_species_S3"],
       "n_species_prune":x["n_species_prune"],
       "S3_rho":x["S3_rho"],
-      "prune_only_rho":x["prune_only_rho"]
+      "prune_only_rho":x["prune_only_rho"],
+      "informativeness_n_input_species":cr["n_input_species"],
+      "informativeness_n_prune":cr["n_prune"],
+      "informativeness_s3_lambda":cr["s3_lambda"]
     })
 if len(rows)!=len(core):
     seen={(r["family"],r["trait_name"]) for r in rows}

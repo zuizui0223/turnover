@@ -24,19 +24,13 @@ jobs:
             any::DBI
       - name: Install Python runtime
         run: pip install duckdb pyyaml
-      - name: Download corrected final AusTraits core
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Block superseded AusTraits core lineage
         run: |
-          mkdir -p build/austraits-core
-          gh run download 37129060487 -R "$GITHUB_REPOSITORY" -n austraits-memory-informativeness-v0-6 -D build/austraits-core
-          test -f build/austraits-core/austraits_memory_crossed_core_v0_6/result.json
-          test -f build/austraits-core/austraits_memory_crossed_core_v0_6/core_systems.csv
           python - <<'PY'
           import json
-          x=json.load(open('build/austraits-core/austraits_memory_crossed_core_v0_6/result.json'))
-          assert x['status']=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS'
-          assert x['gate_pass'] is True
+          g=json.load(open('data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json'))
+          assert g['status']=='AUSTRAITS_DOWNSTREAM_EXACT_CROSSWALK_GUARD_FROZEN'
+          raise SystemExit('Provenance audit is intentionally blocked until a new final core is rebuilt from exact v0.4.3 crosswalk.')
           PY
       - name: Download fixed BIEN discovery core
         env:

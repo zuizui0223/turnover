@@ -1,0 +1,122 @@
+{
+  "version": "v0.4.3.2",
+  "status": "HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND",
+  "decided_on": "2026-10-03",
+  "outcome_blind": true,
+  "real_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "real_effect_design_executed": false,
+  "temporal_prerequisite": {
+    "status": "BIEN_TEMPORAL_INFORMATIVENESS_PASS",
+    "candidate_systems": 39,
+    "temporal_pass_systems": 24,
+    "temporal_pass_independent_families": 21,
+    "result": "results/bien_temporal_informativeness_v0_4_2/result.json"
+  },
+  "spatial_contracts": [
+    "data/bien_informativeness_design_v0_4.json",
+    "data/bien_informativeness_execution_v0_4_2.json",
+    "data/bien_spatial_informativeness_execution_v0_4_3.json",
+    "data/bien_spatial_duplicate_grouper_fix_v0_4_3_1.json",
+    "data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json"
+  ],
+  "admission_thresholds": {
+    "benchmark_delta_rho": 0.15,
+    "median_absolute_recovery_error_max": 0.1,
+    "directional_recovery_min": 0.8,
+    "valid_replicate_fraction_min": 0.9,
+    "minimum_independent_families": 12
+  },
+  "confirmed_spatial_hold_families": [
+    "Anacardiaceae",
+    "Arecaceae",
+    "Bignoniaceae",
+    "Burseraceae",
+    "Celastraceae",
+    "Clusiaceae",
+    "Lecythidaceae",
+    "Melastomataceae",
+    "Rubiaceae",
+    "Urticaceae",
+    "Violaceae"
+  ],
+  "confirmed_spatial_hold_systems": [
+    {
+      "system_id": "S001",
+      "family": "Anacardiaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S005",
+      "family": "Arecaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S008",
+      "family": "Bignoniaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S010",
+      "family": "Burseraceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S011",
+      "family": "Celastraceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S013",
+      "family": "Clusiaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S022",
+      "family": "Lecythidaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S023",
+      "family": "Melastomataceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S032",
+      "family": "Rubiaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S037",
+      "family": "Urticaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    },
+    {
+      "system_id": "S038",
+      "family": "Violaceae",
+      "trait_name": "diameter at breast height (1.3 m)"
+    }
+  ],
+  "n_temporal_pass_independent_families": 21,
+  "n_confirmed_spatial_hold_independent_families": 11,
+  "maximum_possible_final_spatial_pass_families": 10,
+  "minimum_required_final_families": 12,
+  "upper_bound_logic": "21 temporal-PASS independent families - 11 distinct families whose only temporal-PASS system is confirmed spatial HOLD = at most 10 final families, even if every unresolved family passes.",
+  "exhaustive_spatial_completion_required": false,
+  "gate_pass": false,
+  "route_decision": "TERMINAL_PREOUTCOME_HOLD",
+  "finite_family_consequence": "AusTraits is already terminal structural HOLD and the frozen trait-source family contains only BIEN and AusTraits. A third primary trait source is forbidden.",
+  "thresholds_lowered": false,
+  "alternate_generator_used": false,
+  "real_trait_turnover_may_be_opened": false,
+  "evidence": {
+    "corrected_full_run": 37083505333,
+    "terminal_subset_run": 37084129072,
+    "technical_pre_result_failures": [
+      "initial pair-multiplicity grouper failure before calibration",
+      "great-circle matrix dimension loss before calibration"
+    ],
+    "technical_fixes_changed_science": false
+  },
+  "interpretation": "The observed spatial geometries cannot support the predeclared benchmark recovery in enough independent families. This is an informativeness/design HOLD, not an estimate that biological spatial turnover is weak or absent."
+}

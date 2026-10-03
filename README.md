@@ -129,7 +129,7 @@ Crossed REML without a dominance comparison:
 
 Prune-only sensitivity is similar: family 0.1482, trait 0.0207, residual 0.8312.
 
-These are separate repeatability shares only; the repository does **not** infer that family effects are statistically larger than trait effects.
+These are separate repeatability shares only; the repository does **not** infer that family effects are statistically larger than trait effects. The 0.806 residual share is an unresolved system-level component that can contain true family × trait interaction, effect-estimation error, measurement heterogeneity and other model residual; it is not a direct estimate of biological interaction variance.
 
 ### Cross-lineage portability of trait identity
 
@@ -155,9 +155,9 @@ The interval spans the predeclared 0.10 practical reference, so the frozen class
 
 The most defensible combined conclusion is:
 
-> **Phylogenetic memory-loss strength is not a robustly portable intrinsic property of trait identity across plant families. Most variation is family × trait specific, while family identity carries a modest recurring cross-trait component.**
+> **Phylogenetic memory-loss strength is not a robustly portable intrinsic property of trait identity across plant families. Most variation is not repeatable as family or trait main effects and remains in an unresolved system-level/residual component, while family identity carries a modest recurring cross-trait component.**
 
-This is a conclusion about **context dependence and portability**, not a revived family-versus-trait dominance claim.
+This is a conclusion about **context dependence and portability**, not a revived family-versus-trait dominance claim. The family component is interpreted as family-level lineage context; the analysis does not model deeper covariance among plant families and does not identify a family-specific mechanism.
 
 The full synthesis and claim boundaries are in:
 

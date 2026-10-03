@@ -50,6 +50,7 @@ num_species AS (
    AND isfinite(try_cast(value_text AS DOUBLE))
    AND expected_unit<>'' AND unit=expected_unit
  GROUP BY geometry_id,family,species
+ HAVING count(DISTINCT genus)=1
 ),
 cat_counts AS (
  SELECT geometry_id,family,species,value_text,count(*) AS n
@@ -69,6 +70,7 @@ cat_genus AS (
  FROM dedup
  WHERE config_type='categorical' AND expected_unit='' AND unit=''
  GROUP BY geometry_id,family,species
+ HAVING count(DISTINCT genus)=1
 ),
 cat_unique AS (
  SELECT s.geometry_id,s.family,s.species,g.genus

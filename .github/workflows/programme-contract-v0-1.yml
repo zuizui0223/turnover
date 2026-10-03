@@ -18,6 +18,7 @@ on:
       - 'results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
       - 'results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json'
       - 'results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'
+      - 'results/bien_temporal_informativeness_v0_4_2/result.json'
       - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
       - 'data/bien_informativeness_design_v0_4.json'
       - 'data/bien_informativeness_execution_v0_4_2.json'
@@ -104,10 +105,10 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
 
           tr=json.load(open('data/trait_source_routing_v0_1.json'))
-          assert tr['status']=='TRAIT_PRIMARY_BIEN_CROSSWALK_PASS_SECOND_SOURCE_TERMINAL_HOLD'
+          assert tr['status']=='TRAIT_PRIMARY_BIEN_TEMPORAL_INFO_PASS_SECOND_SOURCE_TERMINAL_HOLD'
           assert tr['maximum_primary_trait_sources']==2
           assert tr['first_source']=='BIEN_4_2'
-          assert tr['first_source_state']=='CROSSWALK_PASS_INFORMATIVENESS_PENDING'
+          assert tr['first_source_state']=='TEMPORAL_INFORMATIVENESS_PASS_SPATIAL_PENDING'
           assert tr['first_source_result']=='results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
           assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
           assert tr['second_source_state']=='TERMINAL_STRUCTURAL_HOLD'
@@ -175,8 +176,17 @@ jobs:
           assert cw['gate_pass'] is True
           assert cw['raw_trait_values_opened'] is False
           assert cw['biological_turnover_outcomes_opened'] is False
-          assert by['BIEN_4_2']['metadata_status']=='PHYLOGENY_CROSSWALK_PASS_INFORMATIVENESS_PENDING'
-          assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='PINNED_SOURCE_PASS_CROSSWALK_PENDING'
+          ti=json.load(open('results/bien_temporal_informativeness_v0_4_2/result.json'))
+          assert ti['status']=='BIEN_TEMPORAL_INFORMATIVENESS_PASS'
+          assert ti['n_candidate_systems']==39
+          assert ti['n_temporal_pass_systems']==24
+          assert ti['n_independent_families']==21
+          assert ti['minimum_required_families']==12
+          assert ti['gate_pass'] is True
+          assert ti['real_trait_values_opened'] is False
+          assert ti['biological_turnover_outcomes_opened'] is False
+          assert by['BIEN_4_2']['metadata_status']=='TEMPORAL_INFORMATIVENESS_PASS_SPATIAL_PENDING'
+          assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='TEMPORAL_INFORMATIVENESS_PASS'
 
           z=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))
           assert z['status']=='TRAIT_PERMUTATION_NULL_MEAN_EXACT_ZERO_FROZEN_PRE_OUTCOME'

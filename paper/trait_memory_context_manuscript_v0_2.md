@@ -202,6 +202,14 @@ Finally, the family random effect does not model deeper phylogenetic covariance 
 
 Phylogenetic memory of plant traits is real in many individual lineages, but its magnitude is not a robustly portable intrinsic property of trait identity across families. The same named trait can carry different memory gradients in different lineages, while family identity contributes a modest recurring cross-trait context. Most remaining heterogeneity is unresolved at the system level. The broader implication is predictive: within-clade phylogenetic memory should not be assumed to transfer across clades without explicit validation at the phylogenetic scale of application.
 
+## Data and code availability
+
+The analyses use BIEN 4.2.8 through a pinned RBIEN implementation (commit 531cb221bd44cf43419e89b2354f6424e718cd53) and a pinned V.PhyloMaker2 implementation (commit 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9) with GBOTB.extended.TPL. Raw BIEN measurements are not redistributed by this repository and remain available through the BIEN source under its data-access terms.
+
+All analysis code, prospective gate contracts, machine-readable result summaries and manuscript figure scripts are versioned in the turnover repository. The canonical manuscript-level effect table contains the 201 qualified family × trait systems and is stored at results/trait_memory_context_synthesis_v0_1/effects.csv (SHA256: 5fffdfbc9ab50ff7bf568e80537a290e11c2bfde02f1d5484c7e896ed5f9415b). Three independently authorized real-effect execution routes reproduce the S3 and prune-only rho values in this table exactly.
+
+A machine-readable submission manifest is provided at data/trait_memory_context_submission_manifest_v0_1.json. The prospective gate chronology, including questions that were stopped before real effects were opened, is documented in docs/TRAIT_MEMORY_GATE_CHRONOLOGY_SI_V0_1.md.
+
 ## Figure captions
 
 **Figure 1. Prospectively qualified crossed family × trait design.** Incidence matrix for the fixed empirical core of 201 family × trait systems spanning 45 vascular-plant families and 12 continuous traits. Cells indicate qualified systems only; family and trait ordering is graphical and is not used to define inferential clusters.

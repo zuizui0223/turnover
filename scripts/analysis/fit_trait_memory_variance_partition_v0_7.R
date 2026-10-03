@@ -135,6 +135,32 @@ if(valid_fraction < 0.90){
 fit_prune <- fit_model(x$prune_only_rho)
 prune <- variance_summary(fit_prune)
 
+# Mandatory species-coverage adjusted secondary sensitivity.
+zlog <- as.numeric(scale(log(as.numeric(x$n_species_S3))))
+dat_cov <- data.frame(
+  rho=as.numeric(x$S3_rho),z_log_species=zlog,
+  family=factor(x$family),trait_name=factor(x$trait_name)
+)
+fit_cov <- lmer(rho ~ z_log_species + (1|family) + (1|trait_name),data=dat_cov,REML=TRUE,
+                control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
+coverage <- list(
+  fixed_effect=as.numeric(fixef(fit_cov)[["z_log_species"]]),
+  variance=variance_summary(fit_cov),
+  singular=isSingular(fit_cov,tol=1e-4)
+)
+zlogp <- as.numeric(scale(log(as.numeric(x$n_species_prune))))
+dat_covp <- data.frame(
+  rho=as.numeric(x$prune_only_rho),z_log_species_prune=zlogp,
+  family=factor(x$family),trait_name=factor(x$trait_name)
+)
+fit_covp <- lmer(rho ~ z_log_species_prune + (1|family) + (1|trait_name),data=dat_covp,REML=TRUE,
+                 control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
+coverage_prune <- list(
+  fixed_effect=as.numeric(fixef(fit_covp)[["z_log_species_prune"]]),
+  variance=variance_summary(fit_covp),
+  singular=isSingular(fit_covp,tol=1e-4)
+)
+
 # Mandatory leave-one-trait and leave-one-family descriptive robustness.
 loo_rows <- list()
 kk <- 0L
@@ -224,6 +250,8 @@ out <- list(
   ),
   architecture=architecture,
   prune_only_sensitivity=prune,
+  coverage_adjusted_sensitivity=coverage,
+  prune_only_coverage_adjusted_sensitivity=coverage_prune,
   semantic_class_secondary=secondary,
   leave_one_out=loo_summary,
   model_gate_pass=gate,

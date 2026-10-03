@@ -1,0 +1,2 @@
+triggered_on: 2026-10-04
+reason: rerun exact pinned V.PhyloMaker2 crosswalk after technical-only DuckDB alias parser fix; scientific rules unchanged.

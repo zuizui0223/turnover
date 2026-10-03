@@ -50,9 +50,13 @@ jobs:
           python - <<'PY'
           import csv,json
           x=json.load(open('build/geometry/result.json'))
+          assert x['version']=='v0.6.3'
           assert x['outcome_blind'] is True
           assert x['austraits_memory_effects_opened'] is False
-          assert x['n_candidate_systems']==1463
+          assert x['core_families']>=12
+          assert x['core_traits']>=4
+          assert x['connected'] is True
+          assert x['species_dedup_fix']=='data/austraits_phylo_species_dedup_fix_v0_4_1.json'
           for p in ['build/geometry/systems.csv','build/geometry/groups.csv']:
               rows=csv.DictReader(open(p))
               bad={'species','genus','binomial'}.intersection(rows.fieldnames or [])

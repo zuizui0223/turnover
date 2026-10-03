@@ -1,0 +1,24 @@
+{
+  "version": "v0.1.2",
+  "status": "BIEN_VERSION_REGEX_ENCODING_FIXED_PREVALUE",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_version_amendment_v0_1_1.json",
+  "trigger_result": "results/bien_metadata_preflight_v0_1/result_hold_v0_1_1.json",
+  "change_type": "technical serialization fix only",
+  "semantic_version_rule_unchanged": true,
+  "intended_release_family": "4.2.x",
+  "corrected_prefix_regex": "^4\\.2(?:\\.|$)",
+  "downstream_exact_patch_pin": "4.2.8",
+  "reason": "The v0.1.1 JSON stored an overescaped regex. The scientific rule remains BIEN 4.2.x with exact downstream pin 4.2.8.",
+  "unchanged": {
+    "source": true,
+    "rbien_pin": true,
+    "required_schema_fields": true,
+    "trait_vocabulary_reference": 54,
+    "support_thresholds": true,
+    "trait_selection": false,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "no_posthoc_biological_relaxation": true
+}

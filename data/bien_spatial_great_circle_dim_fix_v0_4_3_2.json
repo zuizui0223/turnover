@@ -1,0 +1,34 @@
+{
+  "version": "v0.4.3.2",
+  "status": "BIEN_SPATIAL_GREAT_CIRCLE_DIMENSION_FIX_PRE_RESULT",
+  "frozen_on": "2026-10-03",
+  "amends": [
+    "scripts/analysis/run_bien_spatial_informativeness_v0_4_3.R",
+    "data/bien_spatial_duplicate_grouper_fix_v0_4_3_1.json"
+  ],
+  "diagnosis": {
+    "diagnostic_system": "S001",
+    "n_records": 79,
+    "n_nodes": 34,
+    "expected_pair_index_rows": 561,
+    "observed_pair_index_length_before_within_pairs": 1156,
+    "observed_pi_max": 1156,
+    "cause": "pmax(-1,C) and pmin(1,...) used scalar as first argument and dropped the matrix dim attribute before acos; lower.tri therefore received a vector rather than the n x n distance matrix."
+  },
+  "technical_change": "Replace pmin/pmax clamp with in-place matrix element clipping C[C>1]=1; C[C< -1]=-1, preserving dimensions exactly.",
+  "scientific_equivalence": {
+    "great_circle_formula_unchanged": true,
+    "coordinate_geometry_unchanged": true,
+    "duplicate_rule_unchanged": true,
+    "pair_set_unchanged": true,
+    "benchmark_delta_rho": 0.15,
+    "recovery_thresholds_unchanged": true,
+    "lambda_grid_unchanged": true,
+    "seed_rule_unchanged": true
+  },
+  "spatial_result_seen_before_fix": false,
+  "biological_turnover_outcomes_opened": false,
+  "thresholds_changed": false,
+  "generator_changed": false,
+  "can_rescue_by_changing_biology": false
+}

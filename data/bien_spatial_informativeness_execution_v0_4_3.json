@@ -1,0 +1,61 @@
+{
+  "version": "v0.4.3",
+  "status": "BIEN_SPATIAL_INFORMATIVENESS_EXECUTION_FROZEN_PRE_SPATIAL_RESULT",
+  "frozen_on": "2026-10-01",
+  "amends": [
+    "data/bien_informativeness_design_v0_4.json",
+    "data/bien_informativeness_execution_v0_4_2.json"
+  ],
+  "chronology": {
+    "spatial_informativeness_result_seen_before_freeze": false,
+    "real_trait_turnover_outcomes_opened": false
+  },
+  "candidate_rule": "Only systems passing both frozen temporal S3 and temporal prune-only informativeness enter spatial simulation.",
+  "eligibility_reconstruction": {
+    "rule": "Reconstruct the pre-frozen spatially qualifying species identities using the v0.3.3 semantic predicates; raw trait values/categories may be used only inside SQL predicates/count-distinct operations that determine eligibility and are never returned to the simulator.",
+    "continuous": "numeric-valid records; geovalid; non-centroid; non-county-centroid; >=20 records; >=5 frozen cells; >=2 distinct numeric states",
+    "categorical": "nonmissing categorical records; geovalid; non-centroid; non-county-centroid; >=20 records; >=5 frozen cells; >=2 distinct categories",
+    "minimum_species": 8
+  },
+  "simulator_input_only": [
+    "species identity used only as a deterministic seed key",
+    "latitude/longitude geometry of eligible records",
+    "record multiplicity at exact duplicate coordinates",
+    "semantic class"
+  ],
+  "raw_state_firewall": {
+    "simulator_receives_trait_value": false,
+    "simulator_receives_observed_category": false,
+    "persisted_coordinates": false,
+    "persisted_species_names": false
+  },
+  "coordinate_duplicate_rule": "Collapse exact duplicate latitude/longitude to one node with multiplicity while preserving the expanded unordered pair multiset algebraically.",
+  "distance_normalization": "Weighted median of positive great-circle distances over the original expanded record-pair multiset; duplicate-coordinate zero distances are excluded from the positive median exactly as frozen.",
+  "weighted_pair_spearman": {
+    "separation_rank": "Exact multiplicity-weighted midranks corresponding to the fully expanded original unordered record-pair set.",
+    "continuous_dissimilarity_rank": "Exact multiplicity-weighted midranks of absolute synthetic state differences; within-coordinate duplicate pairs have zero dissimilarity.",
+    "categorical": "Exact weighted Pearson correlation of fixed separation ranks with the binary mismatch indicator; affine equivalence makes this identical to Spearman with tied 0/1 mismatch ranks.",
+    "pair_subsampling": false
+  },
+  "spatial_gp_factorization": {
+    "covariance": "exp(-great_circle_distance / (lambda * weighted_median_positive_distance))",
+    "duplicate_nodes_removed_before_factorization": true,
+    "factorization": "unpivoted Cholesky of the symmetric covariance matrix",
+    "numerical_jitter": false,
+    "failure_rule": "If exact covariance factorization fails, that species geometry is invalid for the replicate axis; do not add a nugget or alter the generator."
+  },
+  "family_replicate_rule": {
+    "equal_species_weighting": true,
+    "minimum_finite_species": 8,
+    "family_effect": "median of finite species-level synthetic delta_rho values when at least 8 species are finite",
+    "invalid": "fewer than 8 finite species effects",
+    "rationale": "Uses the already-frozen spatial minimum of 8 species rather than inventing a new post-result threshold."
+  },
+  "calibration_and_evaluation": "Use the same lambda grid, 200-pilot common-random-number calibration, 0.15 target, 1000 evaluation replicates, MAE<=0.10, directional>=0.80 and valid-fraction>=0.90 rules frozen in v0.4.1/v0.4.2.",
+  "deterministic_seed": "FNV-1a 32-bit over master_seed|family|trait|spatial|species|phase; lambda is excluded so candidate lambda values share innovations.",
+  "thresholds_changed": false,
+  "generator_changed": false,
+  "benchmark_changed": false,
+  "can_rescue_temporal_failure": false,
+  "no_posthoc_relaxation": true
+}

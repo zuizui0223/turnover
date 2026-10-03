@@ -1,0 +1,124 @@
+{
+  "version": "v0.4.1",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING",
+  "frozen_on": "2026-09-30",
+  "prerequisites": [
+    "data/bien_trait_semantic_reconciliation_v0_3_3.json",
+    "data/bien_phylogeny_contract_v0_3_1.json",
+    "results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json",
+    "data/trait_null_exact_zero_amendment_v0_4_1.json"
+  ],
+  "chronology": {
+    "bien_support_result_seen_before_freeze": false,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "purpose": "Test whether each structurally eligible family x trait system has enough observed phylogenetic and geographic geometry to recover the predeclared null-centered turnover effect before any real trait effect is computed.",
+  "canonical_effect": {
+    "name": "delta_rho",
+    "estimator": "Spearman(separation, state_dissimilarity); under the frozen complete-label trait permutation null, the exact null mean is zero, so this equals delta_rho exactly",
+    "benchmark_delta_rho": 0.15,
+    "admission_thresholds": {
+      "median_absolute_recovery_error_max": 0.1,
+      "directional_recovery_min": 0.8,
+      "valid_replicate_fraction_min": 0.9
+    },
+    "exact_null_mean": 0
+  },
+  "simulation_scope": {
+    "run_only_after": "v0.2.2 structural support PASS, v0.3.3 state-validity PASS, and v0.3.4 phylogeny crosswalk PASS",
+    "geometry_inputs_only": [
+      "eligible species identities",
+      "prune/bind status",
+      "patristic distances from the frozen S3 TPL tree",
+      "eligible measurement coordinates grouped by species"
+    ],
+    "forbidden_real_data_inputs": [
+      "trait_value",
+      "observed trait category",
+      "observed trait mean or variance",
+      "observed turnover effect",
+      "biological predictor values"
+    ]
+  },
+  "continuous_scalar_generator": {
+    "latent_model": "zero-mean Gaussian process on the observed separation geometry with exponential covariance exp(-d/lambda)",
+    "temporal_geometry": "patristic distance divided by the median positive pairwise patristic distance within the family x trait geometry before GP covariance construction; the Spearman estimator itself remains scale invariant",
+    "spatial_geometry": "within-species great-circle distance divided by that species' median positive pairwise distance before covariance construction",
+    "calibration": {
+      "target": "median estimated delta_rho = 0.15",
+      "parameter": "lambda",
+      "pilot_replicates_per_candidate": 200,
+      "search": "deterministic log-spaced bracket followed by bisection on log(lambda)",
+      "bracket_dimensionless": [
+        0.01,
+        100
+      ],
+      "tolerance_delta_rho": 0.01,
+      "max_bisection_steps": 20,
+      "failure_rule": "if the benchmark cannot be bracketed on the frozen range, classify the geometry as INFORMATIVENESS_HOLD rather than changing the generator",
+      "effect_computation": "use the exact-zero-null identity, so synthetic delta_rho is the observed synthetic Spearman rho without Monte Carlo null-mean noise"
+    },
+    "evaluation_replicates": 1000
+  },
+  "nominal_categorical_generator": {
+    "latent_model": "same Gaussian-process generator followed by a zero-threshold into a balanced binary synthetic state",
+    "rationale": "balanced binary mismatch is a conservative pre-value benchmark that does not require inspecting the real number or frequency of categories",
+    "dissimilarity": "0/1 mismatch",
+    "calibration": "same fixed benchmark, bracket, pilot count, bisection tolerance and failure rule as continuous_scalar",
+    "evaluation_replicates": 1000,
+    "calibration_effect_computation": "same exact-zero-null identity as continuous_scalar"
+  },
+  "temporal_estimator": {
+    "unit": "family x trait",
+    "continuous_state": "one synthetic state per eligible species",
+    "categorical_state": "one synthetic binary state per eligible species",
+    "null": "exact permutation mean = 0 by the frozen trait-null theorem; 999 random permutations are retained only for null-dispersion / implementation diagnostics on a fixed synthetic replicate",
+    "effect": "delta_rho",
+    "backbone_native_requirement": "repeat the entire simulation on prune-only tips; both S3 and prune-only geometries must pass admission thresholds"
+  },
+  "spatial_estimator": {
+    "unit": "family x trait",
+    "species_effect": "one delta_rho per eligible spatial species using its observed coordinate geometry",
+    "family_trait_aggregation": "equal-species median delta_rho",
+    "null": "within each species, exact complete-label permutation mean = 0; 999 permutations are retained only for null-dispersion / implementation diagnostics",
+    "weighting": "no record-count weighting across species",
+    "effect": "family-level median delta_rho"
+  },
+  "recovery_definition": {
+    "point_target": 0.15,
+    "absolute_error": "abs(estimated delta_rho - 0.15)",
+    "median_absolute_recovery_error": "median absolute error across the 1000 evaluation replicates",
+    "directional_recovery": "fraction of evaluation replicates with estimated delta_rho > 0",
+    "joint_system_pass": "temporal S3, temporal prune-only, and spatial estimators each satisfy median absolute error <=0.10, directional recovery >=0.80, and valid replicate fraction >=0.90",
+    "valid_replicate": "rho is finite and pairwise synthetic state dissimilarity has nonzero rank variance",
+    "valid_replicate_fraction": "fraction of the 1000 evaluation replicates that are valid",
+    "invalid_replicate_treatment": "invalid replicates count as directional-recovery failures; median absolute error is computed over valid replicates only, and the geometry is HOLD if valid fraction <0.90"
+  },
+  "randomization": {
+    "master_seed": 20260930,
+    "seed_rule": "derive deterministic per-family x trait x axis seeds from the UTF-8 system key plus master seed; never rerun with alternate seeds to change eligibility",
+    "null_permutations": 999,
+    "null_permutations_role": "diagnostic null SD / empirical-zero check only; never used to estimate the primary null mean"
+  },
+  "finite_decision_rule": {
+    "pass": "system proceeds to real trait-value computation only if all required geometry simulations pass",
+    "hold": "system is excluded from H1/H2 if any required geometry simulation fails",
+    "no_posthoc_relaxation": true,
+    "no_alternate_generator_after_failure": true
+  },
+  "outputs_allowed": [
+    "system identifier",
+    "synthetic calibration lambda",
+    "median absolute recovery error",
+    "directional recovery",
+    "PASS/HOLD",
+    "simulation diagnostics"
+  ],
+  "outputs_forbidden": [
+    "real trait values",
+    "real trait delta_rho",
+    "real predictor-response coefficients"
+  ],
+  "exact_null_amendment": "data/trait_null_exact_zero_amendment_v0_4_1.json"
+}

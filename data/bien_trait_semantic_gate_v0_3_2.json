@@ -1,0 +1,85 @@
+{
+  "version": "v0.3.2",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING",
+  "frozen_on": "2026-09-30",
+  "prerequisites": [
+    "data/bien_trait_semantic_contract_v0_3.json",
+    "data/bien_trait_support_design_v0_2.json",
+    "data/bien_trait_support_amendment_v0_2_1.json"
+  ],
+  "chronology": {
+    "bien_support_result_seen_before_freeze": false,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "purpose": "Convert structurally supported BIEN family x trait candidates into semantically valid primary trait systems without choosing traits, units, or aggregation rules after support or effect results are known.",
+  "candidate_rule": "Only v0.2.2 joint structural support PASS systems enter. No structural failure can be rescued here.",
+  "continuous_scalar": {
+    "trait_set_source": "data/bien_trait_semantic_contract_v0_3.json::representation_rules.continuous_scalar.traits",
+    "aggregate_only_numeric_check": {
+      "requirement": "Every nonmissing eligible trait_value used by the candidate system must be parseable as a finite numeric value.",
+      "allowed_computation": "internally test parseability and finite status; return only counts n_total, n_numeric_valid, n_invalid",
+      "invalid_rule": "any invalid value makes that family x trait candidate HOLD; no regex/value-based cleaning may be invented afterward"
+    },
+    "unit_gate": {
+      "requirement": "Exactly one nonempty BIEN unit label among eligible records for the family x trait candidate.",
+      "conversion": "No conversion is permitted unless an explicit source-documented conversion was frozen before support results; none is authorized in v0.3.2.",
+      "zero_or_multiple_units": "HOLD"
+    },
+    "temporal_species_state": "median of all finite valid values per species",
+    "support_recheck": "After finite-value filtering, at least 20 species must retain a species state."
+  },
+  "nominal_categorical": {
+    "trait_set_source": "data/bien_trait_semantic_contract_v0_3.json::representation_rules.nominal_categorical.traits",
+    "unit_gate": {
+      "requirement": "Physical unit must be absent. Nonempty unit labels are HOLD unless source documentation established that exact label as unitless before support-result inspection.",
+      "authorized_unitless_labels": [],
+      "note": "The authorized list is deliberately empty at freeze time."
+    },
+    "temporal_species_state": "unique modal category across valid measurements",
+    "tied_mode_rule": "Species with a tied modal category are excluded deterministically.",
+    "aggregate_only_tie_check": "Internal category frequencies may be used only to return counts of species with unique versus tied modes; category labels/frequencies are not persisted before outcome opening.",
+    "support_recheck": "At least 20 species must retain a unique modal category."
+  },
+  "primary_hold": {
+    "source": "data/bien_trait_semantic_contract_v0_3.json::representation_rules.primary_hold.traits",
+    "rule": "Always exclude from BIEN primary H1/H2 regardless of structural support."
+  },
+  "spatial_recheck": {
+    "requirement": "After the same semantic validity filters, at least 8 species must each retain >=20 geovalid records across >=5 frozen 25-km equal-area cells.",
+    "no_record_imputation": true,
+    "no_cell_size_change": true
+  },
+  "independence_gate": {
+    "cluster": "scrubbed_family",
+    "minimum_independent_families": 12,
+    "count_rule": "A family counts once if at least one semantically valid family x trait system passes all temporal and spatial rechecks.",
+    "no_minimum_trait_count_added_posthoc": true
+  },
+  "allowed_outputs": [
+    "family",
+    "trait_name",
+    "semantic class",
+    "aggregate valid/invalid record counts",
+    "aggregate unique-mode/tied-mode species counts",
+    "distinct unit count and labels",
+    "post-semantic temporal species count",
+    "post-semantic spatial qualifying species count",
+    "PASS/HOLD reason"
+  ],
+  "forbidden_outputs": [
+    "raw trait_value",
+    "species-level trait state",
+    "category labels or category frequencies",
+    "trait dissimilarity",
+    "geographic or phylogenetic distance",
+    "delta_rho",
+    "predictor-response association"
+  ],
+  "gate": {
+    "pass": "At least 12 independent families retain one or more semantically valid joint trait systems.",
+    "hold": "Fewer than 12 families remain; BIEN primary trait route becomes structural/semantic HOLD and may switch only to the already-frozen second trait source AusTraits."
+  },
+  "no_posthoc_relaxation": true,
+  "no_outcome_informed_trait_selection": true
+}

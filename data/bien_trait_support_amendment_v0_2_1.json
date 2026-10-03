@@ -1,0 +1,36 @@
+{
+  "version": "v0.2.1",
+  "status": "TRAIT_VALUE_PRESENCE_FILTER_ADDED_PRE_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_trait_support_design_v0_2.json",
+  "chronology": {
+    "reason": "Code audit found that v0.2 counted rows with a trait_name even if trait_value could be NULL/blank.",
+    "support_result_seen_before_fix": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "stricter_only": true,
+  "record_validity_rule": "A row contributes to temporal or spatial structural support only when trait_value IS NOT NULL and trim(trait_value) <> ''. The value may be tested for presence but must not be selected, returned, summarized, or inspected.",
+  "unchanged": {
+    "database_patch": "4.2.8",
+    "family_trait_grain": true,
+    "temporal_min_species": 20,
+    "spatial_min_georeferenced_records_per_species": 20,
+    "spatial_min_cells_per_species": 5,
+    "spatial_min_species_per_family_trait": 8,
+    "cell_size_m": 25000,
+    "minimum_independent_families": 12,
+    "cultivated_filter": true
+  },
+  "allowed_trait_value_use": "presence predicate only",
+  "forbidden_trait_value_use": [
+    "SELECT trait_value",
+    "return raw trait values",
+    "aggregate means/medians/variances of trait_value",
+    "trait dissimilarity",
+    "outcome-informed trait selection"
+  ],
+  "can_rescue_failure": false,
+  "can_increase_support_counts": false,
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false
+}

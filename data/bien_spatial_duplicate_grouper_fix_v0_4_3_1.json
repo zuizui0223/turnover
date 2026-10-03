@@ -1,0 +1,43 @@
+{
+  "version": "v0.4.3.1",
+  "status": "BIEN_SPATIAL_DUPLICATE_GROUPER_TECHNICAL_FIX_PRE_RESULT",
+  "frozen_on": "2026-10-03",
+  "amends": [
+    "data/bien_spatial_informativeness_execution_v0_4_3.json",
+    "scripts/analysis/run_bien_spatial_informativeness_v0_4_3.R"
+  ],
+  "trigger": {
+    "workflow_run": 37082445872,
+    "failed_before_calibration": true,
+    "observed_error": "M=sum(pair multiplicities) became NA inside prepare_species_geometry",
+    "systems_observed_with_same_error": [
+      "S001",
+      "S008",
+      "S010"
+    ],
+    "spatial_informativeness_result_seen": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "old_grouping": "sprintf 17-digit coordinate strings -> duplicated/match -> tabulate",
+  "new_grouping": "filter finite coordinates; stable order by raw double latitude then longitude; exact adjacent double equality defines run-length groups; no coordinate rounding",
+  "pair_count_invariant": "Let N be total original records. Require finite sum(pair multiplicity weights) = N*(N-1)/2 exactly within floating tolerance before any GP simulation.",
+  "scientific_equivalence": {
+    "exact_duplicate_definition_unchanged": true,
+    "coordinate_rounding": false,
+    "original_unordered_pair_multiset_unchanged": true,
+    "benchmark_delta_rho": 0.15,
+    "mae_threshold": 0.1,
+    "directional_threshold": 0.8,
+    "valid_fraction_threshold": 0.9,
+    "lambda_grid_unchanged": true,
+    "pilot_replicates": 200,
+    "evaluation_replicates": 1000,
+    "minimum_finite_species": 8
+  },
+  "thresholds_changed": false,
+  "generator_changed": false,
+  "seed_rule_changed": false,
+  "can_rescue_by_changing_biology": false,
+  "real_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false
+}

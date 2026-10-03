@@ -6,7 +6,28 @@ on:
       - 'data/spatiotemporal_memory_turnover_design_v0_1.json'
       - 'data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv'
       - 'data/interaction_source_routing_v0_1.json'
+      - 'data/trait_source_routing_v0_1.json'
+      - 'results/austraits_trait_support_v0_2/result.json'
+      - 'results/austraits_trait_support_v0_2_2/result.json'
+      - 'results/austraits_observation_id_v0_2_1/result.json'
+      - 'data/austraits_record_key_fix_v0_2_2.json'
       - 'results/mangal_species_rank_support_v0_1/result.json'
+      - 'results/globi_source_semantic_v0_5_3/result.json'
+      - 'results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'
+      - 'results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'
+      - 'results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
+      - 'results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json'
+      - 'results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'
+      - 'results/bien_temporal_informativeness_v0_4_2/result.json'
+      - 'results/bien_spatial_informativeness_v0_4_3/result.json'
+      - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
+      - 'data/bien_informativeness_design_v0_4.json'
+      - 'data/bien_informativeness_execution_v0_4_2.json'
+      - 'data/bien_spatial_informativeness_execution_v0_4_3.json'
+      - 'data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json'
+      - 'data/bien_real_trait_turnover_design_v0_5.json'
+      - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
+      - 'scripts/analysis/verify_spatial_weighted_spearman_v0_4_3.py'
       - '.github/workflows/programme-contract-v0-1.yml'
   workflow_dispatch:
 
@@ -44,14 +65,186 @@ jobs:
           assert m['decision']['open_interaction_edges_to_rescue'] is False
 
           r=json.load(open('data/interaction_source_routing_v0_1.json'))
-          assert r['status']=='INTERACTION_PRIMARY_SOURCE_SWITCH_AUTHORIZED_PREOUTCOME'
+          assert r['status']=='INTERACTION_PRIMARY_ROUTE_TERMINAL_PREOUTCOME_HOLD'
           assert r['first_source_terminal']=='HOLD_MANGAL_SPECIES_RANK_SUPPORT'
           assert r['authorized_second_source']=='GLOBI_STABLE_ZENODO'
+          assert r['second_source_terminal']=='HOLD_GLOBI_SOURCE_SEMANTIC_UPPER_BOUND'
+          assert r['primary_joint_interaction_route_closed'] is True
           assert r['further_primary_source_after_globi'] is False
           assert r['biological_interaction_edges_opened'] is False
+          assert r['biological_interaction_turnover_outcomes_opened'] is False
+
+          g=json.load(open('results/globi_source_semantic_v0_5_3/result.json'))
+          assert g['status']=='HOLD_GLOBI_SOURCE_SEMANTIC_UPPER_BOUND'
+          assert g['v0_5_2_namespaces_with_programme_pass_before_mirror_dedup']==20
+          assert g['n_decisive_exclusions']==9
+          assert g['semantic_pass_upper_bound_before_any_further_exclusion']==11
+          assert g['minimum_independent_semantic_pass_namespaces']==12
+          assert g['gate_pass'] is False
+          assert g['biological_turnover_outcomes_opened'] is False
+          assert g['interaction_primary_route']=='STOP'
+
+          b=json.load(open('results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json'))
+          assert b['status']=='BIEN_METADATA_PREFLIGHT_PASS'
+          assert b['observed_database_version']=='4.2.8'
+          assert b['agg_traits_row_count']==25932628
+          assert b['n_trait_names']==54
+          assert b['gate_pass'] is True
+          assert b['generalized_trait_values_opened'] is False
+          assert b['biological_turnover_outcomes_opened'] is False
+
+          p=json.load(open('results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json'))
+          assert p['status']=='BIEN_PHYLOGENY_SOURCE_PASS'
+          assert p['commit']=='7af3fb5152f691af2e4ec9d5e2e467d1b50505e9'
+          assert p['backbone']=='GBOTB.extended.TPL'
+          assert p['observed_tip_count']==74529
+          assert p['raw_tip_set_match'] is True
+          assert p['gate_pass'] is True
+          assert p['generalized_trait_values_opened'] is False
 
           rows=list(csv.DictReader(open('data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv')))
           by={x['source_id']:x for x in rows}
           assert by['MANGAL_CURATED_NETWORKS']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SPECIES_RANK_SUPPORT'
-          assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='ACTIVE_SECOND_AND_FINAL_PRIMARY_SOURCE'
+          assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
+
+          tr=json.load(open('data/trait_source_routing_v0_1.json'))
+          assert tr['status']=='TRAIT_PRIMARY_ROUTE_TERMINAL_PREOUTCOME_HOLD'
+          assert tr['maximum_primary_trait_sources']==2
+          assert tr['first_source']=='BIEN_4_2'
+          assert tr['first_source_state']=='TERMINAL_SPATIAL_INFORMATIVENESS_HOLD'
+          assert tr['first_source_terminal']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert tr['primary_generalized_trait_route_closed'] is True
+          assert tr['real_trait_turnover_design_executed'] is False
+          assert tr['first_source_result']=='results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
+          assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
+          assert tr['second_source_state']=='TERMINAL_STRUCTURAL_HOLD'
+          assert tr['second_source_terminal']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert tr['further_primary_trait_source_allowed'] is False
+          assert tr['raw_trait_values_opened'] is False
+          assert tr['biological_trait_turnover_outcomes_opened'] is False
+          assert tr['thresholds_may_be_lowered'] is False
+
+          a=json.load(open('results/austraits_trait_support_v0_2/result.json'))
+          assert a['status']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert a['n_family_trait_systems']==30821
+          assert a['n_joint_support_family_trait_systems']==10
+          assert a['n_independent_qualifying_families']==3
+          assert a['thresholds']['minimum_independent_families']==12
+          assert a['raw_trait_values_opened'] is False
+          assert a['biological_turnover_outcomes_opened'] is False
+
+          aid=json.load(open('results/austraits_observation_id_v0_2_1/result.json'))
+          assert aid['status']=='HOLD_AUSTRAITS_OBSERVATION_ID_NOT_GLOBAL'
+          assert aid['cross_dataset_colliding_ids']==39207
+          assert aid['distinct_observation_ids']==39598
+          assert aid['distinct_composite_ids']==425711
+          assert aid['v0_2_record_identity_validated'] is False
+          fix=json.load(open('data/austraits_record_key_fix_v0_2_2.json'))
+          assert fix['status']=='AUSTRAITS_COMPOSITE_RECORD_KEY_FIXED_POST_SUPPORT_PRE_OUTCOME'
+          assert fix['thresholds_changed'] is False
+          assert fix['source_changed'] is False
+          assert fix['third_source_allowed'] is False
+          ac=json.load(open('results/austraits_trait_support_v0_2_2/result.json'))
+          assert ac['status']=='HOLD_AUSTRAITS_TRAIT_SUPPORT'
+          assert ac['record_key']=='dataset_id + ASCII unit-separator + observation_id'
+          assert ac['n_family_trait_systems']==30821
+          assert ac['n_joint_support_family_trait_systems']==10
+          assert ac['n_independent_qualifying_families']==3
+          assert ac['thresholds']['minimum_independent_families']==12
+          assert ac['gate_pass'] is False
+          assert ac['raw_trait_values_opened'] is False
+          assert ac['biological_turnover_outcomes_opened'] is False
+          assert by['AUSTRAITS_OPEN_RELEASE']['metadata_status']=='JOINT_TIME_SPACE_HOLD_STRUCTURAL_SUPPORT'
+          bs=json.load(open('results/bien_trait_support_v0_2/result_pass_v0_2_4.json'))
+          assert bs['status']=='BIEN_TRAIT_SUPPORT_PASS'
+          assert bs['n_family_trait_systems']==8215
+          assert bs['n_temporal_candidate_systems']==1705
+          assert bs['n_joint_support_family_trait_systems']==73
+          assert bs['n_independent_qualifying_families']==37
+          assert bs['thresholds']['minimum_independent_families']==12
+          assert 'data/bien_spatial_noncentroid_amendment_v0_2_4.json' in bs['effective_contracts']
+          assert bs['gate_pass'] is True
+          assert bs['generalized_trait_values_opened'] is False
+          assert bs['biological_turnover_outcomes_opened'] is False
+          sv=json.load(open('results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json'))
+          assert sv['status']=='BIEN_TRAIT_STATE_VALIDITY_PASS'
+          assert sv['n_structural_candidates']==73
+          assert sv['n_semantic_pass']==43
+          assert sv['n_independent_families']==34
+          assert sv['gate_pass'] is True
+          assert sv['raw_trait_values_opened'] is False
+          assert sv['biological_turnover_outcomes_opened'] is False
+          cw=json.load(open('results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'))
+          assert cw['status']=='BIEN_PHYLOGENY_CROSSWALK_PASS'
+          assert cw['n_candidate_systems']==43
+          assert cw['n_crosswalk_pass']==39
+          assert cw['n_independent_families']==31
+          assert cw['gate_pass'] is True
+          assert cw['raw_trait_values_opened'] is False
+          assert cw['biological_turnover_outcomes_opened'] is False
+          ti=json.load(open('results/bien_temporal_informativeness_v0_4_2/result.json'))
+          assert ti['status']=='BIEN_TEMPORAL_INFORMATIVENESS_PASS'
+          assert ti['n_candidate_systems']==39
+          assert ti['n_temporal_pass_systems']==24
+          assert ti['n_independent_families']==21
+          assert ti['minimum_required_families']==12
+          assert ti['gate_pass'] is True
+          assert ti['real_trait_values_opened'] is False
+          assert ti['biological_turnover_outcomes_opened'] is False
+          si=json.load(open('results/bien_spatial_informativeness_v0_4_3/result.json'))
+          assert si['status']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert si['n_temporal_pass_independent_families']==21
+          assert si['n_confirmed_spatial_hold_independent_families']==11
+          assert si['maximum_possible_final_spatial_pass_families']==10
+          assert si['minimum_required_final_families']==12
+          assert si['gate_pass'] is False
+          assert si['real_trait_values_opened'] is False
+          assert si['biological_turnover_outcomes_opened'] is False
+          assert si['real_trait_turnover_may_be_opened'] is False
+          assert by['BIEN_4_2']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SPATIAL_INFORMATIVENESS'
+          assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='UPSTREAM_TRAIT_ROUTE_TERMINAL_HOLD'
+
+          z=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))
+          assert z['status']=='TRAIT_PERMUTATION_NULL_MEAN_EXACT_ZERO_FROZEN_PRE_OUTCOME'
+          assert z['consequence']['canonical_trait_effect']=='delta_rho = observed Spearman rho exactly, because the exact null mean is zero'
+          assert z['computational_rule']['primary_effect_uses_all_unordered_pairs'] is True
+          assert z['thresholds_changed'] is False
+
+          inf=json.load(open('data/bien_informativeness_design_v0_4.json'))
+          assert inf['status']=='FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING'
+          assert inf['canonical_effect']['benchmark_delta_rho']==0.15
+          assert inf['canonical_effect']['admission_thresholds']['median_absolute_recovery_error_max']==0.10
+          assert inf['canonical_effect']['admission_thresholds']['directional_recovery_min']==0.80
+          assert inf['canonical_effect']['admission_thresholds']['valid_replicate_fraction_min']==0.90
+          assert inf['continuous_scalar_generator']['evaluation_replicates']==1000
+          assert inf['randomization']['master_seed']==20260930
+          ex=json.load(open('data/bien_informativeness_execution_v0_4_2.json'))
+          assert ex['status']=='BIEN_INFORMATIVENESS_EXECUTION_RULES_FROZEN_PRE_SIMULATION_RESULT'
+          assert ex['lambda_search']['initial_log10_grid']==[-2,-1.5,-1,-0.5,0,0.5,1,1.5,2]
+          assert ex['lambda_search']['pilot_replicates_per_value']==200
+          assert ex['continuous_pair_rule']=='Use every unordered pair exactly; no pair subsampling.'
+          assert ex['thresholds_changed'] is False
+          sp=json.load(open('data/bien_spatial_informativeness_execution_v0_4_3.json'))
+          assert sp['status']=='BIEN_SPATIAL_INFORMATIVENESS_EXECUTION_FROZEN_PRE_SPATIAL_RESULT'
+          assert sp['family_replicate_rule']['minimum_finite_species']==8
+          assert sp['weighted_pair_spearman']['pair_subsampling'] is False
+          assert sp['thresholds_changed'] is False
+          gfix=json.load(open('data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json'))
+          assert gfix['status']=='BIEN_SPATIAL_GREAT_CIRCLE_DIMENSION_FIX_PRE_RESULT'
+          assert gfix['spatial_result_seen_before_fix'] is False
+          assert gfix['thresholds_changed'] is False
+          assert gfix['generator_changed'] is False
+          real=json.load(open('data/bien_real_trait_turnover_design_v0_5.json'))
+          assert real['status']=='FROZEN_BEFORE_REAL_BIEN_TRAIT_TURNOVER_OPENING'
+          assert real['spatial_effect']['minimum_species']==8
+          assert real['spatial_effect']['record_count_weighting'] is False
+          assert real['h1_primary_coupling']['independence_cluster']=='family'
+          assert real['h1_primary_coupling']['no_weighting_by_measurement_count'] is True
+          assert real['biological_turnover_outcomes_opened'] is False
           PY
+
+      - name: Verify exact-zero trait permutation null
+        run: python scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py
+
+      - name: Verify exact spatial duplicate-compression algebra
+        run: python scripts/analysis/verify_spatial_weighted_spearman_v0_4_3.py

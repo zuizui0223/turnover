@@ -1,0 +1,93 @@
+name: BIEN metadata preflight v0.1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+
+      - name: Pin RBIEN source implementation
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          test "$(grep '^Version:' build/RBIEN/DESCRIPTION | awk '{print $2}')" = "1.2.9"
+
+      - name: Validate pre-value firewall
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_metadata_preflight_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_BIEN_TRAIT_VALUE_OPENING'
+          assert d['source_contract']['expected_database_version']=='4.2'
+          assert d['source_contract']['access_client']['pinned_commit']=='531cb221bd44cf43419e89b2354f6424e718cd53'
+          assert d['generalized_trait_values_opened'] is False
+          assert d['biological_turnover_outcomes_opened'] is False
+          a=json.load(open('data/bien_version_amendment_v0_1_1.json'))
+          h=json.load(open('results/bien_metadata_preflight_v0_1/result_hold.json'))
+          assert h['status']=='HOLD_BIEN_METADATA_PREFLIGHT_VERSION_EXACT_MISMATCH'
+          assert h['generalized_trait_values_opened'] is False
+          assert h['biological_turnover_outcomes_opened'] is False
+          assert h['observed_database_version']=='4.2.8'
+          assert a['status']=='BIEN_PATCH_VERSION_CONTRACT_AMENDED_PREVALUE'
+          assert a['version_rule']['downstream_exact_patch_pin']=='4.2.8'
+          assert a['unchanged']['generalized_trait_values_opened'] is False
+          assert a['unchanged']['biological_turnover_outcomes_opened'] is False
+          h2=json.load(open('results/bien_metadata_preflight_v0_1/result_hold_v0_1_1.json'))
+          f=json.load(open('data/bien_version_regex_fix_v0_1_2.json'))
+          assert h2['status']=='HOLD_BIEN_METADATA_PREFLIGHT_REGEX_ENCODING'
+          assert h2['generalized_trait_values_opened'] is False
+          assert h2['biological_turnover_outcomes_opened'] is False
+          assert f['status']=='BIEN_VERSION_REGEX_ENCODING_FIXED_PREVALUE'
+          assert f['semantic_version_rule_unchanged'] is True
+          assert f['downstream_exact_patch_pin']=='4.2.8'
+          assert f['unchanged']['generalized_trait_values_opened'] is False
+          assert f['unchanged']['biological_turnover_outcomes_opened'] is False
+          PY
+
+      - name: Audit BIEN identity schema and trait vocabulary only
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/bien_metadata_preflight_v0_1
+          Rscript scripts/source/audit_bien_metadata_preflight_v0_1.R \
+            --out build/bien_metadata_preflight_v0_1/result.json
+
+      - name: Enforce no-value output
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_metadata_preflight_v0_1/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['generalized_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['row_level_trait_records_returned'] is False
+          assert x['row_level_coordinates_returned'] is False
+          assert x['version']=='v0.1.2'
+          assert x['version_amendment']=='data/bien_version_amendment_v0_1_1.json'
+          assert x['technical_regex_fix']=='data/bien_version_regex_fix_v0_1_2.json'
+          assert x['status'] in {'BIEN_METADATA_PREFLIGHT_PASS','HOLD_BIEN_METADATA_PREFLIGHT'}
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-metadata-preflight-v0-1
+          path: build/bien_metadata_preflight_v0_1/

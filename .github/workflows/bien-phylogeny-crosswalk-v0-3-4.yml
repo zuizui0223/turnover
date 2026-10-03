@@ -1,0 +1,65 @@
+name: BIEN phylogeny crosswalk v0.3.4
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crosswalk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Pin and install V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Validate contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_phylogeny_crosswalk_design_v0_3_4.json'))
+          assert d['status']=='FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING'
+          assert d['chronology']['structural_support_result_seen_before_freeze'] is False
+          assert d['source']['backbone']=='GBOTB.extended.TPL'
+          assert d['source']['scenario']=='S3'
+          assert d['status_rule']['mandatory_prune_only_min_species']==20
+          assert d['independence_gate']['minimum_independent_families']==12
+          PY
+      - name: Run crosswalk
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          test -f results/bien_trait_state_validity_v0_3_3/state_validity.csv
+          mkdir -p build/bien_phylogeny_crosswalk_v0_3_4
+          Rscript scripts/source/audit_bien_phylogeny_crosswalk_v0_3_4.R \
+            --semantic-table results/bien_trait_state_validity_v0_3_3/state_validity.csv \
+            --out build/bien_phylogeny_crosswalk_v0_3_4/result.json \
+            --table-out build/bien_phylogeny_crosswalk_v0_3_4/crosswalk.csv
+      - name: Enforce output firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_phylogeny_crosswalk_v0_3_4/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {'BIEN_PHYLOGENY_CROSSWALK_PASS','HOLD_BIEN_PHYLOGENY_CROSSWALK','HOLD_BIEN_PHYLOGENY_CROSSWALK_NO_CANDIDATES'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-phylogeny-crosswalk-v0-3-4
+          path: build/bien_phylogeny_crosswalk_v0_3_4/

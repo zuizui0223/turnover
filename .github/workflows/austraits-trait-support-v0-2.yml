@@ -1,0 +1,65 @@
+name: AusTraits v7 trait support v0.2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime
+        run: pip install duckdb
+      - name: Validate matched support contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_trait_support_design_v0_2.json'))
+          p=json.load(open('results/austraits_metadata_preflight_v0_1/result.json'))
+          assert p['status']=='AUSTRAITS_SCHEMA_PREFLIGHT_PASS'
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_SUPPORT_COUNTING'
+          assert d['matched_to_bien']['thresholds_identical'] is True
+          assert d['temporal_support']['minimum_species_per_family_trait']==20
+          assert d['spatial_support']['minimum_georeferenced_records_per_species']==20
+          assert d['spatial_support']['minimum_cells_per_species']==5
+          assert d['spatial_support']['minimum_spatial_species_per_family_trait']==8
+          assert d['spatial_support']['cell_size_m']==25000
+          assert d['joint_gate']['minimum_independent_families']==12
+          assert d['raw_trait_values_opened'] is False
+          assert d['biological_turnover_outcomes_opened'] is False
+          PY
+      - name: Download exact AusTraits v7 parquet
+        run: |
+          mkdir -p build/austraits_trait_support_v0_2
+          curl -L --fail --retry 4 --retry-delay 10             -o build/austraits_trait_support_v0_2/austraits-7.0.0-flattened.parquet             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/austraits_trait_support_v0_2/austraits-7.0.0-flattened.parquet" | sha256sum -c -
+      - name: Run aggregate-only support audit
+        run: |
+          python scripts/source/audit_austraits_trait_support_v0_2.py             --parquet build/austraits_trait_support_v0_2/austraits-7.0.0-flattened.parquet             --out build/austraits_trait_support_v0_2/result.json             --table-out build/austraits_trait_support_v0_2/family_trait_support.csv
+      - name: Enforce output firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/austraits_trait_support_v0_2/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['trait_value_presence_only'] is True
+          assert x['trait_value_returned'] is False
+          assert x['row_level_species_returned'] is False
+          assert x['row_level_coordinates_returned'] is False
+          assert x['status'] in {'AUSTRAITS_TRAIT_SUPPORT_PASS','HOLD_AUSTRAITS_TRAIT_SUPPORT'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-trait-support-v0-2
+          path: |
+            build/austraits_trait_support_v0_2/result.json
+            build/austraits_trait_support_v0_2/family_trait_support.csv

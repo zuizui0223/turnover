@@ -1,0 +1,41 @@
+{
+  "version": "v0.2.2",
+  "status": "HOLD_AUSTRAITS_TRAIT_SUPPORT",
+  "evidence_workflow_run": 36742607945,
+  "evidence_workflow_job": 109980596536,
+  "artifact_id": 11110784174,
+  "outcome_blind": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "trait_value_presence_only": true,
+  "trait_value_returned": false,
+  "row_level_species_returned": false,
+  "row_level_coordinates_returned": false,
+  "source_version": "7.0.0",
+  "record_key": "dataset_id + ASCII unit-separator + observation_id",
+  "record_key_fix": "data/austraits_record_key_fix_v0_2_2.json",
+  "n_family_trait_systems": 30821,
+  "n_joint_support_family_trait_systems": 10,
+  "n_independent_qualifying_families": 3,
+  "qualifying_families": [
+    "Fabaceae",
+    "Myrtaceae",
+    "Proteaceae"
+  ],
+  "thresholds": {
+    "temporal_min_species": 20,
+    "spatial_min_species": 8,
+    "spatial_min_georeferenced_records": 20,
+    "spatial_min_cells": 5,
+    "cell_size_m": 25000,
+    "minimum_independent_families": 12
+  },
+  "gate_pass": false,
+  "decision": {
+    "lower_thresholds": false,
+    "open_raw_values_to_rescue": false,
+    "add_third_primary_trait_source": false,
+    "record_identity_validated_by_composite_key": true
+  },
+  "interpretation": "Correcting the non-global observation_id key does not change the independent-family count: only 3 families qualify versus 12 required. AusTraits v7 is therefore terminal structural HOLD for the predeclared trait transport."
+}

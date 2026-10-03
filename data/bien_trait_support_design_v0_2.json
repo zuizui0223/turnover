@@ -1,0 +1,104 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_COUNTING",
+  "frozen_on": "2026-09-30",
+  "prerequisite": "results/bien_metadata_preflight_v0_1/result_pass_v0_1_2.json",
+  "source": {
+    "database_family": "BIEN 4.2.x",
+    "exact_patch_pin": "4.2.8",
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "rbien_package_version": "1.2.9"
+  },
+  "purpose": "Determine which plant family x trait systems can support both evolutionary-time and within-species geographic turnover before any trait value is returned.",
+  "system_grain": {
+    "clade": "scrubbed_family",
+    "trait": "trait_name",
+    "species": "scrubbed_species_binomial",
+    "independence_cluster": "scrubbed_family",
+    "reason": "Family defines a pre-outcome clade unit large enough for within-clade phylogenetic turnover while allowing multiple trait systems to be modeled with family-level clustering rather than treating them as independent."
+  },
+  "record_filter": {
+    "require_nonempty": [
+      "scrubbed_family",
+      "scrubbed_species_binomial",
+      "trait_name"
+    ],
+    "cultivated_primary": "include only records where is_cultivated_observation = 0 OR is_cultivated_observation IS NULL",
+    "rationale": "Exclude records explicitly marked cultivated while retaining unknown status, matching BIEN's conservative non-cultivated query convention as closely as agg_traits permits.",
+    "require_nonmissing_trait_value": true,
+    "trait_value_use": "presence predicate only; never selected or returned"
+  },
+  "temporal_support": {
+    "minimum_species_per_family_trait": 20,
+    "species_record_minimum": 1
+  },
+  "spatial_support": {
+    "require_is_geovalid": 1,
+    "latitude_bounds": [
+      -90,
+      90
+    ],
+    "longitude_bounds": [
+      -180,
+      180
+    ],
+    "minimum_georeferenced_records_per_species": 20,
+    "minimum_cells_per_species": 5,
+    "minimum_spatial_species_per_family_trait": 8,
+    "cell_size_m": 25000,
+    "projection": {
+      "name": "spherical Lambert cylindrical equal-area",
+      "earth_radius_m": 6371008.8,
+      "standard_parallel_degrees": 30,
+      "x_formula": "R * radians(longitude) * cos(radians(30))",
+      "y_formula": "R * sin(radians(latitude)) / cos(radians(30))",
+      "cell_formula": "floor(x/25000), floor(y/25000)",
+      "reason": "Defines a deterministic global equal-area support grid without relying on server-side PostGIS transformation availability."
+    },
+    "noncentroid_filter": {
+      "is_centroid": "IS NULL OR = 0",
+      "georef_protocol": "IS NULL OR <> 'county centroid'",
+      "source": "data/bien_spatial_noncentroid_amendment_v0_2_4.json"
+    }
+  },
+  "joint_gate": {
+    "family_trait_pass": "temporal_species >=20 AND spatial_qualifying_species >=8",
+    "minimum_independent_families": 12,
+    "family_count_rule": "A family contributes at most one independent cluster to the >=12 gate even if multiple traits qualify.",
+    "no_minimum_trait_count_added_posthoc": true
+  },
+  "unit_diagnostic": {
+    "output_distinct_units": true,
+    "role": "metadata diagnostic only",
+    "rule": "Unit heterogeneity does not rescue or fail structural support; exact trait representation and unit semantics are frozen in the next gate before values are opened."
+  },
+  "allowed_outputs": [
+    "family",
+    "trait_name",
+    "temporal species count",
+    "georeferenced species count",
+    "spatial-qualifying species count",
+    "distinct unit count and unit labels",
+    "joint structural support PASS/HOLD",
+    "aggregate counts of qualifying family x trait systems and independent families"
+  ],
+  "forbidden_outputs": [
+    "trait_value",
+    "species names",
+    "row-level latitude or longitude",
+    "cell coordinates for individual records",
+    "trait dissimilarity",
+    "phylogenetic distance",
+    "geographic distance",
+    "turnover or delta_rho",
+    "predictor-response association"
+  ],
+  "next_gate_if_pass": "Freeze trait representation/type, unit semantics, plant phylogeny crosswalk and observed-geometry informativeness simulations for the structurally qualifying family x trait systems before any trait values are opened.",
+  "next_gate_if_hold": "Do not lower 20/8/20/5 or 12-family thresholds. Move to the already-frozen second trait source AusTraits only if the finite-family source-switch rule permits the BIEN structural HOLD.",
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "amendments": [
+    "data/bien_trait_support_amendment_v0_2_1.json",
+    "data/bien_spatial_noncentroid_amendment_v0_2_4.json"
+  ]
+}

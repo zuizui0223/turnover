@@ -1,0 +1,39 @@
+{
+  "version": "v0.2",
+  "status": "HOLD_AUSTRAITS_TRAIT_SUPPORT",
+  "evidence_workflow_run": 36740283718,
+  "evidence_workflow_job": 109972576013,
+  "artifact_id": 11110566552,
+  "outcome_blind": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "trait_value_presence_only": true,
+  "trait_value_returned": false,
+  "row_level_species_returned": false,
+  "row_level_coordinates_returned": false,
+  "source_version": "7.0.0",
+  "n_family_trait_systems": 30821,
+  "n_joint_support_family_trait_systems": 10,
+  "n_independent_qualifying_families": 3,
+  "qualifying_families": [
+    "Fabaceae",
+    "Myrtaceae",
+    "Proteaceae"
+  ],
+  "thresholds": {
+    "temporal_min_species": 20,
+    "spatial_min_species": 8,
+    "spatial_min_georeferenced_records": 20,
+    "spatial_min_cells": 5,
+    "cell_size_m": 25000,
+    "minimum_independent_families": 12
+  },
+  "gate_pass": false,
+  "decision": {
+    "lower_thresholds": false,
+    "open_raw_values_to_rescue": false,
+    "add_third_primary_trait_source": false,
+    "role": "independent transport structural HOLD"
+  },
+  "next_gate": "Do not lower the matched BIEN thresholds. Retain AusTraits as a documented structural-HOLD independent transport; the primary trait programme now depends on whether the already-frozen BIEN lane passes its own gates."
+}

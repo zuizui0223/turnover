@@ -1,0 +1,59 @@
+{
+  "version": "v0.3.4",
+  "status": "FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING",
+  "frozen_on": "2026-09-30",
+  "prerequisites": [
+    "results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json",
+    "data/bien_phylogeny_contract_v0_3_1.json",
+    "data/bien_trait_semantic_reconciliation_v0_3_3.json"
+  ],
+  "chronology": {
+    "structural_support_result_seen_before_freeze": false,
+    "real_trait_turnover_result_seen": false,
+    "raw_trait_values_opened": false
+  },
+  "source": {
+    "repository": "jinyizju/V.PhyloMaker2",
+    "commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "scenario": "S3"
+  },
+  "species_input_rule": "Use only temporally resolvable species from the frozen semantic-validity rules, with BIEN scrubbed species/genus/family; do not fuzzy-match or substitute taxonomy.",
+  "status_rule": {
+    "primary_allowed": [
+      "prune",
+      "bind"
+    ],
+    "failed": "fail to bind",
+    "primary_min_species": 20,
+    "mandatory_prune_only_min_species": 20,
+    "system_pass": "primary_resolvable_species>=20 AND prune_species>=20"
+  },
+  "independence_gate": {
+    "cluster": "scrubbed_family",
+    "minimum_independent_families": 12,
+    "family_counts_once": true
+  },
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "semantic_class",
+    "input species count",
+    "prune count",
+    "bind count",
+    "fail-to-bind count",
+    "crosswalk PASS/HOLD"
+  ],
+  "outputs_forbidden": [
+    "species names",
+    "trait values",
+    "species-level trait states",
+    "patristic distances",
+    "trait dissimilarity",
+    "delta_rho"
+  ],
+  "no_alternate_backbone_after_failure": true,
+  "no_alternate_scenario_after_failure": true,
+  "no_posthoc_taxonomic_fuzzy_matching": true,
+  "no_posthoc_relaxation": true
+}

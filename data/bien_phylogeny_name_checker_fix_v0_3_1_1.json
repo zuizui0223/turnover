@@ -1,0 +1,34 @@
+{
+  "version": "v0.3.1.1",
+  "status": "PHYLOGENY_TIP_LABEL_CHECKER_FIXED_PRE_TRAIT_OUTCOME",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_phylogeny_contract_v0_3_1.json",
+  "trigger_result": "results/bien_phylogeny_source_v0_3_1/result_hold.json",
+  "source_evidence": {
+    "phylo_maker_rule": "input species names are converted from spaces to underscores before exact matching to tree$tip.label",
+    "tips_info_documentation": "tips.info.TPL contains taxonomic information of all tips in GBOTB.extended.TPL",
+    "package_example": "tips data frame species column is constructed directly from phylogeny$tip.label"
+  },
+  "checker_change": {
+    "old": "compare gsub('_',' ', tree$tip.label) against raw tips.info.TPL$species",
+    "new": "compare raw tree$tip.label against raw tips.info.TPL$species, require equal 74529-row unique sets",
+    "change_type": "technical source-integrity checker fix only"
+  },
+  "unchanged": {
+    "repository": "jinyizju/V.PhyloMaker2",
+    "commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "scenario": "S3",
+    "documented_tip_count": 74529,
+    "prune_only_minimum": 20,
+    "support_thresholds": true,
+    "trait_semantics": true
+  },
+  "source_changed": false,
+  "backbone_changed": false,
+  "biological_rules_changed": false,
+  "can_rescue_by_alternate_tree": false,
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_biological_relaxation": true
+}

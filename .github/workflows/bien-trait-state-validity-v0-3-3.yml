@@ -1,0 +1,63 @@
+name: BIEN trait state validity v0.3.3
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+      - name: Pin RBIEN
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Validate stricter semantic contract
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('data/bien_trait_semantic_reconciliation_v0_3_3.json'))
+          assert r['status']=='BIEN_TRAIT_SEMANTIC_CONTRACT_RECONCILED_PRE_SUPPORT_RESULT'
+          assert r['direction_of_change']=='STRICTER_ONLY'
+          assert r['can_rescue_failure'] is False
+          assert r['effective_nominal_categorical_unit_rule']['allowed']=='NULL or empty/whitespace-only unit only'
+          f=json.load(open('data/bien_trait_state_boolean_parser_fix_v0_3_3_2.json'))
+          assert f['status']=='BIEN_STATE_VALIDITY_BOOLEAN_PARSER_FIXED_PRE_VALUE_QUERY'
+          assert f['chronology']['state_validity_database_query_executed_before_fix'] is False
+          assert f['support_thresholds_changed'] is False
+          assert f['trait_semantics_changed'] is False
+          PY
+      - name: Run aggregate-only state validity
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          test -f results/bien_trait_support_v0_2/family_trait_support.csv
+          mkdir -p build/bien_trait_state_validity_v0_3_3
+          Rscript scripts/source/audit_bien_trait_state_validity_v0_3_3.R \
+            --support-table results/bien_trait_support_v0_2/family_trait_support.csv \
+            --out build/bien_trait_state_validity_v0_3_3/result.json \
+            --table-out build/bien_trait_state_validity_v0_3_3/state_validity.csv
+      - name: Enforce raw-value firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_trait_state_validity_v0_3_3/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['raw_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-trait-state-validity-v0-3-3
+          path: build/bien_trait_state_validity_v0_3_3/

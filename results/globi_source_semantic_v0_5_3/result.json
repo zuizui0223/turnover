@@ -1,0 +1,80 @@
+{
+  "version": "v0.5.3",
+  "status": "HOLD_GLOBI_SOURCE_SEMANTIC_UPPER_BOUND",
+  "adjudicated_on": "2026-09-30",
+  "criteria_origin": "data/globi_source_semantic_design_v0_5.json",
+  "prerequisites": [
+    "results/globi_joint_support_v0_4/result_summary.json",
+    "data/globi_source_semantic_amendment_v0_5_1.json",
+    "data/globi_source_semantic_amendment_v0_5_2.json"
+  ],
+  "outcome_blind": true,
+  "biological_turnover_outcomes_opened": false,
+  "v0_5_2_namespaces_with_programme_pass_before_mirror_dedup": 20,
+  "minimum_independent_semantic_pass_namespaces": 12,
+  "decisive_exclusions": [
+    {
+      "source_namespace": "globalbioticinteractions/arthropodEasyCaptureAMNH",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "Source documentation identifies an AMNH Arthropod Easy Capture RSS/Darwin Core archive aggregator spanning collection-network projects rather than one repeatable ecological interaction survey.",
+      "evidence": "https://github.com/globalbioticinteractions/arthropodEasyCaptureAMNH/blob/main/README.md"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/ecoab-host-plant",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "Source documentation explicitly describes potential host-plant records recovered from a wild-bee collection and labels the source an occurrence dataset.",
+      "evidence": "https://github.com/globalbioticinteractions/ecoab-host-plant/blob/main/README.md"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/fmnh",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "Source documentation states that GloBI indexes biotic-association records from Field Museum biological collections rather than a common replicated interaction survey.",
+      "evidence": "https://github.com/globalbioticinteractions/fmnh/blob/main/README.md"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/gbif-us-bees",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "Source documentation describes bee records served through a portal for species occurrence data; the qualifying programme is Bumble Bee Watch metadata rather than a common network survey.",
+      "evidence": "https://github.com/globalbioticinteractions/gbif-us-bees/blob/main/README.md"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/limbu2025",
+      "adjudication": "EXCLUDE_SEMANTIC_AMBIGUITY",
+      "basis": "The v0.5.2 qualifying system is coOccursWith. Co-occurrence is not one of the frozen primary interaction families (mutualism, herbivory, parasitism, predation/consumer-resource), and v0.5 forbids promoting other labels after support is known.",
+      "evidence": "https://github.com/globalbioticinteractions/limbu2025/blob/main/globi.json"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/mangal",
+      "adjudication": "EXCLUDE_PRIOR_SOURCE_REENTRY",
+      "basis": "This namespace is the GloBI adapter for Mangal, the already-audited first primary interaction source that failed the frozen joint species-rank gate. It cannot re-enter as independent GloBI evidence after the pre-outcome source switch.",
+      "evidence": "https://github.com/globalbioticinteractions/mangal/blob/main/README.md",
+      "routing_contract": "data/interaction_source_routing_v0_1.json"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/pensoft-ipt",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "The source is a Pensoft IPT/Darwin Core archive indexer and the v0.5.2 qualifying programme is explicitly AnthWest occurrence records, not a documented replicated interaction network.",
+      "evidence": "https://github.com/globalbioticinteractions/pensoft-ipt/blob/main/README.md"
+    },
+    {
+      "source_namespace": "globalbioticinteractions/syrphids-of-ireland",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "Source documentation labels the underlying resource an occurrence dataset and the qualifying programme key is National Biodiversity Data Centre online record submission.",
+      "evidence": "https://github.com/globalbioticinteractions/syrphids-of-ireland/blob/main/README.md"
+    },
+    {
+      "source_namespace": "millerse/Biological-Station-Arthropod-Collection",
+      "adjudication": "EXCLUDE_OPPORTUNISTIC_AGGREGATION",
+      "basis": "Source documentation identifies an arthropod collection-derived interaction dataset, not a repeatable ecological network sampling programme.",
+      "evidence": "https://github.com/millerse/Biological-Station-Arthropod-Collection/blob/master/README.md"
+    }
+  ],
+  "n_decisive_exclusions": 9,
+  "semantic_pass_upper_bound_before_any_further_exclusion": 11,
+  "upper_bound_logic": "20 programme-supported namespaces - 9 decisive exclusions = at most 11 possible semantic PASS namespaces. Because the frozen gate requires >=12, no adjudication of the remaining ambiguous namespaces can make the primary joint interaction arm eligible.",
+  "gate_pass": false,
+  "further_semantic_adjudication_required_for_primary_gate": false,
+  "interaction_primary_route": "STOP",
+  "finite_family_rule": "No third primary interaction source is allowed.",
+  "next_action": "Record the joint interaction arm as pre-outcome HOLD and continue the independent trait arm; retain GloBI/Mangal only as documented failed qualification routes or possible non-primary descriptive validation, never as generalized primary response evidence."
+}

@@ -1,0 +1,109 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_AUSTRAITS_SUPPORT_COUNTING",
+  "frozen_on": "2026-10-01",
+  "prerequisite": "results/austraits_metadata_preflight_v0_1/result.json",
+  "source": {
+    "release": "7.0.0",
+    "zenodo_record": 15718081,
+    "zenodo_doi": "10.5281/zenodo.15718081",
+    "github_tag_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "parquet": {
+      "name": "austraits-7.0.0-flattened.parquet",
+      "size_bytes": 43531865,
+      "sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+      "md5": "a0283adce2c924ffbfee89db9899316f"
+    }
+  },
+  "purpose": "Test whether the predeclared independent AusTraits transport contains enough family x trait support for the same temporal/spatial trait-turnover design as BIEN, before any raw trait value or biological response is returned.",
+  "system_grain": {
+    "clade": "family",
+    "trait": "trait_name",
+    "species": "binomial",
+    "independence_cluster": "family"
+  },
+  "record_filter": {
+    "species_rank": "lower(trim(taxon_rank)) = 'species'",
+    "require_nonempty": [
+      "family",
+      "binomial",
+      "trait_name",
+      "observation_id",
+      "value"
+    ],
+    "value_use": "presence predicate only; value is never selected, persisted, summarized, or inspected",
+    "duplicate_rule": "within family x trait x species, one structural measurement record is one distinct observation_id",
+    "context_rule": "do not filter basis_of_record/entity_type/value_type by observed support; source-context semantics are adjudicated in a separate pre-outcome gate after structural support",
+    "rationale": "This makes structural support an upper bound while preventing row duplication in the flattened serialization from inflating measurement counts."
+  },
+  "temporal_support": {
+    "minimum_species_per_family_trait": 20,
+    "species_record_minimum": 1
+  },
+  "spatial_support": {
+    "coordinate_fields": [
+      "latitude (deg)",
+      "longitude (deg)"
+    ],
+    "valid_coordinate_rule": "try_cast latitude/longitude to DOUBLE; -90<=lat<=90 and -180<=lon<=180",
+    "minimum_georeferenced_records_per_species": 20,
+    "minimum_cells_per_species": 5,
+    "minimum_spatial_species_per_family_trait": 8,
+    "cell_size_m": 25000,
+    "projection": {
+      "name": "spherical Lambert cylindrical equal-area",
+      "earth_radius_m": 6371008.8,
+      "standard_parallel_degrees": 30,
+      "x_formula": "R * radians(longitude) * cos(radians(30))",
+      "y_formula": "R * sin(radians(latitude)) / cos(radians(30))",
+      "cell_formula": "floor(x/25000), floor(y/25000)"
+    }
+  },
+  "joint_gate": {
+    "family_trait_pass": "temporal_species>=20 AND spatial_qualifying_species>=8",
+    "minimum_independent_families": 12,
+    "family_count_rule": "A family contributes at most one independent cluster even if multiple traits pass."
+  },
+  "diagnostics": {
+    "output_distinct_units": true,
+    "output_distinct_datasets": true,
+    "unit_or_dataset_counts_do_not_rescue_structural_failure": true
+  },
+  "matched_to_bien": {
+    "temporal_min_species": 20,
+    "spatial_min_species": 8,
+    "spatial_min_records_per_species": 20,
+    "spatial_min_cells_per_species": 5,
+    "cell_size_m": 25000,
+    "minimum_independent_families": 12,
+    "thresholds_identical": true
+  },
+  "allowed_outputs": [
+    "family",
+    "trait_name",
+    "temporal species count",
+    "georeferenced species count",
+    "spatial qualifying species count",
+    "distinct unit count and labels",
+    "distinct dataset count",
+    "joint structural PASS/HOLD",
+    "aggregate numbers of systems and independent families"
+  ],
+  "forbidden_outputs": [
+    "raw value",
+    "species names",
+    "observation IDs",
+    "row-level coordinates",
+    "cell coordinates for individual records",
+    "trait dissimilarity",
+    "phylogenetic distance",
+    "geographic distance",
+    "delta_rho",
+    "predictor-response associations"
+  ],
+  "next_gate_if_pass": "Freeze AusTraits trait semantics/source-context rules, phylogeny crosswalk, and observed-geometry informativeness before any real trait state or turnover effect is opened.",
+  "next_gate_if_hold": "Do not lower the matched BIEN thresholds. Record the independent transport HOLD; do not add a third primary trait source unless the pre-frozen finite-family rule is amended before biological outcomes.",
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "no_posthoc_relaxation": true
+}

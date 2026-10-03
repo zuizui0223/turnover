@@ -1,0 +1,25 @@
+{
+  "version": "v0.2.2",
+  "status": "TRAIT_VALUE_FIREWALL_FALSE_POSITIVE_FIXED_PRE_SUPPORT_RESULT",
+  "frozen_on": "2026-09-30",
+  "amends": "data/bien_trait_support_amendment_v0_2_1.json",
+  "trigger": {
+    "failure": "outcome firewall: trait_value selected",
+    "cause": "The regex scanned from SELECT through later WHERE clauses and falsely treated the allowed trait_value presence predicate as a selected output column.",
+    "support_query_completed": false,
+    "support_result_seen_before_fix": false,
+    "generalized_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "change_type": "technical checker fix only",
+  "corrected_firewall": [
+    "Require the SQL to contain the frozen trait_value IS NOT NULL presence predicate.",
+    "After aggregate query completion, assert trait_value is not among returned column names.",
+    "Never return raw row-level trait values."
+  ],
+  "biological_rules_changed": false,
+  "thresholds_changed": false,
+  "source_changed": false,
+  "trait_semantics_changed": false,
+  "no_posthoc_biological_relaxation": true
+}

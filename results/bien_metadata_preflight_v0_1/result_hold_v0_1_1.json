@@ -1,0 +1,20 @@
+{
+  "version": "v0.1.1",
+  "status": "HOLD_BIEN_METADATA_PREFLIGHT_REGEX_ENCODING",
+  "workflow_run": 36726270880,
+  "workflow_job": 109923832707,
+  "artifact_id": 11103241171,
+  "outcome_blind": true,
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "transport_error": null,
+  "observed_database_version": "4.2.8",
+  "accepted_release_family": "4.2.x",
+  "downstream_exact_patch_pin": "4.2.8",
+  "agg_traits_row_count": 25932628,
+  "missing_required_fields": [],
+  "n_trait_names": 54,
+  "trait_count_matches_reference": true,
+  "gate_pass": false,
+  "diagnosis": "All source/schema/vocabulary facts satisfy the intended v0.1.1 contract. The stored accepted_prefix_regex was JSON-overescaped (two literal backslashes before dots), so the implementation returned false before any trait values or biological outcomes were opened."
+}

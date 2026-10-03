@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: diagnose aggregate multiplicity failure before any spatial calibration result; S001 only, no raw coordinates/species/trait values persisted.

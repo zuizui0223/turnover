@@ -1,0 +1,79 @@
+name: BIEN trait support exact-equivalent fallback v0.2.3
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+      - name: Pin RBIEN
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Validate exact-equivalent fallback
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_trait_support_queryplan_fallback_v0_2_3.json'))
+          assert d['status']=='BIEN_SUPPORT_QUERY_PLAN_FALLBACK_FROZEN_PRE_RESULT'
+          assert d['chronology']['v0_2_2_support_result_seen_before_freeze'] is False
+          assert d['support_thresholds_changed'] is False
+          assert d['can_rescue_failure'] is False
+          assert d['can_change_support_definition'] is False
+          assert d['scientific_equivalence']['temporal_min_species']==20
+          assert d['scientific_equivalence']['spatial_min_georeferenced_records_per_species']==20
+          assert d['scientific_equivalence']['spatial_min_cells_per_species']==5
+          assert d['scientific_equivalence']['spatial_min_species_per_family_trait']==8
+          assert d['scientific_equivalence']['minimum_independent_families']==12
+          a=json.load(open('data/bien_spatial_noncentroid_amendment_v0_2_4.json'))
+          assert a['status']=='BIEN_SPATIAL_NONCENTROID_FILTER_FROZEN_PRE_SUPPORT_RESULT'
+          assert a['direction_of_change']=='STRICTER_ONLY'
+          assert a['can_rescue_failure'] is False
+          assert a['can_increase_spatial_support'] is False
+          assert a['support_thresholds_changed'] is False
+          assert 'is_centroid NULL/0' in d['scientific_equivalence']['geovalid_rule']
+          PY
+      - name: Run two-stage aggregate-only fallback
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/bien_trait_support_v0_2_3
+          Rscript scripts/source/audit_bien_trait_support_v0_2_3.R \
+            --out build/bien_trait_support_v0_2_3/result.json \
+            --table-out build/bien_trait_support_v0_2_3/family_trait_support.csv
+      - name: Enforce output firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_trait_support_v0_2_3/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['generalized_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['raw_rows_returned'] is False
+          assert x['trait_value_returned'] is False
+          assert x['row_level_species_returned'] is False
+          assert x['row_level_coordinates_returned'] is False
+          assert x['status'] in {'BIEN_TRAIT_SUPPORT_PASS','HOLD_BIEN_TRAIT_SUPPORT'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-trait-support-v0-2-3
+          path: |
+            build/bien_trait_support_v0_2_3/result.json
+            build/bien_trait_support_v0_2_3/family_trait_support.csv

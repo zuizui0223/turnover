@@ -1,0 +1,51 @@
+{
+  "version": "v0.4.1",
+  "status": "TRAIT_PERMUTATION_NULL_MEAN_EXACT_ZERO_FROZEN_PRE_OUTCOME",
+  "frozen_on": "2026-09-30",
+  "amends": [
+    "data/spatiotemporal_memory_turnover_design_v0_1.json",
+    "data/bien_informativeness_design_v0_4.json"
+  ],
+  "chronology": {
+    "bien_structural_support_result_seen_before_freeze": false,
+    "real_trait_states_opened": false,
+    "real_trait_turnover_outcomes_opened": false
+  },
+  "scope": "trait_time and trait_space only; interaction arm is terminal HOLD and its null is not altered",
+  "theorem": {
+    "statement": "Under a complete permutation of whole trait states among n labels, the exact permutation expectation of Spearman correlation between a fixed pairwise separation rank vector and pairwise trait-dissimilarity ranks is zero whenever the dissimilarity rank variance is nonzero.",
+    "conditions": [
+      "all unordered label pairs are included in the effect calculation",
+      "the null acts by a uniform permutation of the n vertex/state labels",
+      "pairwise dissimilarity is a symmetric function of the two assigned states",
+      "Spearman ranks use a deterministic tie rule such as average ranks"
+    ],
+    "proof_sketch": [
+      "A label permutation induces a permutation of the complete graph's unordered edges.",
+      "The symmetric group is transitive on unordered edges, so for every fixed edge the expected permuted dissimilarity rank equals the grand mean dissimilarity rank.",
+      "Permutation preserves the multiset of dissimilarity ranks, hence its centered norm is constant across permutations.",
+      "The fixed separation-rank vector is centered, so its dot product with the expected centered permuted dissimilarity-rank vector is zero.",
+      "Therefore the exact mean permutation Spearman correlation is zero."
+    ]
+  },
+  "consequence": {
+    "canonical_trait_effect": "delta_rho = observed Spearman rho exactly, because the exact null mean is zero",
+    "biological_definition_changed": false,
+    "interpretation_changed": false,
+    "null_permutations_role": "retain permutations for null dispersion, diagnostic calibration, and implementation checks; do not inject Monte Carlo error into the null mean",
+    "degenerate_rule": "if pairwise dissimilarity has zero rank variance, rho is undefined and the system/replicate fails the predeclared state-variation or informativeness gate"
+  },
+  "computational_rule": {
+    "primary_effect_uses_all_unordered_pairs": true,
+    "pair_subsampling_for_primary_effect": false,
+    "reason": "The exact-zero proof and original canonical estimator both apply directly to the complete unordered-pair set."
+  },
+  "validation": {
+    "exact_enumeration_small_n": "required in unit tests for continuous and tied categorical synthetic states",
+    "permutation_diagnostic": "999 random permutations may be retained to report null SD or verify empirical mean near zero, but are not used to estimate the primary null mean"
+  },
+  "thresholds_changed": false,
+  "trait_selection_changed": false,
+  "can_rescue_support_failure": false,
+  "no_posthoc_relaxation": true
+}

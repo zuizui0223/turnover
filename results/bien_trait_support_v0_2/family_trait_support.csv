@@ -1,0 +1,74 @@
+family,trait_name,temporal_species,georeferenced_species,spatial_qualifying_species,joint_support_pass
+Anacardiaceae,diameter at breast height (1.3 m),134,106,14,True
+Annonaceae,diameter at breast height (1.3 m),322,247,31,True
+Annonaceae,whole plant growth form,664,216,24,True
+Apocynaceae,diameter at breast height (1.3 m),217,179,19,True
+Apocynaceae,whole plant growth form,1311,178,15,True
+Aquifoliaceae,diameter at breast height (1.3 m),42,37,12,True
+Arecaceae,diameter at breast height (1.3 m),174,161,33,True
+Arecaceae,whole plant growth form,494,154,24,True
+Betulaceae,diameter at breast height (1.3 m),24,22,16,True
+Betulaceae,whole plant height,33,14,12,True
+Bignoniaceae,diameter at breast height (1.3 m),221,204,43,True
+Bignoniaceae,whole plant growth form,548,201,37,True
+Burseraceae,diameter at breast height (1.3 m),143,134,28,True
+Burseraceae,whole plant growth form,280,132,27,True
+Celastraceae,diameter at breast height (1.3 m),124,109,10,True
+Celastraceae,whole plant growth form,405,103,8,True
+Chrysobalanaceae,diameter at breast height (1.3 m),143,112,14,True
+Chrysobalanaceae,whole plant growth form,277,106,12,True
+Clusiaceae,diameter at breast height (1.3 m),138,109,9,True
+Cupressaceae,diameter at breast height (1.3 m),26,26,21,True
+Cupressaceae,whole plant height,37,25,21,True
+Ericaceae,diameter at breast height (1.3 m),99,94,27,True
+Euphorbiaceae,diameter at breast height (1.3 m),274,215,29,True
+Euphorbiaceae,whole plant growth form,1691,202,24,True
+Fabaceae,diameter at breast height (1.3 m),902,729,106,True
+Fabaceae,whole plant growth form,5882,686,84,True
+Fabaceae,whole plant height,573,244,20,True
+Fagaceae,diameter at breast height (1.3 m),130,119,58,True
+Fagaceae,whole plant height,95,62,53,True
+Juglandaceae,diameter at breast height (1.3 m),26,26,17,True
+Juglandaceae,whole plant height,23,18,16,True
+Lauraceae,diameter at breast height (1.3 m),404,293,38,True
+Lauraceae,whole plant growth form,1047,266,26,True
+Lecythidaceae,diameter at breast height (1.3 m),116,80,12,True
+Lecythidaceae,whole plant growth form,198,75,11,True
+Malvaceae,diameter at breast height (1.3 m),273,225,30,True
+Malvaceae,whole plant growth form,1455,215,23,True
+Melastomataceae,diameter at breast height (1.3 m),268,219,21,True
+Melastomataceae,whole plant growth form,1207,208,13,True
+Meliaceae,diameter at breast height (1.3 m),179,137,25,True
+Meliaceae,whole plant growth form,257,124,22,True
+Moraceae,diameter at breast height (1.3 m),226,195,58,True
+Moraceae,whole plant growth form,400,174,50,True
+Moraceae,whole plant height,86,56,11,True
+Myristicaceae,diameter at breast height (1.3 m),114,101,24,True
+Myristicaceae,whole plant growth form,137,94,22,True
+Myrtaceae,diameter at breast height (1.3 m),279,219,14,True
+Myrtaceae,whole plant growth form,979,195,11,True
+Nyctaginaceae,diameter at breast height (1.3 m),43,39,8,True
+Nyctaginaceae,whole plant growth form,223,39,9,True
+Oleaceae,diameter at breast height (1.3 m),45,38,12,True
+Oleaceae,whole plant height,35,11,8,True
+Pinaceae,diameter at breast height (1.3 m),79,76,62,True
+Pinaceae,whole plant height,78,69,62,True
+Piperaceae,diameter at breast height (1.3 m),67,63,14,True
+Piperaceae,whole plant growth form,703,59,10,True
+Rosaceae,diameter at breast height (1.3 m),116,96,32,True
+Rosaceae,whole plant height,312,37,14,True
+Rubiaceae,diameter at breast height (1.3 m),566,449,39,True
+Rubiaceae,whole plant growth form,2537,424,33,True
+Salicaceae,diameter at breast height (1.3 m),148,121,36,True
+Salicaceae,whole plant growth form,391,95,17,True
+Salicaceae,whole plant height,121,37,15,True
+Sapindaceae,diameter at breast height (1.3 m),286,256,40,True
+Sapindaceae,whole plant growth form,646,241,17,True
+Sapindaceae,whole plant height,105,55,18,True
+Sapotaceae,diameter at breast height (1.3 m),242,171,32,True
+Sapotaceae,whole plant growth form,368,153,27,True
+Urticaceae,diameter at breast height (1.3 m),77,66,19,True
+Urticaceae,whole plant growth form,365,64,16,True
+Violaceae,diameter at breast height (1.3 m),59,51,8,True
+Violaceae,whole plant growth form,287,49,8,True
+Vitaceae,diameter at breast height (1.3 m),40,40,9,True

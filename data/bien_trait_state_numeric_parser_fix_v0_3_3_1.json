@@ -1,0 +1,17 @@
+{
+  "version": "v0.3.3.1",
+  "status": "BIEN_STATE_VALIDITY_NUMERIC_PARSER_TECHNICAL_FIX_PRE_EXECUTION",
+  "frozen_on": "2026-09-30",
+  "amends": "scripts/source/audit_bien_trait_state_validity_v0_3_3.R",
+  "chronology": {
+    "state_validity_query_executed_before_fix": false,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "change": "Use the already-frozen numeric-format regex followed by PostgreSQL numeric cast; remove reliance on isfinite(double precision).",
+  "semantic_rule_unchanged": "100% of eligible continuous values must parse as finite ordinary numeric strings under the predeclared regex.",
+  "thresholds_changed": false,
+  "trait_classification_changed": false,
+  "can_rescue_failure": false,
+  "raw_trait_values_opened": false
+}

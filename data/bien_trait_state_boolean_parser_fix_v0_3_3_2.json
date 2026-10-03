@@ -1,0 +1,20 @@
+{
+  "version": "v0.3.3.2",
+  "status": "BIEN_STATE_VALIDITY_BOOLEAN_PARSER_FIXED_PRE_VALUE_QUERY",
+  "frozen_on": "2026-10-01",
+  "amends": "scripts/source/audit_bien_trait_state_validity_v0_3_3.R",
+  "trigger_result": "results/bien_trait_state_validity_v0_3_3/result_hold_boolean_parser.json",
+  "chronology": {
+    "state_validity_database_query_executed_before_fix": false,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "old_rule": "support$joint_support_pass %in% c(TRUE,'TRUE','t','1',1)",
+  "new_rule": "tolower(trimws(as.character(support$joint_support_pass))) %in% c('true','t','1')",
+  "direction_of_change": "TECHNICAL_PARSER_FIX_ONLY",
+  "support_thresholds_changed": false,
+  "trait_semantics_changed": false,
+  "unit_rules_changed": false,
+  "spatial_rules_changed": false,
+  "can_rescue_by_changing_biology": false
+}

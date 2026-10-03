@@ -1,0 +1,75 @@
+name: BIEN phylogeny source preflight v0.3.1.1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phylogeny:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+
+      - name: Pin V.PhyloMaker2 source
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          test "$(git -C build/V.PhyloMaker2 rev-parse HEAD)" = "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+
+      - name: Validate frozen phylogeny contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/bien_phylogeny_contract_v0_3_1.json'))
+          assert d['status']=='FROZEN_BEFORE_BIEN_TRAIT_SUPPORT_RESULT_OPENING'
+          assert d['chronology']['bien_support_result_seen_before_freeze'] is False
+          assert d['phylogeny_source']['commit']=='7af3fb5152f691af2e4ec9d5e2e467d1b50505e9'
+          assert d['phylogeny_source']['backbone']=='GBOTB.extended.TPL'
+          assert d['phylogeny_source']['documented_backbone_tip_count']==74529
+          assert d['mandatory_backbone_native_sensitivity']['minimum_native_species_per_family_trait']==20
+          assert d['no_posthoc_relaxation'] is True
+          a=json.load(open('data/bien_phylogeny_name_checker_fix_v0_3_1_1.json'))
+          assert a['status']=='PHYLOGENY_TIP_LABEL_CHECKER_FIXED_PRE_TRAIT_OUTCOME'
+          assert a['source_changed'] is False
+          assert a['backbone_changed'] is False
+          assert a['biological_rules_changed'] is False
+          PY
+
+      - name: Audit pinned TPL backbone
+        env:
+          VPHYLO_SOURCE_DIR: build/V.PhyloMaker2
+        run: |
+          mkdir -p build/bien_phylogeny_source_v0_3_1
+          Rscript scripts/source/audit_bien_phylogeny_source_v0_3_1.R \
+            --out build/bien_phylogeny_source_v0_3_1/result.json
+
+      - name: Enforce outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/bien_phylogeny_source_v0_3_1/result.json'))
+          assert x['version']=='v0.3.1.1'
+          assert x['outcome_blind'] is True
+          assert x['generalized_trait_values_opened'] is False
+          assert x['biological_turnover_outcomes_opened'] is False
+          assert x['status'] in {'BIEN_PHYLOGENY_SOURCE_PASS','HOLD_BIEN_PHYLOGENY_SOURCE'}
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-phylogeny-source-v0-3-1
+          path: build/bien_phylogeny_source_v0_3_1/

@@ -1,0 +1,48 @@
+{
+  "version": "v0.2.3",
+  "status": "BIEN_SUPPORT_QUERY_PLAN_FALLBACK_FROZEN_PRE_RESULT",
+  "frozen_on": "2026-10-01",
+  "amends": "data/bien_trait_support_design_v0_2.json",
+  "chronology": {
+    "v0_2_2_support_result_seen_before_freeze": false,
+    "v0_2_2_long_running_queries_active": true,
+    "raw_trait_values_opened": false,
+    "biological_turnover_outcomes_opened": false
+  },
+  "trigger_condition": "Use only if the already-running pre-amendment v0.2.2 aggregate query fails/times out, or to produce the required post-amendment non-centroid structural result.",
+  "scientific_equivalence": {
+    "record_filter_unchanged": true,
+    "temporal_min_species": 20,
+    "spatial_min_georeferenced_records_per_species": 20,
+    "spatial_min_cells_per_species": 5,
+    "spatial_min_species_per_family_trait": 8,
+    "cell_size_m": 25000,
+    "minimum_independent_families": 12,
+    "trait_value_rule": "presence predicate only",
+    "cultivated_filter": "is_cultivated_observation = 0 OR NULL",
+    "geovalid_rule": "is_geovalid = 1; is_centroid NULL/0; georef_protocol NULL/not county centroid; coordinate bounds",
+    "cell_projection": "identical frozen spherical Lambert cylindrical equal-area formula"
+  },
+  "query_plan": [
+    "Query 1 returns only aggregate family x trait temporal species counts under the frozen record filter.",
+    "Apply the already-frozen temporal >=20 rule locally; this candidate list cannot alter thresholds.",
+    "Query 2 computes georeferenced record/cell support only for those candidate family x trait keys.",
+    "Combine aggregate tables locally and apply the unchanged joint gate."
+  ],
+  "diagnostic_change": {
+    "omitted_from_structural_fallback": [
+      "distinct unit count",
+      "unit labels"
+    ],
+    "reason": "Units never enter structural PASS/HOLD and are already required by the stricter v0.3.3 semantic gate. Removing this non-gating full-table aggregation can only reduce runtime, not change eligibility."
+  },
+  "raw_rows_returned": false,
+  "trait_values_returned": false,
+  "support_thresholds_changed": false,
+  "can_rescue_failure": false,
+  "can_change_support_definition": false,
+  "no_posthoc_relaxation": true,
+  "amendments": [
+    "data/bien_spatial_noncentroid_amendment_v0_2_4.json"
+  ]
+}

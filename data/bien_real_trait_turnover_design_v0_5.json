@@ -1,0 +1,103 @@
+{
+  "version": "v0.5",
+  "status": "FROZEN_BEFORE_REAL_BIEN_TRAIT_TURNOVER_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "results/bien_spatial_informativeness_v0_4_3/result.json",
+  "admission_rule": "Only family x trait systems with joint temporal-S3, temporal-prune-only and spatial informativeness PASS enter. If the final informativeness gate has fewer than 12 independent families, this design is not executed.",
+  "source": {
+    "database": "BIEN 4.2.8",
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "phylogeny_repository": "jinyizju/V.PhyloMaker2",
+    "phylogeny_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "primary_phylogeny_scenario": "S3"
+  },
+  "record_filters": {
+    "cultivated": "is_cultivated_observation = 0 OR NULL",
+    "spatial": [
+      "is_geovalid = 1",
+      "is_centroid IS NULL OR is_centroid = 0",
+      "georef_protocol IS NULL OR georef_protocol <> 'county centroid'",
+      "-90 <= latitude <= 90",
+      "-180 <= longitude <= 180"
+    ],
+    "no_posthoc_outlier_filter": true
+  },
+  "continuous_scalar": {
+    "temporal_species_state": "median of all finite numeric eligible measurements in the unique frozen BIEN unit for that family x trait system",
+    "temporal_dissimilarity": "absolute difference. Any positive affine standardization produces the same Spearman ranks, so the canonical-unit raw difference is used directly.",
+    "spatial_state": "every eligible finite numeric measurement row",
+    "spatial_dissimilarity": "absolute difference",
+    "unit_rule": "the exact single nonempty unit already validated by v0.3.3; no conversion or unit switching after outcomes"
+  },
+  "nominal_categorical": {
+    "temporal_species_state": "unique modal category; tied-mode species remain excluded exactly as in v0.3.3",
+    "temporal_dissimilarity": "0/1 mismatch",
+    "spatial_state": "every eligible nonmissing category row",
+    "spatial_dissimilarity": "0/1 mismatch",
+    "unit_rule": "NULL/blank unit only"
+  },
+  "temporal_effect": {
+    "primary_tree": "S3 tree containing prune + bind species",
+    "primary_species_rule": "same temporally resolvable species used in the frozen crosswalk, excluding fail-to-bind",
+    "separation": "all unordered pairwise patristic distances",
+    "effect": "Spearman(patristic_distance, trait_dissimilarity)",
+    "delta_rho_identity": "exact permutation-null mean = 0, therefore delta_rho equals observed Spearman rho",
+    "prune_only_sensitivity": {
+      "required": true,
+      "tree": "GBOTB.extended.TPL pruned to native tips",
+      "effect": "same all-pairs Spearman estimator",
+      "role": "mandatory reported sensitivity, not a post-outcome exclusion rule because prune-only geometry already passed informativeness"
+    }
+  },
+  "spatial_effect": {
+    "species_eligibility": "same semantic-valid spatial species: >=20 records, >=5 frozen 25-km cells, >=2 observed states, all spatial validity filters",
+    "separation": "all unordered great-circle distances among eligible measurement rows within species",
+    "effect_per_species": "Spearman(great_circle_distance, trait_dissimilarity)",
+    "duplicate_coordinates": "retain all original measurement rows; zero-distance pairs remain in the full pair set",
+    "system_aggregation": "equal-species median of finite species-level rho values",
+    "minimum_species": 8,
+    "record_count_weighting": false,
+    "delta_rho_identity": "exact within-species permutation-null mean = 0, so species rho and the equal-species median are the primary spatial effect"
+  },
+  "null_diagnostics": {
+    "point_estimate_null_mean": "analytic exact zero; never Monte Carlo estimated",
+    "permutations": 999,
+    "seed": "FNV-1a deterministic keys under master seed 20260930",
+    "temporal": "whole species states permuted among eligible labels; report null SD only",
+    "spatial": "whole measurement states permuted among observed coordinates within species; report species-level null SD and equal-species median diagnostic summary",
+    "diagnostic_only": true,
+    "no_system_selection_by_null_pvalue": true
+  },
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "semantic_class",
+    "temporal_S3_rho",
+    "temporal_prune_only_rho",
+    "spatial_equal_species_median_rho",
+    "temporal species counts",
+    "spatial species count",
+    "diagnostic null SD summaries"
+  ],
+  "outputs_forbidden": [
+    "raw trait values",
+    "species-level trait states",
+    "species names",
+    "row-level coordinates",
+    "individual spatial species rho values in the committed primary result",
+    "outcome-driven deletion or winsorization"
+  ],
+  "h1_primary_coupling": {
+    "unit": "family x trait systems passing all gates",
+    "independence_cluster": "family",
+    "model": "unweighted OLS spatial_rho ~ temporal_S3_rho with intercept and family-clustered CR2 standard errors",
+    "coefficient_of_interest": "slope on temporal_S3_rho",
+    "direction": "positive slope supports common time-space coupling",
+    "secondary_descriptive": "Spearman correlation between temporal_S3_rho and spatial_rho across systems, with family-cluster bootstrap CI",
+    "prune_only_sensitivity": "replace temporal_S3_rho with temporal_prune_only_rho without changing the admitted system set",
+    "no_weighting_by_measurement_count": true
+  },
+  "no_outcome_informed_changes": true,
+  "biological_turnover_outcomes_opened": false
+}

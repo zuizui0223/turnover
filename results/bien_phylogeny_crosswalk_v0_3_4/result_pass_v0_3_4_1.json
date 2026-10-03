@@ -1,0 +1,86 @@
+{
+  "version": "v0.3.4.1",
+  "status": "BIEN_PHYLOGENY_CROSSWALK_PASS",
+  "evidence_workflow_run": 36793067332,
+  "evidence_workflow_job": 110150186906,
+  "artifact_id": 11133236137,
+  "artifact_sha256": "79ffae6cf9263d5deecc94f7131175fcea0ff592222a726c058947ee7c7abff5",
+  "observed_database_version": "4.2.8",
+  "outcome_blind": true,
+  "raw_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "n_candidate_systems": 43,
+  "n_crosswalk_pass": 39,
+  "n_crosswalk_hold": 4,
+  "n_independent_families": 31,
+  "hold_reason_counts": {
+    "PRUNE_ONLY_LT20": 4
+  },
+  "failed_systems": [
+    {
+      "family": "Juglandaceae",
+      "trait_name": "diameter at breast height (1.3 m)",
+      "n_prune": 19,
+      "n_bind": 7
+    },
+    {
+      "family": "Juglandaceae",
+      "trait_name": "whole plant height",
+      "n_prune": 18,
+      "n_bind": 5
+    },
+    {
+      "family": "Nyctaginaceae",
+      "trait_name": "diameter at breast height (1.3 m)",
+      "n_prune": 11,
+      "n_bind": 32
+    },
+    {
+      "family": "Oleaceae",
+      "trait_name": "whole plant height",
+      "n_prune": 17,
+      "n_bind": 18
+    }
+  ],
+  "qualifying_families": [
+    "Anacardiaceae",
+    "Annonaceae",
+    "Apocynaceae",
+    "Aquifoliaceae",
+    "Arecaceae",
+    "Betulaceae",
+    "Bignoniaceae",
+    "Burseraceae",
+    "Celastraceae",
+    "Chrysobalanaceae",
+    "Clusiaceae",
+    "Cupressaceae",
+    "Ericaceae",
+    "Euphorbiaceae",
+    "Fabaceae",
+    "Fagaceae",
+    "Lecythidaceae",
+    "Melastomataceae",
+    "Meliaceae",
+    "Moraceae",
+    "Myristicaceae",
+    "Myrtaceae",
+    "Piperaceae",
+    "Rosaceae",
+    "Rubiaceae",
+    "Salicaceae",
+    "Sapindaceae",
+    "Sapotaceae",
+    "Urticaceae",
+    "Violaceae",
+    "Vitaceae"
+  ],
+  "crosswalk_contracts": [
+    "data/bien_phylogeny_crosswalk_design_v0_3_4.json",
+    "data/bien_phylogeny_crosswalk_status_fallback_v0_3_4_1.json",
+    "results/bien_phylogeny_source_v0_3_1/result_pass_v0_3_1_1.json"
+  ],
+  "gate_pass": true,
+  "crosswalk_table": "results/bien_phylogeny_crosswalk_v0_3_4/crosswalk.csv",
+  "next_gate": "Run frozen observed-geometry informativeness simulations for temporal S3, temporal prune-only, and spatial geometries before any real trait turnover response."
+}

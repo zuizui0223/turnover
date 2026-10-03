@@ -1,0 +1,21 @@
+{
+  "version": "v0.1.2",
+  "status": "BIEN_METADATA_PREFLIGHT_PASS",
+  "evidence_workflow_run": 36726882090,
+  "evidence_workflow_job": 109925936905,
+  "note": "The audit script returned PASS. That workflow's overall conclusion was failure only because its then-current post-audit assertion still expected result version v0.1.1; the scientific/source gate output itself was PASS.",
+  "outcome_blind": true,
+  "generalized_trait_values_opened": false,
+  "biological_turnover_outcomes_opened": false,
+  "observed_database_version": "4.2.8",
+  "observed_database_release_date": "2023-06-27",
+  "accepted_release_family": "4.2.x",
+  "downstream_exact_patch_pin": "4.2.8",
+  "agg_traits_row_count": 25932628,
+  "missing_required_fields": [],
+  "n_trait_names": 54,
+  "reference_trait_count": 54,
+  "trait_count_matches_reference": true,
+  "gate_pass": true,
+  "next_gate": "Freeze and run aggregate-only family x trait support geometry before any trait values are opened."
+}

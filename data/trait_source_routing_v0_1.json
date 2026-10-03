@@ -1,0 +1,75 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_PRIMARY_ROUTE_TERMINAL_PREOUTCOME_HOLD",
+  "frozen_on": "2026-10-01",
+  "finite_family_contract": "data/spatiotemporal_memory_turnover_design_v0_1.json",
+  "maximum_primary_trait_sources": 2,
+  "first_source": "BIEN_4_2",
+  "first_source_state": "TERMINAL_SPATIAL_INFORMATIVENESS_HOLD",
+  "first_source_support_contract": "data/bien_trait_support_design_v0_2.json",
+  "second_source": "AUSTRAITS_OPEN_RELEASE",
+  "second_source_terminal": "HOLD_AUSTRAITS_TRAIT_SUPPORT",
+  "second_source_result": "results/austraits_trait_support_v0_2_2/result.json",
+  "second_source_evidence": {
+    "corrected_record_key": true,
+    "family_trait_systems_audited": 30821,
+    "joint_support_systems": 10,
+    "independent_qualifying_families": 3,
+    "minimum_required_families": 12
+  },
+  "further_primary_trait_source_allowed": false,
+  "raw_trait_values_opened": false,
+  "biological_trait_turnover_outcomes_opened": false,
+  "decision_if_bien_passes": "Continue the BIEN lane through the pre-frozen state-validity, S3/prune-only crosswalk and informativeness gates. AusTraits remains terminal structural HOLD.",
+  "decision_if_bien_holds": "Because AusTraits is already terminal structural HOLD, any later BIEN state-validity/crosswalk/informativeness HOLD that reduces the route below >=12 independent families closes the generalized trait route pre-outcome; no third source.",
+  "thresholds_may_be_lowered": false,
+  "second_source_state": "TERMINAL_STRUCTURAL_HOLD",
+  "second_source_technical_issue": {
+    "audit": "results/austraits_observation_id_v0_2_1/result.json",
+    "finding": "39,207 observation_id values occur in multiple datasets; DISTINCT observation_id undercounted structural records",
+    "corrected_record_key": "(dataset_id, observation_id)",
+    "thresholds_changed": false
+  },
+  "first_source_result": "results/bien_trait_support_v0_2/result_pass_v0_2_4.json",
+  "first_source_evidence": {
+    "family_trait_systems_audited": 8215,
+    "temporal_candidate_systems": 1705,
+    "joint_support_systems": 73,
+    "independent_qualifying_families": 37,
+    "minimum_required_families": 12,
+    "noncentroid_filter": true
+  },
+  "first_source_semantic_result": "results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json",
+  "first_source_semantic_evidence": {
+    "structural_candidates": 73,
+    "semantic_pass_systems": 43,
+    "independent_qualifying_families": 34,
+    "minimum_required_families": 12
+  },
+  "first_source_crosswalk_result": "results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json",
+  "first_source_crosswalk_evidence": {
+    "candidate_systems": 43,
+    "crosswalk_pass_systems": 39,
+    "independent_qualifying_families": 31,
+    "minimum_required_families": 12,
+    "failed_prune_only_systems": 4
+  },
+  "first_source_temporal_informativeness_result": "results/bien_temporal_informativeness_v0_4_2/result.json",
+  "first_source_temporal_informativeness_evidence": {
+    "candidate_systems": 39,
+    "temporal_pass_systems": 24,
+    "independent_qualifying_families": 21,
+    "minimum_required_families": 12
+  },
+  "first_source_terminal": "HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND",
+  "first_source_spatial_informativeness_result": "results/bien_spatial_informativeness_v0_4_3/result.json",
+  "first_source_spatial_informativeness_evidence": {
+    "temporal_pass_independent_families": 21,
+    "confirmed_spatial_hold_independent_families": 11,
+    "maximum_possible_final_families": 10,
+    "minimum_required_families": 12
+  },
+  "primary_generalized_trait_route_closed": true,
+  "real_trait_turnover_design_executed": false,
+  "terminal_reason": "BIEN spatial informativeness cannot reach the frozen >=12-family gate: 11 of 21 temporal-PASS families are already spatial HOLD, so the absolute upper bound is 10. AusTraits is independently terminal structural HOLD (3 families). No third source."
+}

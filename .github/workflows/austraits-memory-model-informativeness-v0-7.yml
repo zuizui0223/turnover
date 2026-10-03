@@ -25,7 +25,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p build/core
-          gh run download 37114644733 -R "$GITHUB_REPOSITORY" -n austraits-memory-informativeness-v0-6 -D build/core
+          gh run download 37129060487 -R "$GITHUB_REPOSITORY" -n austraits-memory-informativeness-v0-6 -D build/core
           test -f build/core/austraits_memory_crossed_core_v0_6/result.json
           test -f build/core/austraits_memory_crossed_core_v0_6/core_systems.csv
       - name: Validate frozen replication model gate

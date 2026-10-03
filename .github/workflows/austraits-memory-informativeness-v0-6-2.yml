@@ -1,6 +1,9 @@
 name: AusTraits memory temporal informativeness v0.6.2
 
 on:
+  pull_request:
+    paths:
+      - '.triggers/austraits-memory-informativeness-v0-6-4'
   workflow_dispatch:
 
 permissions:
@@ -19,7 +22,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p build/geometry
-          gh run download 37114360344 -R "$GITHUB_REPOSITORY" -n austraits-memory-geometry-prep-v0-6-1 -D build/geometry
+          gh run download 37128923077 -R "$GITHUB_REPOSITORY" -n austraits-memory-geometry-prep-v0-6-3 -D build/geometry
           test -f build/geometry/groups.csv
           test -f build/geometry/systems.csv
       - name: Download pinned trait config
@@ -163,7 +166,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p build/geometry
-          gh run download 37114360344 -R "$GITHUB_REPOSITORY" -n austraits-memory-geometry-prep-v0-6-1 -D build/geometry
+          gh run download 37128923077 -R "$GITHUB_REPOSITORY" -n austraits-memory-geometry-prep-v0-6-3 -D build/geometry
       - name: Aggregate geometry decisions and final crossed core
         run: |
           mkdir -p build/austraits_memory_informativeness_v0_6 build/austraits_memory_crossed_core_v0_6

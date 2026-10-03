@@ -9,6 +9,11 @@ on:
       - 'data/trait_memory_informativeness_efficiency_v0_5_1.json'
       - 'data/trait_memory_crossed_core_design_v0_6.json'
       - 'data/trait_memory_real_effect_execution_v0_7.json'
+      - 'data/trait_memory_model_informativeness_v0_6_1.json'
+      - 'data/trait_memory_loo_robustness_v0_7_1.json'
+      - 'data/trait_memory_geometry_adjustment_v0_7_2.json'
+      - 'data/trait_memory_effect_semantics_v0_1_2.json'
+      - 'data/trait_memory_lineage_scale_v0_1_3.json'
       - 'results/trait_memory_temporal_support_v0_2/result.json'
       - 'results/trait_memory_semantic_v0_3/result.json'
       - 'results/trait_memory_crosswalk_v0_4/result.json'
@@ -106,4 +111,21 @@ jobs:
           assert real['bootstrap']['replicates']==2000
           assert real['bootstrap']['master_seed']==20261003
           assert real['real_memory_effects_opened'] is False
+
+          mi=json.load(open('data/trait_memory_model_informativeness_v0_6_1.json'))
+          assert mi['status']=='FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert mi['benchmarks']['trait_dominant']['target_log_variance_ratio']==0.6931471805599453
+          assert mi['benchmarks']['lineage_dominant']['target_log_variance_ratio']==-0.6931471805599453
+          assert mi['admission']['directional_recovery_min']==0.80
+          loo=json.load(open('data/trait_memory_loo_robustness_v0_7_1.json'))
+          assert loo['status']=='TRAIT_MEMORY_LOO_ROBUSTNESS_FROZEN_PRE_REAL_EFFECT'
+          assert loo['primary_model_changed'] is False
+          ga=json.load(open('data/trait_memory_geometry_adjustment_v0_7_2.json'))
+          assert ga['status']=='TRAIT_MEMORY_GEOMETRY_ADJUSTMENT_FROZEN_PRE_REAL_EFFECT'
+          assert ga['covariates_are_outcome_blind'] is True
+          assert ga['primary_model_changed'] is False
+          es=json.load(open('data/trait_memory_effect_semantics_v0_1_2.json'))
+          assert es['metric_unchanged']=='Spearman(patristic distance, trait-state dissimilarity)'
+          ls=json.load(open('data/trait_memory_lineage_scale_v0_1_3.json'))
+          assert ls['operational_definition'].startswith('The lineage axis in the primary crossed model is family identity')
           PY

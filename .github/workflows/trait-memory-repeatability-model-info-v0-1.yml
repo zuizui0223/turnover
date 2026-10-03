@@ -1,0 +1,59 @@
+name: Trait memory repeatability model informativeness v0.1
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/trait-memory-repeatability-model-info-v0-1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  model-info:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Download frozen 201-system core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Validate repeatability contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_repeatability_design_v0_1.json'))
+          prior=json.load(open('results/trait_memory_model_informativeness_v0_6_1/result.json'))
+          assert prior['status']=='HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS'
+          assert prior['real_memory_effects_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_REAL_MEMORY_EFFECT_OPENING'
+          assert d['model']['hard_rule']=='Do not label one axis dominant or test R_trait > R_family in this version.'
+          assert d['model_informativeness']['replicates_per_benchmark']==1000
+          assert d['model_informativeness']['admission']['valid_nonsingular_fraction_min']==0.90
+          assert d['model_informativeness']['admission']['median_absolute_error_R_family_max']==0.10
+          assert d['model_informativeness']['admission']['median_absolute_error_R_trait_max']==0.10
+          assert d['real_memory_effects_opened'] is False
+          PY
+      - name: Run share-recovery simulations
+        run: |
+          mkdir -p build/model-info
+          Rscript scripts/analysis/run_trait_memory_repeatability_model_info_v0_1.R \
+            --core-table build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/model-info/result.json \
+            --table-out build/model-info/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-model-info-v0-1
+          path: build/model-info/

@@ -16,6 +16,11 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime
+        run: pip install numpy
       - name: Download frozen 201-system core
         env:
           GH_TOKEN: ${{ github.token }}
@@ -43,6 +48,11 @@ jobs:
           assert d['known_truth_gate']['admission']['signal_power_min']==0.80
           assert d['known_truth_gate']['admission']['null_false_positive_max']==0.06
           assert d['real_memory_effects_opened'] is False
+          f=json.load(open('data/trait_memory_portability_runtime_fix_v0_1_1.json'))
+          assert f['status']=='PORTABILITY_MODEL_INFO_RUNTIME_DEPENDENCY_FIX_PRE_SIMULATION'
+          assert f['known_truth_datasets_simulated_before_fix']==0
+          assert f['scientific_design_changed'] is False
+          assert f['thresholds_changed'] is False
           PY
       - name: Run graph-only known-truth portability calibration
         run: |

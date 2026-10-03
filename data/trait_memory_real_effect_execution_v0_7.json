@@ -1,0 +1,92 @@
+{
+  "version": "v0.7",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisites": [
+    "data/trait_memory_spectrum_design_v0_1.json",
+    "data/trait_memory_model_identifiability_amendment_v0_1_1.json",
+    "data/trait_memory_crossed_core_design_v0_6.json"
+  ],
+  "admission_rule": "Execute only if the final informativeness-PASS crossed core has >=12 families, >=4 traits and one connected bipartite component.",
+  "source": {
+    "bien": "4.2.8",
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "phylogeny_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "primary_tree": "S3"
+  },
+  "effect_extraction": {
+    "continuous": {
+      "species_state": "SQL median of all finite numeric eligible measurements under the single validated unit",
+      "dissimilarity": "absolute difference"
+    },
+    "categorical": {
+      "species_state": "unique modal category; tied species excluded exactly as semantic gate",
+      "dissimilarity": "0/1 mismatch"
+    },
+    "temporal_pair_set": "all unordered pairs of admitted species",
+    "separation": "patristic distance",
+    "effect": "Spearman separation vs dissimilarity",
+    "null_mean": 0,
+    "output": "one S3 rho and one prune-only rho per family x trait system",
+    "no_pair_subsampling": true
+  },
+  "primary_model": {
+    "effective_formula": "S3_rho ~ 1 + (1|family) + (1|trait_name)",
+    "estimation": "lme4::lmer REML",
+    "weights": "none",
+    "primary_components": [
+      "family_variance",
+      "trait_variance",
+      "residual_variance"
+    ],
+    "primary_contrast": "log(trait_variance/family_variance)",
+    "architecture_rule": {
+      "trait_dominant": "bootstrap 95% interval entirely >0",
+      "lineage_dominant": "bootstrap 95% interval entirely <0",
+      "mixed": "bootstrap 95% interval overlaps 0",
+      "unstructured": "family_variance=0 and trait_variance=0"
+    }
+  },
+  "bootstrap": {
+    "type": "parametric from fitted crossed Gaussian random-effects model",
+    "replicates": 2000,
+    "master_seed": 20261003,
+    "simulation": "simulate response using fitted fixed intercept, Normal family random intercepts, Normal trait random intercepts, and Normal residual; refit same REML model",
+    "failure_handling": "retain failed/singular bootstrap replicate as invalid; require >=90% valid refits or report model-uncertainty HOLD rather than changing optimizer/model",
+    "confidence_interval": "2.5 and 97.5 percentiles of finite log variance ratios, with +/-Inf retained as boundary values"
+  },
+  "prune_only_sensitivity": {
+    "response": "prune_only_rho",
+    "admitted_system_set": "identical to primary S3 model",
+    "model": "same crossed intercept-only REML",
+    "role": "mandatory sensitivity; does not redefine primary architecture"
+  },
+  "optional_semantic_class_model": {
+    "source": "data/trait_memory_model_identifiability_amendment_v0_1_1.json",
+    "run_only_if": "both classes have >=2 distinct traits and >=10 systems",
+    "formula": "rho ~ semantic_class + (1|family) + (1|trait_name)",
+    "role": "secondary"
+  },
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "semantic_class",
+    "n_species_S3",
+    "n_species_prune",
+    "S3_rho",
+    "prune_only_rho",
+    "variance components",
+    "variance shares",
+    "log variance ratio",
+    "bootstrap interval"
+  ],
+  "outputs_forbidden": [
+    "raw trait measurements",
+    "species-level states",
+    "species names",
+    "outcome-driven removals"
+  ],
+  "no_outcome_informed_changes": true,
+  "real_memory_effects_opened": false
+}

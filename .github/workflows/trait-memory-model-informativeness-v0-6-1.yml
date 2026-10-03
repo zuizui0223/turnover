@@ -1,9 +1,6 @@
 name: Trait memory crossed-model informativeness v0.6.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-model-informativeness-v0-6-1'
   workflow_dispatch:
 
 permissions:

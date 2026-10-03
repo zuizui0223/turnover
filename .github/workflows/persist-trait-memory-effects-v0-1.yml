@@ -1,0 +1,43 @@
+name: Persist canonical trait-memory effects v0.1
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/persist-trait-memory-effects-v0-1'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  persist:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: manuscript/trait-memory-context-v0-2
+          fetch-depth: 0
+      - name: Download exact verified effect artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" \
+            -n trait-memory-repeatability-real-effects-batched-v0-2-1 \
+            -D build/source
+          test -f build/source/effects.csv
+          echo "5fffdfbc9ab50ff7bf568e80537a290e11c2bfde02f1d5484c7e896ed5f9415b  build/source/effects.csv" | sha256sum -c -
+          test "$(wc -l < build/source/effects.csv)" -eq 202
+      - name: Persist canonical 201-system table
+        run: |
+          mkdir -p results/trait_memory_context_synthesis_v0_1
+          cp build/source/effects.csv results/trait_memory_context_synthesis_v0_1/effects.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/trait_memory_context_synthesis_v0_1/effects.csv
+          if git diff --cached --quiet; then
+            echo "Canonical effect table already persisted."
+          else
+            git commit -m "Persist canonical trait-memory effect table"
+            git push origin HEAD:manuscript/trait-memory-context-v0-2
+          fi

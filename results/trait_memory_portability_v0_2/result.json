@@ -1,0 +1,38 @@
+{
+  "version": "v0.2",
+  "status": "HOLD_TRAIT_MEMORY_PORTABILITY",
+  "evidence": {
+    "workflow_run": 37101640332,
+    "artifact_id": 11266829363,
+    "artifact_sha256": "2d418b857235ec32812d953b7f5982de682f6c96ef299355ee348bfc1207b595"
+  },
+  "real_memory_effects_opened": true,
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "permutations": 999,
+  "master_seed": 20261003,
+  "S3": {
+    "axis_pass": false,
+    "gain": -0.024170328345234804,
+    "null_median_gain": -0.05880766285152905,
+    "null_q025": -0.09691059641505696,
+    "null_q975": -0.004472640398382783,
+    "p_value": 0.091,
+    "sse_global": 4.15084997180485,
+    "sse_trait": 4.251177378535182
+  },
+  "prune_only": {
+    "axis_pass": false,
+    "gain": -0.032420909192963476,
+    "null_median_gain": -0.05550367141017398,
+    "null_q025": -0.0940563459130448,
+    "null_q975": -0.0016970290475243621,
+    "p_value": 0.193,
+    "sse_global": 5.989679015787939,
+    "sse_trait": 6.183869855253799
+  },
+  "robust_portability_pass": false,
+  "same_blocked_permutations_both_axes": true,
+  "interpretation": "Trait identity does not provide robust out-of-family prediction under the frozen criterion; this is not evidence of zero phylogenetic memory."
+}

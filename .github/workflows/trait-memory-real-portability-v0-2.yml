@@ -1,0 +1,190 @@
+name: Trait memory real portability v0.2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen 201-system core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+          test -f build/core/trait_memory_crossed_core_v0_6/result.json
+      - name: Validate real portability admission
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_portability_real_execution_v0_2.json'))
+          m=json.load(open('results/trait_memory_portability_model_info_v0_1/result.json'))
+          assert d['status']=='FROZEN_BEFORE_REAL_TRAIT_MEMORY_OPENING'
+          assert m['status']=='TRAIT_MEMORY_PORTABILITY_MODEL_INFO_PASS'
+          assert m['gate_pass'] is True
+          assert m['signal_benchmark']['positive_test_fraction']>=0.80
+          assert m['null_benchmark']['positive_test_fraction']<=0.06
+          assert d['portability_test']['permutations']==999
+          assert d['portability_test']['master_seed']==20261003
+          assert d['portability_test']['robust_primary_claim']=='S3 axis_pass AND prune-only axis_pass'
+          assert d['real_memory_effects_opened'] is False
+          PY
+      - id: matrix
+        name: Build balanced 32-batch real-effect matrix
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os
+          rows=list(csv.DictReader(open('build/core/trait_memory_crossed_core_v0_6/core_systems.csv',newline='')))
+          assert len(rows)==201
+          assert len({r['family'] for r in rows})==45
+          assert len({r['trait_name'] for r in rows})==12
+          systems=[]
+          for i,r in enumerate(sorted(rows,key=lambda x:(x['family'],x['trait_name'])),1):
+              systems.append({
+                'id':f'P{i:04d}',
+                'family':r['family'],
+                'trait_name':r['trait_name'],
+                'semantic_class':r['semantic_class'],
+                '_weight':int(r['n_input_species'])**2 + int(r['n_prune'])**2
+              })
+          bins=[{'weight':0,'systems':[]} for _ in range(32)]
+          for r in sorted(systems,key=lambda x:(-x['_weight'],x['family'],x['trait_name'])):
+              k=min(range(len(bins)),key=lambda j:(bins[j]['weight'],j))
+              bins[k]['systems'].append({q:r[q] for q in ['id','family','trait_name','semantic_class']})
+              bins[k]['weight']+=r['_weight']
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({
+                'batch_id':f'R{i:03d}',
+                'systems_b64':base64.b64encode(raw).decode(),
+                'n_systems':len(b['systems']),
+                'weight':b['weight']
+              })
+          assert sum(x['n_systems'] for x in include)==201
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          PY
+
+  effect:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Download frozen final core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
+          cp build/core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+      - name: Pin BIEN and V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Decode deterministic batch
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/effects
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+      - name: Open frozen real memory effects
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          python scripts/analysis/run_trait_memory_real_effect_batch_v0_2.py \
+            --batch-json build/batch/systems.json \
+            --out-dir build/effects \
+            --r-script scripts/analysis/run_trait_memory_real_effect_v0_7.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-real-portability-${{ matrix.batch_id }}
+          path: build/effects/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: effect
+    if: always() && needs.effect.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: trait-memory-real-portability-R*
+          path: build/all-effects
+          merge-multiple: true
+      - name: Download frozen final core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Aggregate 201 real effects
+        run: |
+          mkdir -p build/portability
+          python scripts/analysis/aggregate_trait_memory_real_effects_v0_7.py \
+            --input-dir build/all-effects \
+            --core-table results/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/portability/effects.csv
+      - name: Run frozen family-blocked portability test
+        run: |
+          python scripts/analysis/test_trait_memory_portability_v0_2.py \
+            --effects build/portability/effects.csv \
+            --out build/portability/result.json \
+            --predictions build/portability/predictions.csv
+      - name: Enforce frozen decision rule
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/portability/result.json'))
+          assert x['real_memory_effects_opened'] is True
+          assert x['n_systems']==201
+          assert x['n_families']==45
+          assert x['n_traits']==12
+          assert x['permutations']==999
+          assert x['same_blocked_permutations_both_axes'] is True
+          assert x['status'] in {'TRAIT_MEMORY_PORTABILITY_PASS','HOLD_TRAIT_MEMORY_PORTABILITY'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-real-portability-v0-2
+          path: build/portability/

@@ -1,0 +1,15 @@
+{
+  "version": "v0.1.1",
+  "status": "PORTABILITY_MODEL_INFO_RUNTIME_DEPENDENCY_FIX_PRE_SIMULATION",
+  "frozen_on": "2026-10-03",
+  "trigger_workflow_run": 37101308434,
+  "failure": "ModuleNotFoundError: No module named numpy",
+  "known_truth_datasets_simulated_before_fix": 0,
+  "real_memory_effects_opened": false,
+  "scientific_design_changed": false,
+  "statistic_changed": false,
+  "graph_changed": false,
+  "benchmarks_changed": false,
+  "thresholds_changed": false,
+  "fix": "Install NumPy before running the frozen graph-only portability simulation."
+}

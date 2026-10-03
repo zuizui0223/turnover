@@ -1,0 +1,110 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_REAL_TRAIT_MEMORY_OPENING",
+  "frozen_on": "2026-10-03",
+  "programme_name": "Cross-lineage portability of plant trait phylogenetic memory",
+  "relationship_to_prior_work": {
+    "prior_variance_ratio_result": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+    "prior_status": "HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS",
+    "prior_real_memory_effects_opened": false,
+    "new_question_independent": true,
+    "rule": "The failed variance-ratio question is not relaxed. This follow-up asks whether trait identity itself supports out-of-family prediction, a different estimand, and freezes its design before real memory-loss rho is opened."
+  },
+  "biological_question": "Does a trait carry a transferable phylogenetic-memory signature across plant families?",
+  "interpretation": {
+    "positive": "Knowing the same trait's memory-loss rate in other families improves prediction for a held-out family, implying cross-lineage portability of trait identity.",
+    "null": "Trait identity does not improve out-of-family prediction beyond a training-set global mean on the admitted graph.",
+    "nonclaim": "This does not compare trait variance against family variance and does not imply that lineages are unimportant."
+  },
+  "source_core": {
+    "source": "BIEN 4.2.8",
+    "core_result": "results/trait_memory_crossed_core_v0_6/result.json",
+    "core_artifact": {
+      "workflow_run": 37086693588,
+      "artifact_id": 11263253304,
+      "artifact_sha256": "08ecf052a2071c63205ff6fce82ec9b7639c1fa59ab85beae208b3cced14ff6f"
+    },
+    "expected_systems": 201,
+    "expected_families": 45,
+    "expected_traits": 12,
+    "all_traits_continuous": true,
+    "outcome_blind_selection": true
+  },
+  "memory_effect": {
+    "extraction_contract": "data/trait_memory_real_effect_execution_v0_7.json",
+    "primary": "S3 memory-loss rho",
+    "sensitivity": "prune-only memory-loss rho on identical core",
+    "real_effects_opened": false
+  },
+  "portability_statistic": {
+    "cross_validation_unit": "family",
+    "procedure": [
+      "For each held-out family f, train on all systems from families other than f.",
+      "For each held-out system (f,t), predict rho using the arithmetic mean rho of trait t among training families.",
+      "Baseline prediction for every held-out system is the arithmetic mean rho across all training systems.",
+      "Pool squared prediction errors over every held-out system exactly once."
+    ],
+    "primary_effect": "portability_gain = 1 - SSE_trait_predictor / SSE_global_baseline",
+    "direction": "positive values mean trait identity improves cross-lineage prediction",
+    "weighting": "one family x trait system = one observation; no family, trait, species-count, or precision weights",
+    "minimum_training_trait_replicates": "guaranteed >=4 by final core trait degree >=5 and leave-one-family-out design",
+    "no_shrinkage": true
+  },
+  "permutation_test": {
+    "null": "Within each family independently, permute the observed rho values among that family's fixed trait labels. This preserves each family's response distribution and the exact family-trait incidence graph while destroying cross-family trait correspondence.",
+    "primary_permutations": 999,
+    "seed": 20261003,
+    "p_value": "(1 + count(null_gain >= observed_gain)) / (1 + permutations)",
+    "primary_positive_result": "observed portability_gain > 0 AND permutation p <= 0.05",
+    "two_sided": false,
+    "rationale": "The biological hypothesis is directional: transferable trait identity must reduce prediction error."
+  },
+  "prune_only_requirement": {
+    "role": "mandatory robustness",
+    "rule": "Repeat the identical leave-family-out statistic and within-family permutation test using prune-only rho. A robust portability claim requires positive gain and p<=0.05 for both S3 and prune-only.",
+    "core": "identical 201 systems; no reselection"
+  },
+  "known_truth_gate": {
+    "graph": "exact 201-edge family-trait incidence, no real rho",
+    "benchmark_signal": {
+      "name": "MIXED_TRAIT_SIGNAL",
+      "intercept": 0.15,
+      "trait_variance": 0.005,
+      "family_variance": 0.005,
+      "residual_variance": 0.01,
+      "provenance": "These variance scales are the already-frozen mixed benchmark from the prior model-informativeness design."
+    },
+    "benchmark_null": {
+      "name": "TRAIT_NULL_FAMILY_SIGNAL",
+      "intercept": 0.15,
+      "trait_variance": 0,
+      "family_variance": 0.01,
+      "residual_variance": 0.01,
+      "rationale": "Same total non-residual variance as the signal benchmark, but all repeatable structure is family-specific."
+    },
+    "datasets_per_benchmark": 1000,
+    "permutations_per_dataset": 199,
+    "master_seed": 20261003,
+    "admission": {
+      "valid_fraction_min": 0.99,
+      "signal_power_min": 0.8,
+      "null_false_positive_max": 0.06,
+      "signal_median_gain_min": 0
+    },
+    "failure_rule": "If either power or false-positive calibration fails, stop before real rho. Do not change the graph, signal benchmark, statistic, alpha, or permutation structure."
+  },
+  "outputs_allowed_after_gate": [
+    "S3 portability gain and permutation p",
+    "prune-only portability gain and permutation p",
+    "out-of-family observed/predicted rho pairs at system level",
+    "trait-wise training means for descriptive interpretation"
+  ],
+  "outputs_forbidden": [
+    "reopening the trait-vs-family variance-ratio classification",
+    "spatial turnover claims",
+    "outcome-driven system removal",
+    "third-source rescue"
+  ],
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

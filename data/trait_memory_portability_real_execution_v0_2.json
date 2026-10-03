@@ -1,0 +1,45 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_REAL_TRAIT_MEMORY_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisites": [
+    "data/trait_memory_portability_design_v0_1.json",
+    "results/trait_memory_portability_model_info_v0_1/result.json"
+  ],
+  "admission_rule": "Execute only because the graph-only known-truth portability gate passed both power and false-positive criteria.",
+  "core": {
+    "workflow_run": 37086693588,
+    "artifact_id": 11263253304,
+    "systems": 201,
+    "families": 45,
+    "traits": 12
+  },
+  "effect_extraction": {
+    "reuse": "data/trait_memory_real_effect_execution_v0_7.json",
+    "estimator_script": "scripts/analysis/run_trait_memory_real_effect_v0_7.R",
+    "S3_primary": true,
+    "prune_only_mandatory": true,
+    "no_pair_subsampling": true
+  },
+  "portability_test": {
+    "statistic": "gain = 1 - SSE_trait / SSE_global",
+    "family_holdout": true,
+    "permutations": 999,
+    "master_seed": 20261003,
+    "permutation_indices": "Generate one fixed set of within-family permutation index maps and apply the identical maps to S3 and prune-only rho.",
+    "p_value": "(1 + count(null_gain >= observed_gain)) / 1000",
+    "axis_pass": "gain > 0 and p <= 0.05",
+    "robust_primary_claim": "S3 axis_pass AND prune-only axis_pass",
+    "if_S3_only": "Report as non-robust directional evidence; do not claim cross-lineage portability.",
+    "weighting": "unweighted family x trait systems"
+  },
+  "outputs": [
+    "201-system real effect table",
+    "S3 and prune-only portability gain",
+    "S3 and prune-only permutation p",
+    "held-out predictions and baseline predictions for audit",
+    "robust PASS/HOLD"
+  ],
+  "no_outcome_informed_changes": true,
+  "real_memory_effects_opened": false
+}

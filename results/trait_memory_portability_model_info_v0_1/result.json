@@ -1,0 +1,47 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_PORTABILITY_MODEL_INFO_PASS",
+  "evidence_workflow_run": 37101363740,
+  "evidence_job_id": 111141371818,
+  "evidence_artifact_id": 11265787684,
+  "evidence_artifact_sha256": "049351ec6bd7e455f0fc463356222e86b3b93f93b7789416b6ac9cf52ba9c5df",
+  "outcome_blind": true,
+  "real_memory_effects_opened": false,
+  "graph": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "minimum_family_degree": 2,
+    "maximum_family_degree": 9,
+    "minimum_trait_degree": 5,
+    "maximum_trait_degree": 32
+  },
+  "signal_benchmark": {
+    "n_datasets": 1000,
+    "valid_datasets": 1000,
+    "valid_fraction": 1,
+    "positive_test_fraction": 0.981,
+    "median_gain": 0.17210115203875226,
+    "gain_q025": 0.011086640324088534,
+    "gain_q975": 0.3948199365473597
+  },
+  "null_benchmark": {
+    "n_datasets": 1000,
+    "valid_datasets": 1000,
+    "valid_fraction": 1,
+    "positive_test_fraction": 0.02,
+    "median_gain": -0.050322367252078615,
+    "gain_q025": -0.08494923582945664,
+    "gain_q975": 0.006443977116014753
+  },
+  "admission": {
+    "valid_fraction_min": 0.99,
+    "signal_power_min": 0.8,
+    "null_false_positive_max": 0.06,
+    "signal_median_gain_min": 0
+  },
+  "signal_gate_pass": true,
+  "null_gate_pass": true,
+  "gate_pass": true,
+  "next_gate": "Open real S3/prune-only memory rho on the frozen 201-system core and execute the predeclared family-blocked portability test."
+}

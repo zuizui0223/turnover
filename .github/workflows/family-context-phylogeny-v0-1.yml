@@ -1,5 +1,8 @@
 name: Exploratory family-context deep phylogeny v0.1
 on:
+  pull_request:
+    paths:
+      - '.triggers/family-context-phylogeny-v0-1-3'
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,32 +45,27 @@ jobs:
           s=json.load(open('results/trait_memory_context_synthesis_v0_1/result.json'))
           assert d['status']=='POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_FAMILY_PHYLOGENY_RESULT'
           assert d['relationship_to_prior_work']['real_memory_effects_already_opened'] is True
-          fix=json.load(open('data/family_context_phylogeny_membership_fix_v0_1_2.json'))
-          assert fix['status']=='FAMILY_PHYLOGENY_MEMBERSHIP_IMPLEMENTATION_FIX_PRE_RESULT'
-          assert fix['chronology']['family_phylogeny_result_seen'] is False
-          assert fix['scientific_question_changed'] is False
+          amend=json.load(open('data/family_context_phylogeny_representative_amendment_v0_1_3.json'))
+          assert amend['status']=='FAMILY_PHYLOGENY_REPRESENTATIVE_AMENDMENT_PRE_RESULT'
+          assert amend['chronology']['corrected_run_family_geometry_seen'] is False
+          assert amend['context_score_changed'] is False
+          assert amend['statistic_changed'] is False
+          assert amend['family_set_changed'] is False
           assert s['common_core']['systems']==201
           assert s['common_core']['families']==45
           assert s['common_core']['S3_effect_identity_across_three_execution_routes']['max_absolute_difference']==0
           PY
-      - name: Extract family backbone-native tips
-        env:
-          RBIEN_SOURCE_DIR: build/RBIEN
+      - name: Build full-backbone family phylogenetic geometry
         run: |
-          Rscript scripts/analysis/extract_family_native_tips_v0_1.R \
+          Rscript scripts/analysis/build_full_family_phylogeny_v0_1_3.R \
             --effects build/effects/effects.csv \
-            --out build/family_tips.csv
-      - name: Build family phylogenetic geometry
-        run: |
-          Rscript scripts/analysis/build_family_context_phylogeny_v0_1.R \
-            --family-tips build/family_tips.csv \
             --reps-out build/family_representatives.csv \
             --dist-out build/family_distances.csv \
             --result build/coverage.json
           python - <<'PY'
           import json
           x=json.load(open('build/coverage.json'))
-          assert x['post_outcome_exploratory'] is True
+          assert x['representative_rule']=='full GBOTB family crown'
           assert x['status'] in {'FAMILY_CONTEXT_PHYLOGENY_COVERAGE_PASS','HOLD_FAMILY_CONTEXT_PHYLOGENY_COVERAGE'}
           if not x['gate_pass']:
               raise SystemExit('coverage HOLD: stop before family-context association')

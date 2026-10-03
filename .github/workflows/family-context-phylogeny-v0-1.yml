@@ -1,0 +1,88 @@
+name: Exploratory family-context deep phylogeny v0.1
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Install pinned sources
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download exact 201-system effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" -n trait-memory-repeatability-real-effects-batched-v0-2-1 -D build/effects
+          test -f build/effects/effects.csv
+      - name: Validate exploratory boundary
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/family_context_phylogeny_design_v0_1.json'))
+          s=json.load(open('results/trait_memory_context_synthesis_v0_1/result.json'))
+          assert d['status']=='POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_FAMILY_PHYLOGENY_RESULT'
+          assert d['relationship_to_prior_work']['real_memory_effects_already_opened'] is True
+          amend=json.load(open('data/family_context_phylogeny_representative_amendment_v0_1_3.json'))
+          assert amend['status']=='FAMILY_PHYLOGENY_REPRESENTATIVE_AMENDMENT_PRE_RESULT'
+          assert amend['chronology']['corrected_run_family_geometry_seen'] is False
+          assert amend['context_score_changed'] is False
+          assert amend['statistic_changed'] is False
+          assert amend['family_set_changed'] is False
+          assert s['common_core']['systems']==201
+          assert s['common_core']['families']==45
+          assert s['common_core']['S3_effect_identity_across_three_execution_routes']['max_absolute_difference']==0
+          PY
+      - name: Build full-backbone family phylogenetic geometry
+        run: |
+          Rscript scripts/analysis/build_full_family_phylogeny_v0_1_3.R \
+            --effects build/effects/effects.csv \
+            --reps-out build/family_representatives.csv \
+            --dist-out build/family_distances.csv \
+            --result build/coverage.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/coverage.json'))
+          assert x['representative_rule']=='full GBOTB family crown'
+          assert x['status'] in {'FAMILY_CONTEXT_PHYLOGENY_COVERAGE_PASS','HOLD_FAMILY_CONTEXT_PHYLOGENY_COVERAGE'}
+          if not x['gate_pass']:
+              raise SystemExit('coverage HOLD: stop before family-context association')
+          PY
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy scipy
+      - name: Test family-context deep phylogenetic structure
+        run: |
+          python scripts/analysis/test_family_context_phylogeny_v0_1.py \
+            --effects build/effects/effects.csv \
+            --family-reps build/family_representatives.csv \
+            --family-distances build/family_distances.csv \
+            --out build/result.json \
+            --scores-out build/family_context_scores.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-context-phylogeny-v0-1
+          path: |
+            build/coverage.json
+            build/result.json
+            build/family_representatives.csv
+            build/family_context_scores.csv

@@ -116,12 +116,21 @@ The interval spans the predeclared 0.10 practical reference, so the frozen class
 
 The result nevertheless shows that the estimated family component is not produced by one trait or one family.
 
+### Complementary deep-phylogeny check
+
+A post-outcome exploratory analysis asked whether this recurring family context is itself smoothly organized across deeper family phylogeny. For each of the 45 focal families, a context score was computed as the median trait-specific deviation from the leave-self-out mean for that trait, and family positions were defined by their full GBOTB family crowns.
+
+There was essentially no association between family patristic distance and difference in context score (S3 Spearman rho = -0.015, 9,999-permutation p = 0.822; prune-only rho = -0.011, p = 0.871). Using mean rather than median context scores gave rho = -0.009 (p = 0.887), and leave-one-trait-out S3 estimates ranged only from -0.038 to +0.017.
+
+Because this analysis was designed after the real memory effects had been opened, it is complementary rather than a prospective primary result. It nevertheless sharpens the scale of the family component: the recurring context is detectable at the family level but is not detectably arranged as a smooth function of deeper family relatedness. At this resolution it is better described as a **family-specific mosaic** than as one continuously inherited deep-phylogeny regime.
+
 ## Integrated interpretation
 
 The evidence supports a **context-dependent memory architecture**:
 
 - trait identity alone is not a robust cross-lineage predictor;
 - family identity contains a modest recurring cross-trait component;
+- that family context is not detectably continuous across deeper family phylogeny in a post-outcome complementary check;
 - most variation remains specific to the particular family × trait combination.
 
 This is not equivalent to saying family effects are statistically larger than trait effects.

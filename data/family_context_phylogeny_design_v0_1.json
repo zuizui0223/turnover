@@ -1,0 +1,59 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_FAMILY_PHYLOGENY_RESULT",
+  "frozen_on": "2026-10-04",
+  "programme_name": "Deep phylogenetic structure of family-level trait-memory context",
+  "relationship_to_prior_work": {
+    "source_synthesis": "results/trait_memory_context_synthesis_v0_1/result.json",
+    "real_memory_effects_already_opened": true,
+    "role": "Post-outcome complementary analysis. It cannot alter, rescue, or reclassify any prospective primary result.",
+    "motivation": "The prospective analyses show a modest recurring family context but explicitly do not establish continuous deep-phylogeny covariance among families."
+  },
+  "question": "Are family-level shifts in within-family phylogenetic memory themselves similar among evolutionarily related plant families, or is family context phylogenetically mosaic?",
+  "source_core": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "selection": "outcome-blind final crossed core from the prior prospective programme",
+    "real_effect_source": "the exact S3 rho table already reproduced identically by three independent execution routes"
+  },
+  "family_context_score": {
+    "definition": "For each family x trait edge, centered_rho = rho_family_trait - mean(rho_other_families_same_trait). Family context score = median centered_rho across that family's admitted traits.",
+    "leave_self_out": true,
+    "minimum_traits_per_family": 2,
+    "weighting": "each trait edge contributes equally within family",
+    "rationale": "Avoids using mixed-model BLUP shrinkage and removes trait-specific mean memory before asking about deep family relationships."
+  },
+  "family_phylogeny": {
+    "backbone": "GBOTB.extended.TPL",
+    "family_representative": "For each of the 45 families, use the MRCA node of all backbone-native tips belonging to that family among the final-core species pool; if fewer than 2 native tips, use the single native tip only for location but mark family non-MRCA.",
+    "family_distance": "patristic distance between family representative nodes on the unmodified GBOTB.extended.TPL",
+    "no_S3_inserted_tips_for_family_tree": true,
+    "minimum_families_with_valid_representatives": 30
+  },
+  "primary_exploratory_statistic": {
+    "response_pair": "absolute difference in family context score",
+    "predictor_pair": "family patristic distance",
+    "statistic": "Spearman rho over all unordered family pairs",
+    "expected_direction_if_deep_phylogenetic_structure": "positive: more distant families have more different context scores",
+    "permutation": "9999 complete permutations of family context scores over fixed family-tree positions",
+    "p_value": "two-sided absolute-rho permutation p = (1 + count(|rho_null| >= |rho_obs|))/(10000)",
+    "master_seed": 20261004
+  },
+  "robustness": [
+    "Repeat using family context mean instead of median.",
+    "Repeat after leave-one-trait-out recomputation of all family context scores; report range of Spearman rho.",
+    "Repeat using prune-only memory rho instead of S3 rho."
+  ],
+  "interpretation": {
+    "significant_positive": "Family context shows continuous deep-phylogenetic structure beyond discrete family identity.",
+    "null_or_weak": "Recurring family context is not detectably organized by deeper family phylogeny at this resolution; treat it as clade-specific/mosaic rather than a smoothly inherited macroevolutionary regime.",
+    "negative": "Unexpected contrast: close families differ more in context score; exploratory only."
+  },
+  "hard_nonclaims": [
+    "No causal mechanism is inferred.",
+    "A null result is not evidence that family context is random in every taxonomic hierarchy.",
+    "This post-outcome analysis cannot replace the prequalified portability or repeatability results.",
+    "No new family/trait filtering based on context scores."
+  ]
+}

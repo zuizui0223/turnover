@@ -1,0 +1,32 @@
+{
+  "version": "v0.6",
+  "status": "TRAIT_MEMORY_CROSSED_CORE_PASS",
+  "evidence_workflow_run": 37086693588,
+  "evidence_artifact_id": 11263253304,
+  "evidence_artifact_sha256": "08ecf052a2071c63205ff6fce82ec9b7639c1fa59ab85beae208b3cced14ff6f",
+  "outcome_blind": true,
+  "real_memory_effects_opened": false,
+  "n_input_temporal_pass_systems": 255,
+  "n_core_systems": 201,
+  "n_core_families": 45,
+  "n_core_traits": 12,
+  "connected": true,
+  "minimum_families": 12,
+  "minimum_traits": 4,
+  "gate_pass": true,
+  "core_traits": [
+    "diameter at breast height (1.3 m)",
+    "leaf area",
+    "leaf area per leaf dry mass",
+    "leaf dry mass",
+    "leaf dry mass per leaf fresh mass",
+    "leaf nitrogen content per leaf area",
+    "leaf nitrogen content per leaf dry mass",
+    "leaf phosphorus content per leaf dry mass",
+    "maximum whole plant height",
+    "seed mass",
+    "stem wood density",
+    "whole plant height"
+  ],
+  "next_gate": "Run frozen crossed-model informativeness before real memory rho."
+}

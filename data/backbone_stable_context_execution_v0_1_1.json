@@ -1,0 +1,25 @@
+{
+  "version": "v0.1.1",
+  "status": "BACKBONE_STABLE_CONTEXT_EXECUTION_FROZEN_BEFORE_ESTIMATE",
+  "frozen_on": "2026-10-03",
+  "amends": "data/backbone_stable_context_design_v0_1.json",
+  "real_model_gate": {
+    "require_nonsingular_fit": true,
+    "singular_tolerance": 0.0001,
+    "bootstrap_valid_fraction_min": 0.9,
+    "if_fail": "HOLD supporting decomposition; do not remove family, trait, system, or backbone terms."
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "master_seed": 20261003,
+    "singular_refits_invalid": true,
+    "percentile_ci": [
+      0.025,
+      0.975
+    ]
+  },
+  "no_hypothesis_tests": true,
+  "no_family_trait_dominance_comparison": true,
+  "no_random_effect_deletion_after_fit": true,
+  "no_posthoc_relaxation": true
+}

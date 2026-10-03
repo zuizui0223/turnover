@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: fixed 201-system paired S3/prune graph; test recoverability of stable system-specific variance before fitting supporting decomposition.

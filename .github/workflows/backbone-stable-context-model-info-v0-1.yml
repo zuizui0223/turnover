@@ -1,0 +1,55 @@
+name: Backbone-stable context model informativeness v0.1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  model-info:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Download frozen 201-system core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Validate supporting-model contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/backbone_stable_context_design_v0_1.json'))
+          m=json.load(open('data/backbone_stable_context_model_info_v0_1.json'))
+          assert d['status']=='POST_OUTCOME_SUPPORTING_MODEL_FROZEN_BEFORE_BACKBONE_STABILITY_ESTIMATE'
+          assert d['repeated_measure_model']['formula']=='rho ~ backbone + (1|family) + (1|trait_name) + (1|system_id)'
+          assert d['uncertainty']['parametric_bootstrap_replicates']==2000
+          assert m['status']=='FROZEN_BEFORE_BACKBONE_STABILITY_ESTIMATE'
+          assert m['replicates_per_benchmark']==1000
+          assert m['admission']['valid_nonsingular_fraction_min']==0.90
+          assert m['admission']['median_absolute_error_conditional_stability_max']==0.08
+          assert m['no_posthoc_relaxation'] is True
+          PY
+      - name: Run fixed-graph known-truth simulations
+        run: |
+          mkdir -p build/model-info
+          Rscript scripts/analysis/run_backbone_stable_context_model_info_v0_1.R \
+            --core-table build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/model-info/result.json \
+            --table-out build/model-info/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backbone-stable-context-model-info-v0-1
+          path: build/model-info/

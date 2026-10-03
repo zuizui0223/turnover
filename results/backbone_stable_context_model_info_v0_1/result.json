@@ -1,0 +1,48 @@
+{
+  "version": "v0.1",
+  "status": "HOLD_BACKBONE_STABLE_CONTEXT_MODEL_INFO",
+  "evidence_workflow_run": 37118405423,
+  "evidence_job_id": 111189573281,
+  "evidence_artifact_id": 11272615779,
+  "evidence_artifact_sha256": "729b8c22566322cc7ee535d9996130152a8312dbff4646fbe29cec28ff917285",
+  "post_outcome_supporting_design": true,
+  "real_stability_decomposition_opened": false,
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "observations": 402,
+  "replicates_per_benchmark": 1000,
+  "benchmarks": {
+    "high_stability": {
+      "target": 0.75,
+      "valid_fraction": 0.899,
+      "median_estimate": 0.748,
+      "median_absolute_error": 0.0225,
+      "singular_fraction": 0.101,
+      "pass": false
+    },
+    "equal_stability": {
+      "target": 0.5,
+      "valid_fraction": 0.928,
+      "median_estimate": 0.4962,
+      "median_absolute_error": 0.0351,
+      "singular_fraction": 0.072,
+      "pass": true
+    },
+    "low_stability": {
+      "target": 0.25,
+      "valid_fraction": 0.941,
+      "median_estimate": 0.2502,
+      "median_absolute_error": 0.0467,
+      "singular_fraction": 0.059,
+      "pass": true
+    }
+  },
+  "frozen_admission": {
+    "valid_nonsingular_fraction_min": 0.9,
+    "median_absolute_error_max": 0.08
+  },
+  "gate_pass": false,
+  "decision": "Do not fit the real repeated-measures stability decomposition. The high-stability benchmark misses the frozen valid-fit threshold by one replicate (0.899 vs 0.900); the threshold is not relaxed.",
+  "existing_synthesis_changed": false
+}

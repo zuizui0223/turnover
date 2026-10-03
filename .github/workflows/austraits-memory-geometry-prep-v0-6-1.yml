@@ -1,5 +1,8 @@
 name: AusTraits memory geometry prep v0.6.3
 on:
+  pull_request:
+    paths:
+      - '.triggers/austraits-memory-geometry-prep-v0-6-4'
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,7 +21,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p build/crosswalk
-          gh run download 37120612077 -R "$GITHUB_REPOSITORY" -n austraits-memory-crosswalk-v0-4-2 -D build/crosswalk
+          gh run download 37128637788 -R "$GITHUB_REPOSITORY" -n austraits-memory-crosswalk-v0-4-2 -D build/crosswalk
           test -f build/crosswalk/crosswalk.csv
       - name: Download exact AusTraits source
         run: |

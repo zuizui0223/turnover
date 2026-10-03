@@ -1,0 +1,69 @@
+name: Trait memory temporal support v0.2
+on:
+  pull_request:
+    paths:
+      - 'data/trait_memory_spectrum_design_v0_1.json'
+      - 'data/trait_memory_temporal_support_design_v0_2.json'
+      - 'scripts/source/audit_trait_memory_temporal_support_v0_2.R'
+      - '.github/workflows/trait-memory-temporal-support-v0-2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+      - name: Pin RBIEN
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+      - name: Validate independent follow-up contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_spectrum_design_v0_1.json'))
+          s=json.load(open('data/trait_memory_temporal_support_design_v0_2.json'))
+          prior=json.load(open('results/bien_spatial_informativeness_v0_4_3/result.json'))
+          assert prior['status']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert prior['real_trait_values_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_TEMPORAL_TRAIT_MEMORY_EFFECT_OPENING'
+          assert d['relationship_to_prior_programme']['new_study_independent'] is True
+          assert d['eligibility']['no_spatial_support_requirement'] is True
+          assert s['status']=='FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert s['system_pass']=='at least 20 distinct species with a nonmissing trait value'
+          assert s['real_memory_effects_opened'] is False
+          PY
+      - name: Count temporal-only support
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/trait_memory_temporal_support_v0_2
+          Rscript scripts/source/audit_trait_memory_temporal_support_v0_2.R \
+            --out build/trait_memory_temporal_support_v0_2/result.json \
+            --table-out build/trait_memory_temporal_support_v0_2/family_trait_support.csv
+      - name: Enforce outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/trait_memory_temporal_support_v0_2/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['real_trait_values_opened'] is False
+          assert x['real_memory_effects_opened'] is False
+          assert x['status'] in {'TRAIT_MEMORY_TEMPORAL_SUPPORT_PASS','HOLD_TRAIT_MEMORY_TEMPORAL_SUPPORT'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-temporal-support-v0-2
+          path: build/trait_memory_temporal_support_v0_2/

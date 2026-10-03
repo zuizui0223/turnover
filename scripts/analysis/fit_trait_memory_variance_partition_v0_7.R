@@ -30,6 +30,8 @@ req <- c("family","trait_name","semantic_class","S3_rho","prune_only_rho",
 if(!all(req %in% names(x))) stop("effect table missing required columns")
 if(nrow(x)!=as.integer(core$n_core_systems)) stop("effect row count differs from frozen core")
 if(any(!is.finite(x$S3_rho)) || any(!is.finite(x$prune_only_rho))) stop("nonfinite rho")
+if(any(x$S3_rho < -1 | x$S3_rho > 1) || any(x$prune_only_rho < -1 | x$prune_only_rho > 1))
+  stop("rho outside Spearman bounds")
 if(length(unique(x$family))!=as.integer(core$n_core_families)) stop("family count mismatch")
 if(length(unique(x$trait_name))!=as.integer(core$n_core_traits)) stop("trait count mismatch")
 

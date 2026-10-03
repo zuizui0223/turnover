@@ -1,0 +1,18 @@
+{
+  "version": "v0.5.1",
+  "status": "TRAIT_MEMORY_PRE_INFORMATIVENESS_CORE_READY",
+  "source_crosswalk_artifact_id": 11261090274,
+  "outcome_blind": true,
+  "real_memory_effects_opened": false,
+  "n_crosswalk_pass_systems": 802,
+  "n_simulation_candidate_systems": 722,
+  "n_candidate_families": 120,
+  "n_candidate_traits": 25,
+  "minimum_family_degree": 2,
+  "minimum_trait_degree": 5,
+  "iterations": 2,
+  "prior_informativeness_overlap_systems": 39,
+  "prior_informativeness_pass_systems": 24,
+  "novel_simulation_systems": 683,
+  "exactness": "Informativeness only removes edges; nodes already below final degree thresholds at crosswalk stage can never enter the final core."
+}

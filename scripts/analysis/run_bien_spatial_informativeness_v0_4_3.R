@@ -154,7 +154,10 @@ great_circle_matrix <- function(lat,lon){
   phi <- lat*pi/180
   lam <- lon*pi/180
   C <- outer(sin(phi),sin(phi),"*") + outer(cos(phi),cos(phi),"*") * cos(outer(lam,lam,"-"))
-  C <- pmin(1,pmax(-1,C))
+  C[C>1] <- 1
+  C[C< -1] <- -1
+  if(is.null(dim(C)) || length(dim(C))!=2 || nrow(C)!=length(lat) || ncol(C)!=length(lat))
+    stop("great-circle matrix dimension invariant failed")
   R_earth * acos(C)
 }
 

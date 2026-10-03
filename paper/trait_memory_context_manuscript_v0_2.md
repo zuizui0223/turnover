@@ -208,7 +208,7 @@ Ackerly, D.D. 2009. Conservatism and diversification of plant functional traits:
 
 Brown, J.M. & Thomson, R.C. 2018. Evaluating model performance in evolutionary biology. Annual Review of Ecology, Evolution, and Systematics. doi:10.1146/annurev-ecolsys-110617-062249.
 
-Enquist, B.J. et al. 2026. BIEN trait and distribution data resource. Methods in Ecology and Evolution. doi:10.1111/2041-210X.70274.
+Enquist, B.J. et al. 2026. BIEN: A biodiversity informatics ecosystem advancing open and reproducible workflows for plant observation, plot and trait data. Methods in Ecology and Evolution 17:1556–1584. doi:10.1111/2041-210X.70274.
 
 Graham, C.H., Storch, D. & Machac, A. 2018. Phylogenetic scale in ecology and evolution. Global Ecology and Biogeography 27:175-187. doi:10.1111/geb.12686.
 

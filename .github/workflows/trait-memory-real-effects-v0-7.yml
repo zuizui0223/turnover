@@ -138,7 +138,8 @@ jobs:
           Rscript scripts/analysis/fit_trait_memory_variance_partition_v0_7.R \
             --effects build/real/effects.csv \
             --out build/model/result.json \
-            --bootstrap-table build/model/bootstrap.csv
+            --bootstrap-table build/model/bootstrap.csv \
+            --loo-table build/model/leave_one_out.csv
       - uses: actions/upload-artifact@v4
         with:
           name: trait-memory-variance-partition-v0-7

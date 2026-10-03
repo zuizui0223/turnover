@@ -68,28 +68,25 @@ No turnover, rewiring, distance-dissimilarity, phylogenetic, predictor-response 
 
 See: `docs/GLOBI_SOURCE_SEMANTIC_V0_5.md`.
 
-### Trait arm — active
+### Trait arm — terminal pre-outcome HOLD
 
-The trait arm remains independent of the interaction HOLD and proceeds under the pre-frozen source order:
+The trait arm also closes **before any generalized biological turnover effect is opened**.
 
-1. BIEN 4.2
-2. AusTraits independent transport
-3. TRY v7 — source-access HOLD
+BIEN source/schema qualification passed at exact patch **4.2.8**: 25,932,628 rows, required `agg_traits` fields present, and 54/54 expected trait names. It then passed three increasingly strict prospective gates under the frozen >=20 temporal species / >=8 spatial species / >=20 georeferenced records / >=5 25-km cells / >=12-family design:
 
-BIEN source/schema qualification passed at exact patch **4.2.8**: 25,932,628 rows, required `agg_traits` fields present, and 54/54 expected trait names. No raw trait turnover outcome has been opened.
+1. **Structural support PASS** — 8,215 family × trait systems -> 1,705 temporal candidates -> **73 joint-support systems in 37 independent families**.
+2. **State-validity PASS** — 73 -> **43 semantic-valid systems in 34 families**.
+3. **Phylogeny crosswalk PASS** — 43 -> **39 systems in 31 families** under pinned V.PhyloMaker2 S3 plus the mandatory prune-only >=20 native-tip sensitivity.
 
-The primary BIEN route has now passed three successive pre-outcome gates under the frozen >=20 temporal species / >=8 spatial species / >=20 georeferenced records / >=5 25-km cells / >=12-family design:
+The geometry-only informativeness gate then selected much more strongly:
 
-1. **Structural support PASS** — 8,215 family × trait systems -> 1,705 temporal candidates -> **73 joint-support systems in 37 independent families**, after the RBIEN-standard non-centroid spatial filter.
-2. **State-validity PASS** — 73 -> **43 semantic-valid systems in 34 families** after numeric/unit/tied-mode/within-species-variation checks. Thirty systems were excluded fail-closed.
-3. **Phylogeny crosswalk PASS** — 43 -> **39 systems in 31 families** under V.PhyloMaker2 S3 with the mandatory prune-only >=20 native-tip requirement. Four systems failed only the prune-only threshold.
+4. **Temporal informativeness PASS** — 39 -> **24 systems in 21 independent families**, requiring both S3 and prune-only recovery of benchmark delta_rho=0.15 with median absolute recovery error <=0.10, directional recovery >=0.80, and valid-replicate fraction >=0.90.
+5. **Spatial informativeness HOLD** — among those 21 temporal-PASS families, **11 independent families are already confirmed spatial HOLD** under the identical benchmark/recovery rules. Even if every unresolved family passed, at most **10 families** could remain, below the frozen requirement of 12.
 
-V.PhyloMaker2 is pinned at commit `7af3fb5...` with `GBOTB.extended.TPL`. The source preflight itself passes: 74,529 unique tree tips exactly match 74,529 `tips.info.TPL` species labels; branch lengths are finite/nonnegative, the tree is rooted, and the dated branching-time signal is present.
+That upper bound makes exhaustive completion unnecessary. The BIEN route is therefore **terminal pre-outcome HOLD** at spatial informativeness. The first spatial implementation attempts exposed two technical-only matrix/indexing bugs before any spatial scientific result; both are retained in the audit trail and fixed without changing generator, benchmark, pair set, thresholds, seeds, or coordinates. The terminal HOLD uses only corrected-run scientific results.
 
-The observed-geometry informativeness gate has now passed its temporal half: **39 crosswalk-PASS systems -> 24 temporal-PASS systems in 21 independent families** after requiring both S3 and prune-only recovery of benchmark delta_rho=0.15 with median absolute recovery error <=0.10, directional recovery >=0.80, and valid-replicate fraction >=0.90.
+The predeclared independent transport, **AusTraits v7.0.0**, is independently terminal structural HOLD: after correcting its non-global `observation_id` to the source-faithful composite `dataset_id + observation_id`, the unchanged matched gate still produced only **10 joint-support systems in 3 independent families (Fabaceae, Myrtaceae, Proteaceae)** versus 12 required.
 
-The active and final pre-outcome gate is **spatial informativeness** on those 24 systems only. The first implementation attempts exposed two technical-only matrix/indexing bugs before any spatial calibration result; both are retained in the audit trail and fixed without changing the generator, benchmark, pair set, thresholds, seeds, or coordinates. The corrected run now reaches actual GP calibration. Real trait turnover remains unopened.
-
-The predeclared independent transport, **AusTraits v7.0.0**, has also been qualified without opening raw values. Its exact 43.5 MB flattened Parquet passed byte-integrity and 68-column schema checks. An audit then showed that `observation_id` is not globally unique (39,207 IDs occur in multiple datasets), so the first support scan was conservatively invalidated as an undercount and repeated with the source-correct composite key `dataset_id + observation_id`, without changing any biological threshold. The corrected matched BIEN gate still **HOLDs**: 30,821 family × trait systems were screened, only 10 systems qualified, and those belonged to just **3 independent families (Fabaceae, Myrtaceae, Proteaceae)** versus the frozen requirement of 12. Thresholds are not relaxed. No third primary trait source is allowed; therefore the generalized trait arm now depends on the already-running BIEN gate.
+The finite source family is exhausted: BIEN + AusTraits were the two predeclared primary trait sources. **No third primary source is introduced, no threshold is lowered, and the frozen real-effect design is not executed.** TRY v7 remains a future source-access HOLD rather than a rescue route for this prospective programme.
 
 For trait-time and trait-space, the complete label-permutation null has also been simplified analytically before outcomes: with all unordered pairs and whole-state label permutations, the exact expected Spearman correlation is zero. Thus the canonical trait `delta_rho` equals observed Spearman `rho`; permutations are retained only for null dispersion and implementation diagnostics, not to Monte-Carlo-estimate the null mean.

@@ -1,0 +1,46 @@
+name: Trait memory temporal support reuse v0.2.1
+on:
+  pull_request:
+    paths:
+      - '.triggers/trait-memory-support-reuse-v0-2-1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reuse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen prior aggregate artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/prior
+          gh run download 36743999788 -R "$GITHUB_REPOSITORY" -n bien-trait-support-v0-2-3 -D build/prior
+          test -f build/prior/result.json
+          test -f build/prior/family_trait_support.csv
+      - name: Validate reuse contract
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('data/trait_memory_support_reuse_v0_2_1.json'))
+          assert r['status']=='TEMPORAL_SUPPORT_EXACT_AGGREGATE_REUSE_FROZEN'
+          assert r['source_artifact']['artifact_id']==11112460603
+          assert r['scientific_rule_changed'] is False
+          assert r['chronology']['new_direct_query_result_seen_before_reuse'] is False
+          assert r['chronology']['real_memory_effects_opened'] is False
+          PY
+      - name: Filter exact prior aggregate
+        run: |
+          mkdir -p build/trait_memory_temporal_support_v0_2
+          python scripts/source/reuse_trait_memory_temporal_support_v0_2_1.py \
+            --prior-result build/prior/result.json \
+            --prior-table build/prior/family_trait_support.csv \
+            --semantic-contract data/bien_trait_semantic_contract_v0_3.json \
+            --out build/trait_memory_temporal_support_v0_2/result.json \
+            --table-out build/trait_memory_temporal_support_v0_2/family_trait_support.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-temporal-support-v0-2-1
+          path: build/trait_memory_temporal_support_v0_2/

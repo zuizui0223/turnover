@@ -1,6 +1,9 @@
-name: BIEN spatial informativeness v0.4.3.1
+name: BIEN spatial informativeness v0.4.3.2
 
 on:
+  pull_request:
+    paths:
+      - '.triggers/bien-spatial-informativeness-v0-4-3-2'
   workflow_dispatch:
 
 permissions:
@@ -86,6 +89,13 @@ jobs:
           assert f['seed_rule_changed'] is False
           assert f['scientific_equivalence']['coordinate_rounding'] is False
           assert f['scientific_equivalence']['original_unordered_pair_multiset_unchanged'] is True
+          g=json.load(open('data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json'))
+          assert g['status']=='BIEN_SPATIAL_GREAT_CIRCLE_DIMENSION_FIX_PRE_RESULT'
+          assert g['spatial_result_seen_before_fix'] is False
+          assert g['thresholds_changed'] is False
+          assert g['generator_changed'] is False
+          assert g['scientific_equivalence']['great_circle_formula_unchanged'] is True
+          assert g['scientific_equivalence']['pair_set_unchanged'] is True
           PY
       - name: Run spatial recovery
         env:

@@ -54,13 +54,13 @@
     "null_calibration": "For each component, set a one-sided 95th-percentile detection threshold from its estimated variance under the null benchmark.",
     "trait_power_min": 0.8,
     "family_power_min": 0.8,
-    "valid_nonsingular_fit_fraction_min": 0.9,
     "required_benchmarks": [
       "trait_component",
       "family_component"
     ],
     "both_components": "diagnostic only",
-    "rule": "PASS only if null-calibrated power is >=0.80 for the corresponding 0.005 component on both axes and >=90% fits are valid. Do not compare component magnitudes."
+    "rule": "PASS only if null-calibrated power is >=0.80 for the corresponding 0.005 component on both axes and >=90% fits are valid. Do not compare component magnitudes.",
+    "valid_fit_fraction_min": 0.9
   },
   "if_pass": {
     "real_effect_question": "Fit the frozen crossed model to real rho and report whether each variance component exceeds its independently calibrated null threshold; do not classify trait-dominant versus lineage-dominant.",
@@ -68,5 +68,11 @@
   },
   "if_hold": "Stop before opening real rho. Do not lower component size or power requirement.",
   "real_memory_effects_opened": false,
-  "no_posthoc_relaxation": true
+  "no_posthoc_relaxation": true,
+  "boundary_handling": {
+    "singular_fit": "Not invalid for this component-presence problem. Boundary estimates are expected under null or one-component benchmarks.",
+    "variance_extraction": "Extract nonnegative REML variance components from VarCorr even when isSingular=TRUE.",
+    "invalid_fit": "Only optimizer/model errors or nonfinite variance extraction count invalid.",
+    "reason": "Testing presence of a variance component is intrinsically a boundary problem; discarding singular fits would condition away the null."
+  }
 }

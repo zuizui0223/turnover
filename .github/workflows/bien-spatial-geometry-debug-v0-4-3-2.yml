@@ -1,6 +1,9 @@
 name: BIEN spatial geometry debug v0.4.3.2
 
 on:
+  pull_request:
+    paths:
+      - '.triggers/bien-spatial-geometry-debug-v0-4-3-3'
   workflow_dispatch:
 
 permissions:

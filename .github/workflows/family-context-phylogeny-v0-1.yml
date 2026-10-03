@@ -1,8 +1,5 @@
 name: Exploratory family-context deep phylogeny v0.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/family-context-phylogeny-v0-1'
   workflow_dispatch:
 permissions:
   contents: read

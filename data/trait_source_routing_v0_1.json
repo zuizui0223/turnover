@@ -1,11 +1,11 @@
 {
   "version": "v0.1",
-  "status": "TRAIT_PRIMARY_BIEN_CROSSWALK_PASS_SECOND_SOURCE_TERMINAL_HOLD",
+  "status": "TRAIT_PRIMARY_BIEN_TEMPORAL_INFO_PASS_SECOND_SOURCE_TERMINAL_HOLD",
   "frozen_on": "2026-10-01",
   "finite_family_contract": "data/spatiotemporal_memory_turnover_design_v0_1.json",
   "maximum_primary_trait_sources": 2,
   "first_source": "BIEN_4_2",
-  "first_source_state": "CROSSWALK_PASS_INFORMATIVENESS_PENDING",
+  "first_source_state": "TEMPORAL_INFORMATIVENESS_PASS_SPATIAL_PENDING",
   "first_source_support_contract": "data/bien_trait_support_design_v0_2.json",
   "second_source": "AUSTRAITS_OPEN_RELEASE",
   "second_source_terminal": "HOLD_AUSTRAITS_TRAIT_SUPPORT",
@@ -53,5 +53,12 @@
     "independent_qualifying_families": 31,
     "minimum_required_families": 12,
     "failed_prune_only_systems": 4
+  },
+  "first_source_temporal_informativeness_result": "results/bien_temporal_informativeness_v0_4_2/result.json",
+  "first_source_temporal_informativeness_evidence": {
+    "candidate_systems": 39,
+    "temporal_pass_systems": 24,
+    "independent_qualifying_families": 21,
+    "minimum_required_families": 12
   }
 }

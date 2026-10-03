@@ -1,9 +1,6 @@
 name: Trait memory real portability v0.2
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-real-portability-v0-2'
   workflow_dispatch:
 
 permissions:

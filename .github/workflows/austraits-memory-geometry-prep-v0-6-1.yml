@@ -1,8 +1,5 @@
 name: AusTraits memory geometry prep v0.6.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/austraits-memory-geometry-prep-v0-6-1'
   workflow_dispatch:
 permissions:
   contents: read

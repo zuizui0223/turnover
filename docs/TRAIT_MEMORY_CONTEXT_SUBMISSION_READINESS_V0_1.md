@@ -76,12 +76,10 @@ Do not call it pure family x trait biological interaction.
 ### Still needed before journal upload
 
 1. Journal-specific formatting and word-count reduction.
-2. Full bibliography formatting and reference verification.
+2. Final bibliography style pass against the selected journal.
 3. Author list / affiliations / acknowledgements / funding / conflicts.
-4. Data Availability and Code Availability sections in target-journal style.
-5. Figure captions inserted into the manuscript file.
-6. Final figure resolution/font-size inspection after journal sizing.
-7. Supplementary Methods table documenting the prospective gate chronology.
+4. Final figure resolution/font-size inspection after journal sizing.
+5. Archive the exact merged submission commit in a tagged release / DOI.
 
 ## Figures
 
@@ -160,9 +158,12 @@ Future mechanism tests should be preregistered as independent follow-ups or use 
 - Core analysis: READY
 - Claim boundaries: READY
 - Full prose draft: READY
+- Data and Code Availability: READY
+- Figure captions: READY
+- Manuscript consistency CI: PASS
 - Canonical effect data: READY
-- Figures: RENDERED / final journal inspection pending
-- Reproducibility manifest: TODO
-- Supplementary gate chronology: TODO
+- Figures: RENDERED (Figures 1–4, PNG + PDF) / final journal sizing inspection pending
+- Reproducibility manifest: READY
+- Supplementary gate chronology: READY
 - Journal formatting: TODO
 - Archival release / DOI: TODO

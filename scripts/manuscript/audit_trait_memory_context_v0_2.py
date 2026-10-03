@@ -95,9 +95,9 @@ def main() -> int:
         "family repeatability confidently exceeds 10%",
         "phylogenetic memory is mainly a family property",
     ]
-    lower = text.lower()
+    claim_text = text.split("## Hard nonclaims", 1)[0].lower()
     for phrase in prohibited:
-        assert phrase.lower() not in lower, f"prohibited claim found: {phrase}"
+        assert phrase.lower() not in claim_text, f"prohibited claim found in inferential prose: {phrase}"
 
     figdir = ROOT / "figures" / "trait_memory_context_v0_2"
     for name in [

@@ -18,7 +18,7 @@ Comparative studies often ask whether a particular trait is phylogenetically con
 
 The distinction matters because the two architectures imply different generalizations.
 
-- Under a trait-dominant architecture, a trait has a characteristic evolutionary memory depth that transfers across lineages.
+- Under a trait-dominant architecture, a trait has a characteristic evolutionary memory gradient that transfers across lineages.
 - Under a lineage-dominant architecture, families impose broadly conservative or labile evolutionary regimes across multiple traits.
 - Under a mixed architecture, neither axis can be treated as a portable predictor by itself.
 

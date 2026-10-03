@@ -1,0 +1,42 @@
+name: Trait memory phylogeny crosswalk v0.4
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crosswalk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Pin sources
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Run temporal phylogeny crosswalk
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          test -f results/trait_memory_semantic_v0_3/semantic.csv
+          mkdir -p build/trait_memory_crosswalk_v0_4
+          Rscript scripts/source/audit_trait_memory_crosswalk_v0_4.R \
+            --semantic-table results/trait_memory_semantic_v0_3/semantic.csv \
+            --out build/trait_memory_crosswalk_v0_4/result.json \
+            --table-out build/trait_memory_crosswalk_v0_4/crosswalk.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-crosswalk-v0-4
+          path: build/trait_memory_crosswalk_v0_4/

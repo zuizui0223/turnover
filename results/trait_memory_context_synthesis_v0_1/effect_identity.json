@@ -1,0 +1,35 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_REAL_EFFECT_IDENTITY_VERIFIED",
+  "evidence_workflow_run": 37110110044,
+  "evidence_job_id": 111166189059,
+  "evidence_artifact_id": 11269416846,
+  "evidence_artifact_sha256": "28a512352b6bb1d966ac36dbe27f43c877ef9b294a5acec4f92db216cee39153",
+  "n_systems": 201,
+  "repeatability_vs_portability": {
+    "same_201_system_keys": true,
+    "max_absolute_differences": {
+      "n_species_S3": 0,
+      "n_species_prune": 0,
+      "S3_rho": 0,
+      "prune_only_rho": 0,
+      "informativeness_n_input_species": 0,
+      "informativeness_n_prune": 0,
+      "informativeness_s3_lambda": 0
+    }
+  },
+  "repeatability_vs_lineage": {
+    "same_201_system_keys": true,
+    "max_absolute_differences": {
+      "n_species_S3": 0,
+      "n_species_prune": 0,
+      "S3_rho": 0,
+      "prune_only_rho": 0,
+      "informativeness_n_input_species": 0,
+      "informativeness_n_prune": 0,
+      "informativeness_s3_lambda": 0
+    }
+  },
+  "all_numeric_differences_exactly_zero": true,
+  "new_biological_inference": false
+}

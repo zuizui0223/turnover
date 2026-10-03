@@ -1,0 +1,172 @@
+# Manuscript skeleton — Context dependence of phylogenetic trait memory
+
+## Working title
+
+**Phylogenetic trait memory is context-dependent across plant families**
+
+Alternative:
+
+**Cross-lineage prediction reveals limited portability of phylogenetic trait memory**
+
+Avoid titles that say lineage effects "dominate" trait effects. The prospectively frozen variance-ratio study did not pass its precision gate.
+
+## One-sentence result
+
+Trait-specific phylogenetic-memory estimates do not robustly predict the same trait in a held-out plant family; instead, most variation is family-by-trait specific, with a modest repeatable family-level component across traits.
+
+## Gap
+
+Phylogenetic signal is usually estimated for one trait in one phylogeny or compared among traits/clades. Those approaches establish whether traits are conserved and whether evolutionary tempo differs among clades, but they do not directly test whether a trait's estimated memory is **portable to an unseen lineage**.
+
+The study separates three questions that are often conflated:
+
+1. How much family × trait variation is repeatable by trait identity?
+2. Does trait identity improve prediction for a completely held-out family?
+3. After trait-specific means are removed, is there a recurring family context across multiple traits?
+
+## Data and qualification
+
+The final empirical core was selected entirely before real memory effects were opened:
+
+- 201 family × trait systems
+- 45 vascular-plant families
+- 12 continuous traits
+- BIEN 4.2.8
+- V.PhyloMaker2 / GBOTB.extended.TPL
+- every system passed support, semantic validity, S3 + prune-only crosswalk, and known-truth geometry informativeness
+
+Three independent execution routes produced exactly the same 201 S3 and prune-only memory effects; the maximum numerical difference is zero.
+
+## Memory-gradient response
+
+For every family × trait system:
+
+- species state = median valid trait value;
+- trait-state dissimilarity = absolute difference;
+- phylogenetic separation = all unordered patristic distances;
+- memory-loss strength = Spearman correlation between separation and dissimilarity.
+
+The exact complete-label permutation-null mean is zero.
+
+Larger positive rho means a stronger monotonic erosion of trait similarity across phylogenetic separation. It is not a time-calibrated decay rate.
+
+## Result 1 — Most heterogeneity is system-specific
+
+Crossed REML decomposition:
+
+| Component | S3 repeatability share | 95% bootstrap CI | Prune-only |
+|---|---:|---:|---:|
+| Family | 0.150 | 0.020–0.286 | 0.148 |
+| Trait | 0.043 | 0–0.134 | 0.021 |
+| Residual / family × trait specificity | 0.806 | 0.660–0.952 | 0.831 |
+
+The analysis was prospectively forbidden from converting these estimates into a family-versus-trait dominance test.
+
+## Result 2 — Trait identity does not transport across families
+
+Family-blocked prediction:
+
+### S3
+- gain = -0.024
+- permutation p = 0.091
+- same-trait predictor SSE = 4.251
+- global-mean baseline SSE = 4.151
+
+### Prune-only
+- gain = -0.032
+- p = 0.193
+- same-trait predictor SSE = 6.184
+- global baseline SSE = 5.990
+
+The robust criterion fails on both tree treatments.
+
+Interpretation:
+
+> A trait may show real phylogenetic memory within particular lineages without carrying a transferable memory signature that predicts another family.
+
+## Result 3 — Family context recurs across traits
+
+After assigning each trait its own fixed mean:
+
+`rho ~ 0 + trait_name + (1 | family)`
+
+- conditional family repeatability = 0.183
+- 95% bootstrap CI = 0.029–0.337
+- prune-only = 0.168
+- leave-one-trait / leave-one-family range = 0.121–0.227
+
+The interval spans the predeclared 0.10 practical reference, so the frozen classification is **uncertain relative to 10%**.
+
+The result nevertheless shows that the estimated family component is not produced by one trait or one family.
+
+## Integrated interpretation
+
+The evidence supports a **context-dependent memory architecture**:
+
+- trait identity alone is not a robust cross-lineage predictor;
+- family identity contains a modest recurring cross-trait component;
+- most variation remains specific to the particular family × trait combination.
+
+This is not equivalent to saying family effects are statistically larger than trait effects.
+
+## Relation to previous work
+
+Ackerly (2009) showed that evolutionary rates of the same plant traits can differ markedly among clades. The present study therefore should not claim that clade heterogeneity is novel.
+
+The advance is the crossed predictive formulation:
+
+- repeated measurement of the same traits across many independent families;
+- explicit family-blocked prediction of portability;
+- explicit cross-trait family repeatability;
+- common outcome-blind qualification before real effects.
+
+Münkemüller et al. (2012) emphasized that phylogenetic-signal metrics differ in behavior and interpretation. This study likewise treats its memory gradient as a specific estimand rather than a universal replacement for K, lambda, or evolutionary-rate models.
+
+## Figure plan
+
+### Figure 1 — Crossed design and three questions
+
+A family × trait incidence matrix for the 201 qualified systems, with diagrams showing:
+- trait repeatability,
+- held-out-family trait portability,
+- cross-trait family repeatability.
+
+### Figure 2 — Observed memory gradients
+
+Heatmap or dot matrix of S3 rho for all 201 systems, ordered by family and trait.
+
+Do not use the ordering to generate new inferential clusters.
+
+### Figure 3 — Triangulation
+
+Three aligned panels:
+- repeatability shares with bootstrap intervals;
+- S3/prune portability gains with permutation null intervals;
+- conditional family repeatability with bootstrap interval and the predeclared 0.10 reference.
+
+### Figure 4 — Backbone sensitivity
+
+S3 versus prune-only rho for all systems; report the descriptive Spearman correspondence (0.832) and show the 1:1 line.
+
+## Abstract skeleton
+
+Phylogenetic signal is often treated as a property of a trait, yet the same trait can evolve differently among clades. We asked whether phylogenetic memory measured for a plant trait is transferable among lineages. Using BIEN trait data and a prospectively qualified crossed matrix of 201 family × trait systems spanning 45 families and 12 traits, we quantified memory-loss strength as the association between patristic separation and trait-state dissimilarity. Three separately preregistered analyses converged on a context-dependent picture. Family identity accounted for an estimated 15% of crossed variation, trait identity 4%, and approximately 81% remained system-specific; no dominance comparison was made. In leave-one-family-out prediction, the same trait measured in other families did not outperform a global baseline (S3 gain -0.024, p=0.091; prune-only gain -0.032, p=0.193). Conversely, after trait-specific means were removed, family identity retained an estimated cross-trait repeatability of 0.183 (95% CI 0.029–0.337; prune-only 0.168), though uncertainty spanned a predeclared 10% practical reference. Thus phylogenetic memory is not a robustly portable intrinsic property of trait identity across plant families; instead, it is largely family × trait specific with a modest recurring lineage context.
+
+## Discussion sequence
+
+1. Distinguish within-lineage phylogenetic memory from cross-lineage portability.
+2. Explain why clade-dependent evolutionary regimes are compatible with real signal inside each clade.
+3. Interpret the modest family repeatability as lineage context, not continuous deep-phylogeny covariance.
+4. Emphasize the dominant family × trait-specific component.
+5. Relate to clade heterogeneity in evolutionary rates and signal.
+6. Discuss implications for comparative ecology: trait-specific phylogenetic priors learned in one clade should not automatically be exported to another.
+7. Limitations: BIEN measurement heterogeneity, family scale, S3 taxonomic insertion, Spearman memory gradient rather than evolutionary-rate parameter.
+
+## Hard nonclaims
+
+- Do not say family effects dominate trait effects.
+- Do not say trait effects are zero.
+- Do not say family repeatability exceeds 10% with high confidence.
+- Do not infer a mechanism for family context.
+- Do not revive spatial-turnover conclusions.
+- Do not call rho a decay rate or timescale.

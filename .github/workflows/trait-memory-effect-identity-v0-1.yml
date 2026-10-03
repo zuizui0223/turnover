@@ -1,0 +1,52 @@
+name: Trait memory synthesis effect identity v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/trait_memory_effect_identity_v0_1.json'
+      - 'scripts/analysis/verify_trait_memory_effect_identity_v0_1.py'
+      - '.github/workflows/trait-memory-effect-identity-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download three frozen real-effect artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/repeat build/port build/lineage
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" -n trait-memory-repeatability-real-effects-batched-v0-2-1 -D build/repeat
+          gh run download 37101640332 -R "$GITHUB_REPOSITORY" -n trait-memory-real-portability-v0-2 -D build/port
+          gh run download 37105207171 -R "$GITHUB_REPOSITORY" -n lineage-memory-real-effects-v0-2 -D build/lineage
+          test -f build/repeat/effects.csv
+          test -f build/port/effects.csv
+          test -f build/lineage/effects.csv
+      - name: Verify exact system-level identity
+        run: |
+          mkdir -p build/identity
+          python scripts/analysis/verify_trait_memory_effect_identity_v0_1.py \
+            --repeatability build/repeat/effects.csv \
+            --portability build/port/effects.csv \
+            --lineage build/lineage/effects.csv \
+            --out build/identity/result.json
+      - name: Enforce exact-zero differences
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/identity/result.json'))
+          assert x['status']=='TRAIT_MEMORY_REAL_EFFECT_IDENTITY_VERIFIED'
+          assert x['n_systems']==201
+          assert x['all_numeric_differences_exactly_zero'] is True
+          assert x['new_biological_inference'] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-synthesis-effect-identity-v0-1
+          path: build/identity/result.json

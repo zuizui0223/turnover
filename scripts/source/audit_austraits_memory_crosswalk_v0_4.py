@@ -166,10 +166,11 @@ def main()->int:
             for q in filter(None,r["hold_reason"].split(";")): hc[q]+=1
     gate=len(families)>=12 and len(traits)>=4
     out={
-      "version":"v0.4.1",
+      "version":"v0.4.2",
       "status":"AUSTRAITS_MEMORY_PHYLOGENY_CROSSWALK_PASS" if gate else "HOLD_AUSTRAITS_MEMORY_PHYLOGENY_CROSSWALK",
       "outcome_blind":True,
       "species_dedup_fix":"data/austraits_phylo_species_dedup_fix_v0_4_1.json",
+      "ambiguous_genus_fix":"data/austraits_phylo_ambiguous_genus_failclosed_v0_4_2.json",
       "austraits_memory_effects_opened":False,
       "n_candidate_systems":len(rows),
       "n_crosswalk_pass":len(passing),

@@ -24,7 +24,7 @@ The present study is a temporal-only follow-up to a broader turnover programme. 
 
 Trait data came from BIEN 4.2.8 (Enquist et al. 2026). Phylogenetic placement used V.PhyloMaker2 at commit 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9 with GBOTB.extended.TPL and scenario S3 (Jin & Qian 2022). A mandatory prune-only sensitivity retained only backbone-native tips.
 
-The final empirical core was selected entirely before real memory-loss effects were opened. Starting from the preclassified BIEN trait universe, systems were required to pass temporal support, trait-state semantic validity, S3 and prune-only phylogeny crosswalk, and a known-truth geometry-informativeness test. The final core contained 201 family x trait systems, 45 families and 12 continuous traits. The family x trait graph was connected; each family was represented by at least two traits and each trait by at least five families.
+The final empirical core was selected entirely before real memory-loss effects were opened. Starting from the preclassified BIEN trait universe, systems were required to pass temporal support, trait-state semantic validity, S3 and prune-only phylogeny crosswalk, and a known-truth geometry-informativeness test. The final core contained 201 family x trait systems, 45 families and 12 continuous traits (Fig. 1). The family x trait graph was connected; each family was represented by at least two traits and each trait by at least five families.
 
 A separate pre-outcome model-informativeness study attempted to classify the relative dominance of trait and family variance, but the realized graph could not recover a twofold variance ratio with the predeclared precision. That question was therefore closed before real effects were opened. The present repeatability, portability and conditional-lineage analyses were separately frozen and each passed its own known-truth model-informativeness gate before using real memory effects.
 
@@ -110,9 +110,9 @@ Likewise, the residual component in the crossed model is not identifiable as pur
 
 ### Memory gradients were common but heterogeneous
 
-Across the 201 qualified systems, S3 rho averaged 0.093 (median 0.053, SD 0.143), ranged from -0.183 to 0.709, and was positive in 74.6% of systems. Prune-only rho averaged 0.114 and was positive in 71.6% of systems.
+Across the 201 qualified systems, S3 rho averaged 0.093 (median 0.053, SD 0.143), ranged from -0.183 to 0.709, and was positive in 74.6% of systems (Fig. 2). Prune-only rho averaged 0.114 and was positive in 71.6% of systems.
 
-S3 and prune-only estimates were strongly concordant across systems (Spearman rho = 0.832; Pearson r = 0.848), indicating that the broad pattern was not generated solely by S3 taxonomic insertion.
+S3 and prune-only estimates were strongly concordant across systems (Spearman rho = 0.832; Pearson r = 0.848; Fig. 4), indicating that the broad pattern was not generated solely by S3 taxonomic insertion.
 
 ### Most variation was not repeatable as family or trait main effects
 
@@ -140,7 +140,7 @@ After fitting separate means for all 12 traits, conditional family repeatability
 
 Leave-one-trait and leave-one-family refits ranged from 0.121 to 0.227, showing that the estimated family component was not driven by one trait or one family.
 
-The bootstrap interval spanned the predeclared 0.10 practical reference, so the frozen classification was uncertain relative to 10%.
+The bootstrap interval spanned the predeclared 0.10 practical reference, so the frozen classification was uncertain relative to 10% (Fig. 3).
 
 ## Discussion
 
@@ -201,6 +201,16 @@ Finally, the family random effect does not model deeper phylogenetic covariance 
 ## Conclusion
 
 Phylogenetic memory of plant traits is real in many individual lineages, but its magnitude is not a robustly portable intrinsic property of trait identity across families. The same named trait can carry different memory gradients in different lineages, while family identity contributes a modest recurring cross-trait context. Most remaining heterogeneity is unresolved at the system level. The broader implication is predictive: within-clade phylogenetic memory should not be assumed to transfer across clades without explicit validation at the phylogenetic scale of application.
+
+## Figure captions
+
+**Figure 1. Prospectively qualified crossed family × trait design.** Incidence matrix for the fixed empirical core of 201 family × trait systems spanning 45 vascular-plant families and 12 continuous traits. Cells indicate qualified systems only; family and trait ordering is graphical and is not used to define inferential clusters.
+
+**Figure 2. Phylogenetic memory gradients across the fixed 201 systems.** Dot matrix of S3 memory-loss rho for every qualified family × trait system. Positive values indicate a monotonic increase in trait-state dissimilarity with patristic separation; negative values indicate the opposite pattern. The figure is descriptive and the ordering is not used for system selection or clustering.
+
+**Figure 3. Triangulation of repeatability, portability and family-level lineage context.** (A) Crossed REML family, trait and residual/system-level shares on S3, with 95% parametric-bootstrap intervals and prune-only point estimates. The components are reported separately; no family-versus-trait dominance test is made. (B) Observed leave-one-family-out portability gain for S3 and prune-only rho, shown against the 2.5–97.5% interval of the predeclared within-family blocked-permutation null; zero denotes no incremental advantage over the global training mean. (C) Conditional family repeatability after trait-specific means are fitted, with the S3 95% bootstrap interval, prune-only point estimate and predeclared 0.10 practical reference.
+
+**Figure 4. Backbone sensitivity of system-level memory gradients.** S3 versus prune-only memory-loss rho for the identical 201 qualified systems. The dashed line is the 1:1 reference. The descriptive cross-system Spearman correspondence is 0.832.
 
 ## References
 

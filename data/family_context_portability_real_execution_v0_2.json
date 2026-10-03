@@ -1,0 +1,36 @@
+{
+  "version": "v0.2",
+  "status": "POST_OUTCOME_FOLLOWUP_EXECUTION_FROZEN_BEFORE_FAMILY_CONTEXT_PORTABILITY_RESULT",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "results/family_context_portability_model_info_v0_1/result.json",
+  "source_effects": {
+    "workflow_run": 37095981751,
+    "artifact_id": 11264513111,
+    "artifact_name": "trait-memory-repeatability-real-effects-batched-v0-2-1",
+    "expected_systems": 201
+  },
+  "portability_test": {
+    "cross_validation_unit": "trait",
+    "predictor": "held-out system uses the same family's mean rho across all other traits",
+    "baseline": "global mean rho across all systems from traits other than the held-out trait",
+    "gain": "1 - SSE_family / SSE_global",
+    "permutations": 999,
+    "master_seed": 20261003,
+    "null": "within each trait independently permute rho among fixed family labels",
+    "p_value": "(1 + count(null_gain >= observed_gain)) / 1000",
+    "axis_pass": "gain > 0 and p <= 0.05",
+    "robust_primary_claim": "S3 axis_pass AND prune-only axis_pass",
+    "weighting": "unweighted family x trait systems"
+  },
+  "shared_randomization": "Generate one set of within-trait permutation maps and reuse exactly for S3 and prune-only.",
+  "outputs": [
+    "S3 gain/p/null interval",
+    "prune-only gain/p/null interval",
+    "system-level observed/family-predicted/global-predicted values"
+  ],
+  "hard_nonclaims": [
+    "Do not infer family effects dominate trait effects.",
+    "Do not reinterpret conditional family repeatability threshold.",
+    "Do not remove systems after seeing prediction errors."
+  ]
+}

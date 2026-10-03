@@ -1,0 +1,94 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_FOLLOWUP_FROZEN_BEFORE_FAMILY_CONTEXT_PORTABILITY_TEST",
+  "frozen_on": "2026-10-03",
+  "programme_name": "Cross-trait portability of family context in phylogenetic trait memory",
+  "relationship_to_prior_work": {
+    "source_synthesis": "results/trait_memory_context_synthesis_v0_1/result.json",
+    "prior_trait_portability": "results/trait_memory_portability_v0_2/result.json",
+    "prior_conditional_family_repeatability": "results/lineage_memory_repeatability_v0_2/result.json",
+    "real_memory_effects_already_opened_elsewhere": true,
+    "new_estimand": "Predictive portability of family context to a completely held-out trait.",
+    "role": "Post-outcome complementary prediction analysis; cannot replace or reclassify any prior primary result."
+  },
+  "biological_question": "Does family identity carry a memory-loss signature that generalizes to a trait not used to estimate that family's context?",
+  "source_core": {
+    "expected_systems": 201,
+    "expected_families": 45,
+    "expected_traits": 12,
+    "all_traits_continuous": true,
+    "effects_workflow_run": 37095981751,
+    "effects_artifact_id": 11264513111,
+    "effects_artifact_name": "trait-memory-repeatability-real-effects-batched-v0-2-1",
+    "effect_identity_check": "results/trait_memory_context_synthesis_v0_1/effect_identity.json"
+  },
+  "mirror_to_existing_trait_portability": {
+    "existing_cross_validation_unit": "family",
+    "new_cross_validation_unit": "trait",
+    "existing_predictor": "same-trait mean from other families",
+    "new_predictor": "same-family mean from other traits",
+    "existing_null": "permute rho among trait labels within each family",
+    "new_null": "permute rho among family labels within each trait"
+  },
+  "portability_statistic": {
+    "cross_validation_unit": "trait",
+    "procedure": [
+      "For each held-out trait t, train on all systems whose trait is not t.",
+      "For each held-out system (f,t), predict rho using the arithmetic mean rho of family f among all training traits.",
+      "Baseline prediction for every held-out system is the arithmetic mean rho across all training systems.",
+      "Pool squared prediction errors over every held-out system exactly once."
+    ],
+    "primary_effect": "family_portability_gain = 1 - SSE_family_predictor / SSE_global_baseline",
+    "direction": "positive values mean family context improves prediction of an unseen trait",
+    "weighting": "one family x trait system = one observation; no family, trait, species-count, or precision weights",
+    "minimum_training_family_replicates": "guaranteed >=1 by final core family degree >=2 and leave-one-trait-out design",
+    "no_shrinkage": true
+  },
+  "permutation_test": {
+    "null": "Within each trait independently, permute observed rho values among that trait's fixed family labels. This preserves each trait's response distribution and the exact family-trait incidence graph while destroying cross-trait family correspondence.",
+    "primary_permutations": 999,
+    "seed": 20261003,
+    "p_value": "(1 + count(null_gain >= observed_gain)) / (1 + permutations)",
+    "primary_positive_result": "observed family_portability_gain > 0 AND permutation p <= 0.05",
+    "two_sided": false
+  },
+  "prune_only_requirement": {
+    "rule": "Repeat the identical leave-trait-out statistic and within-trait blocked permutation using prune-only rho. A robust family-context portability claim requires gain>0 and p<=0.05 on both S3 and prune-only.",
+    "identical_core": true
+  },
+  "known_truth_gate": {
+    "graph": "exact 201-edge family-trait incidence, no real rho",
+    "benchmark_signal": {
+      "name": "MIXED_FAMILY_SIGNAL",
+      "intercept": 0.15,
+      "trait_variance": 0.005,
+      "family_variance": 0.005,
+      "residual_variance": 0.01
+    },
+    "benchmark_null": {
+      "name": "FAMILY_NULL_TRAIT_SIGNAL",
+      "intercept": 0.15,
+      "trait_variance": 0.01,
+      "family_variance": 0,
+      "residual_variance": 0.01
+    },
+    "datasets_per_benchmark": 1000,
+    "permutations_per_dataset": 199,
+    "master_seed": 20261003,
+    "admission": {
+      "valid_fraction_min": 0.99,
+      "signal_power_min": 0.8,
+      "null_false_positive_max": 0.06,
+      "signal_median_gain_min": 0
+    },
+    "failure_rule": "If power or false-positive calibration fails, stop this complementary test; do not change the graph, benchmark, statistic, alpha, or permutation structure."
+  },
+  "interpretation": {
+    "positive": "Family context learned from other traits predicts a completely held-out trait better than a training-set global mean, supporting cross-trait portability of lineage context.",
+    "null": "The estimated family component is repeatable within the observed crossed matrix but does not robustly transport to an unseen trait under this criterion.",
+    "nonclaim": "A positive result would not imply family effects dominate trait effects or identify a biological mechanism."
+  },
+  "no_outcome_driven_system_removal": true,
+  "no_family_trait_dominance_test": true,
+  "no_posthoc_relaxation": true
+}

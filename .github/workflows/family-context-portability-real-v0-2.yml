@@ -1,0 +1,47 @@
+name: Family-context portability real test v0.2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen 201 real effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" -n trait-memory-repeatability-real-effects-batched-v0-2-1 -D build/effects
+          test -f build/effects/effects.csv
+      - name: Validate model-info admission and real-test contract
+        run: |
+          python - <<'PY'
+          import json
+          m=json.load(open('results/family_context_portability_model_info_v0_1/result.json'))
+          d=json.load(open('data/family_context_portability_real_execution_v0_2.json'))
+          assert m['status']=='FAMILY_CONTEXT_PORTABILITY_MODEL_INFO_PASS'
+          assert m['gate_pass'] is True
+          assert d['status']=='POST_OUTCOME_FOLLOWUP_EXECUTION_FROZEN_BEFORE_FAMILY_CONTEXT_PORTABILITY_RESULT'
+          assert d['portability_test']['cross_validation_unit']=='trait'
+          assert d['portability_test']['permutations']==999
+          assert d['portability_test']['master_seed']==20261003
+          assert d['portability_test']['robust_primary_claim']=='S3 axis_pass AND prune-only axis_pass'
+          PY
+      - name: Run frozen mirror portability test
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/test_family_context_portability_v0_2.py \
+            --effects build/effects/effects.csv \
+            --out build/result/result.json \
+            --predictions build/result/predictions.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-context-portability-v0-2
+          path: build/result/

@@ -1,0 +1,41 @@
+{
+  "version": "v0.1",
+  "status": "HOLD_FAMILY_CONTEXT_PORTABILITY_MODEL_INFO",
+  "evidence_workflow_run": 37118974397,
+  "evidence_job_id": 111191209220,
+  "evidence_artifact_id": 11272199539,
+  "evidence_artifact_sha256": "464cf4ad540461f44e3b1ffe7a3e45ae03761b10be2f43c31acbf0bad5653fc1",
+  "post_outcome_complementary_design": true,
+  "real_family_portability_test_opened": false,
+  "graph": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "min_family_degree": 2,
+    "min_trait_degree": 5
+  },
+  "signal_benchmark": {
+    "valid_fraction": 1,
+    "positive_test_fraction": 0.582,
+    "median_gain": 0.018952078038213915,
+    "gain_q025": -0.19055751955220482,
+    "gain_q975": 0.2143298662322961
+  },
+  "null_benchmark": {
+    "valid_fraction": 1,
+    "positive_test_fraction": 0,
+    "median_gain": -0.24820702626282765,
+    "gain_q025": -0.4368689770968466,
+    "gain_q975": -0.07629807519897629
+  },
+  "admission": {
+    "valid_fraction_min": 0.99,
+    "signal_power_min": 0.8,
+    "null_false_positive_max": 0.06,
+    "signal_median_gain_min": 0
+  },
+  "signal_gate_pass": false,
+  "null_gate_pass": true,
+  "gate_pass": false,
+  "decision": "Do not execute the real leave-one-trait-out family-context portability test. The fixed graph has calibrated false-positive control but only 58.2% power for the frozen mixed family-signal benchmark, below the predeclared 80% requirement."
+}

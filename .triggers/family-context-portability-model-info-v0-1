@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: symmetric leave-one-trait-out prediction of family context; calibrate power/FPR on fixed 201-edge graph before running complementary real test.

@@ -1,0 +1,18 @@
+{
+  "version": "v0.6",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "temporal informativeness PASS systems under data/trait_memory_informativeness_design_v0_5.json",
+  "construction": {
+    "algorithm": "Iteratively remove traits with degree <5 families and families with degree <2 traits until no more removals occur.",
+    "order_invariance": "At each iteration compute both degree filters from the same current graph, remove their union simultaneously, then repeat.",
+    "edge": "one informativeness-PASS family x trait system"
+  },
+  "gate": {
+    "minimum_families": 12,
+    "minimum_traits": 4,
+    "connected_bipartite_graph": true
+  },
+  "rationale": "The crossed random-effects question requires replication of traits across families and families across traits; this gate is frozen before any real memory rho is opened.",
+  "no_posthoc_relaxation": true
+}

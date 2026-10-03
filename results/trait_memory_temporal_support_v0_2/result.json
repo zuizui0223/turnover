@@ -1,0 +1,26 @@
+{
+  "version": "v0.2.1",
+  "status": "TRAIT_MEMORY_TEMPORAL_SUPPORT_PASS",
+  "evidence_workflow_run": 37085340395,
+  "evidence_artifact_id": 11259557604,
+  "evidence_artifact_sha256": "4634c4cae1c82d009f6e6353fb752489599ee12d4c12da938a8ef61bdbf49af5",
+  "reuse_contract": "data/trait_memory_support_reuse_v0_2_1.json",
+  "outcome_blind": true,
+  "real_trait_values_opened": false,
+  "real_memory_effects_opened": false,
+  "n_preclassified_traits": 52,
+  "n_traits_with_any_prior_aggregate_row": 50,
+  "traits_with_no_aggregate_rows": [
+    "leaf relative growth rate",
+    "stem relative growth rate"
+  ],
+  "n_family_trait_systems": 7592,
+  "n_structural_pass_systems": 1455,
+  "n_independent_families": 240,
+  "n_distinct_traits": 49,
+  "minimum_families": 12,
+  "minimum_traits": 4,
+  "gate_pass": true,
+  "support_table_artifact": "trait-memory-temporal-support-v0-2-1/family_trait_support.csv",
+  "next_gate": "Run temporal-only semantic validity on all structural PASS systems."
+}

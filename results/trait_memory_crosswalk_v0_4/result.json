@@ -1,0 +1,25 @@
+{
+  "version": "v0.4",
+  "status": "TRAIT_MEMORY_PHYLOGENY_CROSSWALK_PASS",
+  "evidence_workflow_run": 37086169965,
+  "evidence_job_id": 111096827117,
+  "evidence_artifact_id": 11261090274,
+  "evidence_artifact_sha256": "abaf1bed609a9e687a1f3ac98364937c00ce7151e5bbb87dc63b49623a87c170",
+  "outcome_blind": true,
+  "real_trait_values_opened": false,
+  "real_memory_effects_opened": false,
+  "observed_database_version": "4.2.8",
+  "n_candidate_systems": 1219,
+  "n_crosswalk_pass": 802,
+  "n_crosswalk_hold": 417,
+  "n_independent_families": 160,
+  "n_distinct_traits": 47,
+  "hold_reason_counts": {
+    "PRUNE_ONLY_LT20": 417
+  },
+  "minimum_families": 12,
+  "minimum_traits": 4,
+  "gate_pass": true,
+  "crosswalk_table_artifact": "trait-memory-crosswalk-v0-4/crosswalk.csv",
+  "next_gate": "Build exact necessary crossed-repeat core, then run inherited temporal informativeness on candidate systems."
+}

@@ -1,0 +1,31 @@
+{
+  "version": "v0.4",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "results/trait_memory_semantic_v0_3/semantic.csv",
+  "source": {
+    "phylogeny_repository": "jinyizju/V.PhyloMaker2",
+    "commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "nodes": "nodes.info.1.TPL",
+    "scenario": "S3"
+  },
+  "status_logic": {
+    "prune": "normalized species exact-match in tree tip.label",
+    "bind": "species absent AND (normalized genus present in nodes level G OR normalized family present in nodes level F)",
+    "fail": "otherwise",
+    "equivalence_basis": "data/bien_phylogeny_crosswalk_status_fallback_v0_3_4_1.json"
+  },
+  "system_pass": "primary_resolvable_species >=20 AND prune_species >=20",
+  "global_gate": {
+    "minimum_independent_families": 12,
+    "minimum_distinct_traits": 4
+  },
+  "no_fuzzy_matching": true,
+  "outputs_forbidden": [
+    "species names",
+    "trait values",
+    "memory rho"
+  ],
+  "real_memory_effects_opened": false
+}

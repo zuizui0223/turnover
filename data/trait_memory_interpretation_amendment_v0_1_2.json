@@ -1,0 +1,19 @@
+{
+  "version": "v0.1.2",
+  "status": "TRAIT_MEMORY_EFFECT_INTERPRETATION_CLARIFIED_PRE_OUTCOME",
+  "frozen_on": "2026-10-03",
+  "amends": "data/trait_memory_spectrum_design_v0_1.json",
+  "chronology": {
+    "real_memory_effects_opened": false
+  },
+  "clarification": {
+    "avoid": "rate of phylogenetic memory loss",
+    "primary_term": "phylogenetic memory-loss strength",
+    "definition": "Spearman correlation between patristic separation and trait-state dissimilarity within a family x trait system.",
+    "interpretation": "Larger positive rho means a stronger monotonic erosion of trait-state similarity with phylogenetic separation. It is not a decay constant, half-life, or rate with phylogenetic time units."
+  },
+  "scientific_question_effective": "Across vascular plant families and traits, is phylogenetic memory-loss strength primarily a property of the trait itself or of the evolutionary lineage in which the trait is expressed?",
+  "estimator_changed": false,
+  "model_changed": false,
+  "thresholds_changed": false
+}

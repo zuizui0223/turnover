@@ -1,0 +1,35 @@
+{
+  "version": "v0.7.2",
+  "status": "TRAIT_MEMORY_GEOMETRY_ADJUSTMENT_FROZEN_PRE_REAL_EFFECT",
+  "frozen_on": "2026-10-03",
+  "chronology": {
+    "real_memory_effects_opened": false,
+    "variance_partition_result_seen": false
+  },
+  "rationale": "Even after an informativeness PASS, observed system-level Spearman rho can retain differences in measurement geometry. Family identity could otherwise absorb systematic differences in tree size, taxonomy insertion, or the geometry-specific OU scale required to recover the fixed benchmark.",
+  "geometry_covariates": {
+    "log_n_species": "log(n_input_species) from final temporal informativeness result",
+    "prune_fraction": "n_prune / n_input_species from final temporal informativeness result",
+    "log_calibration_lambda": "log(S3 calibration lambda) from the outcome-blind known-truth informativeness gate"
+  },
+  "mandatory_sensitivity_model": {
+    "formula": "S3_rho ~ z_log_n_species + z_prune_fraction + z_log_calibration_lambda + (1|family) + (1|trait_name)",
+    "scaling": "center and divide by sample SD across the identical final crossed-core systems",
+    "admitted_system_set": "identical to primary model; no missing-covariate system may be silently dropped because every informativeness-PASS system must have finite n_input_species, n_prune and S3 lambda",
+    "estimation": "REML with same optimizer",
+    "outputs": [
+      "fixed geometry coefficients",
+      "family variance",
+      "trait variance",
+      "residual variance",
+      "log variance ratio",
+      "singular flag"
+    ],
+    "role": "mandatory robustness check, not a replacement primary model"
+  },
+  "interpretation_rule": "If the primary architecture label changes after geometry adjustment, report the primary result together with explicit geometry sensitivity and do not claim trait/family architecture is geometry-independent.",
+  "covariates_are_outcome_blind": true,
+  "primary_model_changed": false,
+  "admission_changed": false,
+  "no_outcome_based_selection": true
+}

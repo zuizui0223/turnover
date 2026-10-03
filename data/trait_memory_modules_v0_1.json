@@ -1,0 +1,70 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_TEMPORAL_TRAIT_MEMORY_EFFECT_OPENING",
+  "purpose": "Biological annotation only; not used for primary system admission or primary variance-partition model.",
+  "modules": {
+    "leaf": [
+      "leaf area",
+      "leaf area per leaf dry mass",
+      "leaf carbon content per leaf dry mass",
+      "leaf carbon content per leaf nitrogen content",
+      "leaf dry mass",
+      "leaf dry mass per leaf fresh mass",
+      "leaf fresh mass",
+      "Leaf lamina fracture toughness",
+      "leaf life span",
+      "leaf nitrogen content per leaf area",
+      "leaf nitrogen content per leaf dry mass",
+      "leaf phosphorus content per leaf area",
+      "leaf phosphorus content per leaf dry mass",
+      "leaf photosynthetic rate per leaf area",
+      "leaf photosynthetic rate per leaf dry mass",
+      "leaf relative growth rate",
+      "leaf stomatal conductance for H2O per leaf area",
+      "leaf stomatal conductance per leaf area",
+      "leaf thickness",
+      "maximum leaf length",
+      "maximum leaf width",
+      "minimum leaf length",
+      "minimum leaf width",
+      "leaf compoundness"
+    ],
+    "stem_xylem": [
+      "diameter at breast height (1.3 m)",
+      "stem dry mass",
+      "stem relative growth rate",
+      "stem wood density",
+      "vessel lumen area",
+      "vessel number"
+    ],
+    "root": [
+      "root dry mass"
+    ],
+    "reproductive": [
+      "inflorescence length",
+      "maximum fruit length",
+      "minimum fruit length",
+      "plant flowering duration",
+      "plant fruiting duration",
+      "seed length",
+      "seed mass",
+      "flower color",
+      "flower pollination syndrome",
+      "fruit type",
+      "whole plant dispersal syndrome"
+    ],
+    "whole_plant": [
+      "longest whole plant longevity",
+      "maximum whole plant height",
+      "maximum whole plant longevity",
+      "minimum whole plant height",
+      "whole plant height",
+      "whole plant primary juvenile period length",
+      "whole plant growth form",
+      "whole plant sexual system",
+      "whole plant vegetative phenology",
+      "whole plant woodiness"
+    ]
+  },
+  "use_rule": "Modules may be summarized descriptively after the primary model. No module-based filtering or directional hypothesis is primary in v0.1."
+}

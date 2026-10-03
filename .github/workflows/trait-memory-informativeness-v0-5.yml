@@ -1,0 +1,219 @@
+name: Trait memory temporal informativeness v0.5
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen temporal-only crosswalk
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/crosswalk
+          gh run download 37086169965 -R "$GITHUB_REPOSITORY" -n trait-memory-crosswalk-v0-4 -D build/crosswalk
+          test -f build/crosswalk/crosswalk.csv
+          test -f build/crosswalk/result.json
+      - name: Build exact pre-informativeness core
+        run: |
+          mkdir -p build/prepare
+          python scripts/analysis/build_trait_memory_pre_informativeness_core_v0_5_1.py \
+            --crosswalk build/crosswalk/crosswalk.csv \
+            --out build/prepare/pre_core.json \
+            --table-out build/prepare/core_candidates.csv
+      - id: matrix
+        name: Reuse old results and balance novel simulation batches
+        run: |
+          python - <<'PY'
+          import base64,csv,json,math,os
+          core=list(csv.DictReader(open('build/prepare/core_candidates.csv',newline='')))
+          old=list(csv.DictReader(open('results/bien_temporal_informativeness_v0_4_2/temporal_informativeness.csv',newline='')))
+          old_keys={(r['family'],r['trait_name']) for r in old}
+          core.sort(key=lambda r:(r['family'],r['trait_name']))
+          overlap=[r for r in core if (r['family'],r['trait_name']) in old_keys]
+          novel=[r for r in core if (r['family'],r['trait_name']) not in old_keys]
+          assert len(core)==722, len(core)
+          assert len(overlap)==39, len(overlap)
+          assert len(novel)==683, len(novel)
+          for i,r in enumerate(novel,1):
+              r['id']=f'M{i:04d}'
+              r['_weight']=int(r['n_input_species'])**2 + int(r['n_prune'])**2
+          nb=64
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for r in sorted(novel,key=lambda r:(-r['_weight'],r['family'],r['trait_name'])):
+              k=min(range(nb),key=lambda i:(bins[i]['weight'],i))
+              x={q:r[q] for q in ['id','family','trait_name','semantic_class']}
+              bins[k]['systems'].append(x)
+              bins[k]['weight']+=r['_weight']
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({
+                'batch_id':f'B{i:03d}',
+                'systems_b64':base64.b64encode(raw).decode(),
+                'n_systems':len(b['systems']),
+                'weight':b['weight']
+              })
+          with open('build/prepare/batches.json','w') as f:
+              json.dump({'include':include},f,indent=2)
+          with open('build/prepare/prepare_summary.json','w') as f:
+              json.dump({
+                'version':'v0.5',
+                'n_core_candidates':len(core),
+                'n_reused_prior':len(overlap),
+                'n_novel':len(novel),
+                'n_batches':nb,
+                'min_batch_systems':min(x['n_systems'] for x in include),
+                'max_batch_systems':max(x['n_systems'] for x in include),
+                'min_batch_weight':min(x['weight'] for x in include),
+                'max_batch_weight':max(x['weight'] for x in include),
+                'real_memory_effects_opened':False
+              },f,indent=2)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-informativeness-prepare-v0-5
+          path: build/prepare/
+
+  simulate:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Download crosswalk artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/crosswalk
+          gh run download 37086169965 -R "$GITHUB_REPOSITORY" -n trait-memory-crosswalk-v0-4 -D build/crosswalk
+          test -f build/crosswalk/crosswalk.csv
+      - name: Pin BIEN and V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Validate inherited informativeness contract
+        run: |
+          python - <<'PY'
+          import json
+          f=json.load(open('data/trait_memory_informativeness_design_v0_5.json'))
+          e=json.load(open('data/trait_memory_informativeness_efficiency_v0_5_1.json'))
+          d=json.load(open('data/bien_informativeness_design_v0_4.json'))
+          x=json.load(open('data/bien_informativeness_execution_v0_4_2.json'))
+          assert f['status']=='FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert f['exact_reuse']['benchmark_delta_rho']==0.15
+          assert f['exact_reuse']['median_absolute_recovery_error_max']==0.10
+          assert f['exact_reuse']['directional_recovery_min']==0.80
+          assert f['exact_reuse']['valid_replicate_fraction_min']==0.90
+          assert f['exact_reuse']['master_seed']==20260930
+          assert e['status']=='PRE_INFORMATIVENESS_NECESSARY_CORE_PRUNING_FROZEN'
+          assert e['exactness'].startswith('Informativeness can only remove')
+          assert d['continuous_scalar_generator']['evaluation_replicates']==1000
+          assert x['lambda_search']['pilot_replicates_per_value']==200
+          assert x['continuous_pair_rule']=='Use every unordered pair exactly; no pair subsampling.'
+          PY
+      - name: Decode deterministic batch
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/batch-results
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+      - name: Run identical-contract novel systems
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          python scripts/analysis/run_trait_memory_informativeness_batch_v0_5.py \
+            --batch-json build/batch/systems.json \
+            --crosswalk build/crosswalk/crosswalk.csv \
+            --out-dir build/batch-results \
+            --r-script scripts/analysis/run_trait_memory_temporal_informativeness_v0_5.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-info-${{ matrix.batch_id }}
+          path: build/batch-results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: simulate
+    if: always() && needs.simulate.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: trait-memory-informativeness-prepare-v0-5
+          path: build/prepare
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: trait-memory-info-B*
+          path: build/novel
+          merge-multiple: true
+      - name: Aggregate reused and novel temporal informativeness
+        run: |
+          mkdir -p build/trait_memory_informativeness_v0_5
+          python scripts/analysis/aggregate_trait_memory_informativeness_v0_5.py \
+            --core-candidates build/prepare/core_candidates.csv \
+            --prior-results results/bien_temporal_informativeness_v0_4_2/temporal_informativeness.csv \
+            --novel-dir build/novel \
+            --out build/trait_memory_informativeness_v0_5/result.json \
+            --table-out build/trait_memory_informativeness_v0_5/temporal_informativeness.csv
+      - name: Build final crossed core
+        run: |
+          mkdir -p build/trait_memory_crossed_core_v0_6
+          python scripts/analysis/build_trait_memory_crossed_core_v0_6.py \
+            --input build/trait_memory_informativeness_v0_5/temporal_informativeness.csv \
+            --out build/trait_memory_crossed_core_v0_6/result.json \
+            --table-out build/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Enforce pre-outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          i=json.load(open('build/trait_memory_informativeness_v0_5/result.json'))
+          c=json.load(open('build/trait_memory_crossed_core_v0_6/result.json'))
+          assert i['outcome_blind'] is True
+          assert i['real_trait_values_opened'] is False
+          assert i['real_memory_effects_opened'] is False
+          assert i['n_candidate_systems']==722
+          assert i['n_reused_prior_systems']==39
+          assert i['n_newly_simulated_systems']==683
+          assert c['outcome_blind'] is True
+          assert c['real_memory_effects_opened'] is False
+          assert c['status'] in {'TRAIT_MEMORY_CROSSED_CORE_PASS','HOLD_TRAIT_MEMORY_CROSSED_CORE'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-informativeness-v0-5
+          path: |
+            build/trait_memory_informativeness_v0_5/
+            build/trait_memory_crossed_core_v0_6/

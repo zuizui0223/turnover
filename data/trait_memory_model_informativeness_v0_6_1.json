@@ -1,0 +1,46 @@
+{
+  "version": "v0.6.1",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "final informativeness-PASS crossed core under data/trait_memory_crossed_core_design_v0_6.json",
+  "purpose": "Verify that the realized crossed family x trait graph can recover the direction and magnitude of a biologically meaningful family-vs-trait variance architecture before real memory-loss rho is opened.",
+  "model": "y ~ 1 + (1|family) + (1|trait_name), fitted by REML with the same optimizer as the real model",
+  "graph": "Use only final crossed-core family/trait incidence; simulated responses contain no real rho or trait values.",
+  "benchmarks": {
+    "intercept": 0.15,
+    "total_variance": 0.02,
+    "residual_variance": 0.01,
+    "crossed_variance_sum": 0.01,
+    "trait_dominant": {
+      "trait_variance": 0.006666666666666667,
+      "family_variance": 0.0033333333333333335,
+      "target_log_variance_ratio": 0.6931471805599453
+    },
+    "lineage_dominant": {
+      "trait_variance": 0.0033333333333333335,
+      "family_variance": 0.006666666666666667,
+      "target_log_variance_ratio": -0.6931471805599453
+    },
+    "mixed": {
+      "trait_variance": 0.005,
+      "family_variance": 0.005,
+      "target_log_variance_ratio": 0
+    }
+  },
+  "replicates_per_benchmark": 1000,
+  "master_seed": 20261003,
+  "admission": {
+    "valid_nonsingular_refit_fraction_min": 0.9,
+    "directional_recovery_min": 0.8,
+    "median_absolute_log_ratio_error_max": 0.35,
+    "required_benchmarks": [
+      "trait_dominant",
+      "lineage_dominant"
+    ],
+    "mixed_benchmark_role": "diagnostic only"
+  },
+  "rationale": "A twofold variance ratio is the predeclared minimum architecture contrast the study must be able to distinguish. The absolute total variance corresponds to response SD about 0.14 and keeps simulated rho-scale responses in a realistic range without using the observed effects.",
+  "failure_rule": "If either directional benchmark fails any admission threshold, stop before opening real family x trait memory effects. Do not strengthen the benchmark, change the graph, or alter the mixed model.",
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

@@ -1,0 +1,21 @@
+{
+  "version": "v0.5.1",
+  "status": "PRE_INFORMATIVENESS_NECESSARY_CORE_PRUNING_FROZEN",
+  "frozen_on": "2026-10-03",
+  "amends": [
+    "data/trait_memory_informativeness_design_v0_5.json",
+    "data/trait_memory_crossed_core_design_v0_6.json"
+  ],
+  "chronology": {
+    "temporal_only_crosswalk_result_seen_before_freeze": false,
+    "temporal_memory_effects_opened": false
+  },
+  "rule": "Before running known-truth informativeness, iteratively remove crosswalk-PASS traits with degree <5 families and families with degree <2 traits, using simultaneous removals per iteration.",
+  "exactness": "Informativeness can only remove family x trait edges. Therefore a node that already fails the final degree requirement at crosswalk stage can never satisfy it after informativeness. Skipping such systems cannot change the final crossed-core set.",
+  "connectedness": "Do not use connectedness for pre-pruning; connectedness is evaluated only on the final informativeness-PASS core.",
+  "thresholds_changed": false,
+  "informativeness_thresholds_changed": false,
+  "biological_selection_changed": false,
+  "can_rescue_failure": false,
+  "no_posthoc_relaxation": true
+}

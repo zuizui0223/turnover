@@ -1,0 +1,42 @@
+{
+  "version": "v0.7.1",
+  "status": "TRAIT_MEMORY_LOO_ROBUSTNESS_FROZEN_PRE_REAL_EFFECT",
+  "frozen_on": "2026-10-03",
+  "amends": "data/trait_memory_real_effect_execution_v0_7.json",
+  "chronology": {
+    "real_memory_effects_opened": false,
+    "variance_partition_result_seen": false
+  },
+  "sensitivities": {
+    "leave_one_trait_out": {
+      "rule": "Refit the identical intercept-only crossed REML model after dropping all systems for each admitted trait in turn, provided the remaining graph still has >=2 trait levels and >=2 family levels.",
+      "output": [
+        "omitted_trait",
+        "n_systems",
+        "family_variance",
+        "trait_variance",
+        "residual_variance",
+        "log_variance_ratio",
+        "singular"
+      ],
+      "role": "descriptive robustness only; cannot replace primary full-core architecture"
+    },
+    "leave_one_family_out": {
+      "rule": "Refit the identical model after dropping all systems for each admitted family in turn, provided >=2 family levels and >=2 trait levels remain.",
+      "output": [
+        "omitted_family",
+        "n_systems",
+        "family_variance",
+        "trait_variance",
+        "residual_variance",
+        "log_variance_ratio",
+        "singular"
+      ],
+      "role": "descriptive robustness only"
+    }
+  },
+  "no_subset_is_primary": true,
+  "no_outcome_based_omission": true,
+  "primary_model_changed": false,
+  "admission_changed": false
+}

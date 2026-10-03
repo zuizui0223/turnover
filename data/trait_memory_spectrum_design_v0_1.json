@@ -1,0 +1,120 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_TEMPORAL_TRAIT_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "programme_name": "Plant trait phylogenetic memory spectrum",
+  "relationship_to_prior_programme": {
+    "prior_terminal_result": "results/bien_spatial_informativeness_v0_4_3/result.json",
+    "prior_joint_route_closed": true,
+    "prior_real_trait_turnover_opened": false,
+    "new_study_independent": true,
+    "rule": "The failed joint time-space gate is not relaxed or reinterpreted. This follow-up asks a different temporal-only biological question and freezes its design before any real family x trait memory effect is opened."
+  },
+  "question": "Across vascular plant families and traits, is the strength of phylogenetic trait-memory loss primarily a property of the trait itself or of the evolutionary lineage in which the trait is expressed?",
+  "competing_architectures": {
+    "trait_dominant": "The same trait tends to lose phylogenetic memory at similar rates across families; between-trait variance exceeds between-family variance.",
+    "lineage_dominant": "Families show broadly fast or slow trait-memory loss across multiple traits; between-family variance exceeds between-trait variance.",
+    "mixed": "Neither variance component clearly dominates."
+  },
+  "source": {
+    "primary": "BIEN 4.2.8",
+    "rbien_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "phylogeny_repository": "jinyizju/V.PhyloMaker2",
+    "phylogeny_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "scenario": "S3",
+    "prune_only_sensitivity": true
+  },
+  "trait_universe": {
+    "semantic_contract": "data/bien_trait_semantic_contract_v0_3.json",
+    "include_classes": [
+      "continuous_scalar",
+      "nominal_categorical"
+    ],
+    "exclude_primary_hold_traits": [
+      "plant flowering begin",
+      "whole plant growth form diversity"
+    ],
+    "selection_rule": "All preclassified BIEN traits are eligible. Do not select traits by observed memory effect."
+  },
+  "system_unit": "scrubbed_family x trait_name",
+  "eligibility": {
+    "temporal_min_species": 20,
+    "continuous_validity": "all eligible nonmissing values parse as finite numeric; exactly one nonempty unit; species state = median",
+    "categorical_validity": "blank/null unit; species state = unique modal category; tied-mode species excluded",
+    "minimum_distinct_species_states": 2,
+    "phylogeny_primary_resolvable_min_species": 20,
+    "phylogeny_prune_only_min_species": 20,
+    "informativeness": {
+      "benchmark_delta_rho": 0.15,
+      "median_absolute_recovery_error_max": 0.1,
+      "directional_recovery_min": 0.8,
+      "valid_replicate_fraction_min": 0.9,
+      "required_on": [
+        "S3",
+        "prune-only"
+      ]
+    },
+    "no_spatial_support_requirement": true,
+    "reason": "This is a new temporal-only study. Spatial eligibility from the prior joint programme is neither required nor used for selection."
+  },
+  "crossed_analysis_core": {
+    "construction": "Start from all temporal-informativeness PASS family x trait systems, then iteratively remove traits represented in fewer than 5 families and families represented by fewer than 2 traits until stable.",
+    "minimum_final_families": 12,
+    "minimum_final_traits": 4,
+    "connected_bipartite_graph_required": true,
+    "fail_rule": "If the stabilized crossed core has fewer than 12 families, fewer than 4 traits, or more than one connected component, stop the primary variance-partition analysis before opening real memory effects."
+  },
+  "memory_effect": {
+    "temporal_species_state": {
+      "continuous": "median of valid measurements per species",
+      "categorical": "unique modal category"
+    },
+    "dissimilarity": {
+      "continuous": "absolute difference",
+      "categorical": "0/1 mismatch"
+    },
+    "separation": "all unordered pairwise patristic distances",
+    "primary_tree": "S3",
+    "effect": "Spearman(patristic distance, trait dissimilarity)",
+    "null_mean": "exactly zero under complete whole-state label permutation over all unordered pairs",
+    "canonical_name": "memory_loss_rho",
+    "direction": "larger positive rho = faster loss of trait similarity with phylogenetic separation",
+    "prune_only_sensitivity": "same estimator on GBOTB native tips only"
+  },
+  "primary_model": {
+    "response": "memory_loss_rho from S3",
+    "formula": "rho ~ semantic_class + (1|family) + (1|trait_name)",
+    "weighting": "unweighted family x trait systems",
+    "estimation": "REML crossed random-intercept model",
+    "independence": "family and trait are crossed grouping factors; no species are treated as macroevolutionary replicates",
+    "primary_quantities": [
+      "variance_family",
+      "variance_trait",
+      "variance_residual",
+      "share_family = variance_family / total_variance",
+      "share_trait = variance_trait / total_variance",
+      "log_variance_ratio = log(variance_trait / variance_family)"
+    ],
+    "uncertainty": "2000 parametric bootstrap replicates under fixed seed 20261003",
+    "interpretation": {
+      "trait_dominant": "95% bootstrap CI of log_variance_ratio entirely > 0",
+      "lineage_dominant": "95% bootstrap CI entirely < 0",
+      "mixed": "CI overlaps 0"
+    }
+  },
+  "secondary_predeclared": [
+    "Report semantic_class fixed effect but do not use it to drop systems.",
+    "Repeat the primary model replacing S3 rho by prune-only rho on the identical admitted system set.",
+    "Report family and trait BLUPs descriptively only after the global variance architecture is estimated; do not rank/select systems for new primary claims."
+  ],
+  "hard_nonclaims": [
+    "No spatial turnover claim is made.",
+    "No inference that temporal and spatial turnover share a mechanism.",
+    "No use of the prior joint-route spatial failures as biological zeroes.",
+    "No outcome-driven trait or family deletion.",
+    "No third-source rescue if BIEN temporal-only eligibility fails."
+  ],
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

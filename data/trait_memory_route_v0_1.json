@@ -1,0 +1,58 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_INFORMATIVENESS_RUNNING",
+  "study": "Plant trait phylogenetic memory spectrum",
+  "independent_from_joint_programme": true,
+  "prior_joint_programme_terminal_hold": "results/bien_spatial_informativeness_v0_4_3/result.json",
+  "outcome_state": {
+    "real_family_trait_memory_rho_opened": false,
+    "variance_partition_opened": false
+  },
+  "qualification": {
+    "structural": {
+      "status": "PASS",
+      "systems": 1455,
+      "families": 240,
+      "traits": 49,
+      "result": "results/trait_memory_temporal_support_v0_2/result.json"
+    },
+    "semantic": {
+      "status": "PASS",
+      "systems": 1219,
+      "families": 219,
+      "traits": 47,
+      "result": "results/trait_memory_semantic_v0_3/result.json"
+    },
+    "crosswalk": {
+      "status": "PASS",
+      "systems": 802,
+      "families": 160,
+      "traits": 47,
+      "result": "results/trait_memory_crosswalk_v0_4/result.json"
+    },
+    "pre_informativeness_core": {
+      "status": "PASS",
+      "systems": 722,
+      "families": 120,
+      "traits": 25,
+      "connected": true,
+      "result": "results/trait_memory_pre_informativeness_core_v0_5_1/result.json"
+    },
+    "temporal_informativeness": {
+      "status": "RUNNING",
+      "candidate_systems": 722,
+      "reused_prior": 39,
+      "novel_simulated": 683
+    },
+    "final_crossed_core": {
+      "status": "PENDING"
+    },
+    "crossed_model_informativeness": {
+      "status": "PENDING"
+    }
+  },
+  "real_effect_opening_rule": "Real family x trait memory rho may be opened only if final crossed core passes >=12 families, >=4 traits, degree and connectivity requirements, and the frozen crossed-model known-truth informativeness gate passes both twofold-dominance benchmarks.",
+  "source_family_closed": true,
+  "source": "BIEN 4.2.8 only",
+  "no_posthoc_relaxation": true
+}

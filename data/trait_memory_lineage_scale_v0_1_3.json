@@ -1,0 +1,22 @@
+{
+  "version": "v0.1.3",
+  "status": "TRAIT_MEMORY_LINEAGE_SCALE_CLARIFICATION_PRE_OUTCOME",
+  "frozen_on": "2026-10-03",
+  "chronology": {
+    "real_memory_effects_opened": false,
+    "variance_partition_result_seen": false
+  },
+  "operational_definition": "The lineage axis in the primary crossed model is family identity. variance_family measures repeatable heterogeneity among plant families after averaging across represented traits.",
+  "nonclaim": "The primary family random effect does not estimate a continuous phylogenetic covariance among families and must not be described as the amount of variance explained by deep family-to-family phylogenetic relatedness.",
+  "preferred_language": [
+    "family-level lineage context",
+    "family identity",
+    "between-family component"
+  ],
+  "avoid_language": [
+    "deep-lineage phylogenetic variance",
+    "family phylogenetic covariance"
+  ],
+  "primary_model_changed": false,
+  "scientific_question_changed": false
+}

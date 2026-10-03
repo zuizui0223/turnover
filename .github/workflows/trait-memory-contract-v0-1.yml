@@ -1,0 +1,131 @@
+name: Trait memory follow-up contract v0.1
+on:
+  pull_request:
+    paths:
+      - 'data/trait_memory_spectrum_design_v0_1.json'
+      - 'data/trait_memory_modules_v0_1.json'
+      - 'data/trait_memory_model_identifiability_amendment_v0_1_1.json'
+      - 'data/trait_memory_informativeness_design_v0_5.json'
+      - 'data/trait_memory_informativeness_efficiency_v0_5_1.json'
+      - 'data/trait_memory_crossed_core_design_v0_6.json'
+      - 'data/trait_memory_real_effect_execution_v0_7.json'
+      - 'data/trait_memory_model_informativeness_v0_6_1.json'
+      - 'data/trait_memory_loo_robustness_v0_7_1.json'
+      - 'data/trait_memory_geometry_adjustment_v0_7_2.json'
+      - 'data/trait_memory_effect_semantics_v0_1_2.json'
+      - 'data/trait_memory_lineage_scale_v0_1_3.json'
+      - 'results/trait_memory_temporal_support_v0_2/result.json'
+      - 'results/trait_memory_semantic_v0_3/result.json'
+      - 'results/trait_memory_crosswalk_v0_4/result.json'
+      - 'results/trait_memory_pre_informativeness_core_v0_5_1/result.json'
+      - '.github/workflows/trait-memory-contract-v0-1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate outcome-blind follow-up design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_spectrum_design_v0_1.json'))
+          m=json.load(open('data/trait_memory_modules_v0_1.json'))
+          sem=json.load(open('data/bien_trait_semantic_contract_v0_3.json'))
+          prior=json.load(open('results/bien_spatial_informativeness_v0_4_3/result.json'))
+          assert prior['status']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert prior['real_trait_values_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_TEMPORAL_TRAIT_MEMORY_EFFECT_OPENING'
+          assert d['relationship_to_prior_programme']['new_study_independent'] is True
+          assert d['eligibility']['no_spatial_support_requirement'] is True
+          assert d['primary_model']['uncertainty']=='2000 parametric bootstrap replicates under fixed seed 20261003'
+          assert d['real_memory_effects_opened'] is False
+          continuous=set(sem['representation_rules']['continuous_scalar']['traits'])
+          categorical=set(sem['representation_rules']['nominal_categorical']['traits'])
+          expected=continuous|categorical
+          assert len(expected)==52
+          allmods=[]
+          for vals in m['modules'].values():
+              allmods.extend(vals)
+          assert len(allmods)==52
+          assert len(set(allmods))==52
+          assert set(allmods)==expected
+          assert set(d['trait_universe']['exclude_primary_hold_traits'])=={'plant flowering begin','whole plant growth form diversity'}
+
+          s=json.load(open('results/trait_memory_temporal_support_v0_2/result.json'))
+          assert s['status']=='TRAIT_MEMORY_TEMPORAL_SUPPORT_PASS'
+          assert s['n_structural_pass_systems']==1455
+          assert s['n_independent_families']==240
+          assert s['n_distinct_traits']==49
+          assert s['gate_pass'] is True
+          sv=json.load(open('results/trait_memory_semantic_v0_3/result.json'))
+          assert sv['status']=='TRAIT_MEMORY_SEMANTIC_PASS'
+          assert sv['n_structural_candidates']==1455
+          assert sv['n_semantic_pass']==1219
+          assert sv['n_independent_families']==219
+          assert sv['n_distinct_traits']==47
+          assert sv['gate_pass'] is True
+          cw=json.load(open('results/trait_memory_crosswalk_v0_4/result.json'))
+          assert cw['status']=='TRAIT_MEMORY_PHYLOGENY_CROSSWALK_PASS'
+          assert cw['n_candidate_systems']==1219
+          assert cw['n_crosswalk_pass']==802
+          assert cw['n_independent_families']==160
+          assert cw['n_distinct_traits']==47
+          assert cw['gate_pass'] is True
+          pc=json.load(open('results/trait_memory_pre_informativeness_core_v0_5_1/result.json'))
+          assert pc['status']=='TRAIT_MEMORY_PRE_INFORMATIVENESS_CORE_READY'
+          assert pc['n_crosswalk_pass_systems']==802
+          assert pc['n_simulation_candidate_systems']==722
+          assert pc['n_candidate_families']==120
+          assert pc['n_candidate_traits']==25
+          assert pc['connected'] is True
+          assert pc['gate_pass'] is True
+
+          inf=json.load(open('data/trait_memory_informativeness_design_v0_5.json'))
+          assert inf['exact_reuse']['benchmark_delta_rho']==0.15
+          assert inf['exact_reuse']['median_absolute_recovery_error_max']==0.10
+          assert inf['exact_reuse']['directional_recovery_min']==0.80
+          assert inf['exact_reuse']['valid_replicate_fraction_min']==0.90
+          assert inf['exact_reuse']['master_seed']==20260930
+          eff=json.load(open('data/trait_memory_informativeness_efficiency_v0_5_1.json'))
+          assert eff['status']=='PRE_INFORMATIVENESS_NECESSARY_CORE_PRUNING_FROZEN'
+          assert eff['thresholds_changed'] is False
+          assert eff['can_rescue_failure'] is False
+          cc=json.load(open('data/trait_memory_crossed_core_design_v0_6.json'))
+          assert cc['construction']['algorithm'].startswith('Iteratively remove traits with degree <5')
+          assert cc['gate']['minimum_families']==12
+          assert cc['gate']['minimum_traits']==4
+          assert cc['gate']['connected_bipartite_graph'] is True
+
+          ident=json.load(open('data/trait_memory_model_identifiability_amendment_v0_1_1.json'))
+          assert ident['status']=='TRAIT_MEMORY_PRIMARY_MODEL_IDENTIFIABILITY_AMENDMENT_PRE_OUTCOME'
+          assert ident['primary_model_effective']['formula']=='rho ~ 1 + (1|family) + (1|trait_name)'
+          real=json.load(open('data/trait_memory_real_effect_execution_v0_7.json'))
+          assert real['status']=='FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert real['primary_model']['effective_formula']=='S3_rho ~ 1 + (1|family) + (1|trait_name)'
+          assert real['bootstrap']['replicates']==2000
+          assert real['bootstrap']['master_seed']==20261003
+          assert real['real_memory_effects_opened'] is False
+
+          mi=json.load(open('data/trait_memory_model_informativeness_v0_6_1.json'))
+          assert mi['status']=='FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert mi['benchmarks']['trait_dominant']['target_log_variance_ratio']==0.6931471805599453
+          assert mi['benchmarks']['lineage_dominant']['target_log_variance_ratio']==-0.6931471805599453
+          assert mi['admission']['directional_recovery_min']==0.80
+          loo=json.load(open('data/trait_memory_loo_robustness_v0_7_1.json'))
+          assert loo['status']=='TRAIT_MEMORY_LOO_ROBUSTNESS_FROZEN_PRE_REAL_EFFECT'
+          assert loo['primary_model_changed'] is False
+          ga=json.load(open('data/trait_memory_geometry_adjustment_v0_7_2.json'))
+          assert ga['status']=='TRAIT_MEMORY_GEOMETRY_ADJUSTMENT_FROZEN_PRE_REAL_EFFECT'
+          assert ga['covariates_are_outcome_blind'] is True
+          assert ga['primary_model_changed'] is False
+          es=json.load(open('data/trait_memory_effect_semantics_v0_1_2.json'))
+          assert es['metric_unchanged']=='Spearman(patristic distance, trait-state dissimilarity)'
+          ls=json.load(open('data/trait_memory_lineage_scale_v0_1_3.json'))
+          assert ls['operational_definition'].startswith('The lineage axis in the primary crossed model is family identity')
+          PY

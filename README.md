@@ -90,3 +90,23 @@ The predeclared independent transport, **AusTraits v7.0.0**, is independently te
 The finite source family is exhausted: BIEN + AusTraits were the two predeclared primary trait sources. **No third primary source is introduced, no threshold is lowered, and the frozen real-effect design is not executed.** TRY v7 remains a future source-access HOLD rather than a rescue route for this prospective programme.
 
 For trait-time and trait-space, the complete label-permutation null has also been simplified analytically before outcomes: with all unordered pairs and whole-state label permutations, the exact expected Spearman correlation is zero. Thus the canonical trait `delta_rho` equals observed Spearman `rho`; permutations are retained only for null dispersion and implementation diagnostics, not to Monte-Carlo-estimate the null mean.
+
+
+## Independent temporal follow-up
+
+The generalized time-space programme above remains terminal pre-outcome HOLD and was not relaxed. A separate prospective temporal-only follow-up asked whether **phylogenetic trait-memory loss is primarily trait-specific or lineage-specific**.
+
+This follow-up remained outcome-blind through all system-selection gates:
+
+- temporal structural support: **1,455 systems / 240 families / 49 traits**;
+- semantic validity: **1,219 systems / 219 families / 47 traits**;
+- S3 + prune-only phylogeny crosswalk: **802 systems / 160 families / 47 traits**;
+- necessary pre-informativeness crossed core: **722 systems / 120 families / 25 traits**;
+- temporal known-truth informativeness: **255 systems / 70 families / 22 traits**;
+- final crossed degree/connectivity core: **201 systems / 45 families / 12 traits**, one connected bipartite graph.
+
+The final pre-outcome gate tested whether that realized 201-edge graph could recover a predeclared twofold trait-vs-family variance architecture before any real family × trait memory-loss rho was opened. Directional recovery was adequate (trait-dominant 0.833; lineage-dominant 0.886), but the median absolute error of the log variance ratio was **0.442–0.452**, above the frozen maximum **0.35**.
+
+Therefore the trait-dominant versus lineage-dominant variance-ratio question is **terminal pre-outcome HOLD**. Real memory-loss rho was not opened, the precision threshold was not relaxed, and no outcome-driven family/trait deletion was performed.
+
+The qualification trail is retained because it identifies a broad and well-connected temporal trait matrix while also showing that the crossed graph is not precise enough for the predeclared twofold variance-ratio classification.

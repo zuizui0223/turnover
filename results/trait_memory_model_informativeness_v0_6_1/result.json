@@ -1,0 +1,53 @@
+{
+  "version": "v0.6.1",
+  "status": "HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS",
+  "evidence_workflow_run": 37095049226,
+  "evidence_job_id": 111123169375,
+  "evidence_artifact_id": 11264370627,
+  "evidence_artifact_sha256": "d5d3e8fa825ede060bbbe156b3092482f7dbf5e27ab54de4918795d2f1a4f3cd",
+  "outcome_blind": true,
+  "real_memory_effects_opened": false,
+  "n_core_systems": 201,
+  "n_core_families": 45,
+  "n_core_traits": 12,
+  "replicates_per_benchmark": 1000,
+  "master_seed": 20261003,
+  "benchmarks": {
+    "trait_dominant": {
+      "target_log_variance_ratio": 0.6931471805599453,
+      "valid_fraction": 0.999,
+      "directional_recovery": 0.833,
+      "median_absolute_log_ratio_error": 0.4422,
+      "median_estimated_log_ratio": 0.6449,
+      "singular_fraction": 0.001,
+      "failed_fraction": 0,
+      "pass": false
+    },
+    "lineage_dominant": {
+      "target_log_variance_ratio": -0.6931471805599453,
+      "valid_fraction": 0.998,
+      "directional_recovery": 0.886,
+      "median_absolute_log_ratio_error": 0.4521,
+      "median_estimated_log_ratio": -0.7338,
+      "singular_fraction": 0.002,
+      "failed_fraction": 0,
+      "pass": false
+    },
+    "mixed": {
+      "target_log_variance_ratio": 0,
+      "valid_fraction": 1,
+      "median_absolute_log_ratio_error": 0.3916,
+      "median_estimated_log_ratio": -0.0503,
+      "singular_fraction": 0,
+      "failed_fraction": 0
+    }
+  },
+  "admission": {
+    "valid_nonsingular_refit_fraction_min": 0.9,
+    "directional_recovery_min": 0.8,
+    "median_absolute_log_ratio_error_max": 0.35
+  },
+  "gate_pass": false,
+  "interpretation": "The realized 201-system crossed graph recovers the direction of a twofold trait-vs-family variance contrast often enough, but not its magnitude with the predeclared precision. The primary trait-dominant versus lineage-dominant architecture question is therefore not opened on real memory-loss rho.",
+  "next_gate": "STOP_PRIMARY_VARIANCE_RATIO_FOLLOWUP_BEFORE_REAL_MEMORY_EFFECT"
+}

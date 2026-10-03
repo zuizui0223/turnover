@@ -153,11 +153,25 @@ The interval spans the predeclared 0.10 practical reference, so the frozen class
 
 ## Integrated temporal synthesis
 
-The most defensible combined conclusion is:
+The completed temporal follow-ups now support one coherent ecological result on a prospectively qualified core of **201 family × trait systems, 45 vascular-plant families and 12 continuous traits**.
 
-> **Phylogenetic memory-loss strength is not a robustly portable intrinsic property of trait identity across plant families. Most variation is family × trait specific, while family identity carries a modest recurring cross-trait component.**
+Across systems, the phylogenetic memory gradient — Spearman association between patristic separation and trait-state dissimilarity — is usually positive but highly heterogeneous (S3 mean **0.093**, median **0.053**, positive in **74.6%** of systems). S3 and backbone-native prune-only estimates are strongly concordant (Spearman **0.832**).
 
-This is a conclusion about **context dependence and portability**, not a revived family-versus-trait dominance claim.
+Three independently qualified analyses then separate different meanings of “generalization”:
+
+1. **Crossed repeatability:** family identity accounts for an estimated **15.0%** of variation in memory strength (95% bootstrap CI 2.0–28.6%), trait identity **4.3%** (0–13.4%), and **80.6%** remains family × trait-specific/residual. These shares are not used for a family>trait dominance test.
+2. **Cross-lineage portability:** knowing how the same trait behaves in other families does **not** robustly improve prediction for a held-out family (S3 gain **−0.024**, p=0.091; prune-only **−0.032**, p=0.193).
+3. **Conditional lineage repeatability:** after every trait receives its own mean, family identity still carries an estimated cross-trait repeatability of **0.183** (95% CI 0.029–0.337; prune-only 0.168; leave-one-out range 0.121–0.227), although uncertainty spans the predeclared 0.10 practical reference.
+
+The resulting biological conclusion is deliberately narrower than “lineages dominate traits”:
+
+> **A trait can show real phylogenetic memory within a plant family without carrying a portable memory strength to another family. The relevant unit of generalization is therefore closer to a trait-in-lineage context than to the trait label alone.**
+
+This places the result beyond a generic statement that phylogenetic signal varies among clades. The predictive result is that a memory estimate learned for trait X in one set of families is not automatically a useful prior for trait X in a new family, while lineage context retains a modest recurring signature across different traits.
+
+The response is called a **phylogenetic memory gradient** rather than a decay rate: it measures the monotonic erosion of pairwise trait similarity with patristic separation and is not an OU alpha, evolutionary rate, half-life, or universal replacement for K or Pagel's lambda.
+
+Mechanisms are not identified here. Prospectively testable candidates include whole-organism life-history context, lineage-specific developmental/genetic constraint, clade-specific environmental occupancy, and residual measurement/taxon-composition heterogeneity. Those require new held-out-family tests rather than post-hoc explanation of the present 201 systems.
 
 The full synthesis and claim boundaries are in:
 

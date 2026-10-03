@@ -10,7 +10,7 @@
     "new_study_independent": true,
     "rule": "The failed joint time-space gate is not relaxed or reinterpreted. This follow-up asks a different temporal-only biological question and freezes its design before any real family x trait memory effect is opened."
   },
-  "question": "Across vascular plant families and traits, is the rate of phylogenetic trait-memory loss primarily a property of the trait itself or of the evolutionary lineage in which the trait is expressed?",
+  "question": "Across vascular plant families and traits, is the strength of phylogenetic trait-memory loss primarily a property of the trait itself or of the evolutionary lineage in which the trait is expressed?",
   "competing_architectures": {
     "trait_dominant": "The same trait tends to lose phylogenetic memory at similar rates across families; between-trait variance exceeds between-family variance.",
     "lineage_dominant": "Families show broadly fast or slow trait-memory loss across multiple traits; between-family variance exceeds between-trait variance.",

@@ -1,9 +1,7 @@
 name: Persist canonical trait-memory effects v0.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/persist-trait-memory-effects-v0-1'
+  workflow_dispatch:
 
 permissions:
   contents: write

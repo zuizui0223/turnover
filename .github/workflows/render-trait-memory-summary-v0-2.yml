@@ -1,0 +1,56 @@
+name: Render trait-memory summary figures v0.2
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/render-trait-memory-summary-v0-2'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: manuscript/trait-memory-context-v0-2
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install matplotlib numpy
+      - name: Validate canonical inputs
+        run: |
+          echo "5fffdfbc9ab50ff7bf568e80537a290e11c2bfde02f1d5484c7e896ed5f9415b  results/trait_memory_context_synthesis_v0_1/effects.csv" | sha256sum -c -
+          python - <<'PY'
+          import json
+          r=json.load(open('results/trait_memory_repeatability_v0_2/result.json'))
+          p=json.load(open('results/trait_memory_portability_v0_2/result.json'))
+          l=json.load(open('results/lineage_memory_repeatability_v0_2/result.json'))
+          assert r['status']=='TRAIT_MEMORY_REPEATABILITY_ESTIMATED'
+          assert p['status']=='HOLD_TRAIT_MEMORY_PORTABILITY'
+          assert l['status']=='LINEAGE_MEMORY_REPEATABILITY_ESTIMATED'
+          PY
+      - name: Render Figure 1 and Figure 3
+        run: |
+          mkdir -p figures/trait_memory_context_v0_2
+          python scripts/figures/render_trait_memory_context_summary_v0_2.py \
+            --effects results/trait_memory_context_synthesis_v0_1/effects.csv \
+            --repeatability results/trait_memory_repeatability_v0_2/result.json \
+            --portability results/trait_memory_portability_v0_2/result.json \
+            --lineage results/lineage_memory_repeatability_v0_2/result.json \
+            --out-dir figures/trait_memory_context_v0_2
+          test -s figures/trait_memory_context_v0_2/figure1_crossed_design.pdf
+          test -s figures/trait_memory_context_v0_2/figure3_triangulation.pdf
+      - name: Persist summary figures
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add figures/trait_memory_context_v0_2/
+          if git diff --cached --quiet; then
+            echo "Summary figures already current."
+          else
+            git commit -m "Render trait-memory summary figures v0.2"
+            git push origin HEAD:manuscript/trait-memory-context-v0-2
+          fi

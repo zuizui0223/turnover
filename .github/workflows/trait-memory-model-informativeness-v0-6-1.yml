@@ -1,10 +1,14 @@
 name: Trait memory crossed-model informativeness v0.6.1
 
 on:
+  pull_request:
+    paths:
+      - '.triggers/trait-memory-model-informativeness-v0-6-1'
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   model-info:
@@ -19,6 +23,17 @@ jobs:
           packages: |
             any::jsonlite
             any::lme4
+      - name: Download frozen final crossed core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/final-core
+          test -f build/final-core/trait_memory_crossed_core_v0_6/result.json
+          test -f build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/final-core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+          cp build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
       - name: Validate pre-outcome model informativeness contract
         run: |
           python - <<'PY'

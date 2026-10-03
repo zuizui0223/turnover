@@ -1,0 +1,15 @@
+{
+  "version": "v0.1.2",
+  "status": "FAMILY_PHYLOGENY_MEMBERSHIP_IMPLEMENTATION_FIX_PRE_RESULT",
+  "frozen_on": "2026-10-04",
+  "amends": "data/family_context_phylogeny_design_v0_1.json",
+  "chronology": {
+    "family_phylogeny_result_seen": false,
+    "coverage_result_seen": false
+  },
+  "diagnosis": "The first membership extractor queried all trait-bearing species in the 45 families, while the frozen design specifies the final-core species pool. The run had not reached family geometry or association results when this mismatch was detected.",
+  "corrected_rule": "For each family, union species identities only from the 12 family x trait systems present for that family in the fixed 201-system core, using the same semantic state eligibility as the real-effect extractor; then retain GBOTB-native tips.",
+  "scientific_question_changed": false,
+  "family_context_score_changed": false,
+  "statistic_changed": false
+}

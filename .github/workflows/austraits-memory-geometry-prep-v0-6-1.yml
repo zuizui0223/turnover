@@ -1,0 +1,67 @@
+name: AusTraits memory geometry prep v0.6.1
+on:
+  pull_request:
+    paths:
+      - '.triggers/austraits-memory-geometry-prep-v0-6-1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Download frozen crosswalk
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/crosswalk
+          gh run download 37113852461 -R "$GITHUB_REPOSITORY" -n austraits-memory-crosswalk-v0-4 -D build/crosswalk
+          test -f build/crosswalk/crosswalk.csv
+      - name: Download exact AusTraits source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Validate frozen geometry dedup
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_memory_informativeness_v0_6.json'))
+          c=json.load(open('data/austraits_memory_geometry_dedup_v0_6_1.json'))
+          p=json.load(open('results/austraits_memory_pre_informativeness_core_v0_5_1/result.json'))
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_INFORMATIVENESS_RESULT'
+          assert c['status']=='AUSTRAITS_GEOMETRY_DEDUP_CANONICALIZATION_FROZEN_PRE_RESULT'
+          assert c['chronology']['geometry_signature_result_seen_before_freeze'] is False
+          assert c['thresholds_changed'] is False
+          assert p['n_simulation_candidate_systems']==1463
+          assert p['n_candidate_families']==64
+          assert p['n_candidate_traits']==73
+          PY
+      - name: Compute species-geometry hashes only
+        run: |
+          mkdir -p build/geometry
+          python scripts/analysis/prepare_austraits_memory_geometry_v0_6_1.py             --parquet build/source/austraits.parquet             --traits-yml build/source/traits.yml             --crosswalk build/crosswalk/crosswalk.csv             --out build/geometry/result.json             --systems-out build/geometry/systems.csv             --groups-out build/geometry/groups.csv
+      - name: Enforce no-species output
+        run: |
+          python - <<'PY'
+          import csv,json
+          x=json.load(open('build/geometry/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          assert x['n_candidate_systems']==1463
+          for p in ['build/geometry/systems.csv','build/geometry/groups.csv']:
+              rows=csv.DictReader(open(p))
+              bad={'species','genus','binomial'}.intersection(rows.fieldnames or [])
+              assert not bad,bad
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-memory-geometry-prep-v0-6-1
+          path: build/geometry/

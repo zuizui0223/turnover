@@ -1,0 +1,33 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "results/trait_memory_temporal_support_v0_2/family_trait_support.csv",
+  "purpose": "Apply temporal-only semantic validity to structurally supported family x trait systems before phylogeny or real memory effects.",
+  "continuous": {
+    "require_all_values_numeric": true,
+    "require_zero_missing_unit": true,
+    "require_exactly_one_nonempty_unit": true,
+    "species_state": "median",
+    "minimum_resolvable_species": 20,
+    "minimum_distinct_species_states": 2
+  },
+  "categorical": {
+    "require_blank_or_null_unit": true,
+    "species_state": "unique modal category",
+    "tied_mode_species": "exclude deterministically",
+    "minimum_resolvable_species": 20,
+    "minimum_distinct_species_states": 2
+  },
+  "global_gate": {
+    "minimum_independent_families": 12,
+    "minimum_distinct_traits": 4
+  },
+  "outputs_forbidden": [
+    "raw trait values",
+    "species-level states",
+    "species names",
+    "memory rho"
+  ],
+  "real_memory_effects_opened": false
+}

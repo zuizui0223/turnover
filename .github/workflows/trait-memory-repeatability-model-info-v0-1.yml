@@ -1,9 +1,6 @@
 name: Trait memory repeatability model informativeness v0.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-repeatability-model-info-v0-1'
   workflow_dispatch:
 
 permissions:

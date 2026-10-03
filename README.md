@@ -110,3 +110,22 @@ The final pre-outcome gate tested whether that realized 201-edge graph could rec
 Therefore the trait-dominant versus lineage-dominant variance-ratio question is **terminal pre-outcome HOLD**. Real memory-loss rho was not opened, the precision threshold was not relaxed, and no outcome-driven family/trait deletion was performed.
 
 The qualification trail is retained because it identifies a broad and well-connected temporal trait matrix while also showing that the crossed graph is not precise enough for the predeclared twofold variance-ratio classification.
+
+
+## Independent temporal repeatability follow-up
+
+The earlier temporal trait-vs-lineage **variance-ratio** follow-up remains terminal pre-outcome HOLD: the 201-system crossed graph could usually recover the direction of a twofold variance contrast, but its log-ratio MAE (0.44–0.45) exceeded the frozen 0.35 precision threshold.
+
+A separate follow-up therefore asks a weaker question without ranking the axes: **how much memory-loss variance is repeatable along the trait axis and along the family axis separately?**
+
+The frozen targets are:
+
+- `R_trait = var_trait / total variance` — cross-lineage portability of trait-specific memory;
+- `R_family = var_family / total variance` — cross-trait repeatability of lineage-level memory regime;
+- `R_residual` — remaining family × trait specificity plus measurement/model residual.
+
+No test of `R_trait > R_family` and no dominance label is permitted.
+
+Before opening real rho, the same 201-edge graph passed a separate share-recovery gate. Across the three already-frozen known-truth variance settings, median absolute error was 0.041–0.052 for `R_family` and 0.050–0.078 for `R_trait`, below the frozen 0.10 threshold, with 99.8–100% valid nonsingular fits.
+
+Real memory-loss rho is therefore now authorized **only** for this repeatability estimation. The frozen analysis is the same crossed REML model, 2,000 parametric-bootstrap replicates, identical-core prune-only sensitivity, and leave-one-trait / leave-one-family descriptive robustness. Two technically identical execution routes are running (201 one-system jobs and a 32-batch mirror); if both finish, their rho values must match to 1e-12.

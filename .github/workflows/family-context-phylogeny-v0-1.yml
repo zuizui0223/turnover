@@ -1,5 +1,8 @@
 name: Exploratory family-context deep phylogeny v0.1
 on:
+  pull_request:
+    paths:
+      - '.triggers/family-context-phylogeny-v0-1-2'
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,6 +45,10 @@ jobs:
           s=json.load(open('results/trait_memory_context_synthesis_v0_1/result.json'))
           assert d['status']=='POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_FAMILY_PHYLOGENY_RESULT'
           assert d['relationship_to_prior_work']['real_memory_effects_already_opened'] is True
+          fix=json.load(open('data/family_context_phylogeny_membership_fix_v0_1_2.json'))
+          assert fix['status']=='FAMILY_PHYLOGENY_MEMBERSHIP_IMPLEMENTATION_FIX_PRE_RESULT'
+          assert fix['chronology']['family_phylogeny_result_seen'] is False
+          assert fix['scientific_question_changed'] is False
           assert s['common_core']['systems']==201
           assert s['common_core']['families']==45
           assert s['common_core']['S3_effect_identity_across_three_execution_routes']['max_absolute_difference']==0

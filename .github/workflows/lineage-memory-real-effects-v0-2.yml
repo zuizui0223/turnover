@@ -1,9 +1,6 @@
 name: Lineage memory real effects v0.2
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/lineage-memory-real-effects-v0-2'
   workflow_dispatch:
 
 permissions:

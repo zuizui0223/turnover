@@ -1,0 +1,160 @@
+name: Trait memory repeatability real effects v0.2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repeatability admission
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_repeatability_design_v0_1.json'))
+          m=json.load(open('results/trait_memory_repeatability_model_info_v0_1/result.json'))
+          assert d['status']=='FROZEN_BEFORE_REAL_MEMORY_EFFECT_OPENING'
+          assert d['model']['hard_rule']=='Do not label one axis dominant or test R_trait > R_family in this version.'
+          assert m['status']=='TRAIT_MEMORY_REPEATABILITY_MODEL_INFORMATIVENESS_PASS'
+          assert m['gate_pass'] is True
+          assert m['real_memory_effects_opened'] is False
+          PY
+      - name: Download frozen 201-system core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - id: matrix
+        run: |
+          python - <<'PY'
+          import csv,json,os
+          rows=[]
+          with open('build/core/trait_memory_crossed_core_v0_6/core_systems.csv',newline='') as fh:
+              for i,r in enumerate(csv.DictReader(fh),1):
+                  rows.append({'id':f'Q{i:04d}','family':r['family'],'trait_name':r['trait_name'],'semantic_class':r['semantic_class']})
+          assert len(rows)==201
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('matrix='+json.dumps({'include':rows},separators=(',',':'))+'\n')
+          PY
+
+  effect:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Download frozen final core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
+          cp build/core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+      - name: Pin BIEN and V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Estimate real memory rho for one frozen-core system
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+          FAMILY: ${{ matrix.family }}
+          TRAIT_NAME: ${{ matrix.trait_name }}
+          SEMANTIC_CLASS: ${{ matrix.semantic_class }}
+          SYSTEM_ID: ${{ matrix.id }}
+        run: |
+          mkdir -p build/effect
+          Rscript scripts/analysis/run_trait_memory_real_effect_v0_7.R \
+            --family "$FAMILY" --trait "$TRAIT_NAME" --class "$SEMANTIC_CLASS" --id "$SYSTEM_ID" \
+            --out "build/effect/$SYSTEM_ID.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-real-${{ matrix.id }}
+          path: build/effect/${{ matrix.id }}.json
+          retention-days: 30
+
+  aggregate:
+    needs: effect
+    if: always() && needs.effect.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: trait-memory-repeatability-real-Q*
+          path: build/all-effects
+          merge-multiple: true
+      - name: Download frozen core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+      - name: Aggregate effects
+        run: |
+          mkdir -p build/real
+          python scripts/analysis/aggregate_trait_memory_real_effects_v0_7.py \
+            --input-dir build/all-effects \
+            --core-table build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/real/effects.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-real-effects-v0-2
+          path: build/real/effects.csv
+
+  model:
+    needs: aggregate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: trait-memory-repeatability-real-effects-v0-2
+          path: build/real
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit frozen repeatability model
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/fit_trait_memory_repeatability_v0_2.R \
+            --effects build/real/effects.csv \
+            --out build/model/result.json \
+            --bootstrap-table build/model/bootstrap.csv \
+            --loo-table build/model/leave_one_out.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-repeatability-v0-2
+          path: build/model/

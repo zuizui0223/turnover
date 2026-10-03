@@ -14,6 +14,17 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
+      - name: Download frozen final crossed core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/final-core
+          test -f build/final-core/trait_memory_crossed_core_v0_6/result.json
+          test -f build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/final-core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+          cp build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
       - name: Validate final crossed core
         run: |
           python - <<'PY'
@@ -66,6 +77,15 @@ jobs:
             any::DBI
             any::jsonlite
             any::ape
+      - name: Download frozen final crossed core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/final-core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/final-core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+          cp build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
       - name: Pin BIEN and V.PhyloMaker2
         run: |
           mkdir -p build
@@ -103,6 +123,14 @@ jobs:
           pattern: trait-memory-real-R*
           path: build/all-effects
           merge-multiple: true
+      - name: Download frozen final crossed core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/final-core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
       - name: Aggregate one effect per final-core system
         run: |
           mkdir -p build/real
@@ -132,6 +160,15 @@ jobs:
           packages: |
             any::jsonlite
             any::lme4
+      - name: Download frozen final crossed core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/final-core
+          mkdir -p results/trait_memory_crossed_core_v0_6
+          cp build/final-core/trait_memory_crossed_core_v0_6/result.json results/trait_memory_crossed_core_v0_6/result.json
+          cp build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv results/trait_memory_crossed_core_v0_6/core_systems.csv
       - name: Fit frozen crossed variance model
         run: |
           mkdir -p build/model

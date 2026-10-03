@@ -1,0 +1,54 @@
+name: Family-context portability model informativeness v0.1
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/family-context-portability-model-info-v0-1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  model-info:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy
+      - name: Download frozen 201-system core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Validate mirror portability design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/family_context_portability_design_v0_1.json'))
+          assert d['status']=='POST_OUTCOME_FOLLOWUP_FROZEN_BEFORE_FAMILY_CONTEXT_PORTABILITY_TEST'
+          assert d['portability_statistic']['cross_validation_unit']=='trait'
+          assert d['known_truth_gate']['benchmark_signal']['family_variance']==0.005
+          assert d['known_truth_gate']['benchmark_null']['family_variance']==0
+          assert d['known_truth_gate']['datasets_per_benchmark']==1000
+          assert d['known_truth_gate']['permutations_per_dataset']==199
+          assert d['known_truth_gate']['admission']['signal_power_min']==0.80
+          assert d['known_truth_gate']['admission']['null_false_positive_max']==0.06
+          assert d['no_family_trait_dominance_test'] is True
+          PY
+      - name: Run graph-only known-truth family portability calibration
+        run: |
+          mkdir -p build/model-info
+          python scripts/analysis/run_family_context_portability_model_info_v0_1.py \
+            --core-table build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/model-info/result.json \
+            --table-out build/model-info/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-context-portability-model-info-v0-1
+          path: build/model-info/

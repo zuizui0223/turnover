@@ -1,0 +1,55 @@
+name: Backbone-stable context real decomposition v0.1.1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  decompose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Download frozen 201 real effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" -n trait-memory-repeatability-real-effects-batched-v0-2-1 -D build/effects
+          test -f build/effects/effects.csv
+      - name: Validate model-info admission
+        run: |
+          python - <<'PY'
+          import json
+          m=json.load(open('results/backbone_stable_context_model_info_v0_1/result.json'))
+          d=json.load(open('data/backbone_stable_context_design_v0_1.json'))
+          e=json.load(open('data/backbone_stable_context_execution_v0_1_1.json'))
+          assert m['status']=='BACKBONE_STABLE_CONTEXT_MODEL_INFO_PASS'
+          assert m['gate_pass'] is True
+          assert d['repeated_measure_model']['formula']=='rho ~ backbone + (1|family) + (1|trait_name) + (1|system_id)'
+          assert e['real_model_gate']['require_nonsingular_fit'] is True
+          assert e['real_model_gate']['bootstrap_valid_fraction_min']==0.90
+          assert e['no_family_trait_dominance_comparison'] is True
+          PY
+      - name: Fit frozen repeated-measures decomposition
+        run: |
+          mkdir -p build/result
+          Rscript scripts/analysis/fit_backbone_stable_context_v0_1_1.R \
+            --effects build/effects/effects.csv \
+            --out build/result/result.json \
+            --bootstrap-table build/result/bootstrap.csv \
+            --loo-table build/result/leave_one_out.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backbone-stable-context-v0-1-1
+          path: build/result/

@@ -23,6 +23,8 @@ on:
       - 'data/bien_informativeness_design_v0_4.json'
       - 'data/bien_informativeness_execution_v0_4_2.json'
       - 'data/bien_spatial_informativeness_execution_v0_4_3.json'
+      - 'data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json'
+      - 'data/bien_real_trait_turnover_design_v0_5.json'
       - 'scripts/analysis/verify_trait_permutation_null_zero_v0_4_1.py'
       - 'scripts/analysis/verify_spatial_weighted_spearman_v0_4_3.py'
       - '.github/workflows/programme-contract-v0-1.yml'
@@ -213,6 +215,18 @@ jobs:
           assert sp['family_replicate_rule']['minimum_finite_species']==8
           assert sp['weighted_pair_spearman']['pair_subsampling'] is False
           assert sp['thresholds_changed'] is False
+          gfix=json.load(open('data/bien_spatial_great_circle_dim_fix_v0_4_3_2.json'))
+          assert gfix['status']=='BIEN_SPATIAL_GREAT_CIRCLE_DIMENSION_FIX_PRE_RESULT'
+          assert gfix['spatial_result_seen_before_fix'] is False
+          assert gfix['thresholds_changed'] is False
+          assert gfix['generator_changed'] is False
+          real=json.load(open('data/bien_real_trait_turnover_design_v0_5.json'))
+          assert real['status']=='FROZEN_BEFORE_REAL_BIEN_TRAIT_TURNOVER_OPENING'
+          assert real['spatial_effect']['minimum_species']==8
+          assert real['spatial_effect']['record_count_weighting'] is False
+          assert real['h1_primary_coupling']['independence_cluster']=='family'
+          assert real['h1_primary_coupling']['no_weighting_by_measurement_count'] is True
+          assert real['biological_turnover_outcomes_opened'] is False
           PY
 
       - name: Verify exact-zero trait permutation null

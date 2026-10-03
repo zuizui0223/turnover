@@ -183,34 +183,44 @@ weighted_midrank <- function(v,w){
 
 prepare_species_geometry <- function(df){
   if(nrow(df)<20) stop("species below 20 records")
-  key <- paste(sprintf("%.17g",df$lat),sprintf("%.17g",df$lon),sep="|")
-  first <- !duplicated(key)
-  nodes <- df[first,c("lat","lon"),drop=FALSE]
-  node_key <- key[first]
-  idx <- match(key,node_key)
-  mult <- as.numeric(tabulate(idx,nbins=nrow(nodes)))
+  keep <- is.finite(df$lat) & is.finite(df$lon) &
+          df$lat>=-90 & df$lat<=90 & df$lon>=-180 & df$lon<=180
+  df <- df[keep,,drop=FALSE]
+  if(nrow(df)<20) stop("species below 20 finite coordinate records")
+  ord <- order(df$lat,df$lon,method="radix")
+  lat <- df$lat[ord]; lon <- df$lon[ord]
+  starts <- c(TRUE, lat[-1]!=lat[-length(lat)] | lon[-1]!=lon[-length(lon)])
+  grp <- cumsum(starts)
+  nodes <- data.frame(lat=lat[starts],lon=lon[starts])
+  mult <- as.numeric(tabulate(grp,nbins=nrow(nodes)))
+  if(any(!is.finite(mult)) || any(mult<1)) stop("invalid exact-coordinate multiplicities")
   n <- nrow(nodes)
   if(n<2) stop("fewer than 2 unique spatial nodes")
   D <- great_circle_matrix(nodes$lat,nodes$lon)
   ij <- which(lower.tri(D),arr.ind=TRUE)
   pi <- ij[,1]; pj <- ij[,2]
   pd <- D[ij]
-  pw <- mult[pi]*mult[pj]
+  pw <- as.numeric(mult[pi]) * as.numeric(mult[pj])
   within <- which(mult>=2)
   if(length(within)){
     pi <- c(pi,within); pj <- c(pj,within)
     pd <- c(pd,rep(0,length(within)))
-    pw <- c(pw,mult[within]*(mult[within]-1)/2)
+    pw <- c(pw,as.numeric(mult[within])*(as.numeric(mult[within])-1)/2)
   }
+  if(any(!is.finite(pw)) || any(pw<=0)) stop("invalid expanded pair multiplicity weights")
+  N <- sum(mult)
+  M_expected <- N*(N-1)/2
   M <- sum(pw)
-  if(M<1) stop("no expanded record pairs")
+  if(!is.finite(M) || M<1) stop("no finite expanded record-pair count")
+  if(abs(M-M_expected) > max(1e-8,1e-12*M_expected))
+    stop(paste("expanded pair-count invariant failed",M,M_expected))
   med <- expanded_median_positive(pd,pw)
   rx <- weighted_midrank(pd,pw)
   mx <- (M+1)/2
   sxx <- sum(pw*(rx-mx)^2)
   if(!is.finite(sxx) || sxx<=0) stop("zero spatial separation rank variance")
   list(D=D,pi=pi,pj=pj,pd=pd,pw=pw,rx=rx,mx=mx,sxx=sxx,M=M,med=med,
-       n_nodes=n,n_records=sum(mult),species=df$species[[1]])
+       n_nodes=n,n_records=N,species=df$species[[1]])
 }
 
 geoms <- lapply(species_ids,function(sp) prepare_species_geometry(geo[geo$species==sp,c("species","lat","lon"),drop=FALSE]))
@@ -344,7 +354,7 @@ pass <- vf>=as.numeric(th$valid_replicate_fraction_min) &&
         mae<=as.numeric(th$median_absolute_recovery_error_max)
 
 out <- list(
-  version="v0.4.3",
+  version="v0.4.3.1",
   status=if(pass)"BIEN_SPATIAL_INFORMATIVENESS_SYSTEM_PASS" else "HOLD_BIEN_SPATIAL_INFORMATIVENESS_SYSTEM",
   system_id=system_id,family=family,trait_name=trait_name,semantic_class=semantic_class,
   outcome_blind=TRUE,real_trait_values_opened=FALSE,biological_turnover_outcomes_opened=FALSE,

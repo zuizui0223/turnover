@@ -2,7 +2,7 @@
 
 ## Question
 
-When trait similarity decays across phylogenetic distance, is the rate of decay mainly a property of **what trait is measured**, or of **which lineage the trait evolves in**?
+When trait similarity decays across phylogenetic distance, is the strength of decay mainly a property of **what trait is measured**, or of **which lineage the trait evolves in**?
 
 This is a new temporal-only follow-up. It does not reopen or relax the terminal time-space programme. The previous programme closed before generalized real turnover effects because the spatial informativeness requirement could not reach 12 independent families.
 
@@ -10,7 +10,7 @@ This is a new temporal-only follow-up. It does not reopen or relax the terminal 
 
 ### Trait-dominant memory
 
-Traits carry characteristic evolutionary memory depths across lineages. Under this architecture, the same trait tends to be conserved or labile across many families, and between-trait variance in memory-loss rho exceeds between-family variance.
+Traits carry characteristic evolutionary memory gradients across lineages. Under this architecture, the same trait tends to be conserved or labile across many families, and between-trait variance in memory-loss rho exceeds between-family variance.
 
 ### Lineage-dominant memory
 

@@ -1,0 +1,22 @@
+{
+  "version": "v0.3.1",
+  "status": "TRAIT_MEMORY_SEMANTIC_QUERYPLAN_FALLBACK_FROZEN_PRE_RESULT",
+  "frozen_on": "2026-10-03",
+  "amends": "data/trait_memory_semantic_design_v0_3.json",
+  "chronology": {
+    "semantic_result_seen_before_freeze": false,
+    "direct_semantic_query_running": true,
+    "real_memory_effects_opened": false
+  },
+  "trigger": "Use only if the canonical v0.3 semantic query fails or times out without a complete result.",
+  "equivalence": {
+    "candidate_set": "identical structural-PASS systems from the frozen v0.2.1 support artifact",
+    "semantic_rules": "identical v0.3 continuous/categorical numeric, unit, mode, species-count and state-variation rules",
+    "query_plan": "partition candidate systems by trait_name; run independent aggregate SQL for each trait and concatenate results",
+    "result_order_irrelevant": true
+  },
+  "thresholds_changed": false,
+  "semantic_rules_changed": false,
+  "can_rescue_failure": false,
+  "no_posthoc_relaxation": true
+}

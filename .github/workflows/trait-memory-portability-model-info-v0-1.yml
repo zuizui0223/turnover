@@ -1,9 +1,6 @@
 name: Trait memory portability model informativeness v0.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-portability-model-info-v0-1'
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,45 @@
+name: Trait memory follow-up contract v0.1
+on:
+  pull_request:
+    paths:
+      - 'data/trait_memory_spectrum_design_v0_1.json'
+      - 'data/trait_memory_modules_v0_1.json'
+      - '.github/workflows/trait-memory-contract-v0-1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate outcome-blind follow-up design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_spectrum_design_v0_1.json'))
+          m=json.load(open('data/trait_memory_modules_v0_1.json'))
+          sem=json.load(open('data/bien_trait_semantic_contract_v0_3.json'))
+          prior=json.load(open('results/bien_spatial_informativeness_v0_4_3/result.json'))
+          assert prior['status']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert prior['real_trait_values_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_TEMPORAL_TRAIT_MEMORY_EFFECT_OPENING'
+          assert d['relationship_to_prior_programme']['new_study_independent'] is True
+          assert d['eligibility']['no_spatial_support_requirement'] is True
+          assert d['primary_model']['uncertainty']=='2000 parametric bootstrap replicates under fixed seed 20261003'
+          assert d['real_memory_effects_opened'] is False
+          continuous=set(sem['representation_rules']['continuous_scalar']['traits'])
+          categorical=set(sem['representation_rules']['nominal_categorical']['traits'])
+          expected=continuous|categorical
+          assert len(expected)==52
+          allmods=[]
+          for vals in m['modules'].values():
+              allmods.extend(vals)
+          assert len(allmods)==52
+          assert len(set(allmods))==52
+          assert set(allmods)==expected
+          assert set(d['trait_universe']['exclude_primary_hold_traits'])=={'plant flowering begin','whole plant growth form diversity'}
+          PY

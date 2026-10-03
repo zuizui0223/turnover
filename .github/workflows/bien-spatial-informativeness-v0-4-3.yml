@@ -1,9 +1,6 @@
 name: BIEN spatial informativeness v0.4.3
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/bien-spatial-informativeness-v0-4-3'
   workflow_dispatch:
 
 permissions:

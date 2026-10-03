@@ -1,0 +1,30 @@
+{
+  "version": "v0.3",
+  "status": "TRAIT_MEMORY_SEMANTIC_PASS",
+  "evidence_workflow_run": 37085441662,
+  "evidence_job_id": 111094642329,
+  "evidence_artifact_id": 11260449340,
+  "evidence_artifact_sha256": "1cda96d78cdab96c7ba840259ec8cd122170ce6872276391fb2c2929711a7f3b",
+  "outcome_blind": true,
+  "real_trait_values_opened": false,
+  "real_memory_effects_opened": false,
+  "observed_database_version": "4.2.8",
+  "n_structural_candidates": 1455,
+  "n_semantic_pass": 1219,
+  "n_independent_families": 219,
+  "n_distinct_traits": 47,
+  "hold_reason_counts": {
+    "DISTINCT_STATES_LT2": 143,
+    "NONNUMERIC_VALUE": 39,
+    "MISSING_UNIT;UNIT_COUNT_NOT_ONE": 23,
+    "RESOLVABLE_SPECIES_LT20": 11,
+    "NONNUMERIC_VALUE;RESOLVABLE_SPECIES_LT20": 9,
+    "NONNUMERIC_VALUE;RESOLVABLE_SPECIES_LT20;DISTINCT_STATES_LT2": 9,
+    "RESOLVABLE_SPECIES_LT20;DISTINCT_STATES_LT2": 2
+  },
+  "minimum_families": 12,
+  "minimum_traits": 4,
+  "gate_pass": true,
+  "semantic_table_artifact": "trait-memory-semantic-v0-3/semantic.csv",
+  "next_gate": "Run frozen temporal phylogeny crosswalk."
+}

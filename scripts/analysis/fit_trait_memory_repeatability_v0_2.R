@@ -49,8 +49,6 @@ shares<-function(fit){
 fit<-fit_data(x$S3_rho)
 primary<-shares(fit)
 
-B<-as.integer(d$real_analysis_if_admitted$uncertainty |> sub(" parametric bootstrap replicates under seed 20261003","",x=_))
-# JSON string parsing above is brittle; enforce the frozen numeric count directly.
 B<-2000L
 seed0<-20261003L
 set.seed(seed0)

@@ -13,8 +13,10 @@ getarg <- function(flag){
 effects_path <- getarg("--effects")
 out_path <- getarg("--out")
 table_path <- getarg("--bootstrap-table")
+loo_path <- getarg("--loo-table")
 dir.create(dirname(out_path),recursive=TRUE,showWarnings=FALSE)
 dir.create(dirname(table_path),recursive=TRUE,showWarnings=FALSE)
+dir.create(dirname(loo_path),recursive=TRUE,showWarnings=FALSE)
 
 root <- normalizePath(".")
 design <- fromJSON(file.path(root,"data","trait_memory_real_effect_execution_v0_7.json"),simplifyVector=FALSE)
@@ -45,15 +47,16 @@ variance_summary <- function(fit){
        log_variance_ratio=logratio)
 }
 
-fit_model <- function(response){
+fit_model_data <- function(response,family_vec,trait_vec){
   dat <- data.frame(
     rho=as.numeric(response),
-    family=factor(x$family),
-    trait_name=factor(x$trait_name)
+    family=factor(family_vec),
+    trait_name=factor(trait_vec)
   )
   lmer(rho ~ 1 + (1|family) + (1|trait_name),data=dat,REML=TRUE,
        control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
 }
+fit_model <- function(response) fit_model_data(response,x$family,x$trait_name)
 
 fit <- fit_model(x$S3_rho)
 primary <- variance_summary(fit)
@@ -132,6 +135,55 @@ if(valid_fraction < 0.90){
 fit_prune <- fit_model(x$prune_only_rho)
 prune <- variance_summary(fit_prune)
 
+# Mandatory leave-one-trait and leave-one-family descriptive robustness.
+loo_rows <- list()
+kk <- 0L
+for(trait in sort(unique(x$trait_name))){
+  keep <- x$trait_name != trait
+  if(length(unique(x$trait_name[keep]))<2 || length(unique(x$family[keep]))<2) next
+  fl <- tryCatch(fit_model_data(x$S3_rho[keep],x$family[keep],x$trait_name[keep]),error=function(e) NULL)
+  kk <- kk+1L
+  if(is.null(fl)){
+    loo_rows[[kk]] <- data.frame(kind="trait",omitted=trait,n_systems=sum(keep),singular=NA,
+      family_variance=NA,trait_variance=NA,residual_variance=NA,log_variance_ratio=NA)
+  } else {
+    sing <- isSingular(fl,tol=1e-4)
+    vs <- tryCatch(variance_summary(fl),error=function(e) NULL)
+    loo_rows[[kk]] <- data.frame(kind="trait",omitted=trait,n_systems=sum(keep),singular=sing,
+      family_variance=if(is.null(vs))NA else vs$family_variance,
+      trait_variance=if(is.null(vs))NA else vs$trait_variance,
+      residual_variance=if(is.null(vs))NA else vs$residual_variance,
+      log_variance_ratio=if(is.null(vs))NA else vs$log_variance_ratio)
+  }
+}
+for(fam in sort(unique(x$family))){
+  keep <- x$family != fam
+  if(length(unique(x$trait_name[keep]))<2 || length(unique(x$family[keep]))<2) next
+  fl <- tryCatch(fit_model_data(x$S3_rho[keep],x$family[keep],x$trait_name[keep]),error=function(e) NULL)
+  kk <- kk+1L
+  if(is.null(fl)){
+    loo_rows[[kk]] <- data.frame(kind="family",omitted=fam,n_systems=sum(keep),singular=NA,
+      family_variance=NA,trait_variance=NA,residual_variance=NA,log_variance_ratio=NA)
+  } else {
+    sing <- isSingular(fl,tol=1e-4)
+    vs <- tryCatch(variance_summary(fl),error=function(e) NULL)
+    loo_rows[[kk]] <- data.frame(kind="family",omitted=fam,n_systems=sum(keep),singular=sing,
+      family_variance=if(is.null(vs))NA else vs$family_variance,
+      trait_variance=if(is.null(vs))NA else vs$trait_variance,
+      residual_variance=if(is.null(vs))NA else vs$residual_variance,
+      log_variance_ratio=if(is.null(vs))NA else vs$log_variance_ratio)
+  }
+}
+loo <- if(length(loo_rows)) do.call(rbind,loo_rows) else data.frame()
+write.csv(loo,loo_path,row.names=FALSE,na="")
+loo_summary <- list(
+  n_leave_one_trait=sum(loo$kind=="trait",na.rm=TRUE),
+  n_leave_one_family=sum(loo$kind=="family",na.rm=TRUE),
+  n_singular=sum(loo$singular %in% TRUE,na.rm=TRUE),
+  min_log_variance_ratio=if(nrow(loo) && any(is.finite(loo$log_variance_ratio))) min(loo$log_variance_ratio[is.finite(loo$log_variance_ratio)]) else NULL,
+  max_log_variance_ratio=if(nrow(loo) && any(is.finite(loo$log_variance_ratio))) max(loo$log_variance_ratio[is.finite(loo$log_variance_ratio)]) else NULL
+)
+
 # Secondary semantic-class model only if pre-frozen identifiability rule is met.
 tab_cls <- table(x$semantic_class)
 trait_cls <- tapply(x$trait_name,x$semantic_class,function(z)length(unique(z)))
@@ -173,6 +225,7 @@ out <- list(
   architecture=architecture,
   prune_only_sensitivity=prune,
   semantic_class_secondary=secondary,
+  leave_one_out=loo_summary,
   model_gate_pass=gate,
   raw_trait_measurements_persisted=FALSE,
   species_states_persisted=FALSE,

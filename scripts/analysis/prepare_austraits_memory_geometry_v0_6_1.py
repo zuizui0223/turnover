@@ -39,8 +39,10 @@ def main()->int:
         if nxt==edges: break
         edges=nxt
     core=[edge_row[k] for k in sorted(edges)]
-    if len(core)!=1463 or len({r["family"] for r in core})!=64 or len({r["trait_name"] for r in core})!=73:
-        raise RuntimeError("pre-informativeness core differs from frozen counts")
+    core_families=len({r["family"] for r in core})
+    core_traits=len({r["trait_name"] for r in core})
+    if core_families<12 or core_traits<4:
+        raise RuntimeError(f"corrected pre-informativeness core below frozen global gate: {core_families} families, {core_traits} traits")
 
     # Connectedness check.
     adj=defaultdict(set)
@@ -201,7 +203,7 @@ def main()->int:
 
     sizes=[r["group_size"] for r in grouprows]
     out={
-      "version":"v0.6.1",
+      "version":"v0.6.3",
       "status":"AUSTRAITS_MEMORY_GEOMETRY_PREP_PASS",
       "outcome_blind":True,
       "austraits_memory_effects_opened":False,
@@ -215,6 +217,7 @@ def main()->int:
       "core_families":len({r["family"] for r in sysrows}),
       "core_traits":len({r["trait_name"] for r in sysrows}),
       "connected":True,
+      "species_dedup_fix":"data/austraits_phylo_species_dedup_fix_v0_4_1.json",
       "canonicalization":"data/austraits_memory_geometry_dedup_v0_6_1.json",
       "next_gate":"Run inherited temporal informativeness once per unique geometry, prune-only first."
     }

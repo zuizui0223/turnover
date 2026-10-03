@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: V.PhyloMaker2 validation showed old vectorized crosswalk overcounted duplicated binomial rows with multiple genus strings; rerun all 3,593 semantic-PASS systems at exact species grain before any real AusTraits memory effect.

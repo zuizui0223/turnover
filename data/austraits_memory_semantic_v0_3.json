@@ -1,0 +1,56 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "results/austraits_memory_temporal_support_v0_2/result.json",
+  "source_semantics": "AusTraits v7 config/traits.yml is authoritative for numeric vs categorical type and standard unit.",
+  "record_identity": "dataset_id + ASCII unit-separator + observation_id; rows are deduplicated at record_key x trait x value before species-state aggregation.",
+  "numeric": {
+    "config_type": "numeric",
+    "validity": [
+      "all eligible nonmissing values parse as finite double",
+      "config units field must be nonempty",
+      "every eligible record unit is nonempty and exactly equals config units"
+    ],
+    "species_state": "median of deduplicated eligible record values",
+    "minimum_resolvable_species": 20,
+    "minimum_distinct_species_states": 2
+  },
+  "categorical": {
+    "config_type": "categorical",
+    "validity": [
+      "config units is null/empty",
+      "every eligible record unit is null/empty"
+    ],
+    "species_state": "unique modal category across deduplicated eligible records",
+    "tied_mode_species": "exclude deterministically",
+    "minimum_resolvable_species": 20,
+    "minimum_distinct_species_states": 2
+  },
+  "structural_candidate_rule": "Only v0.2 structural PASS family x trait systems enter.",
+  "global_gate": {
+    "minimum_families": 12,
+    "minimum_traits": 4
+  },
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "config_type",
+    "aggregate record validity counts",
+    "unit labels",
+    "resolvable species",
+    "distinct species states",
+    "tied-mode species",
+    "semantic PASS/HOLD reason"
+  ],
+  "outputs_forbidden": [
+    "raw trait values",
+    "species names",
+    "species-level states",
+    "memory rho"
+  ],
+  "next_gate_if_pass": "Run pinned V.PhyloMaker2 S3/prune-only crosswalk.",
+  "next_gate_if_hold": "Stop AusTraits replication before memory effects.",
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

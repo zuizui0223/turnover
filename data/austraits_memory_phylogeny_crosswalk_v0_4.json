@@ -1,0 +1,44 @@
+{
+  "version": "v0.4",
+  "status": "FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "AusTraits semantic-valid family x trait systems from v0.3",
+  "phylogeny": {
+    "repository": "jinyizju/V.PhyloMaker2",
+    "commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "nodes": "nodes.info.1.TPL",
+    "scenario": "S3"
+  },
+  "species_input": "AusTraits aligned binomial/genus/family for temporally resolvable species under source-native semantic rules",
+  "status_logic": {
+    "prune": "normalized binomial exact-match in tree tip.label",
+    "bind": "binomial absent AND normalized genus present at node level G OR family present at node level F",
+    "fail": "otherwise"
+  },
+  "system_pass": "primary_resolvable_species >=20 AND prune_species >=20",
+  "global_gate": {
+    "minimum_families": 12,
+    "minimum_traits": 4
+  },
+  "no_fuzzy_matching": true,
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "config_type",
+    "input species count",
+    "prune count",
+    "bind count",
+    "fail count",
+    "PASS/HOLD"
+  ],
+  "outputs_forbidden": [
+    "species names",
+    "trait values",
+    "memory rho"
+  ],
+  "next_gate_if_pass": "Build exact necessary crossed core and run inherited temporal informativeness.",
+  "next_gate_if_hold": "Stop AusTraits replication before real memory effects.",
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

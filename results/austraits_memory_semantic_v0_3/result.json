@@ -1,0 +1,22 @@
+{
+  "version": "v0.3",
+  "status": "AUSTRAITS_MEMORY_SEMANTIC_PASS",
+  "evidence_workflow_run": 37113685476,
+  "evidence_job_id": 111176275350,
+  "evidence_artifact_id": 11271306228,
+  "evidence_artifact_sha256": "a3fa34d277f925a9884787f43f05318833fa60a916f036e67853397c1a888dee",
+  "outcome_blind": true,
+  "austraits_memory_effects_opened": false,
+  "n_structural_candidates": 4833,
+  "n_semantic_pass": 3593,
+  "n_independent_families": 126,
+  "n_distinct_traits": 289,
+  "hold_reason_counts": {
+    "DISTINCT_STATES_LT2": 991,
+    "INVALID_VALUE": 165,
+    "RESOLVABLE_SPECIES_LT20": 272
+  },
+  "gate_pass": true,
+  "semantic_table_artifact": "austraits-memory-semantic-v0-3/semantic.csv",
+  "next_gate": "Run pinned V.PhyloMaker2 S3/prune-only crosswalk."
+}

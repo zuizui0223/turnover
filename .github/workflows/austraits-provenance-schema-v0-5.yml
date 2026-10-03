@@ -1,0 +1,55 @@
+name: AusTraits provenance schema v0.5
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::jsonlite
+      - name: Download exact AusTraits v7 full object
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10             -o build/source/austraits-7.0.0.rds             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0.rds
+          test "$(stat -c%s build/source/austraits-7.0.0.rds)" = "19219773"
+          sha256sum build/source/austraits-7.0.0.rds > build/source/sha256.txt
+      - name: Inspect provenance object structure only
+        run: |
+          mkdir -p build/provenance-schema
+          Rscript - <<'RS'
+          library(jsonlite)
+          a<-readRDS('build/source/austraits-7.0.0.rds')
+          methods<-a$methods
+          sources<-a$sources
+          out<-list(
+            version='v0.5',
+            status='AUSTRAITS_PROVENANCE_SCHEMA_PASS',
+            top_level_names=names(a),
+            methods_class=class(methods),
+            methods_rows=if(is.data.frame(methods))nrow(methods) else NA,
+            methods_columns=if(is.data.frame(methods))names(methods) else character(),
+            sources_class=class(sources),
+            sources_length=length(sources),
+            sources_names_head=head(names(sources),20),
+            source_element_class=if(length(sources))class(sources[[1]]) else character(),
+            outcome_blind=TRUE,
+            austraits_memory_effects_opened=FALSE
+          )
+          write_json(out,'build/provenance-schema/result.json',pretty=TRUE,auto_unbox=TRUE,null='null')
+          cat(toJSON(out,pretty=TRUE,auto_unbox=TRUE,null='null'),'\n')
+          RS
+          cp build/source/sha256.txt build/provenance-schema/full_rds_sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-provenance-schema-v0-5
+          path: build/provenance-schema/

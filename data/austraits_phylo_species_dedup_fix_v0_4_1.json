@@ -1,0 +1,63 @@
+{
+  "version": "v0.4.1",
+  "status": "AUSTRAITS_PHYLOMAKER_SPECIES_DEDUP_FIX_AFTER_VALIDATION_FAILURE_PRE_EFFECT",
+  "frozen_on": "2026-10-03",
+  "amends": [
+    "data/austraits_memory_phylogeny_crosswalk_v0_4.json",
+    "scripts/source/audit_austraits_memory_crosswalk_v0_4.py",
+    "scripts/analysis/prepare_austraits_memory_geometry_v0_6_1.py",
+    "scripts/analysis/run_austraits_memory_informativeness_batch_v0_6_2.py"
+  ],
+  "trigger": {
+    "real_austraits_memory_effects_opened": false,
+    "failed_validation_runs": [
+      {
+        "workflow_run": 37114644733,
+        "job": 111179006672,
+        "batch": "B051"
+      },
+      {
+        "workflow_run": 37114670952,
+        "job": 111179070259,
+        "batch": "B051"
+      },
+      {
+        "workflow_run": 37114670952,
+        "job": 111179070569,
+        "batch": "B056"
+      }
+    ],
+    "error": "phylo.maker status counts disagree with frozen vectorized crosswalk"
+  },
+  "diagnosis": {
+    "package_source": "jinyizju/V.PhyloMaker2@7af3fb5152f691af2e4ec9d5e2e467d1b50505e9/R/phylo.maker.R",
+    "package_rule": "Before normalization or status assignment, phylo.maker removes duplicated sp.list$species and keeps the first supplied row.",
+    "old_vectorized_rule": "Counted DISTINCT species,genus rows; categorical mode eligibility was also grouped by species,genus,value.",
+    "consequence": "A binomial represented with more than one genus string could be counted more than once by the vectorized crosswalk while phylo.maker retained only one species row."
+  },
+  "corrected_equivalence": {
+    "semantic_species_rule": {
+      "numeric": "one eligible row per raw binomial after numeric/unit validity; genus is not part of species identity",
+      "categorical": "compute modal category by raw binomial exactly as v0.3 semantic gate; keep only unique-mode species"
+    },
+    "taxonomic_row_rule": "For every eligible raw binomial, attach one deterministic genus = lexicographically smallest nonempty genus among eligible records for that species; family is the fixed candidate family.",
+    "package_input_order": "Sort by raw species, genus before writing the species table; because one row per species remains, phylo.maker's duplicated-species removal is idempotent.",
+    "status_rule": "Then apply the already-frozen normalized species/genus/family prune-bind-fail logic."
+  },
+  "required_recomputation": [
+    "v0.4 crosswalk for all 3,593 semantic-PASS systems",
+    "necessary pre-informativeness core",
+    "geometry signatures and deduplication",
+    "v0.6.2 informativeness on the corrected core"
+  ],
+  "prior_crosswalk_result_terminal": false,
+  "prior_geometry_result_terminal": false,
+  "prior_informativeness_partial_results_terminal": false,
+  "thresholds_changed": false,
+  "semantic_rules_changed": false,
+  "source_changed": false,
+  "phylogeny_changed": false,
+  "benchmark_changed": false,
+  "can_rescue_by_threshold_change": false,
+  "no_posthoc_relaxation": true
+}

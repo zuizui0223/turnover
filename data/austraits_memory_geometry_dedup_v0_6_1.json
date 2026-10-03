@@ -1,0 +1,19 @@
+{
+  "version": "v0.6.1",
+  "status": "AUSTRAITS_GEOMETRY_DEDUP_CANONICALIZATION_FROZEN_PRE_RESULT",
+  "frozen_on": "2026-10-03",
+  "amends": "data/austraits_memory_informativeness_v0_6.json",
+  "chronology": {
+    "geometry_signature_result_seen_before_freeze": false,
+    "informativeness_result_seen_before_freeze": false,
+    "austraits_memory_effects_opened": false
+  },
+  "geometry_signature": "sha256 over config_type followed by sorted UTF-8 rows family<TAB>genus<TAB>binomial for all temporally resolvable species under the frozen semantic rules",
+  "canonical_representative": "lexicographically smallest family + U+001F + trait_name among systems sharing one geometry signature",
+  "simulation_seed": "Use the inherited deterministic seed rule with the canonical representative family and trait_name. The resulting known-truth PASS/HOLD is assigned to every system in that exact geometry group.",
+  "exactness_scope": "All systems in a group have identical semantic class and identical species/genus/family set; with the same pinned backbone/scenario they therefore have identical S3 and prune-only geometry.",
+  "thresholds_changed": false,
+  "generator_changed": false,
+  "benchmark_changed": false,
+  "no_posthoc_relaxation": true
+}

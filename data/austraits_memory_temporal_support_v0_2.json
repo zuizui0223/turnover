@@ -1,0 +1,45 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_AUSTRAITS_TEMPORAL_SUPPORT_COUNTING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "data/austraits_memory_context_replication_v0_1.json",
+  "record_filter": {
+    "taxon_rank": "lower(trim(taxon_rank)) = species",
+    "require_nonempty": [
+      "family",
+      "genus",
+      "binomial",
+      "trait_name",
+      "value"
+    ],
+    "trait_definition": "trait_name must exist in pinned v7 config/traits.yml and config type must be numeric or categorical",
+    "value_use": "presence predicate only; values are not returned or summarized in structural support"
+  },
+  "system_unit": "family x trait_name",
+  "structural_pass": "at least 20 distinct binomial species",
+  "coarse_global_gate": {
+    "minimum_families": 12,
+    "minimum_traits": 4
+  },
+  "diagnostic_crossed_structure": {
+    "family_degree_min": 2,
+    "trait_degree_min": 5,
+    "role": "diagnostic necessary-core only; final pruning occurs after semantics/phylogeny/informativeness"
+  },
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "config_type",
+    "distinct species count",
+    "structural PASS/HOLD",
+    "aggregate graph counts"
+  ],
+  "outputs_forbidden": [
+    "trait values",
+    "species names",
+    "memory rho"
+  ],
+  "next_gate_if_pass": "Run source-native AusTraits semantic validity.",
+  "next_gate_if_hold": "Stop replication before real memory effects.",
+  "austraits_memory_effects_opened": false
+}

@@ -1,0 +1,24 @@
+{
+  "version": "v0.4.2",
+  "status": "AUSTRAITS_MEMORY_PHYLOGENY_CROSSWALK_PASS",
+  "evidence_workflow_run": 37128637788,
+  "evidence_job_id": 111219052985,
+  "evidence_artifact_id": 11275683723,
+  "evidence_artifact_sha256": "a1ba4faf03931814012e093d5c53a753bb06e93128712af6e265a9fe3ee1b757",
+  "outcome_blind": true,
+  "austraits_memory_effects_opened": false,
+  "n_candidate_systems": 3593,
+  "n_crosswalk_pass": 1725,
+  "n_independent_families": 65,
+  "n_distinct_traits": 212,
+  "hold_reason_counts": {
+    "PRIMARY_RESOLVABLE_LT20": 14,
+    "PRUNE_ONLY_LT20": 1868
+  },
+  "species_dedup_fix": "data/austraits_phylo_species_dedup_fix_v0_4_1.json",
+  "ambiguous_genus_rule": "data/austraits_phylo_ambiguous_genus_failclosed_v0_4_2.json",
+  "corrected_result_matches_prior_system_level_counts": true,
+  "gate_pass": true,
+  "crosswalk_table_artifact": "austraits-memory-crosswalk-v0-4-2/crosswalk.csv",
+  "next_gate": "Rebuild exact necessary crossed core and geometry signatures from corrected v0.4.2 crosswalk."
+}

@@ -1,0 +1,83 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-04",
+  "programme_name": "Independent AusTraits replication of temporal phylogenetic memory context",
+  "relationship_to_bien": {
+    "discovery_source": "BIEN 4.2.8",
+    "discovery_synthesis": "results/trait_memory_context_synthesis_v0_1/result.json",
+    "replication_source": "AusTraits v7.0.0",
+    "independent_source_required": true,
+    "rule": "Do not tune AusTraits thresholds, trait mappings, or hypotheses to reproduce BIEN effect estimates."
+  },
+  "replication_questions": [
+    "Does trait identity robustly improve held-out-family prediction of phylogenetic memory in AusTraits?",
+    "After trait-specific means are controlled, is there repeatable family context across traits in AusTraits?"
+  ],
+  "source": {
+    "release": "AusTraits v7.0.0",
+    "doi": "10.5281/zenodo.15718081",
+    "parquet": "austraits-7.0.0-flattened.parquet",
+    "sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99"
+  },
+  "phylogeny": {
+    "repository": "jinyizju/V.PhyloMaker2",
+    "commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL",
+    "primary": "S3",
+    "prune_only_sensitivity": true
+  },
+  "trait_mapping": {
+    "primary_rule": "Use AusTraits trait_name values only if they can be mapped one-to-one to a BIEN discovery trait by a frozen semantic dictionary before any AusTraits memory effect is opened.",
+    "no_fuzzy_postoutcome_mapping": true,
+    "minimum_shared_traits_for_replication": 4
+  },
+  "temporal_eligibility": {
+    "species_rank_only": true,
+    "record_key": "dataset_id + ASCII unit-separator + observation_id",
+    "minimum_species_per_family_trait": 20,
+    "continuous": "finite numeric value; one normalized unit per mapped trait; species state median",
+    "categorical": "unique modal category; tied species excluded",
+    "minimum_distinct_species_states": 2,
+    "phylogeny_S3_min": 20,
+    "phylogeny_prune_only_min": 20
+  },
+  "replication_graph": {
+    "family_degree_min": 2,
+    "trait_degree_min": 5,
+    "minimum_families": 12,
+    "minimum_traits": 4,
+    "connected": true
+  },
+  "geometry_informativeness": {
+    "benchmark_rho": 0.15,
+    "median_absolute_error_max": 0.1,
+    "directional_recovery_min": 0.8,
+    "valid_fraction_min": 0.9,
+    "require_S3_and_prune_only": true,
+    "rule": "Reuse the same known-truth temporal geometry gate as BIEN; source-native family x trait geometries are independently evaluated."
+  },
+  "primary_replication_tests": {
+    "trait_portability": {
+      "statistic": "leave-one-family-out same-trait predictor gain relative to global training mean",
+      "permutations": 999,
+      "seed": 20261004,
+      "pass": "gain > 0 and one-sided blocked-permutation p <= 0.05 on both S3 and prune-only"
+    },
+    "conditional_family_repeatability": {
+      "model": "rho ~ 0 + trait_name + (1|family)",
+      "parameter": "var_family/(var_family+var_residual)",
+      "bootstrap": 2000,
+      "seed": 20261004,
+      "report": "estimate and 95% interval; compare descriptively with BIEN 0.10 practical reference but do not require matching magnitude"
+    }
+  },
+  "replication_interpretation": {
+    "concordant": "AusTraits also fails trait portability while retaining a positive estimated conditional family component with bootstrap lower bound >0.",
+    "partial": "Only one of the two qualitative BIEN patterns replicates.",
+    "discordant": "Trait portability is positive/robust or conditional family component is not estimable/compatible with zero.",
+    "rule": "Report source-specific result; do not pool BIEN and AusTraits unless a later separately frozen synthesis is justified."
+  },
+  "raw_trait_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

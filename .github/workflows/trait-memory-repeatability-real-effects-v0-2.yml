@@ -1,9 +1,6 @@
 name: Trait memory repeatability real effects v0.2
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-repeatability-real-v0-2'
   workflow_dispatch:
 
 permissions:

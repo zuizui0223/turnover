@@ -75,9 +75,11 @@ Crossed REML decomposition:
 |---|---:|---:|---:|
 | Family | 0.150 | 0.020–0.286 | 0.148 |
 | Trait | 0.043 | 0–0.134 | 0.021 |
-| Residual / family × trait specificity | 0.806 | 0.660–0.952 | 0.831 |
+| Unresolved system-level / residual | 0.806 | 0.660–0.952 | 0.831 |
 
 The analysis was prospectively forbidden from converting these estimates into a family-versus-trait dominance test.
+
+Residual variance here is not a pure interaction term. It can include true family × trait interaction, estimation error in system-level rho, BIEN measurement heterogeneity, and other unmodeled variation. The manuscript therefore calls it the **unresolved system-level/residual component**, not a demonstrated interaction effect.
 
 ## Result 2 — Trait identity does not transport across families
 
@@ -131,7 +133,7 @@ The evidence supports a **context-dependent memory architecture**:
 - trait identity alone is not a robust cross-lineage predictor;
 - family identity contains a modest recurring cross-trait component;
 - that family context is not detectably continuous across deeper family phylogeny in a post-outcome complementary check;
-- most variation remains specific to the particular family × trait combination.
+- most variation remains unresolved at the individual family × trait system level.
 
 This is not equivalent to saying family effects are statistically larger than trait effects.
 
@@ -197,14 +199,14 @@ S3 versus prune-only rho for all systems; report the descriptive Spearman corres
 
 ## Abstract skeleton
 
-Phylogenetic signal is often treated as a property of a trait, yet the same trait can evolve differently among clades. We asked whether phylogenetic memory measured for a plant trait is transferable among lineages. Using BIEN trait data and a prospectively qualified crossed matrix of 201 family × trait systems spanning 45 families and 12 traits, we quantified memory-loss strength as the association between patristic separation and trait-state dissimilarity. Three separately preregistered analyses converged on a context-dependent picture. Family identity accounted for an estimated 15% of crossed variation, trait identity 4%, and approximately 81% remained system-specific; no dominance comparison was made. In leave-one-family-out prediction, the same trait measured in other families did not outperform a global baseline (S3 gain -0.024, p=0.091; prune-only gain -0.032, p=0.193). Conversely, after trait-specific means were removed, family identity retained an estimated cross-trait repeatability of 0.183 (95% CI 0.029–0.337; prune-only 0.168), though uncertainty spanned a predeclared 10% practical reference. Thus phylogenetic memory is not a robustly portable intrinsic property of trait identity across plant families; instead, it is largely family × trait specific with a modest recurring lineage context.
+Phylogenetic signal is often treated as a property of a trait, yet the same trait can evolve differently among clades. We asked whether phylogenetic memory measured for a plant trait is transferable among lineages. Using BIEN trait data and a prospectively qualified crossed matrix of 201 family × trait systems spanning 45 families and 12 traits, we quantified memory-loss strength as the association between patristic separation and trait-state dissimilarity. Three separately preregistered analyses converged on a context-dependent picture. Family identity accounted for an estimated 15% of crossed variation, trait identity 4%, and approximately 81% remained unresolved at the system/residual level; no dominance comparison was made. In leave-one-family-out prediction, the same trait measured in other families did not outperform a global baseline (S3 gain -0.024, p=0.091; prune-only gain -0.032, p=0.193). Conversely, after trait-specific means were removed, family identity retained an estimated cross-trait repeatability of 0.183 (95% CI 0.029–0.337; prune-only 0.168), though uncertainty spanned a predeclared 10% practical reference. Thus phylogenetic memory is not a robustly portable intrinsic property of trait identity across plant families; instead, it is largely family × trait specific with a modest recurring lineage context.
 
 ## Discussion sequence
 
 1. Distinguish within-lineage phylogenetic memory from cross-lineage portability.
 2. Explain why clade-dependent evolutionary regimes are compatible with real signal inside each clade.
 3. Interpret the modest family repeatability as lineage context, not continuous deep-phylogeny covariance.
-4. Emphasize the dominant family × trait-specific component.
+4. Emphasize that most variation remains unresolved at the system/residual level; do not equate residual variance with a proven family × trait interaction.
 5. Relate to clade heterogeneity in evolutionary rates and signal.
 6. Discuss implications for comparative ecology: trait-specific phylogenetic priors learned in one clade should not automatically be exported to another.
 7. Limitations: BIEN measurement heterogeneity, family scale, S3 taxonomic insertion, Spearman memory gradient rather than evolutionary-rate parameter.

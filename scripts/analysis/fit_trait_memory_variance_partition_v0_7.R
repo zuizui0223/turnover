@@ -25,7 +25,8 @@ if(!identical(core$status,"TRAIT_MEMORY_CROSSED_CORE_PASS") || !isTRUE(core$gate
   stop("crossed-core prerequisite did not pass")
 
 x <- read.csv(effects_path,stringsAsFactors=FALSE,check.names=FALSE)
-req <- c("family","trait_name","semantic_class","S3_rho","prune_only_rho")
+req <- c("family","trait_name","semantic_class","S3_rho","prune_only_rho",
+         "informativeness_n_input_species","informativeness_n_prune","informativeness_s3_lambda")
 if(!all(req %in% names(x))) stop("effect table missing required columns")
 if(nrow(x)!=as.integer(core$n_core_systems)) stop("effect row count differs from frozen core")
 if(any(!is.finite(x$S3_rho)) || any(!is.finite(x$prune_only_rho))) stop("nonfinite rho")
@@ -130,6 +131,35 @@ if(valid_fraction < 0.90){
   status <- "TRAIT_MEMORY_VARIANCE_ARCHITECTURE_ESTIMATED"
   gate <- TRUE
 }
+
+# Mandatory geometry-adjusted sensitivity using outcome-blind informativeness covariates.
+g <- data.frame(
+  rho=as.numeric(x$S3_rho),
+  family=factor(x$family),
+  trait_name=factor(x$trait_name),
+  log_n_species=log(as.numeric(x$informativeness_n_input_species)),
+  prune_fraction=as.numeric(x$informativeness_n_prune)/as.numeric(x$informativeness_n_input_species),
+  log_calibration_lambda=log(as.numeric(x$informativeness_s3_lambda))
+)
+if(any(!is.finite(g$log_n_species)) || any(!is.finite(g$prune_fraction)) || any(!is.finite(g$log_calibration_lambda)))
+  stop("nonfinite frozen geometry covariate")
+z <- function(v){
+  s <- sd(v)
+  if(!is.finite(s) || s<=0) stop("zero geometry covariate variance")
+  as.numeric((v-mean(v))/s)
+}
+g$z_log_n_species <- z(g$log_n_species)
+g$z_prune_fraction <- z(g$prune_fraction)
+g$z_log_calibration_lambda <- z(g$log_calibration_lambda)
+fg <- lmer(rho ~ z_log_n_species + z_prune_fraction + z_log_calibration_lambda +
+             (1|family) + (1|trait_name),
+           data=g,REML=TRUE,
+           control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
+geometry_adjusted <- list(
+  fixed_effects=as.list(setNames(as.numeric(fixef(fg)),names(fixef(fg)))),
+  variance=variance_summary(fg),
+  singular=isSingular(fg,tol=1e-4)
+)
 
 # Mandatory prune-only sensitivity on the identical core.
 fit_prune <- fit_model(x$prune_only_rho)

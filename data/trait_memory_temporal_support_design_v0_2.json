@@ -1,0 +1,52 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "prerequisite": "data/trait_memory_spectrum_design_v0_1.json",
+  "source": "BIEN 4.2.8",
+  "purpose": "Count temporal-only family x trait structural support across the complete preclassified trait universe before any real phylogenetic-memory effect is opened.",
+  "trait_universe": {
+    "source": "data/bien_trait_semantic_contract_v0_3.json",
+    "allowed_classes": [
+      "continuous_scalar",
+      "nominal_categorical"
+    ],
+    "excluded": [
+      "plant flowering begin",
+      "whole plant growth form diversity"
+    ]
+  },
+  "record_filter": {
+    "require_nonempty": [
+      "scrubbed_family",
+      "scrubbed_species_binomial",
+      "trait_name",
+      "trait_value"
+    ],
+    "cultivated": "is_cultivated_observation = 0 OR NULL",
+    "trait_value_use": "presence predicate only"
+  },
+  "system_pass": "at least 20 distinct species with a nonmissing trait value",
+  "global_preflight_gate": {
+    "minimum_independent_families": 12,
+    "minimum_distinct_traits": 4,
+    "rule": "This is only a coarse structural gate. It does not override later semantic, phylogeny, informativeness, or crossed-core requirements."
+  },
+  "outputs_allowed": [
+    "family",
+    "trait_name",
+    "semantic_class",
+    "distinct species count",
+    "number of structurally passing systems/families/traits"
+  ],
+  "outputs_forbidden": [
+    "trait values",
+    "species names",
+    "phylogenetic distances",
+    "memory rho",
+    "family/trait variance components"
+  ],
+  "next_gate_if_pass": "Run temporal-only semantic validity on all structural PASS systems.",
+  "next_gate_if_hold": "Stop the follow-up before real memory effects; do not lower the 20-species or global 12-family/4-trait preflight thresholds.",
+  "real_memory_effects_opened": false
+}

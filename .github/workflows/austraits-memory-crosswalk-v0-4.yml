@@ -1,5 +1,8 @@
-name: AusTraits memory phylogeny crosswalk v0.4
+name: AusTraits memory phylogeny crosswalk v0.4.1
 on:
+  pull_request:
+    paths:
+      - '.triggers/austraits-memory-crosswalk-v0-4-1'
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,10 +45,17 @@ jobs:
           python - <<'PY'
           import json
           d=json.load(open('data/austraits_memory_phylogeny_crosswalk_v0_4.json'))
+          a=json.load(open('data/austraits_phylo_species_dedup_fix_v0_4_1.json'))
           s=json.load(open('results/austraits_memory_semantic_v0_3/result.json'))
           assert d['status']=='FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING'
           assert d['phylogeny']['scenario']=='S3'
           assert d['system_pass']=='primary_resolvable_species >=20 AND prune_species >=20'
+          assert a['status']=='AUSTRAITS_PHYLOMAKER_SPECIES_DEDUP_FIX_AFTER_VALIDATION_FAILURE_PRE_EFFECT'
+          assert a['thresholds_changed'] is False
+          assert a['semantic_rules_changed'] is False
+          assert a['source_changed'] is False
+          assert a['phylogeny_changed'] is False
+          assert a['trigger']['real_austraits_memory_effects_opened'] is False
           assert s['status']=='AUSTRAITS_MEMORY_SEMANTIC_PASS'
           assert s['n_semantic_pass']==3593
           PY
@@ -55,5 +65,5 @@ jobs:
           python scripts/source/audit_austraits_memory_crosswalk_v0_4.py             --parquet build/source/austraits.parquet             --semantic-table build/semantic/semantic.csv             --tree-tips build/vpm/tree_tips.txt             --nodes build/vpm/nodes.csv             --out build/austraits_memory_crosswalk_v0_4/result.json             --table-out build/austraits_memory_crosswalk_v0_4/crosswalk.csv
       - uses: actions/upload-artifact@v4
         with:
-          name: austraits-memory-crosswalk-v0-4
+          name: austraits-memory-crosswalk-v0-4-1
           path: build/austraits_memory_crosswalk_v0_4/

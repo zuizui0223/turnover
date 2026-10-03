@@ -1,4 +1,4 @@
-name: AusTraits memory geometry prep v0.6.1
+name: AusTraits memory geometry prep v0.6.3
 on:
   workflow_dispatch:
 permissions:
@@ -18,7 +18,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p build/crosswalk
-          gh run download 37113852461 -R "$GITHUB_REPOSITORY" -n austraits-memory-crosswalk-v0-4 -D build/crosswalk
+          gh run download 37119962127 -R "$GITHUB_REPOSITORY" -n austraits-memory-crosswalk-v0-4-1 -D build/crosswalk
           test -f build/crosswalk/crosswalk.csv
       - name: Download exact AusTraits source
         run: |
@@ -32,14 +32,14 @@ jobs:
           import json
           d=json.load(open('data/austraits_memory_informativeness_v0_6.json'))
           c=json.load(open('data/austraits_memory_geometry_dedup_v0_6_1.json'))
-          p=json.load(open('results/austraits_memory_pre_informativeness_core_v0_5_1/result.json'))
+          f=json.load(open('data/austraits_phylo_species_dedup_fix_v0_4_1.json'))
           assert d['status']=='FROZEN_BEFORE_AUSTRAITS_INFORMATIVENESS_RESULT'
           assert c['status']=='AUSTRAITS_GEOMETRY_DEDUP_CANONICALIZATION_FROZEN_PRE_RESULT'
           assert c['chronology']['geometry_signature_result_seen_before_freeze'] is False
           assert c['thresholds_changed'] is False
-          assert p['n_simulation_candidate_systems']==1463
-          assert p['n_candidate_families']==64
-          assert p['n_candidate_traits']==73
+          assert f['status']=='AUSTRAITS_PHYLOMAKER_SPECIES_DEDUP_FIX_AFTER_VALIDATION_FAILURE_PRE_EFFECT'
+          assert f['thresholds_changed'] is False
+          assert f['semantic_rules_changed'] is False
           PY
       - name: Compute species-geometry hashes only
         run: |
@@ -60,5 +60,5 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: austraits-memory-geometry-prep-v0-6-1
+          name: austraits-memory-geometry-prep-v0-6-3
           path: build/geometry/

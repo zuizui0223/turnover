@@ -1,0 +1,25 @@
+{
+  "version": "v0.1.3",
+  "status": "FAMILY_PHYLOGENY_REPRESENTATIVE_AMENDMENT_PRE_RESULT",
+  "frozen_on": "2026-10-04",
+  "amends": "data/family_context_phylogeny_design_v0_1.json",
+  "chronology": {
+    "corrected_run_family_geometry_seen": false,
+    "corrected_run_association_result_seen": false
+  },
+  "old_rule": "MRCA of backbone-native species from the final 201 family x trait systems.",
+  "new_rule": "MRCA of all GBOTB.extended.TPL tips assigned to each of the 45 focal families, using V.PhyloMaker2 tips.info.TPL family taxonomy.",
+  "rationale": [
+    "The estimand is deep phylogenetic relatedness among plant families, so the family crown position should be defined by the backbone family itself rather than by BIEN sampling.",
+    "This removes dependence of the predictor on trait-data taxon coverage.",
+    "It eliminates an unnecessary 25.9M-row BIEN membership query while leaving the 45-family set, context scores, statistic, permutations, and interpretation unchanged."
+  ],
+  "minimum_family_tips": 2,
+  "fallback_if_one_tip": "single-tip representative allowed and flagged",
+  "minimum_valid_families": 30,
+  "context_score_changed": false,
+  "statistic_changed": false,
+  "permutations_changed": false,
+  "family_set_changed": false,
+  "no_result_informed_change": true
+}

@@ -1,6 +1,9 @@
-name: BIEN spatial informativeness v0.4.3
+name: BIEN spatial informativeness v0.4.3.1
 
 on:
+  pull_request:
+    paths:
+      - '.triggers/bien-spatial-informativeness-v0-4-3-1'
   workflow_dispatch:
 
 permissions:
@@ -78,6 +81,14 @@ jobs:
           assert s['raw_state_firewall']['simulator_receives_trait_value'] is False
           assert s['weighted_pair_spearman']['pair_subsampling'] is False
           assert s['thresholds_changed'] is False
+          f=json.load(open('data/bien_spatial_duplicate_grouper_fix_v0_4_3_1.json'))
+          assert f['status']=='BIEN_SPATIAL_DUPLICATE_GROUPER_TECHNICAL_FIX_PRE_RESULT'
+          assert f['trigger']['spatial_informativeness_result_seen'] is False
+          assert f['thresholds_changed'] is False
+          assert f['generator_changed'] is False
+          assert f['seed_rule_changed'] is False
+          assert f['scientific_equivalence']['coordinate_rounding'] is False
+          assert f['scientific_equivalence']['original_unordered_pair_multiset_unchanged'] is True
           PY
       - name: Run spatial recovery
         env:

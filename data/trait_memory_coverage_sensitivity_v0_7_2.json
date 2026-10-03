@@ -1,0 +1,28 @@
+{
+  "version": "v0.7.2",
+  "status": "TRAIT_MEMORY_COVERAGE_SENSITIVITY_FROZEN_PRE_REAL_EFFECT",
+  "frozen_on": "2026-10-03",
+  "amends": "data/trait_memory_real_effect_execution_v0_7.json",
+  "chronology": {
+    "real_memory_effects_opened": false,
+    "variance_partition_result_seen": false
+  },
+  "rationale": "Admitted family x trait systems differ in the number of species contributing to rho. The primary model remains deliberately unweighted, but a fixed coverage adjustment is predeclared to test whether the family-vs-trait variance architecture depends on system size.",
+  "sensitivity": {
+    "predictor": "z_log_species = z-score of log(n_species_S3) across the identical final crossed-core systems",
+    "formula": "S3_rho ~ z_log_species + (1|family) + (1|trait_name)",
+    "estimation": "REML",
+    "admitted_system_set": "identical to primary",
+    "primary_contrast_recomputed": "log(trait_variance/family_variance)",
+    "role": "mandatory secondary robustness only; cannot replace or redefine the primary intercept-only result"
+  },
+  "prune_only_coverage_sensitivity": {
+    "predictor": "z-score of log(n_species_prune)",
+    "response": "prune_only_rho",
+    "formula": "prune_only_rho ~ z_log_species_prune + (1|family) + (1|trait_name)",
+    "role": "secondary"
+  },
+  "no_weighting_by_species_count": true,
+  "no_outcome_based_covariate_selection": true,
+  "primary_model_changed": false
+}

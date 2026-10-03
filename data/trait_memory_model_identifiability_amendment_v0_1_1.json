@@ -1,0 +1,31 @@
+{
+  "version": "v0.1.1",
+  "status": "TRAIT_MEMORY_PRIMARY_MODEL_IDENTIFIABILITY_AMENDMENT_PRE_OUTCOME",
+  "frozen_on": "2026-10-03",
+  "amends": "data/trait_memory_spectrum_design_v0_1.json",
+  "chronology": {
+    "real_memory_effects_opened": false,
+    "crossed_core_result_seen": false
+  },
+  "diagnosis": "The pre-frozen primary formula included semantic_class as a fixed effect, but a future admissible crossed core could contain only one semantic class, making that fixed effect non-identifiable.",
+  "primary_model_effective": {
+    "formula": "rho ~ 1 + (1|family) + (1|trait_name)",
+    "estimation": "REML",
+    "weighting": "unweighted family x trait systems",
+    "variance_contrast": "log(variance_trait / variance_family)",
+    "boundary_handling": {
+      "trait_variance_zero_family_positive": "log ratio = -Inf",
+      "family_variance_zero_trait_positive": "log ratio = +Inf",
+      "both_zero": "architecture classified UNSTRUCTURED; ratio undefined"
+    },
+    "uncertainty": "2000 parametric bootstrap replicates under fixed seed 20261003"
+  },
+  "semantic_class_secondary": {
+    "run_if": "both continuous_scalar and nominal_categorical are represented by >=2 distinct traits and >=10 systems each in the final crossed core",
+    "formula": "rho ~ semantic_class + (1|family) + (1|trait_name)",
+    "role": "secondary only; cannot change system admission or primary architecture classification"
+  },
+  "scientific_question_changed": false,
+  "variance_partition_changed": false,
+  "no_outcome_informed_change": true
+}

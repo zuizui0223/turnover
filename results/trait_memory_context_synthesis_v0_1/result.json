@@ -1,0 +1,122 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_INTEGRATIVE_SYNTHESIS_NO_NEW_INFERENCE",
+  "frozen_on": "2026-10-03",
+  "source_results": {
+    "repeatability": "results/trait_memory_repeatability_v0_2/result.json",
+    "cross_lineage_portability": "results/trait_memory_portability_v0_2/result.json",
+    "conditional_lineage_repeatability": "results/lineage_memory_repeatability_v0_2/result.json"
+  },
+  "common_core": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "semantic_class": "continuous_scalar",
+    "selection": "outcome-blind final crossed core qualified before any real rho",
+    "S3_effect_identity_across_three_execution_routes": {
+      "same_system_keys": true,
+      "max_absolute_difference": 0
+    },
+    "prune_only_effect_identity_across_three_execution_routes": {
+      "same_system_keys": true,
+      "max_absolute_difference": 0
+    },
+    "informativeness_lambda_identity_across_three_execution_routes": {
+      "max_absolute_difference": 0
+    }
+  },
+  "descriptive_memory_distribution": {
+    "S3": {
+      "mean": 0.09281243781094528,
+      "median": 0.0531,
+      "sd": 0.14285937069204582,
+      "min": -0.1829,
+      "max": 0.7093,
+      "positive_fraction": 0.746268656716418
+    },
+    "prune_only": {
+      "mean": 0.11426666666666667,
+      "median": 0.0652,
+      "sd": 0.17155176021636542,
+      "min": -0.2087,
+      "max": 0.7661,
+      "positive_fraction": 0.7164179104477612
+    },
+    "S3_prune_only_correspondence": {
+      "pearson": 0.848197530767326,
+      "spearman": 0.8322132501451547
+    }
+  },
+  "triangulation": {
+    "repeatability_decomposition": {
+      "R_family": 0.1504,
+      "ci95_R_family": [
+        0.0204,
+        0.2861
+      ],
+      "R_trait": 0.0433,
+      "ci95_R_trait": [
+        0,
+        0.1335
+      ],
+      "R_residual": 0.8063,
+      "ci95_R_residual": [
+        0.66,
+        0.9522
+      ],
+      "prune_only": {
+        "R_family": 0.1482,
+        "R_trait": 0.0207,
+        "R_residual": 0.8312
+      },
+      "interpretation": "Most variation is family-by-trait-specific/residual. Family identity has an estimable repeatable component; trait repeatability is small and uncertain. Do not compare R_family and R_trait as a formal dominance test."
+    },
+    "cross_lineage_trait_portability": {
+      "S3": {
+        "gain": -0.024170328345234804,
+        "p_value": 0.091,
+        "pass": false
+      },
+      "prune_only": {
+        "gain": -0.032420909192963476,
+        "p_value": 0.193,
+        "pass": false
+      },
+      "interpretation": "Trait identity does not robustly improve out-of-family prediction beyond a training-set global mean under the predeclared family-blocked criterion."
+    },
+    "conditional_family_repeatability": {
+      "S3": {
+        "estimate": 0.1825,
+        "ci95": [
+          0.0285,
+          0.3369
+        ]
+      },
+      "prune_only": {
+        "estimate": 0.168
+      },
+      "leave_one_out_range": [
+        0.1205,
+        0.2268
+      ],
+      "practical_reference": 0.1,
+      "frozen_interpretation": "UNCERTAIN_RELATIVE_TO_10_PERCENT_REFERENCE",
+      "interpretation": "After trait-specific means are removed, family identity retains a stable estimated cross-trait component, but the 95% interval spans the predeclared 10% reference."
+    }
+  },
+  "synthesis_claims_allowed": [
+    "Phylogenetic memory-loss strength is not a portable trait-intrinsic signature across plant families under the predeclared cross-lineage prediction test.",
+    "Family identity contains a modest repeatable cross-trait component after trait-specific means are controlled.",
+    "Most family x trait variation remains system-specific/residual rather than being captured by family identity or trait identity alone.",
+    "Macroevolutionary memory estimates should not automatically be transferred among clades solely by trait name."
+  ],
+  "synthesis_claims_prohibited": [
+    "Family effects are statistically larger than trait effects.",
+    "Lineage dominates trait identity.",
+    "Trait effects are zero.",
+    "Family effects exceed the 10% practical repeatability reference with high confidence.",
+    "The failed spatial-turnover programme implies weak spatial turnover.",
+    "Any causal mechanism for the family component."
+  ],
+  "synthesis_type": "Interpretive triangulation of three separately prequalified analyses; no new p-values, thresholds, filtering, or model selection are introduced."
+}

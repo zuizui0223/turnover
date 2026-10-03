@@ -1,0 +1,31 @@
+{
+  "version": "v0.1.3",
+  "status": "FAMILY_CONTEXT_PHYLOGENY_EXPLORATORY_ESTIMATED",
+  "evidence_workflow_run": 37156200386,
+  "evidence_job_id": 111299968514,
+  "evidence_artifact_id": 11285492458,
+  "evidence_artifact_sha256": "8deb5b6b03d677a45ec996d21978a8b06cb00060c0c393bba906fd06034f81c0",
+  "post_outcome_exploratory": true,
+  "representative_rule": "full GBOTB family crown",
+  "n_families": 45,
+  "n_family_pairs": 990,
+  "S3": {
+    "spearman": -0.0151,
+    "permutation_p_two_sided": 0.8222
+  },
+  "prune_only": {
+    "spearman": -0.0108,
+    "permutation_p_two_sided": 0.8707
+  },
+  "mean_score_robustness": {
+    "spearman": -0.0094,
+    "permutation_p_two_sided": 0.8867
+  },
+  "leave_one_trait_out_S3": {
+    "n": 12,
+    "min": -0.0381,
+    "max": 0.0168
+  },
+  "interpretation": "No detectable continuous deep-family phylogenetic organization of the recurring family context. The estimated family-level component is better described as family-specific/mosaic at this resolution than as a smoothly inherited deep-phylogeny regime.",
+  "publication_role": "Post-outcome complementary analysis only; does not alter prospective portability/repeatability results."
+}

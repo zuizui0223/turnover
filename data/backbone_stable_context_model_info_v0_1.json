@@ -1,0 +1,53 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_BACKBONE_STABILITY_ESTIMATE",
+  "graph": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "observations": 402,
+    "backbones": [
+      "S3",
+      "prune_only"
+    ]
+  },
+  "simulation_model": "rho ~ backbone + (1|family) + (1|trait_name) + (1|system_id)",
+  "common_parameters": {
+    "intercept": 0,
+    "prune_mean_shift": 0.1,
+    "family_variance": 0.15,
+    "trait_variance": 0.05,
+    "total_variance": 1
+  },
+  "benchmarks": {
+    "high_stability": {
+      "system_variance": 0.6,
+      "residual_variance": 0.2,
+      "target_conditional_system_stability": 0.75
+    },
+    "equal_stability": {
+      "system_variance": 0.4,
+      "residual_variance": 0.4,
+      "target_conditional_system_stability": 0.5
+    },
+    "low_stability": {
+      "system_variance": 0.2,
+      "residual_variance": 0.6,
+      "target_conditional_system_stability": 0.25
+    }
+  },
+  "replicates_per_benchmark": 1000,
+  "master_seed": 20261003,
+  "admission": {
+    "valid_nonsingular_fraction_min": 0.9,
+    "median_absolute_error_conditional_stability_max": 0.08,
+    "required_benchmarks": [
+      "high_stability",
+      "equal_stability",
+      "low_stability"
+    ]
+  },
+  "note": "Variance scale is arbitrary; the diagnostic targets variance shares on the fixed realized graph, not the already-observed effect magnitude.",
+  "failure_rule": "If any required benchmark fails, do not use the repeated-measure decomposition to strengthen biological interpretation; retain only the existing descriptive S3-prune correspondence.",
+  "no_posthoc_relaxation": true
+}

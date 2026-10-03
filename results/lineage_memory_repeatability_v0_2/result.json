@@ -1,0 +1,47 @@
+{
+  "version": "v0.2",
+  "status": "LINEAGE_MEMORY_REPEATABILITY_ESTIMATED",
+  "evidence": {
+    "workflow_run": 37105207171,
+    "artifact_id": 11268445850,
+    "artifact_sha256": "f81fbec91a3394136bff028b9b1b31e2950e6ac32711c1266c4be753a6a37d6f"
+  },
+  "real_memory_effects_opened": true,
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "primary_S3": {
+    "family_variance": 0.0037,
+    "residual_variance": 0.0164,
+    "conditional_family_repeatability": 0.1825,
+    "singular": false
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "valid_replicates": 2000,
+    "valid_fraction": 1,
+    "ci95_conditional_family_repeatability": [
+      0.0285,
+      0.3369
+    ],
+    "master_seed": 20261003
+  },
+  "practical_reference": 0.1,
+  "interpretation": "UNCERTAIN_RELATIVE_TO_10_PERCENT_REFERENCE",
+  "prune_only_sensitivity": {
+    "family_variance": 0.0049,
+    "residual_variance": 0.0243,
+    "conditional_family_repeatability": 0.168,
+    "singular": false
+  },
+  "leave_one_out": {
+    "n_trait_omissions": 12,
+    "n_family_omissions": 45,
+    "min_estimate": 0.1205,
+    "max_estimate": 0.2268
+  },
+  "model_gate_pass": true,
+  "raw_trait_measurements_persisted": false,
+  "species_states_persisted": false,
+  "species_names_persisted": false
+}

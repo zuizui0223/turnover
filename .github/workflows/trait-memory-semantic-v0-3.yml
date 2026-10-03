@@ -1,8 +1,12 @@
 name: Trait memory semantic validity v0.3
 on:
+  pull_request:
+    paths:
+      - '.triggers/trait-memory-semantic-v0-3'
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   semantic:
     runs-on: ubuntu-24.04
@@ -17,6 +21,22 @@ jobs:
             any::RPostgreSQL
             any::DBI
             any::jsonlite
+      - name: Download frozen temporal support artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/support
+          gh run download 37085340395 -R "$GITHUB_REPOSITORY" -n trait-memory-temporal-support-v0-2-1 -D build/support
+          test -f build/support/family_trait_support.csv
+          python - <<'PY'
+          import json
+          x=json.load(open('results/trait_memory_temporal_support_v0_2/result.json'))
+          assert x['status']=='TRAIT_MEMORY_TEMPORAL_SUPPORT_PASS'
+          assert x['evidence_artifact_id']==11259557604
+          assert x['n_structural_pass_systems']==1455
+          assert x['n_independent_families']==240
+          assert x['n_distinct_traits']==49
+          PY
       - name: Pin RBIEN
         run: |
           mkdir -p build
@@ -26,10 +46,9 @@ jobs:
         env:
           RBIEN_SOURCE_DIR: build/RBIEN
         run: |
-          test -f results/trait_memory_temporal_support_v0_2/family_trait_support.csv
           mkdir -p build/trait_memory_semantic_v0_3
           Rscript scripts/source/audit_trait_memory_semantic_v0_3.R \
-            --support-table results/trait_memory_temporal_support_v0_2/family_trait_support.csv \
+            --support-table build/support/family_trait_support.csv \
             --out build/trait_memory_semantic_v0_3/result.json \
             --table-out build/trait_memory_semantic_v0_3/semantic.csv
       - uses: actions/upload-artifact@v4

@@ -43,30 +43,40 @@ dedup AS (
  SELECT DISTINCT geometry_id,family,genus,species,config_type,expected_unit,record_key,value_text,unit FROM base
 ),
 num_species AS (
- SELECT DISTINCT geometry_id,family,genus,species
+ SELECT geometry_id,family,species,min(genus) AS genus
  FROM dedup
  WHERE config_type='numeric'
    AND try_cast(value_text AS DOUBLE) IS NOT NULL
    AND isfinite(try_cast(value_text AS DOUBLE))
    AND expected_unit<>'' AND unit=expected_unit
+ GROUP BY geometry_id,family,species
 ),
 cat_counts AS (
- SELECT geometry_id,family,genus,species,value_text,count(*) AS n
+ SELECT geometry_id,family,species,value_text,count(*) AS n
  FROM dedup
  WHERE config_type='categorical' AND expected_unit='' AND unit=''
- GROUP BY geometry_id,family,genus,species,value_text
+ GROUP BY geometry_id,family,species,value_text
 ),
 cat_ranked AS (
  SELECT *,max(n) OVER(PARTITION BY geometry_id,species) AS max_n FROM cat_counts
 ),
 cat_species AS (
- SELECT geometry_id,family,genus,species,count(*) FILTER(WHERE n=max_n) AS n_modal
- FROM cat_ranked GROUP BY geometry_id,family,genus,species
+ SELECT geometry_id,family,species,count(*) FILTER(WHERE n=max_n) AS n_modal
+ FROM cat_ranked GROUP BY geometry_id,family,species
+),
+cat_genus AS (
+ SELECT geometry_id,family,species,min(genus) AS genus
+ FROM dedup
+ WHERE config_type='categorical' AND expected_unit='' AND unit=''
+ GROUP BY geometry_id,family,species
 ),
 cat_unique AS (
- SELECT geometry_id,family,genus,species FROM cat_species WHERE n_modal=1
+ SELECT s.geometry_id,s.family,s.species,g.genus
+ FROM cat_species s
+ JOIN cat_genus g USING(geometry_id,family,species)
+ WHERE s.n_modal=1
 )
-SELECT * FROM num_species
+SELECT geometry_id,family,genus,species FROM num_species
 UNION ALL
 SELECT geometry_id,family,genus,species FROM cat_unique
 ORDER BY geometry_id,species,genus

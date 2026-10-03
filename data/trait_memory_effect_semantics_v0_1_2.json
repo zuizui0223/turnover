@@ -1,0 +1,32 @@
+{
+  "version": "v0.1.2",
+  "status": "TRAIT_MEMORY_EFFECT_SEMANTIC_CLARIFICATION_PRE_OUTCOME",
+  "frozen_on": "2026-10-03",
+  "amends": [
+    "data/trait_memory_spectrum_design_v0_1.json",
+    "docs/TRAIT_MEMORY_SPECTRUM_V0_1.md",
+    "docs/TRAIT_MEMORY_MANUSCRIPT_SKELETON_V0_1.md"
+  ],
+  "chronology": {
+    "real_memory_effects_opened": false,
+    "variance_partition_result_seen": false
+  },
+  "clarification": {
+    "deprecated_primary_terms": [
+      "rate of phylogenetic memory loss",
+      "memory depth"
+    ],
+    "preferred_terms": [
+      "strength of phylogenetic memory loss",
+      "phylogenetic memory gradient"
+    ],
+    "reason": "Spearman rho measures the strength of the monotonic association between patristic separation and trait-state dissimilarity. It is not a slope in time or distance units and does not identify a decay timescale."
+  },
+  "metric_unchanged": "Spearman(patristic distance, trait-state dissimilarity)",
+  "direction_unchanged": "larger positive rho means stronger increase in trait dissimilarity across greater phylogenetic separation",
+  "scientific_question_unchanged": "whether variation in the phylogenetic memory gradient is organized more strongly by trait identity or lineage identity",
+  "thresholds_changed": false,
+  "admission_changed": false,
+  "model_changed": false,
+  "no_posthoc_relaxation": true
+}

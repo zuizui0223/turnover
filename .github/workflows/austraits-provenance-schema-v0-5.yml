@@ -1,9 +1,6 @@
 name: AusTraits provenance schema v0.5
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/austraits-provenance-schema-v0-5'
   workflow_dispatch:
 
 permissions:

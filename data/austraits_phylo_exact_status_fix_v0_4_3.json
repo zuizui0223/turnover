@@ -1,0 +1,22 @@
+{
+  "version": "v0.4.3",
+  "status": "AUSTRAITS_PHYLOMAKER_EXACT_STATUS_FIX_PRE_EFFECT",
+  "frozen_on": "2026-10-04",
+  "supersedes": "results/austraits_memory_crosswalk_v0_4/result.json",
+  "trigger_evidence": {
+    "workflow_run": 37129060487,
+    "finding": "Multiple informativeness batches failed because actual V.PhyloMaker2 species.list status counts disagreed with the vectorized v0.4.2 prune/bind approximation."
+  },
+  "chronology": {
+    "austraits_memory_effects_opened": false,
+    "informativeness_scientific_result_complete": false
+  },
+  "diagnosis": "V.PhyloMaker2 binding status is not reducible to independent species membership in tree/genus/family sets. Its F1/F2 handling and binding logic depend on the complete species list supplied to phylo.maker.",
+  "correction": "For every semantic-PASS family x trait system, construct the exact source-native species/genus/family list and run pinned V.PhyloMaker2 phylo.maker(..., scenarios='S3', output.sp.list=TRUE). Count status == prune, bind, fail to bind from the returned species.list. Apply the unchanged >=20 S3-resolvable and >=20 prune-only thresholds.",
+  "thresholds_changed": false,
+  "semantic_rules_changed": false,
+  "phylogeny_source_changed": false,
+  "scenario_changed": false,
+  "no_fuzzy_matching": true,
+  "can_rescue_by_approximation": false
+}

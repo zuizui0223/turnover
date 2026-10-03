@@ -1,0 +1,44 @@
+{
+  "version": "v0.5",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-03",
+  "purpose": "Qualify temporal phylogenetic geometry for the independent trait-memory spectrum without changing the already-observed design-gate behavior of overlapping systems.",
+  "inherited_contracts": [
+    "data/bien_informativeness_design_v0_4.json",
+    "data/bien_informativeness_execution_v0_4_2.json",
+    "data/trait_null_exact_zero_amendment_v0_4_1.json"
+  ],
+  "exact_reuse": {
+    "benchmark_delta_rho": 0.15,
+    "median_absolute_recovery_error_max": 0.1,
+    "directional_recovery_min": 0.8,
+    "valid_replicate_fraction_min": 0.9,
+    "lambda_grid": [
+      0.01,
+      0.03162277660168379,
+      0.1,
+      0.31622776601683794,
+      1,
+      3.1622776601683795,
+      10,
+      31.622776601683793,
+      100
+    ],
+    "pilot_replicates": 200,
+    "evaluation_replicates": 1000,
+    "master_seed": 20260930,
+    "require_both": [
+      "S3",
+      "prune-only"
+    ],
+    "all_unordered_pairs": true
+  },
+  "overlap_rule": "If family x trait is present in results/bien_temporal_informativeness_v0_4_2/temporal_informativeness.csv, reuse that frozen PASS/HOLD result exactly; do not rerun with a different seed or calibration.",
+  "novel_system_rule": "Only systems not previously evaluated are simulated, using the identical inherited contract.",
+  "outputs_forbidden": [
+    "real trait values",
+    "real memory rho"
+  ],
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

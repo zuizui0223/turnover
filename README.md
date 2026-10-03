@@ -34,9 +34,10 @@ Biotic interaction type is an explicit moderator. Interaction turnover is decomp
 ## Source order
 
 Trait arm:
-1. BIEN 4.2
-2. AusTraits independent transport
-3. TRY v7 — currently source-access HOLD
+1. BIEN 4.2 — generalized joint time-space route closed at spatial informativeness; later independent temporal-only studies use the already-qualified BIEN core
+2. AusTraits independent transport — terminal structural HOLD under matched thresholds
+
+TRY is not a third rescue source for the closed prospective programme; it remains only a future source-access possibility for a separately designed study.
 
 Interaction arm:
 1. Mangal curated networks — joint time/space route closed at species-rank support gate; retained only as non-primary spatial validation candidate
@@ -112,20 +113,55 @@ Therefore the trait-dominant versus lineage-dominant variance-ratio question is 
 The qualification trail is retained because it identifies a broad and well-connected temporal trait matrix while also showing that the crossed graph is not precise enough for the predeclared twofold variance-ratio classification.
 
 
-## Independent temporal repeatability follow-up
+## Independent temporal repeatability and portability follow-ups — completed
 
-The earlier temporal trait-vs-lineage **variance-ratio** follow-up remains terminal pre-outcome HOLD: the 201-system crossed graph could usually recover the direction of a twofold variance contrast, but its log-ratio MAE (0.44–0.45) exceeded the frozen 0.35 precision threshold.
+The earlier temporal trait-vs-lineage **variance-ratio** follow-up remains terminal pre-outcome HOLD: the 201-system crossed graph could recover direction but not the predeclared precision of a twofold variance-ratio contrast. That result was not relaxed.
 
-A separate follow-up therefore asks a weaker question without ranking the axes: **how much memory-loss variance is repeatable along the trait axis and along the family axis separately?**
+Three separately prequalified analyses were then completed on the exact same fixed core (**201 systems / 45 families / 12 continuous traits**). Three independent real-effect pipelines reproduce the S3 and prune-only rho values exactly.
 
-The frozen targets are:
+### Repeatability decomposition
 
-- `R_trait = var_trait / total variance` — cross-lineage portability of trait-specific memory;
-- `R_family = var_family / total variance` — cross-trait repeatability of lineage-level memory regime;
-- `R_residual` — remaining family × trait specificity plus measurement/model residual.
+Crossed REML without a dominance comparison:
 
-No test of `R_trait > R_family` and no dominance label is permitted.
+- **R_family = 0.1504** (95% bootstrap CI 0.0204–0.2861)
+- **R_trait = 0.0433** (0–0.1335)
+- **R_residual = 0.8063** (0.6600–0.9522)
 
-Before opening real rho, the same 201-edge graph passed a separate share-recovery gate. Across the three already-frozen known-truth variance settings, median absolute error was 0.041–0.052 for `R_family` and 0.050–0.078 for `R_trait`, below the frozen 0.10 threshold, with 99.8–100% valid nonsingular fits.
+Prune-only sensitivity is similar: family 0.1482, trait 0.0207, residual 0.8312.
 
-Real memory-loss rho is therefore now authorized **only** for this repeatability estimation. The frozen analysis is the same crossed REML model, 2,000 parametric-bootstrap replicates, identical-core prune-only sensitivity, and leave-one-trait / leave-one-family descriptive robustness. Two technically identical execution routes are running (201 one-system jobs and a 32-batch mirror); if both finish, their rho values must match to 1e-12.
+These are separate repeatability shares only; the repository does **not** infer that family effects are statistically larger than trait effects.
+
+### Cross-lineage portability of trait identity
+
+Leave-one-family-out prediction asks whether the same trait in other families improves prediction over a global training mean.
+
+- S3 portability gain = **−0.0242**, blocked-permutation p = **0.091**
+- prune-only gain = **−0.0324**, p = **0.193**
+
+The frozen robust portability criterion fails on both trees. Trait identity therefore does not robustly transport the memory estimate to a held-out family on this graph.
+
+### Conditional lineage repeatability
+
+After giving every trait its own fixed mean, family identity retains:
+
+- S3 conditional family repeatability = **0.1825**
+- 95% bootstrap CI = **0.0285–0.3369**
+- prune-only = **0.168**
+- leave-one-trait / leave-one-family estimates = **0.1205–0.2268**
+
+The interval spans the predeclared 0.10 practical reference, so the frozen classification is **uncertain relative to 10%**.
+
+## Integrated temporal synthesis
+
+The most defensible combined conclusion is:
+
+> **Phylogenetic memory-loss strength is not a robustly portable intrinsic property of trait identity across plant families. Most variation is family × trait specific, while family identity carries a modest recurring cross-trait component.**
+
+This is a conclusion about **context dependence and portability**, not a revived family-versus-trait dominance claim.
+
+The full synthesis and claim boundaries are in:
+
+- `docs/TRAIT_MEMORY_CONTEXT_SYNTHESIS_V0_1.md`
+- `docs/TRAIT_MEMORY_CONTEXT_MANUSCRIPT_V0_1.md`
+- `results/trait_memory_context_synthesis_v0_1/result.json`
+- `results/trait_memory_context_synthesis_v0_1/effect_identity.json`

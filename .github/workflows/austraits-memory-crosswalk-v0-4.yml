@@ -1,8 +1,5 @@
 name: AusTraits memory phylogeny crosswalk v0.4.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/austraits-memory-crosswalk-v0-4-1'
   workflow_dispatch:
 permissions:
   contents: read

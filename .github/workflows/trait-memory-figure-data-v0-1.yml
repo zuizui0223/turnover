@@ -1,0 +1,44 @@
+name: Trait memory figure data v0.1
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  figures:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact fixed 201-system effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37095981751 -R "$GITHUB_REPOSITORY" -n trait-memory-repeatability-real-effects-batched-v0-2-1 -D build/effects
+          find build/effects -type f -maxdepth 3 -print
+      - name: Locate exact effect table
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv,shutil
+          candidates=[]
+          for p in Path('build/effects').rglob('*.csv'):
+              try:
+                  rows=list(csv.DictReader(p.open()))
+              except Exception:
+                  continue
+              if len(rows)==201 and rows and {'family','trait_name','S3_rho','prune_only_rho'} <= set(rows[0]):
+                  candidates.append(p)
+          assert len(candidates)==1,candidates
+          shutil.copyfile(candidates[0],'build/effects/effects.csv')
+          PY
+      - name: Prepare figure source tables
+        run: |
+          mkdir -p build/figures
+          python scripts/figures/prepare_trait_memory_figure_data_v0_1.py \
+            --effects build/effects/effects.csv \
+            --out-dir build/figures
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-figure-data-v0-1
+          path: build/figures/

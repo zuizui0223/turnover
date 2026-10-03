@@ -1,0 +1,57 @@
+{
+  "version": "v0.1",
+  "status": "FIGURE_PLAN_FIXED_FROM_COMPLETED_RESULTS",
+  "source_effects": {
+    "workflow_run": 37095981751,
+    "artifact_id": 11264513111,
+    "artifact_name": "trait-memory-repeatability-real-effects-batched-v0-2-1",
+    "expected_systems": 201
+  },
+  "figures": {
+    "figure1": {
+      "title": "Prospectively qualified crossed family-trait design",
+      "panels": [
+        "qualification funnel",
+        "45 x 12 final incidence matrix"
+      ],
+      "inferential": false
+    },
+    "figure2": {
+      "title": "Observed phylogenetic memory gradients",
+      "panels": [
+        "45 x 12 S3 rho matrix with missing cells blank",
+        "distribution of 201 S3 rho"
+      ],
+      "ordering": "alphabetical family and fixed trait order; no outcome-based clustering",
+      "inferential": false
+    },
+    "figure3": {
+      "title": "Three meanings of generalization",
+      "panels": [
+        "crossed repeatability shares with bootstrap CI",
+        "S3/prune-only portability gains with permutation null intervals",
+        "conditional family repeatability with bootstrap CI and 0.10 reference"
+      ],
+      "inferential": true,
+      "source_results": [
+        "results/trait_memory_repeatability_v0_2/result.json",
+        "results/trait_memory_portability_v0_2/result.json",
+        "results/lineage_memory_repeatability_v0_2/result.json"
+      ]
+    },
+    "figure4": {
+      "title": "Backbone sensitivity of memory gradients",
+      "panels": [
+        "S3 rho vs prune-only rho for all 201 systems"
+      ],
+      "annotation": "Spearman 0.832; 1:1 reference line",
+      "inferential": false
+    }
+  },
+  "hard_rules": [
+    "No outcome-based family/trait clustering or sorting for inferential storytelling.",
+    "Do not encode R_family > R_trait as a significance comparison.",
+    "Residual share label must be unresolved system-level/residual.",
+    "Deep-family-phylogeny exploratory result belongs in Supplement or complementary panel, not a primary Figure 1-4 pillar."
+  ]
+}

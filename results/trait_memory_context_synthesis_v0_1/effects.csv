@@ -1,0 +1,202 @@
+system_id,family,trait_name,semantic_class,n_species_S3,n_species_prune,S3_rho,prune_only_rho,informativeness_n_input_species,informativeness_n_prune,informativeness_s3_lambda
+Q0001,Amaranthaceae,leaf area,continuous_scalar,45,29,0.1318,0.2588,45,29,0.2371
+Q0002,Amaranthaceae,leaf area per leaf dry mass,continuous_scalar,50,33,-0.0271,-0.0118,50,33,0.1778
+Q0003,Amaranthaceae,leaf dry mass,continuous_scalar,41,27,0.1065,0.238,41,27,0.1778
+Q0004,Amaranthaceae,leaf dry mass per leaf fresh mass,continuous_scalar,40,24,0.2028,0.0721,40,24,0.1334
+Q0005,Amaranthaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,41,27,0.3231,0.439,41,27,1
+Q0006,Amaranthaceae,maximum whole plant height,continuous_scalar,73,32,0.0104,0.0139,73,32,0.2738
+Q0007,Amaranthaceae,seed mass,continuous_scalar,152,81,-0.0141,-0.0538,152,81,0.2371
+Q0008,Amaranthaceae,whole plant height,continuous_scalar,82,51,0.081,0.0316,82,51,0.1778
+Q0009,Anacardiaceae,diameter at breast height (1.3 m),continuous_scalar,134,57,0.0915,0.192,134,57,1
+Q0010,Anacardiaceae,stem wood density,continuous_scalar,167,65,-0.0007,-0.002,167,65,1
+Q0011,Annonaceae,leaf area,continuous_scalar,44,27,-0.0316,-0.0605,44,27,1
+Q0012,Annonaceae,leaf area per leaf dry mass,continuous_scalar,49,31,-0.0897,-0.1067,49,31,1
+Q0013,Annonaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,62,43,0.0103,-0.0207,62,43,1.7783
+Q0014,Annonaceae,seed mass,continuous_scalar,36,21,0.2641,0.1326,36,21,0.7499
+Q0015,Annonaceae,whole plant height,continuous_scalar,78,47,-0.0498,-0.0667,78,47,10
+Q0016,Apiaceae,leaf area,continuous_scalar,80,74,-0.0737,-0.0638,80,74,1.3335
+Q0017,Apiaceae,leaf area per leaf dry mass,continuous_scalar,93,82,0.1406,0.2181,93,82,1.3335
+Q0018,Apiaceae,leaf dry mass,continuous_scalar,76,70,-0.052,-0.0299,76,70,1.7783
+Q0019,Apiaceae,leaf dry mass per leaf fresh mass,continuous_scalar,73,68,0.1124,0.1433,73,68,1.7783
+Q0020,Apiaceae,maximum whole plant height,continuous_scalar,41,34,-0.0528,-0.074,41,34,0.7499
+Q0021,Apiaceae,seed mass,continuous_scalar,166,131,-0.1147,-0.1118,166,131,1.1548
+Q0022,Apiaceae,whole plant height,continuous_scalar,119,103,-0.0307,-0.035,119,103,1.3335
+Q0023,Apocynaceae,leaf area per leaf dry mass,continuous_scalar,51,29,0.0528,-0.0262,51,29,0.4217
+Q0024,Apocynaceae,seed mass,continuous_scalar,59,28,0.3116,0.3186,59,28,0.7499
+Q0025,Apocynaceae,stem wood density,continuous_scalar,123,47,0.1072,0.215,123,47,3.1623
+Q0026,Araliaceae,diameter at breast height (1.3 m),continuous_scalar,64,39,0.1221,0.0167,64,39,1
+Q0027,Araliaceae,stem wood density,continuous_scalar,44,35,0.1925,0.198,44,35,1.7783
+Q0028,Arecaceae,diameter at breast height (1.3 m),continuous_scalar,174,108,-0.0308,-0.0773,174,108,1
+Q0029,Arecaceae,seed mass,continuous_scalar,78,65,-0.0903,-0.1046,78,65,0.487
+Q0030,Arecaceae,whole plant height,continuous_scalar,55,45,0.0375,0.0377,55,45,1
+Q0031,Asparagaceae,seed mass,continuous_scalar,81,38,-0.0773,-0.0629,81,38,1
+Q0032,Asparagaceae,whole plant height,continuous_scalar,50,31,-0.0787,-0.0887,50,31,0.5623
+Q0033,Asteraceae,leaf area,continuous_scalar,272,188,0.1609,0.081,272,188,1
+Q0034,Asteraceae,leaf area per leaf dry mass,continuous_scalar,398,280,0.0246,0.0181,398,280,1.7783
+Q0035,Asteraceae,leaf dry mass per leaf fresh mass,continuous_scalar,234,157,0.0043,-0.0105,234,157,1.7783
+Q0036,Asteraceae,leaf nitrogen content per leaf area,continuous_scalar,65,45,-0.0615,-0.0092,65,45,0.7499
+Q0037,Asteraceae,leaf nitrogen content per leaf dry mass,continuous_scalar,167,110,-0.0405,-0.0404,167,110,0.5623
+Q0038,Asteraceae,leaf phosphorus content per leaf dry mass,continuous_scalar,106,64,-0.0295,0.0177,106,64,1
+Q0039,Asteraceae,maximum whole plant height,continuous_scalar,224,141,0.0486,-0.0089,224,141,1
+Q0040,Asteraceae,seed mass,continuous_scalar,859,500,0.2696,0.311,859,500,1
+Q0041,Asteraceae,whole plant height,continuous_scalar,439,290,0.0408,0.0279,439,290,1.7783
+Q0042,Betulaceae,leaf area per leaf dry mass,continuous_scalar,39,36,-0.052,-0.0677,39,36,3.1623
+Q0043,Betulaceae,seed mass,continuous_scalar,49,42,0.1106,0.0775,49,42,10
+Q0044,Betulaceae,stem wood density,continuous_scalar,39,35,0.4934,0.4679,39,35,1.7783
+Q0045,Burseraceae,diameter at breast height (1.3 m),continuous_scalar,143,76,0.0727,0.0644,143,76,0.7499
+Q0046,Burseraceae,stem wood density,continuous_scalar,148,75,0.2443,0.3245,148,75,1
+Q0047,Burseraceae,whole plant height,continuous_scalar,41,25,-0.0003,-0.0135,41,25,0.7499
+Q0048,Caryophyllaceae,leaf area,continuous_scalar,84,65,-0.1829,-0.2087,84,65,0.7499
+Q0049,Caryophyllaceae,leaf area per leaf dry mass,continuous_scalar,92,66,0.1372,0.1189,92,66,0.5623
+Q0050,Caryophyllaceae,leaf dry mass,continuous_scalar,73,61,-0.1494,-0.1508,73,61,0.7499
+Q0051,Caryophyllaceae,leaf dry mass per leaf fresh mass,continuous_scalar,67,55,0.075,0.0745,67,55,1
+Q0052,Caryophyllaceae,seed mass,continuous_scalar,160,99,-0.0343,-0.0566,160,99,1
+Q0053,Caryophyllaceae,whole plant height,continuous_scalar,132,91,-0.0366,-0.0599,132,91,3.1623
+Q0054,Cupressaceae,diameter at breast height (1.3 m),continuous_scalar,26,24,0.2809,0.3948,26,24,0.1334
+Q0055,Cupressaceae,seed mass,continuous_scalar,63,58,-0.1632,-0.0843,63,58,0.2371
+Q0056,Cupressaceae,stem wood density,continuous_scalar,43,42,0.1366,0.1809,43,42,0.7499
+Q0057,Cupressaceae,whole plant height,continuous_scalar,37,30,0.3805,0.3765,37,30,0.1778
+Q0058,Cyperaceae,leaf area,continuous_scalar,100,74,-0.0678,-0.0723,100,74,0.866
+Q0059,Cyperaceae,leaf area per leaf dry mass,continuous_scalar,123,90,0.2035,0.1557,123,90,1
+Q0060,Cyperaceae,leaf dry mass,continuous_scalar,100,77,0.0304,0.0652,100,77,0.866
+Q0061,Cyperaceae,leaf dry mass per leaf fresh mass,continuous_scalar,104,79,0.2222,0.2407,104,79,0.866
+Q0062,Cyperaceae,maximum whole plant height,continuous_scalar,122,56,0.0359,0.0223,122,56,0.487
+Q0063,Cyperaceae,seed mass,continuous_scalar,261,133,0.165,0.1358,261,133,0.3162
+Q0064,Cyperaceae,whole plant height,continuous_scalar,195,118,0.1054,0.1201,195,118,0.487
+Q0065,Ericaceae,diameter at breast height (1.3 m),continuous_scalar,99,70,0.2459,0.2326,99,70,0.7499
+Q0066,Ericaceae,leaf area,continuous_scalar,49,36,0.049,-0.0414,49,36,1
+Q0067,Ericaceae,leaf area per leaf dry mass,continuous_scalar,92,57,0.1429,0.0854,92,57,0.3162
+Q0068,Ericaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,71,51,0.0044,-0.0209,71,51,0.6494
+Q0069,Ericaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,54,43,0.0298,-0.0135,54,43,0.4217
+Q0070,Ericaceae,maximum whole plant height,continuous_scalar,59,38,0.0548,0.0474,59,38,0.7499
+Q0071,Ericaceae,seed mass,continuous_scalar,132,90,0.4797,0.5161,132,90,0.7499
+Q0072,Ericaceae,whole plant height,continuous_scalar,81,62,0.0805,0.0514,81,62,1
+Q0073,Euphorbiaceae,leaf dry mass per leaf fresh mass,continuous_scalar,37,28,0.0421,0.0837,37,28,0.7499
+Q0074,Euphorbiaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,82,41,0.0349,0.0141,82,41,10
+Q0075,Euphorbiaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,44,23,0.0229,0.0328,44,23,3.1623
+Q0076,Euphorbiaceae,maximum whole plant height,continuous_scalar,83,49,-0.0446,-0.0026,83,49,1
+Q0077,Euphorbiaceae,seed mass,continuous_scalar,145,106,0.1512,0.1575,145,106,1
+Q0078,Euphorbiaceae,stem wood density,continuous_scalar,244,117,0.0526,0.0205,244,117,3.1623
+Q0079,Euphorbiaceae,whole plant height,continuous_scalar,142,89,-0.0208,0.0712,142,89,3.1623
+Q0080,Fabaceae,leaf area,continuous_scalar,306,199,0.0392,0.1589,306,199,1
+Q0081,Fabaceae,leaf area per leaf dry mass,continuous_scalar,475,305,0.0205,0.0353,475,305,1.7783
+Q0082,Fabaceae,leaf dry mass,continuous_scalar,112,88,0.2458,0.2597,112,88,0.6494
+Q0083,Fabaceae,leaf dry mass per leaf fresh mass,continuous_scalar,221,165,0.1739,0.2234,221,165,0.7499
+Q0084,Fabaceae,maximum whole plant height,continuous_scalar,361,196,0.1587,0.3297,361,196,0.2738
+Q0085,Fabaceae,stem wood density,continuous_scalar,1042,493,-0.0409,-0.0421,1042,493,10
+Q0086,Fabaceae,whole plant height,continuous_scalar,573,369,0.1989,0.3179,573,369,1.7783
+Q0087,Fagaceae,leaf area,continuous_scalar,52,41,0.0323,0.0291,52,41,1.3335
+Q0088,Fagaceae,leaf area per leaf dry mass,continuous_scalar,78,57,0.1251,0.1032,78,57,10
+Q0089,Fagaceae,leaf nitrogen content per leaf area,continuous_scalar,54,39,0.061,0.1239,54,39,10
+Q0090,Fagaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,60,33,0.0222,0.056,60,33,1.5399
+Q0091,Fagaceae,seed mass,continuous_scalar,79,59,0.0974,0.0851,79,59,1.7783
+Q0092,Fagaceae,stem wood density,continuous_scalar,181,91,0.0825,0.1896,181,91,1.7783
+Q0093,Fagaceae,whole plant height,continuous_scalar,95,64,0.0187,0.0625,95,64,3.1623
+Q0094,Lamiaceae,leaf area,continuous_scalar,81,53,-0.0216,0.0437,81,53,100
+Q0095,Lamiaceae,leaf dry mass,continuous_scalar,67,46,0.0448,0.0453,67,46,3.1623
+Q0096,Lamiaceae,leaf dry mass per leaf fresh mass,continuous_scalar,66,44,0.0365,0.0105,66,44,3.1623
+Q0097,Lamiaceae,seed mass,continuous_scalar,291,140,0.1673,0.1172,291,140,100
+Q0098,Lauraceae,leaf area per leaf dry mass,continuous_scalar,84,33,0.1867,0.2131,84,33,1
+Q0099,Lauraceae,leaf nitrogen content per leaf dry mass,continuous_scalar,98,42,0.1295,0.0544,98,42,0.866
+Q0100,Lauraceae,stem wood density,continuous_scalar,397,123,0.1138,0.1019,397,123,0.3652
+Q0101,Lauraceae,whole plant height,continuous_scalar,116,41,0.1282,0.3131,116,41,1
+Q0102,Lecythidaceae,diameter at breast height (1.3 m),continuous_scalar,116,56,0.0082,0.048,116,56,0.5623
+Q0103,Lecythidaceae,stem wood density,continuous_scalar,97,50,0.2352,0.4433,97,50,0.5623
+Q0104,Malvaceae,leaf area,continuous_scalar,54,22,-0.0059,0.3076,54,22,10
+Q0105,Malvaceae,leaf area per leaf dry mass,continuous_scalar,86,38,0.043,0.0893,86,38,31.6228
+Q0106,Malvaceae,seed mass,continuous_scalar,209,90,0.0498,0.1873,209,90,3.1623
+Q0107,Malvaceae,stem wood density,continuous_scalar,323,82,-0.0025,-0.0351,323,82,31.6228
+Q0108,Malvaceae,whole plant height,continuous_scalar,113,56,0.0141,0.1615,113,56,10
+Q0109,Melastomataceae,diameter at breast height (1.3 m),continuous_scalar,268,141,0.0623,0.0462,268,141,0.4217
+Q0110,Melastomataceae,leaf nitrogen content per leaf dry mass,continuous_scalar,76,53,0.1162,0.0046,76,53,0.866
+Q0111,Melastomataceae,stem wood density,continuous_scalar,87,36,0.3371,-0.0079,87,36,0.4217
+Q0112,Meliaceae,diameter at breast height (1.3 m),continuous_scalar,179,88,0.0033,0.0103,179,88,3.1623
+Q0113,Meliaceae,seed mass,continuous_scalar,34,27,0.0219,0.1296,34,27,3.1623
+Q0114,Meliaceae,stem wood density,continuous_scalar,177,93,0.1412,0.2003,177,93,1.7783
+Q0115,Moraceae,diameter at breast height (1.3 m),continuous_scalar,226,98,0.0165,0.1184,226,98,0.5623
+Q0116,Moraceae,leaf area per leaf dry mass,continuous_scalar,70,34,0.1241,0.2167,70,34,1
+Q0117,Moraceae,leaf nitrogen content per leaf dry mass,continuous_scalar,95,51,0.0785,0.2173,95,51,1
+Q0118,Moraceae,seed mass,continuous_scalar,82,54,0.281,0.4099,82,54,0.4217
+Q0119,Moraceae,stem wood density,continuous_scalar,206,121,0.1579,0.198,206,121,0.5623
+Q0120,Moraceae,whole plant height,continuous_scalar,86,42,-0.0391,-0.0693,86,42,1
+Q0121,Olacaceae,diameter at breast height (1.3 m),continuous_scalar,44,26,0.0593,0.0283,44,26,3.1623
+Q0122,Olacaceae,stem wood density,continuous_scalar,32,24,0.0077,0.045,32,24,3.1623
+Q0123,Onagraceae,seed mass,continuous_scalar,81,23,0.0953,0.52,81,23,0.7499
+Q0124,Onagraceae,whole plant height,continuous_scalar,38,22,0.3701,0.282,38,22,0.6494
+Q0125,Orobanchaceae,leaf area per leaf dry mass,continuous_scalar,37,26,0.1274,0.1253,37,26,3.1623
+Q0126,Orobanchaceae,seed mass,continuous_scalar,63,42,0.111,0.1103,63,42,0.5623
+Q0127,Phyllanthaceae,diameter at breast height (1.3 m),continuous_scalar,120,30,-0.0368,-0.0622,120,30,0.2738
+Q0128,Phyllanthaceae,stem wood density,continuous_scalar,109,35,0.0152,-0.0431,109,35,0.3162
+Q0129,Pinaceae,leaf area per leaf dry mass,continuous_scalar,45,45,0.2324,0.2324,45,45,0.487
+Q0130,Pinaceae,leaf nitrogen content per leaf area,continuous_scalar,36,36,0.0531,0.0531,36,36,0.3652
+Q0131,Pinaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,59,58,0.1159,0.1271,59,58,0.3652
+Q0132,Pinaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,60,57,-0.005,-0.0095,60,57,0.3652
+Q0133,Pinaceae,stem wood density,continuous_scalar,119,108,0.0176,0.0241,119,108,0.3162
+Q0134,Plantaginaceae,leaf area,continuous_scalar,56,48,-0.0003,0.0558,56,48,1.1548
+Q0135,Plantaginaceae,leaf area per leaf dry mass,continuous_scalar,70,53,0.109,-0.0565,70,53,1
+Q0136,Plantaginaceae,leaf dry mass per leaf fresh mass,continuous_scalar,51,42,0.0361,-0.0429,51,42,1
+Q0137,Plantaginaceae,whole plant height,continuous_scalar,83,64,0.2058,0.1168,83,64,1
+Q0138,Poaceae,leaf area,continuous_scalar,521,372,0.0165,-0.0027,521,372,1.7783
+Q0139,Poaceae,leaf area per leaf dry mass,continuous_scalar,275,199,0.0381,0.0857,275,199,1
+Q0140,Poaceae,leaf dry mass per leaf fresh mass,continuous_scalar,171,128,0.1784,0.1945,171,128,1
+Q0141,Poaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,170,104,-0.0469,0.0318,170,104,1
+Q0142,Poaceae,maximum whole plant height,continuous_scalar,260,140,0.0018,0.0178,260,140,3.1623
+Q0143,Poaceae,seed mass,continuous_scalar,663,388,0.0168,0.0062,663,388,1
+Q0144,Poaceae,whole plant height,continuous_scalar,332,227,0.0888,0.0614,332,227,1.3335
+Q0145,Polygonaceae,diameter at breast height (1.3 m),continuous_scalar,50,28,-0.0303,-0.0103,50,28,0.4217
+Q0146,Polygonaceae,leaf area per leaf dry mass,continuous_scalar,61,22,0.0557,0.2831,61,22,1
+Q0147,Polygonaceae,seed mass,continuous_scalar,117,49,0.0259,0.1397,117,49,1
+Q0148,Polygonaceae,whole plant height,continuous_scalar,82,35,0.1809,0.3215,82,35,3.1623
+Q0149,Primulaceae,leaf area per leaf dry mass,continuous_scalar,41,22,-0.0137,0.0566,41,22,1.7783
+Q0150,Primulaceae,seed mass,continuous_scalar,61,34,0.1074,0.1069,61,34,0.7499
+Q0151,Primulaceae,whole plant height,continuous_scalar,66,42,0.2053,0.3828,66,42,1.3335
+Q0152,Proteaceae,leaf area,continuous_scalar,34,30,0.024,0.0397,34,30,0.4217
+Q0153,Proteaceae,leaf area per leaf dry mass,continuous_scalar,89,80,0.0668,0.062,89,80,0.2054
+Q0154,Proteaceae,maximum whole plant height,continuous_scalar,59,40,-0.104,-0.0947,59,40,1.7783
+Q0155,Proteaceae,seed mass,continuous_scalar,150,96,0.1761,0.1124,150,96,1.3335
+Q0156,Ranunculaceae,leaf area per leaf dry mass,continuous_scalar,85,74,-0.1082,-0.1067,85,74,1
+Q0157,Ranunculaceae,leaf dry mass,continuous_scalar,59,55,0.2052,0.1971,59,55,0.4217
+Q0158,Ranunculaceae,leaf dry mass per leaf fresh mass,continuous_scalar,58,53,0.079,0.1119,58,53,0.5623
+Q0159,Ranunculaceae,seed mass,continuous_scalar,136,116,-0.0669,-0.0467,136,116,1
+Q0160,Ranunculaceae,whole plant height,continuous_scalar,99,87,0.1217,0.0924,99,87,1
+Q0161,Rosaceae,leaf nitrogen content per leaf area,continuous_scalar,61,45,0.0046,-0.0448,61,45,10
+Q0162,Rosaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,108,73,0.0133,-0.0124,108,73,1.7783
+Q0163,Rosaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,63,42,-0.0322,-0.0197,63,42,0.5623
+Q0164,Rosaceae,seed mass,continuous_scalar,322,199,0.048,0.0059,322,199,1
+Q0165,Rosaceae,stem wood density,continuous_scalar,65,40,0.1991,0.2636,65,40,0.487
+Q0166,Rosaceae,whole plant height,continuous_scalar,312,185,0.3655,0.3685,312,185,3.1623
+Q0167,Rubiaceae,diameter at breast height (1.3 m),continuous_scalar,566,171,0.0166,0.0193,566,171,0.5623
+Q0168,Rubiaceae,leaf area,continuous_scalar,95,51,0.3919,0.583,95,51,1
+Q0169,Rubiaceae,leaf area per leaf dry mass,continuous_scalar,119,63,-0.0135,-0.0295,119,63,1
+Q0170,Rubiaceae,leaf dry mass per leaf fresh mass,continuous_scalar,62,39,0.2744,0.3348,62,39,0.5623
+Q0171,Rubiaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,144,66,0.0291,0.0122,144,66,0.7499
+Q0172,Rubiaceae,maximum whole plant height,continuous_scalar,51,25,0.4284,0.5206,51,25,0.5623
+Q0173,Rubiaceae,seed mass,continuous_scalar,155,81,0.2111,0.3984,155,81,0.866
+Q0174,Rubiaceae,stem wood density,continuous_scalar,234,121,0.0893,0.1054,234,121,0.5623
+Q0175,Rubiaceae,whole plant height,continuous_scalar,187,95,0.2014,0.3096,187,95,0.5623
+Q0176,Salicaceae,leaf area,continuous_scalar,64,37,0.5859,0.7143,64,37,0.1334
+Q0177,Salicaceae,leaf area per leaf dry mass,continuous_scalar,83,49,0.4349,0.3534,83,49,0.1
+Q0178,Salicaceae,leaf nitrogen content per leaf area,continuous_scalar,27,20,0.2393,0.0896,27,20,0.0649
+Q0179,Salicaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,71,37,0.0362,0.0728,71,37,0.4217
+Q0180,Salicaceae,leaf phosphorus content per leaf dry mass,continuous_scalar,40,21,-0.0519,-0.0177,40,21,0.3652
+Q0181,Salicaceae,seed mass,continuous_scalar,68,49,0.5901,0.5735,68,49,0.154
+Q0182,Salicaceae,stem wood density,continuous_scalar,117,52,0.2572,0.5343,117,52,0.7499
+Q0183,Salicaceae,whole plant height,continuous_scalar,121,72,0.0773,0.1195,121,72,0.1334
+Q0184,Sapindaceae,diameter at breast height (1.3 m),continuous_scalar,286,50,-0.0402,-0.0354,286,50,0.7499
+Q0185,Sapindaceae,seed mass,continuous_scalar,89,52,0.1359,0.3955,89,52,0.5623
+Q0186,Sapindaceae,stem wood density,continuous_scalar,166,61,0.0369,0.3992,166,61,0.5623
+Q0187,Sapindaceae,whole plant height,continuous_scalar,105,34,0.1415,0.0614,105,34,1
+Q0188,Sapotaceae,diameter at breast height (1.3 m),continuous_scalar,242,144,-0.0174,0.1291,242,144,1.7783
+Q0189,Sapotaceae,leaf nitrogen content per leaf dry mass,continuous_scalar,68,42,-0.0364,-0.0717,68,42,10
+Q0190,Sapotaceae,stem wood density,continuous_scalar,284,150,0.0889,0.0923,284,150,3.1623
+Q0191,Sapotaceae,whole plant height,continuous_scalar,68,44,0.2262,0.1298,68,44,1.3335
+Q0192,Saxifragaceae,seed mass,continuous_scalar,33,28,-0.0574,-0.067,33,28,0.7499
+Q0193,Saxifragaceae,whole plant height,continuous_scalar,31,31,0.3107,0.3107,31,31,0.6494
+Q0194,Solanaceae,leaf area per leaf dry mass,continuous_scalar,52,34,0.2928,0.337,52,34,0.6494
+Q0195,Solanaceae,leaf dry mass per leaf fresh mass,continuous_scalar,32,26,0.4113,0.48,32,26,0.2371
+Q0196,Solanaceae,seed mass,continuous_scalar,106,73,0.2204,0.0486,106,73,0.866
+Q0197,Urticaceae,diameter at breast height (1.3 m),continuous_scalar,77,20,-0.1124,0.1931,77,20,1.1548
+Q0198,Urticaceae,whole plant height,continuous_scalar,43,22,-0.0036,-0.1104,43,22,1
+Q0199,Violaceae,diameter at breast height (1.3 m),continuous_scalar,59,37,0.0279,-0.0433,59,37,3.1623
+Q0200,Violaceae,seed mass,continuous_scalar,37,25,0.2955,0.3863,37,25,0.7499
+Q0201,Violaceae,whole plant height,continuous_scalar,44,28,0.7093,0.7661,44,28,0.4217

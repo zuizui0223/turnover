@@ -1,0 +1,90 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_CONTEXT_SUBMISSION_MANIFEST",
+  "generated_on": "2026-10-03",
+  "manuscript": "paper/trait_memory_context_manuscript_v0_2.md",
+  "canonical_effects": {
+    "path": "results/trait_memory_context_synthesis_v0_1/effects.csv",
+    "sha256": "5fffdfbc9ab50ff7bf568e80537a290e11c2bfde02f1d5484c7e896ed5f9415b",
+    "rows": 201,
+    "families": 45,
+    "traits": 12,
+    "provenance": {
+      "workflow_run": 37095981751,
+      "artifact_id": 11264513111,
+      "artifact_name": "trait-memory-repeatability-real-effects-batched-v0-2-1",
+      "cross_route_identity": "results/trait_memory_context_synthesis_v0_1/effect_identity.json"
+    }
+  },
+  "source_pins": {
+    "BIEN_database": "4.2.8",
+    "RBIEN_commit": "531cb221bd44cf43419e89b2354f6424e718cd53",
+    "V_PhyloMaker2_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "phylogeny": "GBOTB.extended.TPL",
+    "scenario": "S3",
+    "sensitivity": "prune-only backbone-native tips"
+  },
+  "final_core": {
+    "qualification_result": "results/trait_memory_crossed_core_v0_6/result.json",
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "connected": true
+  },
+  "prospective_failed_question": {
+    "result": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+    "status": "HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS",
+    "real_effects_opened": false,
+    "preserved_nonclaim": "No trait-vs-family dominance comparison."
+  },
+  "repeatability": {
+    "design": "data/trait_memory_repeatability_design_v0_1.json",
+    "pre_outcome_gate": "results/trait_memory_repeatability_model_info_v0_1/result.json",
+    "result": "results/trait_memory_repeatability_v0_2/result.json"
+  },
+  "portability": {
+    "design": "data/trait_memory_portability_design_v0_1.json",
+    "pre_outcome_gate": "results/trait_memory_portability_model_info_v0_1/result.json",
+    "result": "results/trait_memory_portability_v0_2/result.json"
+  },
+  "conditional_lineage": {
+    "design": "data/lineage_memory_repeatability_design_v0_1.json",
+    "pre_outcome_gate": "results/lineage_memory_model_informativeness_v0_1/result.json",
+    "result": "results/lineage_memory_repeatability_v0_2/result.json"
+  },
+  "synthesis": {
+    "result": "results/trait_memory_context_synthesis_v0_1/result.json",
+    "effect_identity": "results/trait_memory_context_synthesis_v0_1/effect_identity.json",
+    "literature": "docs/TRAIT_MEMORY_CONTEXT_LITERATURE_V0_2.md",
+    "reviewer_audit": "docs/TRAIT_MEMORY_CONTEXT_REVIEWER_AUDIT_V0_1.md"
+  },
+  "figures": {
+    "figure1": [
+      "figures/trait_memory_context_v0_2/figure1_crossed_design.png",
+      "figures/trait_memory_context_v0_2/figure1_crossed_design.pdf"
+    ],
+    "figure2": [
+      "figures/trait_memory_context_v0_2/figure2_memory_matrix.png",
+      "figures/trait_memory_context_v0_2/figure2_memory_matrix.pdf"
+    ],
+    "figure3": [
+      "figures/trait_memory_context_v0_2/figure3_triangulation.png",
+      "figures/trait_memory_context_v0_2/figure3_triangulation.pdf"
+    ],
+    "figure4": [
+      "figures/trait_memory_context_v0_2/figure4_backbone_sensitivity.png",
+      "figures/trait_memory_context_v0_2/figure4_backbone_sensitivity.pdf"
+    ]
+  },
+  "claim_boundaries": {
+    "prohibited": [
+      "Family effects dominate trait effects.",
+      "Trait effects are zero.",
+      "Residual share is pure family x trait biological interaction.",
+      "Conditional family repeatability confidently exceeds 10%.",
+      "The family component identifies a causal mechanism.",
+      "Families are phylogenetically independent causal units.",
+      "The failed spatial programme shows weak spatial turnover."
+    ]
+  }
+}

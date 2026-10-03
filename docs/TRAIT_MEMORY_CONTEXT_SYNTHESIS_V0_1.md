@@ -27,13 +27,13 @@ Crossed REML decomposition on the fixed 201 systems:
 
 - family repeatability: **0.150** (95% bootstrap CI 0.020–0.286)
 - trait repeatability: **0.043** (0–0.134)
-- residual / family-by-trait-specific share: **0.806** (0.660–0.952)
+- residual / unresolved system-level share: **0.806** (0.660–0.952)
 
 Prune-only gives family 0.148, trait 0.021 and residual 0.831.
 
 The prior variance-ratio study failed its precision gate before real effects were opened, so **these components must not be converted into a family>trait dominance claim**.
 
-What they do show is that most heterogeneity is system-specific, while a family component is estimable and the trait component is weak/uncertain.
+What they do show is that most heterogeneity is not repeatable as a family main effect or trait main effect and remains in the residual/system-level component. That residual can include true family × trait interaction, effect-estimation error, heterogeneous source measurements and other model residual; it is not a direct estimate of biological interaction variance.
 
 ### 2. Does trait identity transfer to a new family?
 
@@ -71,7 +71,7 @@ The interval spans the predeclared 10% practical reference, so the frozen interp
 
 The most defensible synthesis is:
 
-> **Phylogenetic memory is not a portable intrinsic property of a plant trait. Its strength is strongly context-dependent at the family × trait level, with a modest recurring family-level component across traits.**
+> **Phylogenetic memory is not a portable intrinsic property of a plant trait. Its strength is strongly context-dependent across family × trait systems, with a modest recurring family-level component across traits.**
 
 This is an asymmetry of **generalization**, not a claim that family variance is statistically larger than trait variance.
 
@@ -96,7 +96,7 @@ The first answer is no under the frozen portability criterion; the second shows 
 
 ### Supporting
 
-**Family identity retains a modest cross-trait repeatable component, while most family × trait variation remains system-specific.**
+**Family identity retains a modest cross-trait repeatable component, while most variation remains unresolved at the system/residual level.**
 
 ### Hard nonclaims
 
@@ -106,6 +106,8 @@ Do not say:
 - trait effects are absent;
 - family repeatability confidently exceeds 10%;
 - the family component has a known ecological or genetic cause;
+- the residual 80.6% is pure biological family × trait interaction;
+- families are phylogenetically independent causal units;
 - failed spatial qualification means spatial turnover is biologically weak.
 
 ## Suggested title family

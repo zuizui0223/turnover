@@ -50,6 +50,23 @@ The exact complete-label permutation-null mean is zero.
 
 Larger positive rho means a stronger monotonic erosion of trait similarity across phylogenetic separation. It is not a time-calibrated decay rate.
 
+
+
+## Why call this a memory gradient rather than phylogenetic signal?
+
+The statistic is deliberately narrower than a general claim of “phylogenetic signal.” For a given family × trait system, it asks whether **trait-state difference tends to increase as two species are separated by more patristic distance**. It therefore describes the erosion of pairwise similarity along the realized phylogenetic geometry of that system.
+
+This distinction matters for the biological question. A global signal statistic can establish that close relatives resemble one another, but the present study needs a response that can be calculated identically for the same trait in many separate families and then subjected to held-out-family prediction. The memory gradient supplies that common response.
+
+Accordingly:
+
+- rho > 0 means more distant relatives tend to differ more strongly in trait state;
+- rho near 0 means that monotonic distance–dissimilarity gradient is weak, not necessarily that the trait has no phylogenetic structure of any kind;
+- rho < 0 is possible and should not be translated into “negative evolutionary rate”;
+- rho is not an OU alpha, evolutionary rate, half-life, or elapsed-time decay constant.
+
+The manuscript should therefore use **phylogenetic memory gradient** for the measured response and reserve **phylogenetic signal** for the broader literature to which it is being related.
+
 ## Result 1 — Most heterogeneity is system-specific
 
 Crossed REML decomposition:

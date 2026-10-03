@@ -1,9 +1,6 @@
 name: Family-context portability model informativeness v0.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/family-context-portability-model-info-v0-1'
   workflow_dispatch:
 
 permissions:

@@ -19,6 +19,7 @@ on:
       - 'results/bien_trait_state_validity_v0_3_3/result_pass_v0_3_3_2.json'
       - 'results/bien_phylogeny_crosswalk_v0_3_4/result_pass_v0_3_4_1.json'
       - 'results/bien_temporal_informativeness_v0_4_2/result.json'
+      - 'results/bien_spatial_informativeness_v0_4_3/result.json'
       - 'data/trait_null_exact_zero_amendment_v0_4_1.json'
       - 'data/bien_informativeness_design_v0_4.json'
       - 'data/bien_informativeness_execution_v0_4_2.json'
@@ -107,10 +108,13 @@ jobs:
           assert by['GLOBI_STABLE_ZENODO']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SOURCE_SEMANTICS'
 
           tr=json.load(open('data/trait_source_routing_v0_1.json'))
-          assert tr['status']=='TRAIT_PRIMARY_BIEN_TEMPORAL_INFO_PASS_SECOND_SOURCE_TERMINAL_HOLD'
+          assert tr['status']=='TRAIT_PRIMARY_ROUTE_TERMINAL_PREOUTCOME_HOLD'
           assert tr['maximum_primary_trait_sources']==2
           assert tr['first_source']=='BIEN_4_2'
-          assert tr['first_source_state']=='TEMPORAL_INFORMATIVENESS_PASS_SPATIAL_PENDING'
+          assert tr['first_source_state']=='TERMINAL_SPATIAL_INFORMATIVENESS_HOLD'
+          assert tr['first_source_terminal']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert tr['primary_generalized_trait_route_closed'] is True
+          assert tr['real_trait_turnover_design_executed'] is False
           assert tr['first_source_result']=='results/bien_trait_support_v0_2/result_pass_v0_2_4.json'
           assert tr['second_source']=='AUSTRAITS_OPEN_RELEASE'
           assert tr['second_source_state']=='TERMINAL_STRUCTURAL_HOLD'
@@ -187,8 +191,18 @@ jobs:
           assert ti['gate_pass'] is True
           assert ti['real_trait_values_opened'] is False
           assert ti['biological_turnover_outcomes_opened'] is False
-          assert by['BIEN_4_2']['metadata_status']=='TEMPORAL_INFORMATIVENESS_PASS_SPATIAL_PENDING'
-          assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='TEMPORAL_INFORMATIVENESS_PASS'
+          si=json.load(open('results/bien_spatial_informativeness_v0_4_3/result.json'))
+          assert si['status']=='HOLD_BIEN_SPATIAL_INFORMATIVENESS_UPPER_BOUND'
+          assert si['n_temporal_pass_independent_families']==21
+          assert si['n_confirmed_spatial_hold_independent_families']==11
+          assert si['maximum_possible_final_spatial_pass_families']==10
+          assert si['minimum_required_final_families']==12
+          assert si['gate_pass'] is False
+          assert si['real_trait_values_opened'] is False
+          assert si['biological_turnover_outcomes_opened'] is False
+          assert si['real_trait_turnover_may_be_opened'] is False
+          assert by['BIEN_4_2']['metadata_status']=='JOINT_TIME_SPACE_HOLD_SPATIAL_INFORMATIVENESS'
+          assert by['VPHYLOMAKER2_GBOTB']['metadata_status']=='UPSTREAM_TRAIT_ROUTE_TERMINAL_HOLD'
 
           z=json.load(open('data/trait_null_exact_zero_amendment_v0_4_1.json'))
           assert z['status']=='TRAIT_PERMUTATION_NULL_MEAN_EXACT_ZERO_FROZEN_PRE_OUTCOME'

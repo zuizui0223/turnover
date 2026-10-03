@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: run pre-frozen repeatability-share recovery on the fixed 201-system crossed core before any real memory rho is opened.

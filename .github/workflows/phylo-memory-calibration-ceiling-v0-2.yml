@@ -1,8 +1,5 @@
 name: Phylogenetic memory calibration ceiling v0.2
 on:
-  pull_request:
-    paths:
-      - '.triggers/phylo-memory-calibration-ceiling-v0-2'
   workflow_dispatch:
 permissions:
   contents: read

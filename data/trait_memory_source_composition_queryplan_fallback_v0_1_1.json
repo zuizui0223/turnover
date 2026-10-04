@@ -1,0 +1,27 @@
+{
+  "version": "v0.1.1",
+  "status": "SOURCE_COMPOSITION_QUERYPLAN_FALLBACK_FROZEN_PRE_RESULT",
+  "frozen_on": "2026-10-04",
+  "amends": "data/trait_memory_source_composition_sensitivity_v0_1.json",
+  "trigger": "Only if the canonical combined source + source_citation provenance query fails or times out without a complete result.",
+  "exact_equivalence": {
+    "candidate_systems": "same frozen 201 family x trait systems",
+    "provenance_fields": [
+      "source",
+      "source_citation"
+    ],
+    "record_filter": "identical",
+    "metrics": [
+      "n_records",
+      "n_labels",
+      "HHI",
+      "dominant share"
+    ],
+    "plan": "Run source and source_citation aggregations as two separate SQL queries and merge by family x trait before the frozen tests/models."
+  },
+  "thresholds_changed": false,
+  "metrics_changed": false,
+  "tests_changed": false,
+  "can_rescue_result": false,
+  "no_posthoc_selection": true
+}

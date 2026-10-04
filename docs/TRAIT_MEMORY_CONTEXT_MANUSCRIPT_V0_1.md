@@ -14,6 +14,14 @@ Avoid titles that say lineage effects "dominate" trait effects. The prospectivel
 
 Trait-specific phylogenetic-memory estimates do not robustly predict the same trait in a held-out plant family; instead, most variation is family-by-trait specific, with a modest repeatable family-level component across traits.
 
+## Ecological question, answer and significance
+
+**Question.** When a plant functional trait shows phylogenetic memory within a lineage, is the strength of that memory a transferable property of the trait, or does it depend on the lineage in which the trait evolves?
+
+**Answer.** Memory strength learned for the same trait in other families does not robustly predict a held-out family, whereas family identity retains a modest recurring component across different traits; most variation nevertheless remains unresolved at the individual family × trait system level.
+
+**Significance.** Comparative ecology should not automatically transport a trait-specific phylogenetic-signal prior from one clade to another. The empirically safer unit of generalization is a trait embedded in lineage context, unless cross-lineage portability has itself been demonstrated.
+
 ## Gap
 
 Phylogenetic signal is usually estimated for one trait in one phylogeny or compared among traits/clades. Those approaches establish whether traits are conserved and whether evolutionary tempo differs among clades, but they do not directly test whether a trait's estimated memory is **portable to an unseen lineage**.
@@ -125,6 +133,16 @@ A mandatory sensitivity specified before the real memory effects were opened adj
 The family repeatability share was essentially unchanged. In the simpler pre-frozen species-coverage sensitivity, S3 family repeatability was **0.154** (species-count coefficient -0.0087), compared with 0.150 unadjusted; prune-only family repeatability was **0.151** versus 0.148 unadjusted (coefficient -0.0109). In the fuller geometry model, S3 family repeatability was **0.146** after simultaneous adjustment for species count, backbone-native prune fraction and calibration lambda. The trait share changed from 0.043 to 0.049 and the unresolved/residual share from 0.806 to 0.805. The fuller model's standardized fixed effects were also small (log species count 0.0002, prune fraction 0.0064, calibration lambda 0.0025).
 
 Thus the recurring family component is not explained by these measured differences in taxon coverage, taxonomic insertion, or phylogenetic measurement geometry. This does **not** establish a causal biological family effect: unmeasured BIEN study heterogeneity and other family-correlated features can still contribute.
+
+### Post-outcome BIEN provenance sensitivity
+
+A final post-outcome sensitivity asked whether the recurring family component could instead reflect family-correlated composition of BIEN data sources. For the same 201 systems, source concentration was quantified independently from the BIEN `source` and `source_citation` fields.
+
+Family context scores were unrelated to source concentration: source HHI rho = **-0.045** (9,999-permutation p = **0.773**), dominant-source share rho = **-0.066** (p = **0.666**), citation HHI rho = **-0.061** (p = **0.693**), and dominant-citation share rho = **-0.062** (p = **0.685**).
+
+The crossed family repeatability component was likewise stable. R_family changed from **0.1504** unadjusted to **0.1492** after adjustment for log trait-record count, source HHI and dominant-source share, and to **0.1470** under the analogous citation-based adjustment.
+
+This audit weakens the specific alternative that the recurring family component is generated simply by concentration of BIEN measurements in different sources or citations among families. Because it was designed after the primary result and provenance labels are imperfect proxies for all study heterogeneity, it remains a sensitivity rather than causal evidence for a biological lineage effect.
 
 ### Complementary deep-phylogeny check
 

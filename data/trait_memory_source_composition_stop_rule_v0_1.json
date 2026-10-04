@@ -1,0 +1,19 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_SENSITIVITY_STOP_RULE_FROZEN_BEFORE_SOURCE_RESULT",
+  "frozen_on": "2026-10-04",
+  "sensitivity": "data/trait_memory_source_composition_sensitivity_v0_1.json",
+  "rule": {
+    "stable": "If both source-adjusted and source_citation-adjusted R_family remain >=0.10 and neither family-context/source-concentration association has |rho| >=0.30 with permutation p<0.05, close BIEN empirical analyses. Add the audit as a Supplement sensitivity and retain 'modest recurring family context' language.",
+    "compromised": "If either adjusted R_family <0.10 OR a predeclared source-concentration association has |rho| >=0.30 with permutation p<0.05, close BIEN empirical analyses anyway but weaken interpretation to 'family-correlated context'; explicitly state that provenance composition is a plausible contributor.",
+    "mixed": "If source and source_citation diagnostics disagree, report both and use the more cautious 'family-correlated context' wording."
+  },
+  "prohibited_after_result": [
+    "No additional provenance field search.",
+    "No alternative concentration metric search.",
+    "No new threshold selection.",
+    "No exclusion of high-concentration families or sources.",
+    "No new causal claim."
+  ],
+  "publication_consequence": "This sensitivity changes wording/limitations only; it does not alter the prospective portability result or reopen system selection."
+}

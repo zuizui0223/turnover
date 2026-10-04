@@ -1,0 +1,44 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_SOURCE_COMPOSITION_SENSITIVITY_STABLE",
+  "evidence_workflow_run": 37187825476,
+  "evidence_job_id": 111393456754,
+  "evidence_artifact_id": 11297687880,
+  "evidence_artifact_sha256": "1152d737391edabf582e60c08c52b7a3daf4d3a95c6d7005b4d5dfdfef41e772",
+  "post_outcome_sensitivity": true,
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "family_context_associations": {
+    "source_HHI": {
+      "rho": -0.0448,
+      "p_two_sided": 0.7733,
+      "permutations": 9999
+    },
+    "dominant_source_share": {
+      "rho": -0.0663,
+      "p_two_sided": 0.6656,
+      "permutations": 9999
+    },
+    "citation_HHI": {
+      "rho": -0.0613,
+      "p_two_sided": 0.6927,
+      "permutations": 9999
+    },
+    "dominant_citation_share": {
+      "rho": -0.0617,
+      "p_two_sided": 0.6851,
+      "permutations": 9999
+    }
+  },
+  "repeatability": {
+    "unadjusted_R_family": 0.1504,
+    "source_adjusted_R_family": 0.1492,
+    "citation_adjusted_R_family": 0.147,
+    "absolute_change_source": -0.0012,
+    "absolute_change_citation": -0.0034
+  },
+  "stop_rule_decision": "STABLE_CLOSE_EMPIRICAL_ANALYSES",
+  "interpretation": "Measured BIEN source and source-citation concentration do not explain the recurring family-level component: context scores are not associated with provenance concentration and R_family changes by <=0.0034 after adjustment. This remains a post-outcome sensitivity and does not establish a causal biological family effect.",
+  "prohibited_next": "No additional provenance-field search, alternative concentration metric search, family/source exclusion, or new hypothesis mining on the 201 observed effects."
+}

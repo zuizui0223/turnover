@@ -49,6 +49,14 @@ Boundary:
 - therefore this paper must **not** claim novelty for the generic statement that binary/discrete traits can have lower power;
 - the new result here is that low recoverability can be localized to the truth-assignment route even when the binary state space demonstrably contains configurations far above the target.
 
+### General simulation-study design
+
+Morris, White & Crowther (2019, *Statistics in Medicine*, DOI 10.1002/sim.8086) formalized the ADEMP framework: aims, data-generating mechanisms, estimands, methods and performance measures. They emphasize that the relevant truth is normally a parameter or quantity implied by the data-generating mechanism, and warn that data-generation tricks can yield data different from what was intended.
+
+Boundary:
+- this paper must **not** claim to discover the general principle that simulation truth depends on the data-generating mechanism;
+- the contribution is to make that issue operational for constrained comparative representations by separating an explicitly requested effect into structural realizability, generator accessibility and recovery on real phylogenetic geometries.
+
 ## What the present study adds
 
 The contribution is not a new phylogenetic-signal statistic. It is a diagnostic framework for known-truth simulation studies.

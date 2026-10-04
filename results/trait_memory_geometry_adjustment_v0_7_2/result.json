@@ -1,0 +1,43 @@
+{
+  "version": "v0.7.2",
+  "status": "TRAIT_MEMORY_GEOMETRY_ADJUSTMENT_ROBUST",
+  "source_workflow_run": 37095981751,
+  "source_artifact_id": 11264597069,
+  "source_artifact_sha256": "2ccabde54a13220d2f39efcd641cf57e7e5fe0470cbf7aa24cc03444b712bbf0",
+  "source_design": "data/trait_memory_geometry_adjustment_v0_7_2.json",
+  "chronology": "Sensitivity was frozen before real memory effects were opened and executed in the same repeatability workflow.",
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "primary_unadjusted": {
+    "family_variance": 0.0031,
+    "trait_variance": 0.0009,
+    "residual_variance": 0.0167,
+    "R_family": 0.1504,
+    "R_trait": 0.0433,
+    "R_residual": 0.8063
+  },
+  "geometry_adjusted": {
+    "formula": "S3_rho ~ z_log_n_species + z_prune_fraction + z_log_calibration_lambda + (1|family) + (1|trait_name)",
+    "fixed_effects": {
+      "intercept": 0.0911,
+      "z_log_n_species": 0.0002,
+      "z_prune_fraction": 0.0064,
+      "z_log_calibration_lambda": 0.0025
+    },
+    "family_variance": 0.003,
+    "trait_variance": 0.001,
+    "residual_variance": 0.0166,
+    "R_family": 0.1458,
+    "R_trait": 0.0488,
+    "R_residual": 0.8053,
+    "singular": false
+  },
+  "absolute_change": {
+    "R_family": -0.0046,
+    "R_trait": 0.0055,
+    "R_residual": -0.001
+  },
+  "interpretation": "The recurring family-level component is essentially unchanged after adjusting for system species count, backbone-native prune fraction, and the outcome-blind calibration lambda required by each system's phylogenetic geometry. These measured geometry/coverage differences therefore do not explain the estimated family context.",
+  "nonclaim": "This sensitivity does not prove the family component is biological or causal; unmeasured BIEN study heterogeneity and other family-correlated features can remain."
+}

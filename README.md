@@ -159,7 +159,7 @@ Across systems, the phylogenetic memory gradient — Spearman association betwee
 
 Three independently qualified analyses then separate different meanings of “generalization”:
 
-1. **Crossed repeatability:** family identity accounts for an estimated **15.0%** of variation in memory strength (95% bootstrap CI 2.0–28.6%), trait identity **4.3%** (0–13.4%), and **80.6%** remains family × trait-specific/residual. These shares are not used for a family>trait dominance test.
+1. **Crossed repeatability:** family identity accounts for an estimated **15.0%** of variation in memory strength (95% bootstrap CI 2.0–28.6%), trait identity **4.3%** (0–13.4%), and **80.6%** remains in the unresolved system-level/residual component. These shares are not used for a family>trait dominance test.
 2. **Cross-lineage portability:** knowing how the same trait behaves in other families does **not** robustly improve prediction for a held-out family (S3 gain **−0.024**, p=0.091; prune-only **−0.032**, p=0.193).
 3. **Conditional lineage repeatability:** after every trait receives its own mean, family identity still carries an estimated cross-trait repeatability of **0.183** (95% CI 0.029–0.337; prune-only 0.168; leave-one-out range 0.121–0.227), although uncertainty spans the predeclared 0.10 practical reference.
 

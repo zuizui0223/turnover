@@ -1,0 +1,55 @@
+name: Trait memory component-presence informativeness v0.8
+on:
+  pull_request:
+    paths:
+      - '.triggers/trait-memory-component-presence-v0-8'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  component-info:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen final crossed core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/final-core
+          test -f build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Validate independent component-presence design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_component_presence_design_v0_8.json'))
+          p=json.load(open('results/trait_memory_model_informativeness_v0_6_1/result.json'))
+          assert p['status']=='HOLD_TRAIT_MEMORY_MODEL_INFORMATIVENESS'
+          assert p['real_memory_effects_opened'] is False
+          assert d['status']=='FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert d['relationship_to_v0_6_1']['prior_primary_question_closed'] is True
+          assert d['relationship_to_v0_6_1']['no_relaxation'] is True
+          assert d['component_detection']['detection_threshold_variance']==0.001
+          assert d['replicates_per_case']==1000
+          assert d['real_memory_effects_opened'] is False
+          PY
+      - name: Run known-truth component-presence simulations
+        run: |
+          mkdir -p build/component-info
+          Rscript scripts/analysis/run_trait_memory_component_presence_v0_8.R \
+            --core-table build/final-core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/component-info/result.json \
+            --table-out build/component-info/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-component-presence-v0-8
+          path: build/component-info/

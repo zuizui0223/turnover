@@ -1,0 +1,27 @@
+{
+  "version": "v0.2.1",
+  "status": "PHYLO_MEMORY_CALIBRATION_CEILING_BREADTH_AUDITED",
+  "evidence_workflow_run": 37191153634,
+  "evidence_job_id": 111403426929,
+  "evidence_artifact_id": 11299251201,
+  "evidence_artifact_sha256": "785ae777ac59b796f0998d707e0de8c054e30afbdb1c97ef83d3dafe1c9f1068",
+  "outcome_type": "known_truth_recovery_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "categorical": {
+    "n_traits": 9,
+    "trait_no_bracket_rate_min": 0.7142857142857143,
+    "trait_no_bracket_rate_median": 0.967741935483871,
+    "trait_no_bracket_rate_max": 1,
+    "n_traits_rate_ge_0_80": 8,
+    "n_traits_rate_1": 4,
+    "families_with_ge2_categorical_systems": 83,
+    "family_no_bracket_rate_median_ge2": 1,
+    "family_no_bracket_rate_q25_q75_ge2": [
+      1,
+      1
+    ]
+  },
+  "interpretation": "The categorical calibration ceiling is representation-wide rather than driven by one trait or a few families: 8/9 categorical traits have >=80% S3 no-bracket rates, 4/9 are 100%, and among 83 families with at least two categorical systems the median and IQR family no-bracket rate are all 100%.",
+  "interpretation_guard": "Breadth supports a measurement/representation bottleneck only, not weaker biological phylogenetic signal in categorical traits."
+}

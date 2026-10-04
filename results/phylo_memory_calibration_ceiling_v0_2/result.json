@@ -1,0 +1,62 @@
+{
+  "version": "v0.2",
+  "status": "PHYLO_MEMORY_CALIBRATION_CEILING_DECOMPOSED_NOVEL683",
+  "evidence_workflow_run": 37191027580,
+  "evidence_job_id": 111403040840,
+  "evidence_artifact_id": 11298622940,
+  "evidence_artifact_sha256": "bc8cc6dd2e30e47b08c27385d146de1dab2f5d7879ec11f5d822f5e1779f6c16",
+  "outcome_type": "known_truth_recovery_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "n_systems": 683,
+  "scope": "683 novel systems; 39 prior-overlap systems excluded because per-system calibration grids reside in the earlier run. Scope is determined by artifact availability, not outcome.",
+  "semantic_summary": {
+    "continuous_scalar": {
+      "n": 418,
+      "n_no_bracket": 83,
+      "no_bracket_rate": 0.19856459330143542,
+      "n_calibrated": 335,
+      "n_s3_pass": 249,
+      "s3_pass_rate": 0.5956937799043063,
+      "n_recovery_fail_after_calibration": 86,
+      "recovery_fail_rate_given_calibrated": 0.25671641791044775,
+      "median_max_grid_median_no_bracket": 0.1235577067511878,
+      "q90_max_grid_median_no_bracket": 0.1404144966542718,
+      "fraction_no_bracket_max_below_0_10": 0.21686746987951808,
+      "fraction_no_bracket_max_below_0_15": 1
+    },
+    "nominal_categorical": {
+      "n": 265,
+      "n_no_bracket": 251,
+      "no_bracket_rate": 0.9471698113207547,
+      "n_calibrated": 14,
+      "n_s3_pass": 6,
+      "s3_pass_rate": 0.022641509433962263,
+      "n_recovery_fail_after_calibration": 8,
+      "recovery_fail_rate_given_calibrated": 0.5714285714285714,
+      "median_max_grid_median_no_bracket": 0.07119292510588772,
+      "q90_max_grid_median_no_bracket": 0.11041170012880135,
+      "fraction_no_bracket_max_below_0_10": 0.8366533864541833,
+      "fraction_no_bracket_max_below_0_15": 1
+    }
+  },
+  "no_bracket_model": {
+    "formula": "S3_no_bracket ~ semantic_class + z_log_n_species + z_prune_fraction",
+    "coefficients": {
+      "Intercept": -0.9168643260845096,
+      "C(semantic_class)[T.nominal_categorical]": 5.227771883338324,
+      "z_log_n": -1.4214954435236673,
+      "z_prune_fraction": -0.3520995119276145
+    },
+    "odds_ratios": {
+      "Intercept": 0.3997146078046915,
+      "C(semantic_class)[T.nominal_categorical]": 186.3768268551584,
+      "z_log_n": 0.2413532470113665,
+      "z_prune_fraction": 0.703062201755696
+    },
+    "mcfadden_pseudo_r2": 0.4912588369949977
+  },
+  "benchmark": 0.15,
+  "interpretation": "Categorical recoverability failure is dominated by a calibration ceiling: 94.7% of novel categorical systems cannot bracket the common rho=0.15 benchmark over the frozen lambda range, compared with 19.9% of continuous systems. Even when calibration succeeds, categorical systems still fail recovery more often (57.1% versus 25.7%). Thus both stages matter, but the dominant categorical bottleneck precedes recovery noise.",
+  "interpretation_guard": "Calibration ceilings diagnose the frozen generator-estimator-tree combination, not biological phylogenetic signal."
+}

@@ -118,6 +118,14 @@ The interval spans the predeclared 0.10 practical reference, so the frozen class
 
 The result nevertheless shows that the estimated family component is not produced by one trait or one family.
 
+### Pre-frozen geometry and coverage robustness
+
+A mandatory sensitivity specified before the real memory effects were opened adjusted the same 201 systems for three outcome-blind features that could otherwise masquerade as family context: log species count, the fraction of backbone-native (prune-only) tips, and the log calibration lambda required for the known-truth informativeness benchmark.
+
+The family repeatability share was essentially unchanged: **0.150 unadjusted versus 0.146 after geometry adjustment**. The trait share changed from 0.043 to 0.049 and the unresolved/residual share from 0.806 to 0.805. The standardized fixed effects were also small (log species count 0.0002, prune fraction 0.0064, calibration lambda 0.0025).
+
+Thus the recurring family component is not explained by these measured differences in taxon coverage, taxonomic insertion, or phylogenetic measurement geometry. This does **not** establish a causal biological family effect: unmeasured BIEN study heterogeneity and other family-correlated features can still contribute.
+
 ### Complementary deep-phylogeny check
 
 A post-outcome exploratory analysis asked whether this recurring family context is itself smoothly organized across deeper family phylogeny. For each of the 45 focal families, a context score was computed as the median trait-specific deviation from the leave-self-out mean for that trait, and family positions were defined by their full GBOTB family crowns.

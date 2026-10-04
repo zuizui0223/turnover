@@ -1,0 +1,44 @@
+name: Recover binary ceiling aggregate v0.3.1
+
+on:
+  push:
+    branches:
+      - methods/phylo-memory-measurability-v0-1
+    paths:
+      - '.github/workflows/phylo-memory-binary-ceiling-aggregate-recover-v0-3-1.yml'
+      - '.triggers/phylo-memory-binary-ceiling-aggregate-recover-v0-3-1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas
+      - name: Download completed edge-split batches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/results
+          gh run download 37195858162 -R "$GITHUB_REPOSITORY" -p 'phylo-memory-binary-ceiling-B*-v0-3-1' -D build/batches
+          find build/batches -type f -name '*.json' -exec cp {} build/results/ \;
+          test "$(find build/results -type f -name '*.json' | wc -l)" -eq 276
+      - name: Aggregate corrected result
+        run: |
+          mkdir -p build/aggregate
+          python scripts/analysis/aggregate_phylo_memory_binary_ceiling_v0_3_1.py \
+            --input-dir build/results \
+            --out build/aggregate/result.json \
+            --table-out build/aggregate/systems.csv \
+            --trait-out build/aggregate/traits.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-binary-ceiling-v0-3-1-recovered
+          path: build/aggregate/

@@ -119,7 +119,9 @@ for(j in seq_len(n-1L)){
   delta[ii] <- delta[ii] + w
   lc <- as.integer(L[ii,j])
   if(any(!is.finite(lc)) || any(lc<1L) || any(lc>nall)) stop("invalid LCA node index")
-  lca_loss <- lca_loss + tabulate(lc,nbins=nall,weights=w)
+  acc <- rowsum(matrix(w,ncol=1),group=lc,reorder=FALSE)
+  ai <- as.integer(rownames(acc))
+  lca_loss[ai] <- lca_loss[ai] + acc[,1]
   offset <- offset+m
 }
 if(offset!=length(rx)) stop("pair-rank traversal incomplete")

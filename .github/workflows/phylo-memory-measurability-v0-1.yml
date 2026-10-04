@@ -1,0 +1,55 @@
+name: Phylogenetic memory measurability v0.1
+
+on:
+  pull_request:
+    paths:
+      - '.triggers/phylo-memory-measurability-v0-1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install analysis dependencies
+        run: pip install numpy pandas statsmodels
+      - name: Download frozen known-truth aggregate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/source
+          test -f build/source/trait_memory_informativeness_v0_5/temporal_informativeness.csv
+      - name: Validate outcome-free design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/phylo_memory_measurability_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
+          assert d['source_evidence']['n_systems']==722
+          assert d['source_evidence']['real_trait_values_opened'] is False
+          assert d['source_evidence']['real_memory_effects_opened'] is False
+          assert d['primary_model']['formula']=='pass ~ semantic_class * z_log_n_species + z_prune_fraction'
+          assert d['primary_model']['cluster_robust_uncertainty']=='two-way cluster bootstrap by family and trait_name, 2000 replicates, seed 20261004'
+          assert d['no_posthoc_predictor_addition'] is True
+          assert d['real_trait_outcomes_used'] is False
+          PY
+      - name: Analyze measurement frontier
+        run: |
+          mkdir -p build/measurability
+          python scripts/analysis/analyze_phylo_memory_measurability_v0_1.py \
+            --input build/source/trait_memory_informativeness_v0_5/temporal_informativeness.csv \
+            --out build/measurability/result.json \
+            --bootstrap-table build/measurability/bootstrap.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-measurability-v0-1
+          path: build/measurability/

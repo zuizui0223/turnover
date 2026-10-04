@@ -2,7 +2,7 @@
 
 ## Working title
 
-**Trait representation sets a measurement frontier for phylogenetic memory**
+**Trait representation creates a measurement frontier for phylogenetic memory**
 
 Alternative:
 
@@ -48,62 +48,89 @@ Key effects:
 
 Pseudo-R² ≈ 0.386.
 
-Interpretation: more species and more backbone-native tips improve measurement, but representation changes the measurement frontier itself.
+Interpretation: additional sampling and backbone-native coverage help overall, but representation changes the recoverability surface itself.
 
-## Main result 2 — categorical failure begins at calibration
+## Main result 2 — categorical failure is concentrated at calibration
 
 The v0.2 mechanism decomposition separates two stages:
 
-1. **Calibration ceiling:** can the frozen generator + realized tree + estimator attain rho=0.15 anywhere on the frozen lambda grid?
+1. **Calibration accessibility:** can the frozen generator + realized tree + estimator bracket rho=0.15 anywhere on the frozen lambda grid?
 2. **Recovery noise:** if calibration succeeds, does the evaluation sample recover the benchmark accurately enough?
 
 Novel systems with full calibration diagnostics: 683.
 
 ### Continuous scalar
-- no bracket: 83/418 = 19.9%
-- calibrated: 335
-- S3 PASS: 249/418 = 59.6%
-- recovery failure after calibration: 86/335 = 25.7%
-- median maximum pilot rho among no-bracket systems = 0.124
+- n = 407
+- no bracket: 60/407 = 14.7%
+- calibrated: 347
+- S3 PASS: 293/407 = 72.0%
+- recovery failure after successful calibration: 54/347 = 15.6%
+- median maximum pilot rho among no-bracket systems = 0.106
 
 ### Nominal categorical
-- no bracket: 251/265 = 94.7%
-- calibrated: only 14
-- S3 PASS: 6/265 = 2.26%
-- recovery failure after calibration: 8/14 = 57.1%
-- median maximum pilot rho among no-bracket systems = 0.071
+- n = 276
+- no bracket: 220/276 = 79.7%
+- calibrated: 56
+- S3 PASS: 18/276 = 6.52%
+- recovery failure after successful calibration: 38/56 = 67.9%
+- median maximum pilot rho among no-bracket systems = 0.0979
 
-Thus both stages hurt categorical systems, but the dominant bottleneck occurs **before evaluation noise**: most binary/tree geometries cannot bracket the common benchmark under the frozen generator-estimator combination.
+Thus categorical systems are penalized at both stages, but the largest loss occurs before evaluation: four-fifths of categorical systems fail to bracket the common benchmark under the frozen generator–tree–estimator combination.
 
 Adjusted no-bracket model:
 `NO_BRACKET ~ semantic_class + z_log(n_species) + z_prune_fraction`
 
-- categorical OR ≈ 186
-- +1 SD log species OR ≈ 0.24
-- +1 SD prune fraction OR ≈ 0.70
-- pseudo-R² ≈ 0.491
+- categorical OR ≈ 18.4
+- +1 SD log species OR ≈ 1.36
+- +1 SD prune fraction OR ≈ 1.01
+- pseudo-R² ≈ 0.339
 
-## Main result 3 — the ceiling is broad, not one bad trait
+Crucially, **no-bracket is not identical to a hard mathematical ceiling**. Among categorical no-bracket systems, 88.6% have maximum grid median <0.15, but 11.4% reach or exceed 0.15 somewhere on the grid without satisfying the frozen bracketing rule. The next mechanism test therefore distinguishes representational/tree attainability from generator accessibility.
 
-Across the 9 categorical traits:
-- 8/9 have no-bracket rates >=80%
-- 4/9 are 100%
-- median trait no-bracket rate = 96.8%
-- minimum = 71.4%
+## Main result 3 — the bottleneck is broad but heterogeneous
 
-Across 83 families represented by at least two categorical systems:
+Seven categorical traits occur in the 683-system v0.2 population.
+
+Trait-level no-bracket rates:
+- range = 50.0–86.9%
+- median = 60.0%
+- 3/7 traits are >=80%
+- 0/7 are 100%
+
+The strongest trait-level bottlenecks are:
+- whole plant woodiness: 86.9%
+- whole plant vegetative phenology: 84.2%
+- whole plant growth form: 80.3%
+
+Across 100 families represented by at least two categorical systems:
 - median family no-bracket rate = 100%
-- IQR = 100–100%
+- IQR = 66.7–100%
 
-Therefore the bottleneck is not attributable to a single categorical trait or a handful of unusual clades.
+Therefore the representation penalty is widespread across families but not uniform across traits. This is more consistent with a **representation × realized geometry measurement frontier** than with a single universal categorical ceiling.
+
+## Mechanistic test — frozen before opening results
+
+The original v0.3 proposal used an unconstrained upper bound that labels arbitrary pairwise distances as match/mismatch. Before any v0.3 result was computed, that construction was recognized as non-realizable for binary tip states: with distinct pair-distance ranks its optimum approaches sqrt(3/4) ≈ 0.866 and is therefore non-discriminating for a rho=0.15 benchmark.
+
+v0.3.1 replaces it with a realizable one-transition state family:
+
+- every edge of the realized S3 tree defines a descendant-clade-versus-rest binary split;
+- every such split is an attainable tip-state pattern under a single state transition;
+- exact Spearman/point-biserial rho is computed for every edge split;
+- the maximum edge-split rho is compared with the frozen OU-threshold generator maximum.
+
+This separates two mechanisms among categorical no-bracket systems:
+
+1. **single-transition structural limitation:** even the best one-edge split has rho < 0.15;
+2. **generator accessibility limitation:** a one-edge split can reach rho >= 0.15, but the frozen OU-threshold process does not bracket it.
+
+The edge-split maximum is intentionally not claimed to be a global upper bound over arbitrary multi-transition binary patterns.
 
 ## Mechanistic interpretation
 
-For a continuous trait, pairwise dissimilarities can occupy many ranks.
+For a continuous trait, pairwise dissimilarities can occupy many ranks. For a nominal binary representation, pairwise dissimilarity is only match versus mismatch, so Spearman correlation is a rank association between phylogenetic separation and a two-level mismatch indicator.
 
-For a nominal binary representation, pairwise dissimilarity is only match versus mismatch. Spearman correlation then reduces to a rank correlation between phylogenetic separation and a two-level mismatch indicator. The attainable association is consequently constrained by the realized tree geometry, state balance, and which tip bipartitions the generator can produce.
-
-The observed calibration ceiling is consistent with this rank-information constraint. A future formal ceiling derivation can sharpen this mechanism, but the empirical known-truth result does not depend on that derivation.
+The empirical result already shows that equal target signal is not equally recoverable across representations. The corrected breadth analysis adds an important qualification: categorical measurement failure is not uniform. The relevant object is therefore not “categorical traits are unmeasurable,” but **whether a particular representation can express and recover the target association on a particular realized phylogeny and sampling design**.
 
 ## What the paper does NOT say
 
@@ -111,19 +138,26 @@ It does not say:
 - categorical biological traits are less conserved;
 - continuous traits evolve more phylogenetically;
 - failed systems have weak real signal;
+- every categorical system has a hard rho ceiling below 0.15;
 - rho=0.15 is a universal biological threshold.
 
 It says:
-- under the same known true benchmark and the same estimator family, representation and sampling geometry determine whether a phylogenetic-memory signal is measurable;
-- treating continuous and nominal categorical traits as equally powered in comparative distance–dissimilarity analyses can be badly misleading.
+- under the same known true benchmark and the same estimator family, representation and sampling geometry strongly determine measurability;
+- categorical systems are much more likely to fail both calibration and recovery;
+- the size of that penalty varies across real trait × family geometries;
+- absence or heterogeneity of measured phylogenetic memory cannot be interpreted safely without a system-specific recoverability check.
 
 ## Practical implication
 
-Comparative analyses should perform **system-specific known-truth recoverability checks before interpreting absence or heterogeneity of phylogenetic memory**.
+Comparative analyses should perform **system-specific known-truth recoverability checks before interpreting weak or heterogeneous phylogenetic memory**.
 
 For continuous traits, increasing phylogenetic sampling can materially move systems across the measurement frontier.
 
-For nominal categorical traits under binary mismatch + Spearman, increasing n alone often does not solve the problem because the primary ceiling is representational/geometric rather than merely sampling variance.
+For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem in the v0.2 decomposition. The next question is whether the lost accessibility is imposed by realizable binary/tree geometry or by the particular generator/estimator route used to represent the same underlying memory.
+
+## Evidence provenance correction
+
+On 2026-10-04, an audit of the cited GitHub Actions artifacts found that the previously committed v0.2 and v0.2.1 summaries did not match their cited artifact contents. The repository result files and this skeleton were corrected to the artifact-backed values before the v0.3.1 mechanism analysis was opened. The v0.1 measurability artifact matched its committed scientific quantities.
 
 ## Publication boundary
 

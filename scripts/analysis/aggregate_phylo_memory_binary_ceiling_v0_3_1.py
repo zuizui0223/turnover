@@ -19,6 +19,11 @@ for p in sorted(a.input_dir.glob("*.json")):
         continue
     rows.append(x)
 df=pd.DataFrame(rows)
+# R jsonlite may serialize missing numeric diagnostics as the literal string "NA".
+# Coerce numeric result columns explicitly before any grouped medians/quantiles.
+for col in ["max_edge_split_rho","original_ou_max_grid_median","edge_minus_ou_gap","unconstrained_pair_label_upper_bound"]:
+    if col in df.columns:
+        df[col]=pd.to_numeric(df[col],errors="coerce")
 if len(df)!=276:
     raise SystemExit(f"expected 276 nominal-categorical novel systems, got {len(df)}")
 if not (df["real_trait_values_used"].eq(False).all() and df["real_memory_effects_used"].eq(False).all()):

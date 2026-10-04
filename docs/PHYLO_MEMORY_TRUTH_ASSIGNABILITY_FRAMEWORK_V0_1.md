@@ -70,40 +70,54 @@ A fair cross-representation comparison therefore needs to establish, in order:
 
 Otherwise generator failure can be misread as weak statistical power or weak information in the data.
 
-## Next decisive generator test
+## v0.4.1 representation-appropriate generator substitution
 
-If the full v0.3.1 result confirms the interim pattern, the most direct follow-up is not an estimator search. It is a representation-appropriate generator comparison on the same categorical S3 trees.
+The next test held the realized trees, benchmark and binary mismatch + Spearman estimator fixed, but replaced latent-OU thresholding with a symmetric two-state Mk2/ER process.
 
-### Candidate categorical generator
+Across the same 276 categorical systems:
 
-Use a symmetric two-state continuous-time Markov chain (Mk2/ER):
+- OU-threshold no-bracket: **220/276 = 79.7%**;
+- Mk2 no-bracket: **170/276 = 61.6%**;
+- original OU no-bracket systems rescued to Mk2 calibration: **51/220 = 23.2%**;
+- original OU-calibrated systems newly lost under Mk2: **1/56**;
+- Mk2 calibrated systems: **106/276**;
+- Mk2 S3 PASS: **69/276 = 25.0%**;
+- recovery failure given Mk2 calibration: **37/106 = 34.9%**.
 
-- root state sampled symmetrically;
-- along branch length t, the probability of a state flip is
-  `(1 - exp(-2 q t))/2`;
-- parameterize q relative to tree height so the calibration grid is dimensionless across trees;
-- use the same binary mismatch + Spearman estimator and the same target rho=0.15;
-- retain the same validity rule requiring both states to be present and adequate valid-replicate fraction.
+The paired asymmetry (51 rescues versus one new calibration failure) shows that truth accessibility is materially generator-dependent. But Mk2 does not erase the bottleneck: **61.6%** still fail calibration, so the mechanism is not reducible to one badly chosen generator.
 
-### Primary comparison
+The current decomposition is therefore:
 
-For the same 276 categorical systems:
+1. **Structural realizability:** not limiting at rho=0.15 for these categorical trees; every tree has an explicit one-transition witness above the target.
+2. **Generator accessibility:** strongly limiting and generator-dependent; Mk2 materially improves but does not solve it.
+3. **Estimator/recovery:** still limiting after successful assignment; categorical recovery failure remains substantial even under Mk2.
 
-`no-bracket rate under latent OU thresholding` versus `no-bracket rate under symmetric Mk2`.
+## v0.5 state-balance attenuation test
 
-Interpretation:
-- Mk2 strongly rescues bracketing -> the dominant stage-2 bottleneck is generator-specific;
-- Mk2 does not rescue -> investigate estimator/state-balance constraints next;
-- either way, do not call the problem an inherent categorical-trait limitation without this generator check.
+For binary mismatch Y and patristic-distance rank X,
 
-## Secondary estimator mechanism
+`rho = Delta_rank * sqrt(p(1-p))`
 
-For binary mismatch Y with mismatch-pair prevalence p and rank-distance X,
+where `p` is the fraction of unordered tip pairs that mismatch and
 
-`corr(X,Y) = [(mean X_mismatch - mean X_match) / SD(X)] * sqrt(p(1-p))`.
+`Delta_rank = (mean rank_mismatch - mean rank_match) / SD(rank)`.
 
-Thus binary Spearman contains an explicit state-balance attenuation term. A later balance-normalized rank-separation statistic can isolate this factor without changing the pair-distance ranking. This is a cleaner estimator diagnostic than switching simultaneously from ranks to raw patristic distances.
+Thus ordinary binary Spearman contains an exact mismatch-prevalence attenuation term. The next frozen test keeps the **same Mk2 states and the same patristic-distance ranks**, removes only this algebraic factor, and asks whether the remaining 170 Mk2 no-bracket systems become calibratable.
+
+The target is frozen at **Delta_rank = 0.30**, because rho = 0.15 at maximally balanced mismatch prevalence p = 0.5 corresponds exactly to 0.15 / sqrt(0.25) = 0.30. The original rho tolerance 0.01 maps to a Delta_rank tolerance of 0.02 on the same scale.
+
+This is deliberately narrower than the earlier unexecuted alternative-estimator proposal, which changed both rank geometry and balance sensitivity at once.
+
+## Why this matters beyond this study
+
+Simulation-based power and recoverability studies usually treat “known truth” as an input. The present results show that this assumption can fail at three different levels:
+
+1. the state space may not contain the requested truth;
+2. the chosen generator may not reach it with adequate validity;
+3. the estimator may attenuate or fail to recover it after assignment.
+
+A fair cross-representation comparison must therefore demonstrate **truth assignability before power**. Otherwise generator or representation constraints can be misread as low statistical power or weak biological signal.
 
 ## Status
 
-Structural realizability and the latent-OU accessibility failure are now closed on the full categorical population. The next gate is the pre-specified generator substitution: keep binary mismatch + Spearman fixed and test whether a symmetric two-state Markov generator can assign rho = 0.15 more reliably. The balance-normalized estimator remains secondary and should not be opened before that generator comparison.
+Structural realizability is closed. Latent-OU accessibility failure is closed. The representation-appropriate Mk2 substitution is closed and shows a substantial but incomplete rescue. The active gate is now the pre-frozen **state-balance attenuation** test on the same Mk2 states. No observed trait values or observed phylogenetic-memory effects enter any of these mechanism analyses.

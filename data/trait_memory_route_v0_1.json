@@ -74,7 +74,18 @@
     "conditional_family_repeatability": "results/lineage_memory_repeatability_v0_2/result.json",
     "context_synthesis": "results/trait_memory_context_synthesis_v0_1/result.json",
     "geometry_adjustment": "results/trait_memory_geometry_adjustment_v0_7_2/result.json",
-    "deep_family_phylogeny_exploratory": "results/family_context_phylogeny_v0_1/result.json"
+    "deep_family_phylogeny_exploratory": "results/family_context_phylogeny_v0_1/result.json",
+    "source_composition_sensitivity": "results/trait_memory_source_composition_v0_1/result.json"
   },
-  "current_publication_state": "BIEN empirical paper scientifically closed; remaining work is presentation, reproducibility, literature positioning and optional independent AusTraits replication."
+  "current_publication_state": "BIEN empirical paper scientifically closed after stable provenance sensitivity; no further hypothesis mining on the 201 observed effects. Remaining work is figures, prose, reproducibility packaging, and optional independent AusTraits replication.",
+  "analysis_stop_rule": {
+    "status": "CLOSED",
+    "reason": "Post-outcome source/source_citation concentration audit was stable (R_family 0.1504 unadjusted, 0.1492 source-adjusted, 0.1470 citation-adjusted; all family-context/provenance |rho| <0.067, permutation p>0.66).",
+    "prohibited": [
+      "new provenance field search",
+      "new covariate search on observed rho",
+      "outcome-driven family/trait exclusion",
+      "new primary hypothesis on the 201-system BIEN core"
+    ]
+  }
 }

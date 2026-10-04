@@ -14,6 +14,14 @@ Avoid titles that say lineage effects "dominate" trait effects. The prospectivel
 
 Trait-specific phylogenetic-memory estimates do not robustly predict the same trait in a held-out plant family; instead, most variation is family-by-trait specific, with a modest repeatable family-level component across traits.
 
+## Ecological question, answer and significance
+
+**Question.** When a plant functional trait shows phylogenetic memory within a lineage, is the strength of that memory a transferable property of the trait, or does it depend on the lineage in which the trait evolves?
+
+**Answer.** Memory strength learned for the same trait in other families does not robustly predict a held-out family, whereas family identity retains a modest recurring component across different traits; most variation nevertheless remains unresolved at the individual family × trait system level.
+
+**Significance.** Comparative ecology should not automatically transport a trait-specific phylogenetic-signal prior from one clade to another. The empirically safer unit of generalization is a trait embedded in lineage context, unless cross-lineage portability has itself been demonstrated.
+
 ## Gap
 
 Phylogenetic signal is usually estimated for one trait in one phylogeny or compared among traits/clades. Those approaches establish whether traits are conserved and whether evolutionary tempo differs among clades, but they do not directly test whether a trait's estimated memory is **portable to an unseen lineage**.

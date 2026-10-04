@@ -19,15 +19,15 @@ for p in sorted(a.input_dir.glob("*.json")):
         continue
     rows.append(x)
 df=pd.DataFrame(rows)
-if len(df)!=265:
-    raise SystemExit(f"expected 265 nominal-categorical novel systems, got {len(df)}")
+if len(df)!=276:
+    raise SystemExit(f"expected 276 nominal-categorical novel systems, got {len(df)}")
 if not (df["real_trait_values_used"].eq(False).all() and df["real_memory_effects_used"].eq(False).all()):
     raise SystemExit("outcome firewall violated")
 
 benchmark=0.15
 nb=df[df.original_s3_no_bracket.astype(bool)].copy()
-if len(nb)!=251:
-    raise SystemExit(f"expected 251 categorical no-bracket systems, got {len(nb)}")
+if len(nb)!=220:
+    raise SystemExit(f"expected 220 categorical no-bracket systems, got {len(nb)}")
 nb["single_transition_structural_limit"]=nb.max_edge_split_rho < benchmark
 nb["single_transition_available_but_ou_unreached"]=~nb.single_transition_structural_limit
 

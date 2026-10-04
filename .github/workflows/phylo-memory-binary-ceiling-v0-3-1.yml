@@ -47,7 +47,7 @@ jobs:
                   if x['semantic_class']=='nominal_categorical':
                       rows.append({'id':x['system_id'],'family':x['family'],'trait_name':x['trait_name']})
           rows.sort(key=lambda r:(r['family'],r['trait_name'],r['id']))
-          assert len(rows)==265, len(rows)
+          assert len(rows)==276, len(rows)
           nb=32
           bins=[[] for _ in range(nb)]
           for i,r in enumerate(rows):

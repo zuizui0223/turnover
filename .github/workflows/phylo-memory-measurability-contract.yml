@@ -9,6 +9,9 @@ on:
       - 'results/phylo_memory_calibration_ceiling_v0_2_1/result.json'
       - 'results/phylo_memory_binary_ceiling_v0_3_1/result.json'
       - 'results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'
+      - 'data/phylo_memory_mk2_generator_design_v0_4_1.json'
+      - 'results/phylo_memory_mk2_generator_v0_4_1/result.json'
+      - 'data/phylo_memory_balance_normalized_design_v0_5.json'
       - '.github/workflows/phylo-memory-measurability-contract.yml'
   workflow_dispatch:
 permissions:
@@ -30,6 +33,8 @@ jobs:
           b=json.load(open('results/phylo_memory_calibration_ceiling_v0_2_1/result.json'))
           e=json.load(open('results/phylo_memory_binary_ceiling_v0_3_1/result.json'))
           g=json.load(open('results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'))
+          m=json.load(open('results/phylo_memory_mk2_generator_v0_4_1/result.json'))
+          z=json.load(open('data/phylo_memory_balance_normalized_design_v0_5.json'))
           assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
           assert c['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
           assert r['n_systems']==722
@@ -67,4 +72,17 @@ jobs:
           assert abs(g['categorical_no_bracket']['median_spearman_loglambda_valid_fraction']+0.9574271077563381)<1e-12
           assert g['evidence_artifact_result_sha256']=='52df7c0c7eb95fc838ab38c24a85dbf0eb9124d2a7b50db64fafeaec5131e739'
           assert g['real_trait_values_used'] is False and g['real_memory_effects_used'] is False
+          assert m['status']=='PHYLO_MEMORY_MK2_GENERATOR_AGGREGATED'
+          assert m['n_systems']==276
+          assert m['ou_reference']['n_no_bracket']==220
+          assert m['mk2']['n_no_bracket']==170 and m['mk2']['n_calibrated']==106
+          assert m['paired_generator_comparison']['ou_no_bracket_mk2_calibrated_rescued_n']==51
+          assert m['paired_generator_comparison']['ou_calibrated_mk2_no_bracket_new_failure_n']==1
+          assert abs(m['mk2']['s3_pass_rate']-0.25)<1e-12
+          assert m['evidence_artifact_result_sha256']=='1c6257aaee2eb46852f25db390a79438c98635adb4f86140827c28ec9664b09f'
+          assert m['real_trait_values_used'] is False and m['real_memory_effects_used'] is False
+          assert z['status']=='FROZEN_BEFORE_BALANCE_NORMALIZED_RANK_SEPARATION_RESULT_OPENING'
+          assert z['factorization']['target']==0.30 and z['factorization']['tolerance']==0.02
+          assert z['calibration_only'] is True
+          assert z['real_trait_values_used'] is False and z['real_memory_effects_used'] is False
           PY

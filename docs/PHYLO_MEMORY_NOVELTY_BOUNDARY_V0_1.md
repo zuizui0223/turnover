@@ -82,20 +82,33 @@ Do not claim:
 - Mk2 is universally the correct evolutionary model;
 - two-valued distances causing lower power is newly discovered here.
 
-## Why the Mk2 comparison is decisive
+## Generator substitution result
 
-The next pre-frozen experiment holds constant:
-- the 276 categorical S3 trees;
-- binary mismatch;
-- Spearman rho;
-- rho = 0.15 target;
-- calibration grid size/range;
-- pilot and evaluation replication;
-- validity and recovery criteria.
+The pre-frozen Mk2 comparison is now complete. Holding the trees, binary mismatch, Spearman rho and rho = 0.15 target fixed:
 
-Only the state generator changes from latent OU + threshold to symmetric Mk2/ER.
+- latent-OU threshold no-bracket = **220/276 (79.7%)**;
+- symmetric Mk2 no-bracket = **170/276 (61.6%)**;
+- **51/220 (23.2%)** original OU no-bracket systems are rescued to Mk2 calibration;
+- only **1/56** originally OU-calibrated systems becomes a new Mk2 calibration failure;
+- Mk2 S3 PASS = **69/276 (25.0%)**.
 
-A large paired rescue would therefore isolate generator choice as a causal source of the stage-2 accessibility loss. A weak rescue would instead direct attention toward state-balance and estimator constraints.
+The paired 51-versus-1 asymmetry makes generator choice an identified source of accessibility loss. But Mk2 does not remove the problem: 61.6% remain no-bracket.
+
+The novelty therefore should not be phrased as “threshold generators are bad.” The result is that **generator choice is part of truth assignment**, and its effect can be separated empirically from both the representational state space and downstream recovery.
+
+## State-balance mechanism
+
+For binary mismatch, the distance-rank association has the exact factorization
+
+`rho = Delta_rank * sqrt(p(1-p))`,
+
+where `p` is mismatch-pair prevalence and `Delta_rank` is the standardized separation of phylogenetic-distance ranks between mismatch and match pairs.
+
+Because `sqrt(p(1-p)) <= 0.5`, **Delta_rank >= 0.30 is necessary for rho = 0.15 to be attainable at any state balance**.
+
+The active v0.5 test therefore keeps the same Mk2 states and distance ranks and removes only this exact attenuation term. Systems that reach Delta_rank = 0.30 but failed rho = 0.15 isolate state balance as the lost information; systems that still fail 0.30 reveal a deeper alignment limitation between Mk2-generated binary partitions and phylogenetic-distance ranks.
+
+A live-BIEN provenance drift discovered during the first v0.5 execution is handled by a frozen, outcome-blind geometry identity gate: unmatched systems are recorded as HOLD and remain explicitly in population accounting rather than being silently redefined.
 
 ## Likely journal positioning
 

@@ -34,13 +34,19 @@ jobs:
           assert r['real_trait_values_used'] is False and r['real_memory_effects_used'] is False
           assert v['status']=='PHYLO_MEMORY_CALIBRATION_CEILING_DECOMPOSED_NOVEL683'
           assert v['n_systems']==683
-          assert abs(v['semantic_summary']['nominal_categorical']['no_bracket_rate']-0.9471698113207547)<1e-12
-          assert abs(v['semantic_summary']['continuous_scalar']['no_bracket_rate']-0.19856459330143542)<1e-12
+          assert v['semantic_summary']['continuous_scalar']['n']==407
+          assert v['semantic_summary']['nominal_categorical']['n']==276
+          assert abs(v['semantic_summary']['nominal_categorical']['no_bracket_rate']-0.7971014492753623)<1e-12
+          assert abs(v['semantic_summary']['continuous_scalar']['no_bracket_rate']-0.14742014742014742)<1e-12
+          assert abs(v['no_bracket_model']['odds_ratios']['C(semantic_class)[T.nominal_categorical]']-18.416013539443668)<1e-12
+          assert v['evidence_artifact_result_sha256']=='cd993d3cc0737da3d47b71387cb45cf21e74efec4f439e7ce2c2301eb1b8326d'
           assert v['real_trait_values_used'] is False and v['real_memory_effects_used'] is False
           assert b['status']=='PHYLO_MEMORY_CALIBRATION_CEILING_BREADTH_AUDITED'
-          assert b['categorical']['n_traits']==9
-          assert b['categorical']['n_traits_rate_ge_0_80']==8
-          assert b['categorical']['n_traits_rate_1']==4
+          assert b['categorical']['n_traits']==7
+          assert b['categorical']['n_traits_rate_ge_0_80']==3
+          assert b['categorical']['n_traits_rate_1']==0
+          assert b['categorical']['families_with_ge2_categorical_systems']==100
           assert b['categorical']['family_no_bracket_rate_median_ge2']==1.0
+          assert b['evidence_artifact_result_sha256']=='44f5d224e2097fde2d23be4a47025621867cc69a9f9478c1f1b8fc84ebf348d0'
           assert b['real_trait_values_used'] is False and b['real_memory_effects_used'] is False
           PY

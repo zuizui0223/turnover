@@ -1,0 +1,47 @@
+name: Trait memory paper robustness contract
+
+on:
+  pull_request:
+    paths:
+      - 'results/trait_memory_geometry_adjustment_v0_7_2/result.json'
+      - 'data/trait_memory_route_v0_1.json'
+      - 'docs/TRAIT_MEMORY_CONTEXT_MANUSCRIPT_V0_1.md'
+      - '.github/workflows/trait-memory-paper-robustness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate completed route and pre-frozen robustness
+        run: |
+          python - <<'PY'
+          import json
+          g=json.load(open('results/trait_memory_geometry_adjustment_v0_7_2/result.json'))
+          assert g['status']=='TRAIT_MEMORY_GEOMETRY_ADJUSTMENT_ROBUST'
+          assert g['chronology'].startswith('Sensitivity was frozen before real memory effects')
+          assert g['n_systems']==201 and g['n_families']==45 and g['n_traits']==12
+          assert abs(g['primary_unadjusted']['R_family']-0.1504)<1e-12
+          assert abs(g['coverage_only']['S3']['R_family']-0.1543)<1e-12
+          assert abs(g['coverage_only']['prune_only']['R_family']-0.1511)<1e-12
+          assert abs(g['geometry_adjusted']['R_family']-0.1458)<1e-12
+          assert g['geometry_adjusted']['singular'] is False
+
+          r=json.load(open('data/trait_memory_route_v0_1.json'))
+          assert r['status']=='TRAIT_MEMORY_EMPIRICAL_PROGRAMME_COMPLETE'
+          assert r['outcome_state']['real_family_trait_memory_rho_opened'] is True
+          assert r['qualification']['final_crossed_core']['systems']==201
+          assert r['qualification']['crossed_model_informativeness']['status']=='HOLD_VARIANCE_RATIO_ONLY'
+          assert r['completed_empirical_results']['geometry_adjustment']=='results/trait_memory_geometry_adjustment_v0_7_2/result.json'
+
+          rep=json.load(open('results/trait_memory_repeatability_v0_2/result.json'))
+          assert abs(rep['primary_S3']['R_family']-0.1504)<1e-12
+          assert abs(rep['prune_only_sensitivity']['R_family']-0.1482)<1e-12
+          PY

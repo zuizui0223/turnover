@@ -1,12 +1,14 @@
 {
   "version": "v0.1",
-  "status": "TRAIT_MEMORY_INFORMATIVENESS_RUNNING",
+  "status": "TRAIT_MEMORY_EMPIRICAL_PROGRAMME_COMPLETE",
   "study": "Plant trait phylogenetic memory spectrum",
   "independent_from_joint_programme": true,
   "prior_joint_programme_terminal_hold": "results/bien_spatial_informativeness_v0_4_3/result.json",
   "outcome_state": {
-    "real_family_trait_memory_rho_opened": false,
-    "variance_partition_opened": false
+    "real_family_trait_memory_rho_opened": true,
+    "variance_partition_opened": true,
+    "portability_opened": true,
+    "conditional_family_repeatability_opened": true
   },
   "qualification": {
     "structural": {
@@ -39,20 +41,40 @@
       "result": "results/trait_memory_pre_informativeness_core_v0_5_1/result.json"
     },
     "temporal_informativeness": {
-      "status": "RUNNING",
+      "status": "PASS",
       "candidate_systems": 722,
       "reused_prior": 39,
-      "novel_simulated": 683
+      "novel_simulated": 683,
+      "pass_systems": 255,
+      "pass_families": 70,
+      "pass_traits": 22,
+      "result": "results/trait_memory_informativeness_v0_5/result.json"
     },
     "final_crossed_core": {
-      "status": "PENDING"
+      "status": "PASS",
+      "systems": 201,
+      "families": 45,
+      "traits": 12,
+      "connected": true,
+      "result": "results/trait_memory_crossed_core_v0_6/result.json"
     },
     "crossed_model_informativeness": {
-      "status": "PENDING"
+      "status": "HOLD_VARIANCE_RATIO_ONLY",
+      "result": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+      "consequence": "Do not make a formal family-versus-trait variance-dominance claim. Separately prequalified repeatability, portability and conditional-family analyses were allowed to proceed."
     }
   },
-  "real_effect_opening_rule": "Real family x trait memory rho may be opened only if final crossed core passes >=12 families, >=4 traits, degree and connectivity requirements, and the frozen crossed-model known-truth informativeness gate passes both twofold-dominance benchmarks.",
+  "real_effect_opening_rule": "Historical gate record only. Real rho was opened only through separately prequalified estimands after the variance-ratio dominance route HOLD; see completed_empirical_results.",
   "source_family_closed": true,
   "source": "BIEN 4.2.8 only",
-  "no_posthoc_relaxation": true
+  "no_posthoc_relaxation": true,
+  "completed_empirical_results": {
+    "crossed_repeatability": "results/trait_memory_repeatability_v0_2/result.json",
+    "cross_lineage_trait_portability": "results/trait_memory_portability_v0_2/result.json",
+    "conditional_family_repeatability": "results/lineage_memory_repeatability_v0_2/result.json",
+    "context_synthesis": "results/trait_memory_context_synthesis_v0_1/result.json",
+    "geometry_adjustment": "results/trait_memory_geometry_adjustment_v0_7_2/result.json",
+    "deep_family_phylogeny_exploratory": "results/family_context_phylogeny_v0_1/result.json"
+  },
+  "current_publication_state": "BIEN empirical paper scientifically closed; remaining work is presentation, reproducibility, literature positioning and optional independent AusTraits replication."
 }

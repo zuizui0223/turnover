@@ -1,0 +1,69 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_SENSITIVITY_FROZEN_BEFORE_SOURCE_COMPOSITION_RESULT",
+  "frozen_on": "2026-10-04",
+  "source_primary_result": "results/trait_memory_repeatability_v0_2/result.json",
+  "purpose": "Audit whether the recurring family-level component of phylogenetic memory could be explained by family-correlated BIEN source/study composition.",
+  "role": "Post-outcome sensitivity only. It cannot change the prospective portability/repeatability conclusions and cannot be promoted to a new primary hypothesis.",
+  "core": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "effect_artifact": {
+      "workflow_run": 37095981751,
+      "artifact_id": 11264597069,
+      "sha256": "2ccabde54a13220d2f39efcd641cf57e7e5fe0470cbf7aa24cc03444b712bbf0"
+    }
+  },
+  "provenance_unit": {
+    "primary": "source",
+    "sensitivity": "source_citation",
+    "missing_label": "__MISSING__",
+    "rationale": "Use BIEN provenance fields already stored on agg_traits; do not infer study identity from trait values."
+  },
+  "per_system_covariates": [
+    "n_trait_records",
+    "n_sources",
+    "source_HHI = sum(source record shares squared)",
+    "dominant_source_share"
+  ],
+  "family_covariates": [
+    "median_source_HHI across the family's admitted systems",
+    "median_dominant_source_share",
+    "median_n_sources"
+  ],
+  "tests": {
+    "A_context_vs_source_concentration": {
+      "response": "prospective family context score = BLUP-free family mean of trait-centered S3 rho, computed as median over admitted systems of rho_family_trait - leave-family-out mean rho for that trait",
+      "predictors": [
+        "family median source_HHI",
+        "family median dominant_source_share"
+      ],
+      "inference": "Spearman association, 9999 family-label permutations, two-sided",
+      "interpretation": "A positive association would make source concentration a plausible contributor; a null association does not eliminate source heterogeneity."
+    },
+    "B_adjusted_repeatability": {
+      "formula": "S3_rho ~ z_log_n_trait_records + z_source_HHI + z_dominant_source_share + (1|family) + (1|trait_name)",
+      "estimation": "REML",
+      "compare_to": "unadjusted R_family=0.1504, R_trait=0.0433, R_residual=0.8063",
+      "outputs": [
+        "adjusted R_family",
+        "adjusted R_trait",
+        "adjusted R_residual",
+        "absolute change in R_family"
+      ],
+      "inference": "descriptive sensitivity; no new p-value threshold"
+    },
+    "C_source_citation_replication": {
+      "rule": "Repeat A and B using source_citation instead of source where feasible.",
+      "role": "secondary sensitivity"
+    }
+  },
+  "hard_nonclaims": [
+    "No causal biological family effect is established.",
+    "A stable adjusted R_family does not prove source heterogeneity is irrelevant.",
+    "A changed R_family does not invalidate the prospective portability result.",
+    "Do not select provenance field or covariates by whichever gives the preferred result."
+  ],
+  "no_posthoc_selection": true
+}

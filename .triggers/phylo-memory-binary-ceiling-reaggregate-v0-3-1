@@ -1,0 +1,2 @@
+triggered_on: 2026-10-04
+reason: aggregate the 32 completed edge-split batches after numeric NA coercion fix; no batch recomputation.

@@ -1,0 +1,46 @@
+name: Phylogenetic memory measurability contract
+on:
+  pull_request:
+    paths:
+      - 'data/phylo_memory_measurability_design_v0_1.json'
+      - 'data/phylo_memory_calibration_ceiling_design_v0_2.json'
+      - 'results/phylo_memory_measurability_v0_1/result.json'
+      - 'results/phylo_memory_calibration_ceiling_v0_2/result.json'
+      - 'results/phylo_memory_calibration_ceiling_v0_2_1/result.json'
+      - '.github/workflows/phylo-memory-measurability-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/phylo_memory_measurability_design_v0_1.json'))
+          c=json.load(open('data/phylo_memory_calibration_ceiling_design_v0_2.json'))
+          r=json.load(open('results/phylo_memory_measurability_v0_1/result.json'))
+          v=json.load(open('results/phylo_memory_calibration_ceiling_v0_2/result.json'))
+          b=json.load(open('results/phylo_memory_calibration_ceiling_v0_2_1/result.json'))
+          assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
+          assert c['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
+          assert r['n_systems']==722
+          assert abs(r['pass_rate_continuous']-0.5620767494356659)<1e-12
+          assert abs(r['pass_rate_categorical']-0.021505376344086023)<1e-12
+          assert r['real_trait_values_used'] is False and r['real_memory_effects_used'] is False
+          assert v['status']=='PHYLO_MEMORY_CALIBRATION_CEILING_DECOMPOSED_NOVEL683'
+          assert v['n_systems']==683
+          assert abs(v['semantic_summary']['nominal_categorical']['no_bracket_rate']-0.9471698113207547)<1e-12
+          assert abs(v['semantic_summary']['continuous_scalar']['no_bracket_rate']-0.19856459330143542)<1e-12
+          assert v['real_trait_values_used'] is False and v['real_memory_effects_used'] is False
+          assert b['status']=='PHYLO_MEMORY_CALIBRATION_CEILING_BREADTH_AUDITED'
+          assert b['categorical']['n_traits']==9
+          assert b['categorical']['n_traits_rate_ge_0_80']==8
+          assert b['categorical']['n_traits_rate_1']==4
+          assert b['categorical']['family_no_bracket_rate_median_ge2']==1.0
+          assert b['real_trait_values_used'] is False and b['real_memory_effects_used'] is False
+          PY

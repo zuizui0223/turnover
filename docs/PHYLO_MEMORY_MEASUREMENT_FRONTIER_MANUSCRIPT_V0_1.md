@@ -2,11 +2,11 @@
 
 ## Working title
 
-**Trait representation creates a measurement frontier for phylogenetic memory**
+**Known truth is not automatically accessible: trait representation creates a generator frontier for phylogenetic memory**
 
 Alternative:
 
-**Equal phylogenetic memory signals are not equally measurable across trait representations**
+**Equal phylogenetic memory signals are not equally assignable across trait representations**
 
 ## Question
 
@@ -108,29 +108,41 @@ Across 100 families represented by at least two categorical systems:
 
 Therefore the representation penalty is widespread across families but not uniform across traits. This is more consistent with a **representation × realized geometry measurement frontier** than with a single universal categorical ceiling.
 
-## Mechanistic test — frozen before opening results
+## Main result 4 — the target is structurally realizable but generator-inaccessible
 
-The original v0.3 proposal used an unconstrained upper bound that labels arbitrary pairwise distances as match/mismatch. Before any v0.3 result was computed, that construction was recognized as non-realizable for binary tip states: with distinct pair-distance ranks its optimum approaches sqrt(3/4) ≈ 0.866 and is therefore non-discriminating for a rho=0.15 benchmark.
+The v0.3.1 structural-realizability test asks whether a binary state configuration capable of rho = 0.15 exists on each realized S3 tree.
 
-v0.3.1 replaces it with a realizable one-transition state family:
+Every tree edge defines a realizable one-transition binary state: descendant clade versus all remaining tips. Across all 276 categorical systems:
 
-- every edge of the realized S3 tree defines a descendant-clade-versus-rest binary split;
-- every such split is an attainable tip-state pattern under a single state transition;
-- exact Spearman/point-biserial rho is computed for every edge split;
-- the maximum edge-split rho is compared with the frozen OU-threshold generator maximum.
+- **276/276** have at least one one-edge split with rho >= 0.15;
+- among the **220 OU no-bracket systems, 220/220** still have a realizable one-edge split above the benchmark;
+- median maximum one-edge rho among no-bracket systems = **0.773** (IQR 0.742–0.811);
+- median maximum OU pilot rho in the same no-bracket systems = **0.0979**;
+- median edge-split minus OU-accessible gap = **0.677** (IQR 0.629–0.728).
 
-This separates two mechanisms among categorical no-bracket systems:
+Thus the categorical calibration failure is **not a hard binary-state-space ceiling**. Even a single-transition state family can express associations far stronger than the declared target on every realized tree. What fails is access to those states under the frozen latent-OU-plus-zero-threshold generator.
 
-1. **single-transition structural limitation:** even the best one-edge split has rho < 0.15;
-2. **generator accessibility limitation:** a one-edge split can reach rho >= 0.15, but the frozen OU-threshold process does not bracket it.
+The edge-split maximum is deliberately not a global upper bound over arbitrary multi-transition patterns. It is enough for the present inference because it supplies an explicit realizable witness above rho = 0.15 for every system.
 
-The edge-split maximum is intentionally not claimed to be a global upper bound over arbitrary multi-transition binary patterns.
+## Main result 5 — stronger latent memory trades off against binary validity
+
+The stored OU calibration grids reveal how generator accessibility fails in the 220 categorical no-bracket systems.
+
+- **195/220 (88.6%)** never reach rho = 0.15 even when low-validity grid points are allowed.
+- **25/220 (11.4%)** reach rho >= 0.15 only after the predeclared valid-replicate fraction falls below 0.90.
+- No categorical no-bracket system reaches the target at an admissible grid point.
+- Median maximum unconstrained pilot rho = **0.0979**; median maximum among admissible grid points = **0.0821**.
+- Across systems, increasing lambda raises the pilot effect (median within-system Spearman **+0.767**) while sharply reducing the fraction of replicates retaining a defined binary mismatch effect (median **-0.957**).
+- Median valid fraction at the largest lambda is **0.20**.
+- In the 60 continuous no-bracket systems, the corresponding valid fraction remains **1.00**.
+
+For binary traits, invalid pilot replicates occur when thresholded tip states become monomorphic. The generator therefore faces an accessibility trade-off: strengthening latent phylogenetic memory tends to increase the desired distance structure while simultaneously erasing the binary variation required to measure it.
 
 ## Mechanistic interpretation
 
 For a continuous trait, pairwise dissimilarities can occupy many ranks. For a nominal binary representation, pairwise dissimilarity is only match versus mismatch, so Spearman correlation is a rank association between phylogenetic separation and a two-level mismatch indicator.
 
-The empirical result already shows that equal target signal is not equally recoverable across representations. The corrected breadth analysis adds an important qualification: categorical measurement failure is not uniform. The relevant object is therefore not “categorical traits are unmeasurable,” but **whether a particular representation can express and recover the target association on a particular realized phylogeny and sampling design**.
+The combined mechanism results separate three distinct questions. The target is structurally realizable in every categorical tree, but the latent-OU-threshold generator often cannot place probability mass in the target region while retaining measurable polymorphism, and calibrated categorical systems still fail finite-sample recovery more often. The relevant object is therefore not “categorical traits are unmeasurable,” but **whether a declared truth is realizable, generator-accessible, and recoverable for the chosen representation on the realized phylogeny**.
 
 ## What the paper does NOT say
 
@@ -153,7 +165,7 @@ Comparative analyses should perform **system-specific known-truth recoverability
 
 For continuous traits, increasing phylogenetic sampling can materially move systems across the measurement frontier.
 
-For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem in the v0.2 decomposition. The next question is whether the lost accessibility is imposed by realizable binary/tree geometry or by the particular generator/estimator route used to represent the same underlying memory.
+For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem. The edge-split witness shows that the target itself is available in the binary state space; the OU-grid audit shows that the principal loss occurs along the chosen generative path. The next decisive test therefore holds the estimator fixed and replaces latent-OU thresholding with a representation-appropriate two-state Markov generator.
 
 ## Evidence provenance correction
 

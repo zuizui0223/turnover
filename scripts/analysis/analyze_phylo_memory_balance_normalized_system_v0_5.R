@@ -22,8 +22,11 @@ out_path <- getarg("--out")
 dir.create(dirname(out_path),recursive=TRUE,showWarnings=FALSE)
 
 design <- fromJSON("data/phylo_memory_balance_normalized_design_v0_5.json",simplifyVector=FALSE)
+execution <- fromJSON("data/phylo_memory_balance_normalized_execution_v0_5_1.json",simplifyVector=FALSE)
 if(!identical(design$status,"FROZEN_BEFORE_BALANCE_NORMALIZED_RANK_SEPARATION_RESULT_OPENING"))
   stop("balance-normalized design not frozen")
+if(!identical(execution$status,"FROZEN_BEFORE_BALANCE_NORMALIZED_RETRY"))
+  stop("balance-normalized retry contract not frozen")
 target <- as.numeric(design$factorization$target)
 tol <- as.numeric(design$factorization$tolerance)
 minvf <- 0.90
@@ -88,12 +91,42 @@ st <- as.character(phy$species.list$status)
 n_prune <- sum(st=="prune",na.rm=TRUE)
 n_bind <- sum(st=="bind",na.rm=TRUE)
 n_fail <- sum(st=="fail to bind",na.rm=TRUE)
-if(nrow(sp)!=as.integer(src$n_input_species[[1]]) || n_prune!=as.integer(src$n_prune[[1]]))
-  stop("rebuilt geometry disagrees with frozen Mk2 systems table")
-if(n_prune!=as.integer(row$n_prune[[1]]) ||
-   n_bind!=as.integer(row$n_bind[[1]]) ||
-   n_fail!=as.integer(row$n_fail_to_bind[[1]]))
-  stop("rebuilt geometry disagrees with frozen crosswalk")
+parse_bool_now <- function(x) tolower(trimws(as.character(x))) %in% c("true","t","1")
+geometry_match_mk2 <- nrow(sp)==as.integer(src$n_input_species[[1]]) &&
+                      n_prune==as.integer(src$n_prune[[1]])
+geometry_match_crosswalk <- n_prune==as.integer(row$n_prune[[1]]) &&
+                            n_bind==as.integer(row$n_bind[[1]]) &&
+                            n_fail==as.integer(row$n_fail_to_bind[[1]])
+if(!(geometry_match_mk2 && geometry_match_crosswalk)){
+  hold <- list(
+    version="v0.5.1",
+    status="HOLD_PHYLO_MEMORY_BALANCE_NORMALIZED_GEOMETRY_DRIFT",
+    system_id=system_id,family=family,trait_name=trait_name,semantic_class="nominal_categorical",
+    outcome_type="known_truth_state_balance_mechanism_only",
+    real_trait_values_used=FALSE,real_memory_effects_used=FALSE,
+    original_mk2_rho_calibrated=parse_bool_now(src$mk2_calibrated[[1]]),
+    original_mk2_rho_no_bracket=!parse_bool_now(src$mk2_calibrated[[1]]),
+    hold_reason="LIVE_BIEN_GEOMETRY_DOES_NOT_MATCH_FROZEN_MK2_ARTIFACT",
+    expected_mk2=list(
+      n_input_species=as.integer(src$n_input_species[[1]]),
+      n_prune=as.integer(src$n_prune[[1]])
+    ),
+    expected_crosswalk=list(
+      n_prune=as.integer(row$n_prune[[1]]),
+      n_bind=as.integer(row$n_bind[[1]]),
+      n_fail_to_bind=as.integer(row$n_fail_to_bind[[1]])
+    ),
+    observed=list(
+      n_input_species=nrow(sp),n_prune=n_prune,n_bind=n_bind,n_fail_to_bind=n_fail
+    ),
+    geometry_match_mk2=geometry_match_mk2,
+    geometry_match_crosswalk=geometry_match_crosswalk,
+    interpretation_guard="Excluded only by a pre-outcome frozen geometry identity gate; no balance-normalized statistic was computed or imputed."
+  )
+  write_json(hold,out_path,pretty=TRUE,auto_unbox=TRUE,null="null")
+  cat(toJSON(hold,pretty=TRUE,auto_unbox=TRUE,null="null"),"\n")
+  quit(save="no",status=0)
+}
 
 tr <- reorder.phylo(phy$scenario.3,"cladewise")
 if(is.null(tr$edge.length) || any(!is.finite(tr$edge.length)) || any(tr$edge.length<0)) stop("invalid S3 edge lengths")

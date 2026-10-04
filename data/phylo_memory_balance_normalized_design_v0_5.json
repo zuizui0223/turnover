@@ -1,0 +1,50 @@
+{
+  "version": "v0.5",
+  "status": "FROZEN_BEFORE_BALANCE_NORMALIZED_RANK_SEPARATION_RESULT_OPENING",
+  "frozen_on": "2026-10-04",
+  "title": "State-balance attenuation in binary phylogenetic-memory measurement",
+  "follows_results": [
+    "results/phylo_memory_binary_ceiling_v0_3_1/result.json",
+    "results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json",
+    "results/phylo_memory_mk2_generator_v0_4_1/result.json"
+  ],
+  "supersedes_unexecuted_estimator_design": {
+    "path": "data/phylo_memory_alternative_estimator_design_v0_4.json",
+    "reason": "The earlier alternative changed both rank geometry and balance sensitivity. After the generator test, the identified next mechanism is narrower: remove only the exact binary state-balance attenuation term while retaining patristic-distance ranks and the same Mk2 states."
+  },
+  "source_population": "The identical 276 nominal-categorical systems from the artifact-backed Mk2 v0.4.1 aggregate.",
+  "generator_held_fixed": {
+    "model": "symmetric two-state Mk2/ER",
+    "parameter_grid": [0.01,0.03162277660168379,0.1,0.31622776601683794,1,3.1622776601683795,10,31.622776601683793,100],
+    "randomness": "Reproduce the exact v0.4.1 Mk2 pilot states using the same deterministic root and edge uniforms and the same per-system FNV seed keys.",
+    "pilot_replicates_per_candidate": 200
+  },
+  "factorization": {
+    "rho_identity": "For X = patristic-distance rank and Y = binary pairwise mismatch, Spearman rho equals Delta_rank * sqrt(p*(1-p)), where p is the fraction of unordered tip pairs that mismatch and Delta_rank = (mean rank among mismatch pairs - mean rank among match pairs) / population SD of all pair-distance ranks.",
+    "balance_normalized_statistic": "Delta_rank = rho / sqrt(p*(1-p)) for every non-monomorphic replicate.",
+    "target": 0.30,
+    "target_derivation": "rho=0.15 under maximally balanced pairwise mismatch prevalence p=0.5 corresponds exactly to Delta_rank=0.15/sqrt(0.25)=0.30.",
+    "tolerance": 0.02,
+    "tolerance_derivation": "The original absolute rho calibration tolerance 0.01 maps to 0.02 on Delta_rank at p=0.5."
+  },
+  "validity_rule_unchanged": "A replicate is valid only when both tip states occur; system-level pilot valid_fraction must be at least 0.90.",
+  "calibration_search": "Use the same frozen eta grid. Accept the first admissible grid point within tolerance; otherwise use the first adjacent admissible pair that straddles Delta_rank=0.30 and geometric-mean bisection for at most 20 steps. No grid extension.",
+  "primary_estimands": [
+    "Balance-normalized Delta_rank no-bracket rate across all 276 systems.",
+    "Paired rescue count and fraction among the 170 systems that were no-bracket under Mk2 plus binary Spearman rho.",
+    "Paired new-failure count among the 106 systems that calibrated under Mk2 plus binary Spearman rho."
+  ],
+  "secondary_estimands": [
+    "Distribution of calibrated eta under Delta_rank.",
+    "Trait-level Delta_rank no-bracket rates.",
+    "Median pilot valid fraction at calibrated eta.",
+    "Numerical identity check between direct rank-separation calculation and rho/sqrt(p*(1-p)) on deterministic test states."
+  ],
+  "directional_prediction": "If state-balance attenuation explains a substantial part of the remaining categorical accessibility bottleneck, Delta_rank will rescue many of the 170 Mk2 rho no-bracket systems. If it does not, the remaining limitation lies in how even Mk2-generated binary partitions align with realized phylogenetic distance ranks rather than in mismatch prevalence alone.",
+  "calibration_only": true,
+  "no_posthoc_grid_expansion": true,
+  "no_posthoc_target_change": true,
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "interpretation_guard": "Delta_rank removes one algebraically identified attenuation term. It is a mechanism diagnostic, not a claim that balance-normalized rank separation is the universally preferred biological estimator."
+}

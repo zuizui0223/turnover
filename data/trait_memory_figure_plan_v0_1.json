@@ -46,6 +46,16 @@
       ],
       "annotation": "Spearman 0.832; 1:1 reference line",
       "inferential": false
+    },
+    "supplementary_figure_S1": {
+      "title": "Family repeatability is stable to coverage and geometry adjustment",
+      "panels": [
+        "S3 family repeatability share: unadjusted 0.1504, species-count adjusted 0.1543, full geometry adjusted 0.1458",
+        "prune-only family repeatability share: unadjusted 0.1482, species-count adjusted 0.1511"
+      ],
+      "inferential": false,
+      "source_result": "results/trait_memory_geometry_adjustment_v0_7_2/result.json",
+      "role": "Pre-frozen robustness visualization; no new hypothesis test."
     }
   },
   "hard_rules": [

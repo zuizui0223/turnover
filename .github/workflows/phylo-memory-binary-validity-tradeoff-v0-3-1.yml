@@ -1,0 +1,55 @@
+name: Phylogenetic memory binary validity tradeoff v0.3.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/phylo_memory_binary_validity_tradeoff_design_v0_3_1.json'
+      - 'scripts/analysis/analyze_phylo_memory_binary_validity_tradeoff_v0_3_1.py'
+      - '.github/workflows/phylo-memory-binary-validity-tradeoff-v0-3-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas
+      - name: Validate pre-result design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/phylo_memory_binary_validity_tradeoff_design_v0_3_1.json'))
+          assert d['status']=='FROZEN_BEFORE_BINARY_VALIDITY_TRADEOFF_ANALYSIS'
+          assert d['benchmark']==0.15
+          assert d['valid_fraction_min']==0.90
+          assert d['no_posthoc_thresholds'] is True
+          assert d['real_trait_outcomes_used'] is False
+          assert d['real_memory_effects_used'] is False
+          PY
+      - name: Download frozen novel system grids
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/batches build/novel
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -p 'trait-memory-info-B*' -D build/batches
+          find build/batches -type f -name 'M*.json' -exec cp {} build/novel/ \;
+          test "$(find build/novel -type f -name 'M*.json' | wc -l)" -eq 683
+      - name: Analyze binary validity tradeoff
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/analyze_phylo_memory_binary_validity_tradeoff_v0_3_1.py \
+            --novel-dir build/novel \
+            --out build/result/result.json \
+            --table-out build/result/systems.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-binary-validity-tradeoff-v0-3-1
+          path: build/result/

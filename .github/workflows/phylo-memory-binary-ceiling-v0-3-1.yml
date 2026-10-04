@@ -29,24 +29,24 @@ jobs:
           assert d['benchmark']==0.15
           assert d['real_trait_outcomes_used'] is False
           PY
-      - name: Download frozen novel known-truth systems
+      - name: Download exact frozen v0.2 mechanism table
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p build/batches build/source
-          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -p 'trait-memory-info-B*' -D build/batches
-          find build/batches -type f -name 'M*.json' -exec cp {} build/source/ \;
-          test "$(find build/source -type f -name 'M*.json' | wc -l)" -eq 683
+          mkdir -p build/source
+          gh run download 37191027580 -R "$GITHUB_REPOSITORY" -n phylo-memory-calibration-ceiling-v0-2 -D build/source
+          test -f build/source/systems.csv
       - id: matrix
         name: Freeze exact categorical execution batches
         run: |
           python - <<'PY'
-          import base64,json,os,pathlib
+          import base64,csv,json,os
           rows=[]
-          for p in sorted(pathlib.Path('build/source').glob('M*.json')):
-              x=json.load(open(p))
-              if x['semantic_class']=='nominal_categorical':
-                  rows.append({'id':x['system_id'],'family':x['family'],'trait_name':x['trait_name']})
+          with open('build/source/systems.csv',newline='') as f:
+              for x in csv.DictReader(f):
+                  if x['semantic_class']=='nominal_categorical':
+                      rows.append({'id':x['system_id'],'family':x['family'],'trait_name':x['trait_name']})
+          rows.sort(key=lambda r:(r['family'],r['trait_name'],r['id']))
           assert len(rows)==265, len(rows)
           nb=32
           bins=[[] for _ in range(nb)]
@@ -59,14 +59,14 @@ jobs:
               include.append({'batch_id':f'B{i:03d}','systems_b64':base64.b64encode(raw).decode(),'n_systems':len(b)})
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
-          json.dump({'n_categorical':len(rows),'n_batches':len(include)},open('build/prepare.json','w'),indent=2)
+          json.dump({'n_categorical':len(rows),'n_batches':len(include)},open('build/source/prepare.json','w'),indent=2)
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: phylo-memory-binary-ceiling-input-v0-3-1
           path: |
-            build/source/*.json
-            build/prepare.json
+            build/source/systems.csv
+            build/source/prepare.json
 
   audit:
     needs: prepare
@@ -120,7 +120,7 @@ jobs:
         env:
           RBIEN_SOURCE_DIR: build/RBIEN
         run: |
-          python scripts/analysis/run_phylo_memory_binary_ceiling_batch_v0_3_1.py             --batch-json build/batch/systems.json             --crosswalk build/crosswalk/crosswalk.csv             --source-dir build/input/source             --out-dir build/results             --r-script scripts/analysis/analyze_phylo_memory_binary_ceiling_system_v0_3_1.R
+          python scripts/analysis/run_phylo_memory_binary_ceiling_batch_v0_3_1.py             --batch-json build/batch/systems.json             --crosswalk build/crosswalk/crosswalk.csv             --systems-table build/input/systems.csv             --out-dir build/results             --r-script scripts/analysis/analyze_phylo_memory_binary_ceiling_system_v0_3_1.R
       - uses: actions/upload-artifact@v4
         with:
           name: phylo-memory-binary-ceiling-${{ matrix.batch_id }}-v0-3-1

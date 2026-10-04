@@ -5,58 +5,68 @@
   "evidence_job_id": 111403040840,
   "evidence_artifact_id": 11298622940,
   "evidence_artifact_sha256": "bc8cc6dd2e30e47b08c27385d146de1dab2f5d7879ec11f5d822f5e1779f6c16",
+  "evidence_artifact_result_sha256": "cd993d3cc0737da3d47b71387cb45cf21e74efec4f439e7ce2c2301eb1b8326d",
+  "provenance_correction": "2026-10-04: previously committed summary values did not match the cited workflow artifact. This file now transcribes the cited artifact result exactly for scientific quantities; evidence metadata and this correction note are repository annotations.",
   "outcome_type": "known_truth_recovery_only",
   "real_trait_values_used": false,
   "real_memory_effects_used": false,
   "n_systems": 683,
-  "scope": "683 novel systems; 39 prior-overlap systems excluded because per-system calibration grids reside in the earlier run. Scope is determined by artifact availability, not outcome.",
+  "scope": "683 novel systems only; the 39 prior-overlap systems are excluded from the primary v0.2 decomposition because their per-system calibration grids reside in the earlier run. This scope was chosen for data availability, not by outcome.",
+  "failure_counts": [
+    {"n": 293, "s3_hold_reason": "", "semantic_class": "continuous_scalar"},
+    {"n": 60, "s3_hold_reason": "CALIBRATION_NO_BRACKET", "semantic_class": "continuous_scalar"},
+    {"n": 54, "s3_hold_reason": "RECOVERY_THRESHOLD_FAIL", "semantic_class": "continuous_scalar"},
+    {"n": 18, "s3_hold_reason": "", "semantic_class": "nominal_categorical"},
+    {"n": 220, "s3_hold_reason": "CALIBRATION_NO_BRACKET", "semantic_class": "nominal_categorical"},
+    {"n": 38, "s3_hold_reason": "RECOVERY_THRESHOLD_FAIL", "semantic_class": "nominal_categorical"}
+  ],
   "semantic_summary": {
     "continuous_scalar": {
-      "n": 418,
-      "n_no_bracket": 83,
-      "no_bracket_rate": 0.19856459330143542,
-      "n_calibrated": 335,
-      "n_s3_pass": 249,
-      "s3_pass_rate": 0.5956937799043063,
-      "n_recovery_fail_after_calibration": 86,
-      "recovery_fail_rate_given_calibrated": 0.25671641791044775,
-      "median_max_grid_median_no_bracket": 0.1235577067511878,
-      "q90_max_grid_median_no_bracket": 0.1404144966542718,
-      "fraction_no_bracket_max_below_0_10": 0.21686746987951808,
-      "fraction_no_bracket_max_below_0_15": 1
+      "n": 407,
+      "n_no_bracket": 60,
+      "no_bracket_rate": 0.14742014742014742,
+      "n_calibrated": 347,
+      "n_s3_pass": 293,
+      "s3_pass_rate": 0.7199017199017199,
+      "n_recovery_fail_after_calibration": 54,
+      "recovery_fail_rate_given_calibrated": 0.15561959654178675,
+      "median_max_grid_median_no_bracket": 0.10625000000000001,
+      "q90_max_grid_median_no_bracket": 0.13633,
+      "fraction_no_bracket_max_below_0_10": 0.43333333333333335,
+      "fraction_no_bracket_max_below_0_15": 1.0
     },
     "nominal_categorical": {
-      "n": 265,
-      "n_no_bracket": 251,
-      "no_bracket_rate": 0.9471698113207547,
-      "n_calibrated": 14,
-      "n_s3_pass": 6,
-      "s3_pass_rate": 0.022641509433962263,
-      "n_recovery_fail_after_calibration": 8,
-      "recovery_fail_rate_given_calibrated": 0.5714285714285714,
-      "median_max_grid_median_no_bracket": 0.07119292510588772,
-      "q90_max_grid_median_no_bracket": 0.11041170012880135,
-      "fraction_no_bracket_max_below_0_10": 0.8366533864541833,
-      "fraction_no_bracket_max_below_0_15": 1
+      "n": 276,
+      "n_no_bracket": 220,
+      "no_bracket_rate": 0.7971014492753623,
+      "n_calibrated": 56,
+      "n_s3_pass": 18,
+      "s3_pass_rate": 0.06521739130434782,
+      "n_recovery_fail_after_calibration": 38,
+      "recovery_fail_rate_given_calibrated": 0.6785714285714286,
+      "median_max_grid_median_no_bracket": 0.09784999999999999,
+      "q90_max_grid_median_no_bracket": 0.15117,
+      "fraction_no_bracket_max_below_0_10": 0.5318181818181819,
+      "fraction_no_bracket_max_below_0_15": 0.8863636363636364
     }
   },
   "no_bracket_model": {
     "formula": "S3_no_bracket ~ semantic_class + z_log_n_species + z_prune_fraction",
     "coefficients": {
-      "Intercept": -0.9168643260845096,
-      "C(semantic_class)[T.nominal_categorical]": 5.227771883338324,
-      "z_log_n": -1.4214954435236673,
-      "z_prune_fraction": -0.3520995119276145
+      "Intercept": -1.664694972786158,
+      "C(semantic_class)[T.nominal_categorical]": 2.913220587179282,
+      "z_log_n": 0.30751077364702145,
+      "z_prune_fraction": 0.007474997495720622
     },
     "odds_ratios": {
-      "Intercept": 0.3997146078046915,
-      "C(semantic_class)[T.nominal_categorical]": 186.3768268551584,
-      "z_log_n": 0.2413532470113665,
-      "z_prune_fraction": 0.703062201755696
+      "Intercept": 0.18924837508346704,
+      "C(semantic_class)[T.nominal_categorical]": 18.416013539443668,
+      "z_log_n": 1.3600354609650236,
+      "z_prune_fraction": 1.0075030050314289
     },
-    "mcfadden_pseudo_r2": 0.4912588369949977
+    "mcfadden_pseudo_r2": 0.3386934573838629
   },
   "benchmark": 0.15,
-  "interpretation": "Categorical recoverability failure is dominated by a calibration ceiling: 94.7% of novel categorical systems cannot bracket the common rho=0.15 benchmark over the frozen lambda range, compared with 19.9% of continuous systems. Even when calibration succeeds, categorical systems still fail recovery more often (57.1% versus 25.7%). Thus both stages matter, but the dominant categorical bottleneck precedes recovery noise.",
-  "interpretation_guard": "Calibration ceilings diagnose the frozen generator-estimator-tree combination, not biological phylogenetic signal."
+  "interpretation": "Categorical recoverability failure is strongly concentrated at calibration: 79.7% of novel categorical systems do not bracket rho=0.15 over the frozen lambda grid, versus 14.7% of continuous systems. Conditional on calibration, categorical systems also fail recovery more often (67.9% versus 15.6%). Thus both stages matter, with the larger categorical bottleneck occurring before evaluation.",
+  "interpretation_guard": "Calibration no-bracket diagnoses the frozen generator-estimator-tree combination and does not by itself prove a hard mathematical ceiling; 11.4% of categorical no-bracket systems have a maximum grid median at or above 0.15. It does not measure biological phylogenetic signal."
 }

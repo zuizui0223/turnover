@@ -1,0 +1,43 @@
+name: Phylogenetic memory binary ceiling reaggregate v0.3.1
+
+on:
+  push:
+    branches:
+      - methods/phylo-memory-measurability-v0-1
+    paths:
+      - '.triggers/phylo-memory-binary-ceiling-reaggregate-v0-3-1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download the 32 completed edge-split batch artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/batches build/results
+          gh run download 37195858162 -R "$GITHUB_REPOSITORY" -p 'phylo-memory-binary-ceiling-B*-v0-3-1' -D build/batches
+          find build/batches -type f -name 'M*.json' -exec cp {} build/results/ \;
+          test "$(find build/results -type f -name 'M*.json' | wc -l)" -eq 276
+      - run: pip install numpy pandas
+      - name: Aggregate completed mechanism results
+        run: |
+          mkdir -p build/aggregate
+          python scripts/analysis/aggregate_phylo_memory_binary_ceiling_v0_3_1.py \
+            --input-dir build/results \
+            --out build/aggregate/result.json \
+            --table-out build/aggregate/systems.csv \
+            --trait-out build/aggregate/traits.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-binary-ceiling-v0-3-1
+          path: build/aggregate/

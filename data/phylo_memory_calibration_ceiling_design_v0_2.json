@@ -1,0 +1,32 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS",
+  "frozen_on": "2026-10-04",
+  "purpose": "Distinguish inability to generate the benchmark signal on a realized tree geometry from noisy recovery after successful calibration.",
+  "responses": [
+    "S3 calibration outcome: bracketed benchmark vs no bracket",
+    "maximum S3 pilot median effect over the frozen lambda grid for no-bracket systems",
+    "prune-only calibration outcome conditional on S3 calibration/recovery reaching that axis"
+  ],
+  "predictors": [
+    "semantic_class",
+    "log(n_input_species)",
+    "prune_fraction"
+  ],
+  "primary_contrast": "Probability of S3 CALIBRATION_NO_BRACKET for nominal categorical versus continuous systems.",
+  "secondary": "Distribution of maximum attainable S3 pilot median effect among no-bracket systems, stratified by semantic_class.",
+  "benchmark_unchanged": 0.15,
+  "lambda_grid_unchanged": [
+    0.01,
+    0.03162277660168379,
+    0.1,
+    0.31622776601683794,
+    1,
+    3.1622776601683795,
+    10,
+    31.622776601683793,
+    100
+  ],
+  "interpretation_guard": "A no-bracket result means the frozen generator-estimator-geometry combination could not attain the benchmark over the predeclared lambda range; it is not evidence of weak biological phylogenetic signal.",
+  "real_trait_outcomes_used": false
+}

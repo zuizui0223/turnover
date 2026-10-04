@@ -138,6 +138,27 @@ The stored OU calibration grids reveal how generator accessibility fails in the 
 
 For binary traits, invalid pilot replicates occur when thresholded tip states become monomorphic. The generator therefore faces an accessibility trade-off: strengthening latent phylogenetic memory tends to increase the desired distance structure while simultaneously erasing the binary variation required to measure it.
 
+## Main result 6 — a representation-appropriate generator partially rescues accessibility
+
+The v0.4.1 generator-substitution test keeps the categorical S3 trees, rho = 0.15 target, and binary mismatch + Spearman estimator unchanged, but replaces latent-OU thresholding with a symmetric two-state Mk2 process.
+
+Across the same 276 categorical systems:
+
+- OU-threshold no-bracket = **220/276 = 79.7%**;
+- Mk2 no-bracket = **170/276 = 61.6%**;
+- **51/220 = 23.2%** of original OU no-bracket systems become calibratable under Mk2;
+- only **1/56** originally OU-calibrated systems becomes Mk2 no-bracket;
+- Mk2 S3 PASS = **69/276 = 25.0%**;
+- recovery failure after Mk2 calibration = **37/106 = 34.9%**.
+
+The strongly asymmetric paired transition (51 rescues versus one new failure) establishes that the stage-2 bottleneck is materially **generator-specific**. However, generator substitution is not a complete solution: nearly two thirds of systems still fail calibration under Mk2.
+
+This leaves a narrower candidate mechanism. For binary mismatch, ordinary Spearman can be written exactly as
+
+`rho = Delta_rank * sqrt(p(1-p))`,
+
+where `p` is mismatch-pair prevalence. The active v0.5 test therefore keeps the same Mk2 states and distance ranks and removes only this state-balance attenuation term.
+
 ## Mechanistic interpretation
 
 For a continuous trait, pairwise dissimilarities can occupy many ranks. For a nominal binary representation, pairwise dissimilarity is only match versus mismatch, so Spearman correlation is a rank association between phylogenetic separation and a two-level mismatch indicator.
@@ -165,7 +186,7 @@ Comparative analyses should perform **system-specific known-truth recoverability
 
 For continuous traits, increasing phylogenetic sampling can materially move systems across the measurement frontier.
 
-For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem. The edge-split witness shows that the target itself is available in the binary state space; the OU-grid audit shows that the principal loss occurs along the chosen generative path. The next decisive test therefore holds the estimator fixed and replaces latent-OU thresholding with a representation-appropriate two-state Markov generator.
+For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem. The edge-split witness shows that the target itself is available in the binary state space; the OU-grid audit shows that the principal loss occurs along the chosen generative path. That generator substitution has now shown a substantial but incomplete rescue. The next test keeps Mk2 fixed and asks whether the exact binary state-balance attenuation term explains part of the remaining 61.6% calibration failure.
 
 ## Evidence provenance correction
 

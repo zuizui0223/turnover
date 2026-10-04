@@ -17,15 +17,14 @@ family <- getarg("--family")
 trait_name <- getarg("--trait")
 system_id <- getarg("--id")
 crosswalk_path <- getarg("--crosswalk")
-source_json_path <- getarg("--source-json")
+systems_table_path <- getarg("--systems-table")
 out_path <- getarg("--out")
 dir.create(dirname(out_path),recursive=TRUE,showWarnings=FALSE)
 
-src <- fromJSON(source_json_path,simplifyVector=FALSE)
-if(!identical(as.character(src$system_id),system_id)) stop("source system id mismatch")
-if(!identical(as.character(src$family),family)) stop("source family mismatch")
-if(!identical(as.character(src$trait_name),trait_name)) stop("source trait mismatch")
-if(!identical(as.character(src$semantic_class),"nominal_categorical")) stop("v0.3.1 is categorical only")
+sys <- read.csv(systems_table_path,stringsAsFactors=FALSE,check.names=FALSE)
+src <- sys[sys$system_id==system_id & sys$family==family & sys$trait_name==trait_name,,drop=FALSE]
+if(nrow(src)!=1) stop("system is not unique in frozen v0.2 systems table")
+if(as.character(src$semantic_class[[1]])!="nominal_categorical") stop("v0.3.1 is categorical only")
 
 cw <- read.csv(crosswalk_path,stringsAsFactors=FALSE,check.names=FALSE)
 flag <- tolower(trimws(as.character(cw$crosswalk_pass))) %in% c("true","t","1")
@@ -79,10 +78,8 @@ st <- as.character(phy$species.list$status)
 n_prune <- sum(st=="prune",na.rm=TRUE)
 n_bind <- sum(st=="bind",na.rm=TRUE)
 n_fail <- sum(st=="fail to bind",na.rm=TRUE)
-if(nrow(sp)!=as.integer(src$n_input_species) ||
-   n_prune!=as.integer(src$n_prune) ||
-   n_bind!=as.integer(src$n_bind) ||
-   n_fail!=as.integer(src$n_fail_to_bind)) stop("rebuilt geometry disagrees with frozen source JSON")
+if(nrow(sp)!=as.integer(src$n_input_species[[1]]) ||
+   n_prune!=as.integer(src$n_prune[[1]])) stop("rebuilt geometry disagrees with frozen v0.2 systems table")
 if(n_prune!=as.integer(row$n_prune[[1]]) ||
    n_bind!=as.integer(row$n_bind[[1]]) ||
    n_fail!=as.integer(row$n_fail_to_bind[[1]])) stop("rebuilt geometry disagrees with frozen crosswalk")
@@ -137,8 +134,6 @@ if(!any(is.finite(edges$rho))) stop("no finite edge-split rho")
 imax <- which.max(ifelse(is.finite(edges$rho),edges$rho,-Inf))
 best <- edges[imax,,drop=FALSE]
 
-# Old v0.3 unconstrained pair-label diagnostic. This permits arbitrary pair labels
-# that need not arise from any binary tip state, so it is deliberately non-evidential.
 sr <- sort(rx,decreasing=TRUE)
 cs <- cumsum(sr)
 Ks <- seq_len(M-1)
@@ -147,19 +142,11 @@ dens <- sqrt(sxx * Ks * (M-Ks) / M)
 ur <- nums/dens
 unconstrained_max <- max(ur[is.finite(ur)])
 
-grid <- src$temporal_s3$calibration$grid
-meds <- vapply(grid,function(g){
-  v <- g$median_effect
-  if(is.null(v)) return(NA_real_)
-  as.numeric(v)
-},numeric(1))
-lams <- vapply(grid,function(g)as.numeric(g$lambda),numeric(1))
-if(!any(is.finite(meds))) stop("source grid has no finite pilot medians")
-j <- which.max(ifelse(is.finite(meds),meds,-Inf))
-ou_max <- meds[[j]]
-ou_lambda <- lams[[j]]
 benchmark <- 0.15
-no_bracket <- identical(as.character(src$temporal_s3$hold_reason),"CALIBRATION_NO_BRACKET")
+parse_bool <- function(x) tolower(trimws(as.character(x))) %in% c("true","t","1")
+no_bracket <- parse_bool(src$s3_no_bracket[[1]])
+ou_max <- as.numeric(src$s3_max_grid_median[[1]])
+if(!is.finite(ou_max)) stop("frozen v0.2 OU maximum is not finite")
 
 out <- list(
   version="v0.3.1",
@@ -172,7 +159,6 @@ out <- list(
   benchmark=benchmark,
   original_s3_no_bracket=no_bracket,
   original_ou_max_grid_median=ou_max,
-  original_ou_lambda_at_max_grid_median=ou_lambda,
   max_edge_split_rho=as.numeric(best$rho),
   max_edge_split_edge_index=as.integer(best$edge_index),
   max_edge_split_clade_size=as.integer(best$clade_size),

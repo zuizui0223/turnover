@@ -95,44 +95,69 @@ sxx <- sum((rx-meanrx)^2)
 if(!is.finite(sxx) || sxx<=0) stop("zero pair-distance rank variance")
 n <- length(tr$tip.label)
 
-Rmat <- matrix(0,n,n)
-Rmat[lower.tri(Rmat)] <- rx
-Rmat <- Rmat + t(Rmat)
+# Compute the rank-weight cut sum for every tree edge in O(n^2), not O(n^3).
+# For each unordered tip pair (i,j) with rank weight w, add +w to both tips
+# and -2w to their LCA. A postorder subtree sum then equals the total pair
+# weight crossing the parent-child edge. This is exactly the cross_sum used
+# by the binary point-biserial/Spearman formula.
+nall <- n + tr$Nnode
+root <- setdiff(tr$edge[,1],tr$edge[,2])
+if(length(root)!=1) stop("tree root not unique")
+L <- mrca(tr,full=FALSE)
+if(!is.matrix(L) || nrow(L)!=n || ncol(L)!=n) stop("tip MRCA matrix dimension mismatch")
 
-children <- split(tr$edge[,2],tr$edge[,1])
-cache <- new.env(parent=emptyenv())
-get_tips <- function(node){
-  key <- as.character(node)
-  if(exists(key,envir=cache,inherits=FALSE)) return(get(key,envir=cache,inherits=FALSE))
-  if(node<=n){
-    z <- as.integer(node)
-  } else {
-    kids <- children[[key]]
-    if(is.null(kids)) stop("internal node without children")
-    z <- unlist(lapply(kids,get_tips),use.names=FALSE)
-  }
-  assign(key,z,envir=cache)
-  z
+delta <- numeric(nall)
+lca_loss <- numeric(nall)
+offset <- 0L
+if(length(rx) != n*(n-1)/2) stop("pair-rank length mismatch")
+for(j in seq_len(n-1L)){
+  m <- n-j
+  idx <- seq.int(offset+1L,offset+m)
+  ii <- seq.int(j+1L,n)
+  w <- rx[idx]
+  delta[j] <- delta[j] + sum(w)
+  delta[ii] <- delta[ii] + w
+  lc <- as.integer(L[ii,j])
+  if(any(!is.finite(lc)) || any(lc<1L) || any(lc>nall)) stop("invalid LCA node index")
+  lca_loss <- lca_loss + tabulate(lc,nbins=nall,weights=w)
+  offset <- offset+m
 }
+if(offset!=length(rx)) stop("pair-rank traversal incomplete")
+delta <- delta - 2*lca_loss
+rm(L,lca_loss); gc(FALSE)
 
-edge_rows <- vector("list",nrow(tr$edge))
-for(i in seq_len(nrow(tr$edge))){
-  child <- tr$edge[i,2]
-  tips <- get_tips(child)
-  m <- length(tips)
-  if(m<=0 || m>=n) stop("invalid edge split")
-  K <- m*(n-m)
-  comp <- setdiff(seq_len(n),tips)
-  cross_sum <- sum(Rmat[tips,comp,drop=FALSE])
-  den <- sqrt(sxx * K * (M-K) / M)
-  rho <- if(is.finite(den) && den>0) (cross_sum-K*meanrx)/den else NA_real_
-  edge_rows[[i]] <- data.frame(edge_index=i,child=child,clade_size=m,
-                               minority_fraction=min(m,n-m)/n,K=K,rho=rho)
+post <- reorder.phylo(tr,"postorder")
+E <- nrow(post$edge)
+subtree_weight <- delta
+tip_count <- c(rep(1,n),rep(0,tr$Nnode))
+cross_sum <- numeric(E)
+edge_size <- integer(E)
+for(e in seq_len(E)){
+  parent <- post$edge[e,1]
+  child <- post$edge[e,2]
+  cross_sum[e] <- subtree_weight[child]
+  edge_size[e] <- tip_count[child]
+  subtree_weight[parent] <- subtree_weight[parent] + subtree_weight[child]
+  tip_count[parent] <- tip_count[parent] + tip_count[child]
 }
-edges <- do.call(rbind,edge_rows)
-if(!any(is.finite(edges$rho))) stop("no finite edge-split rho")
-imax <- which.max(ifelse(is.finite(edges$rho),edges$rho,-Inf))
-best <- edges[imax,,drop=FALSE]
+scale_check <- max(1,sum(abs(delta)))
+if(abs(subtree_weight[root]) > 1e-9*scale_check) stop("postorder cut-sum accumulation failed")
+if(tip_count[root] != n) stop("postorder tip-count accumulation failed")
+if(any(edge_size<=0L) || any(edge_size>=n)) stop("invalid edge split size")
+
+K <- edge_size*(n-edge_size)
+den <- sqrt(sxx * K * (M-K) / M)
+rho <- (cross_sum - K*meanrx)/den
+if(!any(is.finite(rho))) stop("no finite edge-split rho")
+imax <- which.max(ifelse(is.finite(rho),rho,-Inf))
+best <- data.frame(
+  edge_index=imax,
+  child=post$edge[imax,2],
+  clade_size=edge_size[imax],
+  minority_fraction=min(edge_size[imax],n-edge_size[imax])/n,
+  K=K[imax],
+  rho=rho[imax]
+)
 
 sr <- sort(rx,decreasing=TRUE)
 cs <- cumsum(sr)

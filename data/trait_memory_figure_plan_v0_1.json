@@ -56,6 +56,16 @@
       "inferential": false,
       "source_result": "results/trait_memory_geometry_adjustment_v0_7_2/result.json",
       "role": "Pre-frozen robustness visualization; no new hypothesis test."
+    },
+    "supplementary_figure_S2": {
+      "title": "Family context is stable to BIEN provenance composition",
+      "panels": [
+        "family context score versus family median source HHI and dominant-source share",
+        "R_family: unadjusted 0.1504, source-adjusted 0.1492, source-citation-adjusted 0.1470"
+      ],
+      "inferential": false,
+      "source_result": "results/trait_memory_source_composition_v0_1/result.json",
+      "role": "Post-outcome sensitivity; no causal claim."
     }
   },
   "hard_rules": [

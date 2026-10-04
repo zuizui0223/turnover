@@ -23,7 +23,7 @@
     "rho_identity": "For X = patristic-distance rank and Y = binary pairwise mismatch, Spearman rho equals Delta_rank * sqrt(p*(1-p)), where p is the fraction of unordered tip pairs that mismatch and Delta_rank = (mean rank among mismatch pairs - mean rank among match pairs) / population SD of all pair-distance ranks.",
     "balance_normalized_statistic": "Delta_rank = rho / sqrt(p*(1-p)) for every non-monomorphic replicate.",
     "target": 0.30,
-    "target_derivation": "rho=0.15 under maximally balanced pairwise mismatch prevalence p=0.5 corresponds exactly to Delta_rank=0.15/sqrt(0.25)=0.30.",
+    "target_derivation": "Because sqrt(p*(1-p)) <= 0.5 for every binary mismatch prevalence p, Delta_rank >= 0.15/0.5 = 0.30 is necessary for rho=0.15 to be attainable at any state balance. Equality occurs at p=0.5. Thus 0.30 is the minimum unattenuated rank separation capable of supporting the original rho target.",
     "tolerance": 0.02,
     "tolerance_derivation": "The original absolute rho calibration tolerance 0.01 maps to 0.02 on Delta_rank at p=0.5."
   },

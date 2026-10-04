@@ -1,11 +1,6 @@
 name: Phylogenetic memory binary validity tradeoff v0.3.1
 
 on:
-  pull_request:
-    paths:
-      - 'data/phylo_memory_binary_validity_tradeoff_design_v0_3_1.json'
-      - 'scripts/analysis/analyze_phylo_memory_binary_validity_tradeoff_v0_3_1.py'
-      - '.github/workflows/phylo-memory-binary-validity-tradeoff-v0-3-1.yml'
   workflow_dispatch:
 
 permissions:

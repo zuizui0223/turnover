@@ -13,6 +13,7 @@ on:
       - 'results/phylo_memory_mk2_generator_v0_4_1/result.json'
       - 'data/phylo_memory_balance_normalized_design_v0_5.json'
       - 'data/phylo_memory_balance_normalized_execution_v0_5_1.json'
+      - 'data/phylo_memory_mechanism_stop_v0_5_2.json'
       - '.github/workflows/phylo-memory-measurability-contract.yml'
   workflow_dispatch:
 permissions:
@@ -37,6 +38,7 @@ jobs:
           m=json.load(open('results/phylo_memory_mk2_generator_v0_4_1/result.json'))
           z=json.load(open('data/phylo_memory_balance_normalized_design_v0_5.json'))
           x=json.load(open('data/phylo_memory_balance_normalized_execution_v0_5_1.json'))
+          s=json.load(open('data/phylo_memory_mechanism_stop_v0_5_2.json'))
           assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
           assert c['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
           assert r['n_systems']==722
@@ -91,4 +93,7 @@ jobs:
           assert x['outcome_based_exclusion'] is False
           assert x['geometry_mismatch_action'].startswith('Write an outcome-free HOLD_GEOMETRY_DRIFT')
           assert x['real_trait_values_used'] is False and x['real_memory_effects_used'] is False
+          assert s['status']=='FROZEN_BEFORE_FULL_BALANCE_NORMALIZED_AGGREGATE'
+          assert s['regardless_of_v0_5_outcome'] is True
+          assert s['real_trait_values_used'] is False and s['real_memory_effects_used'] is False
           PY

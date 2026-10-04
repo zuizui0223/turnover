@@ -1,0 +1,67 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS",
+  "frozen_on": "2026-10-04",
+  "title_working": "Trait representation and phylogenetic sampling jointly determine whether evolutionary memory is measurable",
+  "source_evidence": {
+    "workflow_run": 37086693588,
+    "artifact_id": 11263253304,
+    "artifact_sha256": "08ecf052a2071c63205ff6fce82ec9b7639c1fa59ab85beae208b3cced14ff6f",
+    "n_systems": 722,
+    "real_trait_values_opened": false,
+    "real_memory_effects_opened": false
+  },
+  "question": "Given the same known true phylogenetic memory signal (rho=0.15), which properties of a real family x trait sampling design determine whether that signal can be recovered?",
+  "response_family": {
+    "primary": "system_temporal_pass under the already-frozen dual S3 + prune-only recovery gate",
+    "secondary": [
+      "S3 median absolute recovery error among calibrated systems",
+      "S3 directional recovery among calibrated systems",
+      "prune-only median absolute recovery error among systems reaching that axis",
+      "maximum attainable S3 pilot median effect across the frozen lambda grid for calibration-HOLD systems"
+    ]
+  },
+  "predictors_frozen": {
+    "representation": [
+      "semantic_class"
+    ],
+    "sample_size": [
+      "log(n_input_species)"
+    ],
+    "backbone_support": [
+      "prune_fraction = n_prune / n_input_species"
+    ],
+    "interaction": [
+      "semantic_class x log(n_input_species)"
+    ],
+    "prohibited": [
+      "family identity as a causal predictor",
+      "trait identity as a causal predictor",
+      "real trait values",
+      "real memory rho"
+    ]
+  },
+  "primary_model": {
+    "formula": "pass ~ semantic_class * z_log_n_species + z_prune_fraction",
+    "family": "binomial logit",
+    "standardization": "z-score continuous predictors over all 722 systems before fitting",
+    "cluster_robust_uncertainty": "two-way cluster bootstrap by family and trait_name, 2000 replicates, seed 20261004",
+    "primary_quantities": [
+      "odds ratio for nominal categorical vs continuous at mean sample size",
+      "odds ratio per 1 SD log species count",
+      "semantic_class x log species interaction",
+      "odds ratio per 1 SD prune fraction"
+    ]
+  },
+  "continuous_only_model": {
+    "formula": "pass ~ z_log_n_species + z_prune_fraction",
+    "purpose": "Separate sample-size/geometry effects from the representation effect after categorical systems are removed."
+  },
+  "descriptive_thresholds": {
+    "rule": "Estimate, from the fitted model only, the n_species giving predicted pass probability 0.5 for continuous and categorical systems at mean prune fraction. This is descriptive and not an admission threshold."
+  },
+  "causal_nonclaim": "The analysis identifies measurement-design correlates of recoverability, not biological causes of trait conservatism.",
+  "biological_interpretation": "If representation remains dominant after sample size and native-tip fraction adjustment, comparative studies cannot assume that equal underlying evolutionary memory is equally detectable across continuous and categorical traits. If sample size dominates within continuous traits, family-level comparative signal is limited by phylogenetic sampling geometry even when the underlying effect is held constant.",
+  "no_posthoc_predictor_addition": true,
+  "real_trait_outcomes_used": false
+}

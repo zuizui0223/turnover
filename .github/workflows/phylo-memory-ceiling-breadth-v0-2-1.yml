@@ -1,8 +1,5 @@
 name: Phylogenetic memory ceiling breadth v0.2.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/phylo-memory-ceiling-breadth-v0-2-1'
   workflow_dispatch:
 permissions:
   contents: read

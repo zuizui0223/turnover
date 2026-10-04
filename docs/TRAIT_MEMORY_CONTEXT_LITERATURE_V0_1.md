@@ -10,6 +10,8 @@ Ackerly (2009) made the more directly relevant point for plants: evolutionary ra
 
 Revell (2018) further formalized comparisons of evolutionary rates between trees, clades and traits.
 
+Crisp & Cook (2012) explicitly emphasized that phylogenetic niche conservatism is a pattern, not a process, and that it varies among both traits and lineages. That point is important here because it sets a clear novelty boundary: variation among clades or traits is not itself the contribution.
+
 ## Remaining gap
 
 Those traditions usually estimate signal or rate **within a clade**, then compare fitted quantities.
@@ -17,6 +19,8 @@ Those traditions usually estimate signal or rate **within a clade**, then compar
 They do not directly ask whether a trait-specific memory estimate learned in one collection of clades is **predictive for a completely held-out lineage**.
 
 They also do not usually build a single large crossed family × trait design and ask, after assigning each trait its own mean, whether family identity recurs across several different traits.
+
+The unresolved issue is **predictive transport**. Showing that signal differs among lineages does not tell us whether an estimate learned for trait X in several lineages should be expected to predict trait X in a new lineage. Conversely, showing lineage heterogeneity does not tell us whether a lineage carries a recurring context across several different traits.
 
 ## What this study adds
 
@@ -34,6 +38,7 @@ This directly distinguishes **within-system phylogenetic memory** from **cross-l
 
 ## References central to positioning
 
+- Crisp MD, Cook LG. 2012. Phylogenetic niche conservatism: what are the underlying evolutionary and ecological causes? New Phytologist 196:681–694. doi:10.1111/j.1469-8137.2012.04298.x.
 - Ackerly DD. 2009. Conservatism and diversification of plant functional traits: evolutionary rates versus phylogenetic signal. PNAS 106:19699–19706. doi:10.1073/pnas.0901635106.
 - Münkemüller T et al. 2012. How to measure and test phylogenetic signal. Methods in Ecology and Evolution 3:743–756. doi:10.1111/j.2041-210X.2012.00196.x.
 - Revell LJ. 2018. Comparing evolutionary rates between trees, clades and traits. Methods in Ecology and Evolution 9:994–1005. doi:10.1111/2041-210X.12977.

@@ -1,8 +1,5 @@
 name: Trait memory source composition sensitivity v0.1
 on:
-  pull_request:
-    paths:
-      - '.triggers/trait-memory-source-composition-v0-1'
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,0 +1,52 @@
+{
+  "version": "v0.3.1",
+  "status": "PHYLO_MEMORY_EDGE_SPLIT_CEILING_AGGREGATED",
+  "evidence_workflow_run": 37199398691,
+  "evidence_source_batch_run": 37195858162,
+  "evidence_artifact_id": 11302452317,
+  "evidence_artifact_sha256": "54c1bb069790bcfc6b32988bce67c5d9c92d9f8676e73ce793bbc2e6b1d86460",
+  "evidence_artifact_result_sha256": "c520585931b50f78b716b72dcadd7aeeaadc0c52f2f9de0dfad4dbb46808dc6a",
+  "outcome_type": "known_truth_geometry_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "n_systems": 276,
+  "n_traits": 7,
+  "n_families": 120,
+  "benchmark": 0.15,
+  "original_no_bracket": {
+    "n": 220,
+    "rate": 0.7971014492753623,
+    "n_edge_ceiling_below_benchmark": 0,
+    "fraction_edge_ceiling_below_benchmark": 0,
+    "n_edge_ceiling_ge_benchmark_but_ou_unreached": 220,
+    "fraction_edge_ceiling_ge_benchmark_but_ou_unreached": 1
+  },
+  "edge_split_ceiling": {
+    "median_all": 0.774,
+    "q25_q75_all": [
+      0.746,
+      0.8097
+    ],
+    "median_no_bracket": 0.7733,
+    "q25_q75_no_bracket": [
+      0.74215,
+      0.811375
+    ],
+    "fraction_all_reaching_benchmark": 1
+  },
+  "generator_accessibility_gap": {
+    "median_edge_minus_ou_no_bracket": 0.67665,
+    "q25_q75_edge_minus_ou_no_bracket": [
+      0.62935,
+      0.7283
+    ],
+    "median_ou_max_grid_no_bracket": 0.09784999999999999
+  },
+  "superseded_unconstrained_diagnostic": {
+    "minimum_upper_bound": 0.8397,
+    "median_upper_bound": 0.8666,
+    "fraction_below_benchmark": 0,
+    "interpretation": "The old arbitrary pair-label construction is non-discriminating for the 0.15 benchmark."
+  },
+  "interpretation_guard": "An edge-split ceiling below 0.15 would rule out the benchmark for every one-transition clade-vs-rest state on that tree, but not for every possible multi-transition binary pattern. Here all 276 systems exceed 0.15 under at least one realizable one-transition split."
+}

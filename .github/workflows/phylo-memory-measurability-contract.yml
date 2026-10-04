@@ -7,6 +7,8 @@ on:
       - 'results/phylo_memory_measurability_v0_1/result.json'
       - 'results/phylo_memory_calibration_ceiling_v0_2/result.json'
       - 'results/phylo_memory_calibration_ceiling_v0_2_1/result.json'
+      - 'results/phylo_memory_binary_ceiling_v0_3_1/result.json'
+      - 'results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'
       - '.github/workflows/phylo-memory-measurability-contract.yml'
   workflow_dispatch:
 permissions:
@@ -26,6 +28,8 @@ jobs:
           r=json.load(open('results/phylo_memory_measurability_v0_1/result.json'))
           v=json.load(open('results/phylo_memory_calibration_ceiling_v0_2/result.json'))
           b=json.load(open('results/phylo_memory_calibration_ceiling_v0_2_1/result.json'))
+          e=json.load(open('results/phylo_memory_binary_ceiling_v0_3_1/result.json'))
+          g=json.load(open('results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'))
           assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
           assert c['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
           assert r['n_systems']==722
@@ -49,4 +53,18 @@ jobs:
           assert b['categorical']['family_no_bracket_rate_median_ge2']==1.0
           assert b['evidence_artifact_result_sha256']=='44f5d224e2097fde2d23be4a47025621867cc69a9f9478c1f1b8fc84ebf348d0'
           assert b['real_trait_values_used'] is False and b['real_memory_effects_used'] is False
+          assert e['status']=='PHYLO_MEMORY_EDGE_SPLIT_CEILING_AGGREGATED'
+          assert e['n_systems']==276 and e['original_no_bracket']['n']==220
+          assert e['original_no_bracket']['n_edge_ceiling_below_benchmark']==0
+          assert e['original_no_bracket']['n_edge_ceiling_ge_benchmark_but_ou_unreached']==220
+          assert abs(e['edge_split_ceiling']['median_no_bracket']-0.7733)<1e-12
+          assert e['evidence_artifact_result_sha256']=='c520585931b50f78b716b72dcadd7aeeaadc0c52f2f9de0dfad4dbb46808dc6a'
+          assert e['real_trait_values_used'] is False and e['real_memory_effects_used'] is False
+          assert g['status']=='PHYLO_MEMORY_BINARY_VALIDITY_TRADEOFF_AUDITED'
+          assert g['categorical_no_bracket']['n']==220
+          assert g['categorical_no_bracket']['mechanism_counts']=={'EFFECT_CEILING':195,'VALIDITY_COLLAPSE':25}
+          assert g['categorical_no_bracket']['fraction_admissible_reaches_benchmark']==0.0
+          assert abs(g['categorical_no_bracket']['median_spearman_loglambda_valid_fraction']+0.9574271077563381)<1e-12
+          assert g['evidence_artifact_result_sha256']=='52df7c0c7eb95fc838ab38c24a85dbf0eb9124d2a7b50db64fafeaec5131e739'
+          assert g['real_trait_values_used'] is False and g['real_memory_effects_used'] is False
           PY

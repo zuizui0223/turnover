@@ -24,7 +24,10 @@ jobs:
           python - <<'PY'
           import json
           d=json.load(open('data/phylo_memory_balance_normalized_design_v0_5.json'))
+          e=json.load(open('data/phylo_memory_balance_normalized_execution_v0_5_1.json'))
           assert d['status']=='FROZEN_BEFORE_BALANCE_NORMALIZED_RANK_SEPARATION_RESULT_OPENING'
+          assert e['status']=='FROZEN_BEFORE_BALANCE_NORMALIZED_RETRY'
+          assert e['outcome_based_exclusion'] is False
           assert d['factorization']['target']==0.30
           assert d['factorization']['tolerance']==0.02
           assert d['generator_held_fixed']['parameter_grid']==[0.01,0.03162277660168379,0.1,0.31622776601683794,1,3.1622776601683795,10,31.622776601683793,100]

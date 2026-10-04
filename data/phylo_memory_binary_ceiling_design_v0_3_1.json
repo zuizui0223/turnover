@@ -1,0 +1,25 @@
+{
+  "version": "v0.3.1",
+  "status": "FROZEN_BEFORE_EDGE_SPLIT_CEILING_ANALYSIS",
+  "frozen_on": "2026-10-04",
+  "supersedes_without_execution": "data/phylo_memory_binary_ceiling_design_v0_3.json",
+  "reason_for_revision": "The v0.3 unconstrained pair-label upper bound is not a realizable binary tip-state bound. With distinct pair-distance ranks 1..M, assigning mismatch to the K largest ranks gives rho_max(K)=sqrt(3*K*(M-K)/(M^2-1)), whose optimum approaches sqrt(3/4)=0.866. For the present n>=20 systems this construction is therefore structurally unable to diagnose a 0.15 ceiling. This defect was identified before any v0.3 outcome was computed.",
+  "purpose": "Distinguish a realizable single-transition binary-state ceiling from failure of the frozen OU-threshold generator to access that ceiling.",
+  "source": "Nominal-categorical systems among the 683 novel known-truth system JSONs from workflow 37086693588, with S3 trees rebuilt under the identical pinned BIEN 4.2.8 and V.PhyloMaker2 setup; no real trait values or real memory rho.",
+  "benchmark": 0.15,
+  "realizable_state_family": "Every edge of the realized S3 phylogeny defines one binary tip bipartition (descendant clade versus all remaining tips), equivalent to a single state transition on that edge. For each edge split, compute the exact Spearman/point-biserial rho between patristic-distance ranks and pairwise 0/1 mismatch.",
+  "primary_quantities": [
+    "maximum positive rho across all realizable tree-edge splits for each categorical system",
+    "fraction of original CALIBRATION_NO_BRACKET systems whose maximum edge-split rho is below 0.15",
+    "fraction of original CALIBRATION_NO_BRACKET systems whose maximum edge-split rho is at least 0.15 but whose frozen OU lambda grid still never brackets 0.15",
+    "gap between maximum edge-split rho and the maximum frozen OU pilot-median rho"
+  ],
+  "diagnostic_only": "Also compute the old unconstrained pair-label upper bound to verify that it is non-discriminating; it is not used as evidence for biological or geometric impossibility.",
+  "interpretation": {
+    "edge_ceiling_below_benchmark": "Even a clean one-edge, one-transition binary split cannot reach the common benchmark under binary mismatch plus Spearman on that realized tree geometry.",
+    "edge_ceiling_at_or_above_benchmark_but_ou_no_bracket": "The representation/tree can in principle express the benchmark through a simple phylogenetic split, but the frozen OU-threshold generator does not reliably access it over the declared lambda grid.",
+    "guard": "The edge-split maximum is a biologically interpretable attainable family, not a global upper bound over every possible multi-transition binary tip pattern."
+  },
+  "no_posthoc_predictor_search": true,
+  "real_trait_outcomes_used": false
+}

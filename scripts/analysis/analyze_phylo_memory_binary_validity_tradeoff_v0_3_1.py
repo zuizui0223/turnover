@@ -175,7 +175,7 @@ summary = {
     "n_systems": int(len(df)),
     "n_categorical": int(len(cat)),
     "n_continuous": int(len(cont)),
-    "storage_note": "Full pilot grids are persisted for S3 calibration failures, not for successful calibrations. Primary mechanism inference therefore conditions on the 251 categorical CALIBRATION_NO_BRACKET systems.",
+    "storage_note": "Full pilot grids are persisted for S3 calibration failures, not for successful calibrations. Primary mechanism inference therefore conditions on the 220 categorical CALIBRATION_NO_BRACKET systems.",
     "categorical_no_bracket": {
         "n": int(len(nb)),
         "mechanism_counts": {k: int(v) for k, v in mech.items()},

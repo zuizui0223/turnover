@@ -1,0 +1,48 @@
+name: Phylogenetic memory calibration ceiling v0.2
+on:
+  pull_request:
+    paths:
+      - '.triggers/phylo-memory-calibration-ceiling-v0-2'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas statsmodels
+      - name: Download all novel known-truth system artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/novel
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -p 'trait-memory-info-B*' -D build/batches
+          find build/batches -type f -name 'M*.json' -exec cp {} build/novel/ \;
+          test "$(find build/novel -type f -name 'M*.json' | wc -l)" -eq 683
+      - name: Validate frozen decomposition design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/phylo_memory_calibration_ceiling_design_v0_2.json'))
+          assert d['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
+          assert d['primary_contrast']=='Probability of S3 CALIBRATION_NO_BRACKET for nominal categorical versus continuous systems.'
+          assert d['benchmark_unchanged']==0.15
+          assert d['lambda_grid_unchanged']==[0.01,0.03162277660168379,0.1,0.31622776601683794,1,3.1622776601683795,10,31.622776601683793,100]
+          assert d['real_trait_outcomes_used'] is False
+          PY
+      - name: Analyze calibration ceiling
+        run: |
+          mkdir -p build/ceiling
+          python scripts/analysis/analyze_phylo_memory_calibration_ceiling_v0_2.py \
+            --novel-dir build/novel \
+            --out build/ceiling/result.json \
+            --table-out build/ceiling/systems.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-calibration-ceiling-v0-2
+          path: build/ceiling/

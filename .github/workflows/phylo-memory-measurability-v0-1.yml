@@ -1,9 +1,6 @@
 name: Phylogenetic memory measurability v0.1
 
 on:
-  pull_request:
-    paths:
-      - '.triggers/phylo-memory-measurability-v0-1'
   workflow_dispatch:
 
 permissions:

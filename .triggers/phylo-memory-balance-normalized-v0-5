@@ -1,2 +1,3 @@
 triggered_on: 2026-10-04
 reason: execute the frozen state-balance attenuation diagnostic after the Mk2 generator substitution result.
+retry: geometry identity mismatches are now recorded as outcome-free HOLDs under frozen execution contract v0.5.1.

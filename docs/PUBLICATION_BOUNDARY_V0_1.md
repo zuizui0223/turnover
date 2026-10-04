@@ -115,6 +115,14 @@ Main figures:
 
 Deep-family phylogeny analysis belongs in Supplement or a small complementary panel, not as a fourth primary inferential pillar.
 
+## Final provenance robustness and analysis stop
+
+A post-outcome sensitivity audited the strongest remaining observational alternative: family-correlated BIEN source composition. Family context was unrelated to source HHI (rho = -0.045, p = 0.773), dominant-source share (rho = -0.066, p = 0.666), citation HHI (rho = -0.061, p = 0.693), or dominant-citation share (rho = -0.062, p = 0.685). R_family changed only from 0.1504 unadjusted to 0.1492 after source adjustment and 0.1470 after source-citation adjustment.
+
+This sensitivity was post-outcome and does not establish a causal biological family effect. It does, however, weaken the specific explanation that the recurring family component is a simple consequence of family differences in BIEN provenance concentration.
+
+Under the pre-frozen stop rule, the BIEN empirical analyses are now **closed**. No additional provenance-field search, covariate mining, outcome-driven filtering, or new primary hypothesis is permitted on the 201 observed effects.
+
 ## Submission readiness
 
 The BIEN empirical analysis is scientifically closed. Remaining work for the main paper is presentation, literature positioning, figure production, and ordinary reproducibility checks—not additional hypothesis hunting on the 201 observed effects.

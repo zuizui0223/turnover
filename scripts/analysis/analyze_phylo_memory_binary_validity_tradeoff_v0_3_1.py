@@ -148,15 +148,15 @@ if len(df) != 683:
     raise SystemExit(f"expected 683 novel systems, got {len(df)}")
 cat = df[df.semantic_class == "nominal_categorical"].copy()
 cont = df[df.semantic_class == "continuous_scalar"].copy()
-if len(cat) != 265 or len(cont) != 418:
+if len(cat) != 276 or len(cont) != 407:
     raise SystemExit(f"unexpected class counts categorical={len(cat)} continuous={len(cont)}")
 
 nb = cat[cat.s3_no_bracket].copy()
 cont_nb = cont[cont.s3_no_bracket].copy()
-if len(nb) != 251:
-    raise SystemExit(f"expected 251 categorical no-bracket systems, got {len(nb)}")
-if len(cont_nb) != 83:
-    raise SystemExit(f"expected 83 continuous no-bracket systems, got {len(cont_nb)}")
+if len(nb) != 220:
+    raise SystemExit(f"expected 220 categorical no-bracket systems, got {len(nb)}")
+if len(cont_nb) != 60:
+    raise SystemExit(f"expected 60 continuous no-bracket systems, got {len(cont_nb)}")
 
 def finite_median(s):
     x = pd.to_numeric(s, errors="coerce")

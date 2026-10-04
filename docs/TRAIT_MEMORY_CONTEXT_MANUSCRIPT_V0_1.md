@@ -134,6 +134,16 @@ The family repeatability share was essentially unchanged. In the simpler pre-fro
 
 Thus the recurring family component is not explained by these measured differences in taxon coverage, taxonomic insertion, or phylogenetic measurement geometry. This does **not** establish a causal biological family effect: unmeasured BIEN study heterogeneity and other family-correlated features can still contribute.
 
+### Post-outcome BIEN provenance sensitivity
+
+A final post-outcome sensitivity asked whether the recurring family component could instead reflect family-correlated composition of BIEN data sources. For the same 201 systems, source concentration was quantified independently from the BIEN `source` and `source_citation` fields.
+
+Family context scores were unrelated to source concentration: source HHI rho = **-0.045** (9,999-permutation p = **0.773**), dominant-source share rho = **-0.066** (p = **0.666**), citation HHI rho = **-0.061** (p = **0.693**), and dominant-citation share rho = **-0.062** (p = **0.685**).
+
+The crossed family repeatability component was likewise stable. R_family changed from **0.1504** unadjusted to **0.1492** after adjustment for log trait-record count, source HHI and dominant-source share, and to **0.1470** under the analogous citation-based adjustment.
+
+This audit weakens the specific alternative that the recurring family component is generated simply by concentration of BIEN measurements in different sources or citations among families. Because it was designed after the primary result and provenance labels are imperfect proxies for all study heterogeneity, it remains a sensitivity rather than causal evidence for a biological lineage effect.
+
 ### Complementary deep-phylogeny check
 
 A post-outcome exploratory analysis asked whether this recurring family context is itself smoothly organized across deeper family phylogeny. For each of the 45 focal families, a context score was computed as the median trait-specific deviation from the leave-self-out mean for that trait, and family positions were defined by their full GBOTB family crowns.

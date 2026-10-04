@@ -1,0 +1,53 @@
+{
+  "version": "v0.3.1",
+  "status": "PHYLO_MEMORY_BINARY_VALIDITY_TRADEOFF_AUDITED",
+  "evidence_workflow_run": 37199025791,
+  "evidence_artifact_id": 11302526534,
+  "evidence_artifact_sha256": "626276ae291db798314487cd96410fbf82e784ce9ad02a6d531efc039cc5fd64",
+  "evidence_artifact_result_sha256": "52df7c0c7eb95fc838ab38c24a85dbf0eb9124d2a7b50db64fafeaec5131e739",
+  "outcome_type": "known_truth_pilot_calibration_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "benchmark": 0.15,
+  "calibration_valid_fraction_min": 0.9,
+  "n_systems": 683,
+  "n_categorical": 276,
+  "n_continuous": 407,
+  "storage_note": "Full pilot grids are persisted for S3 calibration failures, not for successful calibrations. Primary mechanism inference therefore conditions on the 220 categorical CALIBRATION_NO_BRACKET systems.",
+  "categorical_no_bracket": {
+    "n": 220,
+    "mechanism_counts": {
+      "EFFECT_CEILING": 195,
+      "VALIDITY_COLLAPSE": 25
+    },
+    "mechanism_fractions": {
+      "EFFECT_CEILING": 0.8863636363636364,
+      "VALIDITY_COLLAPSE": 0.11363636363636363
+    },
+    "fraction_unconstrained_reaches_benchmark": 0.11363636363636363,
+    "fraction_admissible_reaches_benchmark": 0,
+    "fraction_with_no_finite_pilot_median": 0,
+    "median_max_unconstrained_effect": 0.09784999999999999,
+    "median_max_admissible_effect": 0.08205,
+    "median_valid_fraction_at_unconstrained_max": 0.7875000000000001,
+    "median_minimum_grid_valid_fraction": 0.2,
+    "median_valid_fraction_at_largest_lambda": 0.2,
+    "median_spearman_loglambda_valid_fraction": -0.9574271077563381,
+    "median_spearman_loglambda_median_effect": 0.7666666666666667
+  },
+  "continuous_no_bracket_sanity": {
+    "n": 60,
+    "fraction_with_no_finite_pilot_median": 0,
+    "median_max_unconstrained_effect": 0.10625000000000001,
+    "median_minimum_grid_valid_fraction": 1,
+    "median_valid_fraction_at_largest_lambda": 1,
+    "median_spearman_loglambda_valid_fraction": null
+  },
+  "interpretation_rule": {
+    "COMPLETE_VALIDITY_COLLAPSE": "A stored calibration grid exists but no lambda yields a finite binary mismatch effect in the pilot replicates.",
+    "VALIDITY_COLLAPSE": "The unconstrained grid reaches rho>=0.15, but only at grid points failing the predeclared valid_fraction>=0.90 requirement.",
+    "EFFECT_CEILING": "Even finite unconstrained pilot medians never reach rho=0.15; monomorphism alone is insufficient to explain the calibration ceiling.",
+    "OTHER_NO_BRACKET": "An admissible grid point reaches the benchmark but the frozen bracketing algorithm still fails; treat as an algorithmic edge case."
+  },
+  "interpretation_guard": "valid_fraction is a generator/estimator diagnostic. For binary mismatch effects, invalid pilot replicates occur when thresholded states are monomorphic, so this analysis tests a measurement tradeoff rather than biological trait conservatism."
+}

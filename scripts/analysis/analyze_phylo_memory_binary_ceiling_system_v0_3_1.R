@@ -145,8 +145,9 @@ unconstrained_max <- max(ur[is.finite(ur)])
 benchmark <- 0.15
 parse_bool <- function(x) tolower(trimws(as.character(x))) %in% c("true","t","1")
 no_bracket <- parse_bool(src$s3_no_bracket[[1]])
-ou_max <- as.numeric(src$s3_max_grid_median[[1]])
-if(!is.finite(ou_max)) stop("frozen v0.2 OU maximum is not finite")
+ou_max <- suppressWarnings(as.numeric(src$s3_max_grid_median[[1]]))
+if(no_bracket && !is.finite(ou_max)) stop("frozen v0.2 OU maximum is not finite for no-bracket system")
+edge_gap <- if(is.finite(ou_max)) as.numeric(best$rho-ou_max) else NA_real_
 
 out <- list(
   version="v0.3.1",
@@ -165,7 +166,7 @@ out <- list(
   max_edge_split_minority_fraction=as.numeric(best$minority_fraction),
   max_edge_split_mismatch_pairs=as.numeric(best$K),
   edge_split_reaches_benchmark=as.logical(best$rho>=benchmark),
-  edge_minus_ou_gap=as.numeric(best$rho-ou_max),
+  edge_minus_ou_gap=edge_gap,
   unconstrained_pair_label_upper_bound=as.numeric(unconstrained_max),
   interpretation_guard="Edge splits are realizable one-transition binary states, not a global upper bound over arbitrary multi-transition binary patterns."
 )

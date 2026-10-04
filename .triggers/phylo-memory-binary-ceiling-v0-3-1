@@ -1,2 +1,2 @@
 triggered_on: 2026-10-04
-reason: rerun artifact-correct v0.3.1 after allowing s3_max_grid_median to be absent for calibrated systems; finite OU maxima remain required for the 220 no-bracket systems used in the accessibility-gap comparison.
+reason: execute artifact-correct v0.3.1 with an exact O(n^2) tree-difference implementation for all edge cut rank sums; the estimand and frozen mechanism test are unchanged.

@@ -1,0 +1,79 @@
+{
+  "version": "v0.8",
+  "status": "FROZEN_BEFORE_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-04",
+  "relationship_to_v0_6_1": {
+    "prior_result": "results/trait_memory_model_informativeness_v0_6_1/result.json",
+    "prior_primary_question_closed": true,
+    "prior_question": "Can the 201-edge graph estimate the trait-vs-family variance ratio precisely enough to classify trait-dominant vs lineage-dominant architecture?",
+    "prior_hold_reason": "Directional recovery passed but median absolute log variance-ratio error exceeded the frozen 0.35 threshold.",
+    "new_question_independent": "Can the graph detect a nonzero, practically meaningful repeatable memory component on the trait axis and/or family axis separately?",
+    "no_relaxation": true
+  },
+  "biological_question": "Does phylogenetic memory-loss show repeatable structure associated with trait identity, family identity, both, or neither?",
+  "graph": {
+    "source": "final 201-system / 45-family / 12-trait crossed core from run 37086693588",
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "connected": true
+  },
+  "model": "rho ~ 1 + (1|family) + (1|trait_name)",
+  "benchmark_scale": {
+    "intercept": 0.15,
+    "residual_variance": 0.01,
+    "practical_component_variance": 0.005,
+    "absent_component_variance": 0,
+    "rationale": "A component SD sqrt(0.005)=0.0707 on the rho scale is half the predeclared 0.15 benchmark effect and is fixed without observing real rho."
+  },
+  "known_truth_cases": {
+    "trait_only": {
+      "family_variance": 0,
+      "trait_variance": 0.005,
+      "residual_variance": 0.01
+    },
+    "family_only": {
+      "family_variance": 0.005,
+      "trait_variance": 0,
+      "residual_variance": 0.01
+    },
+    "both": {
+      "family_variance": 0.005,
+      "trait_variance": 0.005,
+      "residual_variance": 0.01
+    },
+    "neither": {
+      "family_variance": 0,
+      "trait_variance": 0,
+      "residual_variance": 0.01
+    }
+  },
+  "replicates_per_case": 1000,
+  "master_seed": 20261004,
+  "component_detection": {
+    "estimator": "REML variance component from the identical crossed random-intercept model",
+    "detection_threshold_variance": 0.001,
+    "rule": "component detected iff fitted variance >=0.001 in a nonsingular/converged fit",
+    "rationale": "Threshold is 20% of the practical 0.005 component and is frozen before real rho."
+  },
+  "admission": {
+    "valid_fit_fraction_min": 0.9,
+    "trait_only_trait_sensitivity_min": 0.8,
+    "trait_only_family_false_positive_max": 0.2,
+    "family_only_family_sensitivity_min": 0.8,
+    "family_only_trait_false_positive_max": 0.2,
+    "both_each_sensitivity_min": 0.8,
+    "neither_each_false_positive_max": 0.2
+  },
+  "decision_if_pass": "A separate repeatability-presence study may open real rho. It may classify trait-associated repeatability present/absent and family-associated repeatability present/absent, but may not compare which variance is larger.",
+  "decision_if_hold": "Stop before real rho. Do not weaken component size, detection threshold, sensitivity, or false-positive criteria.",
+  "forbidden_claims": [
+    "trait variance exceeds family variance",
+    "family variance exceeds trait variance",
+    "trait-dominant architecture",
+    "lineage-dominant architecture",
+    "variance-ratio magnitude"
+  ],
+  "real_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

@@ -38,6 +38,28 @@
     "R_trait": 0.0055,
     "R_residual": -0.001
   },
-  "interpretation": "The recurring family-level component is essentially unchanged after adjusting for system species count, backbone-native prune fraction, and the outcome-blind calibration lambda required by each system's phylogenetic geometry. These measured geometry/coverage differences therefore do not explain the estimated family context.",
-  "nonclaim": "This sensitivity does not prove the family component is biological or causal; unmeasured BIEN study heterogeneity and other family-correlated features can remain."
+  "interpretation": "The recurring family-level component is stable under both the pre-frozen species-coverage adjustment and the fuller geometry adjustment. S3 R_family is 0.150 unadjusted, 0.154 with species-count adjustment, and 0.146 after simultaneous adjustment for species count, prune fraction and calibration lambda. The prune-only family share is likewise 0.148 unadjusted and 0.151 after species-count adjustment. These measured coverage/geometry differences therefore do not explain the estimated family context.",
+  "nonclaim": "This sensitivity does not prove the family component is biological or causal; unmeasured BIEN study heterogeneity and other family-correlated features can remain.",
+  "coverage_only": {
+    "S3": {
+      "fixed_effect_z_log_species": -0.0087,
+      "family_variance": 0.0032,
+      "trait_variance": 0.0009,
+      "residual_variance": 0.0166,
+      "R_family": 0.1543,
+      "R_trait": 0.0426,
+      "R_residual": 0.8031,
+      "singular": false
+    },
+    "prune_only": {
+      "fixed_effect_z_log_species_prune": -0.0109,
+      "family_variance": 0.0045,
+      "trait_variance": 0.0006,
+      "residual_variance": 0.0245,
+      "R_family": 0.1511,
+      "R_trait": 0.02,
+      "R_residual": 0.8289,
+      "singular": false
+    }
+  }
 }

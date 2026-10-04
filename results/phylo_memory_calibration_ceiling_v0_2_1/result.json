@@ -5,23 +5,31 @@
   "evidence_job_id": 111403426929,
   "evidence_artifact_id": 11299251201,
   "evidence_artifact_sha256": "785ae777ac59b796f0998d707e0de8c054e30afbdb1c97ef83d3dafe1c9f1068",
+  "evidence_artifact_result_sha256": "44f5d224e2097fde2d23be4a47025621867cc69a9f9478c1f1b8fc84ebf348d0",
+  "provenance_correction": "2026-10-04: previously committed breadth values did not match the cited workflow artifact. This file now transcribes the cited artifact result exactly for scientific quantities; evidence metadata and this correction note are repository annotations.",
   "outcome_type": "known_truth_recovery_only",
   "real_trait_values_used": false,
   "real_memory_effects_used": false,
   "categorical": {
-    "n_traits": 9,
-    "trait_no_bracket_rate_min": 0.7142857142857143,
-    "trait_no_bracket_rate_median": 0.967741935483871,
-    "trait_no_bracket_rate_max": 1,
-    "n_traits_rate_ge_0_80": 8,
-    "n_traits_rate_1": 4,
-    "families_with_ge2_categorical_systems": 83,
-    "family_no_bracket_rate_median_ge2": 1,
-    "family_no_bracket_rate_q25_q75_ge2": [
-      1,
-      1
+    "n_traits": 7,
+    "trait_no_bracket_rate_min": 0.5,
+    "trait_no_bracket_rate_median": 0.6,
+    "trait_no_bracket_rate_max": 0.8690476190476191,
+    "n_traits_rate_ge_0_80": 3,
+    "n_traits_rate_1": 0,
+    "families_with_ge2_categorical_systems": 100,
+    "family_no_bracket_rate_median_ge2": 1.0,
+    "family_no_bracket_rate_q25_q75_ge2": [0.6666666666666666, 1.0],
+    "trait_table": [
+      {"trait_name":"flower color","n":12,"no_bracket_rate":0.5833333333333334,"s3_pass_rate":0.08333333333333333,"median_n_species":53.0,"median_max_grid_median":0.1428},
+      {"trait_name":"flower pollination syndrome","n":8,"no_bracket_rate":0.5,"s3_pass_rate":0.125,"median_n_species":41.0,"median_max_grid_median":0.09445},
+      {"trait_name":"whole plant dispersal syndrome","n":10,"no_bracket_rate":0.6,"s3_pass_rate":0.1,"median_n_species":41.5,"median_max_grid_median":0.09684999999999999},
+      {"trait_name":"whole plant growth form","n":117,"no_bracket_rate":0.8034188034188035,"s3_pass_rate":0.09401709401709402,"median_n_species":264.0,"median_max_grid_median":0.09645000000000001},
+      {"trait_name":"whole plant sexual system","n":7,"no_bracket_rate":0.5714285714285714,"s3_pass_rate":0.0,"median_n_species":41.0,"median_max_grid_median":0.10565},
+      {"trait_name":"whole plant vegetative phenology","n":38,"no_bracket_rate":0.8421052631578947,"s3_pass_rate":0.02631578947368421,"median_n_species":83.5,"median_max_grid_median":0.10165},
+      {"trait_name":"whole plant woodiness","n":84,"no_bracket_rate":0.8690476190476191,"s3_pass_rate":0.03571428571428571,"median_n_species":143.5,"median_max_grid_median":0.0938}
     ]
   },
-  "interpretation": "The categorical calibration ceiling is representation-wide rather than driven by one trait or a few families: 8/9 categorical traits have >=80% S3 no-bracket rates, 4/9 are 100%, and among 83 families with at least two categorical systems the median and IQR family no-bracket rate are all 100%.",
-  "interpretation_guard": "Breadth supports a measurement/representation bottleneck only, not weaker biological phylogenetic signal in categorical traits."
+  "interpretation": "The categorical calibration bottleneck is broad but heterogeneous rather than universal. All seven represented categorical traits have no-bracket rates of at least 50%, three exceed 80%, and none reaches 100%. Among 100 families with at least two categorical systems, the median family no-bracket rate is 100% with IQR 66.7%-100%.",
+  "interpretation_guard": "Breadth supports a widespread representation-by-geometry measurement bottleneck only; it is not evidence that categorical biological traits are less conserved."
 }

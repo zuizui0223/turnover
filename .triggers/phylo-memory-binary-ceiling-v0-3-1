@@ -1,2 +1,2 @@
 triggered_on: 2026-10-04
-reason: execute pre-outcome revised edge-split ceiling mechanism audit after identifying the unconstrained pair-label bound as non-discriminating before any v0.3 result was opened.
+reason: rerun pre-outcome edge-split ceiling audit using the exact frozen v0.2 systems.csv as the population frame after raw-artifact re-enumeration disagreed with the already-audited 265 categorical-system count.

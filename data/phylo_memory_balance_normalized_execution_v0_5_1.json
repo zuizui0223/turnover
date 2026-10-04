@@ -1,0 +1,22 @@
+{
+  "version": "v0.5.1",
+  "status": "FROZEN_BEFORE_BALANCE_NORMALIZED_RETRY",
+  "frozen_on": "2026-10-04",
+  "reason": "The first v0.5 execution revealed that live BIEN re-querying no longer reproduces the frozen Mk2 geometry for at least one system (M0231). This was detected from the geometry identity assertion before that system's v0.5 statistic was computed. The target, statistic, eta grid, seeds and calibration rules are unchanged.",
+  "population_accounting": "Retain all 276 frozen categorical system identities. A system is analytically available only when the rebuilt S3 geometry exactly matches the frozen Mk2 artifact on n_input_species and n_prune and matches the frozen crosswalk on n_prune, n_bind and n_fail_to_bind.",
+  "geometry_mismatch_action": "Write an outcome-free HOLD_GEOMETRY_DRIFT record containing expected and observed geometry counts; do not compute or impute a balance-normalized outcome for that system.",
+  "primary_inference_population": "All systems passing the exact geometry identity gate. Report the number and original Mk2-rho calibration status of geometry-HOLD systems explicitly.",
+  "paired_comparison": "Compute balance-normalized rescue and new-failure counts only among exact geometry matches, with denominators reported from that matched subset. Do not silently use 170 or 106 if any geometry-HOLD systems occur in those groups.",
+  "unchanged": [
+    "Delta_rank target = 0.30",
+    "absolute tolerance = 0.02",
+    "same Mk2 eta grid",
+    "same deterministic Mk2 pilot seeds and common random numbers",
+    "valid_fraction >= 0.90",
+    "no grid extension",
+    "no observed trait values or observed memory effects"
+  ],
+  "outcome_based_exclusion": false,
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false
+}

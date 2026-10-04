@@ -21,33 +21,42 @@ For the 683 novel systems in the cited v0.2 artifact:
 
 Thus categorical systems lose information at both stages 2 and 3, but stage 2 is the larger bottleneck.
 
-## v0.3.1 structural-realizability test
+## v0.3.1 structural-realizability result
 
-For every categorical S3 tree, every edge defines a realizable one-transition binary configuration: descendant clade = state 1, all remaining tips = state 0. The exact binary-mismatch Spearman rho is computed for every such edge.
+For every categorical S3 tree, every edge defines a realizable one-transition binary configuration: descendant clade = state 1, all remaining tips = state 0. The exact binary-mismatch Spearman rho was computed for every such edge.
 
-This is not a global upper bound over arbitrary multi-transition patterns. It is deliberately a simple biologically interpretable attainable family.
+Across all **276 categorical systems**, every system has at least one one-edge split above rho = 0.15. Among the **220 original OU no-bracket systems**:
 
-### Interim exact diagnostic
+- edge-split ceiling below 0.15: **0/220**;
+- edge-split ceiling at or above 0.15: **220/220**;
+- median maximum one-edge rho = **0.7733** (IQR 0.7422–0.8114);
+- median maximum OU-grid rho = **0.09785**;
+- median edge-minus-OU accessibility gap = **0.67665**.
 
-As of the first seven completed v0.3.1 batches:
-- 63 categorical systems have exact edge-split results;
-- 50 of these are v0.2 S3 no-bracket systems;
-- all 63 have maximum one-edge rho >=0.658;
-- all 50 no-bracket systems have maximum one-edge rho >=0.709;
-- median maximum one-edge rho among those 50 no-bracket systems = 0.785;
-- therefore 50/50 no-bracket systems in this interim subset structurally admit a simple binary configuration far above the rho=0.15 target.
+The simplest structural-ceiling explanation is therefore rejected. A binary tip-state configuration capable of expressing the benchmark exists on every realized tree, even within a biologically interpretable one-transition family.
 
-These are interim diagnostics only. The primary v0.3.1 result remains the full 276-system aggregate.
+## v0.3.1 generator-accessibility trade-off
 
-## What this would mean if the full result holds
+The stored calibration grids then locate the failure inside the latent-OU-plus-zero-threshold generator.
 
-A strong separation between structural realizability and generator accessibility would reject the simplest “binary representation imposes a hard rho<0.15 ceiling” explanation.
+Among the 220 categorical no-bracket systems:
 
-The more precise mechanism would be:
+- **195 (88.6%)** never reach rho = 0.15 anywhere on the finite OU grid, even when the valid-fraction rule is ignored;
+- **25 (11.4%)** reach rho >= 0.15 only at grid points with valid fraction < 0.90;
+- **0/220** reach the target at an admissible grid point;
+- median maximum unconstrained rho = **0.09785**;
+- median maximum admissible rho = **0.08205**;
+- median within-system Spearman(log lambda, pilot rho) = **+0.767**;
+- median within-system Spearman(log lambda, valid fraction) = **-0.957**;
+- median valid fraction at the largest lambda = **0.20**.
 
-> The binary state space on the realized phylogenies can express strong distance structure, but the frozen latent-OU-plus-zero-threshold generator often does not make the rho=0.15 region accessible with adequate validity.
+For binary thresholded states, invalid replicates are monomorphic. Increasing latent phylogenetic memory therefore tends to strengthen the desired pairwise structure while destroying the polymorphism needed to define the statistic. The corresponding valid fraction is 1.00 throughout the 60 continuous no-bracket systems.
 
-That is a property of the **generator × representation × tree** combination, not of categorical biological traits themselves.
+The resulting mechanism is:
+
+> **The truth is structurally realizable, but the chosen generator cannot reliably assign it before binary variation collapses.**
+
+This is a property of the **generator × representation × realized tree** combination, not evidence that categorical biological traits are intrinsically weakly conserved.
 
 ## Why this matters beyond this study
 
@@ -97,4 +106,4 @@ Thus binary Spearman contains an explicit state-balance attenuation term. A late
 
 ## Status
 
-This framework is sequential and mechanism-seeking. The Mk2 and balance-normalized follow-ups are not yet evidential results. The full v0.3.1 aggregate remains the next gate.
+Structural realizability and the latent-OU accessibility failure are now closed on the full categorical population. The next gate is the pre-specified generator substitution: keep binary mismatch + Spearman fixed and test whether a symmetric two-state Markov generator can assign rho = 0.15 more reliably. The balance-normalized estimator remains secondary and should not be opened before that generator comparison.

@@ -100,7 +100,11 @@ safe_spearman <- function(sep,diss){
 }
 
 weighted_midranks <- function(group_id,weights,n_groups){
-  gw <- tabulate(group_id,nbins=n_groups,weights=weights)
+  # Base R tabulate() has no weights argument. Aggregate multiplicities with
+  # rowsum(), then place them back by integer rank-group id.
+  rs <- rowsum(matrix(weights,ncol=1),group=group_id,reorder=TRUE)
+  gw <- numeric(n_groups)
+  gw[as.integer(rownames(rs))] <- as.numeric(rs[,1])
   before <- c(0,head(cumsum(gw),-1))
   mid <- before + (gw+1)/2
   mid[group_id]

@@ -1,0 +1,258 @@
+{
+  "version": "v0.3",
+  "status": "TRAIT_MEMORY_ROBUSTNESS_V0_3_AGGREGATED",
+  "date": "2026-10-05",
+  "population": {
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12,
+    "semantic_class": "continuous_scalar",
+    "primary_tree": "S3",
+    "sensitivity_tree": "prune_only"
+  },
+  "relationship_to_original": {
+    "original_repeatability": "results/trait_memory_repeatability_v0_2/result.json",
+    "original_portability": "results/trait_memory_portability_v0_2/result.json",
+    "rule": "Original frozen results are retained. v0.3 changes their interpretation but does not overwrite their status."
+  },
+  "evidence": {
+    "system_effect_run": {
+      "workflow_run": 37269950030,
+      "all_effect_batches_successful": 32,
+      "failed_effect_batches": 0,
+      "weighted_spearman_algorithm_check_max_abs_error": 2.220446049250313e-16
+    },
+    "aggregate": {
+      "workflow_run": 37271779078,
+      "artifact_id": 11327908789,
+      "artifact_name": "trait-memory-robust-effects-v0-3-recovered",
+      "artifact_zip_sha256": "9b3a26ff3a971882c3f4f059815d9f4067eda36ada8605207f1f3338e0e7fbfe",
+      "aggregate_result_sha256": "14147cb31a5d5129750e86a0ac3c6b4d30689ecdc5ac90d24bb391810ce1afd9"
+    },
+    "secondary_models": {
+      "workflow_run": 37272160491,
+      "artifact_id": 11329055337,
+      "artifact_name": "trait-memory-robustness-v0-3-model-recovered",
+      "artifact_zip_sha256": "f3f62d6bdc2e4c8a41e6cdf25c1a0df7091d3770d0670b62ebc702871c520b2e",
+      "blup_result_sha256": "05bc8ebdacf8f4e83d89fcc576a786dbe3cfe5191533dac8819a6850cdcad8cc",
+      "correlated_trait_null_result_sha256": "6f83e9391bfdbb52a489ffb2f54116eca03e67f1674e554dc66a07bdbd9593ba"
+    },
+    "measurement_aware_recovery": {
+      "workflow_run": 37272936477,
+      "artifact_id": 11329242052,
+      "artifact_name": "trait-memory-measurement-aware-v0-3-recovered",
+      "artifact_zip_sha256": "4fd2b2847575fedd0f62a44f2d4e365c44c72328e2993667c8de59fe8fabd56e",
+      "result_sha256": "328dcc7dc2d2286d7e8fa986f1cb7b04ba2aedbf1f42f054aae7184a9b61c4d2"
+    }
+  },
+  "reference_identity": {
+    "pass": true,
+    "n_mismatches": 0,
+    "max_abs_unrounded_delta": 0.00004992213138967777,
+    "archive_precision_decimal_places": 4
+  },
+  "sampling_error": {
+    "all_201_systems_valid": true,
+    "species_bootstrap_replicates": 199,
+    "median_S3_se": 0.05797444434348969,
+    "median_prune_se": 0.07088945618526855
+  },
+  "measurement_aware_S3": {
+    "intercept": 0.07170421247376031,
+    "intercept_se": 0.015914943141179035,
+    "sigma2_family": 0.002890271080079113,
+    "sigma2_trait": 0.001086392363310765,
+    "sigma2_system": 0.010479508054145843,
+    "heterogeneity_shares": {
+      "family": 0.19993336967341627,
+      "trait": 0.07515076612752951,
+      "system": 0.7249158641990542
+    },
+    "sampling_variance": {
+      "mean": 0.00462393231315388,
+      "median": 0.0033610361969363834,
+      "share_mean_total": 0.24234314231368748,
+      "share_median_total": 0.188639895463483
+    },
+    "point_total_decomposition_using_mean_sampling_variance": {
+      "family": 0.15148088861339645,
+      "trait": 0.05693849331690298,
+      "system": 0.549237475756013,
+      "sampling": 0.24234314231368748
+    }
+  },
+  "measurement_aware_prune_only": {
+    "intercept": 0.09402752290648153,
+    "intercept_se": 0.016688453442609347,
+    "sigma2_family": 0.0039463446716972205,
+    "sigma2_trait": 0.000607015215209501,
+    "sigma2_system": 0.01651175941550592,
+    "heterogeneity_shares": {
+      "family": 0.1873402478781706,
+      "trait": 0.02881612994899953,
+      "system": 0.7838436221728299
+    },
+    "sampling_variance": {
+      "mean": 0.007128100504497046,
+      "median": 0.00502531499824311,
+      "share_mean_total": 0.2528303100290116,
+      "share_median_total": 0.19261139697152552
+    },
+    "point_total_decomposition_using_mean_sampling_variance": {
+      "family": 0.13997495492622086,
+      "trait": 0.021530538880157695,
+      "system": 0.5856641961646099,
+      "sampling": 0.2528303100290116
+    }
+  },
+  "S3_two_way_cluster_bootstrap": {
+    "replicates": 500,
+    "meta_success_fraction": 1,
+    "naive_success_fraction": 1,
+    "measurement_aware_ci95": {
+      "sigma2_family": [
+        0.0009861062478140317,
+        0.018838992624225982
+      ],
+      "sigma2_trait": [
+        2.4175996689329695e-10,
+        0.006743612249436742
+      ],
+      "sigma2_system": [
+        0.0007879445865026937,
+        0.012971077345926573
+      ],
+      "family_share_heterogeneity": [
+        0.12251358073142357,
+        0.7494061522524385
+      ],
+      "trait_share_heterogeneity": [
+        1.8312757541461744e-8,
+        0.3853299711128028
+      ],
+      "system_share_heterogeneity": [
+        0.07100385799045661,
+        0.7512825602720927
+      ],
+      "sampling_share_mean_total": [
+        0.13716284184796848,
+        0.45032340028677065
+      ]
+    },
+    "naive_ci95": {
+      "R_family": [
+        0.07272171228506907,
+        0.6374254425782129
+      ],
+      "R_trait": [
+        0,
+        0.2560601616291197
+      ],
+      "R_residual": [
+        0.23746140683610273,
+        0.8507720072834318
+      ]
+    },
+    "derived_total_share_ci95_using_mean_sampling_variance": {
+      "family": [
+        0.0840741601969452,
+        0.6036034776714341
+      ],
+      "trait": [
+        1.3299969495365244e-8,
+        0.27788864775917765
+      ],
+      "system": [
+        0.054040138856103204,
+        0.5559091518199578
+      ],
+      "sampling": [
+        0.13716284184796848,
+        0.45032340028677065
+      ]
+    },
+    "largest_heterogeneity_component_fraction": {
+      "system": 0.56,
+      "family": 0.414,
+      "trait": 0.026
+    },
+    "hard_claim_rule_passed": false,
+    "interpretation": "System heterogeneity is the largest point component, but two-way cluster uncertainty does not establish system dominance over family heterogeneity."
+  },
+  "log_scale": {
+    "status": "HOLD_TRAIT_MEMORY_LOG_ALL_201",
+    "all_201_positive_and_estimable": false,
+    "n_S3_systems_with_nonpositive_species_median": 25,
+    "n_prune_systems_with_nonpositive_species_median": 18,
+    "rule": "No offset, signed-log, or positive-only primary subset was introduced after seeing this result."
+  },
+  "correlated_trait_family_null": {
+    "null_type": "outcome_covariance_preserving_block_null",
+    "true_family_main_effect_zero_by_construction": true,
+    "S3": {
+      "observed_R_family": 0.15037123634911087,
+      "null_median": 0.03361814936525297,
+      "null_q025_q975": [
+        0,
+        0.13854145579072288
+      ],
+      "p_family_ge_observed": 0.016983016983016984
+    },
+    "prune_only": {
+      "observed_R_family": 0.1481650075618229,
+      "null_median": 0.025710605601244788,
+      "null_q025_q975": [
+        0,
+        0.12172741858974445
+      ],
+      "p_family_ge_observed": 0.008991008991008992
+    },
+    "interpretation": "Predeclared correlated/redundant trait outcomes plus the sparse incidence graph do not fully explain the observed family repeatability under this conservative zero-family-effect null."
+  },
+  "trait_domain_sensitivity": {
+    "descriptive_only": true,
+    "n_domains": 5,
+    "S3": {
+      "R_family": 0.14391140350567283,
+      "R_trait_domain": 0.031197079380024854,
+      "R_residual": 0.8248915171143022
+    },
+    "prune_only": {
+      "R_family": 0.14703251662629283,
+      "R_trait_domain": 0.04003032188644455,
+      "R_residual": 0.8129371614872626
+    }
+  },
+  "portability_shrinkage": {
+    "secondary_sensitivity_only": true,
+    "S3": {
+      "gain_unshrunk": -0.02417616423930835,
+      "gain_blup": 0.006007446522735993,
+      "median_training_trait_variance": 0.0009043725966177333,
+      "paired_sse_improvement_blup_vs_unshrunk": 0.12528134411069036
+    },
+    "prune_only": {
+      "gain_unshrunk": -0.03241420164391995,
+      "gain_blup": -0.004770827542518008,
+      "median_training_trait_variance": 0.0005953433013968109,
+      "paired_sse_improvement_blup_vs_unshrunk": 0.16557648952022852
+    },
+    "interpretation": "Shrinkage removes most of the apparent penalty from unshrunk trait means, but does not reveal robust cross-lineage portability. The supported statement is little transferable trait-level variance, not actively harmful transfer of stable trait signatures."
+  },
+  "conclusion": {
+    "rejected_or_weakened": [
+      "Do not interpret the original R_residual=0.8063 as 80.6% biological system-specific variation.",
+      "Do not claim robust dominance of system-level heterogeneity over family-level heterogeneity; cluster-bootstrap intervals overlap broadly.",
+      "Do not describe negative unshrunk portability gain as evidence that stable trait signatures transfer badly."
+    ],
+    "retained": [
+      "Rho sampling error is substantial but does not erase between-system heterogeneity.",
+      "A family-level repeatability component persists in point estimates and exceeds the predeclared correlated-trait zero-family-effect null on both S3 and prune-only trees.",
+      "Trait-level transferable variance is small, and shrinkage yields at most a very small S3 prediction gain with no prune-only gain."
+    ],
+    "unresolved": [
+      "The all-201 log-scale sensitivity is unresolved because the frozen no-offset positivity rule produces HOLD.",
+      "These analyses do not establish an ecological mechanism and do not answer the original spatial-temporal turnover question."
+    ]
+  }
+}

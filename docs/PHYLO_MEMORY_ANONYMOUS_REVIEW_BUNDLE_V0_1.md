@@ -28,6 +28,18 @@ The generated bundle:
 - scans unpacked text for the repository-owner identifier and email-address patterns;
 - contains a neutral review README generated inside CI.
 
+## Artifact content audit
+
+A direct audit of all seven aggregate workflow artifacts was completed on 2026-10-05.
+
+- downloaded ZIP SHA-256 values matched the hashes recorded in the canonical result files;
+- unpacked artifact text contained no repository-owner identifier, email address or GitHub repository URL;
+- system-level evidence consists of known-truth diagnostics such as calibration status, recovery summaries, tree/sample geometry, generator parameters, mismatch prevalence and mechanism classifications;
+- no observed trait-value field or observed phylogenetic-memory-effect field was present in the evidence tables;
+- artifacts that carry explicit outcome-firewall flags record `real_trait_values_used = false` and `real_memory_effects_used = false`.
+
+This audit supports use of the immutable aggregate artifacts in the double-anonymous review package.
+
 ## Scientific firewall
 
 The bundle excludes the unexecuted alternative-estimator v0.4 design from the primary review surface. The primary mechanism programme remains closed under `phylo_memory_mechanism_stop_v0_5_2.json` and `phylo_memory_mechanism_close_v0_5_3.json`.

@@ -335,6 +335,31 @@ Across 45 plant families and 12 traits, family identity contributes a modest rep
 
 The evolutionary structure associated with a trait should therefore be treated as **lineage-contingent unless its portability has been demonstrated directly**.
 
+## References
+
+Ackerly, D. D. (2009). Conservatism and diversification of plant functional traits: Evolutionary rates versus phylogenetic signal. *Proceedings of the National Academy of Sciences of the United States of America, 106*(Suppl. 2), 19699–19706. https://doi.org/10.1073/pnas.0901635106
+
+Blomberg, S. P., Garland, T., Jr., & Ives, A. R. (2003). Testing for phylogenetic signal in comparative data: Behavioral traits are more labile. *Evolution, 57*, 717–745. https://doi.org/10.1111/j.0014-3820.2003.tb00285.x
+
+Debastiani, V. J., Bastazini, V. A. G., & Pillar, V. D. (2021). Using phylogenetic information to impute missing functional trait values in ecological databases. *Ecological Informatics, 63*, 101315. https://doi.org/10.1016/j.ecoinf.2021.101315
+
+Enquist, B. J., Boyle, B., Maitner, B. S., et al. (2026). BIEN: A biodiversity informatics ecosystem advancing open and reproducible workflows for plant observation, plot and trait data. *Methods in Ecology and Evolution, 17*, 1556–1584. https://doi.org/10.1111/2041-210X.70274
+
+Hardy, O. J., & Pavoine, S. (2012). Assessing phylogenetic signal with measurement error: A comparison of Mantel tests, Blomberg et al.'s K, and phylogenetic distograms. *Evolution, 66*, 2614–2621. https://doi.org/10.1111/j.1558-5646.2012.01623.x
+
+Harmon, L. J., & Glor, R. E. (2010). Poor statistical performance of the Mantel test in phylogenetic comparative analyses. *Evolution, 64*, 2173–2178. https://doi.org/10.1111/j.1558-5646.2010.00973.x
+
+Jin, Y., & Qian, H. (2022). V.PhyloMaker2: An updated and enlarged R package that can generate very large phylogenies for vascular plants. *Plant Diversity, 44*, 335–339. https://doi.org/10.1016/j.pld.2022.05.005
+
+Molina-Venegas, R., Moreno-Saiz, J. C., Castro Parga, I., Davies, T. J., Peres-Neto, P. R., & Rodríguez, M. Á. (2018). Assessing among-lineage variability in phylogenetic imputation of functional trait datasets. *Ecography, 41*, 1740–1749. https://doi.org/10.1111/ecog.03480
+
+Molina-Venegas, R. (2024). How to get the most out of phylogenetic imputation without abusing it. *Methods in Ecology and Evolution, 15*, 456–463. https://doi.org/10.1111/2041-210X.14198
+
+Münkemüller, T., Lavergne, S., Bzeznik, B., Dray, S., Jombart, T., Schiffers, K., & Thuiller, W. (2012). How to measure and test phylogenetic signal. *Methods in Ecology and Evolution, 3*, 743–756. https://doi.org/10.1111/j.2041-210X.2012.00196.x
+
+Pagel, M. (1999). Inferring the historical patterns of biological evolution. *Nature, 401*, 877–884. https://doi.org/10.1038/44766
+
+Pearse, W. D., Davies, T. J., & Wolkovich, E. M. (2025). How to define, use, and interpret Pagel's lambda in ecology and evolution. *Global Ecology and Biogeography, 34*, e70012. https://doi.org/10.1111/geb.70012
 
 ## Figure legends
 

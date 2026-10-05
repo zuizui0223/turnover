@@ -36,7 +36,7 @@ The empirical separation is sharp:
 - 276/276 categorical trees contain a realizable one-transition state at or above the benchmark, excluding a hard one-transition ceiling below it;
 - latent-OU thresholding is no-bracket in 220/276;
 - changing only the generator to Mk2 reduces no-bracket to 170/276;
-- removing the exact state-balance attenuation term reduces the full-population no-bracket rate to 42.4–43.8%;
+- in a separate balance-normalized diagnostic that retains the same Mk2 states and distance ranks but calibrates Delta_rank = 0.30 rather than rho, the full-population no-bracket rate is 42.4–43.8%;
 - 34.9% of successfully Mk2-calibrated systems still fail downstream recovery.
 
 These stages show that “failed known-truth recovery” is not a single statistical event.

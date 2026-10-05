@@ -121,9 +121,11 @@ jobs:
           assert not (b/"data/phylo_memory_alternative_estimator_design_v0_4.json").exists()
           PY
 
-          if [ -f LICENSE ] || [ -f LICENSE.txt ] || [ -f LICENSE.md ]; then
-            cp LICENSE* "$B/" 2>/dev/null || true
-            echo "OPEN_SOURCE_LICENSE_PRESENT" > "$B/LICENSE_STATUS.txt"
+          if [ -f LICENSE_REVIEW.txt ]; then
+            cp LICENSE_REVIEW.txt "$B/LICENSE.txt"
+            echo "ANONYMIZED_OPEN_SOURCE_LICENSE_PRESENT" > "$B/LICENSE_STATUS.txt"
+          elif [ -f LICENSE ] || [ -f LICENSE.txt ] || [ -f LICENSE.md ]; then
+            echo "ROOT_LICENSE_PRESENT_BUT_ANONYMIZED_REVIEW_LICENSE_MISSING" > "$B/LICENSE_STATUS.txt"
           else
             echo "LICENSE_PENDING_AUTHOR_CHOICE" > "$B/LICENSE_STATUS.txt"
           fi

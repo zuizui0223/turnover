@@ -1,5 +1,8 @@
 # Synthesis — phylogenetic trait memory is context-dependent across plant families
 
+> **Interpretation superseded after v0.3 robustness.** Historical analyses and values below remain part of the audit trail, but current manuscript interpretation is in `docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md`, `docs/TRAIT_MEMORY_CONTEXT_SYNTHESIS_V0_2.md`, and `results/trait_memory_context_synthesis_v0_2/result.json`. In particular, do not carry forward the old “most variation is system-specific” or “anti-portability” readings.
+
+
 Status: **post-outcome integrative synthesis**. This document introduces no new inferential test. It combines three analyses that were independently frozen and qualified before their real memory-loss effects were opened.
 
 ## Shared empirical base

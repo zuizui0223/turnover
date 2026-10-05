@@ -37,9 +37,10 @@ def save(fig,name):
     plt.close(fig)
 
 # Figure 1
-rec=read_csv("fig1_recovery.csv")
-fig=plt.figure(figsize=(7.2,3.6))
-gs=fig.add_gridspec(1,2,width_ratios=[1.45,1],wspace=0.32)
+gate=read_csv("fig1_gate_partition.csv")
+fig=plt.figure(figsize=(7.2,3.8))
+gs=fig.add_gridspec(1,2,width_ratios=[1.35,1.15],wspace=0.34)
+
 ax=fig.add_subplot(gs[0,0]); ax.axis("off")
 labels=["Declared\ntarget","Structurally\nrealizable","Generator-\naccessible","Recoverable"]
 xs=[0.11,0.37,0.63,0.89]
@@ -53,25 +54,48 @@ for i,(x,lbl) in enumerate(zip(xs,labels)):
                     arrowprops=dict(arrowstyle="->",lw=1.3,color=DARK))
 for x,txt in zip(xs[1:],["Gate 1","Gate 2","Gate 3"]):
     ax.text(x,0.68,txt,ha="center",va="bottom",fontsize=8,color=MID)
-ax.text(0.50,0.18,"Failure at an earlier gate cannot be interpreted as downstream low power",
-        ha="center",va="center",fontsize=7.8,color=DARK)
+ax.text(0.50,0.18,"Failure before Gate 3 is not downstream low power",
+        ha="center",va="center",fontsize=8.0,color=DARK)
 ax.set_title("A  Known truth must first be assignable",loc="left",fontweight="bold")
 
 ax=fig.add_subplot(gs[0,1])
-names=[r["representation"] for r in rec]
-rates=[float(r["rate"])*100 for r in rec]
-tot=[int(r["total"]) for r in rec]
-got=[int(r["recovered"]) for r in rec]
-bars=ax.barh([1,0],rates,color=[BLUE,ORANGE],edgecolor=DARK,linewidth=0.8)
-ax.set_xlim(0,65); ax.set_xlabel("Known-truth recovery (%)")
-ax.set_yticks([1,0],labels=names)
+representations=["Continuous scalar","Nominal categorical"]
+outcomes=["Generator no-bracket","Assigned, recovery failed","Recovered"]
+styles={
+    "Generator no-bracket":dict(color=ORANGE,hatch=None),
+    "Assigned, recovery failed":dict(color="white",hatch="////"),
+    "Recovered":dict(color=BLUE,hatch=None)
+}
+lookup={(r["representation"],r["outcome"]):r for r in gate}
+ypos=[1,0]
+for y,rep in zip(ypos,representations):
+    left=0.0
+    for outc in outcomes:
+        r=lookup[(rep,outc)]
+        pct=float(r["rate"])*100
+        st=styles[outc]
+        ax.barh([y],[pct],left=[left],color=st["color"],hatch=st["hatch"],
+                edgecolor=DARK,linewidth=0.8,height=0.55,label=outc if y==1 else None)
+        text_color="white" if outc in {"Generator no-bracket","Recovered"} else DARK
+        if pct>=6:
+            ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
+                    fontsize=7.5,color=text_color,fontweight="bold" if outc!="Assigned, recovery failed" else "normal")
+        left+=pct
+    total=int(lookup[(rep,outcomes[0])]["total"])
+    ax.text(101.5,y,f"n={total}",ha="left",va="center",fontsize=7.8,color=MID)
+
+ax.set_xlim(0,112)
+ax.set_yticks(ypos,representations)
+ax.set_xlabel("Diagnostic systems (%)")
+ax.set_xticks([0,25,50,75,100])
 ax.grid(axis="x",color=LIGHT,linewidth=0.7)
 ax.set_axisbelow(True)
-for bar,rate,n,d in zip(bars,rates,got,tot):
-    ax.text(rate+1.2,bar.get_y()+bar.get_height()/2,f"{n}/{d}\n{rate:.1f}%",va="center",fontsize=8.5)
 ax.spines[["top","right"]].set_visible(False)
-ax.set_title("B  Equal target, unequal recoverability",loc="left",fontweight="bold")
-fig.suptitle("Figure 1. Known truth passes three distinct gates before recovery",x=0.02,ha="left",fontsize=11,fontweight="bold")
+ax.legend(frameon=False,fontsize=7.1,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1)
+ax.set_title("B  The same endpoint hides different failures",loc="left",fontweight="bold")
+
+fig.suptitle("Figure 1. Failed known-truth simulations must be localized before power is interpreted",
+             x=0.02,ha="left",fontsize=11,fontweight="bold")
 save(fig,"Fig1_truth_assignability.svg")
 
 # Figure 2

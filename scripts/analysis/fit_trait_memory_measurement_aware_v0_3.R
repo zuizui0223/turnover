@@ -99,7 +99,7 @@ if(log_complete){
 }
 
 # Two-way family x trait cluster bootstrap for primary S3 measurement-aware model.
-B <- as.integer(design$measurement_error$uncertainty$seed*0 + 500L)
+B <- as.integer(design$measurement_error$uncertainty$replicates)
 seed0 <- as.integer(design$measurement_error$uncertainty$seed)
 set.seed(seed0)
 families <- sort(unique(x$family))

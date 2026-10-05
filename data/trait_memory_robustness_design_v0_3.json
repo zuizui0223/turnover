@@ -221,5 +221,19 @@
     "scientific_change": false,
     "reason": "The exact weighted-midrank bootstrap implementation used base::tabulate(..., weights=...), but base R tabulate has no weights argument. Effect batches failed before producing system outputs. The implementation was changed to aggregate the identical multiplicity weights by integer rank group with base::rowsum; bootstrap unit, replicate count, seeds, ranks, and estimand are unchanged.",
     "validation": "A standalone synthetic test compares weighted-count Spearman against fully expanded species-bootstrap Spearman at n=8 and n=12 for 100 replicates, requiring maximum absolute difference <=1e-12 before effect batches run."
+  },
+  "technical_amendment_aggregate_runtime": {
+    "version": "v0.3.0d",
+    "date": "2026-10-05",
+    "before_aggregate_outcome_opening": true,
+    "scientific_change": false,
+    "reason": "The first aggregate job failed at Python import time because NumPy was not installed on the runner. No reference-identity or robustness output was computed. Aggregate-only descriptive summaries were rewritten using the Python standard library; system estimates, gates, estimands, thresholds and seeds are unchanged."
+  },
+  "technical_amendment_cluster_bootstrap_lookup": {
+    "version": "v0.3.0e",
+    "date": "2026-10-05",
+    "before_model_execution": true,
+    "scientific_change": false,
+    "reason": "The first source workflow skipped the model because aggregate failed. Static review found that the two-way cluster bootstrap used named-vector [[ ]] lookup on a sparse 201-of-540 family x trait graph, which can error for absent cells. The lookup was changed to missing-safe [ ] indexing with the frozen skip-missing-cell rule; no model outcome had been computed."
   }
 }

@@ -86,7 +86,8 @@ for y,rep in zip(ypos,representations):
     ax.text(103.0,y,f"n={total}",ha="left",va="center",fontsize=7.8,color=MID)
 
 ax.set_xlim(0,114)
-ax.set_yticks(ypos,["Continuous\nscalar","Nominal\ncategorical"])\nax.tick_params(axis="y",pad=8)
+ax.set_yticks(ypos,["Continuous\nscalar","Nominal\ncategorical"])
+ax.tick_params(axis="y",pad=8)
 ax.set_xlabel("Diagnostic systems (%)")
 ax.set_xticks([0,25,50,75,100])
 ax.grid(axis="x",color=LIGHT,linewidth=0.7)

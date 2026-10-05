@@ -15,6 +15,7 @@ v=loadj("results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json")
 k=loadj("results/phylo_memory_mk2_generator_v0_4_1/result.json")
 b=loadj("results/phylo_memory_balance_normalized_v0_5/result.json")
 z=loadj("data/phylo_memory_mechanism_close_v0_5_3.json")
+clar=loadj("data/phylo_memory_structural_claim_clarification_v0_3_2.json")
 plan=loadj("data/phylo_memory_figure_plan_v0_1.json")
 
 abstract=(root/"docs/PHYLO_MEMORY_ABSTRACT_V0_1.md").read_text()
@@ -25,6 +26,8 @@ supp=(root/"docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md").read_text()
 titlepage=(root/"docs/PHYLO_MEMORY_MEE_TITLE_PAGE_TEMPLATE_V0_1.md").read_text()
 
 assert z["status"]=="PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED"
+assert clar["status"]=="INTERPRETATION_CLARIFICATION_NO_NEW_ANALYSIS"
+assert clar["new_outcomes_computed"] is False and clar["new_system_level_analysis"] is False
 assert m["n_systems"]==722
 assert c["semantic_summary"]["nominal_categorical"]["n"]==276
 assert e["original_no_bracket"]["n"]==220
@@ -68,10 +71,10 @@ for stale in [
 ]:
     assert stale not in paper, f"stale forward-looking wording in paper: {stale}"
 
-assert ("all 220" in paper or "220/220" in paper), "paper must state that all 220 OU no-bracket systems were structurally realizable"
+assert ("220/220" in paper or "all 220" in paper), "paper must retain the all-220 one-sided structural witness result"
 assert ("220/220" in boundary or "all 220" in boundary), "novelty boundary must retain the 220-system structural witness claim"
 assert ("prohibited additional generator" in supp.lower() or "prohibited additional" in supp.lower() or ("additional generator" in supp.lower() and "outcome-defined subgroup" in supp.lower())), "supplement must preserve the closed mechanism stop rule"
-assert "structural realizability" in abstract and "generator accessibility" in abstract and "recovery" in abstract
+assert "structural feasibility" in abstract and "generator accessibility" in abstract and "recovery" in abstract
 assert "Supplementary Methods S1" in paper
 assert "## S1. Exact binary state-balance attenuation identity" in supp
 assert "## S2. Prospective mechanism sequence and stop rule" in supp
@@ -94,6 +97,15 @@ assert "65.0 percentage points" in abstract
 assert "Structural feasibility does not guarantee generator accessibility" in abstract
 assert "feasibility" in boundary.lower() and "generator accessibility" in boundary.lower()
 assert "failed known-truth simulation" in abstract and "low statistical power" in abstract
+assert "one-sided" in paper.lower() and "calibration tolerance" in paper.lower()
+assert "hard one-transition" in abstract.lower()
+for forbidden in [
+    "all 276 categorical trees could structurally express the target",
+    "target was explicitly realizable on every tree",
+    "structurally realizable on every categorical tree"
+]:
+    assert forbidden not in paper.lower()
+    assert forbidden not in abstract.lower()
 assert [f["id"] for f in plan["figures"]]==["Fig1","Fig2","Fig3"]
 assert plan["figures"][0]["primary_values"]["continuous_no_bracket"]==60
 assert plan["figures"][0]["primary_values"]["continuous_recovery_fail_after_assignment"]==54

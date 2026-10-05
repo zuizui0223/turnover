@@ -335,24 +335,6 @@ Across 45 plant families and 12 traits, family identity contributes a modest rep
 
 The evolutionary structure associated with a trait should therefore be treated as **lineage-contingent unless its portability has been demonstrated directly**.
 
-## Current primary figures
-
-- Figure 1: sampling-error-aware variance decomposition.
-- Figure 2: family repeatability versus correlated-trait and design-artifact alternatives.
-- Figure 3: unshrunk versus BLUP portability and the generalization hierarchy.
-- Figure 4 / supplement: observed memory matrix and S3–prune correspondence.
-
-## Claim boundary
-
-Do not state that:
-- family variance exceeds system heterogeneity;
-- most variation is biological system specificity;
-- trait identity is anti-portable;
-- the family component identifies a known evolutionary mechanism;
-- the raw metric is log-scale invariant;
-- the study resolves spatial turnover.
-
-
 ## References
 
 Ackerly, D. D. (2009). Conservatism and diversification of plant functional traits: Evolutionary rates versus phylogenetic signal. *Proceedings of the National Academy of Sciences of the United States of America, 106*(Suppl. 2), 19699–19706. https://doi.org/10.1073/pnas.0901635106

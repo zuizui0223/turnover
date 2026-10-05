@@ -1,0 +1,62 @@
+{
+  "version": "v0.3",
+  "status": "TRAIT_MEMORY_ROBUSTNESS_SYNTHESIS_COMPLETE",
+  "population": {
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12
+  },
+  "findings": {
+    "reference_identity": {
+      "pass": true,
+      "n_mismatches": 0,
+      "max_abs_unrounded_delta": 4.992213138967777e-05
+    },
+    "sampling_error": {
+      "median_S3_rho_se": 0.05797444434348969,
+      "median_prune_rho_se": 0.07088945618526855,
+      "S3_sampling_share_mean_total": 0.24234314231368748,
+      "prune_sampling_share_mean_total": 0.25283031002901157,
+      "decision": "DROP the claim that the original 80.6% lmer residual is biological system specificity."
+    },
+    "measurement_aware_heterogeneity": {
+      "S3_family_total_point_share": 0.15148088861339648,
+      "S3_trait_total_point_share": 0.05693849331690298,
+      "S3_system_total_point_share": 0.5492374757560131,
+      "S3_system_heterogeneity_share_ci95": [0.07100385799045661, 0.7512825602720927],
+      "S3_family_heterogeneity_share_ci95": [0.12251358073142357, 0.7494061522524385],
+      "decision": "Family-level repeatability remains nonzero in the point decomposition, but no component should be called dominant because family and system heterogeneity are not cleanly ordered under cluster-bootstrap uncertainty."
+    },
+    "trait_redundancy": {
+      "S3_observed_R_family": 0.15037123634911087,
+      "S3_null_median": 0.03361814936525297,
+      "S3_null_q025_q975": [0.0, 0.13854145579072288],
+      "S3_p": 0.016983016983016984,
+      "prune_observed_R_family": 0.1481650075618229,
+      "prune_null_median": 0.025710605601244788,
+      "prune_null_q025_q975": [0.0, 0.12172741858974445],
+      "prune_p": 0.008991008991008992,
+      "trait_domain_S3_R_family": 0.14391140350567283,
+      "trait_domain_prune_R_family": 0.14703251662629283,
+      "decision": "The family component survives the predeclared correlated/redundant-trait null and trait-domain collapse; redundancy alone does not explain it."
+    },
+    "portability_shrinkage": {
+      "S3_unshrunk_gain": -0.02417616423930835,
+      "S3_blup_gain": 0.006007446522735993,
+      "prune_unshrunk_gain": -0.03241420164391995,
+      "prune_blup_gain": -0.004770827542518008,
+      "median_training_trait_variance_S3": 0.0009043725966177333,
+      "median_training_trait_variance_prune": 0.0005953433013968109,
+      "decision": "Replace 'anti-portable' or 'trait means make prediction worse' language with 'little transferable trait-level signal'. Shrinkage removes most of the apparent harm but does not produce robust positive portability across both tree treatments."
+    },
+    "log_scale": {
+      "status": "HOLD_TRAIT_MEMORY_LOG_SCALE_ALL_201",
+      "n_S3_nonpositive_systems": 25,
+      "n_prune_nonpositive_systems": 18,
+      "decision": "Raw-scale conclusions remain scale-unvalidated. Do not rescue with an offset or trait-specific transform inside v0.3."
+    }
+  },
+  "revised_central_statement": "Phylogenetic trait-memory estimates contain a repeatable family-level component that is not explained by the predeclared correlated-trait redundancy null, but trait identity carries little robust information that can be transferred to an unseen family. A substantial fraction of apparent cell-level variation is finite-species estimation error, so the remaining heterogeneity should not be described as predominantly biological system specificity.",
+  "ecological_scope": "This is a temporal comparative-macroevolutionary result about lineage context and transferability of phylogenetic trait memory. It does not answer the held spatial-turnover arm and does not establish an ecological mechanism.",
+  "stop_rule": "No further SE estimator, trait transform, redundancy grouping, family/trait filtering, or portability predictor may be selected on these outcomes to strengthen the v0.3 claim."
+}

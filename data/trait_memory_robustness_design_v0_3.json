@@ -1,0 +1,283 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_BEFORE_TRAIT_MEMORY_ROBUSTNESS_OUTCOMES",
+  "frozen_on": "2026-10-05",
+  "branch": "analysis/trait-memory-robustness-v0-3",
+  "purpose": "Test whether the temporal trait-memory conclusions survive measurement-error correction, scale transformation, correlated-trait/shared-geometry artifacts, and shrinkage-aware portability prediction.",
+  "relationship_to_original": {
+    "original_effect_design": "data/trait_memory_real_effect_execution_v0_7.json",
+    "original_repeatability": "results/trait_memory_repeatability_v0_2/result.json",
+    "original_portability": "results/trait_memory_portability_v0_2/result.json",
+    "original_effect_reference": {
+      "workflow_run": 37095981751,
+      "artifact_id": 11264513111,
+      "artifact_name": "trait-memory-repeatability-real-effects-batched-v0-2-1",
+      "downloaded_zip_sha256": "391b42b53f06601c6fadaab7391eb15751e395e5bf8323ae7cc21d58c5b3e52b",
+      "effects_csv_sha256": "5fffdfbc9ab50ff7bf568e80537a290e11c2bfde02f1d5484c7e896ed5f9415b"
+    },
+    "rule": "Original v0.2/v0.7 results are not reclassified. Robustness outcomes are a separate route."
+  },
+  "population": {
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12,
+    "semantic_class": "continuous_scalar",
+    "exact_incidence_graph": true,
+    "primary_tree": "S3",
+    "mandatory_tree_sensitivity": "prune_only"
+  },
+  "gate0_reference_identity": {
+    "rule": "The archived reference effects were persisted through jsonlite at four decimal places. Before any robustness interpretation, every re-extracted raw S3 and prune-only rho must therefore reproduce the archived value after rounding the new estimate to four decimal places; equivalently, absolute difference from the archived numeric value must be <=5e-5, allowing only the archive's declared rounding precision.",
+    "archive_precision": "4 decimal places",
+    "no_claim_of_unrounded_identity": true,
+    "failure": "HOLD_TRAIT_MEMORY_ROBUSTNESS_REFERENCE_DRIFT"
+  },
+  "measurement_error": {
+    "primary_se": "species-cluster nonparametric bootstrap",
+    "resampling_unit": "species, never pairwise distances",
+    "replicates": 199,
+    "master_seed": 20261005,
+    "procedure": "For each system and tree treatment, sample n admitted species with replacement, carry the sampled species jointly into the patristic-distance and trait-state matrices, and recompute the all-pair Spearman rho. Duplicate sampled species are retained as bootstrap copies with zero within-copy distance/dissimilarity. SE is the SD of finite bootstrap rho.",
+    "valid_fraction_min": 0.95,
+    "no_fisher_z_independence_approximation": true,
+    "meta_model": {
+      "package": "metafor",
+      "estimator": "rma.mv REML",
+      "response": "raw rho",
+      "sampling_variance": "bootstrap_SE^2",
+      "random": [
+        "family",
+        "trait_name",
+        "system_id"
+      ],
+      "interpretation": "family and trait components are heterogeneity after accounting for estimated sampling variance; system_id is residual between-system heterogeneity.",
+      "report": [
+        "sigma2_family",
+        "sigma2_trait",
+        "sigma2_system",
+        "mean_sampling_variance",
+        "family_share_of_heterogeneity",
+        "trait_share_of_heterogeneity",
+        "system_share_of_heterogeneity",
+        "sampling_share_of_total_typical_variance"
+      ]
+    },
+    "uncertainty": {
+      "primary": "500 two-way family x trait cluster bootstrap refits by independent multinomial resampling of family and trait labels; each row multiplicity is family_count * trait_count; duplicated rows receive unique bootstrap system ids.",
+      "seed": 20261006,
+      "min_success_fraction": 0.9,
+      "replicates": 500,
+      "also_refit_naive_lmer": true,
+      "naive_purpose": "Provide nonparametric two-way family x trait cluster-bootstrap intervals for the original unweighted repeatability shares, alongside the historical parametric-bootstrap intervals."
+    },
+    "hard_claim_rule": "The original 80.6% lmer residual share may be described as system specificity only if measurement-aware system heterogeneity remains the largest heterogeneity component and its lower 95% cluster-bootstrap share exceeds both family and trait shares; otherwise rewrite as unresolved mixture of sampling error and heterogeneity.",
+    "bootstrap_implementation": {
+      "method": "exact weighted-midrank compression of the expanded species bootstrap",
+      "equivalence": "For bootstrap species counts c_i, original i-j pair values receive weight c_i*c_j and self-copy zero pairs receive choose(c_i,2); weighted midranks reproduce ordinary Spearman ranks of the fully expanded bootstrap sample exactly.",
+      "validation": "Independent synthetic check: 100 bootstrap replicates at n=8 and n=12 matched direct expanded-sample Spearman to absolute tolerance 1e-12.",
+      "scientific_change": false
+    }
+  },
+  "log_scale": {
+    "transform": "natural log of species-level median state for every one of the 12 continuous traits",
+    "positivity_rule": "No offset or signed-log rescue. Any system with any nonpositive species median is LOG_HOLD and remains in accounting.",
+    "same_species_and_tree_contract": true,
+    "outputs": [
+      "S3_log_rho",
+      "prune_log_rho",
+      "delta_rho_log_minus_raw"
+    ],
+    "analyses": [
+      "repeat original unweighted crossed lmer on the maximal all-201 set only if all 201 systems are positive; otherwise report exact HOLD count and do not compare a selected subset as primary",
+      "repeat measurement-aware rma.mv using log-scale species-bootstrap SE on the same all-system condition",
+      "repeat portability statistic on log-scale rho only if all 201 systems are available"
+    ],
+    "robustness_summary": [
+      "Pearson/Spearman raw-vs-log rho across systems",
+      "sign agreement",
+      "median absolute rho change",
+      "repeatability component comparison",
+      "portability comparison"
+    ]
+  },
+  "correlated_trait_family_null": {
+    "role": "Test whether the observed family repeatability can be generated mechanically by correlated/redundant trait outcomes on the same sparse family x trait incidence graph when the true family main effect is zero.",
+    "null_type": "outcome-covariance-preserving block null",
+    "rationale": "The statistical concern is inflation of the family random-intercept variance when multiple correlated trait-memory estimates from the same family are treated as conditionally independent. The null therefore preserves the dependence among the memory outcomes that can create this inflation, rather than introducing an additional raw-trait evolutionary model.",
+    "predeclared_trait_blocks": [
+      [
+        "whole plant height",
+        "maximum whole plant height"
+      ],
+      [
+        "leaf area",
+        "leaf dry mass",
+        "leaf area per leaf dry mass"
+      ],
+      [
+        "leaf nitrogen content per leaf dry mass",
+        "leaf nitrogen content per leaf area"
+      ]
+    ],
+    "singleton_traits": "all remaining traits",
+    "parameter_estimation": {
+      "axis_specific": true,
+      "trait_means": "observed trait-specific mean rho",
+      "trait_sds": "observed trait-specific SD of rho",
+      "block_correlations": "pairwise-complete Pearson correlation of rho across families within each predeclared block",
+      "minimum_pair_overlap": 4,
+      "regularization": "Project each block correlation matrix to nearest positive-definite correlation matrix with Matrix::nearPD(corr=TRUE) when needed.",
+      "conservatism": "Correlations are estimated from the observed rho matrix without subtracting a fitted family effect; any true family contribution to those correlations therefore makes the null conservative for detecting excess family repeatability."
+    },
+    "simulation": {
+      "axes": [
+        "S3",
+        "prune_only"
+      ],
+      "replicates": 1000,
+      "master_seed": 20261007,
+      "exact_incidence_graph": true,
+      "procedure": "For each family independently, draw one multivariate Normal outcome vector for each predeclared trait block using observed trait means/SDs and the regularized block correlation matrix; draw singleton traits independently using their observed mean/SD. Retain only the exact family x trait cells present in the 201-system graph. No family-level shared intercept is simulated.",
+      "true_family_main_effect": "zero by construction",
+      "fitted_statistic": "original unweighted crossed lmer rho ~ 1 + (1|family) + (1|trait_name)"
+    },
+    "primary_test": "p_null = (1 + count(R_family_null >= observed_R_family_v0_2)) / (B+1), separately for S3 and prune-only.",
+    "interpretation": {
+      "low_p": "Observed family repeatability exceeds what the predeclared correlated-trait outcome structure plus sparse incidence generate with zero family main effect.",
+      "high_p": "Observed R_family is not distinguishable from an artifact of correlated/redundant trait outcomes under this conservative null."
+    },
+    "limitation": "This is a statistical dependence null for the repeatability estimator, not a mechanistic multivariate trait-evolution simulation."
+  },
+  "trait_domain_sensitivity": {
+    "role": "Secondary nonparametric check against redundant labels.",
+    "domains": {
+      "stature": [
+        "diameter at breast height (1.3 m)",
+        "whole plant height",
+        "maximum whole plant height"
+      ],
+      "leaf_size_mass": [
+        "leaf area",
+        "leaf dry mass",
+        "leaf area per leaf dry mass",
+        "leaf dry mass per leaf fresh mass"
+      ],
+      "leaf_nutrients": [
+        "leaf nitrogen content per leaf dry mass",
+        "leaf nitrogen content per leaf area",
+        "leaf phosphorus content per leaf dry mass"
+      ],
+      "seed": [
+        "seed mass"
+      ],
+      "wood": [
+        "stem wood density"
+      ]
+    },
+    "model": "rho ~ 1 + (1|family) + (1|trait_domain); descriptive only because five domains are few.",
+    "no_primary_claim_from_domain_model": true
+  },
+  "portability_shrinkage": {
+    "role": "Separate lack of transferable trait signal from noise in unshrunk trait means.",
+    "original_statistic_preserved": true,
+    "secondary_predictor": "Leave-one-family-out BLUP from training-only lmer rho ~ 1 + (1|trait_name) + (1|family); prediction for held-out family is fixed intercept + trait BLUP with new-family effect set to zero.",
+    "baseline": "Original portability baseline: arithmetic mean rho across all training systems after leaving out the target family.",
+    "axes": [
+      "S3",
+      "prune_only"
+    ],
+    "report": [
+      "gain_unshrunk",
+      "gain_blup",
+      "paired_SSE_difference",
+      "trait_random_effect_variance_training_distribution"
+    ],
+    "interpretation": "If BLUP gain remains nonpositive, portability failure is not an artifact of unshrunk trait means. If BLUP materially improves but trait variance collapses toward zero, phrase result as little transferable trait signal rather than failed transfer of stable trait signatures."
+  },
+  "stop_rule": [
+    "No alternative SE estimator after seeing the bootstrap-SE result.",
+    "No trait-specific transform choice after seeing log results.",
+    "No changing the predeclared correlated-trait blocks after null results.",
+    "No dropping low-degree traits/families to improve robustness.",
+    "No new portability predictor after the BLUP sensitivity.",
+    "No spatial-turnover or ecological-mechanism claim from these robustness analyses."
+  ],
+  "technical_amendment": {
+    "version": "v0.3.0a",
+    "date": "2026-10-05",
+    "before_robustness_execution": true,
+    "reason": "The frozen reference effects.csv stores rho only to four decimal places, so the initial 1e-12 identity wording exceeded the precision of the archived evidence. No robustness outcome had been computed when corrected."
+  },
+  "technical_amendment_correlated_null": {
+    "version": "v0.3.0b",
+    "date": "2026-10-05",
+    "before_null_execution": true,
+    "reason": "Replaced the initially drafted raw-trait/tree simulation with a direct outcome-covariance null. The original proposal would require repeated O(n^2) phylogenetic calculations for systems up to 1,042 species and would introduce an unnecessary evolutionary model. The revised null targets the stated statistical concern directly and no null outcome had been computed."
+  },
+  "technical_amendment_weighted_midrank_runtime": {
+    "version": "v0.3.0c",
+    "date": "2026-10-05",
+    "before_any_robustness_outcome": true,
+    "scientific_change": false,
+    "reason": "The exact weighted-midrank bootstrap implementation used base::tabulate(..., weights=...), but base R tabulate has no weights argument. Effect batches failed before producing system outputs. The implementation was changed to aggregate the identical multiplicity weights by integer rank group with base::rowsum; bootstrap unit, replicate count, seeds, ranks, and estimand are unchanged.",
+    "validation": "A standalone synthetic test compares weighted-count Spearman against fully expanded species-bootstrap Spearman at n=8 and n=12 for 100 replicates, requiring maximum absolute difference <=1e-12 before effect batches run."
+  },
+  "technical_amendment_aggregate_numpy_runtime": {
+    "version": "v0.3.0d",
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "chronology": {
+      "algorithm_equivalence_check_passed": true,
+      "all_32_effect_batches_completed_successfully": true,
+      "system_level_robustness_outputs_generated": true,
+      "aggregate_scientific_result_opened": false,
+      "measurement_aware_model_run": false,
+      "blup_sensitivity_run": false,
+      "correlated_trait_null_run": false
+    },
+    "failure": "Aggregate script exited on import with ModuleNotFoundError: numpy before reading/aggregating system-level scientific outcomes.",
+    "recovery": "Reuse the immutable 32 successful batch artifacts from workflow run 37269950030; install numpy in the recovery aggregate environment; do not repeat BIEN extraction or change any scientific setting."
+  },
+  "technical_amendment_cluster_bootstrap_lookup": {
+    "version": "v0.3.0e",
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "chronology": {
+      "aggregate_reference_gate_passed": true,
+      "measurement_aware_model_output_opened": false,
+      "cluster_bootstrap_completed": false,
+      "blup_sensitivity_run": false,
+      "correlated_trait_null_run": false
+    },
+    "failure": "Two-way family x trait bootstrap attempted [[ ]] lookup for family-trait cells absent from the frozen sparse incidence graph and stopped with subscript out of bounds.",
+    "correction": "Use named-vector [ ] lookup and skip absent cells, exactly implementing the frozen sparse-graph bootstrap rule. Resampling distributions, seeds, model, and observed data are unchanged."
+  },
+  "execution_note_measurement_aware_hold": {
+    "version": "v0.3.0f",
+    "date": "2026-10-05",
+    "after_cluster_bootstrap_gate_observed": true,
+    "scientific_change": false,
+    "observed_only": "The pre-frozen two-way cluster-bootstrap success fraction was below 0.90; exact component estimates and success fraction had not yet been persisted in an artifact.",
+    "rule": "Do not lower the 0.90 threshold, change the bootstrap, or substitute another uncertainty estimator. Serialize the point fit and bootstrap success diagnostics with HOLD status and no CI, then continue the independently pre-frozen BLUP and correlated-trait-null analyses."
+  },
+  "execution_note_cluster_bootstrap_diagnostic": {
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "after_hold_observed": true,
+    "purpose": "Record conditionMessage for the already-frozen 500 refits to distinguish an implementation-level failure from a genuine refitability failure. The same seed, resamples, rma.mv specification, 0.90 gate, and result status are retained."
+  },
+  "interpretation_correction_cluster_bootstrap_runtime": {
+    "version": "v0.3.0g",
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "supersedes_interpretation_only": "execution_note_measurement_aware_hold",
+    "observed_diagnostic": {
+      "successful_refits": 0,
+      "total_refits": 500,
+      "unique_error": "unimplemented type 'list' in 'orderVector1'"
+    },
+    "conclusion": "The apparent 0/500 gate failure was a uniform implementation/type failure before a valid statistical refit, not evidence that the frozen cluster bootstrap is statistically non-refittable.",
+    "correction": "Coerce bootstrap response, SE, family, trait, and system-id inputs to atomic numeric/character vectors before constructing factors. Retain identical 500 resamples, seed, rma.mv model, and 0.90 success gate.",
+    "no_threshold_relaxation": true
+  }
+}

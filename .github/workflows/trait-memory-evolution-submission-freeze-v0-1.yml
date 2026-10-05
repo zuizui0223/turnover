@@ -1,0 +1,55 @@
+name: Trait memory Evolution submission freeze v0.1
+
+on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3
+    paths:
+      - 'data/trait_memory_evolution_submission_freeze_v0_1.json'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md'
+      - 'docs/TRAIT_MEMORY_FIGURE_CAPTIONS_V0_2.md'
+      - 'docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md'
+      - 'docs/TRAIT_MEMORY_STATISTIC_POSITIONING_V0_3.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_POSITIONING_V0_1.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md'
+      - 'data/trait_memory_figure_plan_v0_1.json'
+      - 'data/trait_memory_robustness_design_v0_3.json'
+      - 'results/trait_memory_*_v0_3/result.json'
+      - 'results/trait_memory_context_synthesis_v0_2/result.json'
+      - 'scripts/analysis/*trait_memory*v0_3*'
+      - 'scripts/figures/*trait_memory*'
+      - '.github/workflows/trait-memory-evolution-submission-freeze-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen Git blobs
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          d=json.load(open('data/trait_memory_evolution_submission_freeze_v0_1.json'))
+          assert d['status']=='TRAIT_MEMORY_EVOLUTION_RC1_FROZEN'
+          bad=[]
+          for path,expected in d['frozen_blobs'].items():
+              got=subprocess.check_output(['git','hash-object',path],text=True).strip()
+              if got!=expected:
+                  bad.append((path,expected,got))
+          if bad:
+              for x in bad: print('FREEZE_MISMATCH',*x)
+              raise SystemExit(1)
+          print('verified',len(d['frozen_blobs']),'frozen blobs')
+          PY
+      - name: Re-run paper contract
+        run: |
+          python scripts/analysis/verify_trait_memory_evolution_package_v0_1.py
+          python -m py_compile             scripts/figures/prepare_trait_memory_figure_data_v0_1.py             scripts/figures/render_trait_memory_figures_v0_2.py             scripts/analysis/verify_trait_memory_evolution_package_v0_1.py

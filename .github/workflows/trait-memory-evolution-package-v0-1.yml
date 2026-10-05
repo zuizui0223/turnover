@@ -1,0 +1,34 @@
+name: Trait memory Evolution paper package v0.1
+
+on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3
+    paths:
+      - '.github/workflows/trait-memory-evolution-package-v0-1.yml'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_TITLE_PAGE_TEMPLATE_V0_1.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md'
+      - 'docs/TRAIT_MEMORY_FIGURE_CAPTIONS_V0_2.md'
+      - 'docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md'
+      - 'data/trait_memory_figure_plan_v0_1.json'
+      - 'results/trait_memory_context_synthesis_v0_2/result.json'
+      - 'results/trait_memory_measurement_aware_v0_3/result.json'
+      - 'results/trait_memory_correlated_trait_null_v0_3/result.json'
+      - 'results/trait_memory_portability_blup_v0_3/result.json'
+      - 'scripts/analysis/verify_trait_memory_evolution_package_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/analysis/verify_trait_memory_evolution_package_v0_1.py

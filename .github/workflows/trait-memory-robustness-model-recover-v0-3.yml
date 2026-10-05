@@ -1,0 +1,91 @@
+name: Trait memory robustness model recovery v0.3
+
+on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3
+    paths:
+      - '.github/workflows/trait-memory-robustness-model-recover-v0-3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_AGGREGATE_RUN_ID: 37279051098
+  SOURCE_AGGREGATE_ARTIFACT: trait-memory-robust-effects-v0-3-recovered
+
+jobs:
+  model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify model-recovery contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_robustness_design_v0_3.json'))
+          a=d['technical_amendment_cluster_bootstrap_lookup']
+          assert a['scientific_change'] is False
+          assert a['chronology']['aggregate_reference_gate_passed'] is True
+          assert a['chronology']['measurement_aware_model_output_opened'] is False
+          assert a['correction'].startswith('Use named-vector')
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_AGGREGATE_ARTIFACT }}
+          path: build/robust
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_AGGREGATE_RUN_ID }}
+      - name: Verify frozen aggregate input
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/robust/aggregate_result.json'))
+          assert x['status']=='TRAIT_MEMORY_ROBUST_EFFECTS_AGGREGATED'
+          assert x['reference_identity']['pass'] is True
+          assert x['reference_identity']['n_mismatches']==0
+          assert x['n_systems']==201
+          assert x['measurement_error']['all_systems_have_valid_raw_se'] is True
+          PY
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::metafor
+            any::Matrix
+            any::MASS
+      - name: Fit measurement-aware crossed model
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/model/measurement_aware_result.json \
+            --bootstrap-table build/model/measurement_aware_cluster_bootstrap.csv
+      - name: Test BLUP portability sensitivity
+        run: |
+          Rscript scripts/analysis/test_trait_memory_portability_blup_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/model/blup_portability_result.json \
+            --predictions build/model/blup_portability_predictions.csv
+      - name: Test correlated-trait zero-family null
+        run: |
+          Rscript scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/model/correlated_trait_null_result.json \
+            --null-table build/model/correlated_trait_null.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-robustness-v0-3-model-recovered
+          path: |
+            build/robust/
+            build/model/
+          retention-days: 30

@@ -1,0 +1,58 @@
+name: Trait memory measurement-bootstrap diagnostic v0.3
+
+on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3
+    paths:
+      - '.github/workflows/trait-memory-measurement-bootstrap-diagnostic-v0-3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify type-fix correction contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_robustness_design_v0_3.json'))
+          z=d['interpretation_correction_cluster_bootstrap_runtime']
+          assert z['scientific_change'] is False
+          assert z['observed_diagnostic']['successful_refits']==0
+          assert z['observed_diagnostic']['unique_error']=="unimplemented type 'list' in 'orderVector1'"
+          assert z['no_threshold_relaxation'] is True
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: trait-memory-robust-effects-v0-3-recovered
+          path: build/robust
+          github-token: ${{ github.token }}
+          run-id: 37279051098
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::metafor
+      - name: Re-run identical frozen measurement bootstrap with error capture
+        run: |
+          mkdir -p build/diag
+          Rscript scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/diag/result.json \
+            --bootstrap-table build/diag/cluster_bootstrap.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-measurement-bootstrap-diagnostic-v0-3
+          path: build/diag/
+          retention-days: 30

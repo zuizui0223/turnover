@@ -1,0 +1,65 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_MEMORY_EVOLUTION_RC1_FROZEN",
+  "frozen_on": "2026-10-05",
+  "target_journal": "Evolution",
+  "article_type": "Original Article",
+  "title": "Phylogenetic trait memory is lineage-contingent rather than trait-intrinsic across plant families",
+  "central_claim": "Family context contributes a modest repeatable component to phylogenetic trait memory, but trait identity carries little robust information that transfers to an unseen family.",
+  "required_interpretation": {
+    "portability": "Little transferable trait-level signal; not anti-portability.",
+    "family_context": "Repeatable lineage context; biological mechanism unresolved.",
+    "residual": "Do not interpret the original 80.6% residual as biological system specificity.",
+    "scale": "All-201 natural-log sensitivity remains HOLD; no offset or selected-subset rescue.",
+    "deep_phylogeny": "Complementary post-outcome analysis only."
+  },
+  "frozen_blobs": {
+    "data/trait_memory_figure_plan_v0_1.json": "ff15b1ed0fee22fb9b9baea5a7c46f6edd519997",
+    "data/trait_memory_robustness_design_v0_3.json": "db00b196eb41f2be72f1a13de3eb6274ac2b6142",
+    "docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md": "19a70fc698a708e78414b3b2d97670cf444afebb",
+    "docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md": "d14589c1212e610286df9eaf854329dd4bfd91d4",
+    "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md": "ecd22fc35c49e1c0d3f431da7479c3125b2e0078",
+    "docs/TRAIT_MEMORY_EVOLUTION_POSITIONING_V0_1.md": "8f3f4559fed7ccbf36b2d08ad485fc426b37e19e",
+    "docs/TRAIT_MEMORY_FIGURE_CAPTIONS_V0_2.md": "c71ccae99338561a07da59249524b0871f06bf5d",
+    "docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md": "875e572858964b6e6cb0f65a25e49bc45ffdfbe8",
+    "docs/TRAIT_MEMORY_STATISTIC_POSITIONING_V0_3.md": "1fb96bad1bad34f830d965afe218dc7113fdf021",
+    "results/trait_memory_context_synthesis_v0_2/result.json": "901f52bcd07c2e8c3fdbae155c9f57e95146dc8c",
+    "results/trait_memory_correlated_trait_null_v0_3/result.json": "ac8d13b57f0c797205ba069e717172ff5d65a118",
+    "results/trait_memory_measurement_aware_v0_3/result.json": "602f49f9fba2eece1792f1e41d846adea606f456",
+    "results/trait_memory_portability_blup_v0_3/result.json": "682c01f182da8fa7f17f22df8b5eb643635f2333",
+    "results/trait_memory_robust_effects_v0_3/result.json": "1c70eee8314668a08f0959d4494038986c2d383a",
+    "results/trait_memory_robustness_synthesis_v0_3/result.json": "b610e9a83f58996e5bd7b17949cdf98ad66025ac",
+    "scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R": "3643cd8c32eb9447b96797fb18bb9a3f91e4e83e",
+    "scripts/analysis/run_trait_memory_robust_system_v0_3.R": "d454d611e2f32875f47d6802712259a01be84740",
+    "scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R": "60f2729a1323952211df385fbd5a887cb1f514c6",
+    "scripts/analysis/test_trait_memory_portability_blup_v0_3.R": "d525501d9eea43d7c7561518b7549d918f5588c6",
+    "scripts/analysis/verify_trait_memory_evolution_package_v0_1.py": "9688525381f4b2fa1f46fc1231a36e8f5e21aece",
+    "scripts/figures/prepare_trait_memory_figure_data_v0_1.py": "2d35a6ff53e06335df1658cbc3870d6d9cf12b4c",
+    "scripts/figures/render_trait_memory_figures_v0_2.py": "df59cab4cb0c4ea08faa566f0fd727c390e0c282"
+  },
+  "evidence_runs": {
+    "primary_robustness_run": 37281031394,
+    "primary_robustness_artifact_id": 11335736009,
+    "primary_figures_run": 37304752168,
+    "primary_figures_status": "success"
+  },
+  "stop_rule": "No new SE estimator, trait transformation, redundancy grouping, family/trait filtering, portability predictor, or phylogenetic-signal metric may be selected on these outcomes to strengthen RC1.",
+  "technical_amendment": {
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "reason": "RC1 submission-format update only: Evolution abstract compressed to 178 words without S3/BLUP abbreviations, 43-word teaser and six keywords added, LLM disclosure expanded per journal requirements, and cover letter updated. Scientific analyses, canonical results, figures, and claims are unchanged."
+  },
+  "submission_format": {
+    "abstract_words": 178,
+    "teaser_words": 43,
+    "keywords_count": 6,
+    "abstract_abbreviations_absent": [
+      "S3",
+      "BLUP"
+    ],
+    "ai_disclosure_in_manuscript": true,
+    "ai_disclosure_in_cover_letter": true,
+    "title_page_template": "docs/TRAIT_MEMORY_EVOLUTION_TITLE_PAGE_TEMPLATE_V0_1.md",
+    "title_page_intentionally_not_frozen": true
+  }
+}

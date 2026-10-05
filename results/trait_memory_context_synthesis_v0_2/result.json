@@ -1,0 +1,88 @@
+{
+  "version": "v0.2",
+  "status": "TRAIT_MEMORY_CONTEXT_SYNTHESIS_POST_ROBUSTNESS",
+  "population": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "semantic_class": "continuous_scalar"
+  },
+  "hypotheses": {
+    "H1_trait_intrinsic_memory": {
+      "prediction": "Memory strength for the same named trait should improve prediction in a completely held-out family.",
+      "evidence": {
+        "unshrunk_gain_S3": -0.02417616423930835,
+        "unshrunk_gain_prune": -0.03241420164391995,
+        "BLUP_gain_S3": 0.006007446522735993,
+        "BLUP_gain_prune": -0.004770827542518008,
+        "median_training_trait_variance_S3": 0.0009043725966177333,
+        "median_training_trait_variance_prune": 0.0005953433013968109
+      },
+      "decision": "NOT_SUPPORTED",
+      "interpretation": "Shrinkage removes most of the apparent penalty from unshrunk trait means, but trait identity provides essentially no robust cross-family predictive gain."
+    },
+    "H2_family_context_memory": {
+      "prediction": "Family identity should recur across multiple traits after trait means and measured design artifacts are accounted for.",
+      "evidence": {
+        "naive_R_family_S3": 0.15037123634911087,
+        "measurement_aware_family_total_point_share_S3": 0.15148088861339648,
+        "conditional_family_repeatability_S3": 0.1825,
+        "geometry_adjusted_R_family_S3": 0.1458,
+        "source_adjusted_R_family": 0.1492,
+        "citation_adjusted_R_family": 0.147,
+        "five_domain_R_family_S3": 0.14391140350567283,
+        "correlated_trait_null_p_S3": 0.016983016983016984,
+        "correlated_trait_null_p_prune": 0.008991008991008992
+      },
+      "decision": "SUPPORTED_AS_MODEST_REPEATABLE_PATTERN",
+      "interpretation": "A family-level component persists across measurement-error, geometry, provenance, trait-domain, and correlated-trait-null audits. Its biological cause is unidentified and its magnitude is imprecise."
+    },
+    "H3_deep_hierarchical_inheritance": {
+      "prediction": "If family context reflects a smoothly inherited deeper lineage regime, differences in family context should increase with family patristic distance.",
+      "evidence": {
+        "S3_context_distance_rho": -0.015,
+        "S3_permutation_p": 0.822,
+        "prune_context_distance_rho": -0.011,
+        "prune_permutation_p": 0.871
+      },
+      "decision": "NOT_SUPPORTED_EXPLORATORY",
+      "interpretation": "The complementary post-outcome analysis suggests a family-specific mosaic rather than a smooth deep-phylogenetic gradient."
+    }
+  },
+  "measurement_error_revision": {
+    "median_S3_rho_SE": 0.05797444434348969,
+    "median_prune_rho_SE": 0.07088945618526855,
+    "S3_total_point_shares": {
+      "family": 0.15148088861339648,
+      "trait": 0.05693849331690298,
+      "system_heterogeneity": 0.5492374757560131,
+      "sampling_error": 0.24234314231368748
+    },
+    "S3_heterogeneity_share_cluster_CI95": {
+      "family": [0.12251358073142357, 0.7494061522524385],
+      "trait": [1.8312757541461744e-08, 0.3853299711128028],
+      "system": [0.07100385799045661, 0.7512825602720927]
+    },
+    "decision": "DROP_SYSTEM_DOMINANCE_CLAIM"
+  },
+  "scale_sensitivity": {
+    "status": "HOLD_TRAIT_MEMORY_LOG_SCALE_ALL_201",
+    "S3_systems_with_nonpositive_species_median": 25,
+    "prune_systems_with_nonpositive_species_median": 18,
+    "decision": "Raw-scale multiplicative robustness remains unresolved; no post-outcome rescue transform is permitted."
+  },
+  "central_claim": "Phylogenetic trait memory is lineage-contingent rather than a stable trait-intrinsic signature: a modest family-level context repeats across traits, but trait identity supplies little robust information that transfers to an unseen family, and that family context is not detectably organized along deeper family phylogeny.",
+  "hard_nonclaims": [
+    "No claim that family variance dominates system heterogeneity.",
+    "No claim that the family component identifies a causal evolutionary mechanism.",
+    "No claim that trait identity is anti-portable.",
+    "No claim that the raw-scale distance metric is robust to log transformation.",
+    "No spatial-turnover conclusion."
+  ],
+  "current_docs": {
+    "synthesis": "docs/TRAIT_MEMORY_CONTEXT_SYNTHESIS_V0_2.md",
+    "manuscript": "docs/TRAIT_MEMORY_PORTABILITY_MANUSCRIPT_V0_2.md",
+    "novelty_boundary": "docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md",
+    "statistic_positioning": "docs/TRAIT_MEMORY_STATISTIC_POSITIONING_V0_3.md"
+  }
+}

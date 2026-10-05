@@ -18,7 +18,7 @@ This question bears directly on a common comparative assumption—that evolution
 
 The study does not identify the biological mechanism generating the family component, and the planned all-system log-scale sensitivity remains unresolved because some systems contain nonpositive species medians under the frozen no-offset rule. We report both limitations explicitly.
 
-**AI-assisted development disclosure:** ChatGPT (OpenAI; GPT-5.6 Sol) was used to assist with drafting/debugging analysis code and editorial revision of manuscript text. The authors verified the analysis code, numerical results, citations and final claims and take full responsibility for the submitted work.
+**AI-assisted development disclosure:** ChatGPT (OpenAI; ChatGPT product, GPT-5.6 Sol model; accessed 5 October 2026) was used interactively for drafting/debugging R and Python code and for editorial revision. Prompts were natural-language task instructions specifying target analyses/files and frozen constraints; generated material was author-reviewed and code was executed and checked against canonical results. The authors verified all analyses, numerical results, citations and final claims and take full responsibility for the submitted work.
 
 Thank you for considering the manuscript.
 

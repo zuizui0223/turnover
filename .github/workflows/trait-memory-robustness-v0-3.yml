@@ -27,6 +27,7 @@ jobs:
           assert d['status']=='FROZEN_BEFORE_TRAIT_MEMORY_ROBUSTNESS_OUTCOMES'
           assert d['population']['n_systems']==201
           assert d['measurement_error']['replicates']==199
+          assert d['measurement_error']['bootstrap_implementation']['scientific_change'] is False
           assert d['measurement_error']['uncertainty']['replicates']==500
           assert d['correlated_trait_family_null']['simulation']['replicates']==1000
           assert d['relationship_to_original']['original_repeatability']=='results/trait_memory_repeatability_v0_2/result.json'

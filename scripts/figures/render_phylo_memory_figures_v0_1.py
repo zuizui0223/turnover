@@ -43,7 +43,7 @@ fig=plt.figure(figsize=(8.4,4.0))
 gs=fig.add_gridspec(1,2,width_ratios=[1.25,1.25],wspace=0.38)
 
 ax=fig.add_subplot(gs[0,0]); ax.axis("off")
-labels=["Target\ndeclared","Structurally\nrealizable","Generator-\naccessible","Recovery\nstage"]
+labels=["Target\ndeclared","Structurally\nfeasible","Generator-\naccessible","Recovery\nstage"]
 xs=[0.10,0.36,0.64,0.90]
 for i,(x,lbl) in enumerate(zip(xs,labels)):
     fc=PALE if i==0 else "white"
@@ -124,7 +124,7 @@ for xx,yy in zip(x,y):
     else:
         ax.text(xx,yy+0.025,f"{yy:.3f}",ha="center",fontsize=9)
 ax.spines[["top","right"]].set_visible(False)
-ax.set_title("A  State space contains the target",loc="left",fontweight="bold")
+ax.set_title("A  An attainable state exceeds the target",loc="left",fontweight="bold")
 
 ax=fig.add_subplot(gs[0,1])
 effect=int(vals["Effect ceiling"]); collapse=int(vals["Validity collapse"]); total=effect+collapse
@@ -137,7 +137,7 @@ ax.text(101.2,0,f"{collapse}/220\n11.4%",ha="left",va="center",fontsize=8.0)
 ax.legend(frameon=False,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1,fontsize=8)
 ax.spines[["top","right","left"]].set_visible(False)
 ax.set_title("B  Failure lies inside generator accessibility",loc="left",fontweight="bold")
-fig.suptitle("Figure 2. Binary state space is not the observed calibration ceiling",x=0.02,ha="left",fontsize=11,fontweight="bold")
+fig.suptitle("Figure 2. A hard one-transition ceiling does not explain OU calibration failure",x=0.02,ha="left",fontsize=11,fontweight="bold")
 save(fig,"Fig2_accessibility_mechanism.svg")
 
 # Figure 3

@@ -47,6 +47,7 @@ jobs:
             --out-dir build/figure-data
       - name: Render primary SVG figures
         run: |
+          python -m py_compile scripts/figures/prepare_phylo_memory_figure_data_v0_1.py scripts/figures/render_phylo_memory_figures_v0_1.py
           python scripts/figures/render_phylo_memory_figures_v0_1.py \
             --data-dir build/figure-data \
             --out-dir build/figures

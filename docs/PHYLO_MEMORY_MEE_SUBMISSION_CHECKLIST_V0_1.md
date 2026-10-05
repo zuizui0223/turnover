@@ -65,3 +65,19 @@ The categorical no-bracket rate is 79.7% despite structural realizability in all
 5. Fill the separate title page outside the anonymous manuscript.
 6. Send the pre-submission enquiry before full submission.
 7. If invited/encouraged, submit the exact frozen package rather than reopening mechanism search.
+
+
+## Generated anonymous-bundle audit
+
+A successfully generated review bundle was unpacked and inspected directly.
+
+- bundle workflow: successful
+- unpacked files: 50
+- author/repository-owner identifier hits: 0
+- email-address hits: 0
+- explicit author-name hits checked: 0
+- primary scripts carrying the AI-assisted-development disclosure: 13
+- immutable aggregate evidence stages included: 7
+- licence status inside bundle: `LICENSE_PENDING_AUTHOR_CHOICE`
+
+The anonymous bundle is therefore technically ready apart from the deliberate open-source-licence blocker.

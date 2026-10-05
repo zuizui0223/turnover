@@ -25,6 +25,7 @@ Primary methodological contribution:
 | Keywords | READY | manuscript |
 | Introduction independent of focal organism | READY | manuscript |
 | Materials and Methods | READY | manuscript |
+| AI/LLM disclosure | READY IN TEXT / CODE ANNOTATION IN PROGRESS | manuscript Methods + review-bundle scripts |
 | Results | READY | manuscript |
 | Discussion | READY | manuscript |
 | Primary figures | IN CI | source-backed Fig. 1–3 workflow |

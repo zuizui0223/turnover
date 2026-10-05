@@ -103,3 +103,68 @@ The temporal paper remains publishable as a methods-aware empirical caution if:
 - portability is phrased according to the shrinkage result.
 
 If the family component disappears under the null and most residual variance is sampling error, the paper must be reframed around **limited transferable information in noisy phylogenetic-signal estimates**, not “lineage-specific memory regimes.”
+
+
+## Observed v0.3 decision
+
+The frozen robustness programme is now complete.
+
+### Sampling-error-aware repeatability
+
+All 201 raw effects were reproduced at the archived four-decimal precision, and every system received a valid species-cluster bootstrap SE.
+
+For S3, the measurement-aware point decomposition using the mean sampling variance gives approximately:
+
+- family: 15.1% of typical total variance;
+- trait: 5.7%;
+- residual between-system heterogeneity: 54.9%;
+- sampling error: 24.2%.
+
+For prune-only the corresponding point shares are approximately 14.0%, 2.2%, 58.6%, and 25.3%.
+
+The S3 two-way family × trait cluster bootstrap completed 500/500 refits. Its heterogeneity-share intervals are broad: family 0.123–0.749, trait approximately 0–0.385, and system 0.071–0.751.
+
+**Decision:** the original residual share of 0.8063 must not be called biological system specificity. System heterogeneity is the largest point component, but it is not demonstrably dominant over the family component under cluster-bootstrap uncertainty.
+
+### Correlated-trait/shared-design artifact
+
+The observed family repeatability exceeds the frozen zero-family-effect correlated-trait null on both tree treatments:
+
+- S3: R_family = 0.1504, null 95% interval 0–0.1385, p = 0.017;
+- prune-only: R_family = 0.1482, null 95% interval 0–0.1217, p = 0.009.
+
+Collapsing the 12 trait labels into five predeclared trait domains leaves R_family at 0.144 (S3) and 0.147 (prune-only).
+
+**Decision:** family repeatability survives this specific redundant-trait/shared-incidence explanation. It may be described as repeatable lineage context, but not as a known biological mechanism.
+
+### Shrinkage-aware portability
+
+The original unshrunk gains were −0.0242 (S3) and −0.0324 (prune-only).
+
+Training-only BLUP shrinkage changes them to +0.0060 and −0.0048, respectively.
+
+**Decision:** drop language suggesting that trait identity is strongly anti-portable. The supported conclusion is that transferable trait-level signal is weak: shrinkage removes most of the prediction penalty but does not produce robust positive portability across both tree treatments.
+
+### Log scale
+
+The frozen all-201 natural-log sensitivity is unavailable because 25 S3 systems and 18 prune-only systems contain at least one nonpositive species median.
+
+**Decision:** retain this as a real limitation. Do not add offsets, signed logs, or post-outcome system filtering inside v0.3.
+
+## Final wording boundary
+
+Allowed:
+
+> Phylogenetic trait memory contains a repeatable family-level component that is not explained by the predeclared correlated-trait null, but trait identity carries little robust information that transfers to an unseen family.
+
+Allowed:
+
+> A substantial share of the old cell-level residual is finite-species estimation error, and the remaining between-system heterogeneity is too uncertain to call dominant.
+
+Not allowed:
+
+- “Most phylogenetic memory is system-specific.”
+- “Trait identity is anti-portable.”
+- “Family context is the dominant determinant.”
+- “The family component identifies a lineage-specific evolutionary mechanism.”
+- “The raw-scale result is invariant to multiplicative trait scaling.”

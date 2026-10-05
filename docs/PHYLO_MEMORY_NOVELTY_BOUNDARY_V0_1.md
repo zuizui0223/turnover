@@ -59,6 +59,15 @@ Boundary:
 - this paper must **not** claim to discover the general principle that simulation truth depends on the data-generating mechanism, nor the need to preregister and report simulation designs transparently;
 - the contribution is narrower and operational: before power or recovery is interpreted, an explicitly requested target statistic may need to pass separate **realizability** and **generator-accessibility** gates on the realized design.
 
+### DGM-dependent power and nominal-versus-realized effects
+
+Simulation-based power tutorials already emphasize that data-generating-mechanism features can materially alter power even at similar nominal effect sizes (e.g. Rudolph, Goin & Stuart 2020, *American Journal of Epidemiology*). Recent simulation-based power work also distinguishes fixed effect specifications from the effect sizes actually realized in simulated trials.
+
+Boundary:
+- this paper must **not** claim that DGM choice affecting power, or nominal and realized effect sizes differing, is newly discovered;
+- the new inferential move is to make **generator accessibility to a requested summary target** an explicit pass/fail object between structural feasibility and estimator recovery;
+- the paired OU→Mk2 intervention is useful because it changes generator accessibility while holding the realized trees, target statistic and estimator fixed.
+
 ### Feasible-correlation checks in synthetic-data generation
 
 Fialkowski & Tiwari (2019, *The R Journal*, DOI 10.32614/RJ-2019-022) developed `SimCorrMix` for generating correlated continuous, binary, ordinal and count variables. The package explicitly calculates feasible correlation boundaries and provides input checks for requested dependence structures.
@@ -106,6 +115,8 @@ Safe:
 
 Do not claim:
 - checking attainable/feasible correlation bounds is newly invented here;
+- data-generating mechanisms affecting power is newly discovered here;
+- nominal and realized simulated effect sizes are always identical;
 - categorical traits are intrinsically less conserved;
 - binary traits are intrinsically incapable of rho = 0.15;
 - Mk2 is universally the correct evolutionary model;

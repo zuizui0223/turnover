@@ -108,7 +108,7 @@ key <- paste(x$family,x$trait_name,sep="\r")
 idx_map <- setNames(seq_len(nrow(x)),key)
 
 boot <- data.frame(
-  replicate=seq_len(B),success=FALSE,
+  replicate=seq_len(B),meta_success=FALSE,naive_success=FALSE,
   sigma2_family=NA_real_,sigma2_trait=NA_real_,sigma2_system=NA_real_,
   family_share_heterogeneity=NA_real_,
   trait_share_heterogeneity=NA_real_,
@@ -138,46 +138,54 @@ for(b in seq_len(B)){
   }
   if(kk<50 || length(unique(ff))<2 || length(unique(tt))<2) next
   fitb <- tryCatch(meta_fit(yy,ss,ff,tt,sid),error=function(e)NULL)
-  if(is.null(fitb)) next
-  q <- fitb$summary
-  boot$success[[b]] <- TRUE
-  boot$sigma2_family[[b]] <- q$sigma2_family
-  boot$sigma2_trait[[b]] <- q$sigma2_trait
-  boot$sigma2_system[[b]] <- q$sigma2_system
-  boot$family_share_heterogeneity[[b]] <- q$family_share_heterogeneity
-  boot$trait_share_heterogeneity[[b]] <- q$trait_share_heterogeneity
-  boot$system_share_heterogeneity[[b]] <- q$system_share_heterogeneity
-  boot$sampling_share_mean_total[[b]] <- q$sampling_share_mean_total
+  if(!is.null(fitb)){
+    q <- fitb$summary
+    boot$meta_success[[b]] <- TRUE
+    boot$sigma2_family[[b]] <- q$sigma2_family
+    boot$sigma2_trait[[b]] <- q$sigma2_trait
+    boot$sigma2_system[[b]] <- q$sigma2_system
+    boot$family_share_heterogeneity[[b]] <- q$family_share_heterogeneity
+    boot$trait_share_heterogeneity[[b]] <- q$trait_share_heterogeneity
+    boot$system_share_heterogeneity[[b]] <- q$system_share_heterogeneity
+    boot$sampling_share_mean_total[[b]] <- q$sampling_share_mean_total
+  }
   nb <- tryCatch(naive_fit(yy,ff,tt),error=function(e)NULL)
   if(!is.null(nb)){
+    boot$naive_success[[b]] <- TRUE
     boot$naive_R_family[[b]] <- nb$R_family
     boot$naive_R_trait[[b]] <- nb$R_trait
     boot$naive_R_residual[[b]] <- nb$R_residual
   }
 }
 write.csv(boot,boot_path,row.names=FALSE,na="")
-ok <- boot$success
-success_fraction <- mean(ok)
-if(success_fraction < as.numeric(design$measurement_error$uncertainty$min_success_fraction))
-  stop("cluster bootstrap success fraction below frozen minimum")
-ci <- function(v) as.numeric(quantile(v[ok],c(.025,.975),na.rm=TRUE,names=FALSE,type=7))
+meta_ok <- boot$meta_success
+naive_ok <- boot$naive_success
+meta_success_fraction <- mean(meta_ok)
+naive_success_fraction <- mean(naive_ok)
+min_success <- as.numeric(design$measurement_error$uncertainty$min_success_fraction)
+meta_gate_pass <- meta_success_fraction >= min_success
+naive_gate_pass <- naive_success_fraction >= min_success
+ci_on <- function(v,ok) as.numeric(quantile(v[ok],c(.025,.975),na.rm=TRUE,names=FALSE,type=7))
 
-primary_ci <- list(
-  sigma2_family=ci(boot$sigma2_family),
-  sigma2_trait=ci(boot$sigma2_trait),
-  sigma2_system=ci(boot$sigma2_system),
-  family_share_heterogeneity=ci(boot$family_share_heterogeneity),
-  trait_share_heterogeneity=ci(boot$trait_share_heterogeneity),
-  system_share_heterogeneity=ci(boot$system_share_heterogeneity),
-  sampling_share_mean_total=ci(boot$sampling_share_mean_total),
-  naive_R_family=ci(boot$naive_R_family),
-  naive_R_trait=ci(boot$naive_R_trait),
-  naive_R_residual=ci(boot$naive_R_residual)
-)
+meta_ci <- if(meta_gate_pass) list(
+  sigma2_family=ci_on(boot$sigma2_family,meta_ok),
+  sigma2_trait=ci_on(boot$sigma2_trait,meta_ok),
+  sigma2_system=ci_on(boot$sigma2_system,meta_ok),
+  family_share_heterogeneity=ci_on(boot$family_share_heterogeneity,meta_ok),
+  trait_share_heterogeneity=ci_on(boot$trait_share_heterogeneity,meta_ok),
+  system_share_heterogeneity=ci_on(boot$system_share_heterogeneity,meta_ok),
+  sampling_share_mean_total=ci_on(boot$sampling_share_mean_total,meta_ok)
+) else NULL
+
+naive_ci <- if(naive_gate_pass) list(
+  R_family=ci_on(boot$naive_R_family,naive_ok),
+  R_trait=ci_on(boot$naive_R_trait,naive_ok),
+  R_residual=ci_on(boot$naive_R_residual,naive_ok)
+) else NULL
 
 out <- list(
   version="v0.3",
-  status="TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED",
+  status=if(meta_gate_pass) "TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED" else "HOLD_TRAIT_MEMORY_MEASUREMENT_AWARE_CLUSTER_BOOTSTRAP",
   n_systems=nrow(x),n_families=length(families),n_traits=length(traits),
   original_naive_reference=list(
     R_family=0.1504,R_trait=0.0433,R_residual=0.8063
@@ -187,7 +195,15 @@ out <- list(
     S3=s3_raw$summary,
     prune_only=pr_raw$summary,
     primary_S3_cluster_bootstrap=list(
-      replicates=B,success_fraction=success_fraction,ci95=primary_ci,seed=seed0
+      replicates=B,
+      minimum_success_fraction=min_success,
+      meta_success_fraction=meta_success_fraction,
+      meta_gate_pass=meta_gate_pass,
+      meta_ci95=meta_ci,
+      naive_success_fraction=naive_success_fraction,
+      naive_gate_pass=naive_gate_pass,
+      naive_ci95=naive_ci,
+      seed=seed0
     )
   ),
   log_scale=list(
@@ -197,7 +213,11 @@ out <- list(
     naive_S3=naive_log_s3,
     naive_prune_only=naive_log_pr
   ),
-  interpretation_guard="Sampling variance is separated from between-system heterogeneity. Do not equate the original lmer residual share with biological system specificity."
+  analysis_gate_pass=meta_gate_pass,
+  interpretation_guard=if(meta_gate_pass)
+    "Sampling variance is separated from between-system heterogeneity. Do not equate the original lmer residual share with biological system specificity."
+  else
+    "The frozen measurement-aware point fit is reported, but its predeclared two-way cluster-bootstrap uncertainty gate failed. Do not use the point heterogeneity shares to claim biological system specificity."
 )
 write_json(out,out_path,pretty=TRUE,auto_unbox=TRUE,null="null",digits=17)
 cat(toJSON(out,pretty=TRUE,auto_unbox=TRUE,null="null",digits=17),"\n")

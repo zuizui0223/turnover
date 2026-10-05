@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+# AI-assisted development disclosure: ChatGPT (OpenAI; GPT-5.6 Sol) assisted with drafting/debugging this script. Author verification is required before submission.
 suppressPackageStartupMessages({
   library(RPostgreSQL)
   library(DBI)

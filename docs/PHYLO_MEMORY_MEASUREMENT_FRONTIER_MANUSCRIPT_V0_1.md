@@ -2,7 +2,7 @@
 
 ## Working title
 
-**Known truth is not automatically accessible: trait representation creates a generator frontier for phylogenetic memory**
+**Known truth is not automatically assignable in phylogenetic-memory simulations**
 
 Alternative:
 
@@ -13,6 +13,8 @@ Alternative:
 If the true distance–dissimilarity association is held constant, which properties of a real comparative sampling design determine whether that signal can actually be recovered?
 
 This is an outcome-free methods study. It uses only known-truth simulations on real family × trait phylogenetic geometries. No observed trait-memory rho enters any result.
+
+**Central claim:** a requested simulation truth must be shown to be structurally realizable and generator-accessible before downstream failure can be interpreted as low statistical power (Fig. 1). A journal-neutral abstract is frozen in `docs/PHYLO_MEMORY_ABSTRACT_V0_1.md`.
 
 ## Data geometry
 
@@ -48,7 +50,7 @@ Key effects:
 
 Pseudo-R² ≈ 0.386.
 
-Interpretation: additional sampling and backbone-native coverage help overall, but representation changes the recoverability surface itself.
+Interpretation: additional sampling and backbone-native coverage help overall, but representation changes the recoverability surface itself (Fig. 1B).
 
 ## Main result 2 — categorical failure is concentrated at calibration
 
@@ -136,7 +138,7 @@ The stored OU calibration grids reveal how generator accessibility fails in the 
 - Median valid fraction at the largest lambda is **0.20**.
 - In the 60 continuous no-bracket systems, the corresponding valid fraction remains **1.00**.
 
-For binary traits, invalid pilot replicates occur when thresholded tip states become monomorphic. The generator therefore faces an accessibility trade-off: strengthening latent phylogenetic memory tends to increase the desired distance structure while simultaneously erasing the binary variation required to measure it.
+For binary traits, invalid pilot replicates occur when thresholded tip states become monomorphic. The generator therefore faces an accessibility trade-off: strengthening latent phylogenetic memory tends to increase the desired distance structure while simultaneously erasing the binary variation required to measure it (Fig. 2).
 
 ## Main result 6 — a representation-appropriate generator partially rescues accessibility
 
@@ -175,7 +177,7 @@ Four systems were placed in an outcome-free geometry HOLD before their v0.5 stat
 
 The four geometry-HOLD systems comprise three original Mk2-rho no-bracket systems and one calibrated system. Without imputing their outcomes, the full-population balance-normalized no-bracket rate is therefore bounded at **42.4–43.8%**, and the rescue fraction among the original 170 Mk2-rho no-bracket systems is bounded at **29.4–31.2%**.
 
-State balance is therefore an additional, separable accessibility mechanism. It is not a complete explanation: a large residual no-bracket fraction remains after both generator substitution and exact balance normalization. Under the pre-frozen stop rule, that remainder is retained rather than optimized away.
+State balance is therefore an additional, separable accessibility mechanism. It is not a complete explanation: a large residual no-bracket fraction remains after both generator substitution and exact balance normalization. Under the pre-frozen stop rule, that remainder is retained rather than optimized away (Fig. 3).
 
 ## Mechanistic interpretation
 
@@ -223,3 +225,12 @@ The primary mechanism programme is closed under the pre-frozen v0.5.2 stop rule.
 No additional generator, estimator, parameter-grid, target or subgroup search on these 276 categorical systems may strengthen the primary claim. The approximately 42–44% unresolved balance-normalized no-bracket remainder is part of the result.
 
 The closed BIEN empirical trait-memory paper is a separate biological paper. This methods paper should not import its biological family-repeatability result as evidence.
+
+
+## Primary figure architecture
+
+- **Figure 1:** three-gate assignability framework plus the continuous-versus-categorical recovery contrast.
+- **Figure 2:** explicit structural witness versus OU accessibility, followed by effect-ceiling versus validity-collapse decomposition.
+- **Figure 3:** sequential OU → Mk2 → balance-normalized rescue, paired rescue/new-failure counts, and recovery after assignment.
+
+The frozen source-backed figure plan is `data/phylo_memory_figure_plan_v0_1.json`; captions are in `docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md`. Figure preparation adds no new scientific estimand.

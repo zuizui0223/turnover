@@ -29,7 +29,11 @@ if(nrow(x)!=201 || length(unique(x$family))!=45 || length(unique(x$trait_name))!
 if(anyDuplicated(x$system_id)) stop("system ids not unique")
 
 naive_fit <- function(y,ff=x$family,tt=x$trait_name){
-  d <- data.frame(rho=as.numeric(y),family=factor(ff),trait_name=factor(tt))
+  y <- as.numeric(unlist(y,use.names=FALSE))
+  ff <- as.character(unlist(ff,use.names=FALSE))
+  tt <- as.character(unlist(tt,use.names=FALSE))
+  if(!identical(length(y),length(ff)) || !identical(length(y),length(tt))) stop("naive-fit length mismatch")
+  d <- data.frame(rho=y,family=factor(ff),trait_name=factor(tt))
   f <- lmer(rho~1+(1|family)+(1|trait_name),data=d,REML=TRUE,
             control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
   vc <- as.data.frame(VarCorr(f))
@@ -43,8 +47,15 @@ naive_fit <- function(y,ff=x$family,tt=x$trait_name){
 }
 
 meta_fit <- function(y,se,ff=x$family,tt=x$trait_name,ss=x$system_id){
+  y <- as.numeric(unlist(y,use.names=FALSE))
+  se <- as.numeric(unlist(se,use.names=FALSE))
+  ff <- as.character(unlist(ff,use.names=FALSE))
+  tt <- as.character(unlist(tt,use.names=FALSE))
+  ss <- as.character(unlist(ss,use.names=FALSE))
+  if(length(unique(c(length(y),length(se),length(ff),length(tt),length(ss))))!=1L)
+    stop("meta-fit length mismatch")
   d <- data.frame(
-    yi=as.numeric(y),vi=as.numeric(se)^2,
+    yi=y,vi=se^2,
     family=factor(ff),trait_name=factor(tt),system_id=factor(ss)
   )
   if(any(!is.finite(d$yi)) || any(!is.finite(d$vi)) || any(d$vi<=0))

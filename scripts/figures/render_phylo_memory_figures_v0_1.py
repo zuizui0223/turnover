@@ -151,7 +151,8 @@ for yy,n in zip(y,resc): ax.text(n+1,yy,str(n),va="center",fontsize=9)
 for yy,n in zip(y,loss):
     if n: ax.text(-n-1,yy,str(n),ha="right",va="center",fontsize=9)
     else: ax.text(-0.8,yy,"0",ha="right",va="center",fontsize=9)
-ax.text(0.02,0.98,"← new failures",transform=ax.transAxes,ha="left",va="top",fontsize=7.8,color=MID)\nax.text(0.98,0.98,"rescued →",transform=ax.transAxes,ha="right",va="top",fontsize=7.8,color=BLUE)
+ax.text(0.02,0.98,"← new failures",transform=ax.transAxes,ha="left",va="top",fontsize=7.8,color=MID)
+ax.text(0.98,0.98,"rescued →",transform=ax.transAxes,ha="right",va="top",fontsize=7.8,color=BLUE)
 ax.spines[["top","right"]].set_visible(False)
 ax.set_title("B  Paired rescues exceed new failures",loc="left",fontweight="bold")
 

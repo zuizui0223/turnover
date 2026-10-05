@@ -34,6 +34,22 @@ We evaluate this distinction in a frozen comparative-ecology simulation programm
 
 ## Materials and Methods
 
+### General assignability audit
+
+The proposed audit applies when the requested simulation target is a summary of generated data rather than a free parameter of the data-generating mechanism. It is deliberately ordered so that downstream estimator performance is evaluated only after upstream assignment has been established.
+
+**Step 1 — Declare the target and validity contract.** Specify the target statistic, target value, tolerance, realized design on which it is defined, and any conditions that make a simulated replicate valid.
+
+**Step 2 — Audit structural realizability.** Construct an attainable witness, exact bound, optimization result or exhaustive check showing whether the representation × realized design can express the target at all. If the target is structurally impossible, stop: the requested power scenario is undefined for that design and target.
+
+**Step 3 — Audit generator accessibility.** Holding the target statistic and realized design fixed, ask whether the declared generator can bracket or otherwise assign the target over a prospectively specified parameter family while satisfying the validity contract. Distinguish failure to approach the target from failure caused by invalid generated states.
+
+**Step 4 — Diagnose generator dependence without redefining success.** If a mechanism diagnostic is scientifically justified, change one generative component at a time while preserving the target, estimator and success thresholds. Such substitutions diagnose accessibility; they should not be searched adaptively until a favourable result appears.
+
+**Step 5 — Evaluate recovery conditional on assignment.** Only systems in which the target was successfully assigned contribute to conventional recovery, bias or power statements for that target. Report upstream assignment failures separately rather than pooling them with estimator failures.
+
+The audit therefore produces three possible scientific conclusions: target not structurally realizable; target realizable but inaccessible to the declared generator; or target assigned but not recovered. These outcomes should not be collapsed into one low-power category.
+
 ### Study population and outcome firewall
 
 The study uses 722 prequalified BIEN family × trait sampling geometries spanning 120 plant families and 25 traits. Of these, 443 are continuous-scalar systems and 279 are nominal-categorical systems. Each system has a realized S3 phylogeny and a prune-only comparison geometry inherited from the frozen trait-memory qualification programme.

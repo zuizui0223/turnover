@@ -16,9 +16,9 @@
   "frozen_blobs": {
     "data/trait_memory_figure_plan_v0_1.json": "ff15b1ed0fee22fb9b9baea5a7c46f6edd519997",
     "data/trait_memory_robustness_design_v0_3.json": "db00b196eb41f2be72f1a13de3eb6274ac2b6142",
-    "docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md": "7e2d8fa867dc385b3c5e0f67a14bee87adc31da0",
-    "docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md": "0373989faf2b8a375f425c8ce9c89ed894ef7747",
-    "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md": "cd2cf3f68387e6929565de596b730efc7131e67b",
+    "docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md": "19a70fc698a708e78414b3b2d97670cf444afebb",
+    "docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md": "d14589c1212e610286df9eaf854329dd4bfd91d4",
+    "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md": "ecd22fc35c49e1c0d3f431da7479c3125b2e0078",
     "docs/TRAIT_MEMORY_EVOLUTION_POSITIONING_V0_1.md": "8f3f4559fed7ccbf36b2d08ad485fc426b37e19e",
     "docs/TRAIT_MEMORY_FIGURE_CAPTIONS_V0_2.md": "c71ccae99338561a07da59249524b0871f06bf5d",
     "docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md": "875e572858964b6e6cb0f65a25e49bc45ffdfbe8",
@@ -33,7 +33,7 @@
     "scripts/analysis/run_trait_memory_robust_system_v0_3.R": "d454d611e2f32875f47d6802712259a01be84740",
     "scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R": "60f2729a1323952211df385fbd5a887cb1f514c6",
     "scripts/analysis/test_trait_memory_portability_blup_v0_3.R": "d525501d9eea43d7c7561518b7549d918f5588c6",
-    "scripts/analysis/verify_trait_memory_evolution_package_v0_1.py": "1d714cf9c75a23b8cf2464953fa8dc663b485041",
+    "scripts/analysis/verify_trait_memory_evolution_package_v0_1.py": "9688525381f4b2fa1f46fc1231a36e8f5e21aece",
     "scripts/figures/prepare_trait_memory_figure_data_v0_1.py": "2d35a6ff53e06335df1658cbc3870d6d9cf12b4c",
     "scripts/figures/render_trait_memory_figures_v0_2.py": "df59cab4cb0c4ea08faa566f0fd727c390e0c282"
   },
@@ -47,6 +47,19 @@
   "technical_amendment": {
     "date": "2026-10-05",
     "scientific_change": false,
-    "reason": "The package verifier now checks the substantive novelty statement already present in the novelty-boundary document instead of requiring the manuscript title phrase verbatim."
+    "reason": "RC1 submission-format update only: Evolution abstract compressed to 178 words without S3/BLUP abbreviations, 43-word teaser and six keywords added, LLM disclosure expanded per journal requirements, and cover letter updated. Scientific analyses, canonical results, figures, and claims are unchanged."
+  },
+  "submission_format": {
+    "abstract_words": 178,
+    "teaser_words": 43,
+    "keywords_count": 6,
+    "abstract_abbreviations_absent": [
+      "S3",
+      "BLUP"
+    ],
+    "ai_disclosure_in_manuscript": true,
+    "ai_disclosure_in_cover_letter": true,
+    "title_page_template": "docs/TRAIT_MEMORY_EVOLUTION_TITLE_PAGE_TEMPLATE_V0_1.md",
+    "title_page_intentionally_not_frozen": true
   }
 }

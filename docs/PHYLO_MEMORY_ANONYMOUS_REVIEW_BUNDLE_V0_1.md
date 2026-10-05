@@ -34,4 +34,4 @@ The bundle excludes the unexecuted alternative-estimator v0.4 design from the pr
 
 ## Submission blocker
 
-The repository currently has **no open-source LICENSE file**. MEE requires submitted code to carry an open-source licence. The anonymous bundle is therefore a draft review package until the author explicitly chooses and adds a licence. The workflow records this as a blocker rather than silently assigning one.
+The repository currently has **no open-source LICENSE file**. MEE requires submitted code to carry an open-source licence. After the author chooses a licence, the development repository may carry the normal licence while an author-neutral `LICENSE_REVIEW.txt` supplies the same licence terms to the double-anonymous review bundle. The workflow never copies a potentially identifying root licence blindly.

@@ -20,19 +20,19 @@ simulation study; power analysis; data-generating mechanism; constrained outcome
 
 ## Introduction
 
-Simulation-based power studies usually begin by choosing an effect size that is treated as known truth, generating data intended to contain that effect, and asking whether an estimator recovers it. This ordering hides a logically prior question whenever the requested effect is a summary of simulated data rather than a free parameter of the generator: **can the requested truth actually be assigned on the realized design?** General simulation guidance separates data-generating mechanisms, estimands, methods and performance measures, but usually assumes that the generative mechanism can supply the declared target.
+Simulation-based power studies usually begin by choosing an effect size that is treated as known truth, generating data intended to contain that effect, and asking whether an estimator recovers it. This ordering hides a logically prior question whenever the requested effect is a summary of simulated data rather than a free parameter of the generator: **can the requested truth actually be assigned on the realized design?** General simulation guidance separates data-generating mechanisms, estimands, methods and performance measures (Morris et al. 2019; Williams 2024), but usually assumes that the generative mechanism can supply the declared target.
 
 That assumption is innocuous when the target is itself a direct parameter of an unconstrained generative model. It becomes less obvious for constrained outcomes. Binary and other discrete representations collapse many possible continuous configurations into a small state space. Their pairwise dissimilarities contain ties, attainable state balances depend on the realized sample, and increasing phylogenetic structure can change not only the magnitude of a statistic but whether both states remain represented at all. Under these conditions, a simulation may be described as “known truth” even when the requested summary statistic is not reachable by the generator over the declared parameter family.
 
-The underlying feasibility problem has precedents in synthetic-data generation. Methods for simulating correlated binary, ordinal and mixed variables explicitly calculate feasible correlation bounds and check requested dependence structures before generation (e.g. Fialkowski & Tiwari 2019). **Structural feasibility is therefore not itself our novelty.** The unresolved step is generator-specific accessibility: a target may exist within the representation's attainable state space yet remain unreachable, or reachable only through invalid states, along the stochastic path defined by the chosen generator. If that failure is folded into a final power estimate, a generator limitation can be attributed to the estimator.
+The underlying feasibility problem has precedents in synthetic-data generation. Methods for simulating correlated binary, ordinal and mixed variables explicitly calculate feasible correlation bounds and check requested dependence structures before generation (Fialkowski & Tiwari 2019). **Structural feasibility is therefore not itself our novelty.** The unresolved step is generator-specific accessibility: a target may exist within the representation's attainable state space yet remain unreachable, or reachable only through invalid states, along the stochastic path defined by the chosen generator. If that failure is folded into a final power estimate, a generator limitation can be attributed to the estimator.
 
-Phylogenetic signal provides a useful stress test because the literature already shows that signal metrics respond differently to sample size, tree topology, evolutionary model and trait representation. Binary-specific and categorical signal statistics have been developed precisely because discrete outcomes do not behave like continuous traits, and recent unified approaches likewise report lower power for low-state categorical traits. Our question is not whether binary traits can be harder to analyse. Instead, we ask where a failed known-truth simulation fails.
+Phylogenetic signal provides a useful stress test because the literature already shows that signal metrics respond differently to sample size, tree topology, evolutionary model and trait representation (Fritz & Purvis 2010; Münkemüller et al. 2012; Borges et al. 2019; Yao & Yuan 2025). Binary-specific and categorical signal statistics have been developed precisely because discrete outcomes do not behave like continuous traits, and recent unified approaches likewise report lower power for low-state categorical traits. Our question is not whether binary traits can be harder to analyse. Instead, we ask where a failed known-truth simulation fails.
 
 We distinguish three gates. **Structural realizability** asks whether the representation on the realized design contains any state configuration capable of expressing the requested target. **Generator accessibility** asks whether the declared stochastic generator can reach and bracket that target while satisfying its own validity rules. **Recovery** asks whether the target, once successfully assigned, can be recovered under finite simulation and the frozen estimator. These gates are logically ordered: a failure of realizability or generator accessibility occurs before estimator power can be evaluated.
 
 We evaluate this distinction in a frozen comparative-ecology simulation programme spanning 722 real plant family × trait sampling geometries. All mechanism analyses are outcome-free: observed trait values and observed phylogenetic-memory effects remain excluded. We first quantify the representation-dependent recovery frontier, then localize categorical failure to calibration versus recovery. We next test whether the target is absent from the binary state space or merely inaccessible to the original latent-OU threshold generator, substitute a representation-appropriate two-state Markov generator while holding the target and estimator fixed, and finally isolate an exact state-balance attenuation term. A pre-frozen stop rule prevents further mechanism search after this sequence.
 
-## Methods
+## Materials and Methods
 
 ### Study population and outcome firewall
 
@@ -180,7 +180,7 @@ The structural-realizability gate generalizes a familiar requirement from constr
 2. **Can the proposed generator reach it?** Demonstrate calibration accessibility over a prospectively declared parameter family while enforcing validity rules.
 3. **Only then ask whether the estimator recovers it.**
 
-This sequence complements, rather than replaces, existing guidance on data-generating mechanisms, estimands and Monte Carlo error. Simulation-based calibration similarly evaluates inferential calibration conditional on data generated from a specified model; assignability concerns the prior logical step of whether a requested target summary can be generated in the first place.
+This sequence complements, rather than replaces, existing guidance on data-generating mechanisms, estimands and Monte Carlo error. Simulation-based calibration similarly evaluates inferential calibration conditional on data generated from a specified model (Säilynoja et al. 2026); assignability concerns the prior logical step of whether a requested target summary can be generated in the first place.
 
 The requirement is especially relevant when the outcome representation is discrete, compositional, bounded, zero-inflated or otherwise constrained, because the requested effect may not be a free parameter of the generative family. Realized sample geometry can make this a system-specific property even under a common target.
 
@@ -209,3 +209,22 @@ Primary figure captions are in `docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md`. The 
 ## Analysis closure
 
 The primary mechanism programme is closed under `data/phylo_memory_mechanism_stop_v0_5_2.json` and `data/phylo_memory_mechanism_close_v0_5_3.json`. No additional generator, estimator, target, grid extension or outcome-based subgroup search on these 276 categorical systems may strengthen the primary claim. The unresolved remainder is part of the result.
+
+
+## References
+
+Borges, R., Machado, J. P., Gomes, C., Rocha, A. P. & Antunes, A. (2019). Measuring phylogenetic signal between categorical traits and phylogenies. *Bioinformatics*, 35, 1862–1869. https://doi.org/10.1093/bioinformatics/bty800
+
+Fialkowski, A. & Tiwari, H. (2019). SimCorrMix: Simulation of correlated data with multiple variable types including continuous and count mixture distributions. *The R Journal*, 11(1), 250–286. https://doi.org/10.32614/RJ-2019-022
+
+Fritz, S. A. & Purvis, A. (2010). Selectivity in mammalian extinction risk and threat types: a new measure of phylogenetic signal strength in binary traits. *Conservation Biology*, 24, 1042–1051. https://doi.org/10.1111/j.1523-1739.2010.01455.x
+
+Morris, T. P., White, I. R. & Crowther, M. J. (2019). Using simulation studies to evaluate statistical methods. *Statistics in Medicine*, 38, 2074–2102. https://doi.org/10.1002/sim.8086
+
+Münkemüller, T., Lavergne, S., Bzeznik, B., Dray, S., Jombart, T., Schiffers, K. & Thuiller, W. (2012). How to measure and test phylogenetic signal. *Methods in Ecology and Evolution*, 3, 743–756. https://doi.org/10.1111/j.2041-210X.2012.00196.x
+
+Säilynoja, T., Schmitt, M., Bürkner, P.-C. & Vehtari, A. (2026). Posterior SBC: simulation-based calibration checking conditional on data. *Statistics and Computing*, 36, 78. https://doi.org/10.1007/s11222-026-10825-9
+
+Williams, L. J. et al. (2024). Transparent reporting items for simulation studies evaluating statistical methods: Foundations for reproducibility and reliability. *Methods in Ecology and Evolution*, 15, 1926–1939. https://doi.org/10.1111/2041-210X.14415
+
+Yao, L. & Yuan, Y. (2025). A unified method for detecting phylogenetic signals in continuous, discrete, and multiple trait combinations. *Ecology and Evolution*, 15, e71106. https://doi.org/10.1002/ece3.71106

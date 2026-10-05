@@ -129,7 +129,7 @@ for x0,v in zip(xx,vals):
 
 fig.suptitle("Figure 2. Correlated traits and measured design artifacts do not explain the family component",
              x=.02,y=.98,ha="left",fontsize=10.5,fontweight="bold")
-fig.text(.035,.02,"Panel A: thick line = null 95% interval; circle = null median; diamond = observed",fontsize=7.2)
+ax0=fig.axes[0]\nax0.text(.03,.44,"line = null 95% interval\\ncircle = null median\\ndiamond = observed",transform=ax0.transAxes,fontsize=7.2,va="center")
 save(fig,"Fig2_family_repeatability_robustness.svg")
 
 # ---------- Figure 3 ----------

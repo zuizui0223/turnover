@@ -1,0 +1,78 @@
+name: Phylogenetic memory submission freeze v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/phylo_memory_submission_freeze_v0_1.json'
+      - 'docs/PHYLO_MEMORY_ASSIGNABILITY_MANUSCRIPT_V0_2.md'
+      - 'docs/PHYLO_MEMORY_ABSTRACT_V0_1.md'
+      - 'docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md'
+      - 'docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md'
+      - 'docs/PHYLO_MEMORY_NOVELTY_BOUNDARY_V0_1.md'
+      - 'docs/PHYLO_MEMORY_MEE_PRESUBMISSION_ENQUIRY_V0_1.md'
+      - 'docs/PHYLO_MEMORY_MEE_COVER_LETTER_V0_1.md'
+      - 'data/phylo_memory_figure_plan_v0_1.json'
+      - 'data/phylo_memory_structural_claim_clarification_v0_3_2.json'
+      - 'data/phylo_memory_mechanism_stop_v0_5_2.json'
+      - 'data/phylo_memory_mechanism_close_v0_5_3.json'
+      - 'results/phylo_memory_*/result.json'
+      - 'scripts/figures/*phylo_memory*'
+      - 'scripts/analysis/verify_phylo_memory_paper_package_v0_2.py'
+      - '.github/workflows/phylo-memory-submission-freeze-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify frozen Git blobs
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          p=Path("data/phylo_memory_submission_freeze_v0_1.json")
+          freeze=json.loads(p.read_text())
+          assert freeze["status"]=="SUBMISSION_RC1_FROZEN_SCIENTIFIC_CONTENT_LICENSE_PENDING"
+          assert freeze["scientific_programme"]=="PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED"
+
+          failures=[]
+          for path,expected in freeze["git_blob_sha"].items():
+              got=subprocess.check_output(["git","hash-object",path],text=True).strip()
+              if got != expected:
+                  failures.append((path,expected,got))
+
+          if failures:
+              for path,expected,got in failures:
+                  print(f"FREEZE_MISMATCH {path} expected={expected} got={got}")
+              raise SystemExit(1)
+
+          print(f"Verified {len(freeze['git_blob_sha'])} frozen blobs.")
+          PY
+
+      - name: Re-run paper contract and syntax guards
+        shell: bash
+        run: |
+          python scripts/analysis/verify_phylo_memory_paper_package_v0_2.py
+          python -m py_compile \
+            scripts/figures/prepare_phylo_memory_figure_data_v0_1.py \
+            scripts/figures/render_phylo_memory_figures_v0_1.py \
+            scripts/analysis/verify_phylo_memory_paper_package_v0_2.py
+
+      - name: Record licence blocker without altering science freeze
+        shell: bash
+        run: |
+          if [ -f LICENSE ] || [ -f LICENSE.txt ] || [ -f LICENSE.md ]; then
+            echo "Open-source root licence present."
+          else
+            echo "Open-source licence remains an explicit author decision."
+          fi

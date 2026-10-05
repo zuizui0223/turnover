@@ -66,7 +66,7 @@ The phylogenetic memory gradient was
 
 Positive rho means that more phylogenetically distant species tend to differ more strongly in trait state.
 
-This response is a distance-based memory descriptor, not a claim to replace standard phylogenetic-signal metrics such as Blomberg's K or Pagel's lambda (Blomberg et al., 2003; Pagel, 1999). The statistical performance of Mantel-type phylogenetic-signal tests depends strongly on how phylogenetic and phenotypic distances are defined and on measurement error; they are neither uniformly superior nor uniformly inferior to other signal statistics (Harmon & Glor, 2010; Hardy & Pavoine, 2012; Pavoine, 2013). Different signal indices also answer different inferential questions (Münkemüller et al., 2012; Pearse et al., 2025). Here rho was fixed because the study required one common response that could be estimated identically across all family × trait systems and subjected directly to held-out-family prediction.
+This response is a distance-based memory descriptor, not a claim to replace standard phylogenetic-signal metrics such as Blomberg's K or Pagel's lambda (Blomberg et al., 2003; Pagel, 1999). The statistical performance of Mantel-type phylogenetic-signal tests depends strongly on how phylogenetic and phenotypic distances are defined and on measurement error; they are neither uniformly superior nor uniformly inferior to other signal statistics (Harmon & Glor, 2010; Hardy & Pavoine, 2012; Pavoine & Ricotta, 2013). Different signal indices also answer different inferential questions (Münkemüller et al., 2012; Pearse et al., 2025). Here rho was fixed because the study required one common response that could be estimated identically across all family × trait systems and subjected directly to held-out-family prediction.
 
 The estimator was qualified on the exact admitted geometries before real effects were opened. In the robustness programme, sampling uncertainty was estimated at the species level rather than by treating pairwise distances as independent observations.
 
@@ -295,7 +295,7 @@ The present memory gradient is intentionally a common distance-decay descriptor,
 
 Blomberg's K, Pagel's lambda and model-based evolutionary parameters answer related but distinct questions (Blomberg et al., 2003; Pagel, 1999; Pearse et al., 2025).
 
-Mantel-type approaches are sensitive to the chosen distance metrics and measurement error, and their performance relative to K-type statistics can reverse across conditions (Harmon & Glor, 2010; Hardy & Pavoine, 2012; Pavoine, 2013). We therefore do not interpret rho as a universally optimal index or infer mechanism from its absolute value.
+Mantel-type approaches are sensitive to the chosen distance metrics and measurement error, and their performance relative to K-type statistics can reverse across conditions (Harmon & Glor, 2010; Hardy & Pavoine, 2012; Pavoine & Ricotta, 2013). We therefore do not interpret rho as a universally optimal index or infer mechanism from its absolute value.
 
 The inferential target here is narrower: whether the same predefined distance-decay summary can be predicted across lineages.
 
@@ -359,7 +359,7 @@ Münkemüller, T., Lavergne, S., Bzeznik, B., Dray, S., Jombart, T., Schiffers, 
 
 Pagel, M. (1999). Inferring the historical patterns of biological evolution. *Nature, 401*, 877–884. https://doi.org/10.1038/44766
 
-Pavoine, S. (2013). Testing for phylogenetic signal in biological traits: The ubiquity of cross-product statistics. *Evolution, 67*, 828–840. https://doi.org/10.1111/j.1558-5646.2012.01823.x
+Pavoine, S., & Ricotta, C. (2013). Testing for phylogenetic signal in biological traits: The ubiquity of cross-product statistics. *Evolution, 67*, 828–840. https://doi.org/10.1111/j.1558-5646.2012.01823.x
 
 Pearse, W. D., Davies, T. J., & Wolkovich, E. M. (2025). How to define, use, and interpret Pagel's lambda in ecology and evolution. *Global Ecology and Biogeography, 34*, e70012. https://doi.org/10.1111/geb.70012
 

@@ -4,7 +4,7 @@
 
 A known-truth recovery study can fail for at least three logically distinct reasons.
 
-1. **Structural realizability** — does the representation × realized tree state space contain any configuration whose target statistic reaches the declared truth?
+1. **Structural feasibility** — does the representation × realized tree state space contain any configuration whose target statistic reaches the declared truth?
 2. **Generator accessibility** — can the chosen stochastic generator reach and bracket that target with adequate validity over its frozen parameter family?
 3. **Estimator recovery** — after a target has actually been assigned, can finite simulation/evaluation recover it under the frozen error criteria?
 
@@ -54,7 +54,7 @@ For binary thresholded states, invalid replicates are monomorphic. Increasing la
 
 The resulting mechanism is:
 
-> **The truth is structurally realizable, but the chosen generator cannot reliably assign it before binary variation collapses.**
+> **A hard one-transition ceiling below the benchmark is excluded, but the chosen generator cannot reliably assign the benchmark before binary variation collapses.**
 
 This is a property of the **generator × representation × realized tree** combination, not evidence that categorical biological traits are intrinsically weakly conserved.
 
@@ -88,7 +88,7 @@ The paired asymmetry (51 rescues versus one new calibration failure) shows that 
 
 The current decomposition is therefore:
 
-1. **Structural realizability:** not limiting at rho=0.15 for these categorical trees; every tree has an explicit one-transition witness above the target.
+1. **One-sided structural ceiling:** a hard one-transition ceiling below rho=0.15 is excluded for every categorical tree; this does not prove exact per-tree target attainability within tolerance.
 2. **Generator accessibility:** strongly limiting and generator-dependent; Mk2 materially improves but does not solve it.
 3. **Estimator/recovery:** still limiting after successful assignment; categorical recovery failure remains substantial even under Mk2.
 
@@ -134,7 +134,7 @@ The primary mechanism programme is **closed** under the pre-frozen v0.5.2 stop r
 
 The sequential result is now complete:
 
-1. **Structural realizability is not limiting** at rho=0.15: every categorical tree has an explicit one-transition witness above target.
+1. **A hard one-transition structural ceiling is not limiting** at rho=0.15: every categorical tree has an explicit one-transition witness at or above target, without establishing exact per-tree attainability.
 2. **Generator accessibility is strongly limiting and generator-dependent**: OU thresholding fails far more often than Mk2.
 3. **State-balance attenuation is an additional, separable limitation**: removing only the exact balance term rescues about 30% of the remaining Mk2 no-bracket systems.
 4. **Recovery remains distinct from assignment**: even under Mk2, 34.9% of calibrated systems fail the frozen recovery gate.

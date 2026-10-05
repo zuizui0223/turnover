@@ -237,5 +237,19 @@
     },
     "failure": "Aggregate script exited on import with ModuleNotFoundError: numpy before reading/aggregating system-level scientific outcomes.",
     "recovery": "Reuse the immutable 32 successful batch artifacts from workflow run 37269950030; install numpy in the recovery aggregate environment; do not repeat BIEN extraction or change any scientific setting."
+  },
+  "technical_amendment_cluster_bootstrap_lookup": {
+    "version": "v0.3.0e",
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "chronology": {
+      "aggregate_reference_gate_passed": true,
+      "measurement_aware_model_output_opened": false,
+      "cluster_bootstrap_completed": false,
+      "blup_sensitivity_run": false,
+      "correlated_trait_null_run": false
+    },
+    "failure": "Two-way family x trait bootstrap attempted [[ ]] lookup for family-trait cells absent from the frozen sparse incidence graph and stopped with subscript out of bounds.",
+    "correction": "Use named-vector [ ] lookup and skip absent cells, exactly implementing the frozen sparse-graph bootstrap rule. Resampling distributions, seeds, model, and observed data are unchanged."
   }
 }

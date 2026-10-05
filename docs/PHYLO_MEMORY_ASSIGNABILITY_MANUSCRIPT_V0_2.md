@@ -10,6 +10,14 @@
 
 4. A failed known-truth simulation can therefore represent different inferential events. Structural feasibility does not guarantee generator accessibility, and generator accessibility does not guarantee recovery. Power studies for constrained representations should establish target assignability before interpreting failure as low statistical power.
 
+## Data and code for peer review
+
+An anonymized review bundle containing the frozen design contracts, canonical result summaries, verification scripts, figure-data preparation and figure-rendering code will be supplied with the submission or through a private-for-review archive. The review bundle will exclude Git history and author-identifying repository metadata. Observed trait values are not required to reproduce the methodological results reported here. A permanent public archive with a persistent identifier will replace the review bundle at acceptance.
+
+## Keywords
+
+simulation study; power analysis; data-generating mechanism; constrained outcomes; calibration; phylogenetic signal
+
 ## Introduction
 
 Simulation-based power studies usually begin by choosing an effect size that is treated as known truth, generating data intended to contain that effect, and asking whether an estimator recovers it. This ordering hides a logically prior question whenever the requested effect is a summary of simulated data rather than a free parameter of the generator: **can the requested truth actually be assigned on the realized design?** General simulation guidance separates data-generating mechanisms, estimands, methods and performance measures, but usually assumes that the generative mechanism can supply the declared target.

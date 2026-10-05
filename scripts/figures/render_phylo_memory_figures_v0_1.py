@@ -81,15 +81,12 @@ for y,rep in zip(ypos,representations):
         if pct>=10:
             ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
                     fontsize=7.5,color=text_color,fontweight="bold" if outc!="Assigned, recovery failed" else "normal")
-        elif pct>=5:
-            ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
-                    fontsize=6.1,color=text_color,fontweight="bold")
         left+=pct
     total=int(lookup[(rep,outcomes[0])]["total"])
     ax.text(103.0,y,f"n={total}",ha="left",va="center",fontsize=7.8,color=MID)
 
 ax.set_xlim(0,114)
-ax.set_yticks(ypos,representations)
+ax.set_yticks(ypos,["Continuous\nscalar","Nominal\ncategorical"])\nax.tick_params(axis="y",pad=8)
 ax.set_xlabel("Diagnostic systems (%)")
 ax.set_xticks([0,25,50,75,100])
 ax.grid(axis="x",color=LIGHT,linewidth=0.7)

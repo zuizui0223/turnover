@@ -158,26 +158,31 @@ for(b in seq_len(B)){
 write.csv(boot,boot_path,row.names=FALSE,na="")
 ok <- boot$success
 success_fraction <- mean(ok)
-if(success_fraction < as.numeric(design$measurement_error$uncertainty$min_success_fraction))
-  stop("cluster bootstrap success fraction below frozen minimum")
+min_success <- as.numeric(design$measurement_error$uncertainty$min_success_fraction)
 ci <- function(v) as.numeric(quantile(v[ok],c(.025,.975),na.rm=TRUE,names=FALSE,type=7))
 
-primary_ci <- list(
-  sigma2_family=ci(boot$sigma2_family),
-  sigma2_trait=ci(boot$sigma2_trait),
-  sigma2_system=ci(boot$sigma2_system),
-  family_share_heterogeneity=ci(boot$family_share_heterogeneity),
-  trait_share_heterogeneity=ci(boot$trait_share_heterogeneity),
-  system_share_heterogeneity=ci(boot$system_share_heterogeneity),
-  sampling_share_mean_total=ci(boot$sampling_share_mean_total),
-  naive_R_family=ci(boot$naive_R_family),
-  naive_R_trait=ci(boot$naive_R_trait),
-  naive_R_residual=ci(boot$naive_R_residual)
-)
+if(success_fraction >= min_success){
+  primary_ci <- list(
+    sigma2_family=ci(boot$sigma2_family),
+    sigma2_trait=ci(boot$sigma2_trait),
+    sigma2_system=ci(boot$sigma2_system),
+    family_share_heterogeneity=ci(boot$family_share_heterogeneity),
+    trait_share_heterogeneity=ci(boot$trait_share_heterogeneity),
+    system_share_heterogeneity=ci(boot$system_share_heterogeneity),
+    sampling_share_mean_total=ci(boot$sampling_share_mean_total),
+    naive_R_family=ci(boot$naive_R_family),
+    naive_R_trait=ci(boot$naive_R_trait),
+    naive_R_residual=ci(boot$naive_R_residual)
+  )
+  status <- "TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED"
+} else {
+  primary_ci <- NULL
+  status <- "HOLD_TRAIT_MEMORY_MEASUREMENT_AWARE_CLUSTER_BOOTSTRAP"
+}
 
 out <- list(
   version="v0.3",
-  status="TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED",
+  status=status,
   n_systems=nrow(x),n_families=length(families),n_traits=length(traits),
   original_naive_reference=list(
     R_family=0.1504,R_trait=0.0433,R_residual=0.8063
@@ -187,7 +192,13 @@ out <- list(
     S3=s3_raw$summary,
     prune_only=pr_raw$summary,
     primary_S3_cluster_bootstrap=list(
-      replicates=B,success_fraction=success_fraction,ci95=primary_ci,seed=seed0
+      replicates=B,
+      successful=sum(ok),
+      success_fraction=success_fraction,
+      frozen_min_success_fraction=min_success,
+      gate_pass=success_fraction>=min_success,
+      ci95=primary_ci,
+      seed=seed0
     )
   ),
   log_scale=list(
@@ -197,7 +208,10 @@ out <- list(
     naive_S3=naive_log_s3,
     naive_prune_only=naive_log_pr
   ),
-  interpretation_guard="Sampling variance is separated from between-system heterogeneity. Do not equate the original lmer residual share with biological system specificity."
+  interpretation_guard=if(status=="TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED")
+    "Sampling variance is separated from between-system heterogeneity. Do not equate the original lmer residual share with biological system specificity."
+  else
+    "Measurement-aware point estimates are descriptive only because the pre-frozen two-way cluster-bootstrap success gate failed. Do not use them to support a biological heterogeneity claim or relax the 0.90 gate."
 )
 write_json(out,out_path,pretty=TRUE,auto_unbox=TRUE,null="null",digits=17)
 cat(toJSON(out,pretty=TRUE,auto_unbox=TRUE,null="null",digits=17),"\n")

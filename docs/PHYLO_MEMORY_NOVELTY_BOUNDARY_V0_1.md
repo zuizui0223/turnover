@@ -51,11 +51,21 @@ Boundary:
 
 ### General simulation-study design
 
-Morris, White & Crowther (2019, *Statistics in Medicine*, DOI 10.1002/sim.8086) formalized the ADEMP framework: aims, data-generating mechanisms, estimands, methods and performance measures. They emphasize that the relevant truth is normally a parameter or quantity implied by the data-generating mechanism, and warn that data-generation tricks can yield data different from what was intended.
+Morris, White & Crowther (2019, *Statistics in Medicine*, DOI 10.1002/sim.8086) formalized the ADEMP framework: aims, data-generating mechanisms, estimands, methods and performance measures. They emphasize that the relevant truth is normally a parameter or quantity implied by the data-generating mechanism; when a target is not a direct DGM parameter, they discuss estimating that truth from a very large simulation.
+
+Williams et al. (2024, *Methods in Ecology and Evolution*, DOI 10.1111/2041-210X.14415) extend simulation-study guidance specifically for ecology and evolution, emphasizing transparent reporting of data-generating mechanisms, implementations, code, Monte Carlo uncertainty and prospective registration.
 
 Boundary:
-- this paper must **not** claim to discover the general principle that simulation truth depends on the data-generating mechanism;
-- the contribution is to make that issue operational for constrained comparative representations by separating an explicitly requested effect into structural realizability, generator accessibility and recovery on real phylogenetic geometries.
+- this paper must **not** claim to discover the general principle that simulation truth depends on the data-generating mechanism, nor the need to preregister and report simulation designs transparently;
+- the contribution is narrower and operational: before power or recovery is interpreted, an explicitly requested target statistic may need to pass separate **realizability** and **generator-accessibility** gates on the realized design.
+
+### Simulation-based calibration
+
+Simulation-based calibration (SBC) checks whether an inference algorithm is calibrated on data generated from a specified generative model; posterior SBC further asks whether calibration holds in the region relevant to observed data (Säilynoja et al. 2026, *Statistics and Computing*, DOI 10.1007/s11222-026-10825-9).
+
+Boundary:
+- SBC tests inferential self-consistency **conditional on a generative model**;
+- the present problem occurs one logical step earlier when a user declares a target summary such as rho=0.15: the representation × geometry × generator may fail to assign that target at all, even before estimator calibration is considered.
 
 ## What the present study adds
 
@@ -104,7 +114,7 @@ The paired 51-versus-1 asymmetry makes generator choice an identified source of 
 
 The novelty therefore should not be phrased as “threshold generators are bad.” The result is that **generator choice is part of truth assignment**, and its effect can be separated empirically from both the representational state space and downstream recovery.
 
-## State-balance mechanism
+## State-balance mechanism result
 
 For binary mismatch, the distance-rank association has the exact factorization
 
@@ -112,16 +122,28 @@ For binary mismatch, the distance-rank association has the exact factorization
 
 where `p` is mismatch-pair prevalence and `Delta_rank` is the standardized separation of phylogenetic-distance ranks between mismatch and match pairs.
 
-Because `sqrt(p(1-p)) <= 0.5`, **Delta_rank >= 0.30 is necessary for rho = 0.15 to be attainable at any state balance**.
+Because `sqrt(p(1-p)) <= 0.5`, **Delta_rank >= 0.30 is necessary for rho = 0.15 to be attainable at any state balance**. The implementation reproduces this identity to maximum absolute error **8.88e-16**.
 
-The active v0.5 test therefore keeps the same Mk2 states and distance ranks and removes only this exact attenuation term. Systems that reach Delta_rank = 0.30 but failed rho = 0.15 isolate state balance as the lost information; systems that still fail 0.30 reveal a deeper alignment limitation between Mk2-generated binary partitions and phylogenetic-distance ranks.
+The v0.5 test keeps the same Mk2 states and distance ranks and removes only this exact attenuation term. A live-BIEN provenance drift discovered during the first execution is handled by a frozen, outcome-blind geometry identity gate: four systems are HOLD and remain explicitly in population accounting.
 
-A live-BIEN provenance drift discovered during the first v0.5 execution is handled by a frozen, outcome-blind geometry identity gate: unmatched systems are recorded as HOLD and remain explicitly in population accounting rather than being silently redefined.
+Among **272 exact geometry matches**:
+- Mk2-rho reference = **167 no-bracket / 105 calibrated**;
+- balance-normalized Delta_rank = **117 no-bracket / 155 calibrated**;
+- **50/167 = 29.9%** of matched Mk2-rho no-bracket systems are rescued;
+- **0/105** previously calibrated matched systems become new failures.
+
+Accounting for the four HOLD systems without imputation bounds the full-population balance-normalized no-bracket rate at **42.4–43.8%** and the rescue fraction among the original 170 Mk2-rho no-bracket systems at **29.4–31.2%**.
+
+Thus state balance is a second identified mechanism, but it does not exhaust the failure. Under the pre-frozen stop rule, the remaining ~42–44% no-bracket fraction is an unresolved generator–partition–geometry alignment remainder, not a target for further estimator search on these same systems.
 
 ## Likely journal positioning
 
-The strongest framing is methodological ecology/evolution rather than a new phylogenetic-signal index:
+The strongest framing is a general simulation-design principle demonstrated with a comparative-ecology stress test:
 
-> **A declared simulation truth is not automatically an assigned truth. Constrained trait representations require separate audits of realizability, generator accessibility and estimator recovery.**
+> **A declared simulation truth is not automatically an assigned truth. Constrained representations require separate audits of structural realizability, generator accessibility and downstream recovery.**
 
-That framing is most naturally aimed at methods/comparative-ecology audiences rather than sold as a new biological result about plant traits.
+The closest literature already separates DGM, estimand and performance, already warns that discrete phylogenetic traits can have lower power, and already validates inference under fixed generative models. The defensible novelty is the **sequential assignability audit** and its empirical demonstration: the same declared target can be structurally realizable, inaccessible to one generator, partly rescued by a representation-appropriate generator, further attenuated by state balance, and still fail recovery after assignment.
+
+A targeted literature search through 2026 did not identify a prior ecology/evolution or general simulation-methods paper that operationalizes these three gates as the object of a power/recoverability study. That is a novelty boundary, not proof of absence from the entire literature.
+
+The paper should therefore lead with simulation methodology and use phylogenetic memory as the concrete system, rather than lead with a new plant-trait or phylogenetic-signal estimator claim.

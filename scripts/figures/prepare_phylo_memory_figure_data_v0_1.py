@@ -54,7 +54,7 @@ write_csv(
       },
       {
         "representation":"Continuous scalar",
-        "outcome":"Recovered",
+        "outcome":"S3 recovery passed",
         "n":c["semantic_summary"]["continuous_scalar"]["n_s3_pass"],
         "total":c["semantic_summary"]["continuous_scalar"]["n"],
         "rate":c["semantic_summary"]["continuous_scalar"]["s3_pass_rate"]
@@ -75,7 +75,7 @@ write_csv(
       },
       {
         "representation":"Nominal categorical",
-        "outcome":"Recovered",
+        "outcome":"S3 recovery passed",
         "n":c["semantic_summary"]["nominal_categorical"]["n_s3_pass"],
         "total":c["semantic_summary"]["nominal_categorical"]["n"],
         "rate":c["semantic_summary"]["nominal_categorical"]["s3_pass_rate"]

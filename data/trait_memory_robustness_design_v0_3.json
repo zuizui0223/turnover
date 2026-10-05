@@ -259,5 +259,11 @@
     "scientific_change": false,
     "observed_only": "The pre-frozen two-way cluster-bootstrap success fraction was below 0.90; exact component estimates and success fraction had not yet been persisted in an artifact.",
     "rule": "Do not lower the 0.90 threshold, change the bootstrap, or substitute another uncertainty estimator. Serialize the point fit and bootstrap success diagnostics with HOLD status and no CI, then continue the independently pre-frozen BLUP and correlated-trait-null analyses."
+  },
+  "execution_note_cluster_bootstrap_diagnostic": {
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "after_hold_observed": true,
+    "purpose": "Record conditionMessage for the already-frozen 500 refits to distinguish an implementation-level failure from a genuine refitability failure. The same seed, resamples, rma.mv specification, 0.90 gate, and result status are retained."
   }
 }

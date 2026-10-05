@@ -1,0 +1,85 @@
+name: Trait memory robustness v0.3 model recover
+
+on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3-model-fix
+    paths:
+      - '.github/workflows/trait-memory-robustness-model-recover-v0-3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download passed aggregate artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/robust
+          gh run download 37271779078 -R "$GITHUB_REPOSITORY" -n trait-memory-robust-effects-v0-3-recovered -D build/robust
+          python - <<'PY'
+          import json
+          x=json.load(open('build/robust/aggregate_result.json'))
+          assert x['status']=='TRAIT_MEMORY_ROBUST_EFFECTS_AGGREGATED'
+          assert x['reference_identity']['pass'] is True
+          assert x['measurement_error']['all_systems_have_valid_raw_se'] is True
+          PY
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::metafor
+            any::Matrix
+            any::MASS
+      - name: Validate frozen HOLD handling
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_robustness_design_v0_3.json'))
+          a=d['technical_amendment_bootstrap_hold_reporting']
+          assert a['scientific_change'] is False
+          assert a['thresholds_changed'] is False
+          assert a['resampling_changed'] is False
+          assert d['measurement_error']['uncertainty']['min_success_fraction']==0.9
+          assert d['measurement_error']['uncertainty']['replicates']==500
+          PY
+          Rscript -e "parse(file='scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R'); parse(file='scripts/analysis/test_trait_memory_portability_blup_v0_3.R'); parse(file='scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R')"
+      - name: Fit measurement-aware model without relaxing bootstrap gate
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/model/measurement_aware_result.json \
+            --bootstrap-table build/model/measurement_aware_cluster_bootstrap.csv
+      - name: Run shrinkage-aware portability sensitivity
+        run: |
+          Rscript scripts/analysis/test_trait_memory_portability_blup_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/model/blup_portability_result.json \
+            --predictions build/model/blup_portability_predictions.csv
+      - name: Run correlated-trait zero-family null
+        run: |
+          Rscript scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/model/correlated_trait_null_result.json \
+            --null-table build/model/correlated_trait_null.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-robustness-v0-3-model-recovered
+          path: |
+            build/robust/
+            build/model/
+          retention-days: 30

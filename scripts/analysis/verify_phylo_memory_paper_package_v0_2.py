@@ -98,6 +98,9 @@ assert "Structural feasibility does not guarantee generator accessibility" in ab
 assert "feasibility" in boundary.lower() and "generator accessibility" in boundary.lower()
 assert "failed known-truth simulation" in abstract and "low statistical power" in abstract
 assert "one-sided" in paper.lower() and "calibration tolerance" in paper.lower()
+assert "identical categorical target" not in caps.lower()
+assert "delta_rank = 0.30 rather than rho" in caps.lower()
+assert "diagnostic re-expression rather than the identical rho estimand" in paper.lower()
 assert "hard one-transition" in abstract.lower()
 for forbidden in [
     "all 276 categorical trees could structurally express the target",

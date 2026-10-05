@@ -251,5 +251,13 @@
     },
     "failure": "Two-way family x trait bootstrap attempted [[ ]] lookup for family-trait cells absent from the frozen sparse incidence graph and stopped with subscript out of bounds.",
     "correction": "Use named-vector [ ] lookup and skip absent cells, exactly implementing the frozen sparse-graph bootstrap rule. Resampling distributions, seeds, model, and observed data are unchanged."
+  },
+  "execution_note_measurement_aware_hold": {
+    "version": "v0.3.0f",
+    "date": "2026-10-05",
+    "after_cluster_bootstrap_gate_observed": true,
+    "scientific_change": false,
+    "observed_only": "The pre-frozen two-way cluster-bootstrap success fraction was below 0.90; exact component estimates and success fraction had not yet been persisted in an artifact.",
+    "rule": "Do not lower the 0.90 threshold, change the bootstrap, or substitute another uncertainty estimator. Serialize the point fit and bootstrap success diagnostics with HOLD status and no CI, then continue the independently pre-frozen BLUP and correlated-trait-null analyses."
   }
 }

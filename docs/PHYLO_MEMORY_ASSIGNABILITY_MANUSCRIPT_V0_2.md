@@ -112,6 +112,8 @@ where p is the prevalence of mismatch pairs and
 
 `Delta_rank = (mean rank_mismatch - mean rank_match) / SD(rank)`.
 
+This is an exact finite-sample point-biserial identity when the rank variance is written in population form; the common finite-sample scaling cancels from the correlation coefficient. A complete derivation is provided in `docs/PHYLO_MEMORY_BINARY_ATTENUATION_PROOF_V0_1.md`.
+
 Because `sqrt(p(1-p)) <= 0.5`, a necessary balance-normalized separation capable of supporting rho = 0.15 is `Delta_rank = 0.30` at p = 0.5. We therefore froze a final mechanism test that reproduced the same Mk2 pilot states and same distance ranks but calibrated Delta_rank instead of rho. The corresponding tolerance was 0.02, obtained by mapping the original rho tolerance of 0.01 at p = 0.5.
 
 During the first execution, live BIEN reconstruction failed an exact geometry-identity assertion for at least one system before its balance-normalized statistic was computed. A retry protocol was therefore frozen before the full result was available. All 276 system identities remained in the population; systems whose reconstructed S3 geometry no longer matched the frozen Mk2 artifact were assigned an outcome-free geometry HOLD and received no balance-normalized outcome. Full-population bounds were computed by assigning all HOLD systems to calibration success versus failure, without imputing intermediate outcomes.

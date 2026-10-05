@@ -8,6 +8,10 @@ Trait-level portability was weak. Leave-one-family-out prediction using unshrunk
 
 Thus, the strength of phylogenetic trait memory is not a stable trait-intrinsic signature transferable across plant families. Instead, it contains a modest lineage-context component whose biological cause remains unresolved. Cross-lineage borrowing of trait-specific phylogenetic structure should therefore be validated as a prediction problem rather than assumed from trait identity alone.
 
+## Keywords
+
+comparative methods; phylogenetic signal; plant functional traits; predictive generalization; trait evolution; vascular plants
+
 ## Introduction
 
 Closely related species often resemble one another, but the strength of that resemblance is not fixed across traits, clades or ecological contexts. Classic comparative work has established strong variation in phylogenetic signal among traits and lineages, and evolutionary rates for the same plant functional trait can differ greatly among clades. These patterns motivate a deeper question: **what exactly is generalizable about phylogenetic signal?**
@@ -31,6 +35,10 @@ Because the response is estimated from finite species samples, we also explicitl
 Our results support a scale-asymmetric view of evolutionary memory. Family context repeats modestly across traits, but trait identity carries little robust information that transfers to an unseen family. A complementary post-outcome analysis further suggests that this family context is not smoothly arranged along deeper family phylogeny. Phylogenetic memory therefore behaves less like a fixed property of a named trait and more like a property of a trait embedded in lineage context.
 
 ## Materials and Methods
+
+### AI-assisted development disclosure
+
+ChatGPT (OpenAI; GPT-5.6 Sol) was used to assist with drafting and debugging analysis code and with editorial revision of manuscript text. All analysis code, numerical results, literature citations and manuscript claims were checked by the authors, who take full responsibility for the submitted work.
 
 ### Prospectively qualified crossed design
 

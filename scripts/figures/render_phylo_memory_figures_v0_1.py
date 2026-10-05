@@ -92,6 +92,8 @@ ax.grid(axis="x",color=LIGHT,linewidth=0.7)
 ax.set_axisbelow(True)
 ax.spines[["top","right"]].set_visible(False)
 ax.legend(frameon=False,fontsize=7.1,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1)
+ax.text(0.99,0.96,"Generator no-bracket gap = 65.0 pp",transform=ax.transAxes,
+        ha="right",va="top",fontsize=7.8,color=ORANGE,fontweight="bold")
 ax.set_title("B  The same endpoint hides different failures",loc="left",fontweight="bold")
 
 fig.suptitle("Figure 1. Failed known-truth simulations must be localized before power is interpreted",

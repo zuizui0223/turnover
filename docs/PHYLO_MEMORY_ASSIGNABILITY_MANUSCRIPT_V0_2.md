@@ -4,7 +4,7 @@
 
 1. Simulation-based power studies usually treat a requested effect size as an input. That assumption can fail when the effect is a summary of constrained data rather than a freely assignable parameter of the generator. We distinguish three logically ordered events: **structural feasibility**, **generator accessibility**, and **recovery**.
 
-2. We tested these gates across 722 real plant family × trait sampling geometries under a common phylogenetic-memory target (Spearman rho = 0.15), with observed trait values kept hidden. Structural realizability was audited explicitly; generator accessibility was challenged by a controlled latent-OU-to-Mk2 substitution; downstream recovery was evaluated only after successful assignment.
+2. We tested these gates across 722 real plant family × trait sampling geometries under a common phylogenetic-memory target (Spearman rho = 0.15), with observed trait values kept hidden. Structural feasibility was screened with a one-sided attainable-state ceiling diagnostic; generator accessibility was challenged by a controlled latent-OU-to-Mk2 substitution; downstream recovery was evaluated only after successful assignment.
 
 3. Among 683 systems with complete calibration diagnostics, generator no-bracket failure differed by 65.0 percentage points between continuous-scalar and nominal-categorical representations (14.7% versus 79.7%), whereas assigned-but-S3-recovery-failed systems occupied nearly identical shares of the full diagnostic populations (13.3% versus 13.8%). All 276 categorical trees contained a realizable one-transition state with rho >= 0.15, excluding a hard one-transition ceiling below the benchmark without claiming exact per-tree attainability within the calibration tolerance. Replacing only the generator with symmetric Mk2 reduced categorical no-bracket frequency to 61.6%, and removing the exact binary state-balance attenuation term reduced it further to 42.4–43.8%. Even after successful Mk2 assignment, 34.9% failed downstream recovery.
 
@@ -28,7 +28,7 @@ The underlying feasibility problem has precedents in synthetic-data generation. 
 
 Phylogenetic signal provides a useful stress test because the literature already shows that signal metrics respond differently to sample size, tree topology, evolutionary model and trait representation (Fritz & Purvis 2010; Münkemüller et al. 2012; Borges et al. 2019; Yao & Yuan 2025). Binary-specific and categorical signal statistics have been developed precisely because discrete outcomes do not behave like continuous traits, and recent unified approaches likewise report lower power for low-state categorical traits. Our question is not whether binary traits can be harder to analyse. Instead, we ask where a failed known-truth simulation fails.
 
-We distinguish three gates. **Structural realizability** asks whether the representation on the realized design contains any state configuration capable of expressing the requested target. **Generator accessibility** asks whether the declared stochastic generator can reach and bracket that target while satisfying its own validity rules. **Recovery** asks whether the target, once successfully assigned, can be recovered under finite simulation and the frozen estimator. These gates are logically ordered: a failure of realizability or generator accessibility occurs before estimator power can be evaluated.
+We distinguish three gates. **Structural feasibility** asks whether the requested target is compatible with the representation on the realized design. **Generator accessibility** asks whether the declared stochastic generator can reach and bracket that target while satisfying its own validity rules. **Recovery** asks whether the target, once successfully assigned, can be recovered under finite simulation and the frozen estimator. These gates are logically ordered: a failure of realizability or generator accessibility occurs before estimator power can be evaluated.
 
 We evaluate this distinction in a frozen comparative-ecology simulation programme spanning 722 real plant family × trait sampling geometries. All mechanism analyses are outcome-free: observed trait values and observed phylogenetic-memory effects remain excluded. We first quantify the representation-dependent recovery frontier, then localize categorical failure to calibration versus recovery. We next test whether the target is absent from the binary state space or merely inaccessible to the original latent-OU threshold generator, substitute a representation-appropriate two-state Markov generator while holding the target and estimator fixed, and finally isolate an exact state-balance attenuation term. A pre-frozen stop rule prevents further mechanism search after this sequence.
 
@@ -48,7 +48,7 @@ The proposed audit applies when the requested simulation target is a summary of 
 
 **Step 5 — Evaluate recovery conditional on assignment.** Only systems in which the target was successfully assigned contribute to conventional recovery, bias or power statements for that target. Report upstream assignment failures separately rather than pooling them with estimator failures.
 
-The audit therefore produces three possible scientific conclusions: target not structurally realizable; target realizable but inaccessible to the declared generator; or target assigned but not recovered. These outcomes should not be collapsed into one low-power category.
+The audit therefore produces three possible scientific conclusions: target structurally infeasible; target structurally feasible but inaccessible to the declared generator; or target assigned but not recovered. These outcomes should not be collapsed into one low-power category.
 
 ### AI-assisted development disclosure
 
@@ -82,7 +82,7 @@ For the 683 newly simulated systems with stored calibration diagnostics, we deco
 
 The artifact-correct novel population contains 407 continuous systems and 276 categorical systems. We modelled no-bracket status as a function of semantic class, standardized log species count and standardized prune fraction. Trait- and family-level summaries were used only to establish the breadth of the categorical bottleneck.
 
-### Structural realizability of the categorical target
+### One-sided structural ceiling audit of the categorical target
 
 Calibration failure does not by itself imply that the binary state space cannot express rho = 0.15. We therefore constructed an explicit realizable state family on every categorical S3 tree.
 
@@ -96,7 +96,7 @@ For binary mismatch, a replicate is invalid when all tips receive the same state
 
 ### Generator substitution with symmetric Mk2
 
-The edge-split analysis showed that the target was structurally realizable, so the next prospectively frozen test changed only the categorical generator while retaining the same trees, rho target and binary-mismatch Spearman estimator.
+The edge-split analysis excluded a hard one-transition ceiling below the target, so the next prospectively frozen test changed only the categorical generator while retaining the same trees, rho target and binary-mismatch Spearman estimator.
 
 The alternative generator was a symmetric two-state continuous-time Markov chain (Mk2/ER). Root state was Bernoulli(0.5). Along a branch of length t, the probability of a state flip was
 

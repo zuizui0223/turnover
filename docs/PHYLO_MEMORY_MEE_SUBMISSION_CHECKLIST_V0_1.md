@@ -51,10 +51,10 @@ Known-truth simulation can assume that a requested target has been assigned befo
 Feasible-range checks for constrained correlations, generic low power of binary traits, DGM/estimand distinctions, and simulation reporting guidance already exist.
 
 **What is new?**  
-The tested separation of structural realizability, generator-specific accessibility and recovery, including a controlled generator intervention showing that a structurally feasible target can remain generator-inaccessible.
+The tested separation of structural feasibility, generator-specific accessibility and recovery, including a controlled generator intervention showing that a structurally feasible target can remain generator-inaccessible.
 
 **What is the strongest empirical fact?**  
-The categorical no-bracket rate is 79.7% despite structural realizability in all 276 trees; changing only the generator rescues 51 original failures while creating one new failure.
+The categorical no-bracket rate is 79.7% even though all 276 trees contain a realizable one-transition state at or above the benchmark; changing only the generator rescues 51 original failures while creating one new failure.
 
 ## Final pre-submission sequence
 

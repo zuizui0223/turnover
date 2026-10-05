@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# AI-assisted development disclosure: ChatGPT (OpenAI; GPT-5.6 Sol) assisted with drafting/debugging this script. Author verification is required before submission.
 from __future__ import annotations
 import argparse,json,math
 from pathlib import Path

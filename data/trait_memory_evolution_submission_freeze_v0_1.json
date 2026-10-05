@@ -33,7 +33,7 @@
     "scripts/analysis/run_trait_memory_robust_system_v0_3.R": "d454d611e2f32875f47d6802712259a01be84740",
     "scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R": "60f2729a1323952211df385fbd5a887cb1f514c6",
     "scripts/analysis/test_trait_memory_portability_blup_v0_3.R": "d525501d9eea43d7c7561518b7549d918f5588c6",
-    "scripts/analysis/verify_trait_memory_evolution_package_v0_1.py": "b3e3d8a2baad86ff3bc32e5fe452c4777d2186ed",
+    "scripts/analysis/verify_trait_memory_evolution_package_v0_1.py": "d9223ba811ffa01b11b9e3aa0a8163c61dfb53b9",
     "scripts/figures/prepare_trait_memory_figure_data_v0_1.py": "2d35a6ff53e06335df1658cbc3870d6d9cf12b4c",
     "scripts/figures/render_trait_memory_figures_v0_2.py": "df59cab4cb0c4ea08faa566f0fd727c390e0c282"
   },
@@ -43,5 +43,10 @@
     "primary_figures_run": 37304752168,
     "primary_figures_status": "success"
   },
-  "stop_rule": "No new SE estimator, trait transformation, redundancy grouping, family/trait filtering, portability predictor, or phylogenetic-signal metric may be selected on these outcomes to strengthen RC1."
+  "stop_rule": "No new SE estimator, trait transformation, redundancy grouping, family/trait filtering, portability predictor, or phylogenetic-signal metric may be selected on these outcomes to strengthen RC1.",
+  "technical_amendment": {
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "reason": "Paper-package verifier previously treated the explicit nonclaim phrase 'trait identity is anti-portable' as if it were an affirmative manuscript claim. The verifier now checks for the preferred weak-portability interpretation and allows the phrase only in the explicit nonclaim section."
+  }
 }

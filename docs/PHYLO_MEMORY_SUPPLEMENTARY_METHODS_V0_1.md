@@ -114,8 +114,8 @@ The mechanism programme used a fixed sequential logic rather than an open-ended 
 
 1. The original known-truth qualification and recovery criteria were frozen before the representation contrast was interpreted.
 2. The calibration-versus-recovery decomposition was then frozen to ask whether failures occurred before or after successful assignment.
-3. Structural realizability was tested with explicit attainable one-transition binary states, without changing the target or recovery estimator.
-4. After realizability was established, a symmetric two-state Mk2 generator substitution was prospectively specified to test generator dependence while retaining the same trees, binary mismatch statistic and target rho.
+3. A one-sided structural ceiling was tested with explicit attainable one-transition binary states, without changing the target or recovery estimator. This excluded a hard ceiling below the benchmark but did not establish exact per-tree target attainability within tolerance.
+4. After that hard-ceiling explanation was excluded, a symmetric two-state Mk2 generator substitution was prospectively specified to test generator dependence while retaining the same trees, binary mismatch statistic and target rho.
 5. The exact binary attenuation identity motivated one final balance-normalized diagnostic that retained the same Mk2 states and distance ranks.
 6. Before the full balance-normalized aggregate was opened, an unconditional stop rule prohibited additional generator, estimator, target, grid-extension or outcome-defined subgroup searches on the same 276 categorical systems for the purpose of strengthening the primary claim.
 

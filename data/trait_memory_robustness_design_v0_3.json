@@ -244,5 +244,22 @@
     "thresholds_changed": false,
     "resampling_changed": false,
     "reason": "The first recovered model run obtained the frozen measurement-aware point fit but the predeclared two-way family x trait meta-model cluster-bootstrap success fraction was below 0.90, causing the script to stop before writing a result and preventing independent BLUP/null sensitivities. The recovery now records this as an explicit HOLD without relaxing the 0.90 gate. The same 500 resamples and seeds are retained. The naive lmer refit required by the frozen design is evaluated independently on each resample rather than only when the meta-model refit succeeds."
+  },
+  "technical_amendment_cluster_bootstrap_vector_type": {
+    "version": "v0.3.0g",
+    "date": "2026-10-05",
+    "after_diagnostic_before_bootstrap_recovery": true,
+    "scientific_change": false,
+    "thresholds_changed": false,
+    "resampling_changed": false,
+    "seed_changed": false,
+    "diagnosis": {
+      "first_replicate_rows": 181,
+      "family_levels": 45,
+      "trait_levels": 12,
+      "naive_error": "unimplemented type 'list' in 'orderVector1'",
+      "meta_error": "unimplemented type 'list' in 'orderVector1'"
+    },
+    "reason": "The bootstrap accumulator objects were initialized with c() and filled using [[ ]], producing list-valued vectors that failed during factor ordering before either model was fit. They are replaced by explicit numeric(0)/character(0) vectors filled with [ ]. The sampled rows, family/trait draws, SEs, 500 replicates, seed 20261006, and 0.90 success gate are unchanged."
   }
 }

@@ -14,6 +14,8 @@ on:
       - 'data/phylo_memory_balance_normalized_design_v0_5.json'
       - 'data/phylo_memory_balance_normalized_execution_v0_5_1.json'
       - 'data/phylo_memory_mechanism_stop_v0_5_2.json'
+      - 'results/phylo_memory_balance_normalized_v0_5/result.json'
+      - 'data/phylo_memory_mechanism_close_v0_5_3.json'
       - '.github/workflows/phylo-memory-measurability-contract.yml'
   workflow_dispatch:
 permissions:
@@ -39,6 +41,8 @@ jobs:
           z=json.load(open('data/phylo_memory_balance_normalized_design_v0_5.json'))
           x=json.load(open('data/phylo_memory_balance_normalized_execution_v0_5_1.json'))
           s=json.load(open('data/phylo_memory_mechanism_stop_v0_5_2.json'))
+          q=json.load(open('results/phylo_memory_balance_normalized_v0_5/result.json'))
+          k=json.load(open('data/phylo_memory_mechanism_close_v0_5_3.json'))
           assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
           assert c['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
           assert r['n_systems']==722
@@ -96,4 +100,18 @@ jobs:
           assert s['status']=='FROZEN_BEFORE_FULL_BALANCE_NORMALIZED_AGGREGATE'
           assert s['regardless_of_v0_5_outcome'] is True
           assert s['real_trait_values_used'] is False and s['real_memory_effects_used'] is False
+          assert q['status']=='PHYLO_MEMORY_BALANCE_NORMALIZED_AGGREGATED_WITH_GEOMETRY_HOLDS'
+          assert q['n_population']==276
+          assert q['geometry_availability']['n_analyzed']==272 and q['geometry_availability']['n_geometry_hold']==4
+          assert q['matched_subset_reference']=={'n_calibrated':105,'n_no_bracket':167}
+          assert q['balance_normalized_matched_subset']['n_calibrated']==155
+          assert q['balance_normalized_matched_subset']['n_no_bracket']==117
+          assert q['paired_balance_comparison_matched_subset']['rescued_n']==50
+          assert q['paired_balance_comparison_matched_subset']['new_failure_n']==0
+          assert abs(q['factorization_check']['max_absolute_identity_error']-8.8818e-16)<1e-20
+          assert q['evidence_artifact_result_sha256']=='17e430dee57d4b62ea29349983e0aa54d7fc43231a2b3ecd5a1abd648658247e'
+          assert q['real_trait_values_used'] is False and q['real_memory_effects_used'] is False
+          assert k['status']=='PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED'
+          assert k['primary_claim'].startswith('A declared known truth is not automatically an assignable truth.')
+          assert k['real_trait_values_used'] is False and k['real_memory_effects_used'] is False
           PY

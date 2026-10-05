@@ -235,5 +235,14 @@
     "before_model_execution": true,
     "scientific_change": false,
     "reason": "The first source workflow skipped the model because aggregate failed. Static review found that the two-way cluster bootstrap used named-vector [[ ]] lookup on a sparse 201-of-540 family x trait graph, which can error for absent cells. The lookup was changed to missing-safe [ ] indexing with the frozen skip-missing-cell rule; no model outcome had been computed."
+  },
+  "technical_amendment_bootstrap_hold_reporting": {
+    "version": "v0.3.0f",
+    "date": "2026-10-05",
+    "after_point_fit_before_any_reported_measurement_aware_result": true,
+    "scientific_change": false,
+    "thresholds_changed": false,
+    "resampling_changed": false,
+    "reason": "The first recovered model run obtained the frozen measurement-aware point fit but the predeclared two-way family x trait meta-model cluster-bootstrap success fraction was below 0.90, causing the script to stop before writing a result and preventing independent BLUP/null sensitivities. The recovery now records this as an explicit HOLD without relaxing the 0.90 gate. The same 500 resamples and seeds are retained. The naive lmer refit required by the frozen design is evaluated independently on each resample rather than only when the meta-model refit succeeds."
   }
 }

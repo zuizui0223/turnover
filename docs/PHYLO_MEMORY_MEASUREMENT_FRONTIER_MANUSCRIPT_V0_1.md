@@ -14,7 +14,7 @@ If the true distance–dissimilarity association is held constant, which propert
 
 This is an outcome-free methods study. It uses only known-truth simulations on real family × trait phylogenetic geometries. No observed trait-memory rho enters any result.
 
-**Central claim:** a requested simulation truth must be shown to be structurally realizable and generator-accessible before downstream failure can be interpreted as low statistical power (Fig. 1). A journal-neutral abstract is frozen in `docs/PHYLO_MEMORY_ABSTRACT_V0_1.md`.
+**Central claim:** a requested simulation truth must pass a structural-feasibility audit and be generator-accessible before downstream failure can be interpreted as low statistical power (Fig. 1). A journal-neutral abstract is frozen in `docs/PHYLO_MEMORY_ABSTRACT_V0_1.md`.
 
 ## Data geometry
 
@@ -110,9 +110,9 @@ Across 100 families represented by at least two categorical systems:
 
 Therefore the representation penalty is widespread across families but not uniform across traits. This is more consistent with a **representation × realized geometry measurement frontier** than with a single universal categorical ceiling.
 
-## Main result 4 — the target is structurally realizable but generator-inaccessible
+## Main result 4 — a hard one-transition ceiling is excluded but the generator remains inaccessible
 
-The v0.3.1 structural-realizability test asks whether a binary state configuration capable of rho = 0.15 exists on each realized S3 tree.
+The v0.3.1 one-sided structural ceiling test asks whether each realized S3 tree has at least one attainable one-transition binary state at or above rho = 0.15.
 
 Every tree edge defines a realizable one-transition binary state: descendant clade versus all remaining tips. Across all 276 categorical systems:
 
@@ -183,7 +183,7 @@ State balance is therefore an additional, separable accessibility mechanism. It 
 
 For a continuous trait, pairwise dissimilarities can occupy many ranks. For a nominal binary representation, pairwise dissimilarity is only match versus mismatch, so Spearman correlation is a rank association between phylogenetic separation and a two-level mismatch indicator.
 
-The combined mechanism results separate three distinct questions. The target is structurally realizable in every categorical tree, but the latent-OU-threshold generator often cannot place probability mass in the target region while retaining measurable polymorphism, and calibrated categorical systems still fail finite-sample recovery more often. The relevant object is therefore not “categorical traits are unmeasurable,” but **whether a declared truth is realizable, generator-accessible, and recoverable for the chosen representation on the realized phylogeny**.
+The combined mechanism results separate three distinct questions. Every categorical tree contains a realizable one-transition state at or above the benchmark, excluding a hard ceiling below it; the latent-OU-threshold generator nevertheless often cannot place probability mass in the target region while retaining measurable polymorphism, and calibrated categorical systems still fail finite-sample recovery more often. The relevant object is therefore not “categorical traits are unmeasurable,” but **whether a declared truth is realizable, generator-accessible, and recoverable for the chosen representation on the realized phylogeny**.
 
 ## What the paper does NOT say
 

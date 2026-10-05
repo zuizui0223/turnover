@@ -8,6 +8,8 @@ on:
       - '.github/workflows/trait-memory-evolution-package-v0-1.yml'
       - 'docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md'
       - 'docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_TITLE_PAGE_TEMPLATE_V0_1.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md'
       - 'docs/TRAIT_MEMORY_FIGURE_CAPTIONS_V0_2.md'
       - 'docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md'
       - 'data/trait_memory_figure_plan_v0_1.json'

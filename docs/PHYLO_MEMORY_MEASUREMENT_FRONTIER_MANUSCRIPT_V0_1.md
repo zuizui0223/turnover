@@ -153,11 +153,29 @@ Across the same 276 categorical systems:
 
 The strongly asymmetric paired transition (51 rescues versus one new failure) establishes that the stage-2 bottleneck is materially **generator-specific**. However, generator substitution is not a complete solution: nearly two thirds of systems still fail calibration under Mk2.
 
-This leaves a narrower candidate mechanism. For binary mismatch, ordinary Spearman can be written exactly as
+For binary mismatch, ordinary Spearman can be written exactly as
 
 `rho = Delta_rank * sqrt(p(1-p))`,
 
-where `p` is mismatch-pair prevalence. The active v0.5 test therefore keeps the same Mk2 states and distance ranks and removes only this state-balance attenuation term.
+where `p` is mismatch-pair prevalence. This identifies a narrower second mechanism after generator substitution.
+
+## Main result 7 — state balance independently attenuates accessibility
+
+v0.5 keeps the same Mk2 states and patristic-distance ranks and removes only the exact binary state-balance term. The algebraic factorization is numerically exact (maximum absolute identity error **8.88e-16**).
+
+Four systems were placed in an outcome-free geometry HOLD before their v0.5 statistic was computed. Among the **272 exact geometry matches**:
+
+- Mk2-rho reference = **167 no-bracket / 105 calibrated**;
+- balance-normalized Delta_rank = **117 no-bracket / 155 calibrated**;
+- **50/167 = 29.9%** of matched Mk2-rho no-bracket systems become calibratable;
+- **0/105** previously calibrated matched systems become new failures;
+- median mismatch-pair prevalence at Delta_rank calibration = **0.4037**;
+- median ordinary rho at the same calibration point = **0.1398**;
+- median pilot valid fraction = **1.00**.
+
+The four geometry-HOLD systems comprise three original Mk2-rho no-bracket systems and one calibrated system. Without imputing their outcomes, the full-population balance-normalized no-bracket rate is therefore bounded at **42.4–43.8%**, and the rescue fraction among the original 170 Mk2-rho no-bracket systems is bounded at **29.4–31.2%**.
+
+State balance is therefore an additional, separable accessibility mechanism. It is not a complete explanation: a large residual no-bracket fraction remains after both generator substitution and exact balance normalization. Under the pre-frozen stop rule, that remainder is retained rather than optimized away.
 
 ## Mechanistic interpretation
 
@@ -186,7 +204,7 @@ Comparative analyses should perform **system-specific known-truth recoverability
 
 For continuous traits, increasing phylogenetic sampling can materially move systems across the measurement frontier.
 
-For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem. The edge-split witness shows that the target itself is available in the binary state space; the OU-grid audit shows that the principal loss occurs along the chosen generative path. That generator substitution has now shown a substantial but incomplete rescue. The next test keeps Mk2 fixed and asks whether the exact binary state-balance attenuation term explains part of the remaining 61.6% calibration failure.
+For nominal categorical traits under binary mismatch + Spearman, simply increasing n is not demonstrated to solve the calibration problem. The edge-split witness shows that the target itself is available in the binary state space; the OU-grid audit shows that a major loss occurs along the chosen generative path. Mk2 substitution materially improves accessibility, and exact balance normalization rescues another ~30% of the remaining matched no-bracket systems. The approximately 42–44% unresolved remainder is retained under the frozen stop rule rather than pursued through additional estimator or parameter search.
 
 ## Evidence provenance correction
 
@@ -194,11 +212,14 @@ On 2026-10-04, an audit of the cited GitHub Actions artifacts found that the pre
 
 ## Publication boundary
 
-Primary evidence is fully outcome-free:
+The primary mechanism programme is closed under the pre-frozen v0.5.2 stop rule. Primary evidence is fully outcome-free:
 - frozen known-truth simulations;
-- pre-frozen predictors;
+- pre-frozen targets, grids and recovery rules;
 - real sampling geometries;
+- sequentially frozen mechanism tests;
 - no observed trait values;
 - no observed memory-loss rho.
+
+No additional generator, estimator, parameter-grid, target or subgroup search on these 276 categorical systems may strengthen the primary claim. The approximately 42–44% unresolved balance-normalized no-bracket remainder is part of the result.
 
 The closed BIEN empirical trait-memory paper is a separate biological paper. This methods paper should not import its biological family-repeatability result as evidence.

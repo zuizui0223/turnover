@@ -28,8 +28,8 @@ if(nrow(x)!=201 || length(unique(x$family))!=45 || length(unique(x$trait_name))!
   stop("frozen core dimensions mismatch")
 if(anyDuplicated(x$system_id)) stop("system ids not unique")
 
-naive_fit <- function(y){
-  d <- data.frame(rho=as.numeric(y),family=factor(x$family),trait_name=factor(x$trait_name))
+naive_fit <- function(y,ff=x$family,tt=x$trait_name){
+  d <- data.frame(rho=as.numeric(y),family=factor(ff),trait_name=factor(tt))
   f <- lmer(rho~1+(1|family)+(1|trait_name),data=d,REML=TRUE,
             control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
   vc <- as.data.frame(VarCorr(f))
@@ -114,6 +114,7 @@ boot <- data.frame(
   trait_share_heterogeneity=NA_real_,
   system_share_heterogeneity=NA_real_,
   sampling_share_mean_total=NA_real_,
+  naive_R_family=NA_real_,naive_R_trait=NA_real_,naive_R_residual=NA_real_,
   stringsAsFactors=FALSE
 )
 
@@ -146,6 +147,12 @@ for(b in seq_len(B)){
   boot$trait_share_heterogeneity[[b]] <- q$trait_share_heterogeneity
   boot$system_share_heterogeneity[[b]] <- q$system_share_heterogeneity
   boot$sampling_share_mean_total[[b]] <- q$sampling_share_mean_total
+  nb <- tryCatch(naive_fit(yy,ff,tt),error=function(e)NULL)
+  if(!is.null(nb)){
+    boot$naive_R_family[[b]] <- nb$R_family
+    boot$naive_R_trait[[b]] <- nb$R_trait
+    boot$naive_R_residual[[b]] <- nb$R_residual
+  }
 }
 write.csv(boot,boot_path,row.names=FALSE,na="")
 ok <- boot$success
@@ -161,7 +168,10 @@ primary_ci <- list(
   family_share_heterogeneity=ci(boot$family_share_heterogeneity),
   trait_share_heterogeneity=ci(boot$trait_share_heterogeneity),
   system_share_heterogeneity=ci(boot$system_share_heterogeneity),
-  sampling_share_mean_total=ci(boot$sampling_share_mean_total)
+  sampling_share_mean_total=ci(boot$sampling_share_mean_total),
+  naive_R_family=ci(boot$naive_R_family),
+  naive_R_trait=ci(boot$naive_R_trait),
+  naive_R_residual=ci(boot$naive_R_residual)
 )
 
 out <- list(

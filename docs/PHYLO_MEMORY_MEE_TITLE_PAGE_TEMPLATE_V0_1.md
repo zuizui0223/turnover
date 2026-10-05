@@ -10,6 +10,10 @@ Known truth is not automatically assignable in simulation-based power studies
 
 Research Article
 
+## Running headline
+
+Truth assignability before power
+
 ## Authors
 
 [AUTHOR FULL NAME 1]  
@@ -35,6 +39,10 @@ Research Article
 ## Conflict of interest statement
 
 [STATEMENT]
+
+## Inclusion statement
+
+[STATEMENT REQUIRED DURING SUBMISSION, AS APPROPRIATE TO THE STUDY]
 
 ## Funding information
 

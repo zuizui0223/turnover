@@ -163,7 +163,7 @@ for x0,y0,l0,h0 in zip(xx,mid,lo,hi):
     lab=f"{y0:.1f}%" if abs(h0-l0)<1e-9 else f"{l0:.1f}–{h0:.1f}%"
     ax.text(x0,y0+5,lab,ha="center",fontsize=9)
 ax.spines[["top","right"]].set_visible(False)
-ax.set_title("A  Accessibility improves sequentially, but a large remainder persists",loc="left",fontweight="bold")
+ax.set_title("A  No-bracket rates under successive mechanism diagnostics",loc="left",fontweight="bold")
 
 ax=fig.add_subplot(gs[1,0])
 labels=[r["transition"] for r in paired]

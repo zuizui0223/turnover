@@ -22,6 +22,7 @@ paper=(root/"docs/PHYLO_MEMORY_ASSIGNABILITY_MANUSCRIPT_V0_2.md").read_text()
 caps=(root/"docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md").read_text()
 boundary=(root/"docs/PHYLO_MEMORY_NOVELTY_BOUNDARY_V0_1.md").read_text()
 supp=(root/"docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md").read_text()
+titlepage=(root/"docs/PHYLO_MEMORY_MEE_TITLE_PAGE_TEMPLATE_V0_1.md").read_text()
 
 assert z["status"]=="PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED"
 assert m["n_systems"]==722
@@ -77,6 +78,17 @@ assert "## S2. Prospective mechanism sequence and stop rule" in supp
 assert "docs/PHYLO_MEMORY_" not in paper
 assert "data/phylo_memory_" not in paper
 assert "## Figure mapping" not in paper and "## Analysis closure" not in paper
+abstract_body=paper.split("## Abstract",1)[1].split("## Data and code for peer review",1)[0]
+word_re=re.compile(r"\b[\w’'-]+\b",re.UNICODE)
+assert len(word_re.findall(abstract_body)) <= 350
+kw_line=paper.split("## Keywords",1)[1].split("## Introduction",1)[0].strip().splitlines()[0]
+keywords=[x.strip() for x in kw_line.split(";") if x.strip()]
+assert len(keywords) <= 8
+assert keywords == sorted(keywords,key=str.casefold)
+combined_words=len(word_re.findall(paper))+len(word_re.findall(caps))
+assert combined_words <= 8000
+headline=titlepage.split("## Running headline",1)[1].split("##",1)[0].strip()
+assert len(headline) <= 45
 assert all(f"\n{i}. " in abstract for i in range(1,5)), "MEE abstract must contain numbered points 1-4"
 assert "65.0 percentage points" in abstract
 assert "Structural feasibility does not guarantee generator accessibility" in abstract

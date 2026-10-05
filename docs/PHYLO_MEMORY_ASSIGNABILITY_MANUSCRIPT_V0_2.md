@@ -225,6 +225,6 @@ Münkemüller, T., Lavergne, S., Bzeznik, B., Dray, S., Jombart, T., Schiffers, 
 
 Säilynoja, T., Schmitt, M., Bürkner, P.-C. & Vehtari, A. (2026). Posterior SBC: simulation-based calibration checking conditional on data. *Statistics and Computing*, 36, 78. https://doi.org/10.1007/s11222-026-10825-9
 
-Williams, L. J. et al. (2024). Transparent reporting items for simulation studies evaluating statistical methods: Foundations for reproducibility and reliability. *Methods in Ecology and Evolution*, 15, 1926–1939. https://doi.org/10.1111/2041-210X.14415
+Williams, C., Yang, Y., Lagisz, M., Morrison, K., Ricolfi, L., Nakagawa, S. & Warton, D. (2024). Transparent reporting items for simulation studies evaluating statistical methods: Foundations for reproducibility and reliability. *Methods in Ecology and Evolution*, 15, 1926–1939. https://doi.org/10.1111/2041-210X.14415
 
 Yao, L. & Yuan, Y. (2025). A unified method for detecting phylogenetic signals in continuous, discrete, and multiple trait combinations. *Ecology and Evolution*, 15, e71106. https://doi.org/10.1002/ece3.71106

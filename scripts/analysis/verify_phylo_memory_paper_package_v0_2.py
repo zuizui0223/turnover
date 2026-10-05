@@ -37,8 +37,8 @@ assert b["geometry_availability"]=={
 
 required={
  "722": [abstract,paper],
- "56.2%": [abstract,paper,caps],
- "2.15%": [abstract,paper,caps],
+ "56.2%": [abstract,paper],
+ "2.15%": [abstract,paper],
  "79.7%": [abstract,paper,caps,boundary],
  "61.6%": [abstract,paper,caps,boundary],
  "42.4–43.8%": [abstract,paper,caps,boundary],

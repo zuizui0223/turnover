@@ -108,9 +108,9 @@ write_csv(
     "fig3_sequential.csv",
     ["stage","no_bracket_rate","lower","upper","denominator"],
     [
-      {"stage":"Latent-OU\\nrho=0.15","no_bracket_rate":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"],"lower":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"],"upper":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"],"denominator":276},
-      {"stage":"Symmetric Mk2\\nrho=0.15","no_bracket_rate":k["mk2"]["no_bracket_rate"],"lower":k["mk2"]["no_bracket_rate"],"upper":k["mk2"]["no_bracket_rate"],"denominator":276},
-      {"stage":"Same Mk2 states\\nDelta_rank=0.30","no_bracket_rate":(b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_lower_if_all_holds_calibrate"]+b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_upper_if_all_holds_fail"])/2,"lower":b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_lower_if_all_holds_calibrate"],"upper":b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_upper_if_all_holds_fail"],"denominator":276}
+      {"stage":"Latent-OU\nrho=0.15","no_bracket_rate":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"],"lower":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"],"upper":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"],"denominator":276},
+      {"stage":"Symmetric Mk2\nrho=0.15","no_bracket_rate":k["mk2"]["no_bracket_rate"],"lower":k["mk2"]["no_bracket_rate"],"upper":k["mk2"]["no_bracket_rate"],"denominator":276},
+      {"stage":"Same Mk2 states\nDelta_rank=0.30","no_bracket_rate":(b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_lower_if_all_holds_calibrate"]+b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_upper_if_all_holds_fail"])/2,"lower":b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_lower_if_all_holds_calibrate"],"upper":b["full_population_bounds_from_geometry_holds"]["balance_normalized_no_bracket_rate_upper_if_all_holds_fail"],"denominator":276}
     ]
 )
 

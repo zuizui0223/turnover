@@ -51,7 +51,9 @@ jobs:
               if len(rows)==201 and rows and {'family','trait_name','S3_rho','prune_only_rho'} <= set(rows[0]):
                   candidates.append(p)
           assert len(candidates)==1,candidates
-          shutil.copyfile(candidates[0],'build/effects/effects.csv')
+          dst=Path('build/effects/effects.csv')
+          if candidates[0].resolve()!=dst.resolve():
+              shutil.copyfile(candidates[0],dst)
           PY
       - name: Prepare and render source-backed figures
         run: |

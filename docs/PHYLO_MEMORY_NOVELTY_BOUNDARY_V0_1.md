@@ -59,6 +59,16 @@ Boundary:
 - this paper must **not** claim to discover the general principle that simulation truth depends on the data-generating mechanism, nor the need to preregister and report simulation designs transparently;
 - the contribution is narrower and operational: before power or recovery is interpreted, an explicitly requested target statistic may need to pass separate **realizability** and **generator-accessibility** gates on the realized design.
 
+### Feasible-correlation checks in synthetic-data generation
+
+Fialkowski & Tiwari (2019, *The R Journal*, DOI 10.32614/RJ-2019-022) developed `SimCorrMix` for generating correlated continuous, binary, ordinal and count variables. The package explicitly calculates feasible correlation boundaries and provides input checks for requested dependence structures.
+
+Boundary:
+- this is a clear precedent for **structural feasibility checking**, so the present paper must **not** claim that verifying whether a requested effect can exist is itself a new idea;
+- those generators primarily test whether a requested dependence structure is feasible under specified supports and marginals;
+- the present contribution is the next separation: a target can be structurally feasible on the realized design and still be **generator-inaccessible** under a particular stochastic evolutionary mechanism, after which downstream recovery remains a third question;
+- the 276/276 realizability result plus the OU→Mk2 paired intervention is the evidence that feasibility and generator accessibility are empirically distinct, not merely differently named checks.
+
 ### Simulation-based calibration
 
 Simulation-based calibration (SBC) checks whether an inference algorithm is calibrated on data generated from a specified generative model; posterior SBC further asks whether calibration holds in the region relevant to observed data (Säilynoja et al. 2026, *Statistics and Computing*, DOI 10.1007/s11222-026-10825-9).
@@ -95,6 +105,7 @@ Safe:
 - generator failure can be mistaken for low estimator power if calibration and recovery are not separated.
 
 Do not claim:
+- checking attainable/feasible correlation bounds is newly invented here;
 - categorical traits are intrinsically less conserved;
 - binary traits are intrinsically incapable of rho = 0.15;
 - Mk2 is universally the correct evolutionary model;
@@ -142,7 +153,7 @@ The strongest framing is a general simulation-design principle demonstrated with
 
 > **A declared simulation truth is not automatically an assigned truth. Constrained representations require separate audits of structural realizability, generator accessibility and downstream recovery.**
 
-The closest literature already separates DGM, estimand and performance, already warns that discrete phylogenetic traits can have lower power, and already validates inference under fixed generative models. The defensible novelty is the **sequential assignability audit** and its empirical demonstration: the same declared target can be structurally realizable, inaccessible to one generator, partly rescued by a representation-appropriate generator, further attenuated by state balance, and still fail recovery after assignment.
+The closest literature already separates DGM, estimand and performance, already checks feasible correlation ranges for constrained variables, already warns that discrete phylogenetic traits can have lower power, and already validates inference under fixed generative models. The defensible novelty is therefore **not** feasibility checking alone. It is the **sequential assignability audit**, especially the distinction between feasibility and generator-specific accessibility, and its empirical demonstration: the same declared target can be structurally realizable, inaccessible to one generator, partly rescued by a representation-appropriate generator, further attenuated by state balance, and still fail recovery after assignment.
 
 A targeted literature search through 2026 did not identify a prior ecology/evolution or general simulation-methods paper that operationalizes these three gates as the object of a power/recoverability study. That is a novelty boundary, not proof of absence from the entire literature.
 

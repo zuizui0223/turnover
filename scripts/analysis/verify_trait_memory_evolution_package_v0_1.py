@@ -22,7 +22,7 @@ assert meas["status"]=="TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED"
 assert corr["status"]=="TRAIT_MEMORY_CORRELATED_TRAIT_NULL_ESTIMATED"
 assert blup["status"]=="TRAIT_MEMORY_BLUP_PORTABILITY_SENSITIVITY_ESTIMATED"
 
-for heading in ["## Abstract","## Introduction","## Materials and Methods","## Results","## Discussion"]:
+for heading in ["## Teaser text","## Abstract","## Keywords","## Introduction","## Materials and Methods","## Results","## Discussion"]:
     assert heading in paper, heading
 
 for token in [
@@ -65,6 +65,20 @@ assert "log-scale sensitivity" in paper
 assert "post-outcome" in paper.lower()
 
 word_re=re.compile(r"\b[\w’'−-]+\b",re.UNICODE)
+# Evolution format limits.
+abstract_body=paper.split("## Abstract",1)[1].split("## Keywords",1)[0]
+teaser_body=paper.split("## Teaser text",1)[1].split("## Abstract",1)[0]
+keywords_line=paper.split("## Keywords",1)[1].split("## Introduction",1)[0].strip().splitlines()[0]
+keywords=[x.strip() for x in keywords_line.split(";") if x.strip()]
+assert len(word_re.findall(abstract_body)) <= 200, len(word_re.findall(abstract_body))
+assert len(word_re.findall(teaser_body)) <= 100, len(word_re.findall(teaser_body))
+assert 3 <= len(keywords) <= 6, keywords
+for abbr in ["S3","BLUP"]:
+    assert abbr not in abstract_body, abbr
+assert "GPT-5.6 Sol" in paper
+assert "accessed 5 October 2026" in paper
+assert "Prompts were conversational natural-language instructions" in paper
+assert "no fixed prompt template or external application programming interface was used" in paper
 body=paper.split("## Introduction",1)[1]
 if "## References" in body:
     body=body.split("## References",1)[0]
@@ -80,6 +94,8 @@ assert "estimated strength of evolutionary memory for a named trait is itself tr
 assert "lineage-level repeatability persists" in nov
 assert "trait identity supplies almost no robust held-out-family predictive gain" in nov
 assert "Figure 1." in caps and "Figure 2." in caps and "Figure 3." in caps
+assert "## Keywords" in abstract
+assert "S3" not in abstract and "BLUP" not in abstract
 
 print(json.dumps({
   "status":"TRAIT_MEMORY_EVOLUTION_PACKAGE_VERIFIED",

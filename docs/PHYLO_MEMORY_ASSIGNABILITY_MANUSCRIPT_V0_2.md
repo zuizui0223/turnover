@@ -16,7 +16,7 @@ An anonymized review bundle containing the frozen design contracts, canonical re
 
 ## Keywords
 
-simulation study; power analysis; data-generating mechanism; constrained outcomes; calibration; phylogenetic signal
+calibration; constrained outcomes; data-generating mechanism; phylogenetic signal; power analysis; simulation study
 
 ## Introduction
 
@@ -49,6 +49,10 @@ The proposed audit applies when the requested simulation target is a summary of 
 **Step 5 — Evaluate recovery conditional on assignment.** Only systems in which the target was successfully assigned contribute to conventional recovery, bias or power statements for that target. Report upstream assignment failures separately rather than pooling them with estimator failures.
 
 The audit therefore produces three possible scientific conclusions: target not structurally realizable; target realizable but inaccessible to the declared generator; or target assigned but not recovered. These outcomes should not be collapsed into one low-power category.
+
+### AI-assisted development disclosure
+
+ChatGPT (OpenAI; GPT-5.6 Sol) was used to assist with drafting and debugging analysis code and with editorial revision of manuscript text. The corresponding author is responsible for verifying the analysis code, numerical results, citations and final manuscript content before submission. Primary review-bundle scripts that received AI assistance are annotated accordingly.
 
 ### Study population and outcome firewall
 

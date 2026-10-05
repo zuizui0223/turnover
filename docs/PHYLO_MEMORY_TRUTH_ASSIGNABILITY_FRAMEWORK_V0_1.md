@@ -114,9 +114,9 @@ Four systems encountered outcome-free geometry drift during exact reconstruction
 - median ordinary rho at that calibration point = **0.1398**;
 - median pilot valid fraction = **1.00**.
 
-The four geometry-HOLD systems include three original Mk2-rho no-bracket systems and one calibrated system. Therefore, without imputing their missing outcomes, the full 276-system balance-normalized no-bracket rate is bounded at **42.4–43.8%**, and the rescue fraction among the original 170 Mk2-rho no-bracket systems is bounded at **29.4–31.2%**.
+The four geometry-HOLD systems include three original Mk2-rho no-bracket systems and one calibrated system. Therefore, without imputing their missing outcomes, the full 276-system balance-normalized no-bracket rate is bounded at **42.4–43.8%**, and the rescue fraction among the original 170 Mk2-rho no-bracket systems is bounded at **29.4–31.2%**. This third stage calibrates Delta_rank = 0.30 rather than rho = 0.15; it is a mechanism diagnostic that removes the exact balance multiplier, not a third estimate of the identical rho-target estimand.
 
-State balance therefore explains a substantial additional share of the remaining accessibility failure, but it does **not** explain all of it. A large remainder persists even after replacing the generator and removing the exact balance attenuation term. Under the pre-frozen stop rule, that remainder is retained rather than pursued by further estimator or parameter search on the same systems.
+The balance-normalized diagnostic therefore identifies state balance as a substantial additional attenuation mechanism, but it does **not** explain all of the calibration bottleneck. A large remainder persists even after replacing the generator and removing the exact balance attenuation term. Under the pre-frozen stop rule, that remainder is retained rather than pursued by further estimator or parameter search on the same systems.
 
 ## Why this matters beyond this study
 

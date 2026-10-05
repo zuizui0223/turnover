@@ -72,7 +72,7 @@ jobs:
           test -s build/figures/Fig3_portability_and_scale.svg
           grep -q '24%' build/figures/Fig1_measurement_error_decomposition.svg
           grep -q 'p=0.017' build/figures/Fig2_family_repeatability_robustness.svg
-          grep -q 'Shrinkage removes most penalty' build/figures/Fig3_portability_and_scale.svg
+          grep -q 'Portability gain' build/figures/Fig3_portability_and_scale.svg
       - uses: actions/upload-artifact@v4
         with:
           name: trait-memory-primary-figures-v0-2

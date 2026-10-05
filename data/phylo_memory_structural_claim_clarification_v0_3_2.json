@@ -1,0 +1,22 @@
+{
+  "version": "v0.3.2",
+  "status": "INTERPRETATION_CLARIFICATION_NO_NEW_ANALYSIS",
+  "date": "2026-10-05",
+  "source_result": "results/phylo_memory_binary_ceiling_v0_3_1/result.json",
+  "source_design": "data/phylo_memory_binary_ceiling_design_v0_3_1.json",
+  "new_outcomes_computed": false,
+  "new_system_level_analysis": false,
+  "reason": "The v0.3.1 edge-split result establishes that every categorical tree has at least one realizable one-transition state with rho at or above 0.15. This rules out a hard one-transition upper ceiling below the benchmark, but maximum >= benchmark does not by itself prove that a state exists within the benchmark calibration tolerance.",
+  "supported_claims": [
+    "All 276 categorical trees contain at least one realizable one-transition edge-split state with rho >= 0.15.",
+    "All 220 original OU no-bracket systems contain at least one such state.",
+    "The observed OU calibration failure cannot be attributed to a hard one-transition state-space ceiling below 0.15.",
+    "The edge-split witness is a one-sided structural ceiling diagnostic, not proof of exact per-tree target attainability."
+  ],
+  "unsupported_claims_to_avoid": [
+    "rho = 0.15 is exactly structurally realizable on every tree",
+    "every tree contains a state within the frozen rho tolerance around 0.15",
+    "the edge-split maximum alone proves exact target assignability"
+  ],
+  "manuscript_rule": "Use 'structural feasibility' as the general framework gate. Describe the empirical v0.3.1 implementation as a one-sided structural ceiling/witness test that excludes a hard ceiling below the target. Reserve 'target assignment' for generator calibration that actually brackets the frozen target."
+}

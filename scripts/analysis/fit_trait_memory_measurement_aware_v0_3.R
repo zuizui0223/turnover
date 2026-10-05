@@ -121,7 +121,7 @@ boot <- data.frame(
 for(b in seq_len(B)){
   fd <- sample(families,length(families),replace=TRUE)
   td <- sample(traits,length(traits),replace=TRUE)
-  yy <- c(); ss <- c(); ff <- c(); tt <- c(); sid <- c()
+  yy <- numeric(0); ss <- numeric(0); ff <- character(0); tt <- character(0); sid <- character(0)
   kk <- 0L
   for(i in seq_along(fd)){
     for(j in seq_along(td)){
@@ -129,11 +129,11 @@ for(b in seq_len(B)){
       if(length(z)==0 || is.na(z[[1]])) next
       z <- unname(z[[1]])
       kk <- kk+1L
-      yy[[kk]] <- x$S3_raw_rho[[z]]
-      ss[[kk]] <- x$S3_raw_se[[z]]
-      ff[[kk]] <- paste0("F",i)
-      tt[[kk]] <- paste0("T",j)
-      sid[[kk]] <- paste0("B",b,"_",kk)
+      yy[kk] <- x$S3_raw_rho[[z]]
+      ss[kk] <- x$S3_raw_se[[z]]
+      ff[kk] <- paste0("F",i)
+      tt[kk] <- paste0("T",j)
+      sid[kk] <- paste0("B",b,"_",kk)
     }
   }
   if(kk<50 || length(unique(ff))<2 || length(unique(tt))<2) next

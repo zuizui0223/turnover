@@ -92,7 +92,7 @@ The current decomposition is therefore:
 2. **Generator accessibility:** strongly limiting and generator-dependent; Mk2 materially improves but does not solve it.
 3. **Estimator/recovery:** still limiting after successful assignment; categorical recovery failure remains substantial even under Mk2.
 
-## v0.5 state-balance attenuation test
+## v0.5 state-balance attenuation result
 
 For binary mismatch Y and patristic-distance rank X,
 
@@ -102,11 +102,21 @@ where `p` is the fraction of unordered tip pairs that mismatch and
 
 `Delta_rank = (mean rank_mismatch - mean rank_match) / SD(rank)`.
 
-Thus ordinary binary Spearman contains an exact mismatch-prevalence attenuation term. The next frozen test keeps the **same Mk2 states and the same patristic-distance ranks**, removes only this algebraic factor, and asks whether the remaining 170 Mk2 no-bracket systems become calibratable.
+The identity is numerically exact in the frozen implementation (maximum absolute error **8.88e-16**). v0.5 keeps the **same Mk2 states and the same patristic-distance ranks** and removes only this algebraic state-balance term.
 
-The target is frozen at **Delta_rank = 0.30**, because rho = 0.15 at maximally balanced mismatch prevalence p = 0.5 corresponds exactly to 0.15 / sqrt(0.25) = 0.30. The original rho tolerance 0.01 maps to a Delta_rank tolerance of 0.02 on the same scale.
+Four systems encountered outcome-free geometry drift during exact reconstruction and were held before their v0.5 outcome was computed. Among the remaining **272 exact geometry matches**:
 
-This is deliberately narrower than the earlier unexecuted alternative-estimator proposal, which changed both rank geometry and balance sensitivity at once.
+- Mk2-rho reference: **167 no-bracket / 105 calibrated**;
+- balance-normalized Delta_rank: **117 no-bracket / 155 calibrated**;
+- **50/167 = 29.9%** of matched Mk2-rho no-bracket systems are rescued;
+- **0/105** matched Mk2-rho calibrated systems become new failures;
+- median mismatch-pair fraction at Delta_rank calibration = **0.4037**;
+- median ordinary rho at that calibration point = **0.1398**;
+- median pilot valid fraction = **1.00**.
+
+The four geometry-HOLD systems include three original Mk2-rho no-bracket systems and one calibrated system. Therefore, without imputing their missing outcomes, the full 276-system balance-normalized no-bracket rate is bounded at **42.4–43.8%**, and the rescue fraction among the original 170 Mk2-rho no-bracket systems is bounded at **29.4–31.2%**.
+
+State balance therefore explains a substantial additional share of the remaining accessibility failure, but it does **not** explain all of it. A large remainder persists even after replacing the generator and removing the exact balance attenuation term. Under the pre-frozen stop rule, that remainder is retained rather than pursued by further estimator or parameter search on the same systems.
 
 ## Why this matters beyond this study
 
@@ -120,4 +130,14 @@ A fair cross-representation comparison must therefore demonstrate **truth assign
 
 ## Status
 
-Structural realizability is closed. Latent-OU accessibility failure is closed. The representation-appropriate Mk2 substitution is closed and shows a substantial but incomplete rescue. The active gate is now the pre-frozen **state-balance attenuation** test on the same Mk2 states. No observed trait values or observed phylogenetic-memory effects enter any of these mechanism analyses.
+The primary mechanism programme is **closed** under the pre-frozen v0.5.2 stop rule.
+
+The sequential result is now complete:
+
+1. **Structural realizability is not limiting** at rho=0.15: every categorical tree has an explicit one-transition witness above target.
+2. **Generator accessibility is strongly limiting and generator-dependent**: OU thresholding fails far more often than Mk2.
+3. **State-balance attenuation is an additional, separable limitation**: removing only the exact balance term rescues about 30% of the remaining Mk2 no-bracket systems.
+4. **Recovery remains distinct from assignment**: even under Mk2, 34.9% of calibrated systems fail the frozen recovery gate.
+5. **An unresolved remainder remains**: approximately 42–44% of the categorical population is still no-bracket after the frozen generator and balance diagnostics.
+
+No further generator, estimator, grid, target, or subgroup search on these 276 systems is allowed as primary evidence. The unresolved remainder is part of the result. No observed trait values or observed phylogenetic-memory effects enter any mechanism analysis.

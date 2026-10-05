@@ -65,7 +65,8 @@
     "uncertainty": {
       "primary": "500 two-way family x trait cluster bootstrap refits by independent multinomial resampling of family and trait labels; each row multiplicity is family_count * trait_count; duplicated rows receive unique bootstrap system ids.",
       "seed": 20261006,
-      "min_success_fraction": 0.9
+      "min_success_fraction": 0.9,
+      "replicates": 500
     },
     "hard_claim_rule": "The original 80.6% lmer residual share may be described as system specificity only if measurement-aware system heterogeneity remains the largest heterogeneity component and its lower 95% cluster-bootstrap share exceeds both family and trait shares; otherwise rewrite as unresolved mixture of sampling error and heterogeneity."
   },

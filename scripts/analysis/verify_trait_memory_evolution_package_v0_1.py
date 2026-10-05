@@ -9,6 +9,8 @@ paper=(root/"docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_V0_3.md").read_text()
 abstract=(root/"docs/TRAIT_MEMORY_EVOLUTION_ABSTRACT_V0_1.md").read_text()
 caps=(root/"docs/TRAIT_MEMORY_FIGURE_CAPTIONS_V0_2.md").read_text()
 nov=(root/"docs/TRAIT_MEMORY_NOVELTY_BOUNDARY_V0_2.md").read_text()
+cover=(root/"docs/TRAIT_MEMORY_EVOLUTION_COVER_LETTER_V0_1.md").read_text()
+titlepage=(root/"docs/TRAIT_MEMORY_EVOLUTION_TITLE_PAGE_TEMPLATE_V0_1.md").read_text()
 syn=json.loads((root/"results/trait_memory_context_synthesis_v0_2/result.json").read_text())
 meas=json.loads((root/"results/trait_memory_measurement_aware_v0_3/result.json").read_text())
 corr=json.loads((root/"results/trait_memory_correlated_trait_null_v0_3/result.json").read_text())
@@ -39,10 +41,10 @@ for token in [
     assert token in paper, token
 
 for token in [
-    "S3 gain = 0.006",
-    "prune-only = −0.0048",
-    "S3 p = 0.017",
-    "prune-only p = 0.009"
+    "0.006 on the primary tree",
+    "−0.0048 on the backbone-only sensitivity tree",
+    "p = 0.017 and 0.009",
+    "lineage-contingent"
 ]:
     assert token in abstract, token
 
@@ -79,6 +81,15 @@ assert "GPT-5.6 Sol" in paper
 assert "accessed 5 October 2026" in paper
 assert "Prompts were conversational natural-language instructions" in paper
 assert "no fixed prompt template or external application programming interface was used" in paper
+assert len(word_re.findall(abstract.split("# Abstract — Evolution submission draft",1)[1].split("## Keywords",1)[0])) <= 200
+standalone_keywords=[x.strip() for x in abstract.split("## Keywords",1)[1].strip().splitlines()[0].split(";") if x.strip()]
+assert 3 <= len(standalone_keywords) <= 6
+for abbr in ["S3","BLUP"]:
+    assert abbr not in abstract
+assert "GPT-5.6 Sol" in cover and "accessed 5 October 2026" in cover
+for heading in ["## Data availability","## Author contributions","## Funding","## Conflict of interest","## Acknowledgements"]:
+    assert heading in titlepage, heading
+assert "double-anonymous" in titlepage.lower()
 body=paper.split("## Introduction",1)[1]
 if "## References" in body:
     body=body.split("## References",1)[0]
@@ -95,7 +106,6 @@ assert "lineage-level repeatability persists" in nov
 assert "trait identity supplies almost no robust held-out-family predictive gain" in nov
 assert "Figure 1." in caps and "Figure 2." in caps and "Figure 3." in caps
 assert "## Keywords" in abstract
-assert "S3" not in abstract and "BLUP" not in abstract
 
 print(json.dumps({
   "status":"TRAIT_MEMORY_EVOLUTION_PACKAGE_VERIFIED",

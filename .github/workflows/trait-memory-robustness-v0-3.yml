@@ -29,6 +29,7 @@ jobs:
           assert d['measurement_error']['replicates']==199
           assert d['measurement_error']['bootstrap_implementation']['scientific_change'] is False
           assert d['measurement_error']['uncertainty']['replicates']==500
+          assert d['measurement_error']['uncertainty']['also_refit_naive_lmer'] is True
           assert d['correlated_trait_family_null']['simulation']['replicates']==1000
           assert d['relationship_to_original']['original_repeatability']=='results/trait_memory_repeatability_v0_2/result.json'
           assert d['technical_amendment']['before_robustness_execution'] is True

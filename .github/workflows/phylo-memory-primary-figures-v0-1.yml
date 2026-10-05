@@ -54,7 +54,7 @@ jobs:
           test -s build/figures/Fig2_accessibility_mechanism.svg
           test -s build/figures/Fig3_sequential_rescue.svg
           grep -q '42.4–43.8%' build/figures/Fig3_sequential_rescue.svg
-          grep -q '249/443' build/figures/Fig1_truth_assignability.svg
+          grep -q '79.7%' build/figures/Fig1_truth_assignability.svg\n          grep -q 'S3 recovery passed' build/figures/Fig1_truth_assignability.svg
           grep -q '195/220' build/figures/Fig2_accessibility_mechanism.svg
       - uses: actions/upload-artifact@v4
         with:

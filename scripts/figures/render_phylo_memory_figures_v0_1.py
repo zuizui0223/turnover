@@ -47,7 +47,7 @@ for i,(x,lbl) in enumerate(zip(xs,labels)):
     fc=PALE if i==0 else "white"
     ax.add_patch(patches.FancyBboxPatch((x-0.080,0.38),0.16,0.24,
         boxstyle="round,pad=0.02,rounding_size=0.02",facecolor=fc,edgecolor=DARK,linewidth=1.2))
-    ax.text(x,0.50,lbl,ha="center",va="center",fontsize=9)
+    ax.text(x,0.50,lbl,ha="center",va="center",fontsize=8.3)
     if i<3:
         ax.annotate("",xy=(xs[i+1]-0.090,0.50),xytext=(x+0.090,0.50),
                     arrowprops=dict(arrowstyle="->",lw=1.3,color=DARK))
@@ -151,7 +151,7 @@ for yy,n in zip(y,resc): ax.text(n+1,yy,str(n),va="center",fontsize=9)
 for yy,n in zip(y,loss):
     if n: ax.text(-n-1,yy,str(n),ha="right",va="center",fontsize=9)
     else: ax.text(-0.8,yy,"0",ha="right",va="center",fontsize=9)
-ax.legend(frameon=False,fontsize=8,loc="lower right")
+ax.text(0.02,0.98,"← new failures",transform=ax.transAxes,ha="left",va="top",fontsize=7.8,color=MID)\nax.text(0.98,0.98,"rescued →",transform=ax.transAxes,ha="right",va="top",fontsize=7.8,color=BLUE)
 ax.spines[["top","right"]].set_visible(False)
 ax.set_title("B  Paired rescues exceed new failures",loc="left",fontweight="bold")
 

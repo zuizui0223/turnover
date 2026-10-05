@@ -6,6 +6,14 @@ on:
       - analysis/trait-memory-robustness-v0-3
     paths:
       - '.github/workflows/trait-memory-robustness-v0-3.yml'
+      - 'data/trait_memory_robustness_design_v0_3.json'
+      - 'scripts/analysis/run_trait_memory_robust_system_v0_3.R'
+      - 'scripts/analysis/run_trait_memory_robust_batch_v0_3.py'
+      - 'scripts/analysis/aggregate_trait_memory_robust_v0_3.py'
+      - 'scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R'
+      - 'scripts/analysis/test_trait_memory_portability_blup_v0_3.R'
+      - 'scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R'
+      - 'scripts/analysis/test_trait_memory_weighted_spearman_v0_3.R'
   workflow_dispatch:
 
 permissions:
@@ -34,6 +42,8 @@ jobs:
           assert d['relationship_to_original']['original_repeatability']=='results/trait_memory_repeatability_v0_2/result.json'
           assert d['technical_amendment']['before_robustness_execution'] is True
           assert d['technical_amendment_correlated_null']['before_null_execution'] is True
+          assert d['technical_amendment_weighted_midrank_runtime']['before_any_robustness_outcome'] is True
+          assert d['technical_amendment_weighted_midrank_runtime']['scientific_change'] is False
           PY
       - name: Download frozen core and archived effects
         env:
@@ -80,8 +90,18 @@ jobs:
               out.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
           PY
 
+  algorithm-check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - name: Verify weighted species-bootstrap Spearman
+        run: |
+          Rscript scripts/analysis/test_trait_memory_weighted_spearman_v0_3.R
+
   effect-batch:
-    needs: prepare
+    needs: [prepare, algorithm-check]
     strategy:
       fail-fast: false
       max-parallel: 8

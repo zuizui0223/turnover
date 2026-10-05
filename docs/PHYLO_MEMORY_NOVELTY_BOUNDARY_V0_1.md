@@ -88,15 +88,15 @@ Boundary:
 
 ## What the present study adds
 
-The contribution is not a new phylogenetic-signal statistic. It is a diagnostic framework for known-truth simulation studies.
+The contribution is not a new phylogenetic-signal statistic. It is a diagnostic framework for known-truth simulation studies. In the present empirical implementation, the first gate is a one-sided structural ceiling diagnostic: an attainable edge-split state at or above the benchmark rules out a hard ceiling below the target but does not prove exact per-tree target attainability within the frozen tolerance.
 
 For a declared target effect, distinguish:
 
-1. **structural realizability** — does the representation × realized tree contain an attainable state configuration at the target?
+1. **structural feasibility** — does the representation × realized tree contain an attainable state configuration at the target?
 2. **generator accessibility** — can the chosen stochastic generator place the system near that target while satisfying its validity rules?
 3. **estimator recovery** — once the target is successfully assigned, can finite simulation recover it?
 
-The empirical leverage is that these gates separate sharply on the same real geometries:
+The empirical leverage is that the one-sided structural ceiling evidence, generator accessibility, and downstream recovery separate sharply on the same real geometries:
 
 - 220/220 categorical OU no-bracket systems have a realizable one-transition edge split above rho = 0.15;
 - median maximum edge-split rho is 0.773, versus median maximum OU-grid rho 0.0979;
@@ -162,9 +162,9 @@ Thus state balance is a second identified mechanism, but it does not exhaust the
 
 The strongest framing is a general simulation-design principle demonstrated with a comparative-ecology stress test:
 
-> **A declared simulation truth is not automatically an assigned truth. Constrained representations require separate audits of structural realizability, generator accessibility and downstream recovery.**
+> **A declared simulation truth is not automatically an assigned truth. Constrained representations require separate audits of structural feasibility, generator accessibility and downstream recovery.**
 
-The closest literature already separates DGM, estimand and performance, already checks feasible correlation ranges for constrained variables, already warns that discrete phylogenetic traits can have lower power, and already validates inference under fixed generative models. The defensible novelty is therefore **not** feasibility checking alone. It is the **sequential assignability audit**, especially the distinction between feasibility and generator-specific accessibility, and its empirical demonstration: the same declared target can be structurally realizable, inaccessible to one generator, partly rescued by a representation-appropriate generator, further attenuated by state balance, and still fail recovery after assignment.
+The closest literature already separates DGM, estimand and performance, already checks feasible correlation ranges for constrained variables, already warns that discrete phylogenetic traits can have lower power, and already validates inference under fixed generative models. The defensible novelty is therefore **not** feasibility checking alone. It is the **sequential assignability audit**, especially the distinction between feasibility and generator-specific accessibility, and its empirical demonstration: a declared target can be compatible with an attainable state above the benchmark, remain inaccessible to one generator, be partly rescued by a representation-appropriate generator, be further attenuated by state balance, and still fail recovery after assignment.
 
 A targeted literature search through 2026 did not identify a prior ecology/evolution or general simulation-methods paper that operationalizes these three gates as the object of a power/recoverability study. That is a novelty boundary, not proof of absence from the entire literature.
 

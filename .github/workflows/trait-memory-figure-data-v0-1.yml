@@ -1,21 +1,42 @@
-name: Trait memory figure data v0.1
+name: Trait memory figures v0.2
+
 on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3
+    paths:
+      - '.github/workflows/trait-memory-figure-data-v0-1.yml'
+      - 'scripts/figures/prepare_trait_memory_figure_data_v0_1.py'
+      - 'scripts/figures/render_trait_memory_figures_v0_2.py'
+      - 'data/trait_memory_figure_plan_v0_1.json'
+      - 'results/trait_memory_repeatability_v0_2/result.json'
+      - 'results/trait_memory_measurement_aware_v0_3/result.json'
+      - 'results/trait_memory_correlated_trait_null_v0_3/result.json'
+      - 'results/trait_memory_portability_blup_v0_3/result.json'
+      - 'results/trait_memory_geometry_adjustment_v0_7_2/result.json'
+      - 'results/trait_memory_source_composition_v0_1/result.json'
   workflow_dispatch:
+
 permissions:
   contents: read
   actions: read
+
 jobs:
   figures:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install plotting dependency
+        run: pip install matplotlib
       - name: Download exact fixed 201-system effects
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p build/effects
           gh run download 37095981751 -R "$GITHUB_REPOSITORY" -n trait-memory-repeatability-real-effects-batched-v0-2-1 -D build/effects
-          find build/effects -type f -maxdepth 3 -print
       - name: Locate exact effect table
         run: |
           python - <<'PY'
@@ -32,13 +53,28 @@ jobs:
           assert len(candidates)==1,candidates
           shutil.copyfile(candidates[0],'build/effects/effects.csv')
           PY
-      - name: Prepare figure source tables
+      - name: Prepare and render source-backed figures
         run: |
-          mkdir -p build/figures
+          mkdir -p build/figure-data build/figures
+          python -m py_compile \
+            scripts/figures/prepare_trait_memory_figure_data_v0_1.py \
+            scripts/figures/render_trait_memory_figures_v0_2.py
           python scripts/figures/prepare_trait_memory_figure_data_v0_1.py \
             --effects build/effects/effects.csv \
+            --out-dir build/figure-data
+          python scripts/figures/render_trait_memory_figures_v0_2.py \
+            --data-dir build/figure-data \
             --out-dir build/figures
+          test -s build/figures/Fig1_measurement_error_decomposition.svg
+          test -s build/figures/Fig2_family_repeatability_robustness.svg
+          test -s build/figures/Fig3_portability_and_scale.svg
+          grep -q '24%' build/figures/Fig1_measurement_error_decomposition.svg
+          grep -q 'p=0.017' build/figures/Fig2_family_repeatability_robustness.svg
+          grep -q 'Shrinkage removes most penalty' build/figures/Fig3_portability_and_scale.svg
       - uses: actions/upload-artifact@v4
         with:
-          name: trait-memory-figure-data-v0-1
-          path: build/figures/
+          name: trait-memory-primary-figures-v0-2
+          path: |
+            build/figure-data/
+            build/figures/
+          retention-days: 30

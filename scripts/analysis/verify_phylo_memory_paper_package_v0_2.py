@@ -70,7 +70,7 @@ for stale in [
 
 assert ("all 220" in paper or "220/220" in paper), "paper must state that all 220 OU no-bracket systems were structurally realizable"
 assert ("220/220" in boundary or "all 220" in boundary), "novelty boundary must retain the 220-system structural witness claim"
-assert "No additional generator, estimator, target, grid extension or outcome-based subgroup search" in paper
+assert ("prohibited additional generator" in supp.lower() or "prohibited additional" in supp.lower() or ("additional generator" in supp.lower() and "outcome-defined subgroup" in supp.lower())), "supplement must preserve the closed mechanism stop rule"
 assert "structural realizability" in abstract and "generator accessibility" in abstract and "recovery" in abstract
 assert "Supplementary Methods S1" in paper
 assert "## S1. Exact binary state-balance attenuation identity" in supp

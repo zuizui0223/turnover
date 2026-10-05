@@ -1,0 +1,117 @@
+name: Trait memory robustness components v0.3
+
+on:
+  push:
+    branches:
+      - analysis/trait-memory-robustness-v0-3
+    paths:
+      - '.github/workflows/trait-memory-robustness-components-v0-3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_AGGREGATE_RUN_ID: 37279051098
+  SOURCE_AGGREGATE_ARTIFACT: trait-memory-robust-effects-v0-3-recovered
+
+jobs:
+  measurement-aware:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_AGGREGATE_ARTIFACT }}
+          path: build/robust
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_AGGREGATE_RUN_ID }}
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::metafor
+      - name: Fit measurement-aware model and serialize frozen HOLD if needed
+        run: |
+          mkdir -p build/measurement
+          Rscript scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/measurement/result.json \
+            --bootstrap-table build/measurement/cluster_bootstrap.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-measurement-aware-v0-3
+          path: build/measurement/
+          retention-days: 30
+
+  blup-portability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_AGGREGATE_ARTIFACT }}
+          path: build/robust
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_AGGREGATE_RUN_ID }}
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit frozen training-only BLUP sensitivity
+        run: |
+          mkdir -p build/blup
+          Rscript scripts/analysis/test_trait_memory_portability_blup_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/blup/result.json \
+            --predictions build/blup/predictions.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-blup-portability-v0-3
+          path: build/blup/
+          retention-days: 30
+
+  correlated-trait-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_AGGREGATE_ARTIFACT }}
+          path: build/robust
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_AGGREGATE_RUN_ID }}
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::Matrix
+            any::MASS
+      - name: Run correlated-trait zero-family-effect null
+        run: |
+          mkdir -p build/null
+          Rscript scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R \
+            --effects build/robust/effects_with_se_log.csv \
+            --aggregate-json build/robust/aggregate_result.json \
+            --out build/null/result.json \
+            --null-table build/null/null.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-correlated-trait-null-v0-3
+          path: build/null/
+          retention-days: 30

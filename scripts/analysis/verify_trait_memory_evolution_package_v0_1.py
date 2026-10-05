@@ -76,7 +76,9 @@ assert "measurement-aware" in str(plan["figures"]["figure1"]).lower()
 assert "correlated-trait" in str(plan["figures"]["figure2"]).lower()
 assert "blup" in str(plan["figures"]["figure3"]).lower()
 
-assert "Phylogenetic trait memory is lineage-contingent" in nov
+assert "estimated strength of evolutionary memory for a named trait is itself transferable across clades" in nov
+assert "lineage-level repeatability persists" in nov
+assert "trait identity supplies almost no robust held-out-family predictive gain" in nov
 assert "Figure 1." in caps and "Figure 2." in caps and "Figure 3." in caps
 
 print(json.dumps({

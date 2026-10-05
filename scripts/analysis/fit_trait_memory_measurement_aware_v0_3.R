@@ -115,6 +115,7 @@ boot <- data.frame(
   system_share_heterogeneity=NA_real_,
   sampling_share_mean_total=NA_real_,
   naive_R_family=NA_real_,naive_R_trait=NA_real_,naive_R_residual=NA_real_,
+  error_message=NA_character_,
   stringsAsFactors=FALSE
 )
 
@@ -137,8 +138,12 @@ for(b in seq_len(B)){
     }
   }
   if(kk<50 || length(unique(ff))<2 || length(unique(tt))<2) next
-  fitb <- tryCatch(meta_fit(yy,ss,ff,tt,sid),error=function(e)NULL)
-  if(is.null(fitb)) next
+  err <- NULL
+  fitb <- tryCatch(meta_fit(yy,ss,ff,tt,sid),error=function(e){err <<- conditionMessage(e); NULL})
+  if(is.null(fitb)){
+    boot$error_message[[b]] <- if(is.null(err)) "UNKNOWN_META_FIT_FAILURE" else err
+    next
+  }
   q <- fitb$summary
   boot$success[[b]] <- TRUE
   boot$sigma2_family[[b]] <- q$sigma2_family
@@ -198,6 +203,8 @@ out <- list(
       frozen_min_success_fraction=min_success,
       gate_pass=success_fraction>=min_success,
       ci95=primary_ci,
+      error_message_counts=if(any(!is.na(boot$error_message)))
+        as.list(sort(table(boot$error_message),decreasing=TRUE)) else NULL,
       seed=seed0
     )
   ),

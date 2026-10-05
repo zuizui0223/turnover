@@ -1,0 +1,37 @@
+{
+  "version": "v0.5.3",
+  "status": "PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED",
+  "closed_on": "2026-10-05",
+  "scope": "The 276-system categorical known-truth mechanism programme in PR #27.",
+  "trigger": "The pre-frozen v0.5/v0.5.1 state-balance aggregate has been opened and recorded, activating the unconditional stop rule in data/phylo_memory_mechanism_stop_v0_5_2.json.",
+  "closed_evidence": [
+    "results/phylo_memory_binary_ceiling_v0_3_1/result.json",
+    "results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json",
+    "results/phylo_memory_mk2_generator_v0_4_1/result.json",
+    "results/phylo_memory_balance_normalized_v0_5/result.json"
+  ],
+  "final_stage_summary": {
+    "structural_realizability": "rho=0.15 is explicitly realizable by at least one one-transition binary edge split in 276/276 categorical trees; 0/220 original OU no-bracket systems have an edge-split ceiling below the target.",
+    "latent_ou_accessibility": "220/276 categorical systems are no-bracket under latent-OU thresholding; among those, 195/220 never reach rho=0.15 even without the valid-fraction rule and 25/220 reach it only after validity falls below 0.90.",
+    "generator_dependence": "Symmetric Mk2 reduces no-bracket from 220/276 (79.7%) to 170/276 (61.6%), rescuing 51/220 OU no-bracket systems while creating one new failure.",
+    "state_balance_attenuation": "Among 272 exact geometry matches, balance normalization rescues 50/167 Mk2-rho no-bracket systems and creates zero new failures; with four pre-outcome geometry holds, the full-population no-bracket rate is bounded at 42.4%-43.8%.",
+    "recovery_after_assignment": "Under Mk2, 37/106 calibrated systems fail the frozen recovery gate (34.9%), so accessibility and recovery are distinct limitations."
+  },
+  "primary_claim": "A declared known truth is not automatically an assignable truth. For constrained representations, valid simulation-based power inference requires separating structural realizability, generator accessibility, and estimator recovery before interpreting failure as low power.",
+  "unresolved_remainder": "Approximately 42%-44% of the categorical population remains no-bracket after the frozen generator substitution and algebraic state-balance diagnostic. Under the stop rule this is retained as an unresolved generator-partition-alignment remainder rather than pursued by further estimator or parameter search on the same systems.",
+  "prohibited_after_close": [
+    "execute the older alternative-estimator v0.4 route as primary evidence",
+    "search additional generators or estimators on these 276 systems",
+    "extend OU or Mk2 parameter grids after observing outcomes",
+    "change rho=0.15 or Delta_rank=0.30 targets",
+    "filter systems based on mechanism outcomes"
+  ],
+  "allowed_after_close": [
+    "artifact/provenance corrections without changing scientific thresholds",
+    "figures and manuscript prose",
+    "formal derivation of already-used identities",
+    "independent replication on independently frozen data or geometries"
+  ],
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false
+}

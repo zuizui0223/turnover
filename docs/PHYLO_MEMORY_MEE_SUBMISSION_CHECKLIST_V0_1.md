@@ -25,7 +25,7 @@ Primary methodological contribution:
 | Keywords | READY | manuscript |
 | Introduction independent of focal organism | READY | manuscript |
 | Materials and Methods | READY | manuscript |
-| AI/LLM disclosure | READY IN TEXT / CODE ANNOTATION IN PROGRESS | manuscript Methods + review-bundle scripts |
+| AI/LLM disclosure | READY | manuscript Methods + all primary review-bundle scripts annotated |
 | Results | READY | manuscript |
 | Discussion | READY | manuscript |
 | Primary figures | IN CI | source-backed Fig. 1–3 workflow |
@@ -36,7 +36,7 @@ Primary methodological contribution:
 | Open-source code licence | **BLOCKER** | repository currently has no LICENSE; author must choose one, then provide author-neutral `LICENSE_REVIEW.txt` for peer review |
 | Separate title page | TEMPLATE READY | `docs/PHYLO_MEMORY_MEE_TITLE_PAGE_TEMPLATE_V0_1.md` |
 | Continuous line/page numbering | FORMAT STAGE | apply when manuscript is exported to submission document |
-| 7,000–8,000 word maximum | READY | current manuscript is well below maximum |
+| 7,000–8,000 word maximum | READY | manuscript + primary captions ≈5,022 words |
 | Pre-submission enquiry | READY | `docs/PHYLO_MEMORY_MEE_PRESUBMISSION_ENQUIRY_V0_1.md` |
 | Persistent public archive/DOI | ACCEPTANCE STAGE | prepare archive after review version stabilizes |
 

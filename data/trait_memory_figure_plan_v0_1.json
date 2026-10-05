@@ -1,6 +1,6 @@
 {
-  "version": "v0.1",
-  "status": "FIGURE_PLAN_FIXED_FROM_COMPLETED_RESULTS",
+  "version": "v0.2",
+  "status": "FIGURE_PLAN_UPDATED_AFTER_V0_3_ROBUSTNESS",
   "source_effects": {
     "workflow_run": 37095981751,
     "artifact_id": 11264513111,
@@ -9,69 +9,83 @@
   },
   "figures": {
     "figure1": {
-      "title": "Prospectively qualified crossed family-trait design",
+      "title": "Sampling error changes the residual story",
       "panels": [
-        "qualification funnel",
-        "45 x 12 final incidence matrix"
-      ],
-      "inferential": false
-    },
-    "figure2": {
-      "title": "Observed phylogenetic memory gradients",
-      "panels": [
-        "45 x 12 S3 rho matrix with missing cells blank",
-        "distribution of 201 S3 rho"
-      ],
-      "ordering": "alphabetical family and fixed trait order; no outcome-based clustering",
-      "inferential": false
-    },
-    "figure3": {
-      "title": "Three meanings of generalization",
-      "panels": [
-        "crossed repeatability shares with bootstrap CI",
-        "S3/prune-only portability gains with permutation null intervals",
-        "conditional family repeatability with bootstrap CI and 0.10 reference"
+        "S3 stacked point shares: original crossed lmer versus measurement-aware total decomposition",
+        "measurement-aware heterogeneity component shares with pre-frozen two-way family x trait cluster-bootstrap 95% intervals",
+        "prune-only point decomposition as mandatory tree sensitivity"
       ],
       "inferential": true,
       "source_results": [
         "results/trait_memory_repeatability_v0_2/result.json",
+        "results/trait_memory_measurement_aware_v0_3/result.json"
+      ],
+      "hard_rule": "Do not label the original 0.806 residual as biological system specificity; do not imply family or system heterogeneity dominates because their cluster-bootstrap intervals overlap."
+    },
+    "figure2": {
+      "title": "Family repeatability survives correlated-trait and design-artifact explanations",
+      "panels": [
+        "observed R_family versus zero-family-effect correlated-trait null for S3 and prune-only",
+        "R_family across unadjusted, geometry-adjusted, source-adjusted, citation-adjusted, and five-domain sensitivities"
+      ],
+      "inferential": true,
+      "source_results": [
+        "results/trait_memory_correlated_trait_null_v0_3/result.json",
+        "results/trait_memory_geometry_adjustment_v0_7_2/result.json",
+        "results/trait_memory_source_composition_v0_1/result.json"
+      ],
+      "annotations": {
+        "S3_null_p": 0.016983016983016984,
+        "prune_null_p": 0.008991008991008992
+      }
+    },
+    "figure3": {
+      "title": "Shrinkage removes the portability penalty, not the information bottleneck",
+      "panels": [
+        "unshrunk versus training-only BLUP portability gain for S3 and prune-only with zero reference line",
+        "median training trait variance versus residual variance",
+        "conceptual H1 trait-intrinsic versus H2 family-context predictions and observed outcomes"
+      ],
+      "inferential": true,
+      "source_results": [
         "results/trait_memory_portability_v0_2/result.json",
-        "results/lineage_memory_repeatability_v0_2/result.json"
-      ]
+        "results/trait_memory_portability_blup_v0_3/result.json",
+        "results/trait_memory_context_synthesis_v0_2/result.json"
+      ],
+      "hard_rule": "Describe the result as little transferable trait-level signal, not anti-portability."
     },
     "figure4": {
-      "title": "Backbone sensitivity of memory gradients",
+      "title": "Observed memory gradients and tree-treatment correspondence",
       "panels": [
-        "S3 rho vs prune-only rho for all 201 systems"
+        "45 x 12 S3 rho matrix in alphabetical family order and fixed trait order; no outcome-based clustering",
+        "S3 versus prune-only rho for all 201 systems"
       ],
-      "annotation": "Spearman 0.832; 1:1 reference line",
-      "inferential": false
+      "inferential": false,
+      "annotation": "S3 versus prune-only Spearman correspondence = 0.832"
     },
     "supplementary_figure_S1": {
-      "title": "Family repeatability is stable to coverage and geometry adjustment",
+      "title": "Scale-sensitivity HOLD accounting",
       "panels": [
-        "S3 family repeatability share: unadjusted 0.1504, species-count adjusted 0.1543, full geometry adjusted 0.1458",
-        "prune-only family repeatability share: unadjusted 0.1482, species-count adjusted 0.1511"
+        "number of systems with nonpositive species medians by trait under S3 and prune-only",
+        "explicit statement that the all-201 natural-log sensitivity is not estimable under the frozen no-offset rule"
       ],
-      "inferential": false,
-      "source_result": "results/trait_memory_geometry_adjustment_v0_7_2/result.json",
-      "role": "Pre-frozen robustness visualization; no new hypothesis test."
+      "source_result": "results/trait_memory_robust_effects_v0_3/result.json"
     },
     "supplementary_figure_S2": {
-      "title": "Family context is stable to BIEN provenance composition",
+      "title": "Family context is not detectably organized by deeper family phylogeny",
       "panels": [
-        "family context score versus family median source HHI and dominant-source share",
-        "R_family: unadjusted 0.1504, source-adjusted 0.1492, source-citation-adjusted 0.1470"
+        "family context difference versus family patristic distance"
       ],
-      "inferential": false,
-      "source_result": "results/trait_memory_source_composition_v0_1/result.json",
-      "role": "Post-outcome sensitivity; no causal claim."
+      "role": "Post-outcome complementary analysis; not a primary inferential pillar."
     }
   },
   "hard_rules": [
     "No outcome-based family/trait clustering or sorting for inferential storytelling.",
-    "Do not encode R_family > R_trait as a significance comparison.",
-    "Residual share label must be unresolved system-level/residual.",
-    "Deep-family-phylogeny exploratory result belongs in Supplement or complementary panel, not a primary Figure 1-4 pillar."
-  ]
+    "Do not encode family > trait or system > family as a significance comparison.",
+    "Do not label the old residual share as system specificity.",
+    "Do not label negative unshrunk gain as anti-portability.",
+    "Keep the all-201 log-scale HOLD visible; no offset or selected-subset rescue.",
+    "Deep-family-phylogeny exploratory result belongs in Supplement or a complementary panel, not a primary inferential pillar."
+  ],
+  "current_central_claim": "Phylogenetic trait memory is lineage-contingent rather than a stable trait-intrinsic signature."
 }

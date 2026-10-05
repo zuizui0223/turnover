@@ -35,11 +35,51 @@ def write_csv(name,fieldnames,rows):
         w.writeheader(); w.writerows(rows)
 
 write_csv(
-    "fig1_recovery.csv",
-    ["representation","recovered","total","rate"],
+    "fig1_gate_partition.csv",
+    ["representation","outcome","n","total","rate"],
     [
-      {"representation":"Continuous scalar","recovered":249,"total":443,"rate":m["pass_rate_continuous"]},
-      {"representation":"Nominal categorical","recovered":6,"total":279,"rate":m["pass_rate_categorical"]}
+      {
+        "representation":"Continuous scalar",
+        "outcome":"Generator no-bracket",
+        "n":c["semantic_summary"]["continuous_scalar"]["n_no_bracket"],
+        "total":c["semantic_summary"]["continuous_scalar"]["n"],
+        "rate":c["semantic_summary"]["continuous_scalar"]["no_bracket_rate"]
+      },
+      {
+        "representation":"Continuous scalar",
+        "outcome":"Assigned, recovery failed",
+        "n":c["semantic_summary"]["continuous_scalar"]["n_recovery_fail_after_calibration"],
+        "total":c["semantic_summary"]["continuous_scalar"]["n"],
+        "rate":c["semantic_summary"]["continuous_scalar"]["n_recovery_fail_after_calibration"]/c["semantic_summary"]["continuous_scalar"]["n"]
+      },
+      {
+        "representation":"Continuous scalar",
+        "outcome":"Recovered",
+        "n":c["semantic_summary"]["continuous_scalar"]["n_s3_pass"],
+        "total":c["semantic_summary"]["continuous_scalar"]["n"],
+        "rate":c["semantic_summary"]["continuous_scalar"]["s3_pass_rate"]
+      },
+      {
+        "representation":"Nominal categorical",
+        "outcome":"Generator no-bracket",
+        "n":c["semantic_summary"]["nominal_categorical"]["n_no_bracket"],
+        "total":c["semantic_summary"]["nominal_categorical"]["n"],
+        "rate":c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"]
+      },
+      {
+        "representation":"Nominal categorical",
+        "outcome":"Assigned, recovery failed",
+        "n":c["semantic_summary"]["nominal_categorical"]["n_recovery_fail_after_calibration"],
+        "total":c["semantic_summary"]["nominal_categorical"]["n"],
+        "rate":c["semantic_summary"]["nominal_categorical"]["n_recovery_fail_after_calibration"]/c["semantic_summary"]["nominal_categorical"]["n"]
+      },
+      {
+        "representation":"Nominal categorical",
+        "outcome":"Recovered",
+        "n":c["semantic_summary"]["nominal_categorical"]["n_s3_pass"],
+        "total":c["semantic_summary"]["nominal_categorical"]["n"],
+        "rate":c["semantic_summary"]["nominal_categorical"]["s3_pass_rate"]
+      }
     ]
 )
 

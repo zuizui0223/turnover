@@ -125,8 +125,9 @@ for(b in seq_len(B)){
   kk <- 0L
   for(i in seq_along(fd)){
     for(j in seq_along(td)){
-      z <- idx_map[[paste(fd[[i]],td[[j]],sep="\r")]]
-      if(is.null(z) || is.na(z)) next
+      z <- idx_map[paste(fd[[i]],td[[j]],sep="\r")]
+      if(length(z)==0 || is.na(z[[1]])) next
+      z <- unname(z[[1]])
       kk <- kk+1L
       yy[[kk]] <- x$S3_raw_rho[[z]]
       ss[[kk]] <- x$S3_raw_se[[z]]

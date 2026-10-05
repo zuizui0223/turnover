@@ -27,7 +27,9 @@
     "mandatory_tree_sensitivity": "prune_only"
   },
   "gate0_reference_identity": {
-    "rule": "Re-extracted raw S3 and prune-only rho must match the frozen reference effects for every family x trait key to absolute tolerance <=1e-12 before any robustness interpretation.",
+    "rule": "The archived reference effects were persisted through jsonlite at four decimal places. Before any robustness interpretation, every re-extracted raw S3 and prune-only rho must therefore reproduce the archived value after rounding the new estimate to four decimal places; equivalently, absolute difference from the archived numeric value must be <=5e-5, allowing only the archive's declared rounding precision.",
+    "archive_precision": "4 decimal places",
+    "no_claim_of_unrounded_identity": true,
     "failure": "HOLD_TRAIT_MEMORY_ROBUSTNESS_REFERENCE_DRIFT"
   },
   "measurement_error": {
@@ -178,5 +180,11 @@
     "No dropping low-degree traits/families to improve robustness.",
     "No new portability predictor after the BLUP sensitivity.",
     "No spatial-turnover or ecological-mechanism claim from these robustness analyses."
-  ]
+  ],
+  "technical_amendment": {
+    "version": "v0.3.0a",
+    "date": "2026-10-05",
+    "before_robustness_execution": true,
+    "reason": "The frozen reference effects.csv stores rho only to four decimal places, so the initial 1e-12 identity wording exceeded the precision of the archived evidence. No robustness outcome had been computed when corrected."
+  }
 }

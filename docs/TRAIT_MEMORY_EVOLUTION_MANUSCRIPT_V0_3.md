@@ -14,9 +14,9 @@ comparative methods; phylogenetic signal; plant functional traits; predictive ge
 
 ## Introduction
 
-Closely related species often resemble one another, but the strength of that resemblance is not fixed across traits, clades or ecological contexts. Classic comparative work has established strong variation in phylogenetic signal among traits and lineages, and evolutionary rates for the same plant functional trait can differ greatly among clades. These patterns motivate a deeper question: **what exactly is generalizable about phylogenetic signal?**
+Closely related species often resemble one another, but the strength of that resemblance is not fixed across traits, clades or ecological contexts. Classic comparative work has established strong variation in phylogenetic signal among traits and lineages, and evolutionary rates for the same plant functional trait can differ greatly among clades (Blomberg et al., 2003; Ackerly, 2009; Münkemüller et al., 2012). These patterns motivate a deeper question: **what exactly is generalizable about phylogenetic signal?**
 
-Most analyses treat phylogenetic signal descriptively. A trait is analysed within one clade, or several traits are compared within a phylogeny, and variation in the resulting signal estimates is interpreted biologically. Yet comparative studies increasingly borrow information across lineages: phylogenetic structure is used to inform trait imputation, priors, covariance models and expectations in incompletely sampled clades. Such borrowing implicitly assumes that the evolutionary structure associated with a named trait is transferable.
+Most analyses treat phylogenetic signal descriptively. A trait is analysed within one clade, or several traits are compared within a phylogeny, and variation in the resulting signal estimates is interpreted biologically. Yet comparative studies increasingly borrow information across lineages: phylogenetic structure is used to inform trait imputation, priors, covariance models and expectations in incompletely sampled clades (Molina-Venegas et al., 2018; Debastiani et al., 2021; Molina-Venegas, 2024; Pearse et al., 2025). Such borrowing implicitly assumes that the evolutionary structure associated with a named trait is transferable.
 
 That assumption is stronger than the statement that a trait can show phylogenetic signal in many clades. A trait could repeatedly show phylogenetic structure while the **amount** of structure varies unpredictably among lineages. If so, “leaf area is phylogenetically conserved” might be broadly true, while an estimate of how strongly leaf area tracks phylogeny in one set of families could still be uninformative for another family.
 
@@ -50,9 +50,9 @@ No family or trait was subsequently added, removed or reweighted on the basis of
 
 ### Species-level trait states and phylogenies
 
-For each family × trait system, species-level trait state was the median valid trait value for that species under the frozen BIEN extraction contract.
+For each family × trait system, species-level trait state was the median valid trait value for that species under the frozen Botanical Information and Ecology Network extraction contract (Enquist et al., 2026).
 
-The primary phylogeny used the S3 placement from V.PhyloMaker2. A mandatory sensitivity retained only backbone-native prune-only tips.
+The primary phylogeny used the S3 placement from V.PhyloMaker2 (Jin & Qian, 2022). A mandatory sensitivity retained only backbone-native prune-only tips.
 
 The complete 201-system raw effect matrix was independently re-extracted during the robustness programme and reproduced the archived effects for all systems at the archived four-decimal precision.
 
@@ -66,7 +66,7 @@ The phylogenetic memory gradient was
 
 Positive rho means that more phylogenetically distant species tend to differ more strongly in trait state.
 
-This response is a distance-based memory descriptor, not a claim to replace standard phylogenetic-signal metrics such as Blomberg's K or Pagel's lambda. Mantel-type statistics can have low power for generic phylogenetic-signal testing, and different signal indices answer different inferential questions. Here rho was fixed because the study required one common response that could be estimated identically across all family × trait systems and subjected directly to held-out-family prediction.
+This response is a distance-based memory descriptor, not a claim to replace standard phylogenetic-signal metrics such as Blomberg's K or Pagel's lambda (Blomberg et al., 2003; Pagel, 1999). Mantel-type statistics can have low power for generic phylogenetic-signal testing (Harmon & Glor, 2010; Hardy & Pavoine, 2012), and different signal indices answer different inferential questions (Münkemüller et al., 2012; Pearse et al., 2025). Here rho was fixed because the study required one common response that could be estimated identically across all family × trait systems and subjected directly to held-out-family prediction.
 
 The estimator was qualified on the exact admitted geometries before real effects were opened. In the robustness programme, sampling uncertainty was estimated at the species level rather than by treating pairwise distances as independent observations.
 
@@ -293,7 +293,7 @@ A stronger test would require an independently designed hierarchical study that 
 
 The present memory gradient is intentionally a common distance-decay descriptor, not a general phylogenetic-signal estimator.
 
-Blomberg's K, Pagel's lambda and model-based evolutionary parameters answer related but distinct questions.
+Blomberg's K, Pagel's lambda and model-based evolutionary parameters answer related but distinct questions (Blomberg et al., 2003; Pagel, 1999; Pearse et al., 2025).
 
 Mantel-type approaches can have poor performance as generic tests of phylogenetic signal, which is why we do not interpret rho as a universally optimal index or infer mechanism from its absolute value.
 
@@ -351,3 +351,30 @@ Do not state that:
 - the family component identifies a known evolutionary mechanism;
 - the raw metric is log-scale invariant;
 - the study resolves spatial turnover.
+
+
+## References
+
+Ackerly, D. D. (2009). Conservatism and diversification of plant functional traits: Evolutionary rates versus phylogenetic signal. *Proceedings of the National Academy of Sciences of the United States of America, 106*(Suppl. 2), 19699–19706. https://doi.org/10.1073/pnas.0901635106
+
+Blomberg, S. P., Garland, T., Jr., & Ives, A. R. (2003). Testing for phylogenetic signal in comparative data: Behavioral traits are more labile. *Evolution, 57*, 717–745. https://doi.org/10.1111/j.0014-3820.2003.tb00285.x
+
+Debastiani, V. J., Bastazini, V. A. G., & Pillar, V. D. (2021). Using phylogenetic information to impute missing functional trait values in ecological databases. *Ecological Informatics, 63*, 101315. https://doi.org/10.1016/j.ecoinf.2021.101315
+
+Enquist, B. J., Boyle, B., Maitner, B. S., et al. (2026). BIEN: A biodiversity informatics ecosystem advancing open and reproducible workflows for plant observation, plot and trait data. *Methods in Ecology and Evolution, 17*, 1556–1584. https://doi.org/10.1111/2041-210X.70274
+
+Hardy, O. J., & Pavoine, S. (2012). Assessing phylogenetic signal with measurement error: A comparison of Mantel tests, Blomberg et al.'s K, and phylogenetic distograms. *Evolution, 66*, 2614–2621. https://doi.org/10.1111/j.1558-5646.2012.01623.x
+
+Harmon, L. J., & Glor, R. E. (2010). Poor statistical performance of the Mantel test in phylogenetic comparative analyses. *Evolution, 64*, 2173–2178. https://doi.org/10.1111/j.1558-5646.2010.00973.x
+
+Jin, Y., & Qian, H. (2022). V.PhyloMaker2: An updated and enlarged R package that can generate very large phylogenies for vascular plants. *Plant Diversity, 44*, 335–339. https://doi.org/10.1016/j.pld.2022.05.005
+
+Molina-Venegas, R., Moreno-Saiz, J. C., Castro Parga, I., Davies, T. J., Peres-Neto, P. R., & Rodríguez, M. Á. (2018). Assessing among-lineage variability in phylogenetic imputation of functional trait datasets. *Ecography, 41*, 1740–1749. https://doi.org/10.1111/ecog.03480
+
+Molina-Venegas, R. (2024). How to get the most out of phylogenetic imputation without abusing it. *Methods in Ecology and Evolution, 15*, 456–463. https://doi.org/10.1111/2041-210X.14198
+
+Münkemüller, T., Lavergne, S., Bzeznik, B., Dray, S., Jombart, T., Schiffers, K., & Thuiller, W. (2012). How to measure and test phylogenetic signal. *Methods in Ecology and Evolution, 3*, 743–756. https://doi.org/10.1111/j.2041-210X.2012.00196.x
+
+Pagel, M. (1999). Inferring the historical patterns of biological evolution. *Nature, 401*, 877–884. https://doi.org/10.1038/44766
+
+Pearse, W. D., Davies, T. J., & Wolkovich, E. M. (2025). How to define, use, and interpret Pagel's lambda in ecology and evolution. *Global Ecology and Biogeography, 34*, e70012. https://doi.org/10.1111/geb.70012

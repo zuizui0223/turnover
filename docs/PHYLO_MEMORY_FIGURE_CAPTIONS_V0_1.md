@@ -1,8 +1,8 @@
 # Primary figure captions — truth assignability paper
 
-## Figure 1. Known truth passes three distinct gates before recovery
+## Figure 1. Failed known-truth simulations must be localized before power is interpreted
 
-**A**, A simulation target must first be structurally realizable by the representation on the realized design, then accessible to the chosen stochastic generator, and only then can downstream recovery be evaluated. Failure at an earlier gate cannot be interpreted as estimator power. **B**, Known-truth recovery in the frozen 722-system programme differed sharply by representation: 249/443 continuous-scalar systems (56.2%) recovered the common target Spearman rho = 0.15, compared with 6/279 nominal-categorical systems (2.15%). These rates describe the full frozen recovery gate and do not imply differences in biological conservatism.
+**A**, A requested simulation target must first be structurally realizable by the representation on the realized design, then accessible to the chosen stochastic generator, and only then can downstream recovery be evaluated. Failure at an earlier gate cannot be interpreted as estimator power. **B**, The 683 systems with stored calibration diagnostics partitioned very differently despite sharing the same target Spearman rho = 0.15. Among 407 continuous-scalar systems, 60 (14.7%) were generator no-bracket, 54 (13.3%) were successfully assigned but failed the S3 recovery gate, and 293 (72.0%) passed S3 recovery. Among 276 nominal-categorical systems, 220 (79.7%) were generator no-bracket, 38 (13.8%) were assigned but failed S3 recovery, and 18 (6.52%) passed. Thus the large representation contrast in the final endpoint is localized primarily before recovery. Panel B is the stored-diagnostics S3 subset and is distinct from the full 722-system two-geometry qualification endpoint reported in the text.
 
 ## Figure 2. Binary state space is not the observed calibration ceiling
 

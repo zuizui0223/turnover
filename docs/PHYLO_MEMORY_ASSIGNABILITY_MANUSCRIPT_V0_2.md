@@ -112,7 +112,7 @@ where p is the prevalence of mismatch pairs and
 
 `Delta_rank = (mean rank_mismatch - mean rank_match) / SD(rank)`.
 
-This is an exact finite-sample point-biserial identity when the rank variance is written in population form; the common finite-sample scaling cancels from the correlation coefficient. A complete derivation is provided in `docs/PHYLO_MEMORY_BINARY_ATTENUATION_PROOF_V0_1.md`.
+This is an exact finite-sample point-biserial identity when the rank variance is written in population form; the common finite-sample scaling cancels from the correlation coefficient. A complete derivation is provided in Supplementary Methods S1.
 
 Because `sqrt(p(1-p)) <= 0.5`, a necessary balance-normalized separation capable of supporting rho = 0.15 is `Delta_rank = 0.30` at p = 0.5. We therefore froze a final mechanism test that reproduced the same Mk2 pilot states and same distance ranks but calibrated Delta_rank instead of rho. The corresponding tolerance was 0.02, obtained by mapping the original rho tolerance of 0.01 at p = 0.5.
 
@@ -215,19 +215,6 @@ These limitations restrict the numerical generality of the observed percentages.
 Known-truth simulations can fail before statistical power is meaningfully evaluated. In our phylogenetic-memory example, categorical target failure was not caused by an absence of informative binary states: the target was explicitly realizable on every tree. Instead, generator accessibility, state-balance attenuation and downstream recovery each removed different systems. A power study that collapses these stages can therefore attribute failure to the estimator when the requested truth was never successfully assigned.
 
 For constrained representations, “known truth” should be treated as a claim to verify, not an input to assume.
-
-## Figure mapping
-
-- **Figure 1:** assignability gates and the representation-dependent recovery contrast.
-- **Figure 2:** structural witness versus latent-OU accessibility, plus effect-ceiling versus validity-collapse failure.
-- **Figure 3:** sequential OU → Mk2 → balance-normalized accessibility and recovery after assignment.
-
-Primary figure captions are in `docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md`. The frozen figure plan is `data/phylo_memory_figure_plan_v0_1.json`.
-
-## Analysis closure
-
-The primary mechanism programme is closed under `data/phylo_memory_mechanism_stop_v0_5_2.json` and `data/phylo_memory_mechanism_close_v0_5_3.json`. No additional generator, estimator, target, grid extension or outcome-based subgroup search on these 276 categorical systems may strengthen the primary claim. The unresolved remainder is part of the result.
-
 
 ## References
 

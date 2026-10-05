@@ -42,10 +42,10 @@
     },
     {
       "id": "Fig3",
-      "title": "Generator choice and state balance independently control truth accessibility",
-      "question": "How much of the categorical accessibility failure is rescued by changing the generator and then removing the exact state-balance attenuation term?",
+      "title": "Generator choice, state balance and recovery are separable bottlenecks",
+      "question": "How do generator choice, an exact balance-normalized diagnostic, and downstream recovery contribute to the categorical calibration bottleneck?",
       "panels": [
-        "A: sequential no-bracket rate from latent-OU thresholding to Mk2 and balance-normalized Delta_rank, with the final four-system geometry-HOLD uncertainty shown as a bounded interval",
+        "A: mechanism sequence. OU and Mk2 use the identical rho=0.15 target; the third point holds Mk2 states and distance ranks fixed but calibrates balance-normalized Delta_rank=0.30, so it is a diagnostic re-expression rather than the identical estimand. The four geometry-HOLD systems are shown as a bounded interval.",
         "B: paired rescue versus new-failure counts for OU->Mk2 and Mk2-rho->balance-normalized transitions",
         "C: recovery after successful Mk2 assignment: 69 pass versus 37 recovery failures among 106 calibrated systems"
       ],

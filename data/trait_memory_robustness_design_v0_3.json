@@ -265,5 +265,19 @@
     "scientific_change": false,
     "after_hold_observed": true,
     "purpose": "Record conditionMessage for the already-frozen 500 refits to distinguish an implementation-level failure from a genuine refitability failure. The same seed, resamples, rma.mv specification, 0.90 gate, and result status are retained."
+  },
+  "interpretation_correction_cluster_bootstrap_runtime": {
+    "version": "v0.3.0g",
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "supersedes_interpretation_only": "execution_note_measurement_aware_hold",
+    "observed_diagnostic": {
+      "successful_refits": 0,
+      "total_refits": 500,
+      "unique_error": "unimplemented type 'list' in 'orderVector1'"
+    },
+    "conclusion": "The apparent 0/500 gate failure was a uniform implementation/type failure before a valid statistical refit, not evidence that the frozen cluster bootstrap is statistically non-refittable.",
+    "correction": "Coerce bootstrap response, SE, family, trait, and system-id inputs to atomic numeric/character vectors before constructing factors. Retain identical 500 resamples, seed, rma.mv model, and 0.90 success gate.",
+    "no_threshold_relaxation": true
   }
 }

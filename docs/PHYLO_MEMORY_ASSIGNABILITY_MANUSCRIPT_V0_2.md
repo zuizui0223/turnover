@@ -144,7 +144,7 @@ The categorical bottleneck was broad but heterogeneous. Across seven categorical
 
 ### The binary state space could express the target in every tree
 
-The structural-realizability test rejected the simplest explanation for categorical no-bracket failure. All 276 categorical S3 trees contained at least one one-transition edge split with rho >= 0.15. Among the 220 original OU no-bracket systems, none had a maximum edge-split rho below the target.
+The structural-realizability test rejected the simplest explanation for categorical no-bracket failure. All 276 categorical S3 trees contained at least one one-transition edge split with rho >= 0.15. Among the 220 original OU no-bracket systems, 220/220 likewise had at least one realizable one-transition edge split at or above the target.
 
 The median maximum edge-split rho among these 220 systems was 0.7733 (IQR 0.7422–0.8114), whereas the median maximum rho reached on the frozen OU grid was 0.09785. The median gap between an explicit realizable one-transition state and the maximum OU-grid pilot rho was 0.67665 (IQR 0.62935–0.7283; Fig. 2A). The target therefore existed in the realized binary state space but was usually inaccessible along the chosen generative path.
 

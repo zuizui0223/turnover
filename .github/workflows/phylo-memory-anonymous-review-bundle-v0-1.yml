@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/phylo-memory-anonymous-review-bundle-v0-1.yml'
       - 'docs/PHYLO_MEMORY_ANONYMOUS_REVIEW_BUNDLE_V0_1.md'
+      - 'docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md'
       - 'data/phylo_memory_*'
       - 'results/phylo_memory_*/result.json'
       - 'scripts/analysis/*phylo_memory*'
@@ -28,7 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           B=build/anonymous-review
-          mkdir -p "$B"/{data,results,scripts/analysis,scripts/figures,evidence}
+          mkdir -p "$B"/{data,results,scripts/analysis,scripts/figures,evidence,supplement}
 
           cat > "$B/README.md" <<'EOF'
           # Anonymous review bundle
@@ -54,6 +55,7 @@ jobs:
           cp data/phylo_memory_mechanism_stop_v0_5_2.json "$B/data/"
           cp data/phylo_memory_mechanism_close_v0_5_3.json "$B/data/"
           cp data/phylo_memory_figure_plan_v0_1.json "$B/data/"
+          cp docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md "$B/supplement/Supplementary_Methods.md"
 
           for p in             results/phylo_memory_measurability_v0_1/result.json             results/phylo_memory_calibration_ceiling_v0_2/result.json             results/phylo_memory_calibration_ceiling_v0_2_1/result.json             results/phylo_memory_binary_ceiling_v0_3_1/result.json             results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json             results/phylo_memory_mk2_generator_v0_4_1/result.json             results/phylo_memory_balance_normalized_v0_5/result.json
           do

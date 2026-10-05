@@ -161,7 +161,7 @@
     "role": "Separate lack of transferable trait signal from noise in unshrunk trait means.",
     "original_statistic_preserved": true,
     "secondary_predictor": "Leave-one-family-out BLUP from training-only lmer rho ~ 1 + (1|trait_name) + (1|family); prediction for held-out family is fixed intercept + trait BLUP with new-family effect set to zero.",
-    "baseline": "training-set fixed intercept/global mean under the corresponding training fit",
+    "baseline": "Original portability baseline: arithmetic mean rho across all training systems after leaving out the target family.",
     "axes": [
       "S3",
       "prune_only"

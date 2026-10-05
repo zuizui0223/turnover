@@ -20,6 +20,7 @@ abstract=(root/"docs/PHYLO_MEMORY_ABSTRACT_V0_1.md").read_text()
 paper=(root/"docs/PHYLO_MEMORY_ASSIGNABILITY_MANUSCRIPT_V0_2.md").read_text()
 caps=(root/"docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md").read_text()
 boundary=(root/"docs/PHYLO_MEMORY_NOVELTY_BOUNDARY_V0_1.md").read_text()
+supp=(root/"docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md").read_text()
 
 assert z["status"]=="PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED"
 assert m["n_systems"]==722
@@ -69,6 +70,12 @@ assert ("all 220" in paper or "220/220" in paper), "paper must state that all 22
 assert ("220/220" in boundary or "all 220" in boundary), "novelty boundary must retain the 220-system structural witness claim"
 assert "No additional generator, estimator, target, grid extension or outcome-based subgroup search" in paper
 assert "structural realizability" in abstract and "generator accessibility" in abstract and "recovery" in abstract
+assert "Supplementary Methods S1" in paper
+assert "## S1. Exact binary state-balance attenuation identity" in supp
+assert "## S2. Prospective mechanism sequence and stop rule" in supp
+assert "docs/PHYLO_MEMORY_" not in paper
+assert "data/phylo_memory_" not in paper
+assert "## Figure mapping" not in paper and "## Analysis closure" not in paper
 assert all(f"\n{i}. " in abstract for i in range(1,5)), "MEE abstract must contain numbered points 1-4"
 assert "65.0 percentage points" in abstract
 assert "Structural feasibility does not guarantee generator accessibility" in abstract

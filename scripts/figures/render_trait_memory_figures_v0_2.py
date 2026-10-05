@@ -31,8 +31,8 @@ def save(fig,name):
 # ---------- Figure 1 ----------
 var=read("figure1_variance_shares.csv")
 het=read("figure1_heterogeneity_ci.csv")
-fig=plt.figure(figsize=(9.2,3.7))
-gs=fig.add_gridspec(1,3,wspace=0.42)
+fig=plt.figure(figsize=(10.2,4.0))
+gs=fig.add_gridspec(1,3,width_ratios=[1.05,1.0,1.05],wspace=0.58)
 
 component_order={
     "naive":["family","trait","residual_unresolved"],
@@ -46,7 +46,7 @@ hatches={
     "sampling_error":"xx"
 }
 
-def stacked(ax,axis,title):
+def stacked(ax,axis,title,show_ylabels=True):
     y=[1,0]
     models=["naive","measurement_aware"]
     labels=["Original lmer","Measurement-aware"]
@@ -60,14 +60,17 @@ def stacked(ax,axis,title):
             if v>=.10:
                 ax.text((left+v/2)*100,yy,f"{v*100:.0f}%",ha="center",va="center",fontsize=8)
             left+=v
-    ax.set_yticks(y,labels)
+    if show_ylabels:
+        ax.set_yticks(y,labels)
+    else:
+        ax.set_yticks(y,["",""])
     ax.set_xlim(0,100)
     ax.set_xlabel("Variance share (%)")
     ax.set_title(title,loc="left",fontweight="bold")
     ax.spines[["top","right"]].set_visible(False)
 
 ax=fig.add_subplot(gs[0,0])
-stacked(ax,"S3","A  S3 residual decomposes")
+stacked(ax,"S3","A  S3 point decomposition")
 
 ax=fig.add_subplot(gs[0,1])
 names=["family","trait","system"]
@@ -79,22 +82,22 @@ ax.errorbar(x,points,yerr=np.vstack([points-lo,hi-points]),fmt="o",capsize=4,lin
 ax.set_xticks(x,["Family","Trait","System"])
 ax.set_ylim(0,0.82)
 ax.set_ylabel("Share of between-system heterogeneity")
-ax.set_title("B  Component ranking is uncertain",loc="left",fontweight="bold")
+ax.set_title("B  Heterogeneity uncertainty",loc="left",fontweight="bold")
 ax.spines[["top","right"]].set_visible(False)
 for xx,p in zip(x,points):
     ax.text(xx,p+.035,f"{p:.2f}",ha="center",fontsize=8)
 
 ax=fig.add_subplot(gs[0,2])
-stacked(ax,"prune_only","C  Prune-only sensitivity")
+stacked(ax,"prune_only","C  Prune-only decomposition",show_ylabels=False)
 
 fig.suptitle("Figure 1. Sampling error accounts for a substantial part of apparent cell-level variation",
-             x=.02,ha="left",fontsize=11,fontweight="bold")
+             x=.02,y=.98,ha="left",fontsize=10.5,fontweight="bold")
 save(fig,"Fig1_measurement_error_decomposition.svg")
 
 # ---------- Figure 2 ----------
 null=read("figure2_correlated_trait_null.csv")
 rob=read("figure2_family_robustness.csv")
-fig=plt.figure(figsize=(8.0,3.8))
+fig=plt.figure(figsize=(8.6,3.9))
 gs=fig.add_gridspec(1,2,wspace=.42)
 
 ax=fig.add_subplot(gs[0,0])
@@ -109,7 +112,6 @@ ax.set_xlim(0,.19)
 ax.set_xlabel("Family repeatability")
 ax.set_title("A  Observed family component exceeds null",loc="left",fontweight="bold")
 ax.spines[["top","right"]].set_visible(False)
-ax.text(.005,-.72,"thick line = null 95% interval; circle = null median; diamond = observed",fontsize=7.5)
 
 ax=fig.add_subplot(gs[0,1])
 labels=["Unadjusted","Species count","Geometry","Source","Citation","Five domains"]
@@ -126,14 +128,15 @@ for x0,v in zip(xx,vals):
     ax.text(x0,v+.0009,f"{v:.3f}",ha="center",fontsize=7.5)
 
 fig.suptitle("Figure 2. Correlated traits and measured design artifacts do not explain the family component",
-             x=.02,ha="left",fontsize=11,fontweight="bold")
+             x=.02,y=.98,ha="left",fontsize=10.5,fontweight="bold")
+fig.text(.035,.02,"Panel A: thick line = null 95% interval; circle = null median; diamond = observed",fontsize=7.2)
 save(fig,"Fig2_family_repeatability_robustness.svg")
 
 # ---------- Figure 3 ----------
 port=read("figure3_portability.csv")
 tv=read("figure3_training_variance.csv")
-fig=plt.figure(figsize=(8.2,3.8))
-gs=fig.add_gridspec(1,3,width_ratios=[1.15,1.0,1.15],wspace=.46)
+fig=plt.figure(figsize=(9.8,4.25))
+gs=fig.add_gridspec(1,3,width_ratios=[1.0,1.0,1.35],wspace=.44)
 
 ax=fig.add_subplot(gs[0,0])
 axes=["S3","prune_only"]
@@ -147,7 +150,7 @@ ax.set_xticks(np.arange(2),["S3","Prune-only"])
 ax.set_ylabel("Portability gain")
 ax.set_ylim(-.04,.015)
 ax.legend(frameon=False,fontsize=8)
-ax.set_title("A  Shrinkage removes most penalty",loc="left",fontweight="bold")
+ax.set_title("A  Portability gain",loc="left",fontweight="bold")
 ax.spines[["top","right"]].set_visible(False)
 
 ax=fig.add_subplot(gs[0,1])
@@ -157,7 +160,7 @@ for k,comp in enumerate(["trait","residual"]):
 ax.set_xticks(np.arange(2),["S3","Prune-only"])
 ax.set_ylabel("Training variance")
 ax.legend(frameon=False,fontsize=8)
-ax.set_title("B  Trait variance is small",loc="left",fontweight="bold")
+ax.set_title("B  Training variance",loc="left",fontweight="bold")
 ax.spines[["top","right"]].set_visible(False)
 
 ax=fig.add_subplot(gs[0,2]); ax.axis("off")
@@ -166,15 +169,14 @@ items=[
     ("H2  Family-context","Modest support","same family → other traits"),
     ("H3  Deep inheritance","Not supported*","family context → deep phylogeny")
 ]
-y=.82
-for name,result,desc in items:
-    ax.text(.02,y,name,fontweight="bold",fontsize=9,transform=ax.transAxes)
-    ax.text(.02,y-.10,result,fontsize=9,transform=ax.transAxes)
-    ax.text(.02,y-.19,desc,fontsize=7.7,transform=ax.transAxes)
-    y-=.31
-ax.text(.02,.01,"* post-outcome complementary analysis",fontsize=7,transform=ax.transAxes)
-ax.set_title("C  Scale of generalization",loc="left",fontweight="bold")
+positions=[.80,.50,.20]
+for (name,result,desc),y in zip(items,positions):
+    ax.text(.02,y,name,fontweight="bold",fontsize=8.8,transform=ax.transAxes)
+    ax.text(.02,y-.085,result,fontsize=8.5,transform=ax.transAxes)
+    ax.text(.02,y-.165,desc,fontsize=7.3,transform=ax.transAxes)
+ax.set_title("C  Generalization hierarchy",loc="left",fontweight="bold")
 
 fig.suptitle("Figure 3. Trait identity carries little robust memory information across families",
-             x=.02,ha="left",fontsize=11,fontweight="bold")
+             x=.02,y=.98,ha="left",fontsize=10.5,fontweight="bold")
+fig.text(.705,.02,"* H3 is a post-outcome complementary analysis",fontsize=7.0)
 save(fig,"Fig3_portability_and_scale.svg")

@@ -99,6 +99,31 @@ safe_spearman <- function(sep,diss){
   as.numeric(z)
 }
 
+weighted_midranks <- function(group_id,weights,n_groups){
+  gw <- tabulate(group_id,nbins=n_groups,weights=weights)
+  before <- c(0,head(cumsum(gw),-1))
+  mid <- before + (gw+1)/2
+  mid[group_id]
+}
+
+weighted_spearman_counts <- function(counts,pair_i,pair_j,gx,gy,nx,ny){
+  w_self <- counts*(counts-1)/2
+  w_pair <- counts[pair_i]*counts[pair_j]
+  w <- c(w_self,w_pair)
+  N <- sum(w)
+  if(!is.finite(N) || N<=1) return(NA_real_)
+  rx <- weighted_midranks(gx,w,nx)
+  ry <- weighted_midranks(gy,w,ny)
+  mu <- (N+1)/2
+  dx <- rx-mu; dy <- ry-mu
+  vx <- sum(w*dx*dx)
+  vy <- sum(w*dy*dy)
+  if(vx<=0 || vy<=0) return(NA_real_)
+  z <- sum(w*dx*dy)/sqrt(vx*vy)
+  if(!is.finite(z)) return(NA_real_)
+  as.numeric(z)
+}
+
 axis_summary <- function(tree,axis_seed){
   tips <- tree$tip.label
   state_raw <- unname(state_map[tips])
@@ -112,16 +137,34 @@ axis_summary <- function(tree,axis_seed){
   state_log <- if(log_ok) log(state_raw) else rep(NA_real_,length(state_raw))
   log_obs <- if(log_ok) safe_spearman(sep0,as.numeric(dist(state_log))) else NA_real_
 
+  # Exact species-bootstrap Spearman without expanding duplicate bootstrap tips.
+  # A bootstrap sample with species counts c_i contains c_i*c_j copies of each
+  # original i-j pair and choose(c_i,2) self-copy pairs with distance/dissimilarity 0.
+  # Weighted average ranks on these fixed value categories are exactly the ranks
+  # obtained from the fully expanded bootstrap sample.
   n <- length(state_raw)
+  ij <- which(lower.tri(D),arr.ind=TRUE)
+  pair_i <- ij[,1]; pair_j <- ij[,2]
+  sep_cat <- c(rep(0,n),D[ij])
+  raw_diss_cat <- c(rep(0,n),abs(state_raw[pair_i]-state_raw[pair_j]))
+  gx <- match(sep_cat,sort(unique(sep_cat)))
+  gy_raw <- match(raw_diss_cat,sort(unique(raw_diss_cat)))
+  nx <- max(gx); ny_raw <- max(gy_raw)
+  if(log_ok){
+    log_diss_cat <- c(rep(0,n),abs(state_log[pair_i]-state_log[pair_j]))
+    gy_log <- match(log_diss_cat,sort(unique(log_diss_cat)))
+    ny_log <- max(gy_log)
+  } else {
+    gy_log <- NULL; ny_log <- NULL
+  }
+
   raw_boot <- rep(NA_real_,B)
   log_boot <- rep(NA_real_,B)
   set.seed(axis_seed)
   for(b in seq_len(B)){
-    idx <- sample.int(n,n,replace=TRUE)
-    Ds <- D[idx,idx,drop=FALSE]
-    sep <- as.numeric(as.dist(Ds))
-    raw_boot[b] <- safe_spearman(sep,as.numeric(dist(state_raw[idx])))
-    if(log_ok) log_boot[b] <- safe_spearman(sep,as.numeric(dist(state_log[idx])))
+    counts <- tabulate(sample.int(n,n,replace=TRUE),nbins=n)
+    raw_boot[b] <- weighted_spearman_counts(counts,pair_i,pair_j,gx,gy_raw,nx,ny_raw)
+    if(log_ok) log_boot[b] <- weighted_spearman_counts(counts,pair_i,pair_j,gx,gy_log,nx,ny_log)
   }
   raw_good <- is.finite(raw_boot)
   log_good <- is.finite(log_boot)
@@ -140,7 +183,8 @@ axis_summary <- function(tree,axis_seed){
     n_nonpositive=sum(state_raw<=0),
     log_rho=if(log_ok) log_obs else NULL,
     log_bootstrap_se=if(log_ok && is.finite(log_se)) log_se else NULL,
-    log_bootstrap_valid_fraction=if(log_ok) log_vf else NULL
+    log_bootstrap_valid_fraction=if(log_ok) log_vf else NULL,
+    bootstrap_implementation="exact_weighted_midrank_equivalent_to_expanded_species_bootstrap"
   )
 }
 

@@ -1,0 +1,49 @@
+{
+  "version": "RC3",
+  "status": "EVOLUTION_SUBMISSION_PACKAGE_QA_COMPLETE",
+  "date": "2026-10-06",
+  "submission_branch": "submission/trait-memory-evolution-rc1",
+  "article_type": "Original Article",
+  "title": "Phylogenetic trait memory is lineage-contingent rather than trait-intrinsic across plant families",
+  "qa": {
+    "anonymous_manuscript_pages": 23,
+    "abstract_words": 176,
+    "teaser_words": 43,
+    "keywords": 6,
+    "times_new_roman_12pt": true,
+    "double_spaced": true,
+    "continuous_line_numbers": true,
+    "page_numbers": true,
+    "figures_embedded": 3,
+    "figure_alt_text_present": true,
+    "accessibility_high_medium_low_issues": [0, 0, 0],
+    "anonymous_docx_email_hits": 0,
+    "anonymous_docx_github_url_hits": 0,
+    "anonymous_docx_repository_owner_hits": 0,
+    "anonymous_docx_checked_author_name_hits": 0,
+    "anonymous_review_bundle_email_hits": 0,
+    "anonymous_review_bundle_github_url_hits": 0,
+    "anonymous_review_bundle_repository_owner_hits": 0,
+    "anonymous_review_bundle_checked_author_name_hits": 0,
+    "anonymous_review_bundle_ci": "success",
+    "visual_qa": "All 23 manuscript pages inspected after RC2; RC3 changed only page 1 and that page was re-inspected. RC3 cover letter pages 1-2 were re-rendered and inspected."
+  },
+  "editorial_changes_since_RC2": [
+    "Removed the post-outcome provenance sensitivity from the abstract's primary-evidence list; it remains labeled as a post-outcome sensitivity in the main text and cover letter.",
+    "Balanced the Mantel-statistic discussion: performance depends on distance definitions and measurement error rather than being characterized as uniformly poor.",
+    "Added and verified Pavoine & Ricotta (2013) and corrected its authorship.",
+    "Rechecked Pearse et al. (2025), BIEN 2026, V.PhyloMaker2 2022, and Debastiani et al. (2021) against publisher metadata."
+  ],
+  "sha256": {
+    "Anonymous_Manuscript_RC3.docx": "8f0701e5cc82f0ed1eec52337f9272084308fe739b9eddb5f799c1dea15f11f4",
+    "Title_Page_Template_RC3.docx": "919d81a756caff3046585e1ca2c34f54c5919bf89b30412204c6e4d5763a7a04",
+    "Cover_Letter_Template_RC3.docx": "c88038adb18f38500e5b6bd16f8bef6cf980863a2f1f71ea6e441e384db4b1de",
+    "Figure_1.png": "496531bd14071171fd67528f63449c7348d3216f0ba6c0f255a9cdacb5b050bf",
+    "Figure_2.png": "e7df661312baad1514fe714f3b2eec6f0e1bae6dbdfecab252ba07fe30254afd",
+    "Figure_3.png": "ab50c0b7a310efe0a6579669ddede74295d39127660fc001a1a0cbfd198cda5d",
+    "Review_Materials_Anonymous_RC3.zip": "bb91190d4f17feffacacaea9d82c79bb8e383a3f43f72c96e5017d1bb2da147a",
+    "Submission_Form_Fields_RC3.txt": "3d9b62214047bc249895290facd8e2ef3167656adbafdebeaf0b1b0f9bc4d496",
+    "Evolution_submission_RC3.zip": "9f1f80d0ffbf4425443210b72e38857c08435448c0a0307deab91faa98be2240"
+  },
+  "submission_rule": "Fill only author-identifying title-page/cover-letter placeholders before submission. Do not reopen frozen scientific analyses merely to strengthen the claim."
+}

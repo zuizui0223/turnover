@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # AI-assisted development disclosure: ChatGPT (OpenAI; GPT-5.6 Sol) assisted with drafting/debugging this script. Author verification is required before submission.
 from __future__ import annotations
-import argparse,csv,json,math
+import argparse,csv,json,math,statistics
 from pathlib import Path
-import numpy as np
 
 ap=argparse.ArgumentParser()
 ap.add_argument("--input-dir",type=Path,required=True)
@@ -101,25 +100,50 @@ with a.out_csv.open("w",newline="") as fh:
     w=csv.DictWriter(fh,fieldnames=fields)
     w.writeheader(); w.writerows(rows)
 
+def _pearson(x,y):
+    if len(x)!=len(y) or len(x)<2:
+        raise ValueError("invalid correlation vectors")
+    mx=sum(x)/len(x); my=sum(y)/len(y)
+    dx=[v-mx for v in x]; dy=[v-my for v in y]
+    vx=sum(v*v for v in dx); vy=sum(v*v for v in dy)
+    if vx<=0 or vy<=0:
+        return float("nan")
+    return sum(a*b for a,b in zip(dx,dy))/math.sqrt(vx*vy)
+
+def _midranks(values):
+    order=sorted(range(len(values)),key=lambda i:values[i])
+    ranks=[0.0]*len(values)
+    k=0
+    while k<len(order):
+        j=k+1
+        while j<len(order) and values[order[j]]==values[order[k]]:
+            j+=1
+        mid=((k+1)+j)/2.0
+        for z in range(k,j):
+            ranks[order[z]]=mid
+        k=j
+    return ranks
+
 def corr(a1,a2,kind="pearson"):
-    x=np.asarray(a1,float); y=np.asarray(a2,float)
+    x=[float(v) for v in a1]; y=[float(v) for v in a2]
     if kind=="pearson":
-        return float(np.corrcoef(x,y)[0,1])
-    rx=np.argsort(np.argsort(x,kind="mergesort"),kind="mergesort").astype(float)
-    ry=np.argsort(np.argsort(y,kind="mergesort"),kind="mergesort").astype(float)
-    return float(np.corrcoef(rx,ry)[0,1])
+        return float(_pearson(x,y))
+    return float(_pearson(_midranks(x),_midranks(y)))
 
 log_summary=None
 if all_log:
-    raw=np.array([float(r["S3_raw_rho"]) for r in rows])
-    lg=np.array([float(r["S3_log_rho"]) for r in rows])
+    raw=[float(r["S3_raw_rho"]) for r in rows]
+    lg=[float(r["S3_log_rho"]) for r in rows]
+    abs_change=[abs(a-b) for a,b in zip(lg,raw)]
+    def sgn(v):
+        return 1 if v>0 else (-1 if v<0 else 0)
     log_summary={
       "n_systems":len(rows),
       "raw_log_pearson":corr(raw,lg,"pearson"),
       "raw_log_spearman":corr(raw,lg,"spearman"),
-      "sign_agreement":float(np.mean(np.sign(raw)==np.sign(lg))),
-      "median_abs_change":float(np.median(np.abs(lg-raw))),
-      "max_abs_change":float(np.max(np.abs(lg-raw)))
+      "sign_agreement":sum(sgn(a)==sgn(b) for a,b in zip(raw,lg))/len(raw),
+      "median_abs_change":float(statistics.median(abs_change)),
+      "max_abs_change":float(max(abs_change))
     }
 
 status=(
@@ -142,8 +166,8 @@ out={
   },
   "measurement_error":{
     "all_systems_have_valid_raw_se":all_raw_se,
-    "median_S3_se":float(np.median([float(r["S3_raw_se"]) for r in rows if r["S3_raw_se"]!=""])),
-    "median_prune_se":float(np.median([float(r["prune_raw_se"]) for r in rows if r["prune_raw_se"]!=""]))
+    "median_S3_se":float(statistics.median([float(r["S3_raw_se"]) for r in rows if r["S3_raw_se"]!=""])),
+    "median_prune_se":float(statistics.median([float(r["prune_raw_se"]) for r in rows if r["prune_raw_se"]!=""]))
   },
   "log_scale":{
     "all_201_positive_and_estimable":all_log,

@@ -27,6 +27,14 @@ assert e["original_no_bracket"]["n"]==220
 assert v["categorical_no_bracket"]["mechanism_counts"]=={"EFFECT_CEILING":195,"VALIDITY_COLLAPSE":25}
 assert k["mk2"]["n_no_bracket"]==170
 assert b["geometry_availability"]["n_analyzed"]==272
+for key in ("continuous_scalar","nominal_categorical"):
+    s=c["semantic_summary"][key]
+    assert s["n_no_bracket"] + s["n_recovery_fail_after_calibration"] + s["n_s3_pass"] == s["n"]
+assert abs(
+    c["semantic_summary"]["nominal_categorical"]["no_bracket_rate"]
+    - c["semantic_summary"]["continuous_scalar"]["no_bracket_rate"]
+    - 0.6496813018552149
+) < 1e-12
 
 def write_csv(name,fieldnames,rows):
     p=out/name

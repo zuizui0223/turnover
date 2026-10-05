@@ -4,7 +4,7 @@ Dear Editors,
 
 Please consider our manuscript, **“Known truth is not automatically assignable in simulation-based power studies,”** as a Research Article in *Methods in Ecology and Evolution*.
 
-Simulation-based power studies commonly specify a target effect, generate data intended to contain that effect, and then evaluate recovery. Our manuscript shows that these steps can collapse three inferentially distinct events when the target is a constrained summary of simulated data: whether the target is structurally realizable on the realized design, whether the declared generator can actually assign that realizable target, and whether the estimator can recover it after successful assignment.
+Simulation-based power studies commonly specify a target effect, generate data intended to contain that effect, and then evaluate recovery. Our manuscript shows that these steps can collapse three inferentially distinct events when the target is a constrained summary of simulated data: whether the target is structurally feasible on the realized design, whether the declared generator can actually assign that feasible target, and whether the estimator can recover it after successful assignment.
 
 We do not claim that feasibility checks for constrained correlations, data-generating-mechanism effects on power, or lower power for discrete traits are new. The methodological contribution is the **separation of structural feasibility from generator-specific accessibility and downstream recovery**, together with prospective diagnostics for each gate.
 

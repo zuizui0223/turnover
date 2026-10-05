@@ -136,7 +136,7 @@ ax.text(effect/total*50,0,f"{effect}/220\n88.6%",ha="center",va="center",color="
 ax.text(101.2,0,f"{collapse}/220\n11.4%",ha="left",va="center",fontsize=8.0)
 ax.legend(frameon=False,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1,fontsize=8)
 ax.spines[["top","right","left"]].set_visible(False)
-ax.set_title("B  Failure lies inside generator accessibility",loc="left",fontweight="bold")
+ax.set_title("B  Failure modes within the OU generator",loc="left",fontweight="bold")
 fig.suptitle("Figure 2. A hard one-transition ceiling does not explain OU calibration failure",x=0.02,ha="left",fontsize=11,fontweight="bold")
 save(fig,"Fig2_accessibility_mechanism.svg")
 

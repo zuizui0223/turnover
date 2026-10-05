@@ -2,11 +2,11 @@
 
 ## Abstract
 
-1. Simulation-based power studies usually treat a requested effect size as an input. That assumption can fail when the effect is a summary of constrained data rather than a freely assignable parameter of the generator. We distinguish three logically ordered events: **structural realizability**, **generator accessibility**, and **recovery**.
+1. Simulation-based power studies usually treat a requested effect size as an input. That assumption can fail when the effect is a summary of constrained data rather than a freely assignable parameter of the generator. We distinguish three logically ordered events: **structural feasibility**, **generator accessibility**, and **recovery**.
 
 2. We tested these gates across 722 real plant family × trait sampling geometries under a common phylogenetic-memory target (Spearman rho = 0.15), with observed trait values kept hidden. Structural realizability was audited explicitly; generator accessibility was challenged by a controlled latent-OU-to-Mk2 substitution; downstream recovery was evaluated only after successful assignment.
 
-3. Among 683 systems with complete calibration diagnostics, generator no-bracket failure differed by 65.0 percentage points between continuous-scalar and nominal-categorical representations (14.7% versus 79.7%), whereas assigned-but-S3-recovery-failed systems occupied nearly identical shares of the full diagnostic populations (13.3% versus 13.8%). All 276 categorical trees could structurally express the target. Replacing only the generator with symmetric Mk2 reduced categorical no-bracket frequency to 61.6%, and removing the exact binary state-balance attenuation term reduced it further to 42.4–43.8%. Even after successful Mk2 assignment, 34.9% failed downstream recovery.
+3. Among 683 systems with complete calibration diagnostics, generator no-bracket failure differed by 65.0 percentage points between continuous-scalar and nominal-categorical representations (14.7% versus 79.7%), whereas assigned-but-S3-recovery-failed systems occupied nearly identical shares of the full diagnostic populations (13.3% versus 13.8%). All 276 categorical trees contained a realizable one-transition state with rho >= 0.15, excluding a hard one-transition ceiling below the benchmark without claiming exact per-tree attainability within the calibration tolerance. Replacing only the generator with symmetric Mk2 reduced categorical no-bracket frequency to 61.6%, and removing the exact binary state-balance attenuation term reduced it further to 42.4–43.8%. Even after successful Mk2 assignment, 34.9% failed downstream recovery.
 
 4. A failed known-truth simulation can therefore represent different inferential events. Structural feasibility does not guarantee generator accessibility, and generator accessibility does not guarantee recovery. Power studies for constrained representations should establish target assignability before interpreting failure as low statistical power.
 
@@ -40,7 +40,7 @@ The proposed audit applies when the requested simulation target is a summary of 
 
 **Step 1 — Declare the target and validity contract.** Specify the target statistic, target value, tolerance, realized design on which it is defined, and any conditions that make a simulated replicate valid.
 
-**Step 2 — Audit structural realizability.** Construct an attainable witness, exact bound, optimization result or exhaustive check showing whether the representation × realized design can express the target at all. If the target is structurally impossible, stop: the requested power scenario is undefined for that design and target.
+**Step 2 — Audit structural feasibility.** Construct an attainable witness, exact bound, optimization result or exhaustive check showing whether the representation × realized design can express the target at all. If the target is structurally impossible, stop: the requested power scenario is undefined for that design and target.
 
 **Step 3 — Audit generator accessibility.** Holding the target statistic and realized design fixed, ask whether the declared generator can bracket or otherwise assign the target over a prospectively specified parameter family while satisfying the validity contract. Distinguish failure to approach the target from failure caused by invalid generated states.
 
@@ -86,7 +86,7 @@ The artifact-correct novel population contains 407 continuous systems and 276 ca
 
 Calibration failure does not by itself imply that the binary state space cannot express rho = 0.15. We therefore constructed an explicit realizable state family on every categorical S3 tree.
 
-Every tree edge defines a one-transition binary state: all descendant tips take one state and all remaining tips take the other. For each edge we computed the exact binary-mismatch Spearman rho between the resulting mismatch indicator and patristic-distance ranks. The maximum positive edge-split rho is not a global upper bound over all possible multi-transition binary patterns. It is a biologically interpretable attainable witness. If at least one edge split exceeds rho = 0.15, a hard binary-state-space ceiling below the target is ruled out for that tree.
+Every tree edge defines a one-transition binary state: all descendant tips take one state and all remaining tips take the other. For each edge we computed the exact binary-mismatch Spearman rho between the resulting mismatch indicator and patristic-distance ranks. The maximum positive edge-split rho is not a global upper bound over all possible multi-transition binary patterns. It is a biologically interpretable attainable witness. If at least one edge split exceeds rho = 0.15, a hard one-transition state-space ceiling below the target is ruled out for that tree. This diagnostic is deliberately one-sided: maximum rho >= 0.15 does not by itself prove that a binary configuration exists within the frozen calibration tolerance around rho = 0.15.
 
 ### Accessibility within latent-OU thresholding
 
@@ -142,11 +142,11 @@ Conditioning only on systems that could be assigned gives a different and comple
 
 The categorical bottleneck was broad but heterogeneous. Across seven categorical traits represented in the novel population, no-bracket rates ranged from 50.0% to 86.9%, with three traits above 80%. Across 100 families represented by at least two categorical systems, the median family no-bracket rate was 100% with an interquartile range of 66.7–100%.
 
-### The binary state space could express the target in every tree
+### A hard one-transition ceiling below the target was excluded in every tree
 
-The structural-realizability test rejected the simplest explanation for categorical no-bracket failure. All 276 categorical S3 trees contained at least one one-transition edge split with rho >= 0.15. Among the 220 original OU no-bracket systems, 220/220 likewise had at least one realizable one-transition edge split at or above the target.
+The one-sided structural ceiling test rejected the simplest hard-ceiling explanation for categorical no-bracket failure. All 276 categorical S3 trees contained at least one one-transition edge split with rho >= 0.15. Among the 220 original OU no-bracket systems, 220/220 likewise had at least one realizable one-transition edge split at or above the target.
 
-The median maximum edge-split rho among these 220 systems was 0.7733 (IQR 0.7422–0.8114), whereas the median maximum rho reached on the frozen OU grid was 0.09785. The median gap between an explicit realizable one-transition state and the maximum OU-grid pilot rho was 0.67665 (IQR 0.62935–0.7283; Fig. 2A). The target therefore existed in the realized binary state space but was usually inaccessible along the chosen generative path.
+The median maximum edge-split rho among these 220 systems was 0.7733 (IQR 0.7422–0.8114), whereas the median maximum rho reached on the frozen OU grid was 0.09785. The median gap between an explicit realizable one-transition state and the maximum OU-grid pilot rho was 0.67665 (IQR 0.62935–0.7283; Fig. 2A). The target was therefore not excluded by a hard one-transition state-space ceiling, while the chosen generative path usually failed to reach it.
 
 ### OU thresholding failed mainly before complete validity collapse
 
@@ -172,13 +172,13 @@ The four geometry-HOLD systems comprised three original Mk2-rho no-bracket syste
 
 ### A known target can fail before power is defined
 
-The main result is conceptual but empirically sharp: a declared known truth is not automatically an assignable truth. In this study the same rho = 0.15 target passed through three different bottlenecks. It was structurally realizable on every categorical tree. It was frequently inaccessible to the original latent-OU threshold generator. A representation-appropriate Mk2 generator rescued a substantial subset, and removing an exact state-balance attenuation term rescued another subset. Even after successful assignment, a further set of systems failed recovery.
+The main result is conceptual but empirically sharp: a declared known truth is not automatically an assignable truth. In this study the same rho = 0.15 target passed through three different bottlenecks. A hard one-transition state-space ceiling below the benchmark was excluded on every categorical tree. It was frequently inaccessible to the original latent-OU threshold generator. A representation-appropriate Mk2 generator rescued a substantial subset, and removing an exact state-balance attenuation term rescued another subset. Even after successful assignment, a further set of systems failed recovery.
 
 These are not interchangeable forms of “low power.” Structural non-realizability would mean that the requested truth is absent from the allowed state space on the realized design. Generator inaccessibility means that the state space contains suitable configurations but the chosen stochastic path does not place sufficient probability near them under the frozen parameter family. Recovery failure is downstream: the target has been assigned, but finite data and the estimator do not recover it under the declared criteria. Only the third of these is conventional estimator-power failure.
 
 ### The categorical penalty was not a hard binary ceiling
 
-A generic statement that binary or low-state categorical traits can have lower power is not new. Our result refines where that loss occurs. Every categorical tree had a one-transition witness far above the target, including every OU no-bracket tree. The binary state space itself therefore did not impose the observed ceiling at rho = 0.15.
+A generic statement that binary or low-state categorical traits can have lower power is not new. Our result refines where that loss occurs. Every categorical tree had a realizable one-transition witness above the target, including every OU no-bracket tree. Thus the observed OU ceiling cannot be attributed to a hard one-transition upper bound below rho = 0.15. This witness does not establish exact target attainability on every discrete state space.
 
 This matters because a no-bracket result could otherwise be interpreted as an intrinsic informational limitation of the representation. Here the median realizable one-edge signal among failed systems was roughly eight times the median maximum reached along the OU grid. The relevant limitation was access to the state space, not absence of informative states within it.
 
@@ -216,7 +216,7 @@ These limitations restrict the numerical generality of the observed percentages.
 
 ## Conclusion
 
-Known-truth simulations can fail before statistical power is meaningfully evaluated. In our phylogenetic-memory example, categorical target failure was not caused by an absence of informative binary states: the target was explicitly realizable on every tree. Instead, generator accessibility, state-balance attenuation and downstream recovery each removed different systems. A power study that collapses these stages can therefore attribute failure to the estimator when the requested truth was never successfully assigned.
+Known-truth simulations can fail before statistical power is meaningfully evaluated. In our phylogenetic-memory example, categorical target failure could not be explained by a hard one-transition state-space ceiling: every tree contained an explicit attainable state above the benchmark. Instead, generator accessibility, state-balance attenuation and downstream recovery each removed different systems. A power study that collapses these stages can therefore attribute failure to the estimator when the requested truth was never successfully assigned.
 
 For constrained representations, “known truth” should be treated as a claim to verify, not an input to assume.
 

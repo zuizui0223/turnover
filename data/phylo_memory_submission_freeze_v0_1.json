@@ -1,0 +1,52 @@
+{
+  "version": "v0.1",
+  "status": "SUBMISSION_RC1_FROZEN_SCIENTIFIC_CONTENT_LICENSE_PENDING",
+  "frozen_on": "2026-10-05",
+  "title": "Known truth is not automatically assignable in simulation-based power studies",
+  "target_journal": "Methods in Ecology and Evolution",
+  "article_type": "Research Article",
+  "scientific_programme": "PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED",
+  "interpretation_clarification": "data/phylo_memory_structural_claim_clarification_v0_3_2.json",
+  "claim_boundary": {
+    "framework": "structural feasibility -> generator-specific accessibility -> downstream recovery",
+    "empirical_structural_test": "one-sided edge-split ceiling witness; excludes a hard one-transition ceiling below rho=0.15 but does not prove exact per-tree target attainability within tolerance",
+    "primary_generator_evidence": "51/220 OU no-bracket systems become calibratable under Mk2 while 1/56 OU-calibrated systems become new Mk2 failures, holding tree, rho target and estimator fixed",
+    "balance_diagnostic": "Delta_rank=0.30 diagnostic on the same Mk2 states and distance ranks; not the identical rho estimand",
+    "prohibited": "No new generator, estimator, target, grid extension or outcome-based subgroup search on the same 276 categorical systems for strengthening the primary claim."
+  },
+  "git_blob_sha": {
+    "docs/PHYLO_MEMORY_ASSIGNABILITY_MANUSCRIPT_V0_2.md": "e281b152533223a519c644b0561a0e05b2781d5a",
+    "docs/PHYLO_MEMORY_ABSTRACT_V0_1.md": "c15bddd73f4b7c014f64cf7310ad212c868dd9e2",
+    "docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md": "9fcae5ef1d26fdfc99fa0056820577c0845dd1a3",
+    "docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md": "d140873bfe27ed2cf495deb367942227ada9f9f5",
+    "docs/PHYLO_MEMORY_NOVELTY_BOUNDARY_V0_1.md": "e74bac198c33f4d20dc0a870be027b2f2fb03d6f",
+    "docs/PHYLO_MEMORY_MEE_PRESUBMISSION_ENQUIRY_V0_1.md": "8b62d91326ff8fdcbf3497b8e062752afcee8173",
+    "docs/PHYLO_MEMORY_MEE_COVER_LETTER_V0_1.md": "cd9e2d9a4c969b51837eb177181af6d0d304814e",
+    "data/phylo_memory_figure_plan_v0_1.json": "8ddbbaf703464ad8988883af560338e056b37bee",
+    "data/phylo_memory_structural_claim_clarification_v0_3_2.json": "1be42881c122a1c3ab232e65e73d71c936e60808",
+    "data/phylo_memory_mechanism_stop_v0_5_2.json": "bdecca382109ee477e09df65011580eaaf4490ac",
+    "data/phylo_memory_mechanism_close_v0_5_3.json": "39dcdfa63121a4d2be5e133cb28cdf96416cc231",
+    "results/phylo_memory_measurability_v0_1/result.json": "7ab5e5a23c860e6398d5dfa1bf845cf888e3e511",
+    "results/phylo_memory_calibration_ceiling_v0_2/result.json": "4a91835646d145e356df31241a907ea9a4ed18c8",
+    "results/phylo_memory_binary_ceiling_v0_3_1/result.json": "4b6fce5b218879463d0495583bf89bef427fe5fc",
+    "results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json": "1d942b35db7dc1f3fba729f80360864e6036d972",
+    "results/phylo_memory_mk2_generator_v0_4_1/result.json": "ef10435c659e0a82ca3a626c282a8ea58361d862",
+    "results/phylo_memory_balance_normalized_v0_5/result.json": "0e82f8c41d6bbaafe1b628c4eee73af9ce872487",
+    "scripts/figures/prepare_phylo_memory_figure_data_v0_1.py": "2766c838a73a682e63c06dbb0b73ac2f247ddb95",
+    "scripts/figures/render_phylo_memory_figures_v0_1.py": "13d3fc7247163a7659d530ed6f10b428beb94ed4",
+    "scripts/analysis/verify_phylo_memory_paper_package_v0_2.py": "15bdd1a7ad8f8d1c3d93687d25423d9e85b96d22"
+  },
+  "submission_format_checks": {
+    "abstract_numbered_1_to_4": true,
+    "abstract_words_at_direct_audit": 307,
+    "keywords_count": 6,
+    "running_headline_chars": 32,
+    "main_plus_primary_captions_under_8000_words": true,
+    "ai_assistance_disclosed": true,
+    "anonymous_bundle_generated_and_audited": true
+  },
+  "unresolved_author_decision": {
+    "open_source_license": "PENDING_AUTHOR_CHOICE",
+    "note": "Do not alter scientific analyses to resolve this blocker. Add a root open-source license and author-neutral LICENSE_REVIEW.txt only after author choice."
+  }
+}

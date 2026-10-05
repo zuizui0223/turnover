@@ -1,0 +1,36 @@
+name: Phylogenetic memory paper package v0.2
+
+on:
+  pull_request:
+    paths:
+      - 'docs/PHYLO_MEMORY_ABSTRACT_V0_1.md'
+      - 'docs/PHYLO_MEMORY_ASSIGNABILITY_MANUSCRIPT_V0_2.md'
+      - 'docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md'
+      - 'docs/PHYLO_MEMORY_NOVELTY_BOUNDARY_V0_1.md'
+      - 'docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md'
+      - 'docs/PHYLO_MEMORY_MEE_TITLE_PAGE_TEMPLATE_V0_1.md'
+      - 'data/phylo_memory_figure_plan_v0_1.json'
+      - 'data/phylo_memory_mechanism_close_v0_5_3.json'
+      - 'data/phylo_memory_structural_claim_clarification_v0_3_2.json'
+      - 'results/phylo_memory_measurability_v0_1/result.json'
+      - 'results/phylo_memory_calibration_ceiling_v0_2/result.json'
+      - 'results/phylo_memory_binary_ceiling_v0_3_1/result.json'
+      - 'results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'
+      - 'results/phylo_memory_mk2_generator_v0_4_1/result.json'
+      - 'results/phylo_memory_balance_normalized_v0_5/result.json'
+      - 'scripts/analysis/verify_phylo_memory_paper_package_v0_2.py'
+      - '.github/workflows/phylo-memory-paper-package-v0-2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/analysis/verify_phylo_memory_paper_package_v0_2.py

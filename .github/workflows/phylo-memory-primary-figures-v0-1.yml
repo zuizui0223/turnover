@@ -1,0 +1,66 @@
+name: Phylogenetic memory primary figures v0.1
+
+on:
+  push:
+    branches:
+      - methods/phylo-memory-measurability-v0-1
+    paths:
+      - '.github/workflows/phylo-memory-primary-figures-v0-1.yml'
+      - 'data/phylo_memory_figure_plan_v0_1.json'
+      - 'scripts/figures/prepare_phylo_memory_figure_data_v0_1.py'
+      - 'scripts/figures/render_phylo_memory_figures_v0_1.py'
+      - 'results/phylo_memory_measurability_v0_1/result.json'
+      - 'results/phylo_memory_calibration_ceiling_v0_2/result.json'
+      - 'results/phylo_memory_binary_ceiling_v0_3_1/result.json'
+      - 'results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'
+      - 'results/phylo_memory_mk2_generator_v0_4_1/result.json'
+      - 'results/phylo_memory_balance_normalized_v0_5/result.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install matplotlib
+      - name: Validate frozen figure plan
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open('data/phylo_memory_figure_plan_v0_1.json'))
+          assert p['status']=='PRIMARY_FIGURE_PLAN_FROZEN_AFTER_MECHANISM_CLOSE'
+          assert [x['id'] for x in p['figures']]==['Fig1','Fig2','Fig3']
+          assert p['figures'][2]['primary_values']['balance_no_bracket_lower']==0.42391304347826086
+          assert p['figures'][2]['primary_values']['balance_no_bracket_upper']==0.4384057971014493
+          PY
+      - name: Prepare source-backed figure data
+        run: |
+          mkdir -p build/figure-data build/figures
+          python scripts/figures/prepare_phylo_memory_figure_data_v0_1.py \
+            --repo-root . \
+            --out-dir build/figure-data
+      - name: Render primary SVG figures
+        run: |
+          python -m py_compile scripts/figures/prepare_phylo_memory_figure_data_v0_1.py scripts/figures/render_phylo_memory_figures_v0_1.py
+          python scripts/figures/render_phylo_memory_figures_v0_1.py \
+            --data-dir build/figure-data \
+            --out-dir build/figures
+          test -s build/figures/Fig1_truth_assignability.svg
+          test -s build/figures/Fig2_accessibility_mechanism.svg
+          test -s build/figures/Fig3_sequential_rescue.svg
+          grep -q '42.4–43.8%' build/figures/Fig3_sequential_rescue.svg
+          grep -q '79.7%' build/figures/Fig1_truth_assignability.svg
+          grep -q 'S3 recovery passed' build/figures/Fig1_truth_assignability.svg
+          grep -q '195/220' build/figures/Fig2_accessibility_mechanism.svg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-primary-figures-v0-1
+          path: |
+            build/figure-data/
+            build/figures/

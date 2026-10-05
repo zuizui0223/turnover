@@ -1,0 +1,26 @@
+{
+  "version": "v0.5.2",
+  "status": "FROZEN_BEFORE_FULL_BALANCE_NORMALIZED_AGGREGATE",
+  "frozen_on": "2026-10-04",
+  "scope": "The 276-system categorical known-truth mechanism programme in PR #27.",
+  "disclosure": "Before this stop record, two successful first-execution batch artifacts (54 systems total) were inspected for implementation sanity. They showed the factorization identity was numerically exact and provided partial directional information. The full v0.5 aggregate was not available or opened.",
+  "stop_rule": "After the artifact-backed v0.5/v0.5.1 balance-normalized aggregate is recorded, no additional generator, estimator, target, state-balance transformation, subgroup filter, or parameter-grid search may be used to strengthen the primary mechanism claim on these same 276 systems.",
+  "regardless_of_v0_5_outcome": true,
+  "allowed_after_close": [
+    "correct implementation or provenance errors without changing scientific thresholds",
+    "figures and prose that report already-frozen analyses",
+    "formal algebraic derivations of already-used statistics",
+    "independent replication on a new dataset or independently frozen phylogenetic geometries",
+    "future methods explicitly labeled as separate work and not used to reclassify the primary result"
+  ],
+  "prohibited_after_close": [
+    "execute the older alternative-estimator v0.4 route to rescue a weak v0.5 result",
+    "search new estimators on the 276 systems",
+    "extend Mk2 or OU parameter grids after seeing final outcomes",
+    "change the rho=0.15 or Delta_rank=0.30 targets",
+    "drop geometry-matched systems based on their v0.5 outcome"
+  ],
+  "publication_consequence": "The paper must report the sequential decomposition as it closes: structural realizability, generator accessibility, state-balance attenuation, and recovery. Any unresolved remainder is a result, not an invitation to continue outcome-driven mechanism search.",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false
+}

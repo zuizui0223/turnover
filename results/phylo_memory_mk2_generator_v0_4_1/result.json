@@ -1,0 +1,41 @@
+{
+  "version": "v0.4.1",
+  "status": "PHYLO_MEMORY_MK2_GENERATOR_AGGREGATED",
+  "evidence_workflow_run": 37199814112,
+  "evidence_artifact_id": 11303143717,
+  "evidence_artifact_sha256": "7d826c9853979908ff150920a8c7894ff8334271c30386eb8d5430f09a7746c8",
+  "evidence_artifact_result_sha256": "1c6257aaee2eb46852f25db390a79438c98635adb4f86140827c28ec9664b09f",
+  "outcome_type": "known_truth_generator_substitution_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "n_systems": 276,
+  "benchmark": 0.15,
+  "ou_reference": {
+    "n_no_bracket": 220,
+    "no_bracket_rate": 0.7971014492753623
+  },
+  "mk2": {
+    "n_calibrated": 106,
+    "n_no_bracket": 170,
+    "no_bracket_rate": 0.6159420289855072,
+    "n_s3_pass": 69,
+    "s3_pass_rate": 0.25,
+    "n_recovery_fail_after_calibration": 37,
+    "recovery_fail_rate_given_calibrated": 0.3490566037735849,
+    "median_eta_calibrated": 0.7499,
+    "median_pilot_valid_fraction_calibrated": 1.0,
+    "hold_reason_counts": {
+      "": 69,
+      "CALIBRATION_NO_BRACKET": 170,
+      "RECOVERY_THRESHOLD_FAIL": 37
+    }
+  },
+  "paired_generator_comparison": {
+    "ou_no_bracket_mk2_calibrated_rescued_n": 51,
+    "ou_no_bracket_mk2_calibrated_rescued_fraction_of_ou_no_bracket": 0.2318181818181818,
+    "ou_calibrated_mk2_no_bracket_new_failure_n": 1,
+    "discordant_rescue_minus_loss": 50
+  },
+  "interpretation": "Replacing latent-OU thresholding with a representation-appropriate symmetric Mk2 generator rescues 51/220 original OU no-bracket systems while creating only one new calibration failure. The no-bracket rate falls from 79.7% to 61.6% and S3 pass rises to 25.0%. Generator choice therefore materially controls truth accessibility, but the remaining 61.6% no-bracket rate shows that generator substitution alone does not remove the categorical measurement bottleneck.",
+  "interpretation_guard": "This paired comparison changes the categorical generator while holding the same trees, target and binary mismatch Spearman estimator fixed. It diagnoses truth accessibility, not the biological correctness of Mk2 for observed traits."
+}

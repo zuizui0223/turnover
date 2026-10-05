@@ -1,0 +1,18 @@
+{
+  "version": "v0.4",
+  "status": "FROZEN_BEFORE_ALTERNATIVE_ESTIMATOR_ANALYSIS",
+  "frozen_on": "2026-10-04",
+  "purpose": "Determine whether the categorical calibration ceiling is specific to binary mismatch + Spearman or persists under an alternative association statistic applied to the identical simulated binary states and tree geometries.",
+  "source_scope": "Nominal-categorical novel systems from the frozen 683-system known-truth simulation family; no real trait outcomes.",
+  "estimators": {
+    "primary_existing": "Spearman correlation between patristic distance and 0/1 mismatch.",
+    "alternative": "Standardized mean separation contrast: (mean patristic distance among mismatch pairs - mean distance among match pairs) / SD of all pairwise patristic distances."
+  },
+  "generator": "Identical frozen OU latent process followed by threshold at zero; same lambda grid, seeds, pilot replicates and tree geometries.",
+  "calibration_target_rule": "For each estimator separately, define its benchmark as the median alternative-statistic value generated at the lambda that targets Spearman rho=0.15 on a large balanced reference tree fixed before system analysis. Do not tune benchmark per system.",
+  "primary_comparison": "Fraction of categorical systems with a calibration bracket under Spearman versus the alternative statistic.",
+  "secondary": "Known-truth recovery conditional on calibration for the alternative statistic using analogous relative benchmark error and directional criteria frozen after reference-tree calibration but before real-system alternative results.",
+  "interpretation": "If the alternative removes much of the no-bracket ceiling, the bottleneck is estimator-specific. If not, the limitation is more fundamentally tied to binary representation and realized tree geometry.",
+  "real_trait_outcomes_used": false,
+  "no_posthoc_estimator_search": true
+}

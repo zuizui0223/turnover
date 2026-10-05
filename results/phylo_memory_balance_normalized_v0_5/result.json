@@ -1,0 +1,58 @@
+{
+  "version": "v0.5.1",
+  "status": "PHYLO_MEMORY_BALANCE_NORMALIZED_AGGREGATED_WITH_GEOMETRY_HOLDS",
+  "evidence_workflow_run": 37210903117,
+  "evidence_artifact_id": 11307807798,
+  "evidence_artifact_sha256": "d829d2a9013f5988d922513c6faeb9f2c34013fc8757674041964fba0d52e63e",
+  "evidence_artifact_result_sha256": "17e430dee57d4b62ea29349983e0aa54d7fc43231a2b3ecd5a1abd648658247e",
+  "outcome_type": "known_truth_state_balance_mechanism_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "n_population": 276,
+  "target_rank_separation": 0.3,
+  "geometry_availability": {
+    "n_analyzed": 272,
+    "n_geometry_hold": 4,
+    "held_original_mk2_calibrated": 1,
+    "held_original_mk2_no_bracket": 3,
+    "rule": "Exact frozen-geometry identity only; held systems have no balance-normalized outcome."
+  },
+  "mk2_rho_reference_full": {
+    "n_calibrated": 106,
+    "n_no_bracket": 170,
+    "no_bracket_rate": 0.6159420289855072
+  },
+  "matched_subset_reference": {
+    "n_calibrated": 105,
+    "n_no_bracket": 167
+  },
+  "balance_normalized_matched_subset": {
+    "n_calibrated": 155,
+    "n_no_bracket": 117,
+    "no_bracket_rate": 0.43014705882352944,
+    "median_eta_calibrated": 1.0,
+    "median_pilot_valid_fraction_calibrated": 1.0,
+    "median_pilot_rho_at_rank_separation_calibration": 0.1398,
+    "median_mismatch_pair_fraction_at_calibration": 0.4037
+  },
+  "paired_balance_comparison_matched_subset": {
+    "rescued_n": 50,
+    "rescued_denominator_mk2_rho_no_bracket": 167,
+    "rescued_fraction": 0.2994011976047904,
+    "new_failure_n": 0,
+    "new_failure_denominator_mk2_rho_calibrated": 105,
+    "discordant_rescue_minus_loss": 50
+  },
+  "full_population_bounds_from_geometry_holds": {
+    "balance_normalized_no_bracket_rate_lower_if_all_holds_calibrate": 0.42391304347826086,
+    "balance_normalized_no_bracket_rate_upper_if_all_holds_fail": 0.4384057971014493,
+    "rescue_fraction_of_original_170_lower_if_no_held_no_bracket_rescued": 0.29411764705882354,
+    "rescue_fraction_of_original_170_upper_if_all_held_no_bracket_rescued": 0.31176470588235294
+  },
+  "factorization_check": {
+    "max_absolute_identity_error": 8.8818e-16,
+    "identity": "rho = Delta_rank * sqrt(p*(1-p))"
+  },
+  "interpretation": "Removing only the exact binary state-balance attenuation term rescues 50/167 geometry-matched Mk2-rho no-bracket systems with zero new failures among 105 matched Mk2-rho calibrated systems. The full-population no-bracket rate is bounded at 42.4%-43.8% after explicit accounting for four outcome-free geometry holds. State balance therefore explains a substantial additional part of the categorical accessibility bottleneck, but a large unresolved remainder persists even after generator substitution and balance normalization.",
+  "interpretation_guard": "Geometry-HOLD systems are excluded only by a frozen pre-outcome identity gate and are explicitly accounted for. The balance-normalized statistic removes one algebraic state-balance attenuation term; it is a mechanism diagnostic, not a universal estimator recommendation."
+}

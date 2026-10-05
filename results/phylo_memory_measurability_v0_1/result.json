@@ -1,0 +1,68 @@
+{
+  "version": "v0.1",
+  "status": "PHYLO_MEMORY_MEASURABILITY_MODEL_ESTIMATED",
+  "evidence_workflow_run": 37189463333,
+  "evidence_job_id": 111398437023,
+  "evidence_artifact_id": 11298294238,
+  "evidence_artifact_sha256": "b56fc553db4ded73ff95720cfbb7b674c0b494e9d6a4d35cff3d783936b0afbd",
+  "outcome_type": "known_truth_recovery_only",
+  "real_trait_values_used": false,
+  "real_memory_effects_used": false,
+  "n_systems": 722,
+  "n_families": 120,
+  "n_traits": 25,
+  "pass_rate_overall": 0.35318559556786705,
+  "pass_rate_continuous": 0.5620767494356659,
+  "pass_rate_categorical": 0.021505376344086023,
+  "median_n_species_pass": 81,
+  "median_n_species_hold": 78,
+  "median_prune_fraction_pass": 0.64,
+  "median_prune_fraction_hold": 0.592,
+  "primary_model": {
+    "formula": "pass ~ semantic_class * z_log_n_species + z_prune_fraction",
+    "mcfadden_pseudo_r2": 0.3857905556394383,
+    "coefficients": {
+      "categorical": -4.743236395072145,
+      "z_log_n_species": 1.7556263386375226,
+      "categorical_x_z_log_n_species": -1.4530388948421382,
+      "z_prune_fraction": 0.5576213876197825
+    },
+    "odds_ratios": {
+      "categorical": 0.00871041019008548,
+      "z_log_n_species": 5.787071273396068,
+      "categorical_x_z_log_n_species": 0.233858535673316,
+      "z_prune_fraction": 1.7465132775635352
+    },
+    "bootstrap_ci95_logit": {
+      "categorical": [
+        -26.57522460273584,
+        -3.6072015044744914
+      ],
+      "z_log_n_species": [
+        0.9303199229374917,
+        3.467438628886029
+      ],
+      "categorical_x_z_log_n_species": [
+        -3.4256384776519573,
+        -0.3042891421919089
+      ],
+      "z_prune_fraction": [
+        0.06282950578773201,
+        1.1970233935838426
+      ]
+    },
+    "bootstrap_valid_fraction": 0.9995
+  },
+  "continuous_only": {
+    "mcfadden_pseudo_r2": 0.14403158764283341,
+    "odds_ratio_per_sd_log_species": 5.7573808193810825,
+    "odds_ratio_per_sd_prune_fraction": 1.735796726736062
+  },
+  "predicted_p50_species_at_mean_prune_fraction": {
+    "continuous": 60.75706080438691,
+    "categorical": 47984098.02717746,
+    "categorical_note": "Extrapolative and biologically meaningless as a literal required sample size; it indicates that increasing n alone does not bring the fitted categorical curve into the practical recoverability range under this estimator/generator."
+  },
+  "interpretation": "Under a common known true Spearman-rho benchmark, recoverability is strongly representation-dependent. Continuous systems benefit strongly from additional phylogenetic sampling; nominal categorical systems remain poorly recoverable and gain much less from increasing species count. Higher native-tip fraction independently improves recoverability.",
+  "causal_nonclaim": "These are measurement-design effects under the frozen estimator and generator, not evidence that categorical biological traits are less phylogenetically conserved."
+}

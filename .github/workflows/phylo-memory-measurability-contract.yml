@@ -1,0 +1,117 @@
+name: Phylogenetic memory measurability contract
+on:
+  pull_request:
+    paths:
+      - 'data/phylo_memory_measurability_design_v0_1.json'
+      - 'data/phylo_memory_calibration_ceiling_design_v0_2.json'
+      - 'results/phylo_memory_measurability_v0_1/result.json'
+      - 'results/phylo_memory_calibration_ceiling_v0_2/result.json'
+      - 'results/phylo_memory_calibration_ceiling_v0_2_1/result.json'
+      - 'results/phylo_memory_binary_ceiling_v0_3_1/result.json'
+      - 'results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'
+      - 'data/phylo_memory_mk2_generator_design_v0_4_1.json'
+      - 'results/phylo_memory_mk2_generator_v0_4_1/result.json'
+      - 'data/phylo_memory_balance_normalized_design_v0_5.json'
+      - 'data/phylo_memory_balance_normalized_execution_v0_5_1.json'
+      - 'data/phylo_memory_mechanism_stop_v0_5_2.json'
+      - 'results/phylo_memory_balance_normalized_v0_5/result.json'
+      - 'data/phylo_memory_mechanism_close_v0_5_3.json'
+      - '.github/workflows/phylo-memory-measurability-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/phylo_memory_measurability_design_v0_1.json'))
+          c=json.load(open('data/phylo_memory_calibration_ceiling_design_v0_2.json'))
+          r=json.load(open('results/phylo_memory_measurability_v0_1/result.json'))
+          v=json.load(open('results/phylo_memory_calibration_ceiling_v0_2/result.json'))
+          b=json.load(open('results/phylo_memory_calibration_ceiling_v0_2_1/result.json'))
+          e=json.load(open('results/phylo_memory_binary_ceiling_v0_3_1/result.json'))
+          g=json.load(open('results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json'))
+          m=json.load(open('results/phylo_memory_mk2_generator_v0_4_1/result.json'))
+          z=json.load(open('data/phylo_memory_balance_normalized_design_v0_5.json'))
+          x=json.load(open('data/phylo_memory_balance_normalized_execution_v0_5_1.json'))
+          s=json.load(open('data/phylo_memory_mechanism_stop_v0_5_2.json'))
+          q=json.load(open('results/phylo_memory_balance_normalized_v0_5/result.json'))
+          k=json.load(open('data/phylo_memory_mechanism_close_v0_5_3.json'))
+          assert d['status']=='FROZEN_BEFORE_MEASURABILITY_PREDICTOR_ANALYSIS'
+          assert c['status']=='FROZEN_BEFORE_CALIBRATION_CEILING_ANALYSIS'
+          assert r['n_systems']==722
+          assert abs(r['pass_rate_continuous']-0.5620767494356659)<1e-12
+          assert abs(r['pass_rate_categorical']-0.021505376344086023)<1e-12
+          assert r['real_trait_values_used'] is False and r['real_memory_effects_used'] is False
+          assert v['status']=='PHYLO_MEMORY_CALIBRATION_CEILING_DECOMPOSED_NOVEL683'
+          assert v['n_systems']==683
+          assert v['semantic_summary']['continuous_scalar']['n']==407
+          assert v['semantic_summary']['nominal_categorical']['n']==276
+          assert abs(v['semantic_summary']['nominal_categorical']['no_bracket_rate']-0.7971014492753623)<1e-12
+          assert abs(v['semantic_summary']['continuous_scalar']['no_bracket_rate']-0.14742014742014742)<1e-12
+          assert abs(v['no_bracket_model']['odds_ratios']['C(semantic_class)[T.nominal_categorical]']-18.416013539443668)<1e-12
+          assert v['evidence_artifact_result_sha256']=='cd993d3cc0737da3d47b71387cb45cf21e74efec4f439e7ce2c2301eb1b8326d'
+          assert v['real_trait_values_used'] is False and v['real_memory_effects_used'] is False
+          assert b['status']=='PHYLO_MEMORY_CALIBRATION_CEILING_BREADTH_AUDITED'
+          assert b['categorical']['n_traits']==7
+          assert b['categorical']['n_traits_rate_ge_0_80']==3
+          assert b['categorical']['n_traits_rate_1']==0
+          assert b['categorical']['families_with_ge2_categorical_systems']==100
+          assert b['categorical']['family_no_bracket_rate_median_ge2']==1.0
+          assert b['evidence_artifact_result_sha256']=='44f5d224e2097fde2d23be4a47025621867cc69a9f9478c1f1b8fc84ebf348d0'
+          assert b['real_trait_values_used'] is False and b['real_memory_effects_used'] is False
+          assert e['status']=='PHYLO_MEMORY_EDGE_SPLIT_CEILING_AGGREGATED'
+          assert e['n_systems']==276 and e['original_no_bracket']['n']==220
+          assert e['original_no_bracket']['n_edge_ceiling_below_benchmark']==0
+          assert e['original_no_bracket']['n_edge_ceiling_ge_benchmark_but_ou_unreached']==220
+          assert abs(e['edge_split_ceiling']['median_no_bracket']-0.7733)<1e-12
+          assert e['evidence_artifact_result_sha256']=='c520585931b50f78b716b72dcadd7aeeaadc0c52f2f9de0dfad4dbb46808dc6a'
+          assert e['real_trait_values_used'] is False and e['real_memory_effects_used'] is False
+          assert g['status']=='PHYLO_MEMORY_BINARY_VALIDITY_TRADEOFF_AUDITED'
+          assert g['categorical_no_bracket']['n']==220
+          assert g['categorical_no_bracket']['mechanism_counts']=={'EFFECT_CEILING':195,'VALIDITY_COLLAPSE':25}
+          assert g['categorical_no_bracket']['fraction_admissible_reaches_benchmark']==0.0
+          assert abs(g['categorical_no_bracket']['median_spearman_loglambda_valid_fraction']+0.9574271077563381)<1e-12
+          assert g['evidence_artifact_result_sha256']=='52df7c0c7eb95fc838ab38c24a85dbf0eb9124d2a7b50db64fafeaec5131e739'
+          assert g['real_trait_values_used'] is False and g['real_memory_effects_used'] is False
+          assert m['status']=='PHYLO_MEMORY_MK2_GENERATOR_AGGREGATED'
+          assert m['n_systems']==276
+          assert m['ou_reference']['n_no_bracket']==220
+          assert m['mk2']['n_no_bracket']==170 and m['mk2']['n_calibrated']==106
+          assert m['paired_generator_comparison']['ou_no_bracket_mk2_calibrated_rescued_n']==51
+          assert m['paired_generator_comparison']['ou_calibrated_mk2_no_bracket_new_failure_n']==1
+          assert abs(m['mk2']['s3_pass_rate']-0.25)<1e-12
+          assert m['evidence_artifact_result_sha256']=='1c6257aaee2eb46852f25db390a79438c98635adb4f86140827c28ec9664b09f'
+          assert m['real_trait_values_used'] is False and m['real_memory_effects_used'] is False
+          assert z['status']=='FROZEN_BEFORE_BALANCE_NORMALIZED_RANK_SEPARATION_RESULT_OPENING'
+          assert z['factorization']['target']==0.30 and z['factorization']['tolerance']==0.02
+          assert z['calibration_only'] is True
+          assert z['real_trait_values_used'] is False and z['real_memory_effects_used'] is False
+          assert x['status']=='FROZEN_BEFORE_BALANCE_NORMALIZED_RETRY'
+          assert x['outcome_based_exclusion'] is False
+          assert x['geometry_mismatch_action'].startswith('Write an outcome-free HOLD_GEOMETRY_DRIFT')
+          assert x['real_trait_values_used'] is False and x['real_memory_effects_used'] is False
+          assert s['status']=='FROZEN_BEFORE_FULL_BALANCE_NORMALIZED_AGGREGATE'
+          assert s['regardless_of_v0_5_outcome'] is True
+          assert s['real_trait_values_used'] is False and s['real_memory_effects_used'] is False
+          assert q['status']=='PHYLO_MEMORY_BALANCE_NORMALIZED_AGGREGATED_WITH_GEOMETRY_HOLDS'
+          assert q['n_population']==276
+          assert q['geometry_availability']['n_analyzed']==272 and q['geometry_availability']['n_geometry_hold']==4
+          assert q['matched_subset_reference']=={'n_calibrated':105,'n_no_bracket':167}
+          assert q['balance_normalized_matched_subset']['n_calibrated']==155
+          assert q['balance_normalized_matched_subset']['n_no_bracket']==117
+          assert q['paired_balance_comparison_matched_subset']['rescued_n']==50
+          assert q['paired_balance_comparison_matched_subset']['new_failure_n']==0
+          assert abs(q['factorization_check']['max_absolute_identity_error']-8.8818e-16)<1e-20
+          assert q['evidence_artifact_result_sha256']=='17e430dee57d4b62ea29349983e0aa54d7fc43231a2b3ecd5a1abd648658247e'
+          assert q['real_trait_values_used'] is False and q['real_memory_effects_used'] is False
+          assert k['status']=='PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED'
+          assert k['primary_claim'].startswith('A declared known truth is not automatically an assignable truth.')
+          assert k['real_trait_values_used'] is False and k['real_memory_effects_used'] is False
+          PY

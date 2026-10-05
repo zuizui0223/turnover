@@ -1,0 +1,150 @@
+name: Phylogenetic memory anonymous review bundle v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/phylo-memory-anonymous-review-bundle-v0-1.yml'
+      - 'docs/PHYLO_MEMORY_ANONYMOUS_REVIEW_BUNDLE_V0_1.md'
+      - 'docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md'
+      - 'data/phylo_memory_*'
+      - 'results/phylo_memory_*/result.json'
+      - 'scripts/analysis/*phylo_memory*'
+      - 'scripts/figures/*phylo_memory*'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble anonymous source tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=build/anonymous-review
+          mkdir -p "$B"/{data,results,scripts/analysis,scripts/figures,evidence,supplement}
+
+          cat > "$B/README.md" <<'EOF'
+          # Anonymous review bundle
+
+          This archive supports a methods manuscript on truth assignability in simulation-based power studies.
+          It contains known-truth simulation design contracts, canonical summaries, verification/analysis code,
+          figure-generation code, and archived aggregate evidence. Observed biological trait values and observed
+          phylogenetic-memory effects are not included or required for the mechanism results.
+
+          Primary inferential sequence:
+          structural realizability -> generator accessibility -> downstream recovery.
+
+          IMPORTANT: an open-source software licence must be added before this bundle is used for journal submission.
+          EOF
+
+          cp data/phylo_memory_measurability_design_v0_1.json "$B/data/"
+          cp data/phylo_memory_calibration_ceiling_design_v0_2.json "$B/data/"
+          cp data/phylo_memory_binary_ceiling_design_v0_3_1.json "$B/data/"
+          cp data/phylo_memory_binary_validity_tradeoff_design_v0_3_1.json "$B/data/"
+          cp data/phylo_memory_mk2_generator_design_v0_4_1.json "$B/data/"
+          cp data/phylo_memory_balance_normalized_design_v0_5.json "$B/data/"
+          cp data/phylo_memory_balance_normalized_execution_v0_5_1.json "$B/data/"
+          cp data/phylo_memory_mechanism_stop_v0_5_2.json "$B/data/"
+          cp data/phylo_memory_mechanism_close_v0_5_3.json "$B/data/"
+          cp data/phylo_memory_structural_claim_clarification_v0_3_2.json "$B/data/"
+          cp data/phylo_memory_figure_plan_v0_1.json "$B/data/"
+          cp docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md "$B/supplement/Supplementary_Methods.md"
+
+          for p in             results/phylo_memory_measurability_v0_1/result.json             results/phylo_memory_calibration_ceiling_v0_2/result.json             results/phylo_memory_calibration_ceiling_v0_2_1/result.json             results/phylo_memory_binary_ceiling_v0_3_1/result.json             results/phylo_memory_binary_validity_tradeoff_v0_3_1/result.json             results/phylo_memory_mk2_generator_v0_4_1/result.json             results/phylo_memory_balance_normalized_v0_5/result.json
+          do
+            d="$B/$(dirname "$p")"
+            mkdir -p "$d"
+            cp "$p" "$d/"
+          done
+
+          cp scripts/analysis/analyze_phylo_memory_measurability_v0_1.py "$B/scripts/analysis/"
+          cp scripts/analysis/analyze_phylo_memory_calibration_ceiling_v0_2.py "$B/scripts/analysis/"
+          cp scripts/analysis/audit_phylo_memory_ceiling_breadth_v0_2_1.py "$B/scripts/analysis/"
+          cp scripts/analysis/analyze_phylo_memory_binary_ceiling_system_v0_3_1.R "$B/scripts/analysis/"
+          cp scripts/analysis/aggregate_phylo_memory_binary_ceiling_v0_3_1.py "$B/scripts/analysis/"
+          cp scripts/analysis/analyze_phylo_memory_binary_validity_tradeoff_v0_3_1.py "$B/scripts/analysis/"
+          cp scripts/analysis/analyze_phylo_memory_mk2_system_v0_4_1.R "$B/scripts/analysis/"
+          cp scripts/analysis/aggregate_phylo_memory_mk2_v0_4_1.py "$B/scripts/analysis/"
+          cp scripts/analysis/analyze_phylo_memory_balance_normalized_system_v0_5.R "$B/scripts/analysis/"
+          cp scripts/analysis/aggregate_phylo_memory_balance_normalized_v0_5.py "$B/scripts/analysis/"
+          cp scripts/analysis/verify_phylo_memory_paper_package_v0_2.py "$B/scripts/analysis/"
+          cp scripts/figures/prepare_phylo_memory_figure_data_v0_1.py "$B/scripts/figures/"
+          cp scripts/figures/render_phylo_memory_figures_v0_1.py "$B/scripts/figures/"
+
+      - name: Download immutable aggregate evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=build/anonymous-review/evidence
+          download () {
+            id="$1"; expected="$2"; label="$3"
+            zip="$RUNNER_TEMP/$label.zip"
+            gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$zip"
+            echo "$expected  $zip" | sha256sum -c -
+            mkdir -p "$B/$label"
+            unzip -q "$zip" -d "$B/$label"
+          }
+
+          download 11298294238 b56fc553db4ded73ff95720cfbb7b674c0b494e9d6a4d35cff3d783936b0afbd v0-1-measurability
+          download 11298622940 bc8cc6dd2e30e47b08c27385d146de1dab2f5d7879ec11f5d822f5e1779f6c16 v0-2-calibration
+          download 11299251201 785ae777ac59b796f0998d707e0de8c054e30afbdb1c97ef83d3dafe1c9f1068 v0-2-1-breadth
+          download 11302452317 54c1bb069790bcfc6b32988bce67c5d9c92d9f8676e73ce793bbc2e6b1d86460 v0-3-1-realizability
+          download 11302526534 626276ae291db798314487cd96410fbf82e784ce9ad02a6d531efc039cc5fd64 v0-3-1-validity
+          download 11303143717 7d826c9853979908ff150920a8c7894ff8334271c30386eb8d5430f09a7746c8 v0-4-1-mk2
+          download 11307807798 d829d2a9013f5988d922513c6faeb9f2c34013fc8757674041964fba0d52e63e v0-5-balance
+
+      - name: Verify anonymity and scientific closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=build/anonymous-review
+          test ! -d "$B/.git"
+          if grep -RFi --exclude='*.svg' "$GITHUB_REPOSITORY_OWNER" "$B"; then
+            echo "Repository-owner identifier found in anonymous bundle" >&2
+            exit 1
+          fi
+          if grep -RIE --exclude='*.svg' '[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}' "$B"; then
+            echo "Email address found in anonymous bundle" >&2
+            exit 1
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          b=Path("build/anonymous-review")
+          close=json.loads((b/"data/phylo_memory_mechanism_close_v0_5_3.json").read_text())
+          assert close["status"]=="PHYLO_MEMORY_PRIMARY_MECHANISM_PROGRAMME_CLOSED"
+          assert not (b/"data/phylo_memory_alternative_estimator_design_v0_4.json").exists()
+          PY
+
+          if [ -f LICENSE_REVIEW.txt ]; then
+            cp LICENSE_REVIEW.txt "$B/LICENSE.txt"
+            echo "ANONYMIZED_OPEN_SOURCE_LICENSE_PRESENT" > "$B/LICENSE_STATUS.txt"
+          elif [ -f LICENSE ] || [ -f LICENSE.txt ] || [ -f LICENSE.md ]; then
+            echo "ROOT_LICENSE_PRESENT_BUT_ANONYMIZED_REVIEW_LICENSE_MISSING" > "$B/LICENSE_STATUS.txt"
+          else
+            echo "LICENSE_PENDING_AUTHOR_CHOICE" > "$B/LICENSE_STATUS.txt"
+          fi
+
+      - name: Create review archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd build
+          zip -qr phylo-memory-anonymous-review-v0-1.zip anonymous-review
+          sha256sum phylo-memory-anonymous-review-v0-1.zip > phylo-memory-anonymous-review-v0-1.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-anonymous-review-v0-1
+          path: |
+            build/phylo-memory-anonymous-review-v0-1.zip
+            build/phylo-memory-anonymous-review-v0-1.sha256
+          retention-days: 30

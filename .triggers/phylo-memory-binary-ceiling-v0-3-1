@@ -1,0 +1,2 @@
+triggered_on: 2026-10-04
+reason: rerun exact O(n^2) edge-split audit after replacing unsupported weighted tabulate with portable rowsum accumulation; estimand and frozen design unchanged.

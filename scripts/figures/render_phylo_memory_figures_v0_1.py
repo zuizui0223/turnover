@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+# AI-assisted development disclosure: ChatGPT (OpenAI; GPT-5.6 Sol) assisted with drafting/debugging this script. Author verification is required before submission.
+from __future__ import annotations
+import argparse,csv
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+ap=argparse.ArgumentParser()
+ap.add_argument("--data-dir",type=Path,required=True)
+ap.add_argument("--out-dir",type=Path,required=True)
+a=ap.parse_args()
+a.out_dir.mkdir(parents=True,exist_ok=True)
+
+BLUE="#315C85"
+ORANGE="#C46A2D"
+DARK="#2B2B2B"
+MID="#7A7A7A"
+LIGHT="#E8E8E8"
+PALE="#F5F5F5"
+
+plt.rcParams.update({
+    "font.family":"DejaVu Sans",
+    "font.size":9,
+    "axes.titlesize":10,
+    "axes.labelsize":9,
+    "svg.fonttype":"none"
+})
+
+def read_csv(name):
+    with (a.data_dir/name).open(newline="") as f:
+        return list(csv.DictReader(f))
+
+def save(fig,name):
+    fig.savefig(a.out_dir/name,bbox_inches="tight",transparent=False)
+    plt.close(fig)
+
+# Figure 1
+gate=read_csv("fig1_gate_partition.csv")
+fig=plt.figure(figsize=(8.4,4.0))
+gs=fig.add_gridspec(1,2,width_ratios=[1.25,1.25],wspace=0.38)
+
+ax=fig.add_subplot(gs[0,0]); ax.axis("off")
+labels=["Target\ndeclared","Structurally\nfeasible","Generator-\naccessible","Recovery\nstage"]
+xs=[0.10,0.36,0.64,0.90]
+for i,(x,lbl) in enumerate(zip(xs,labels)):
+    fc=PALE if i==0 else "white"
+    ax.add_patch(patches.FancyBboxPatch((x-0.085,0.38),0.17,0.24,
+        boxstyle="round,pad=0.02,rounding_size=0.02",facecolor=fc,edgecolor=DARK,linewidth=1.2))
+    ax.text(x,0.50,lbl,ha="center",va="center",fontsize=7.2)
+    if i<3:
+        ax.annotate("",xy=(xs[i+1]-0.095,0.50),xytext=(x+0.095,0.50),
+                    arrowprops=dict(arrowstyle="->",lw=1.3,color=DARK))
+for x,txt in zip(xs[1:],["Gate 1","Gate 2","Gate 3"]):
+    ax.text(x,0.68,txt,ha="center",va="bottom",fontsize=8,color=MID)
+ax.text(0.50,0.18,"Earlier-gate failure ≠ downstream low power",
+        ha="center",va="center",fontsize=7.6,color=DARK)
+ax.set_title("A  Known truth must first be assignable",loc="left",fontweight="bold")
+
+ax=fig.add_subplot(gs[0,1])
+representations=["Continuous scalar","Nominal categorical"]
+outcomes=["Generator no-bracket","Assigned, recovery failed","S3 recovery passed"]
+styles={
+    "Generator no-bracket":dict(color=ORANGE,hatch=None),
+    "Assigned, recovery failed":dict(color="white",hatch="////"),
+    "S3 recovery passed":dict(color=BLUE,hatch=None)
+}
+lookup={(r["representation"],r["outcome"]):r for r in gate}
+ypos=[1,0]
+for y,rep in zip(ypos,representations):
+    left=0.0
+    for outc in outcomes:
+        r=lookup[(rep,outc)]
+        pct=float(r["rate"])*100
+        st=styles[outc]
+        ax.barh([y],[pct],left=[left],color=st["color"],hatch=st["hatch"],
+                edgecolor=DARK,linewidth=0.8,height=0.55,label=outc if y==1 else None)
+        text_color="white" if outc in {"Generator no-bracket","S3 recovery passed"} else DARK
+        if pct>=10:
+            ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
+                    fontsize=7.5,color=text_color,fontweight="bold" if outc!="Assigned, recovery failed" else "normal")
+        left+=pct
+    total=int(lookup[(rep,outcomes[0])]["total"])
+    ax.text(103.0,y,f"n={total}",ha="left",va="center",fontsize=7.8,color=MID)
+
+ax.set_xlim(0,114)
+ax.set_yticks(ypos,["Continuous\nscalar","Nominal\ncategorical"])
+ax.tick_params(axis="y",pad=8)
+ax.set_xlabel("Diagnostic systems (%)")
+ax.set_xticks([0,25,50,75,100])
+ax.grid(axis="x",color=LIGHT,linewidth=0.7)
+ax.set_axisbelow(True)
+ax.spines[["top","right"]].set_visible(False)
+ax.legend(frameon=False,fontsize=7.1,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1)
+ax.set_ylim(-0.5,1.62)
+ax.text(0.98,0.98,"No-bracket gap = 65.0 pp",transform=ax.transAxes,
+        ha="right",va="top",fontsize=7.7,color=ORANGE,fontweight="bold")
+ax.set_title("B  The same endpoint hides different failures",loc="left",fontweight="bold")
+
+fig.suptitle("Figure 1. Failed known-truth simulations must be localized before power is interpreted",
+             x=0.02,ha="left",fontsize=11,fontweight="bold")
+save(fig,"Fig1_truth_assignability.svg")
+
+# Figure 2
+acc=read_csv("fig2_accessibility.csv")
+vals={r["quantity"]:float(r["value"]) for r in acc}
+fig=plt.figure(figsize=(7.2,3.6))
+gs=fig.add_gridspec(1,2,wspace=0.34)
+ax=fig.add_subplot(gs[0,0])
+x=[0,1]
+y=[vals["Median max edge-split rho"],vals["Median max OU-grid rho"]]
+ax.bar(x,y,color=[BLUE,ORANGE],edgecolor=DARK,linewidth=0.8,width=0.62)
+ax.axhline(vals["Target rho"],color=DARK,linestyle="--",linewidth=1.1)
+ax.text(0.05,vals["Target rho"]+0.012,"target ρ = 0.15",ha="left",va="bottom",fontsize=8)
+ax.set_xticks(x,["Realizable\none-edge split","Latent-OU\ngrid"])
+ax.set_ylabel("Median maximum ρ")
+ax.set_ylim(0,0.86)
+ax.grid(axis="y",color=LIGHT,linewidth=0.7); ax.set_axisbelow(True)
+for xx,yy in zip(x,y):
+    if xx==1:
+        ax.text(xx,yy*0.52,f"{yy:.3f}",ha="center",va="center",fontsize=8.5,color="white",fontweight="bold")
+    else:
+        ax.text(xx,yy+0.025,f"{yy:.3f}",ha="center",fontsize=9)
+ax.spines[["top","right"]].set_visible(False)
+ax.set_title("A  An attainable state exceeds the target",loc="left",fontweight="bold")
+
+ax=fig.add_subplot(gs[0,1])
+effect=int(vals["Effect ceiling"]); collapse=int(vals["Validity collapse"]); total=effect+collapse
+ax.barh([0],[effect/total*100],color=ORANGE,edgecolor=DARK,linewidth=0.8,label="Effect ceiling")
+ax.barh([0],[collapse/total*100],left=[effect/total*100],color="white",edgecolor=DARK,linewidth=0.8,hatch="////",label="Validity collapse")
+ax.set_xlim(0,112); ax.set_yticks([])
+ax.set_xlabel("OU no-bracket systems (%)")
+ax.text(effect/total*50,0,f"{effect}/220\n88.6%",ha="center",va="center",color="white",fontweight="bold",fontsize=9)
+ax.text(101.2,0,f"{collapse}/220\n11.4%",ha="left",va="center",fontsize=8.0)
+ax.legend(frameon=False,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1,fontsize=8)
+ax.spines[["top","right","left"]].set_visible(False)
+ax.set_title("B  Failure modes within the OU generator",loc="left",fontweight="bold")
+fig.suptitle("Figure 2. A hard one-transition ceiling does not explain OU calibration failure",x=0.02,ha="left",fontsize=11,fontweight="bold")
+save(fig,"Fig2_accessibility_mechanism.svg")
+
+# Figure 3
+seq=read_csv("fig3_sequential.csv")
+paired=read_csv("fig3_paired.csv")
+reco=read_csv("fig3_recovery.csv")
+fig=plt.figure(figsize=(7.2,5.9))
+gs=fig.add_gridspec(2,2,height_ratios=[1.15,1],hspace=0.68,wspace=0.48)
+
+ax=fig.add_subplot(gs[0,:])
+stages=[r["stage"] for r in seq]
+mid=np.array([float(r["no_bracket_rate"])*100 for r in seq])
+lo=np.array([float(r["lower"])*100 for r in seq])
+hi=np.array([float(r["upper"])*100 for r in seq])
+xx=np.arange(len(stages))
+ax.plot(xx,mid,marker="o",linewidth=1.8,color=BLUE)
+ax.errorbar(xx,mid,yerr=np.vstack([mid-lo,hi-mid]),fmt="none",ecolor=DARK,capsize=4,linewidth=1.2)
+ax.set_xticks(xx,stages)
+ax.set_ylabel("No-bracket systems (%)")
+ax.set_ylim(0,90)
+ax.grid(axis="y",color=LIGHT,linewidth=0.7); ax.set_axisbelow(True)
+for x0,y0,l0,h0 in zip(xx,mid,lo,hi):
+    lab=f"{y0:.1f}%" if abs(h0-l0)<1e-9 else f"{l0:.1f}–{h0:.1f}%"
+    ax.text(x0,y0+5,lab,ha="center",fontsize=9)
+ax.spines[["top","right"]].set_visible(False)
+ax.set_title("A  No-bracket rates under successive mechanism diagnostics",loc="left",fontweight="bold")
+
+ax=fig.add_subplot(gs[1,0])
+labels=[r["transition"] for r in paired]
+resc=[int(r["rescued"]) for r in paired]
+loss=[int(r["new_failure"]) for r in paired]
+y=np.arange(len(labels))
+ax.barh(y,resc,color=BLUE,edgecolor=DARK,linewidth=0.8,label="Rescued")
+ax.barh(y,[-x for x in loss],color="white",edgecolor=DARK,linewidth=0.8,hatch="////",label="New failure")
+ax.axvline(0,color=DARK,linewidth=0.9)
+ax.set_yticks(y,labels)
+ax.set_xlabel("Paired systems  (new failure ← 0 → rescued)")
+lim=max(max(resc)+7,10); ax.set_xlim(-lim*0.25,lim)
+for yy,n in zip(y,resc): ax.text(n+1,yy,str(n),va="center",fontsize=9)
+for yy,n in zip(y,loss):
+    if n: ax.text(-n-1,yy,str(n),ha="right",va="center",fontsize=9)
+    else: ax.text(-0.8,yy,"0",ha="right",va="center",fontsize=9)
+ax.spines[["top","right"]].set_visible(False)
+ax.set_title("B  Paired rescues exceed new failures",loc="left",fontweight="bold")
+
+ax=fig.add_subplot(gs[1,1])
+d={r["outcome"]:int(r["n"]) for r in reco}
+total=sum(d.values())
+ax.barh([0],[d["PASS"]/total*100],color=BLUE,edgecolor=DARK,linewidth=0.8)
+ax.barh([0],[d["Recovery fail"]/total*100],left=[d["PASS"]/total*100],color="white",edgecolor=DARK,linewidth=0.8,hatch="////")
+ax.set_xlim(0,103); ax.set_yticks([])
+ax.set_xlabel("Mk2-calibrated systems (%)")
+ax.text(d["PASS"]/total*50,0,f"PASS\n{d['PASS']}/106",ha="center",va="center",color="white",fontweight="bold")
+ax.text(d["PASS"]/total*100+d["Recovery fail"]/total*50,0,f"Recovery\nfail\n{d['Recovery fail']}/106",ha="center",va="center",fontsize=7.4)
+ax.spines[["top","right","left"]].set_visible(False)
+ax.set_title("C  Assignment does not ensure recovery",loc="left",fontweight="bold")
+
+fig.suptitle("Figure 3. Generator choice, state balance and recovery are separable bottlenecks",x=0.02,ha="left",fontsize=11,fontweight="bold")
+save(fig,"Fig3_sequential_rescue.svg")

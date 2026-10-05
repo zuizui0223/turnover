@@ -1,0 +1,32 @@
+name: Phylogenetic memory ceiling breadth v0.2.1
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  breadth:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas numpy
+      - name: Download frozen v0.2 system table
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source
+          gh run download 37191027580 -R "$GITHUB_REPOSITORY" -n phylo-memory-calibration-ceiling-v0-2 -D build/source
+          test -f build/source/systems.csv
+      - name: Audit breadth
+        run: |
+          mkdir -p build/breadth
+          python scripts/analysis/audit_phylo_memory_ceiling_breadth_v0_2_1.py \
+            --systems build/source/systems.csv \
+            --out build/breadth/result.json \
+            --trait-table build/breadth/categorical_traits.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phylo-memory-ceiling-breadth-v0-2-1
+          path: build/breadth/

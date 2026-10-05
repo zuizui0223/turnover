@@ -1,0 +1,18 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_BEFORE_BINARY_CEILING_ANALYSIS",
+  "frozen_on": "2026-10-04",
+  "purpose": "Test whether the categorical calibration ceiling is explained by the rank-information constraint of binary 0/1 pairwise mismatch rather than by biological trait signal.",
+  "source": "683 novel known-truth system JSONs from workflow 37086693588 plus their frozen S3 tree geometries; no real trait values or memory rho.",
+  "mechanism": "For a binary state vector, pairwise dissimilarity has only two tied ranks (match/mismatch). Spearman correlation with phylogenetic separation is therefore point-biserial correlation between separation ranks and a cut-induced mismatch indicator. This constrains attainable rho by tree geometry and class balance.",
+  "tests": [
+    "For each system, record the maximum pilot median rho over the frozen OU lambda grid.",
+    "Relate maximum attainable rho to semantic class, n species, and for categorical systems the median pilot minority-state fraction at the lambda achieving maximum median rho.",
+    "For categorical systems, compute the theoretical maximum point-biserial correlation obtainable for the observed separation ranks at each possible mismatch-pair count K, ignoring whether every K is realizable by a tip bipartition; this is an optimistic upper bound.",
+    "Compare the OU-generator maximum pilot median rho with that optimistic binary-rank ceiling."
+  ],
+  "primary_prediction": "Categorical systems with low calibration ceilings should have optimistic binary-rank ceilings closer to the benchmark and/or extreme class-balance constraints; if even the optimistic ceiling is below 0.15, the failure is imposed by rank geometry itself.",
+  "benchmark": 0.15,
+  "real_trait_outcomes_used": false,
+  "interpretation_guard": "This is an estimator/representation geometry analysis, not evidence about categorical trait evolution."
+}

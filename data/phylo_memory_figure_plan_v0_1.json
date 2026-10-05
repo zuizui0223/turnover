@@ -1,0 +1,75 @@
+{
+  "version": "v0.1",
+  "status": "PRIMARY_FIGURE_PLAN_FROZEN_AFTER_MECHANISM_CLOSE",
+  "frozen_on": "2026-10-05",
+  "paper_claim": "A declared known truth is not automatically an assignable truth; constrained representations require separate audits of structural realizability, generator accessibility, and recovery.",
+  "figures": [
+    {
+      "id": "Fig1",
+      "title": "Known truth passes three distinct gates before it can be recovered",
+      "question": "Where can a simulation-based power study fail before downstream recovery is even evaluated?",
+      "panels": [
+        "A: conceptual flow from declared target to structural realizability, generator accessibility, and recovery",
+        "B: observed known-truth recovery rate for continuous-scalar versus nominal-categorical systems in the frozen 722-system programme"
+      ],
+      "primary_values": {
+        "continuous_recovered": 249,
+        "continuous_total": 443,
+        "categorical_recovered": 6,
+        "categorical_total": 279
+      }
+    },
+    {
+      "id": "Fig2",
+      "title": "Categorical failure is an accessibility problem, not a binary state-space ceiling",
+      "question": "Why do 220 categorical systems fail OU calibration despite having realizable binary states above the target?",
+      "panels": [
+        "A: target rho=0.15 compared with median maximum realizable one-edge rho and median maximum OU-grid rho among the 220 original categorical no-bracket systems",
+        "B: mechanism decomposition of the 220 OU no-bracket systems into effect ceiling versus validity collapse"
+      ],
+      "primary_values": {
+        "target_rho": 0.15,
+        "median_edge_split_max_rho": 0.7733,
+        "median_ou_grid_max_rho": 0.09785,
+        "effect_ceiling_n": 195,
+        "validity_collapse_n": 25,
+        "no_bracket_total": 220
+      }
+    },
+    {
+      "id": "Fig3",
+      "title": "Generator choice and state balance independently control truth accessibility",
+      "question": "How much of the categorical accessibility failure is rescued by changing the generator and then removing the exact state-balance attenuation term?",
+      "panels": [
+        "A: sequential no-bracket rate from latent-OU thresholding to Mk2 and balance-normalized Delta_rank, with the final four-system geometry-HOLD uncertainty shown as a bounded interval",
+        "B: paired rescue versus new-failure counts for OU->Mk2 and Mk2-rho->balance-normalized transitions",
+        "C: recovery after successful Mk2 assignment: 69 pass versus 37 recovery failures among 106 calibrated systems"
+      ],
+      "primary_values": {
+        "ou_no_bracket_rate": 0.7971014492753623,
+        "mk2_no_bracket_rate": 0.6159420289855072,
+        "balance_no_bracket_lower": 0.42391304347826086,
+        "balance_no_bracket_upper": 0.4384057971014493,
+        "ou_to_mk2_rescue_n": 51,
+        "ou_to_mk2_new_failure_n": 1,
+        "mk2_to_balance_rescue_n": 50,
+        "mk2_to_balance_new_failure_n": 0,
+        "mk2_calibrated_n": 106,
+        "mk2_pass_n": 69,
+        "mk2_recovery_fail_n": 37
+      }
+    }
+  ],
+  "supplementary": [
+    "S1: trait-level categorical no-bracket heterogeneity from v0.2.1",
+    "S2: pre-frozen measurability logistic-model coefficients and cluster-bootstrap intervals",
+    "S3: provenance and geometry-HOLD accounting"
+  ],
+  "design_rules": [
+    "Use aligned positions and lengths for quantitative comparisons.",
+    "Do not use a rainbow palette or rely on color alone.",
+    "Show exact denominators and target reference lines.",
+    "Show the four-system geometry-HOLD uncertainty as an interval, not an imputed point estimate.",
+    "Do not add new scientific estimands while preparing figures."
+  ]
+}

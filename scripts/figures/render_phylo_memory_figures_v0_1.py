@@ -60,11 +60,11 @@ ax.set_title("A  Known truth must first be assignable",loc="left",fontweight="bo
 
 ax=fig.add_subplot(gs[0,1])
 representations=["Continuous scalar","Nominal categorical"]
-outcomes=["Generator no-bracket","Assigned, recovery failed","Recovered"]
+outcomes=["Generator no-bracket","Assigned, recovery failed","S3 recovery passed"]
 styles={
     "Generator no-bracket":dict(color=ORANGE,hatch=None),
     "Assigned, recovery failed":dict(color="white",hatch="////"),
-    "Recovered":dict(color=BLUE,hatch=None)
+    "S3 recovery passed":dict(color=BLUE,hatch=None)
 }
 lookup={(r["representation"],r["outcome"]):r for r in gate}
 ypos=[1,0]
@@ -76,7 +76,7 @@ for y,rep in zip(ypos,representations):
         st=styles[outc]
         ax.barh([y],[pct],left=[left],color=st["color"],hatch=st["hatch"],
                 edgecolor=DARK,linewidth=0.8,height=0.55,label=outc if y==1 else None)
-        text_color="white" if outc in {"Generator no-bracket","Recovered"} else DARK
+        text_color="white" if outc in {"Generator no-bracket","S3 recovery passed"} else DARK
         if pct>=6:
             ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
                     fontsize=7.5,color=text_color,fontweight="bold" if outc!="Assigned, recovery failed" else "normal")

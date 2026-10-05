@@ -35,7 +35,21 @@ Current central result:
 Current guidance for Original Articles:
 - maximum 7,500 words excluding abstract, tables, figure captions and references;
 - substantive empirical study or theoretical advance bearing on a significant evolutionary question;
-- required sections: Abstract and Keywords, Introduction, Materials and methods, Results, Discussion.
+- required sections: Abstract and Keywords, Introduction, Materials and methods, Results, Discussion;
+- abstract maximum 200 words and no abbreviations;
+- three to six keywords;
+- teaser text is encouraged and must be <=100 words;
+- line numbers are required in the submitted manuscript;
+- double-anonymized review: all review files and filenames except the separate title page must be anonymized;
+- separate title page must contain Data availability, Author contributions, Funding, Conflict of interest and Acknowledgements;
+- LLM use must be disclosed in the cover letter and Methods/Acknowledgements with technical specifications and method of application.
+
+Current direct audit:
+- abstract: 178 words;
+- teaser: 43 words;
+- keywords: 6;
+- abstract contains neither S3 nor BLUP abbreviations;
+- LLM disclosure is present in manuscript and cover letter.
 
 ## Required wording boundary
 
@@ -56,9 +70,10 @@ Prohibited:
 
 ## Remaining submission work
 
-1. Finalize references and journal citation style.
-2. Add author/title-page information outside the anonymous scientific text.
-3. Confirm data/code availability wording and archive strategy.
-4. Freeze final figure artifact after visual QA.
-5. Run the Evolution paper-package contract on the final head.
-6. Submit to *Evolution* first; JEB is the strongest fallback if editorial scope is judged too narrow.
+1. Finalize references and keep formatting internally consistent; initial submission is format-free.
+2. Fill author/title-page placeholders outside the anonymous scientific text.
+3. Build the anonymous peer-review data/code bundle and confirm its identity firewall.
+4. Generate the final editable manuscript with continuous line numbers.
+5. Confirm the final data/code archive strategy for acceptance/publication.
+6. Run the Evolution paper-package and submission-freeze contracts on the final head.
+7. Submit to *Evolution* first; JEB is the strongest fallback if editorial scope is judged too narrow.

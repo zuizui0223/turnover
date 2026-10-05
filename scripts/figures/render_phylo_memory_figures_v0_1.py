@@ -39,24 +39,24 @@ def save(fig,name):
 
 # Figure 1
 gate=read_csv("fig1_gate_partition.csv")
-fig=plt.figure(figsize=(7.2,3.8))
-gs=fig.add_gridspec(1,2,width_ratios=[1.35,1.15],wspace=0.34)
+fig=plt.figure(figsize=(8.4,4.0))
+gs=fig.add_gridspec(1,2,width_ratios=[1.25,1.25],wspace=0.38)
 
 ax=fig.add_subplot(gs[0,0]); ax.axis("off")
-labels=["Declared\ntarget","Structurally\nrealizable","Generator-\naccessible","Recoverable"]
-xs=[0.11,0.37,0.63,0.89]
+labels=["Target\ndeclared","Structurally\nrealizable","Generator-\naccessible","Recovery\nstage"]
+xs=[0.10,0.36,0.64,0.90]
 for i,(x,lbl) in enumerate(zip(xs,labels)):
     fc=PALE if i==0 else "white"
-    ax.add_patch(patches.FancyBboxPatch((x-0.080,0.38),0.16,0.24,
+    ax.add_patch(patches.FancyBboxPatch((x-0.085,0.38),0.17,0.24,
         boxstyle="round,pad=0.02,rounding_size=0.02",facecolor=fc,edgecolor=DARK,linewidth=1.2))
-    ax.text(x,0.50,lbl,ha="center",va="center",fontsize=8.3)
+    ax.text(x,0.50,lbl,ha="center",va="center",fontsize=7.2)
     if i<3:
-        ax.annotate("",xy=(xs[i+1]-0.090,0.50),xytext=(x+0.090,0.50),
+        ax.annotate("",xy=(xs[i+1]-0.095,0.50),xytext=(x+0.095,0.50),
                     arrowprops=dict(arrowstyle="->",lw=1.3,color=DARK))
 for x,txt in zip(xs[1:],["Gate 1","Gate 2","Gate 3"]):
     ax.text(x,0.68,txt,ha="center",va="bottom",fontsize=8,color=MID)
-ax.text(0.50,0.18,"Failure before Gate 3 is not downstream low power",
-        ha="center",va="center",fontsize=8.0,color=DARK)
+ax.text(0.50,0.18,"Earlier-gate failure ≠ downstream low power",
+        ha="center",va="center",fontsize=7.6,color=DARK)
 ax.set_title("A  Known truth must first be assignable",loc="left",fontweight="bold")
 
 ax=fig.add_subplot(gs[0,1])
@@ -78,14 +78,17 @@ for y,rep in zip(ypos,representations):
         ax.barh([y],[pct],left=[left],color=st["color"],hatch=st["hatch"],
                 edgecolor=DARK,linewidth=0.8,height=0.55,label=outc if y==1 else None)
         text_color="white" if outc in {"Generator no-bracket","S3 recovery passed"} else DARK
-        if pct>=6:
+        if pct>=10:
             ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
                     fontsize=7.5,color=text_color,fontweight="bold" if outc!="Assigned, recovery failed" else "normal")
+        elif pct>=5:
+            ax.text(left+pct/2,y,f"{pct:.1f}%",ha="center",va="center",
+                    fontsize=6.1,color=text_color,fontweight="bold")
         left+=pct
     total=int(lookup[(rep,outcomes[0])]["total"])
-    ax.text(101.5,y,f"n={total}",ha="left",va="center",fontsize=7.8,color=MID)
+    ax.text(103.0,y,f"n={total}",ha="left",va="center",fontsize=7.8,color=MID)
 
-ax.set_xlim(0,112)
+ax.set_xlim(0,114)
 ax.set_yticks(ypos,representations)
 ax.set_xlabel("Diagnostic systems (%)")
 ax.set_xticks([0,25,50,75,100])
@@ -93,8 +96,9 @@ ax.grid(axis="x",color=LIGHT,linewidth=0.7)
 ax.set_axisbelow(True)
 ax.spines[["top","right"]].set_visible(False)
 ax.legend(frameon=False,fontsize=7.1,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1)
-ax.text(0.99,0.96,"Generator no-bracket gap = 65.0 pp",transform=ax.transAxes,
-        ha="right",va="top",fontsize=7.8,color=ORANGE,fontweight="bold")
+ax.set_ylim(-0.5,1.62)
+ax.text(0.98,0.98,"No-bracket gap = 65.0 pp",transform=ax.transAxes,
+        ha="right",va="top",fontsize=7.7,color=ORANGE,fontweight="bold")
 ax.set_title("B  The same endpoint hides different failures",loc="left",fontweight="bold")
 
 fig.suptitle("Figure 1. Failed known-truth simulations must be localized before power is interpreted",
@@ -128,10 +132,10 @@ ax=fig.add_subplot(gs[0,1])
 effect=int(vals["Effect ceiling"]); collapse=int(vals["Validity collapse"]); total=effect+collapse
 ax.barh([0],[effect/total*100],color=ORANGE,edgecolor=DARK,linewidth=0.8,label="Effect ceiling")
 ax.barh([0],[collapse/total*100],left=[effect/total*100],color="white",edgecolor=DARK,linewidth=0.8,hatch="////",label="Validity collapse")
-ax.set_xlim(0,104); ax.set_yticks([])
+ax.set_xlim(0,112); ax.set_yticks([])
 ax.set_xlabel("OU no-bracket systems (%)")
 ax.text(effect/total*50,0,f"{effect}/220\n88.6%",ha="center",va="center",color="white",fontweight="bold",fontsize=9)
-ax.text(effect/total*100+(collapse/total*50),0,f"{collapse}/220\n11.4%",ha="center",va="center",fontsize=8.5)
+ax.text(101.2,0,f"{collapse}/220\n11.4%",ha="left",va="center",fontsize=8.0)
 ax.legend(frameon=False,loc="upper center",bbox_to_anchor=(0.5,-0.18),ncol=1,fontsize=8)
 ax.spines[["top","right","left"]].set_visible(False)
 ax.set_title("B  Failure lies inside generator accessibility",loc="left",fontweight="bold")
@@ -172,14 +176,12 @@ ax.barh(y,resc,color=BLUE,edgecolor=DARK,linewidth=0.8,label="Rescued")
 ax.barh(y,[-x for x in loss],color="white",edgecolor=DARK,linewidth=0.8,hatch="////",label="New failure")
 ax.axvline(0,color=DARK,linewidth=0.9)
 ax.set_yticks(y,labels)
-ax.set_xlabel("Paired systems")
+ax.set_xlabel("Paired systems  (new failure ← 0 → rescued)")
 lim=max(max(resc)+7,10); ax.set_xlim(-lim*0.25,lim)
 for yy,n in zip(y,resc): ax.text(n+1,yy,str(n),va="center",fontsize=9)
 for yy,n in zip(y,loss):
     if n: ax.text(-n-1,yy,str(n),ha="right",va="center",fontsize=9)
     else: ax.text(-0.8,yy,"0",ha="right",va="center",fontsize=9)
-ax.text(0.02,0.98,"← new failures",transform=ax.transAxes,ha="left",va="top",fontsize=7.8,color=MID)
-ax.text(0.98,0.98,"rescued →",transform=ax.transAxes,ha="right",va="top",fontsize=7.8,color=BLUE)
 ax.spines[["top","right"]].set_visible(False)
 ax.set_title("B  Paired rescues exceed new failures",loc="left",fontweight="bold")
 
@@ -188,10 +190,10 @@ d={r["outcome"]:int(r["n"]) for r in reco}
 total=sum(d.values())
 ax.barh([0],[d["PASS"]/total*100],color=BLUE,edgecolor=DARK,linewidth=0.8)
 ax.barh([0],[d["Recovery fail"]/total*100],left=[d["PASS"]/total*100],color="white",edgecolor=DARK,linewidth=0.8,hatch="////")
-ax.set_xlim(0,100); ax.set_yticks([])
+ax.set_xlim(0,103); ax.set_yticks([])
 ax.set_xlabel("Mk2-calibrated systems (%)")
 ax.text(d["PASS"]/total*50,0,f"PASS\n{d['PASS']}/106",ha="center",va="center",color="white",fontweight="bold")
-ax.text(d["PASS"]/total*100+d["Recovery fail"]/total*50,0,f"Recovery fail\n{d['Recovery fail']}/106",ha="center",va="center",fontsize=8.5)
+ax.text(d["PASS"]/total*100+d["Recovery fail"]/total*50,0,f"Recovery\nfail\n{d['Recovery fail']}/106",ha="center",va="center",fontsize=7.4)
 ax.spines[["top","right","left"]].set_visible(False)
 ax.set_title("C  Assignment does not ensure recovery",loc="left",fontweight="bold")
 

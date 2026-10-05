@@ -2,14 +2,14 @@
   "version": "v0.1",
   "status": "PRIMARY_FIGURE_PLAN_FROZEN_AFTER_MECHANISM_CLOSE",
   "frozen_on": "2026-10-05",
-  "paper_claim": "A declared known truth is not automatically an assignable truth; constrained representations require separate audits of structural realizability, generator accessibility, and recovery.",
+  "paper_claim": "A declared known truth is not automatically assignable; constrained representations require separate audits of structural feasibility, generator accessibility, and recovery.",
   "figures": [
     {
       "id": "Fig1",
       "title": "A failed known-truth simulation can fail at different inferential gates",
       "question": "Does a low final recovery rate reflect failure to assign the target or failure to recover it after assignment?",
       "panels": [
-        "A: conceptual flow from declared target to structural realizability, generator accessibility, and recovery",
+        "A: conceptual flow from declared target to structural feasibility, generator accessibility, and recovery",
         "B: partition of the 683 systems with stored calibration diagnostics into generator no-bracket, assigned-but-S3-recovery-failed, and S3-recovery-passed outcomes, separately for continuous-scalar and nominal-categorical representations"
       ],
       "primary_values": {
@@ -25,10 +25,10 @@
     },
     {
       "id": "Fig2",
-      "title": "Categorical failure is an accessibility problem, not a binary state-space ceiling",
-      "question": "Why do 220 categorical systems fail OU calibration despite having realizable binary states above the target?",
+      "title": "A hard one-transition state-space ceiling does not explain categorical calibration failure",
+      "question": "Do the 220 categorical OU no-bracket systems fail because even a simple realizable one-transition state cannot exceed rho=0.15, or because the OU generator does not access the benchmark?",
       "panels": [
-        "A: target rho=0.15 compared with median maximum realizable one-edge rho and median maximum OU-grid rho among the 220 original categorical no-bracket systems",
+        "A: target rho=0.15 compared with median maximum realizable one-edge rho and median maximum OU-grid rho among the 220 original categorical no-bracket systems; the edge-split maximum is a one-sided ceiling witness, not proof of exact target attainability",
         "B: mechanism decomposition of the 220 OU no-bracket systems into effect ceiling versus validity collapse"
       ],
       "primary_values": {

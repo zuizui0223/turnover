@@ -37,8 +37,11 @@ assert b["geometry_availability"]=={
 
 required={
  "722": [abstract,paper],
- "56.2%": [abstract,paper],
- "2.15%": [abstract,paper],
+ "56.2%": [paper],
+ "2.15%": [paper],
+ "14.7%": [abstract,paper,caps],
+ "13.3%": [abstract,paper,caps],
+ "13.8%": [abstract,paper,caps],
  "79.7%": [abstract,paper,caps,boundary],
  "61.6%": [abstract,paper,caps,boundary],
  "42.4–43.8%": [abstract,paper,caps,boundary],
@@ -68,6 +71,12 @@ assert "No additional generator, estimator, target, grid extension or outcome-ba
 assert "structural realizability" in abstract and "generator accessibility" in abstract and "recovery" in abstract
 assert "failed known-truth simulation" in abstract and "low statistical power" in abstract
 assert [f["id"] for f in plan["figures"]]==["Fig1","Fig2","Fig3"]
+assert plan["figures"][0]["primary_values"]["continuous_no_bracket"]==60
+assert plan["figures"][0]["primary_values"]["continuous_recovery_fail_after_assignment"]==54
+assert plan["figures"][0]["primary_values"]["continuous_s3_recovery_pass"]==293
+assert plan["figures"][0]["primary_values"]["categorical_no_bracket"]==220
+assert plan["figures"][0]["primary_values"]["categorical_recovery_fail_after_assignment"]==38
+assert plan["figures"][0]["primary_values"]["categorical_s3_recovery_pass"]==18
 assert plan["figures"][2]["primary_values"]["mk2_to_balance_rescue_n"]==50
 assert plan["figures"][2]["primary_values"]["mk2_to_balance_new_failure_n"]==0
 

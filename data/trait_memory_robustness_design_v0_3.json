@@ -93,8 +93,9 @@
     ]
   },
   "correlated_trait_family_null": {
-    "role": "Test whether apparent family repeatability can arise mechanically from shared family geometry plus correlated traits when true family-level memory effect is zero.",
-    "null_type": "raw-trait block-correlated geometry null",
+    "role": "Test whether the observed family repeatability can be generated mechanically by correlated/redundant trait outcomes on the same sparse family x trait incidence graph when the true family main effect is zero.",
+    "null_type": "outcome-covariance-preserving block null",
+    "rationale": "The statistical concern is inflation of the family random-intercept variance when multiple correlated trait-memory estimates from the same family are treated as conditionally independent. The null therefore preserves the dependence among the memory outcomes that can create this inflation, rather than introducing an additional raw-trait evolutionary model.",
     "predeclared_trait_blocks": [
       [
         "whole plant height",
@@ -110,23 +111,34 @@
         "leaf nitrogen content per leaf area"
       ]
     ],
-    "singleton_traits": "all remaining traits simulated independently of other blocks",
-    "correlation_estimation": "Within each predeclared block, estimate Pearson correlation of log species medians using pairwise-complete species pooled across the 45 frozen families. Project each block matrix to nearest positive definite correlation matrix if required; report pairwise overlap counts. No outcome-rho values enter these correlations.",
+    "singleton_traits": "all remaining traits",
+    "parameter_estimation": {
+      "axis_specific": true,
+      "trait_means": "observed trait-specific mean rho",
+      "trait_sds": "observed trait-specific SD of rho",
+      "block_correlations": "pairwise-complete Pearson correlation of rho across families within each predeclared block",
+      "minimum_pair_overlap": 4,
+      "regularization": "Project each block correlation matrix to nearest positive-definite correlation matrix with Matrix::nearPD(corr=TRUE) when needed.",
+      "conservatism": "Correlations are estimated from the observed rho matrix without subtracting a fitted family effect; any true family contribution to those correlations therefore makes the null conservative for detecting excess family repeatability."
+    },
     "simulation": {
+      "axes": [
+        "S3",
+        "prune_only"
+      ],
       "replicates": 1000,
       "master_seed": 20261007,
-      "species_process": "For each family and replicate, draw one correlated standard-normal vector across block traits for every species in the union of the frozen observed species sets, independently across species and independently of the phylogeny.",
-      "missingness": "For each family x trait system, retain exactly its frozen observed species set/tree mapping; use the simulated state corresponding to those species.",
-      "true_family_effect": "zero by construction",
-      "true_phylogenetic_signal": "zero by construction",
-      "fitted_statistic": "original unweighted crossed lmer R_family on the exact 201-system incidence graph"
+      "exact_incidence_graph": true,
+      "procedure": "For each family independently, draw one multivariate Normal outcome vector for each predeclared trait block using observed trait means/SDs and the regularized block correlation matrix; draw singleton traits independently using their observed mean/SD. Retain only the exact family x trait cells present in the 201-system graph. No family-level shared intercept is simulated.",
+      "true_family_main_effect": "zero by construction",
+      "fitted_statistic": "original unweighted crossed lmer rho ~ 1 + (1|family) + (1|trait_name)"
     },
-    "primary_test": "p_null = (1 + count(R_family_null >= observed_R_family_v0_2)) / (B+1)",
+    "primary_test": "p_null = (1 + count(R_family_null >= observed_R_family_v0_2)) / (B+1), separately for S3 and prune-only.",
     "interpretation": {
-      "low_p": "Observed family repeatability exceeds what correlated traits plus shared geometry generate under a zero-memory family null.",
-      "high_p": "Observed R_family is not distinguishable from a mechanical correlated-trait/shared-geometry artifact under this null."
+      "low_p": "Observed family repeatability exceeds what the predeclared correlated-trait outcome structure plus sparse incidence generate with zero family main effect.",
+      "high_p": "Observed R_family is not distinguishable from an artifact of correlated/redundant trait outcomes under this conservative null."
     },
-    "limitation": "This null preserves selected raw-trait correlation blocks and exact observed system geometry/missingness but is not a full multivariate evolutionary model."
+    "limitation": "This is a statistical dependence null for the repeatability estimator, not a mechanistic multivariate trait-evolution simulation."
   },
   "trait_domain_sensitivity": {
     "role": "Secondary nonparametric check against redundant labels.",
@@ -187,5 +199,11 @@
     "date": "2026-10-05",
     "before_robustness_execution": true,
     "reason": "The frozen reference effects.csv stores rho only to four decimal places, so the initial 1e-12 identity wording exceeded the precision of the archived evidence. No robustness outcome had been computed when corrected."
+  },
+  "technical_amendment_correlated_null": {
+    "version": "v0.3.0b",
+    "date": "2026-10-05",
+    "before_null_execution": true,
+    "reason": "Replaced the initially drafted raw-trait/tree simulation with a direct outcome-covariance null. The original proposal would require repeated O(n^2) phylogenetic calculations for systems up to 1,042 species and would introduce an unnecessary evolutionary model. The revised null targets the stated statistical concern directly and no null outcome had been computed."
   }
 }

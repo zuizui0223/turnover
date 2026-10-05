@@ -8,6 +8,7 @@ on:
       - 'docs/PHYLO_MEMORY_FIGURE_CAPTIONS_V0_1.md'
       - 'docs/PHYLO_MEMORY_NOVELTY_BOUNDARY_V0_1.md'
       - 'docs/PHYLO_MEMORY_SUPPLEMENTARY_METHODS_V0_1.md'
+      - 'docs/PHYLO_MEMORY_MEE_TITLE_PAGE_TEMPLATE_V0_1.md'
       - 'data/phylo_memory_figure_plan_v0_1.json'
       - 'data/phylo_memory_mechanism_close_v0_5_3.json'
       - 'results/phylo_memory_measurability_v0_1/result.json'

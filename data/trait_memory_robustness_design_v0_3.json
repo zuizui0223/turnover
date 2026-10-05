@@ -68,7 +68,13 @@
       "min_success_fraction": 0.9,
       "replicates": 500
     },
-    "hard_claim_rule": "The original 80.6% lmer residual share may be described as system specificity only if measurement-aware system heterogeneity remains the largest heterogeneity component and its lower 95% cluster-bootstrap share exceeds both family and trait shares; otherwise rewrite as unresolved mixture of sampling error and heterogeneity."
+    "hard_claim_rule": "The original 80.6% lmer residual share may be described as system specificity only if measurement-aware system heterogeneity remains the largest heterogeneity component and its lower 95% cluster-bootstrap share exceeds both family and trait shares; otherwise rewrite as unresolved mixture of sampling error and heterogeneity.",
+    "bootstrap_implementation": {
+      "method": "exact weighted-midrank compression of the expanded species bootstrap",
+      "equivalence": "For bootstrap species counts c_i, original i-j pair values receive weight c_i*c_j and self-copy zero pairs receive choose(c_i,2); weighted midranks reproduce ordinary Spearman ranks of the fully expanded bootstrap sample exactly.",
+      "validation": "Independent synthetic check: 100 bootstrap replicates at n=8 and n=12 matched direct expanded-sample Spearman to absolute tolerance 1e-12.",
+      "scientific_change": false
+    }
   },
   "log_scale": {
     "transform": "natural log of species-level median state for every one of the 12 continuous traits",

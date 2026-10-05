@@ -43,7 +43,6 @@ required={
  "61.6%": [abstract,paper,caps,boundary],
  "42.4–43.8%": [abstract,paper,caps,boundary],
  "34.9%": [abstract,paper,caps],
- "220/220": [paper,boundary],
  "195": [paper,caps],
  "25": [paper,caps],
  "51": [paper,caps],
@@ -63,6 +62,8 @@ for stale in [
 ]:
     assert stale not in paper, f"stale forward-looking wording in paper: {stale}"
 
+assert ("all 220" in paper or "220/220" in paper), "paper must state that all 220 OU no-bracket systems were structurally realizable"
+assert ("220/220" in boundary or "all 220" in boundary), "novelty boundary must retain the 220-system structural witness claim"
 assert "No additional generator, estimator, target, grid extension or outcome-based subgroup search" in paper
 assert "A declared known truth is not automatically an assignable truth" in abstract
 assert [f["id"] for f in plan["figures"]]==["Fig1","Fig2","Fig3"]

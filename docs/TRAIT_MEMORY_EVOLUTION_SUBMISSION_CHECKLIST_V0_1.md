@@ -45,7 +45,7 @@ Current guidance for Original Articles:
 - LLM use must be disclosed in the cover letter and Methods/Acknowledgements with technical specifications and method of application.
 
 Current direct audit:
-- abstract: 178 words;
+- abstract: 176 words;
 - teaser: 43 words;
 - keywords: 6;
 - abstract contains neither S3 nor BLUP abbreviations;
@@ -77,3 +77,13 @@ Prohibited:
 5. Confirm the final data/code archive strategy for acceptance/publication.
 6. Run the Evolution paper-package and submission-freeze contracts on the final head.
 7. Submit to *Evolution* first; JEB is the strongest fallback if editorial scope is judged too narrow.
+
+
+## RC3 editorial audit
+
+- Abstract primary-evidence list excludes the post-outcome provenance sensitivity; provenance remains a labeled supplementary robustness check in the main text.
+- Mantel-statistic wording is balanced against Harmon & Glor (2010), Hardy & Pavoine (2012), and Pavoine & Ricotta (2013): performance depends on the chosen distance definitions and measurement error, so rho is not presented as uniformly superior or inferior to K-type statistics.
+- Pavoine & Ricotta (2013) authorship and citation metadata were verified against the original *Evolution* article.
+- Pearse et al. (2025), BIEN 2026, V.PhyloMaker2 2022, and Debastiani et al. 2021 bibliographic metadata were rechecked against publisher pages.
+- Reviewer prebuttal: `docs/TRAIT_MEMORY_EVOLUTION_REVIEWER_PREBUTTAL_V0_1.md`.
+- Anonymous DOCX RC3: 23 pages, 12-point Times New Roman, double-spaced, continuous line numbers, three figures with alt text, accessibility audit 0 issues, author/repository identifier scan 0 hits.

@@ -1,0 +1,32 @@
+{
+  "version": "v0.3",
+  "status": "TRAIT_MEMORY_ROBUST_EFFECTS_AGGREGATED",
+  "evidence": {
+    "workflow_run": 37279051098,
+    "artifact_id": 11331292825,
+    "artifact_name": "trait-memory-robust-effects-v0-3-recovered",
+    "artifact_sha256": "f837e85b97d42d7d34783cc2406e16eecd7acfc61afaf2a4d70bbc9f938b02f7",
+    "artifact_result_sha256": "14147cb31a5d5129750e86a0ac3c6b4d30689ecdc5ac90d24bb391810ce1afd9"
+  },
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "reference_identity": {
+    "pass": true,
+    "archive_precision_decimal_places": 4,
+    "n_mismatches": 0,
+    "max_abs_unrounded_delta": 4.992213138967777e-05
+  },
+  "measurement_error": {
+    "all_systems_have_valid_raw_se": true,
+    "median_S3_se": 0.05797444434348969,
+    "median_prune_se": 0.07088945618526855
+  },
+  "log_scale": {
+    "all_201_positive_and_estimable": false,
+    "n_S3_nonpositive_systems": 25,
+    "n_prune_nonpositive_systems": 18,
+    "status": "HOLD_TRAIT_MEMORY_LOG_SCALE_ALL_201"
+  },
+  "interpretation": "The original raw-rho matrix is reproduced at its archived four-decimal precision and every system receives a valid species-cluster bootstrap SE. The mandatory all-201 natural-log sensitivity cannot be executed under the frozen no-offset rule because some systems contain nonpositive species medians."
+}

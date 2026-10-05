@@ -12,7 +12,7 @@ Contribution relevant here:
 
 Boundary:
 - the paper evaluates a binary-specific statistic under specified generative null/reference models;
-- it does not decompose whether a fixed requested effect size is structurally realizable, generator-accessible, and recoverable on each realized tree.
+- it does not decompose whether a fixed requested effect size is structurally feasible, generator-accessible, and recoverable on each realized tree.
 
 ### Münkemüller et al. (2012)
 Münkemüller, T. et al. *How to measure and test phylogenetic signal.* Methods in Ecology and Evolution 3:743–756. doi:10.1111/j.2041-210X.2012.00196.x.

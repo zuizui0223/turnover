@@ -48,13 +48,16 @@ for token in [
 
 for forbidden in [
     "most phylogenetic memory is system-specific",
-    "trait identity is anti-portable",
     "family context dominates trait identity",
     "family effects dominate trait effects",
     "raw-scale result is robust to log transformation"
 ]:
     assert forbidden not in paper.lower(), forbidden
     assert forbidden not in abstract.lower(), forbidden
+
+assert "there is little portable trait-level memory information to borrow" in paper.lower()
+assert "trait identity provides almost no robust information" in paper.lower() or "trait identity carried little robust information" in paper.lower()
+assert "do not state that:" in paper.lower() and "trait identity is anti-portable" in paper.lower()
 
 assert "distance-based memory descriptor" in paper
 assert "not a claim to replace standard phylogenetic-signal metrics" in paper

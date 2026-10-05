@@ -65,7 +65,8 @@ for stale in [
 assert ("all 220" in paper or "220/220" in paper), "paper must state that all 220 OU no-bracket systems were structurally realizable"
 assert ("220/220" in boundary or "all 220" in boundary), "novelty boundary must retain the 220-system structural witness claim"
 assert "No additional generator, estimator, target, grid extension or outcome-based subgroup search" in paper
-assert "A declared known truth is not automatically an assignable truth" in abstract
+assert "structural realizability" in abstract and "generator accessibility" in abstract and "recovery" in abstract
+assert "failed known-truth simulation" in abstract and "low statistical power" in abstract
 assert [f["id"] for f in plan["figures"]]==["Fig1","Fig2","Fig3"]
 assert plan["figures"][2]["primary_values"]["mk2_to_balance_rescue_n"]==50
 assert plan["figures"][2]["primary_values"]["mk2_to_balance_new_failure_n"]==0

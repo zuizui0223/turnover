@@ -33,6 +33,26 @@ For each system, phylogenetic trait memory is summarized as the Spearman associa
 
 The raw effect matrix was independently re-extracted in v0.3 and reproduced the archived effects for all 201 systems at the archived four-decimal precision.
 
+## Position of the memory statistic relative to standard phylogenetic-signal metrics
+
+The response used here is a pairwise Spearman association between patristic separation and absolute trait dissimilarity. It is related to Mantel-style distance-matrix summaries but is not presented as a generic replacement for Blomberg's K or Pagel's lambda.
+
+These quantities answer different questions.
+
+- **Blomberg's K** asks how strongly trait covariance matches a Brownian-motion expectation and is standardized for comparison across trees.
+- **Pagel's lambda** estimates a phylogenetic covariance transformation and is rate-independent.
+- **The present rho** asks whether trait dissimilarity increases monotonically with phylogenetic separation.
+
+Harmon & Glor (2010) showed that Mantel tests can have poor power for generic phylogenetic-signal testing. Hardy & Pavoine (2012) further showed that distance-based performance depends on the chosen trait and phylogenetic distance metrics and on measurement error.
+
+For that reason, this study does not infer biological mechanism from rho magnitude alone and does not use pair counts as independent sample size. The estimator was qualified on the exact admitted geometries before real effects were opened, and v0.3 now attaches species-cluster bootstrap SEs to each system-level rho.
+
+The paper's main question is therefore conditional on this explicitly defined distance-decay summary:
+
+> Is the strength of the same phylogenetic distance-decay pattern for a named trait transferable to an unseen lineage?
+
+A K/lambda comparison would answer a related but different question and is not added post hoc after outcomes are known.
+
 ## Result 1 — the original 80.6% residual was not 80.6% biological system specificity
 
 The original unweighted crossed model gave S3 variance shares:

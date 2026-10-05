@@ -101,6 +101,9 @@ assert "one-sided" in paper.lower() and "calibration tolerance" in paper.lower()
 assert "identical categorical target" not in caps.lower()
 assert "delta_rank = 0.30 rather than rho" in caps.lower()
 assert "diagnostic re-expression rather than the identical rho estimand" in paper.lower()
+assert "51/220" in abstract and "1/56" in abstract
+assert "paired reversal directly demonstrates generator-specific target accessibility" in abstract.lower()
+assert "does not by itself prove exact target attainability" in caps.lower()
 assert "hard one-transition" in abstract.lower()
 for forbidden in [
     "all 276 categorical trees could structurally express the target",

@@ -221,5 +221,21 @@
     "scientific_change": false,
     "reason": "The exact weighted-midrank bootstrap implementation used base::tabulate(..., weights=...), but base R tabulate has no weights argument. Effect batches failed before producing system outputs. The implementation was changed to aggregate the identical multiplicity weights by integer rank group with base::rowsum; bootstrap unit, replicate count, seeds, ranks, and estimand are unchanged.",
     "validation": "A standalone synthetic test compares weighted-count Spearman against fully expanded species-bootstrap Spearman at n=8 and n=12 for 100 replicates, requiring maximum absolute difference <=1e-12 before effect batches run."
+  },
+  "technical_amendment_aggregate_numpy_runtime": {
+    "version": "v0.3.0d",
+    "date": "2026-10-05",
+    "scientific_change": false,
+    "chronology": {
+      "algorithm_equivalence_check_passed": true,
+      "all_32_effect_batches_completed_successfully": true,
+      "system_level_robustness_outputs_generated": true,
+      "aggregate_scientific_result_opened": false,
+      "measurement_aware_model_run": false,
+      "blup_sensitivity_run": false,
+      "correlated_trait_null_run": false
+    },
+    "failure": "Aggregate script exited on import with ModuleNotFoundError: numpy before reading/aggregating system-level scientific outcomes.",
+    "recovery": "Reuse the immutable 32 successful batch artifacts from workflow run 37269950030; install numpy in the recovery aggregate environment; do not repeat BIEN extraction or change any scientific setting."
   }
 }

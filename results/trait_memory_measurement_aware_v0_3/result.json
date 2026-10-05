@@ -1,0 +1,77 @@
+{
+  "version": "v0.3",
+  "status": "TRAIT_MEMORY_MEASUREMENT_AWARE_ESTIMATED",
+  "evidence": {
+    "workflow_run": 37281031394,
+    "artifact_id": 11335736009,
+    "artifact_name": "trait-memory-robustness-v0-3",
+    "artifact_sha256": "12d046f42fc438bb688443c0ce43fb15f6ab2e07eeae578525bd613819bc9769",
+    "artifact_result_sha256": "5e6be07f88a0108e1d9db0f21b11b4c4e5e6423d49ba26f59030224373c8d088"
+  },
+  "n_systems": 201,
+  "n_families": 45,
+  "n_traits": 12,
+  "original_naive_reference": {
+    "R_family": 0.1504,
+    "R_trait": 0.0433,
+    "R_residual": 0.8063
+  },
+  "measurement_aware": {
+    "S3": {
+      "intercept": 0.07170421247376031,
+      "sigma2_family": 0.002890271080079113,
+      "sigma2_trait": 0.001086392363310765,
+      "sigma2_system": 0.010479508054145843,
+      "mean_sampling_variance": 0.00462393231315388,
+      "family_share_of_heterogeneity": 0.19993336967341627,
+      "trait_share_of_heterogeneity": 0.07515076612752951,
+      "system_share_of_heterogeneity": 0.7249158641990542,
+      "sampling_share_mean_total": 0.24234314231368748,
+      "point_total_variance_shares_using_mean_sampling_variance": {
+        "family": 0.15148088861339648,
+        "trait": 0.05693849331690298,
+        "system_heterogeneity": 0.5492374757560131,
+        "sampling_error": 0.24234314231368748
+      }
+    },
+    "prune_only": {
+      "intercept": 0.09402752290648153,
+      "sigma2_family": 0.0039463446716972205,
+      "sigma2_trait": 0.000607015215209501,
+      "sigma2_system": 0.01651175941550592,
+      "mean_sampling_variance": 0.007128100504497046,
+      "family_share_of_heterogeneity": 0.1873402478781706,
+      "trait_share_of_heterogeneity": 0.02881612994899953,
+      "system_share_of_heterogeneity": 0.7838436221728299,
+      "sampling_share_mean_total": 0.25283031002901157,
+      "point_total_variance_shares_using_mean_sampling_variance": {
+        "family": 0.13997495492622086,
+        "trait": 0.02153053888015769,
+        "system_heterogeneity": 0.5856641961646099,
+        "sampling_error": 0.2528303100290116
+      }
+    },
+    "S3_two_way_cluster_bootstrap": {
+      "replicates": 500,
+      "successful": 500,
+      "success_fraction": 1.0,
+      "gate_pass": true,
+      "ci95_family_share_of_heterogeneity": [0.12251358073142357, 0.7494061522524385],
+      "ci95_trait_share_of_heterogeneity": [1.8312757541461744e-08, 0.3853299711128028],
+      "ci95_system_share_of_heterogeneity": [0.07100385799045661, 0.7512825602720927],
+      "ci95_sampling_share_mean_total": [0.13716284184796848, 0.45032340028677065],
+      "ci95_naive_R_family": [0.07272171228506907, 0.6374254425782129],
+      "ci95_naive_R_trait": [0.0, 0.2560601616291197],
+      "ci95_naive_R_residual": [0.23746140683610273, 0.8507720072834318],
+      "interpretation": "System heterogeneity is the largest point estimate but is not demonstrably larger than the family component under the pre-frozen two-way cluster bootstrap."
+    }
+  },
+  "log_scale": {
+    "status": "HOLD_TRAIT_MEMORY_LOG_SCALE_ALL_201",
+    "all_201_positive_and_estimable": false,
+    "n_S3_nonpositive_systems": 25,
+    "n_prune_nonpositive_systems": 18,
+    "rule": "No offset, signed-log, or outcome-driven system removal is permitted in v0.3."
+  },
+  "interpretation": "The original lmer residual share cannot be interpreted as biological system specificity. At the S3 point estimate, approximately 24% of typical total variance is sampling error and approximately 55% is residual between-system heterogeneity, while the family component remains near 15%. The heterogeneity-component ranking is uncertain under the pre-frozen two-way cluster bootstrap."
+}

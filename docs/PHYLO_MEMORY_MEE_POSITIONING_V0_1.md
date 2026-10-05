@@ -22,7 +22,7 @@ Simulation studies routinely distinguish data-generating mechanisms, estimands, 
 
 The present method separates three inferential events:
 
-1. **structural realizability** — does the representation × realized design contain a state capable of the target?
+1. **structural feasibility** — does the representation × realized design contain a state capable of the target?
 2. **generator accessibility** — can the declared generator reach the target while satisfying validity rules?
 3. **recovery** — after successful assignment, can the estimator recover the target?
 
@@ -33,7 +33,7 @@ A failed simulation at gate 1 or gate 2 is not evidence of low estimator power. 
 The paper does not merely report that categorical traits have low power, nor does it assemble an analysis pipeline. It defines distinct inferential objects and tests them with controlled interventions that change one mechanism at a time.
 
 The empirical separation is sharp:
-- the target is structurally realizable in 276/276 categorical trees;
+- 276/276 categorical trees contain a realizable one-transition state at or above the benchmark, excluding a hard one-transition ceiling below it;
 - latent-OU thresholding is no-bracket in 220/276;
 - changing only the generator to Mk2 reduces no-bracket to 170/276;
 - removing the exact state-balance attenuation term reduces the full-population no-bracket rate to 42.4–43.8%;
@@ -53,7 +53,7 @@ A senior editor should be able to answer four questions from the first page alon
    Known-truth simulation assumes truth assignment before testing it.
 
 2. **What is new?**  
-   A tested separation of structural realizability, generator accessibility and recovery.
+   A tested separation of structural feasibility, generator accessibility and recovery, with the empirical structural test explicitly interpreted as a one-sided ceiling diagnostic.
 
 3. **Why is this not merely binary low power?**  
    All 276 categorical trees can express the target, yet accessibility changes strongly under controlled generator and balance interventions.
@@ -67,7 +67,7 @@ A senior editor should be able to answer four questions from the first page alon
 Fix: keep the title, first paragraph and Fig. 1 system-independent; introduce plant phylogenies only as the benchmark geometry.
 
 ### Risk 2 — looks like “binary traits have low power”
-Fix: foreground 276/276 structural realizability and the asymmetric paired rescues; generic discrete-trait power limitations are already known.
+Fix: foreground 276/276 structural feasibility and the asymmetric paired rescues; generic discrete-trait power limitations are already known.
 
 ### Risk 3 — looks like a Workflow
 Fix: do not describe the three gates as a convenient pipeline. Describe them as different inferential objects whose failure supports different conclusions.

@@ -1,0 +1,32 @@
+{
+  "version": "v0.3",
+  "status": "TRAIT_MEMORY_BLUP_PORTABILITY_SENSITIVITY_ESTIMATED",
+  "evidence": {
+    "workflow_run": 37279914177,
+    "artifact_id": 11331544108,
+    "artifact_name": "trait-memory-blup-portability-v0-3",
+    "artifact_sha256": "59be7e1adfa8b52264a402e7b136b7b58a614b0948cc49c6b794925bc777758e",
+    "artifact_result_sha256": "05bc8ebdacf8f4e83d89fcc576a786dbe3cfe5191533dac8819a6850cdcad8cc"
+  },
+  "secondary_sensitivity_only": true,
+  "S3_raw": {
+    "gain_unshrunk": -0.02417616423930835,
+    "gain_blup": 0.006007446522735993,
+    "paired_sse_improvement_blup_vs_unshrunk": 0.12528134411069036,
+    "median_training_trait_variance": 0.0009043725966177333,
+    "q25_q75_training_trait_variance": [0.0008318402617214048, 0.0009397448189418283],
+    "median_training_residual_variance": 0.016778998731958022,
+    "singular_fraction": 0
+  },
+  "prune_raw": {
+    "gain_unshrunk": -0.03241420164391995,
+    "gain_blup": -0.004770827542518008,
+    "paired_sse_improvement_blup_vs_unshrunk": 0.16557648952022852,
+    "median_training_trait_variance": 0.0005953433013968109,
+    "q25_q75_training_trait_variance": [0.000515365430132593, 0.0006894494623904668],
+    "median_training_residual_variance": 0.024689042016594356,
+    "singular_fraction": 0
+  },
+  "log_complete_all_201": false,
+  "interpretation": "Shrinkage removes most of the apparent harm from unshrunk trait means, but does not yield robust positive portability on both tree treatments. The more defensible interpretation is little transferable trait-level signal, not a strongly anti-portable trait signature."
+}

@@ -22,8 +22,14 @@
       "null_median_gain": -0.06512103010189874,
       "null_q025": -0.10601341142583504,
       "null_q975": 0.0038833416501435976,
-      "leave_one_trait_gain_range": [0.008581499563706019, 0.06536378343604587],
-      "leave_one_family_gain_range": [0.018897269236244796, 0.061837798663202936],
+      "leave_one_trait_gain_range": [
+        0.008581499563706019,
+        0.06536378343604587
+      ],
+      "leave_one_family_gain_range": [
+        0.018897269236244796,
+        0.061837798663202936
+      ],
       "all_leave_one_trait_gains_positive": true,
       "all_leave_one_family_gains_positive": true
     },
@@ -34,8 +40,14 @@
       "null_median_gain": -0.0649981643391464,
       "null_q025": -0.1065062194304844,
       "null_q975": 0.0045185461665275045,
-      "leave_one_trait_gain_range": [-0.0607719786399008, -0.030568484167041055],
-      "leave_one_family_gain_range": [-0.055294498658222446, -0.028483365019611684],
+      "leave_one_trait_gain_range": [
+        -0.0607719786399008,
+        -0.030568484167041055
+      ],
+      "leave_one_family_gain_range": [
+        -0.055294498658222446,
+        -0.028483365019611684
+      ],
       "all_leave_one_trait_gains_negative": true,
       "all_leave_one_family_gains_negative": true
     }
@@ -105,5 +117,36 @@
     "Do not equate phylogenetic signal with evolutionary rate.",
     "Do not call system-specific heterogeneity a mechanistically identified family-by-trait interaction.",
     "Do not treat the BIEN rank analysis as prospective evidence."
-  ]
+  ],
+  "measured_artifact_sensitivity": {
+    "S3_geometry_adjusted": {
+      "adjustment": "Subtract fixed effects from the pre-frozen geometry model: z_log_n_species, z_prune_fraction, z_log_calibration_lambda.",
+      "rank_portability_gain": 0.03918779072879286,
+      "spearman_observed_vs_predicted": 0.16133444707212394,
+      "trait_pair_median_majority_consistency": 0.6363636363636364,
+      "fraction_trait_pairs_consistency_ge_0_75": 0.125
+    },
+    "S3_source_composition_adjusted": {
+      "adjustment": "Subtract fixed effects from the post-outcome source-composition sensitivity: z_log_n_trait_records, z_source_HHI, z_dominant_source_share.",
+      "rank_portability_gain": 0.04720846442860116,
+      "spearman_observed_vs_predicted": 0.1660064229575645,
+      "trait_pair_median_majority_consistency": 0.6363636363636364,
+      "fraction_trait_pairs_consistency_ge_0_75": 0.125
+    },
+    "S3_citation_composition_adjusted": {
+      "adjustment": "Subtract fixed effects from the post-outcome citation-composition sensitivity: z_log_n_trait_records, z_citation_HHI, z_dominant_citation_share.",
+      "rank_portability_gain": 0.05000875819441497,
+      "spearman_observed_vs_predicted": 0.20544676076794285,
+      "trait_pair_median_majority_consistency": 0.6363636363636364,
+      "fraction_trait_pairs_consistency_ge_0_75": 0.125
+    },
+    "prune_coverage_adjusted": {
+      "adjustment": "Subtract the pre-frozen prune-only z_log_species coverage effect.",
+      "rank_portability_gain": -0.035098879672819994,
+      "spearman_observed_vs_predicted": 0.008143344510082867,
+      "trait_pair_median_majority_consistency": 0.6076923076923078,
+      "fraction_trait_pairs_consistency_ge_0_75": 0.0625
+    },
+    "interpretation": "Measured tree geometry and BIEN provenance composition do not generate the observed re-ranking pattern; residualizing these measured artifacts leaves the weak-S3/absent-prune portability pattern qualitatively unchanged."
+  }
 }

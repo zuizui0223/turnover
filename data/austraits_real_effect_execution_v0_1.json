@@ -1,0 +1,92 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_AUSTRAITS_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-06",
+  "programme": "AusTraits real-effect replication and trait-rank reordering test",
+  "prerequisite": {
+    "qualification_status_required": "AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE",
+    "ready_for_real_effect_opening_required": true,
+    "rule": "No phylogenetic-memory rho is computed unless the exact-crosswalk final core, graph-specific model-informativeness gate, and provenance audit have completed under the frozen v0.6.5 qualification chain."
+  },
+  "source": {
+    "release": "AusTraits 7.0.0",
+    "parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "trait_config_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "phylogeny_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.TPL"
+  },
+  "species_state": {
+    "numeric": "median of deduplicated eligible source-native numeric records in the authoritative standard unit",
+    "categorical": "unique modal category across deduplicated eligible records; tied-mode species excluded",
+    "record_identity": "dataset_id + ASCII unit-separator + observation_id",
+    "no_fuzzy_matching": true
+  },
+  "effect": {
+    "primary_scale": "source-native state scale on the complete final core",
+    "S3": "Spearman(all unordered S3 patristic distances, trait-state dissimilarity)",
+    "prune_only": "same estimator on native GBOTB tips only",
+    "continuous_dissimilarity": "absolute difference",
+    "categorical_dissimilarity": "0/1 mismatch",
+    "null_mean": 0,
+    "direction": "larger positive rho = faster loss of trait similarity with phylogenetic separation"
+  },
+  "primary_replication": {
+    "model": "rho ~ 0 + trait_name + (1|family), REML",
+    "estimand": "conditional_family_repeatability = var_family/(var_family+var_residual)",
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 20261003,
+    "practical_reference": 0.10,
+    "interpretation": {
+      "repeatable_lineage_context": "95% bootstrap CI lower bound > 0.10",
+      "weak_lineage_repeatability": "95% CI upper bound < 0.10",
+      "uncertain": "otherwise"
+    },
+    "mandatory_prune_only_sensitivity": true,
+    "leave_one_trait_out": true,
+    "leave_one_family_out": true
+  },
+  "secondary_absolute_portability": {
+    "role": "replicate the pre-frozen BIEN-style held-out-family trait predictor",
+    "prediction": "same-trait mean from all other families",
+    "baseline": "global mean from all observations outside the held-out family",
+    "null": "permute rho among observed trait slots within each family",
+    "permutations": 9999,
+    "seed": 20261006,
+    "robust_rule": "positive gain and one-sided p<=0.05 on both S3 and prune-only"
+  },
+  "secondary_rank_portability": {
+    "contract": "data/austraits_trait_rank_portability_v0_1.json",
+    "rank": "within-family rho rank rescaled to [0,1]",
+    "prediction": "same-trait mean rank in all other families",
+    "baseline": 0.5,
+    "null": "within-family trait-slot permutation",
+    "permutations": 9999,
+    "seed": 20261006
+  },
+  "matched_raw_log_sensitivity": {
+    "contract": "data/austraits_trait_rank_portability_scale_v0_2.json",
+    "timing": "construct the matched numeric positive-state core before any raw or log rho is computed",
+    "raw_and_log_system_set_identical": true,
+    "no_outcome_based_membership": true
+  },
+  "direct_reordering": {
+    "minimum_well_represented_pair_cooccurrence": 10,
+    "statistic": "family-pair-count-weighted probability that two distinct families disagree about which trait in a trait pair has larger memory-loss rho",
+    "report_all_pairs_minimum_cooccurrence": 2
+  },
+  "privacy_and_artifact_rule": {
+    "persist_raw_records": false,
+    "persist_species_names": false,
+    "persist_species_states": false,
+    "persist_system_level_rho": true
+  },
+  "hard_nonclaims": [
+    "Do not open real AusTraits rho if qualification is HOLD.",
+    "Do not select systems by observed rho.",
+    "Do not privilege raw or log scale based on outcome strength.",
+    "Do not equate memory-loss rho with evolutionary rate.",
+    "Do not infer a causal mechanism from family or system heterogeneity."
+  ],
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

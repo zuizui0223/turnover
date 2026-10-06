@@ -1,0 +1,66 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-06",
+  "programme_name": "AusTraits prospective replication of cross-lineage trait-lability rank portability",
+  "relationship_to_master_replication": {
+    "master_design": "data/austraits_memory_context_replication_v0_1.json",
+    "role": "secondary prospective test only",
+    "primary_family_repeatability_unchanged": true,
+    "existing_secondary_portability_extended": true,
+    "rule": "This contract makes the existing optional cross-lineage portability target explicit on the biologically relevant within-family conservative-to-labile rank scale. It does not alter system admission, source, phylogeny, informativeness thresholds, crossed-core construction, provenance rules, or the primary family-context estimand."
+  },
+  "discovery_context": {
+    "source": "BIEN 4.2.8",
+    "post_outcome_exploratory": true,
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12,
+    "S3_rank_portability_gain": 0.036637785065480655,
+    "S3_blocked_permutation_p_one_sided": 0.0036,
+    "prune_only_rank_portability_gain": -0.04180693766482091,
+    "prune_only_blocked_permutation_p_one_sided": 0.2263,
+    "interpretation": "BIEN suggests a weak S3 trait-ranking tendency but no prune-only robust portability. These BIEN values motivate the replication question and are not themselves prospective evidence for this rank estimand."
+  },
+  "question": "Does a trait retain its relative position on the conservative-to-labile phylogenetic-memory spectrum when moved to a previously unseen plant family?",
+  "estimand": {
+    "memory_effect": "raw memory-loss rho = Spearman(all unordered patristic distances, source-native trait-state dissimilarity)",
+    "within_family_rank": "Within each family, rank admitted trait memory-loss rho values using average ranks and rescale as (rank-1)/(m_family-1), so 0 is the most conservative observed trait and 1 the most labile. Families with fewer than two admitted traits are excluded from this secondary test.",
+    "held_out_prediction": "For each admitted family x trait observation, predict its within-family rank by the mean normalized rank of that trait across all other admitted families containing the trait.",
+    "baseline_prediction": 0.5,
+    "portability_gain": "1 - SSE(held-out trait-rank prediction) / SSE(0.5 baseline)",
+    "direction": "positive gain means trait identity improves prediction of relative lability in an unseen family"
+  },
+  "null_test": {
+    "permutations": 9999,
+    "master_seed": 20261006,
+    "scheme": "Within each family, permute normalized rank values among the observed trait slots, preserving the final family-trait bipartite graph, trait occurrence counts, family degree, and each family's rank distribution.",
+    "p_value": "one-sided, (1 + number(null_gain >= observed_gain)) / (B + 1)",
+    "alpha": 0.05
+  },
+  "axes": {
+    "primary": "S3",
+    "mandatory_sensitivity": "prune-only on the identical admitted system set"
+  },
+  "decision_language": {
+    "robust_rank_portability": "gain > 0 and one-sided blocked-permutation p <= 0.05 on both S3 and prune-only",
+    "backbone_sensitive_rank_tendency": "criterion passes on S3 but not prune-only",
+    "no_replicated_rank_portability": "S3 criterion does not pass",
+    "rule": "A non-significant test is not evidence that trait identity has exactly zero effect; report gain and null interval on both axes."
+  },
+  "descriptive_pair_reversal": {
+    "minimum_trait_pair_cooccurrence_families": 10,
+    "statistic": "For each trait pair, majority consistency = max(n[A>B], n[A<B]) / (n[A>B]+n[A<B]); summarize the median and fraction >=0.75.",
+    "role": "descriptive only; cannot change the portability decision"
+  },
+  "hard_nonclaims": [
+    "Do not call BIEN rank portability prospective.",
+    "Do not alter the master AusTraits primary family-repeatability analysis.",
+    "Do not select traits or families using observed AusTraits memory effects.",
+    "Do not relax support, semantic, phylogeny, informativeness, degree, provenance, or model-informativeness gates.",
+    "Do not infer a universal evolutionary-rate hierarchy from S3 alone.",
+    "Do not call a failed prune-only sensitivity proof of zero trait-level ordering."
+  ],
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

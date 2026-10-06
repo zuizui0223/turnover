@@ -124,9 +124,11 @@ The recurring family-wide component is not detectably organized along deeper fam
 
 Blomberg et al. (2003) showed widespread phylogenetic signal and average differences among trait categories. That establishes a global tendency.
 
-Ackerly (2009) showed that the same plant traits can evolve at very different rates in different clades. Other work has repeatedly found clade-specific phylogenetic signal.
+Ackerly (2009) showed that the same plant traits can evolve at very different rates in different clades. Gilbert & Webb (2015) emphasized that phylogenetic signal depends critically on clade/time depth.
 
-Those results establish heterogeneity, but do not answer whether a global trait ordering remains useful as a hierarchy inside a new lineage.
+A particularly close empirical precedent is Jones et al. (2013, American Journal of Botany, doi:10.3732/ajb.1200526): seven leaf traits were compared among three major Pelargonium clades, and both individual-trait phylogenetic signal and trait integration differed among clades. This establishes that the same functional traits can occupy different evolutionary contexts.
+
+Those studies establish clade-specificity. They do not directly estimate whether the **relative ordering of trait conservatism itself** is portable to an unseen lineage, nor how often the same trait pair reverses order across many independent lineages.
 
 The present analysis separates these two levels directly:
 

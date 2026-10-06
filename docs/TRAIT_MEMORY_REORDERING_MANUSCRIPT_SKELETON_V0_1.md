@@ -166,6 +166,38 @@ For the cleaned log BIEN model, r is 0.140 under S3 and 0.114 under prune-only, 
 
 This supplies a mechanistic-statistical explanation for the headline result without assigning a biological cause to U: **aggregation recovers a real trait main effect, while large lineage-specific deviations destroy its status as a deterministic local hierarchy.**
 
+
+## Deep phylogeny does not organize the re-ranking
+
+If family-specific trait rankings were inherited as deeper clade-level regimes, more distantly related families should disagree more strongly in their trait ordering.
+
+They do not.
+
+Using intact family rank profiles and a family-label permutation on the fixed GBOTB backbone:
+
+- cleaned log S3, >=4 shared traits: distance-disagreement rho = 0.037, p = 0.340;
+- cleaned log prune-only: rho = -0.011, p = 0.529;
+- the >=3-shared-traits sensitivity remains weak on both axes.
+
+Thus the lineage-specific hierarchy is not detectably a smooth deep-phylogenetic property. It is better described as **phylogenetically mosaic reconstruction at the family scale**.
+
+This creates a three-level architecture:
+
+1. **global trait prior** — traits differ on average;
+2. **family-wide context** — families show modest repeatable shifts across traits;
+3. **family-specific re-ranking** — individual trait positions are extensively rearranged, with little deep-family continuity.
+
+## Re-ranking is not restricted to comparisons among unlike functional modules
+
+Using the biological trait modules annotated before the original BIEN memory effects were opened, well-represented within-module trait pairs show nearly the same cross-family reversal as between-module pairs.
+
+On the cleaned log scale:
+
+- within-module weighted reversal = 48.4% (S3) and 49.1% (prune-only);
+- between-module weighted reversal = 45.0% and 47.5%.
+
+This is descriptive because only four well-represented within-module pairs are available, but it argues against a simple explanation in which re-ranking occurs only because unrelated functions are being compared.
+
 ## What changes relative to previous literature
 
 Blomberg et al. (2003) showed widespread phylogenetic signal and average differences among trait categories. That establishes a global tendency.

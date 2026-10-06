@@ -1,0 +1,105 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_NONPOSITIVE_RAW_VALUE_AUDIT",
+  "frozen_on": "2026-10-06",
+  "branch": "audit/trait-memory-nonpositive-values-v0-1",
+  "purpose": "Determine whether nonpositive species medians that blocked the predeclared log-scale sensitivity reflect biologically impossible/raw-data coding problems, without changing or recomputing any phylogenetic-memory effect in Stage A.",
+  "upstream": {
+    "robustness_result": "results/trait_memory_robust_effects_v0_3/result.json",
+    "workflow_run": 37279051098,
+    "artifact_id": 11331292825,
+    "artifact_sha256": "f837e85b97d42d7d34783cc2406e16eecd7acfc61afaf2a4d70bbc9f938b02f7",
+    "frozen_population": {
+      "systems": 201,
+      "families": 45,
+      "traits": 12
+    },
+    "observed_blocker": {
+      "S3_nonpositive_systems": 25,
+      "prune_nonpositive_systems": 18
+    }
+  },
+  "scope": {
+    "stage": "A_RAW_DATA_VALIDITY_ONLY",
+    "audit_population": "All 201 frozen family x trait systems are re-queried under the exact BIEN 4.2.8 extraction contract; reporting focuses on species with median <= 0 and their systems.",
+    "no_rho_recalculation": true,
+    "no_species_exclusion": true,
+    "no_log_offset": true,
+    "no_trait_specific_transform": true,
+    "no_main_result_reclassification": true
+  },
+  "semantic_domain": {
+    "positive_only_traits": [
+      "whole plant height",
+      "seed mass",
+      "leaf area",
+      "diameter at breast height (1.3 m)",
+      "leaf dry mass"
+    ],
+    "rule": "For these physical size/mass traits, a species-level median <= 0 is biologically outside the admissible measurement domain and is audited as a data-validity problem rather than a legitimate log-scale value.",
+    "note": "This rule is fixed from trait semantics before opening raw audit results."
+  },
+  "exact_extraction_contract": {
+    "database": "BIEN",
+    "database_version": "4.2.8",
+    "table": "agg_traits",
+    "family_field": "scrubbed_family",
+    "species_field": "scrubbed_species_binomial",
+    "genus_field": "scrubbed_genus",
+    "trait_field": "trait_name",
+    "numeric_rule": "trait_value::text must match the same numeric regular expression used by run_trait_memory_real_effect_v0_7.R / run_trait_memory_robust_system_v0_3.R",
+    "species_state": "median numeric trait_value across admitted raw records",
+    "filters": [
+      "species/genus/family/trait nonmissing",
+      "trait_value nonempty and numeric",
+      "unit nonmissing and nonempty",
+      "is_cultivated_observation = 0 or NULL"
+    ]
+  },
+  "species_level_outputs": [
+    "family",
+    "trait_name",
+    "species",
+    "species_median",
+    "n_numeric_records",
+    "n_negative_records",
+    "n_zero_records",
+    "n_positive_records",
+    "min_value",
+    "max_value",
+    "distinct_units",
+    "n_units",
+    "distinct_sources",
+    "n_sources",
+    "distinct_citations",
+    "n_citations",
+    "classification",
+    "unit_mixed_flag"
+  ],
+  "classifications": {
+    "NEGATIVE_MEDIAN": "species median < 0",
+    "ZERO_MEDIAN_ALL_ZERO": "species median = 0 and all numeric records = 0",
+    "ZERO_MEDIAN_MIXED": "species median = 0 and at least one numeric record != 0",
+    "POSITIVE_MEDIAN_WITH_NONPOSITIVE_RAW": "species median > 0 but at least one raw numeric record <= 0; reported as a secondary contamination indicator",
+    "CLEAN_POSITIVE": "species median > 0 and all raw numeric records > 0"
+  },
+  "system_level_outputs": [
+    "number and fraction of species with median <=0",
+    "number and fraction of raw records <=0",
+    "negative versus zero record counts",
+    "unit heterogeneity",
+    "source and source-citation concentration of nonpositive records",
+    "top sources/citations contributing nonpositive records"
+  ],
+  "decision_rules": {
+    "confirmed_invalid_data": "Any median <=0 in the predeclared positive-only traits is classified as invalid by semantic domain. Raw-record provenance determines likely mechanism (zero placeholder, negative coding, unit mixing, or source-specific contamination).",
+    "stage_B_trigger": "Stage B impact sensitivity may be designed only after Stage A is complete. Its cleaning rule must be based solely on Stage A data-validity classification, not on changes in rho or manuscript conclusions.",
+    "no_trigger_if_none": "If Stage A finds that affected values are valid under a documented trait definition, no cleaning sensitivity is run and the log HOLD remains."
+  },
+  "stop_rule": [
+    "No rho, R_family, portability gain, null p-value, or manuscript conclusion is inspected to choose Stage A validity rules.",
+    "No offset, pseudocount, signed log, winsorization, value replacement, source deletion, or trait-specific threshold is allowed in Stage A.",
+    "No source/citation is removed because its exclusion improves the result.",
+    "Any Stage B analysis requires a new frozen design before its outcome is opened."
+  ]
+}

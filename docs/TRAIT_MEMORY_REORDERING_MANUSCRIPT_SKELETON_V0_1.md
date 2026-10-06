@@ -139,7 +139,9 @@ Ackerly (2009) showed that the same plant traits can evolve at very different ra
 
 A particularly close empirical precedent is Jones et al. (2013, American Journal of Botany, doi:10.3732/ajb.1200526): seven leaf traits were compared among three major Pelargonium clades, and both individual-trait phylogenetic signal and trait integration differed among clades. This establishes that the same functional traits can occupy different evolutionary contexts.
 
-Those studies establish clade-specificity. They do not directly estimate whether the **relative ordering of trait conservatism itself** is portable to an unseen lineage, nor how often the same trait pair reverses order across many independent lineages.
+Graham et al. (2018, Global Ecology and Biogeography, doi:10.1111/geb.12686) formalized **phylogenetic scale dependence**: an evolutionary attribute may change unpredictably across clade extent, so inference at one phylogenetic scale need not extrapolate to another. Thus scale dependence itself is not the novelty here.
+
+Those studies establish clade-specificity and the general danger of cross-scale extrapolation. They do not directly estimate whether the **relative ordering of trait conservatism itself** is portable to an unseen lineage, how much predictive information the global ordering retains, or how often the same trait pair reverses order across many independent lineages. The present contribution is therefore quantitative cross-level portability, not discovery of context dependence.
 
 The present analysis separates these two levels directly:
 

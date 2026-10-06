@@ -1,0 +1,105 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_POSITIVE_ONLY_CLEANING_IMPACT_OUTCOMES",
+  "frozen_on": "2026-10-06",
+  "branch": "audit/trait-memory-nonpositive-values-v0-1",
+  "purpose": "Quantify how the Stage-A-confirmed semantically inadmissible nonpositive raw records affect phylogenetic-memory effects and the manuscript's central repeatability/portability conclusions.",
+  "upstream_stage_A": {
+    "result": "results/trait_memory_nonpositive_value_audit_v0_1/result.json",
+    "workflow_run": 37394585442,
+    "artifact_id": 11384305653,
+    "artifact_sha256": "c82bcc5f0cf7c3f6cce329107fbe03edc4c948c6ce7979616e06b0efc8a64933",
+    "identity_gate_passed": true
+  },
+  "population": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "same_frozen_crossed_graph": true
+  },
+  "cleaning_rule": {
+    "predeclared_positive_only_traits_from_stage_A": [
+      "whole plant height",
+      "seed mass",
+      "leaf area",
+      "diameter at breast height (1.3 m)",
+      "leaf dry mass"
+    ],
+    "rule": "For these five traits only, raw numeric BIEN records with value <= 0 are excluded before the species median is calculated. All positive raw records and all records of the other seven traits are unchanged.",
+    "why_not_expand_to_12_after_outcome": "Stage A predeclared five positive-only traits before raw audit results. The other seven traits are not retrospectively added to the cleaning rule. Stage A nevertheless found zero nonpositive raw records in those seven traits, so the frozen five-trait rule removes every observed nonpositive raw record in the 201-system population.",
+    "no_offset": true,
+    "no_value_replacement": true,
+    "no_source_or_citation_deletion": true,
+    "no_winsorization": true,
+    "no_trait_specific_threshold_beyond_value_gt_0": true
+  },
+  "tree_contract": {
+    "rule": "Reconstruct each original frozen S3/prune crosswalk from the uncleaned admitted species list using the same V.PhyloMaker2 commit. Compute cleaned states from the frozen positive-only raw filter, then prune the already reconstructed tree to species retaining at least one admissible raw record. Do not rerun topology placement on the cleaned species subset.",
+    "V_PhyloMaker2_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "minimum_species_after_cleaning_each_axis": 20,
+    "failure": "HOLD_CLEANED_SYSTEM_SUPPORT"
+  },
+  "reference_identity_gate": {
+    "before_cleaning": "Original S3 and prune rho must reproduce the archived v0.3 raw effects at four-decimal persistence precision for all 201 systems before cleaned effects are interpreted.",
+    "nonpositive_counts": "Original S3/prune nonpositive species counts must reproduce the Stage A / v0.3 counts exactly.",
+    "failure": "HOLD_CLEANING_IMPACT_REFERENCE_DRIFT"
+  },
+  "effect_outputs": {
+    "for_each_system_and_axis": [
+      "original_n_species",
+      "cleaned_n_species",
+      "n_species_removed_for_no_positive_state",
+      "original_raw_rho",
+      "cleaned_raw_rho",
+      "delta_cleaned_minus_original_rho",
+      "cleaned_raw_species_bootstrap_SE",
+      "cleaned_log_rho",
+      "cleaned_log_species_bootstrap_SE"
+    ],
+    "species_bootstrap_replicates": 199,
+    "bootstrap_unit": "species",
+    "same_weighted_midrank_implementation_as_v0.3": true
+  },
+  "all_201_log_rule": {
+    "rule": "The cleaned-log analyses are interpreted only if all 201 systems retain >=20 species on both S3 and prune-only trees and all cleaned species medians are strictly positive by construction.",
+    "no_selected_subset_primary_analysis": true
+  },
+  "downstream_frozen_reanalysis": {
+    "cleaned_raw": [
+      "original unweighted crossed repeatability",
+      "measurement-error-aware crossed meta-analysis with 500 two-way family x trait cluster-bootstrap refits",
+      "training-only BLUP leave-one-family-out portability",
+      "the same predeclared correlated-trait zero-family-effect null with 1000 replicates"
+    ],
+    "cleaned_log_if_all_201_gate_passes": [
+      "unweighted crossed repeatability",
+      "measurement-error-aware crossed meta-analysis with the same 500-refit uncertainty contract",
+      "training-only BLUP leave-one-family-out portability"
+    ],
+    "no_new_predictor_or_estimator": true
+  },
+  "impact_summary": [
+    "Spearman and Pearson original-versus-cleaned rho across 201 systems",
+    "median, 90th percentile and maximum absolute rho change",
+    "number of sign changes",
+    "number of systems with absolute rho change >=0.01, >=0.05, >=0.10",
+    "change in family/trait/system/sampling point shares",
+    "change in BLUP portability gain",
+    "change in correlated-trait-null p-values",
+    "raw-versus-log cleaned rho correspondence"
+  ],
+  "manuscript_decision_rule": {
+    "if_all_201_support_retained": "Because Stage A established inadmissible raw coding independently of memory outcomes, the cleaned positive-only extraction becomes the scientifically valid primary data contract for the next manuscript RC. The original unfiltered extraction is retained as an audit sensitivity, regardless of whether the central conclusion strengthens, weakens or remains unchanged.",
+    "if_any_system_loses_support": "Submission is HOLD. Do not silently drop the system. Re-scope the manuscript population prospectively before any replacement primary analysis.",
+    "claim_stability_is_not_a_gate_for_cleaning": "Cleaning is justified by data validity, not by whether it preserves the current family-repeatability or weak-portability conclusions."
+  },
+  "stop_rule": [
+    "No alternative positivity threshold after outcomes.",
+    "No source-specific deletion.",
+    "No trait-specific exception for an observed zero.",
+    "No offset or pseudocount.",
+    "No additional portability predictor.",
+    "No new signal metric.",
+    "No filtering based on delta rho or downstream manuscript impact."
+  ]
+}

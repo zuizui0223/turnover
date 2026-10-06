@@ -2,7 +2,7 @@
 
 Dear Editors,
 
-Please consider our manuscript, **“Phylogenetic trait memory is lineage-contingent rather than trait-intrinsic across plant families,”** as an Original Article in *Evolution*.
+Please consider our manuscript, **“Phylogenetic trait memory is lineage-contingent, with little transferable trait-level signal across plant families,”** as an Original Article in *Evolution*.
 
 Phylogenetic signal is commonly estimated within clades and often discussed as a property of traits. Our manuscript asks a different evolutionary question: **is the strength of phylogenetic memory for a named trait itself transferable across lineages?**
 

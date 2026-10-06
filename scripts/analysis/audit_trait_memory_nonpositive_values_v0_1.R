@@ -210,7 +210,7 @@ SELECT family,trait_name,unit_key,source_key,citation_key,
        count(*) FILTER (WHERE value_num>0)::integer AS n_positive_records
 FROM nb
 GROUP BY family,trait_name,unit_key,source_key,citation_key
-ORDER BY family,trait_name,n_zero_records+n_negative_records DESC,n_records DESC;
+ORDER BY family,trait_name,n_zero_records DESC,n_negative_records DESC,n_records DESC;
 ",affsql)
 prov <- .BIEN_sql(prov_sql)
 if(!is.data.frame(prov)) stop("provenance summary query failed")
@@ -266,9 +266,7 @@ agg_one <- function(z){
   )
 }
 spl <- split(sp,list(sp$family,sp$trait_name),drop=TRUE)
-sys <- do.call(rbind,lapply(spl,agg_one))
-nm <- do.call(rbind,strsplit(names(spl),"\\."))
-# split() names are unsafe when strings contain dots; reconstruct keys from split objects instead.
+# split() names are unsafe when strings contain dots; reconstruct family/trait from each split object.
 sys_rows <- lapply(spl,function(z){
   q <- agg_one(z)
   q$family <- z$family[[1]]

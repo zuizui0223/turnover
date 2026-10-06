@@ -88,6 +88,17 @@ For traits separated by >0.30:
 
 Thus the aggregate spectrum contains useful information about widely separated endpoints but provides little reliable fine ordering among nearby traits. The biological result is a **coarse global prior with lineage-specific fine structure**, not the absence of a global spectrum.
 
+### 2c. What survives is a sparse partial order, not a total ranking
+
+Among the 16 trait pairs observed together in at least 10 families, require a stringent portable-order rule: the same direction on both S3 and prune-only and at least 75% of families agreeing on that direction on both axes.
+
+Only **2/16 pairs (12.5%)** pass:
+
+- SLA (leaf area per leaf dry mass) is more conservative than seed mass: 85.7% agreement on S3 and 81.0% on prune-only.
+- DBH is more conservative than stem wood density: 76.9% agreement on both axes.
+
+Thus the cross-lineage signal is better represented as a sparse **partial order** than as a portable total ranking of traits. Even the two robust inequalities are not universal: their family-to-family reversal probabilities remain 25.7–38.5% depending on pair and tree treatment.
+
 ### 3. Sampling error does not explain the re-ranking
 
 Measurement-aware log-S3 variance components:

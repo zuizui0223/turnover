@@ -4,7 +4,7 @@
 
 ## Title
 
-Phylogenetic trait memory is lineage-contingent rather than trait-intrinsic across plant families
+Phylogenetic trait memory is lineage-contingent, with little transferable trait-level signal across plant families
 
 ## Authors
 

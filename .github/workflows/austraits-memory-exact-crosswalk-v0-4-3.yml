@@ -1,8 +1,7 @@
 name: AusTraits exact V.PhyloMaker2 crosswalk v0.4.3
+# Exact v0.4.3 completed successfully; manual-only after authoritative freeze to avoid
+# re-running the 64-batch crosswalk on every PR synchronize event.
 on:
-  pull_request:
-    paths:
-      - '.triggers/austraits-exact-crosswalk-v0-4-3-2'
   workflow_dispatch:
 permissions:
   contents: read

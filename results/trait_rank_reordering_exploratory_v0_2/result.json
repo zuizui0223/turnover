@@ -237,5 +237,34 @@
       }
     ],
     "interpretation": "The global spectrum behaves as a coarse prior: traits far apart on the aggregate spectrum have appreciably more stable ordering, whereas fine distinctions among nearby traits are almost completely re-ranked by lineage context."
+  },
+  "robust_partial_order": {
+    "scale": "cleaned natural-log species states",
+    "eligibility": "trait pair co-occurs in at least 10 families",
+    "robustness_rule": "same majority direction on S3 and prune-only, with majority consistency >=0.75 on both axes",
+    "n_eligible_pairs": 16,
+    "n_robust_pairs": 2,
+    "robust_fraction": 0.125,
+    "edges": [
+      {
+        "more_conservative": "leaf area per leaf dry mass",
+        "more_labile": "seed mass",
+        "n_families": 21,
+        "S3_majority_consistency": 0.8571428571428571,
+        "prune_majority_consistency": 0.8095238095238095,
+        "S3_cross_family_reversal_probability": 0.2571428571428571,
+        "prune_cross_family_reversal_probability": 0.3238095238095238
+      },
+      {
+        "more_conservative": "diameter at breast height (1.3 m)",
+        "more_labile": "stem wood density",
+        "n_families": 13,
+        "S3_majority_consistency": 0.7692307692307693,
+        "prune_majority_consistency": 0.7692307692307693,
+        "S3_cross_family_reversal_probability": 0.38461538461538464,
+        "prune_cross_family_reversal_probability": 0.38461538461538464
+      }
+    ],
+    "interpretation": "Only a sparse set of coarse pairwise inequalities survives across lineages and tree treatments. The aggregate trait spectrum should be interpreted as a weak partial order rather than a portable total ranking."
   }
 }

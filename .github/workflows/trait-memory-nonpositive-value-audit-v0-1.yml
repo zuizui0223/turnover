@@ -30,6 +30,7 @@ jobs:
             any::RPostgreSQL
             any::DBI
             any::jsonlite
+            any::ape
       - name: Validate frozen Stage A contract
         run: |
           python - <<'PY'

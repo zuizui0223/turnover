@@ -206,7 +206,7 @@ jobs:
           mkdir -p build/aggregate
           python scripts/analysis/aggregate_austraits_real_effects_v0_1.py \
             --input-dir build/all \
-            --core-table build/preopen-artifact/core/core_systems.csv \
+            --core-table build/preopen-artifact/final/core/core_systems.csv \
             --matched-core build/preopen-artifact/preopen/matched_positive_numeric_core.csv \
             --out-json build/aggregate/result.json \
             --out-csv build/aggregate/effects.csv
@@ -254,7 +254,7 @@ jobs:
             --effects build/effects/effects.csv \
             --out build/analysis/absolute_portability.json \
             --predictions build/analysis/absolute_portability_predictions.csv
-          python scripts/analysis/test_trait_rank_portability_v0_1.py \
+          python scripts/analysis/test_austraits_rank_portability_v0_1.py \
             --effects build/effects/effects.csv \
             --out build/analysis/rank_portability.json
       - name: Prospective reordering effect size and matched raw-log sensitivity

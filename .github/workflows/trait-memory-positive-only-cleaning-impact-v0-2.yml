@@ -1,0 +1,233 @@
+name: Trait memory positive-only cleaning impact v0.2
+
+on:
+  push:
+    branches:
+      - audit/trait-memory-nonpositive-values-v0-1
+    paths:
+      - '.github/workflows/trait-memory-positive-only-cleaning-impact-v0-2.yml'
+      - 'data/trait_memory_positive_only_cleaning_impact_design_v0_2.json'
+      - 'scripts/analysis/run_trait_memory_positive_only_clean_system_v0_2.R'
+      - 'scripts/analysis/run_trait_memory_positive_only_clean_batch_v0_2.py'
+      - 'scripts/analysis/aggregate_trait_memory_positive_only_clean_v0_2.py'
+      - 'scripts/analysis/synthesize_trait_memory_positive_only_cleaning_v0_2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate frozen Stage B contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_positive_only_cleaning_impact_design_v0_2.json'))
+          assert d['status']=='FROZEN_BEFORE_POSITIVE_ONLY_CLEANING_IMPACT_OUTCOMES'
+          assert d['population']['systems']==201
+          assert d['effect_outputs']['species_bootstrap_replicates']==199
+          assert d['execution_optimization']['before_cleaned_effect_outcomes'] is True
+          assert d['execution_optimization']['scientific_change'] is False
+          assert len(d['cleaning_rule']['predeclared_positive_only_traits_from_stage_A'])==5
+          assert d['manuscript_decision_rule']['claim_stability_is_not_a_gate_for_cleaning'].startswith('Cleaning is justified by data validity')
+          PY
+      - name: Download frozen core, v0.3 reference and Stage A audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/reference build/stage-a
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          gh run download 37279051098 -R "$GITHUB_REPOSITORY" -n trait-memory-robust-effects-v0-3-recovered -D build/reference
+          gh run download 37394585442 -R "$GITHUB_REPOSITORY" -n trait-memory-nonpositive-value-audit-v0-1 -D build/stage-a
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+          test -f build/reference/effects_with_se_log.csv
+          test -f build/stage-a/system_summary.csv
+          test "$(wc -l < build/reference/effects_with_se_log.csv)" -eq 202
+      - id: matrix
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os
+          core=list(csv.DictReader(open('build/core/trait_memory_crossed_core_v0_6/core_systems.csv',newline='')))
+          ref=list(csv.DictReader(open('build/reference/effects_with_se_log.csv',newline='')))
+          audit=list(csv.DictReader(open('build/stage-a/system_summary.csv',newline='')))
+          assert len(core)==len(ref)==len(audit)==201
+          rmap={(r['family'],r['trait_name']):r for r in ref}
+          cmap={(r['family'],r['trait_name']):r for r in core}
+          contaminated=[r for r in audit if int(r['n_species_raw_nonpositive'])>0]
+          assert len(contaminated)==49
+          systems=[]
+          for r in contaminated:
+              k=(r['family'],r['trait_name'])
+              rr=rmap[k]; cc=cmap[k]
+              systems.append({
+                'id':rr['system_id'],'family':r['family'],'trait_name':r['trait_name'],
+                'weight':int(cc['n_input_species'])**2
+              })
+          bins=[{'weight':0,'systems':[]} for _ in range(8)]
+          for s in sorted(systems,key=lambda z:(-z['weight'],z['family'],z['trait_name'])):
+              i=min(range(8),key=lambda q:(bins[q]['weight'],q))
+              bins[i]['systems'].append({k:s[k] for k in ['id','family','trait_name']})
+              bins[i]['weight']+=s['weight']
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({
+                'batch_id':f'C{i:02d}',
+                'systems_b64':base64.b64encode(raw).decode(),
+                'n_systems':len(b['systems'])
+              })
+          assert sum(x['n_systems'] for x in include)==49
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          PY
+
+  clean-batch:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Pin BIEN and V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Decode contaminated-system batch
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/cleaned
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+      - name: Compute cleaned raw/log effects and species-bootstrap SE
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          python -m py_compile scripts/analysis/run_trait_memory_positive_only_clean_batch_v0_2.py
+          python scripts/analysis/run_trait_memory_positive_only_clean_batch_v0_2.py             --batch-json build/batch/systems.json             --out-dir build/cleaned
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-cleaned-batch-${{ matrix.batch_id }}
+          path: build/cleaned/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: clean-batch
+    if: always() && needs.clean-batch.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: trait-memory-cleaned-batch-C*
+          path: build/all-cleaned
+          merge-multiple: true
+      - name: Download v0.3 reference and Stage A system summary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/reference build/stage-a
+          gh run download 37279051098 -R "$GITHUB_REPOSITORY" -n trait-memory-robust-effects-v0-3-recovered -D build/reference
+          gh run download 37394585442 -R "$GITHUB_REPOSITORY" -n trait-memory-nonpositive-value-audit-v0-1 -D build/stage-a
+      - name: Merge 49 recomputed and 152 unchanged systems
+        run: |
+          mkdir -p build/cleaned-201
+          python scripts/analysis/aggregate_trait_memory_positive_only_clean_v0_2.py             --input-dir build/all-cleaned             --reference build/reference/effects_with_se_log.csv             --stage-a-system-summary build/stage-a/system_summary.csv             --out-csv build/cleaned-201/effects_positive_only_cleaned.csv             --out-json build/cleaned-201/aggregate_result.json
+          python - <<'PY'
+          import json,csv
+          x=json.load(open('build/cleaned-201/aggregate_result.json'))
+          assert x['status']=='TRAIT_MEMORY_POSITIVE_ONLY_CLEANED_EFFECTS_AGGREGATED'
+          assert x['n_systems']==201
+          assert x['n_recomputed_contaminated_systems']==49
+          assert x['n_inherited_clean_systems']==152
+          assert x['all_201_support_retained'] is True
+          assert x['all_201_cleaned_log_available'] is True
+          assert len(list(csv.DictReader(open('build/cleaned-201/effects_positive_only_cleaned.csv'))))==201
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-positive-only-cleaned-effects-v0-2
+          path: build/cleaned-201/
+          retention-days: 30
+
+  downstream:
+    needs: aggregate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: trait-memory-positive-only-cleaned-effects-v0-2
+          path: build/cleaned-201
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::metafor
+            any::Matrix
+            any::MASS
+      - name: Create compatibility contract for unchanged v0.3 model scripts
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/cleaned-201/aggregate_result.json'))
+          y=dict(x)
+          y['status']='TRAIT_MEMORY_ROBUST_EFFECTS_AGGREGATED'
+          y['compatibility_note']='Status alias only so frozen v0.3 model scripts can consume the Stage B cleaned 201 table; no scientific field changed.'
+          json.dump(y,open('build/cleaned-201/model_contract.json','w'),indent=2)
+          PY
+      - name: Fit cleaned raw/log measurement-aware model
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R             --effects build/cleaned-201/effects_positive_only_cleaned.csv             --aggregate-json build/cleaned-201/model_contract.json             --out build/model/measurement_aware_cleaned.json             --bootstrap-table build/model/measurement_aware_cleaned_cluster_bootstrap.csv
+      - name: Fit cleaned raw/log BLUP portability
+        run: |
+          Rscript scripts/analysis/test_trait_memory_portability_blup_v0_3.R             --effects build/cleaned-201/effects_positive_only_cleaned.csv             --aggregate-json build/cleaned-201/model_contract.json             --out build/model/blup_portability_cleaned.json             --predictions build/model/blup_portability_cleaned_predictions.csv
+      - name: Fit cleaned raw correlated-trait null
+        run: |
+          Rscript scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R             --effects build/cleaned-201/effects_positive_only_cleaned.csv             --aggregate-json build/cleaned-201/model_contract.json             --out build/model/correlated_trait_null_cleaned.json             --null-table build/model/correlated_trait_null_cleaned.csv
+      - name: Synthesize Stage B impact against RC3
+        run: |
+          python scripts/analysis/synthesize_trait_memory_positive_only_cleaning_v0_2.py             --cleaned-aggregate build/cleaned-201/aggregate_result.json             --measurement build/model/measurement_aware_cleaned.json             --blup build/model/blup_portability_cleaned.json             --null build/model/correlated_trait_null_cleaned.json             --original-measurement results/trait_memory_measurement_aware_v0_3/result.json             --original-blup results/trait_memory_portability_blup_v0_3/result.json             --original-null results/trait_memory_correlated_trait_null_v0_3/result.json             --out build/model/cleaning_impact_synthesis.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-positive-only-cleaning-impact-v0-2
+          path: |
+            build/cleaned-201/
+            build/model/
+          retention-days: 30

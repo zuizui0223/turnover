@@ -151,5 +151,14 @@
     "before_raw_audit_outcomes": true,
     "scientific_change": false,
     "reason": "Added exact per-system identity gate against the v0.3 robustness artifact so raw-value audit results are interpreted only if the re-queried species medians and frozen tree memberships reproduce the original nonpositive counts."
+  },
+  "technical_amendment_query_staging": {
+    "version": "v0.1.0d",
+    "date": "2026-10-06",
+    "before_raw_audit_outcomes": true,
+    "scientific_change": false,
+    "observed_runtime_only": "The first audit execution remained inside the initial all-201 server-side aggregation for more than 12 minutes and had produced no audit artifact or interpretable outcome.",
+    "change": "Split the same audit into (1) an all-201 species-median/sign/unit query without source/citation string aggregation, followed by (2) source/citation provenance queries only for family x trait systems containing at least one raw nonpositive record. All filters, medians, classification rules, identity gates and outputs are unchanged.",
+    "reason": "Avoid unnecessary source/citation aggregation over clean systems while preserving the frozen Stage A estimand and audit population."
   }
 }

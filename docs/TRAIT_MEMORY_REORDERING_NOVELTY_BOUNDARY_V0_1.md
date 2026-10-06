@@ -14,9 +14,11 @@ This already supports the idea of a **global trait/category tendency**. We there
 
 Ackerly (2009, PNAS; DOI 10.1073/pnas.0901635106) showed large among-clade differences in evolutionary rates for the same functional traits, including plant height and leaf size.
 
-Ives, Midford & Garland / Zheng et al. (Functional Ecology 2010; DOI 10.1111/j.1365-2435.2009.01596.x) explicitly discuss plant examples where apparent phylogenetic signal in a broad taxonomic sample weakens or disappears within a restricted clade, and develop multivariate signal tests that incorporate trait correlations and measurement error.
+Jones et al. (2013, American Journal of Botany; DOI 10.3732/ajb.1200526) is an especially close conceptual predecessor. They compared seven leaf traits across three major Pelargonium clades and found that significant phylogenetic signal occurred for different traits in different clades; trait-integration relationships also differed among clades.
 
-Therefore neither **clade dependence**, **heterogeneous phylogenetic signal**, nor **correlated traits** is itself novel.
+Other comparative-methods work and reviews likewise show that apparent phylogenetic signal can depend strongly on taxonomic or phylogenetic scale.
+
+Therefore neither **clade dependence**, **heterogeneous phylogenetic signal**, **same-trait differences among clades**, nor **correlated traits** is itself novel.
 
 ### Phylogenetic signal is not an evolutionary-rate estimator or a mechanism
 
@@ -76,12 +78,15 @@ Stronger wording, conditional on prospective AusTraits replication:
 - "The lineage-specific component is an evolutionary rate."
 - "Near-half reversal means rankings are random."
 
-## Literature gap that still merits a formal systematic check
+## What remains distinct from the closest predecessors
 
-A targeted search did not identify a prior study that simultaneously:
-- measures the same multiple traits across many independent lineages;
-- treats lineage and trait as crossed units;
-- evaluates held-out-lineage portability of a trait's relative conservatism rank; and
-- reports cross-lineage pair-order reversal as an effect size.
+Jones et al. provide a three-clade case study showing that the same set of traits can differ in phylogenetic signal among lineages. The present programme asks a different inferential question across many repeated lineage x trait combinations:
 
-Before journal submission, this should be converted from a targeted novelty audit to a documented systematic search rather than a categorical priority claim.
+- does the global trait ranking predict a held-out lineage?
+- how frequently does the same trait pair reverse ordering across lineages?
+- does that reversal persist after finite-species sampling error is separated?
+- can a reproducible marginal spectrum coexist with weak conditional ranking agreement?
+
+A targeted search has not identified a prior study that combines all four elements in a many-lineage crossed design. This is the defensible novelty boundary. It is not a categorical priority claim.
+
+Before submission, retain Jones et al. as a conceptual predecessor and describe the advance as **quantification of portability and re-ordering**, not discovery of clade-dependent phylogenetic signal.

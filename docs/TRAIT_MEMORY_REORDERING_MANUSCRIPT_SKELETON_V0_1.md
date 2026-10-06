@@ -131,6 +131,41 @@ The pre-frozen species-coverage/tree-geometry adjustment and the post-outcome so
 
 The recurring family-wide component is not detectably organized along deeper family phylogenetic distance.
 
+## Why a stable global spectrum and unstable lineage rankings can coexist
+
+The apparent paradox follows directly from the crossed architecture. Write latent memory for trait t in family f as
+
+```
+theta_ft = mu + F_f + T_t + U_ft
+```
+
+For two traits A and B inside one family,
+
+```
+D_f(A,B) = theta_fA - theta_fB
+         = (T_A - T_B) + (U_fA - U_fB).
+```
+
+The family-wide shift F_f cancels. Across many families, the lineage-specific U terms average toward zero, so the global trait contrast T_A-T_B can be estimated and a stable aggregate spectrum can emerge.
+
+But prediction inside one new family is governed by the same global contrast plus a new lineage-specific deviation. When system-specific heterogeneity is much larger than trait variance, the global ordering is a weak prior even if it is estimated precisely in aggregate.
+
+If T and U are treated as independent Gaussian random effects, the correlation of the same two-trait contrast in two randomly drawn families is
+
+```
+r = sigma_trait^2 / (sigma_trait^2 + sigma_system^2),
+```
+
+and the population-average probability that the sign of the contrast reverses is
+
+```
+P(reversal) = acos(r) / pi.
+```
+
+For the cleaned log BIEN model, r is 0.140 under S3 and 0.114 under prune-only, implying reversal probabilities of 45.5% and 46.4%. These closely match the directly observed pairwise reversal frequencies.
+
+This supplies a mechanistic-statistical explanation for the headline result without assigning a biological cause to U: **aggregation recovers a real trait main effect, while large lineage-specific deviations destroy its status as a deterministic local hierarchy.**
+
 ## What changes relative to previous literature
 
 Blomberg et al. (2003) showed widespread phylogenetic signal and average differences among trait categories. That establishes a global tendency.

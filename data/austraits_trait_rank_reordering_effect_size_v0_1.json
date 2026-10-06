@@ -31,5 +31,11 @@
     "reordering_component": "at least substantial_reordering on both tree axes",
     "strong_replication": "global_spectrum_component plus strong_reordering",
     "interpretation": "A replicated global trait hierarchy may coexist with frequent lineage-specific pair-order reversals."
+  },
+  "threshold_rationale": {
+    "maximum_reversal_probability": 0.5,
+    "strong_threshold_0_40": "0.40 is 80% of the theoretical maximum pair-order disagreement probability of 0.50.",
+    "substantial_threshold_one_third": "1/3 is two-thirds of the theoretical maximum and distinguishes frequent reordering from modest minority reversals.",
+    "chronology": "Thresholds frozen after the BIEN exploratory discovery but before any AusTraits memory-loss outcome; they define replication strength, not discovery significance."
   }
 }

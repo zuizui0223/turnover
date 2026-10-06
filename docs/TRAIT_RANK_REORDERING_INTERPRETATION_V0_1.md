@@ -51,6 +51,19 @@ The prune-only point estimate is even closer to chance ordering: r = 0.0355 and 
 
 This model-based result is the cleanest bridge between the variance decomposition and the biological claim of lineage-specific re-ranking.
 
+
+## Measured-artifact sensitivities
+
+The rank result is not explained by the measured tree/data geometry already audited in the programme.
+
+Using the fixed effects from the pre-frozen S3 geometry model (species count, prune fraction, and calibration lambda) to residualize rho changes rank-portability gain only from +0.0366 to +0.0392; median trait-pair majority consistency remains 63.6%.
+
+Likewise, residualizing the measured BIEN source-composition covariates changes S3 gain to +0.0472, and residualizing citation-composition covariates changes it to +0.0500; median trait-pair majority consistency remains 63.6% in both cases.
+
+For prune-only, the pre-frozen species-coverage adjustment changes gain from -0.0418 to -0.0351, still negative.
+
+These are sensitivity checks, not causal demonstrations. They rule out the measured coverage, tree-insertion geometry, calibration geometry, and provenance-concentration variables as simple explanations for the re-ranking pattern.
+
 ## What is known already
 
 Blomberg, Garland & Ives (2003, Evolution, doi:10.1111/j.0014-3820.2003.tb00285.x) established that phylogenetic signal is widespread and that trait categories differ on average, with behavioral traits showing lower signal than several other categories.

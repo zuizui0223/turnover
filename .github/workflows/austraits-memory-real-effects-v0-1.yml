@@ -1,0 +1,306 @@
+name: AusTraits real memory effects v0.1
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.triggers/austraits-real-effects-v0-1'
+      - 'data/austraits_real_effect_opening_authorization_v0_1.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Validate explicit opening authorization and frozen contracts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('data/austraits_real_effect_opening_authorization_v0_1.json'))
+          d=json.load(open('data/austraits_real_effect_execution_v0_1.json'))
+          r=json.load(open('data/austraits_memory_context_replication_v0_1.json'))
+          q=json.load(open('data/austraits_trait_rank_portability_v0_1.json'))
+          s=json.load(open('data/austraits_trait_rank_portability_scale_v0_2.json'))
+          e=json.load(open('data/austraits_trait_rank_reordering_effect_size_v0_1.json'))
+          assert a['status']=='AUSTRAITS_REAL_EFFECT_OPENING_AUTHORIZED'
+          assert a['qualification_status']=='AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE'
+          assert a['ready_for_real_effect_opening'] is True
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_MEMORY_EFFECT_OPENING'
+          assert r['austraits_memory_effects_opened'] is False
+          assert q['austraits_memory_effects_opened'] is False
+          assert s['austraits_memory_effects_opened'] is False
+          assert e['austraits_memory_effects_opened'] is False
+          print(a['qualification_run_id'])
+          PY
+          RUN_ID=$(python - <<'PY'
+          import json
+          print(json.load(open('data/austraits_real_effect_opening_authorization_v0_1.json'))['qualification_run_id'])
+          PY
+          )
+          mkdir -p build/qualification build/final
+          gh run download "$RUN_ID" -R "$GITHUB_REPOSITORY" -n austraits-exact-qualification-v0-6-5 -D build/qualification
+          gh run download "$RUN_ID" -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/final
+          python - <<'PY'
+          import json
+          q=json.load(open('build/qualification/result.json'))
+          c=json.load(open('build/final/core/result.json'))
+          assert q['status']=='AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE'
+          assert q['ready_for_real_effect_opening'] is True
+          assert q['austraits_memory_effects_opened'] is False
+          assert c['status']=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS' and c['gate_pass'] is True
+          assert c['austraits_memory_effects_opened'] is False
+          PY
+      - name: Download pinned AusTraits source and trait config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Freeze matched positive-numeric core before rho
+        run: |
+          mkdir -p build/preopen
+          python scripts/analysis/screen_austraits_positive_numeric_core_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --core-table build/final/core/core_systems.csv \
+            --out build/preopen/positive_numeric_result.json \
+            --table-out build/preopen/positive_numeric_screen.csv \
+            --matched-core-out build/preopen/matched_positive_numeric_core.csv
+          python - <<'PY'
+          import json
+          x=json.load(open('build/preopen/positive_numeric_result.json'))
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          PY
+      - id: matrix
+        name: Build deterministic real-effect batches
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os
+          rows=list(csv.DictReader(open('build/final/core/core_systems.csv',newline='')))
+          rows=sorted(rows,key=lambda r:(r['family'],r['trait_name']))
+          systems=[]
+          for i,r in enumerate(rows,1):
+              systems.append({
+                'system_id':f'A{i:04d}','family':r['family'],'trait_name':r['trait_name'],
+                'config_type':r['config_type'],'n_input_species':int(r['n_input_species']),
+                'n_prune':int(r['n_prune']),'n_bind':int(r['n_bind']),
+                '_weight':int(r['n_input_species'])**2+int(r['n_prune'])**2
+              })
+          nb=32
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for s in sorted(systems,key=lambda z:(-z['_weight'],z['family'],z['trait_name'])):
+              k=min(range(nb),key=lambda i:(bins[i]['weight'],i))
+              bins[k]['systems'].append({q:s[q] for q in ['system_id','family','trait_name','config_type','n_input_species','n_prune','n_bind']})
+              bins[k]['weight']+=s['_weight']
+          inc=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              inc.append({'batch_id':f'R{i:02d}','systems_b64':base64.b64encode(raw).decode(),'n_systems':len(b['systems'])})
+          assert sum(z['n_systems'] for z in inc)==len(rows)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-real-preopen-v0-1
+          path: |
+            build/final/core/
+            build/preopen/
+            build/qualification/result.json
+          retention-days: 30
+
+  effects:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-real-preopen-v0-1
+          path: build/preopen-artifact
+      - name: Download pinned source and config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Decode batch and compute real memory effects
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/effects
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_real_effect_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --matched-core build/preopen-artifact/preopen/matched_positive_numeric_core.csv \
+            --out-dir build/effects \
+            --r-script scripts/analysis/run_austraits_real_effect_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-real-effects-${{ matrix.batch_id }}
+          path: build/effects/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: effects
+    if: always() && needs.effects.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-real-effects-R*
+          path: build/all
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-real-preopen-v0-1
+          path: build/preopen-artifact
+      - name: Aggregate complete source-native effect matrix
+        run: |
+          mkdir -p build/aggregate
+          python scripts/analysis/aggregate_austraits_real_effects_v0_1.py \
+            --input-dir build/all \
+            --core-table build/preopen-artifact/core/core_systems.csv \
+            --matched-core build/preopen-artifact/preopen/matched_positive_numeric_core.csv \
+            --out-json build/aggregate/result.json \
+            --out-csv build/aggregate/effects.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-real-effects-v0-1
+          path: build/aggregate/
+          retention-days: 30
+
+  analyse:
+    needs: aggregate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-real-effects-v0-1
+          path: build/effects
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-real-preopen-v0-1
+          path: build/preopen-artifact
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Primary prospective family-repeatability replication
+        run: |
+          mkdir -p build/analysis
+          Rscript scripts/analysis/fit_austraits_family_repeatability_v0_1.R \
+            --effects build/effects/effects.csv \
+            --out build/analysis/family_repeatability.json \
+            --bootstrap-table build/analysis/family_repeatability_bootstrap.csv \
+            --loo-table build/analysis/family_repeatability_loo.csv
+      - name: Secondary absolute and rank portability
+        run: |
+          python scripts/analysis/test_austraits_absolute_portability_v0_1.py \
+            --effects build/effects/effects.csv \
+            --out build/analysis/absolute_portability.json \
+            --predictions build/analysis/absolute_portability_predictions.csv
+          python scripts/analysis/test_trait_rank_portability_v0_1.py \
+            --effects build/effects/effects.csv \
+            --out build/analysis/rank_portability.json
+      - name: Prospective reordering effect size and matched raw-log sensitivity
+        run: |
+          python scripts/analysis/summarize_austraits_rank_reordering_v0_1.py \
+            --effects build/effects/effects.csv \
+            --rank-portability build/analysis/rank_portability.json \
+            --out build/analysis/rank_reordering.json
+          python scripts/analysis/test_austraits_rank_scale_v0_2.py \
+            --effects build/effects/effects.csv \
+            --matched-core build/preopen-artifact/preopen/matched_positive_numeric_core.csv \
+            --out build/analysis/rank_scale.json
+      - name: Synthesize prospective replication
+        run: |
+          python - <<'PY'
+          import json
+          q=json.load(open('build/preopen-artifact/qualification/result.json'))
+          f=json.load(open('build/analysis/family_repeatability.json'))
+          a=json.load(open('build/analysis/absolute_portability.json'))
+          r=json.load(open('build/analysis/rank_reordering.json'))
+          s=json.load(open('build/analysis/rank_scale.json'))
+          out={
+            'version':'v0.1',
+            'status':'AUSTRAITS_PROSPECTIVE_REPLICATION_COMPLETE',
+            'austraits_memory_effects_opened':True,
+            'replication_language':q.get('replication_language'),
+            'primary_family_repeatability':{
+              'estimate':f['primary_S3']['conditional_family_repeatability'],
+              'ci95':f['bootstrap']['ci95_conditional_family_repeatability'],
+              'interpretation':f['interpretation'],
+              'prune_estimate':f['prune_only_sensitivity']['conditional_family_repeatability']
+            },
+            'absolute_portability':a,
+            'rank_reordering_decision':r['decision'],
+            'rank_reordering':r,
+            'matched_raw_log':s
+          }
+          json.dump(out,open('build/analysis/synthesis.json','w'),indent=2,sort_keys=True)
+          print(json.dumps({
+            'primary':out['primary_family_repeatability'],
+            'rank_reordering_decision':out['rank_reordering_decision'],
+            'matched_scale_decision':s['scale_decision']
+          },indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-prospective-replication-v0-1
+          path: build/analysis/
+          retention-days: 30

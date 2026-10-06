@@ -30,8 +30,14 @@
         "p_one_sided": 0.0012,
         "null_q025": -0.10615131031252178,
         "null_q975": 0.0033127499117542596,
-        "leave_one_trait_gain_range": [0.01947758807224531, 0.07317387634459482],
-        "leave_one_family_gain_range": [0.039921535448026235, 0.08385333617500146]
+        "leave_one_trait_gain_range": [
+          0.01947758807224531,
+          0.07317387634459482
+        ],
+        "leave_one_family_gain_range": [
+          0.039921535448026235,
+          0.08385333617500146
+        ]
       },
       "prune_only": {
         "gain": -0.04066765494292013,
@@ -39,8 +45,14 @@
         "p_one_sided": 0.2131,
         "null_q025": -0.10631003974161858,
         "null_q975": 0.004576048782267037,
-        "leave_one_trait_gain_range": [-0.05666052873267269, -0.029389709394738617],
-        "leave_one_family_gain_range": [-0.053774870750096904, -0.026966743045407915]
+        "leave_one_trait_gain_range": [
+          -0.05666052873267269,
+          -0.029389709394738617
+        ],
+        "leave_one_family_gain_range": [
+          -0.053774870750096904,
+          -0.026966743045407915
+        ]
       }
     },
     "cleaned_log": {
@@ -50,8 +62,14 @@
         "p_one_sided": 0.0003,
         "null_q025": -0.10593937167408977,
         "null_q975": 0.0028177052294021845,
-        "leave_one_trait_gain_range": [0.03374379245016412, 0.1459517678777904],
-        "leave_one_family_gain_range": [0.05091084612571062, 0.09018174850315341]
+        "leave_one_trait_gain_range": [
+          0.03374379245016412,
+          0.1459517678777904
+        ],
+        "leave_one_family_gain_range": [
+          0.05091084612571062,
+          0.09018174850315341
+        ]
       },
       "prune_only": {
         "gain": 0.02790313402089284,
@@ -59,8 +77,14 @@
         "p_one_sided": 0.0071,
         "null_q025": -0.10610403173829945,
         "null_q975": 0.0007522320552029887,
-        "leave_one_trait_gain_range": [-0.014751892854929949, 0.07661929288971969],
-        "leave_one_family_gain_range": [0.01310010025913766, 0.0464474490157738],
+        "leave_one_trait_gain_range": [
+          -0.014751892854929949,
+          0.07661929288971969
+        ],
+        "leave_one_family_gain_range": [
+          0.01310010025913766,
+          0.0464474490157738
+        ],
         "trait_omissions_with_negative_gain": [
           "leaf area per leaf dry mass",
           "diameter at breast height (1.3 m)",
@@ -165,5 +189,53 @@
     "Do not identify system-specific heterogeneity with a known evolutionary mechanism.",
     "Do not call BIEN rank reordering prospective.",
     "Do not call near-half reversal exact randomness; weak but detectable aggregate trait structure remains."
-  ]
+  ],
+  "coarse_grained_hierarchy": {
+    "scale": "cleaned natural-log species states",
+    "pair_population": "trait pairs co-occurring in at least 5 families",
+    "definition": "Global rank gap is the absolute difference between traits' mean within-family normalized ranks. Reversal is the family-pair-count-weighted probability that two distinct families disagree on which trait has larger memory-loss rho.",
+    "S3": {
+      "n_pairs": 41,
+      "spearman_global_rank_gap_vs_reversal": -0.5544656701487847,
+      "rank_gap_le_0_20": {
+        "reversal_probability": 0.5052854122621564
+      },
+      "rank_gap_gt_0_30": {
+        "reversal_probability": 0.24598930481283424
+      }
+    },
+    "prune_only": {
+      "n_pairs": 41,
+      "spearman_global_rank_gap_vs_reversal": -0.6219165859731944,
+      "rank_gap_le_0_20": {
+        "reversal_probability": 0.5233160621761658
+      },
+      "rank_gap_gt_0_30": {
+        "reversal_probability": 0.31527093596059114
+      }
+    },
+    "robust_anchor_examples_min_10_families": [
+      {
+        "trait_pair": [
+          "leaf area per leaf dry mass",
+          "seed mass"
+        ],
+        "n_families": 21,
+        "S3_reversal_probability": 0.2571428571428571,
+        "prune_reversal_probability": 0.3238095238095238,
+        "direction": "leaf area per leaf dry mass is more conservative (lower memory-loss rho) in the majority of families"
+      },
+      {
+        "trait_pair": [
+          "diameter at breast height (1.3 m)",
+          "stem wood density"
+        ],
+        "n_families": 13,
+        "S3_reversal_probability": 0.38461538461538464,
+        "prune_reversal_probability": 0.38461538461538464,
+        "direction": "diameter at breast height is more conservative in the majority of families"
+      }
+    ],
+    "interpretation": "The global spectrum behaves as a coarse prior: traits far apart on the aggregate spectrum have appreciably more stable ordering, whereas fine distinctions among nearby traits are almost completely re-ranked by lineage context."
+  }
 }

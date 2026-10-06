@@ -1,3 +1,5 @@
+> **SUBMISSION HOLD (2026-10-06):** RC3 passed formatting/anonymity QA, but submission is paused until draft PR #30 (`audit/trait-memory-nonpositive-values-v0-1`) completes the frozen raw-data audit of nonpositive species medians. Do not submit the current ZIP before this hold is resolved.
+
 # Evolution submission readiness — trait-memory paper
 
 Checked against current *Evolution* author guidance on 2026-10-05.
@@ -87,3 +89,19 @@ Prohibited:
 - Pearse et al. (2025), BIEN 2026, V.PhyloMaker2 2022, and Debastiani et al. 2021 bibliographic metadata were rechecked against publisher pages.
 - Reviewer prebuttal: `docs/TRAIT_MEMORY_EVOLUTION_REVIEWER_PREBUTTAL_V0_1.md`.
 - Anonymous DOCX RC3: 23 pages, 12-point Times New Roman, double-spaced, continuous line numbers, three figures with alt text, accessibility audit 0 issues, author/repository identifier scan 0 hits.
+
+
+## Submission hold — nonpositive trait-value audit
+
+Reason: 25 primary-tree systems and 18 prune-only systems contain at least one species median <=0. These occur in physical size/mass traits whose semantic domain is positive.
+
+The audit is deliberately separated from outcome analysis:
+- Stage A re-queries BIEN 4.2.8 raw values, units, sources and citations;
+- it reconstructs frozen tree membership only to determine whether invalid medians entered rho inputs;
+- it does not recompute rho or downstream manuscript statistics;
+- any Stage B impact sensitivity requires a new frozen design after Stage A.
+
+Submission hold can be lifted only after:
+1. Stage A identity gate reproduces the v0.3 25/18 blocker;
+2. raw-value provenance is classified;
+3. any required Stage B sensitivity is prospectively frozen and completed, or Stage A shows no input-validity problem.

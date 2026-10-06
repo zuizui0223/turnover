@@ -69,6 +69,25 @@ Among 289 family pairs sharing at least three traits, mean family-to-family rank
 - 0.174 on log-S3;
 - 0.084 on log-prune.
 
+### 2b. The global hierarchy has coarse, not fine, resolution
+
+The global spectrum is not equally unreliable at all separations.
+
+Using trait pairs represented together in at least five families on the cleaned log scale, pair-order reversal declines as the two traits become farther apart on the global mean-rank spectrum:
+
+- S3: Spearman(global rank gap, reversal) = -0.554;
+- prune-only: -0.622.
+
+For traits separated by <=0.20 in global normalized rank, cross-family reversal is essentially coin-flip:
+- S3: 50.5%;
+- prune-only: 52.3%.
+
+For traits separated by >0.30:
+- S3: 24.6%;
+- prune-only: 31.5%.
+
+Thus the aggregate spectrum contains useful information about widely separated endpoints but provides little reliable fine ordering among nearby traits. The biological result is a **coarse global prior with lineage-specific fine structure**, not the absence of a global spectrum.
+
 ### 3. Sampling error does not explain the re-ranking
 
 Measurement-aware log-S3 variance components:

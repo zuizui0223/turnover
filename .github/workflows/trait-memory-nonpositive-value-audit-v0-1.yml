@@ -1,0 +1,90 @@
+name: Trait memory nonpositive raw-value audit v0.1
+
+on:
+  push:
+    branches:
+      - audit/trait-memory-nonpositive-values-v0-1
+    paths:
+      - '.github/workflows/trait-memory-nonpositive-value-audit-v0-1.yml'
+      - 'data/trait_memory_nonpositive_value_audit_design_v0_1.json'
+      - 'scripts/analysis/audit_trait_memory_nonpositive_values_v0_1.R'
+      - 'scripts/analysis/audit_trait_memory_nonpositive_values_v0_1_1.R'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+            any::jsonlite
+            any::ape
+      - name: Validate frozen Stage A contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/trait_memory_nonpositive_value_audit_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_NONPOSITIVE_RAW_VALUE_AUDIT'
+          assert d['scope']['stage']=='A_RAW_DATA_VALIDITY_ONLY'
+          assert d['scope']['no_rho_recalculation'] is True
+          assert d['scope']['no_species_exclusion'] is True
+          assert d['reference_identity_gate']['expected_system_counts']=={'S3':25,'prune_only':18}
+          assert d['technical_amendment']['before_raw_audit_outcomes'] is True
+          assert d['technical_amendment_raw_provenance']['before_raw_audit_outcomes'] is True
+          assert d['technical_amendment_identity']['before_raw_audit_outcomes'] is True
+          assert d['technical_amendment_query_staging']['before_raw_audit_outcomes'] is True
+          assert d['technical_amendment_query_staging']['scientific_change'] is False
+          PY
+      - name: Download frozen 201-system core and v0.3 reference
+        run: |
+          mkdir -p build/core build/reference
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/core
+          gh run download 37279051098 -R "$GITHUB_REPOSITORY" -n trait-memory-robust-effects-v0-3-recovered -D build/reference
+          test -f build/core/trait_memory_crossed_core_v0_6/core_systems.csv
+          test -f build/reference/effects_with_se_log.csv
+          test "$(wc -l < build/reference/effects_with_se_log.csv)" -eq 202
+      - name: Pin BIEN and V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Run raw-value validity audit
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/audit
+          Rscript scripts/analysis/audit_trait_memory_nonpositive_values_v0_1_1.R \
+            --core build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --reference build/reference/effects_with_se_log.csv \
+            --out-dir build/audit
+          test -s build/audit/result.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/audit/result.json'))
+          assert x['status']=='TRAIT_MEMORY_NONPOSITIVE_RAW_VALUE_AUDIT_COMPLETE'
+          assert x['identity_gate']['pass'] is True
+          assert x['identity_gate']['S3_affected_systems']==25
+          assert x['identity_gate']['prune_affected_systems']==18
+          assert x['hard_guard'].startswith('No rho')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-nonpositive-value-audit-v0-1
+          path: build/audit/
+          retention-days: 30

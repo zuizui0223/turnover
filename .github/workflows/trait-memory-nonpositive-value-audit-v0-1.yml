@@ -8,6 +8,7 @@ on:
       - '.github/workflows/trait-memory-nonpositive-value-audit-v0-1.yml'
       - 'data/trait_memory_nonpositive_value_audit_design_v0_1.json'
       - 'scripts/analysis/audit_trait_memory_nonpositive_values_v0_1.R'
+      - 'scripts/analysis/audit_trait_memory_nonpositive_values_v0_1_1.R'
   workflow_dispatch:
 
 permissions:
@@ -44,6 +45,8 @@ jobs:
           assert d['technical_amendment']['before_raw_audit_outcomes'] is True
           assert d['technical_amendment_raw_provenance']['before_raw_audit_outcomes'] is True
           assert d['technical_amendment_identity']['before_raw_audit_outcomes'] is True
+          assert d['technical_amendment_query_staging']['before_raw_audit_outcomes'] is True
+          assert d['technical_amendment_query_staging']['scientific_change'] is False
           PY
       - name: Download frozen 201-system core and v0.3 reference
         run: |
@@ -66,7 +69,7 @@ jobs:
           RBIEN_SOURCE_DIR: build/RBIEN
         run: |
           mkdir -p build/audit
-          Rscript scripts/analysis/audit_trait_memory_nonpositive_values_v0_1.R \
+          Rscript scripts/analysis/audit_trait_memory_nonpositive_values_v0_1_1.R \
             --core build/core/trait_memory_crossed_core_v0_6/core_systems.csv \
             --reference build/reference/effects_with_se_log.csv \
             --out-dir build/audit

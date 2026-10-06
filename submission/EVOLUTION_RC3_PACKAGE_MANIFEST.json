@@ -1,10 +1,10 @@
 {
   "version": "RC3",
-  "status": "EVOLUTION_SUBMISSION_PACKAGE_QA_COMPLETE",
+  "status": "EVOLUTION_RC3_QA_COMPLETE_SUBMISSION_HOLD_PENDING_NONPOSITIVE_AUDIT",
   "date": "2026-10-06",
   "submission_branch": "submission/trait-memory-evolution-rc1",
   "article_type": "Original Article",
-  "title": "Phylogenetic trait memory is lineage-contingent rather than trait-intrinsic across plant families",
+  "title": "Phylogenetic trait memory is lineage-contingent, with little transferable trait-level signal across plant families",
   "qa": {
     "anonymous_manuscript_pages": 23,
     "abstract_words": 176,
@@ -16,7 +16,11 @@
     "page_numbers": true,
     "figures_embedded": 3,
     "figure_alt_text_present": true,
-    "accessibility_high_medium_low_issues": [0, 0, 0],
+    "accessibility_high_medium_low_issues": [
+      0,
+      0,
+      0
+    ],
     "anonymous_docx_email_hits": 0,
     "anonymous_docx_github_url_hits": 0,
     "anonymous_docx_repository_owner_hits": 0,
@@ -45,5 +49,11 @@
     "Submission_Form_Fields_RC3.txt": "3d9b62214047bc249895290facd8e2ef3167656adbafdebeaf0b1b0f9bc4d496",
     "Evolution_submission_RC3.zip": "9f1f80d0ffbf4425443210b72e38857c08435448c0a0307deab91faa98be2240"
   },
-  "submission_rule": "Fill only author-identifying title-page/cover-letter placeholders before submission. Do not reopen frozen scientific analyses merely to strengthen the claim."
+  "submission_rule": "Fill only author-identifying title-page/cover-letter placeholders before submission. Do not reopen frozen scientific analyses merely to strengthen the claim.",
+  "submission_hold": {
+    "active": true,
+    "reason": "Frozen Stage A raw-data validity audit of nonpositive BIEN species medians is running in draft PR #30.",
+    "unblock_rule": "Do not submit until Stage A reproduces v0.3 identity and any required Stage B impact sensitivity is prospectively frozen and completed."
+  },
+  "note": "RC3 hashes describe the previous packaged snapshot and are retained as an audit trail; a new submission ZIP must be generated after the nonpositive-value audit resolves."
 }

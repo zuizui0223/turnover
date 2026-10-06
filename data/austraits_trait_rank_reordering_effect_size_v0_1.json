@@ -1,16 +1,35 @@
 {
-  "version":"v0.1",
-  "status":"FROZEN_BEFORE_AUSTRAITS_MEMORY_EFFECT_OPENING",
-  "frozen_on":"2026-10-06",
-  "question":"How often does the relative ordering of the same pair of traits reverse between plant families?",
-  "population":"The prospectively qualified AusTraits final core; matched positive-numeric core additionally for raw-log sensitivity.",
-  "pair_rule":"For every trait pair represented together in at least 2 families, compare the sign of rho_A-rho_B among families.",
-  "reversal_probability":"For a trait pair with p families where A>B and q where A<B, disagreement probability for two distinct randomly selected families is 2pq/[n(n-1)], n=p+q; ties are excluded from n.",
-  "summary":"Weight trait-pair reversal probabilities by the number of available unordered family pairs n(n-1)/2.",
-  "well_represented_threshold":10,
-  "required_axes":["S3","prune-only"],
-  "matched_scale_axes":["raw S3","raw prune-only","log S3","log prune-only"],
-  "role":"pre-frozen effect-size description of lineage-specific re-ranking; does not replace primary family-repeatability or rank-portability tests.",
-  "austraits_memory_effects_opened":false,
-  "no_posthoc_relaxation":true
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_AUSTRAITS_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-06",
+  "question": "How often does the relative ordering of the same pair of traits reverse between plant families?",
+  "population": "The prospectively qualified AusTraits final core; matched positive-numeric core additionally for raw-log sensitivity.",
+  "pair_rule": "For every trait pair represented together in at least 2 families, compare the sign of rho_A-rho_B among families.",
+  "reversal_probability": "For a trait pair with p families where A>B and q where A<B, disagreement probability for two distinct randomly selected families is 2pq/[n(n-1)], n=p+q; ties are excluded from n.",
+  "summary": "Weight trait-pair reversal probabilities by the number of available unordered family pairs n(n-1)/2.",
+  "well_represented_threshold": 10,
+  "required_axes": [
+    "S3",
+    "prune-only"
+  ],
+  "matched_scale_axes": [
+    "raw S3",
+    "raw prune-only",
+    "log S3",
+    "log prune-only"
+  ],
+  "role": "pre-frozen effect-size description of lineage-specific re-ranking; does not replace primary family-repeatability or rank-portability tests.",
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true,
+  "interpretation_thresholds": {
+    "strong_reordering": "family-pair-count-weighted reversal probability >=0.40 on both S3 and prune-only",
+    "substantial_reordering": "weighted reversal probability >=1/3 on both axes but strong criterion not met",
+    "limited_or_axis_sensitive": "either axis has weighted reversal probability <1/3"
+  },
+  "conjunction_replication": {
+    "global_spectrum_component": "pre-frozen within-family rank portability gain >0 and one-sided blocked-permutation p<=0.05 on both S3 and prune-only",
+    "reordering_component": "at least substantial_reordering on both tree axes",
+    "strong_replication": "global_spectrum_component plus strong_reordering",
+    "interpretation": "A replicated global trait hierarchy may coexist with frequent lineage-specific pair-order reversals."
+  }
 }

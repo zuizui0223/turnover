@@ -1,0 +1,69 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_RANK_PHYLOGENY_RESULT",
+  "frozen_on": "2026-10-06",
+  "programme_name": "Deep phylogenetic inheritance of lineage-specific trait-memory rankings",
+  "relationship_to_prior_work": {
+    "source_result": "results/trait_rank_reordering_exploratory_v0_2/result.json",
+    "real_BIEN_memory_effects_already_opened": true,
+    "rank_reordering_result_already_opened": true,
+    "rank_phylogeny_association_opened": false,
+    "role": "Post-outcome exploratory mechanism-structure test only. It cannot reclassify the prospective BIEN results or the prospective AusTraits replication."
+  },
+  "question": "Are lineage-specific conservative-to-labile trait rankings themselves inherited across deep plant-family phylogeny, or are they phylogenetically mosaic?",
+  "population": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "effect_contract": "pre-frozen positive-only cleaned Stage B effects",
+    "primary_scale": "natural-log species states",
+    "primary_tree": "S3",
+    "mandatory_tree_sensitivity": "prune-only",
+    "raw_scale_role": "secondary descriptive sensitivity"
+  },
+  "family_phylogeny": {
+    "backbone": "GBOTB.extended.TPL",
+    "representative_rule": "full GBOTB family crown, identical to family_context_phylogeny_representative_amendment_v0_1_3",
+    "distance": "patristic distance between family crown representatives on the unmodified backbone",
+    "family_set": "the fixed 45 BIEN discovery-core families",
+    "minimum_valid_family_representatives": 30
+  },
+  "rank_profile_dissimilarity": {
+    "minimum_shared_traits_primary": 4,
+    "for_each_family_pair": "Among shared traits, compare every unordered pair of traits. A pair is discordant if family A and family B disagree about which trait has larger memory-loss rho. Tied comparisons are excluded from the denominator.",
+    "statistic": "rank_disagreement = discordant trait-pair comparisons / all non-tied shared trait-pair comparisons",
+    "equivalence": "For no ties, rank_disagreement = (1 - Kendall tau)/2.",
+    "range": "0 identical relative ordering; 1 completely reversed ordering",
+    "minimum_shared_traits_sensitivity": 3
+  },
+  "primary_association": {
+    "predictor": "family patristic distance",
+    "response": "rank_disagreement on cleaned log S3 rho",
+    "statistic": "Spearman rho across eligible unordered family pairs",
+    "expected_direction_if_deep_inheritance": "positive: more distant families have more discordant trait-memory rankings",
+    "permutations": 9999,
+    "master_seed": 20261006,
+    "permutation_scheme": "Permute complete observed family rank profiles, including their trait-coverage pattern, among the fixed 45 family-tree positions. Recompute eligible pairwise rank disagreement after each permutation. This preserves every profile, the sparse family-by-trait graph carried by each profile, and the fixed family distance matrix.",
+    "p_value": "one-sided for the preregistered positive direction: (1 + count(rho_null >= rho_observed))/(B + 1)"
+  },
+  "mandatory_sensitivities": [
+    "Repeat the identical test with cleaned log prune-only rho.",
+    "Repeat S3 and prune-only using minimum_shared_traits = 3.",
+    "Report cleaned raw S3 and prune-only associations descriptively under the same statistic.",
+    "Report slope-free binned summaries of median disagreement by family-distance quartile for interpretation only."
+  ],
+  "interpretation": {
+    "positive_on_both_log_axes": "Lineage-specific trait-memory ranking retains detectable deep phylogenetic continuity: related families tend to reorder traits similarly.",
+    "S3_only": "Possible deep-phylogeny tendency is tree-treatment sensitive; do not call inherited ranking architecture robust.",
+    "weak_or_null_on_both_log_axes": "The lineage-specific ranking is not detectably organized along deep family phylogeny at this resolution; describe it as a phylogenetically mosaic reconstruction rather than a smoothly inherited higher-level hierarchy.",
+    "negative": "Unexpected: closer families have more different rankings. Report as exploratory and do not invent a mechanism."
+  },
+  "hard_nonclaims": [
+    "A null association does not prove rank profiles are evolutionarily random.",
+    "No causal ecological driver is identified.",
+    "Do not use this analysis to select families, traits, trait scale, or tree treatment.",
+    "Do not replace the prospective AusTraits replication with this exploratory BIEN analysis.",
+    "Do not interpret memory-loss rho as evolutionary rate."
+  ],
+  "no_posthoc_relaxation": true
+}

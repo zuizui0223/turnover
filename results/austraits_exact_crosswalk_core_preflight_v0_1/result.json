@@ -1,0 +1,46 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_EXACT_CROSSWALK_CORE_PREFLIGHT_OUTCOME_BLIND",
+  "evidence": {
+    "workflow_run": 37156931222,
+    "artifact_id": 11290093144,
+    "crosswalk_version": "v0.4.3",
+    "austraits_memory_effects_opened": false
+  },
+  "exact_crosswalk": {
+    "candidate_systems": 3593,
+    "pass_systems": 1725,
+    "families": 65,
+    "traits": 212
+  },
+  "degree_pruned_necessary_core": {
+    "rule": "iteratively require family degree >=2 traits and trait degree >=5 families",
+    "iterations": 2,
+    "systems": 1463,
+    "families": 64,
+    "traits": 73,
+    "connected_components": 1,
+    "minimum_family_degree": 3,
+    "minimum_trait_degree": 5,
+    "maximum_family_degree": 72,
+    "maximum_trait_degree": 59,
+    "config_composition": {
+      "categorical_systems": 1002,
+      "categorical_families": 63,
+      "categorical_traits": 52,
+      "numeric_systems": 461,
+      "numeric_families": 62,
+      "numeric_traits": 21
+    }
+  },
+  "numeric_only_degree_pruned_preflight": {
+    "starting_numeric_systems": 461,
+    "stable_systems": 458,
+    "families": 59,
+    "traits": 21,
+    "minimum_family_degree": 2,
+    "minimum_trait_degree": 5,
+    "note": "This is only a graph-capacity preflight. Positive-state screening and known-truth informativeness remain unopened prerequisites for the matched raw-log rank sensitivity."
+  },
+  "interpretation": "The exact source-native crosswalk leaves ample outcome-blind graph capacity for both the master AusTraits family-context replication and the prospective numeric matched raw-log rank-portability sensitivity. No AusTraits phylogenetic-memory outcome has been computed or inspected."
+}

@@ -7,6 +7,8 @@ on:
     paths:
       - '.github/workflows/austraits-memory-exact-qualification-v0-6-5.yml'
       - 'data/austraits_exact_crosswalk_qualification_v0_6_5.json'
+      - 'data/austraits_exact_crosswalk_fail_status_fix_v0_6_5_1.json'
+      - 'scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R'
   workflow_dispatch:
 
 permissions:
@@ -31,7 +33,11 @@ jobs:
           d=json.load(open('data/austraits_exact_crosswalk_qualification_v0_6_5.json'))
           m=json.load(open('data/austraits_memory_context_replication_v0_1.json'))
           g=json.load(open('data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json'))
+          f=json.load(open('data/austraits_exact_crosswalk_fail_status_fix_v0_6_5_1.json'))
           assert d['status']=='FROZEN_EXACT_CROSSWALK_OUTCOME_BLIND_QUALIFICATION'
+          assert f['status']=='TECHNICAL_EXACT_CROSSWALK_IDENTITY_FIX_PRE_EFFECT'
+          assert f['scientific_change'] is False
+          assert f['thresholds_changed'] is False
           assert d['scientific_contract_changed'] is False
           assert d['thresholds_changed'] is False
           assert d['real_austraits_memory_effects_opened'] is False

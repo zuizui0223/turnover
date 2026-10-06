@@ -134,5 +134,22 @@
     "before_raw_audit_outcomes": true,
     "scientific_change": false,
     "reason": "Added exact nonpositive raw-value frequency and denominator summaries by unit/source/citation so placeholder coding, unit problems, and source-specific contamination can be distinguished without changing any memory effect."
+  },
+  "reference_identity_gate": {
+    "reference_artifact_id": 11331292825,
+    "reference_file": "effects_with_se_log.csv",
+    "rule": "After BIEN re-query and frozen V.PhyloMaker2 membership reconstruction, S3_n_nonpositive and prune_n_nonpositive must match the v0.3 robustness artifact for every one of the 201 systems exactly.",
+    "expected_system_counts": {
+      "S3": 25,
+      "prune_only": 18
+    },
+    "failure": "HOLD_NONPOSITIVE_AUDIT_CROSSWALK_OR_DATA_DRIFT"
+  },
+  "technical_amendment_identity": {
+    "version": "v0.1.0c",
+    "date": "2026-10-06",
+    "before_raw_audit_outcomes": true,
+    "scientific_change": false,
+    "reason": "Added exact per-system identity gate against the v0.3 robustness artifact so raw-value audit results are interpreted only if the re-queried species medians and frozen tree memberships reproduce the original nonpositive counts."
   }
 }

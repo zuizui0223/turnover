@@ -101,5 +101,13 @@
     "No additional portability predictor.",
     "No new signal metric.",
     "No filtering based on delta rho or downstream manuscript impact."
-  ]
+  ],
+  "execution_optimization": {
+    "version": "v0.2.0a",
+    "before_cleaned_effect_outcomes": true,
+    "scientific_change": false,
+    "basis": "Stage A identified 49 systems with at least one raw nonpositive record and 152 systems with none, without recomputing or inspecting rho changes.",
+    "rule": "Re-query and recompute cleaned states/effects only for the 49 Stage-A-contaminated systems. For the remaining 152 systems, the cleaned dataset is mathematically identical to the frozen v0.3 dataset, so copy their rho, bootstrap SE and log results directly from the immutable v0.3 reference artifact.",
+    "identity_check": "The final merged cleaned table must contain exactly 201 unique frozen family x trait systems. All inherited rows must be explicitly marked CLEAN_UNCHANGED_STAGE_A and must equal the v0.3 reference columns exactly."
+  }
 }

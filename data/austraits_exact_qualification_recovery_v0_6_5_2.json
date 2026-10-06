@@ -1,0 +1,19 @@
+{
+  "version":"v0.6.5.2",
+  "status":"FROZEN_EXACT_QUALIFICATION_RECOVERY",
+  "frozen_on":"2026-10-06",
+  "source_partial_run":37459606358,
+  "authoritative_geometry_run":37459250266,
+  "trigger_bug_fix":"data/austraits_exact_crosswalk_fail_status_fix_v0_6_5_1.json",
+  "rule":"Reuse every successfully materialized geometry result from the source partial run regardless of PASS/HOLD outcome; recompute only geometry hashes with no successful artifact, using the corrected exact-crosswalk status identity check.",
+  "selection_by_outcome":false,
+  "scientific_contract_changed":false,
+  "thresholds_changed":false,
+  "source_changed":false,
+  "semantic_rules_changed":false,
+  "phylogeny_changed":false,
+  "informativeness_benchmark_changed":false,
+  "expected_total_unique_geometries":1442,
+  "real_austraits_memory_effects_opened":false,
+  "no_posthoc_relaxation":true
+}

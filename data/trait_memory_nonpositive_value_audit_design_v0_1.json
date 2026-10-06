@@ -122,5 +122,17 @@
     "before_raw_audit_outcomes": true,
     "scientific_change": false,
     "reason": "Added predeclared tree-membership annotation so the audit can distinguish biologically invalid raw medians that actually entered the frozen S3/prune effect inputs from invalid records excluded by the phylogenetic crosswalk. No rho or downstream statistic is recomputed."
+  },
+  "raw_record_outputs": [
+    "For systems containing at least one species median <=0, aggregate all admitted raw records by family, trait, unit, source and source_citation with negative/zero/positive counts.",
+    "For every admitted raw value <=0 in those systems, aggregate exact numeric value x unit x source x source_citation frequency.",
+    "No raw-record deletion or replacement is performed."
+  ],
+  "technical_amendment_raw_provenance": {
+    "version": "v0.1.0b",
+    "date": "2026-10-06",
+    "before_raw_audit_outcomes": true,
+    "scientific_change": false,
+    "reason": "Added exact nonpositive raw-value frequency and denominator summaries by unit/source/citation so placeholder coding, unit problems, and source-specific contamination can be distinguished without changing any memory effect."
   }
 }

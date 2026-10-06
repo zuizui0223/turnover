@@ -101,5 +101,26 @@
     "No offset, pseudocount, signed log, winsorization, value replacement, source deletion, or trait-specific threshold is allowed in Stage A.",
     "No source/citation is removed because its exclusion improves the result.",
     "Any Stage B analysis requires a new frozen design before its outcome is opened."
-  ]
+  ],
+  "tree_membership_annotation": {
+    "purpose": "Determine whether invalid/nonpositive species medians actually entered the primary S3 or prune-only rho inputs, without recomputing rho.",
+    "trigger": "For every family x trait system with at least one species median <=0 in the all-201 raw audit, reconstruct the frozen V.PhyloMaker2 crosswalk and annotate each audited species as in_S3 and in_prune_only.",
+    "phylogeny_package": "V.PhyloMaker2",
+    "frozen_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "primary_membership": "species status in {prune, bind}",
+    "prune_membership": "species status == prune",
+    "outputs": [
+      "in_S3",
+      "in_prune_only",
+      "phylo_status"
+    ],
+    "no_effect_recalculation": true
+  },
+  "technical_amendment": {
+    "version": "v0.1.0a",
+    "date": "2026-10-06",
+    "before_raw_audit_outcomes": true,
+    "scientific_change": false,
+    "reason": "Added predeclared tree-membership annotation so the audit can distinguish biologically invalid raw medians that actually entered the frozen S3/prune effect inputs from invalid records excluded by the phylogenetic crosswalk. No rho or downstream statistic is recomputed."
+  }
 }

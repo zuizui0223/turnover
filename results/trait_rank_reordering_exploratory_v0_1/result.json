@@ -1,0 +1,109 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_EXPLORATORY_TRAIT_RANK_REORDERING_ESTIMATED",
+  "discovery_source": "BIEN 4.2.8",
+  "chronology": {
+    "post_outcome_exploratory": true,
+    "austraits_replication_outcomes_opened": false
+  },
+  "evidence": {
+    "robust_effect_artifact_id": 11331292825,
+    "measurement_aware_artifact_id": 11335736009,
+    "n_systems": 201,
+    "n_families": 45,
+    "n_traits": 12
+  },
+  "rank_portability": {
+    "definition": "Within each family, average-rank raw memory-loss rho scaled to [0,1], predicted in a held-out family by the same trait's mean rank in all other families; baseline=0.5.",
+    "S3": {
+      "gain": 0.036637785065480655,
+      "spearman_observed_vs_predicted": 0.14936236767151195,
+      "blocked_permutation_p_one_sided": 0.0036,
+      "null_median_gain": -0.06512103010189874,
+      "null_q025": -0.10601341142583504,
+      "null_q975": 0.0038833416501435976,
+      "leave_one_trait_gain_range": [0.008581499563706019, 0.06536378343604587],
+      "leave_one_family_gain_range": [0.018897269236244796, 0.061837798663202936],
+      "all_leave_one_trait_gains_positive": true,
+      "all_leave_one_family_gains_positive": true
+    },
+    "prune_only": {
+      "gain": -0.04180693766482091,
+      "spearman_observed_vs_predicted": -0.024756477455052352,
+      "blocked_permutation_p_one_sided": 0.2263,
+      "null_median_gain": -0.0649981643391464,
+      "null_q025": -0.1065062194304844,
+      "null_q975": 0.0045185461665275045,
+      "leave_one_trait_gain_range": [-0.0607719786399008, -0.030568484167041055],
+      "leave_one_family_gain_range": [-0.055294498658222446, -0.028483365019611684],
+      "all_leave_one_trait_gains_negative": true,
+      "all_leave_one_family_gains_negative": true
+    }
+  },
+  "trait_pair_ordering": {
+    "minimum_cooccurrence_families": 10,
+    "n_pairs": 16,
+    "S3": {
+      "median_majority_consistency": 0.6363636363636364,
+      "mean_majority_consistency": 0.6523390425364111,
+      "fraction_consistency_ge_0_75": 0.1875
+    },
+    "prune_only": {
+      "median_majority_consistency": 0.575187969924812,
+      "mean_majority_consistency": 0.6075145468566522,
+      "fraction_consistency_ge_0_75": 0.0625
+    }
+  },
+  "family_pair_rank_correlation": {
+    "minimum_shared_traits": 3,
+    "n_family_pairs": 289,
+    "S3_mean_spearman": 0.0699209095402867,
+    "prune_mean_spearman": 0.020835392980721703,
+    "minimum_shared_traits_sensitivity": 4,
+    "n_family_pairs_sensitivity": 147,
+    "S3_mean_spearman_sensitivity": 0.0966472303206997,
+    "prune_mean_spearman_sensitivity": -0.01686103012633625
+  },
+  "global_trait_spectrum": {
+    "S3_vs_prune_trait_mean_rank_spearman": 0.8741258741258742,
+    "interpretation": "Average trait ordering is similar across tree treatments even though it has little robust predictive value for the ordering inside an unseen family."
+  },
+  "measurement_aware_reordering": {
+    "model": "latent rho = intercept + family effect + trait effect + system-specific effect; sampling variance modeled separately",
+    "derivation": "For two random traits, the within-family contrast cancels the family effect. Across two random families, contrast correlation r=sigma2_trait/(sigma2_trait+sigma2_system). Under the Gaussian crossed model, P(order reverses)=acos(r)/pi.",
+    "S3": {
+      "sigma2_trait": 0.001086392363310765,
+      "sigma2_system": 0.010479508054145843,
+      "contrast_correlation": 0.09393063437335625,
+      "expected_cross_family_rank_reversal_probability": 0.47005680860665455,
+      "expected_kendall_tau_between_lineage_rankings": 0.05988638278669102,
+      "expected_spearman_between_lineage_rankings": 0.08973015616290912,
+      "two_way_cluster_bootstrap": {
+        "replicates": 500,
+        "reversal_probability_median": 0.4260227051544103,
+        "reversal_probability_q025": 0.20999464609847188,
+        "reversal_probability_q975": 0.49993323930542494,
+        "fraction_reversal_gt_0_25": 0.964,
+        "fraction_reversal_gt_0_333333": 0.898,
+        "fraction_reversal_gt_0_40": 0.678
+      }
+    },
+    "prune_only": {
+      "sigma2_trait": 0.000607015215209501,
+      "sigma2_system": 0.01651175941550592,
+      "contrast_correlation": 0.035459034206827035,
+      "expected_cross_family_rank_reversal_probability": 0.4887106722543603,
+      "expected_kendall_tau_between_lineage_rankings": 0.02257865549127947,
+      "expected_spearman_between_lineage_rankings": 0.03386265762650937,
+      "bootstrap_not_available_in_v0_3_artifact": true
+    }
+  },
+  "interpretation": "BIEN contains a weak aggregate trait-level spectrum, but relative conservative-to-labile ordering is extensively re-ranked among families. The S3 rank tendency is stable to leave-one-trait and leave-one-family omission but is not robust to the mandatory prune-only tree sensitivity. Measurement-aware variance components imply frequent latent rank reversals even after sampling error is separated. The strongest current claim is therefore weak common spectrum plus strong lineage-specific re-ranking, pending the pre-frozen AusTraits replication.",
+  "hard_nonclaims": [
+    "Do not claim zero trait-level structure.",
+    "Do not call the S3 rank-portability tendency robust across tree treatments.",
+    "Do not equate phylogenetic signal with evolutionary rate.",
+    "Do not call system-specific heterogeneity a mechanistically identified family-by-trait interaction.",
+    "Do not treat the BIEN rank analysis as prospective evidence."
+  ]
+}

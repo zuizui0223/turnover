@@ -109,5 +109,13 @@
     "basis": "Stage A identified 49 systems with at least one raw nonpositive record and 152 systems with none, without recomputing or inspecting rho changes.",
     "rule": "Re-query and recompute cleaned states/effects only for the 49 Stage-A-contaminated systems. For the remaining 152 systems, the cleaned dataset is mathematically identical to the frozen v0.3 dataset, so copy their rho, bootstrap SE and log results directly from the immutable v0.3 reference artifact.",
     "identity_check": "The final merged cleaned table must contain exactly 201 unique frozen family x trait systems. All inherited rows must be explicitly marked CLEAN_UNCHANGED_STAGE_A and must equal the v0.3 reference columns exactly."
+  },
+  "scale_interpretation_rule": {
+    "version": "v0.2.0b",
+    "frozen_before_cleaned_effect_outcomes": true,
+    "rule": "Report cleaned raw and cleaned log memory results side by side. Do not choose one scale because it better preserves the current manuscript claim.",
+    "if_concordant": "The manuscript may state that the lineage-repeatability / trait-portability pattern is qualitatively robust to raw versus log trait dissimilarity, while retaining both numerical results.",
+    "if_discordant": "The manuscript must state that the biological inference is scale-dependent and must not use an unqualified title or abstract claim about lineage contingency or weak trait-level portability.",
+    "no_new_transform": true
   }
 }

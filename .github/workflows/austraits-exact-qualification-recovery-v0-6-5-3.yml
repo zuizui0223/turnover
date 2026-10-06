@@ -1,0 +1,396 @@
+name: AusTraits exact qualification recovery v0.6.5.3
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-exact-qualification-recovery-v0-6-5-3.yml'
+      - 'data/austraits_exact_qualification_recovery_v0_6_5_3.json'
+      - 'scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      n_reused: ${{ steps.matrix.outputs.n_reused }}
+      n_missing: ${{ steps.matrix.outputs.n_missing }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pyyaml
+      - name: Validate verified-fix recovery contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_exact_qualification_recovery_v0_6_5_3.json'))
+          assert d['status']=='FROZEN_EXACT_QUALIFICATION_RECOVERY_VERIFIED_FIX'
+          assert d['selection_by_outcome'] is False
+          assert d['technical_fix']['scientific_change'] is False
+          assert d['technical_fix']['thresholds_changed'] is False
+          assert d['real_austraits_memory_effects_opened'] is False
+          s=open('scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R').read()
+          assert 'expected_fail <- nrow(sp) - expected_prune - expected_bind' in s
+          assert 'n_fail==expected_fail' in s
+          assert 'frozen exact crosswalk' in s
+          assert 'n_fail==0' not in s
+          PY
+      - name: Download authoritative geometry map
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/geometry
+          gh run download 37459250266 -R "$GITHUB_REPOSITORY" -n austraits-memory-geometry-exact-v0-6-4 -D build/geometry
+          test -f build/geometry/groups.csv
+          test -f build/geometry/systems.csv
+      - name: Download all reusable successful geometry artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/reuse/run1 build/reuse/run2 build/reuse/run3
+          gh run download 37459606358 -R "$GITHUB_REPOSITORY" -p 'austraits-exact-info-B*' -D build/reuse/run1 || true
+          gh run download 37471163860 -R "$GITHUB_REPOSITORY" -p 'austraits-exact-info-B*' -D build/reuse/run2 || true
+          gh run download 37482213049 -R "$GITHUB_REPOSITORY" -p 'austraits-recovered-info-Q*' -D build/reuse/run3 || true
+      - name: Download pinned trait config
+        run: |
+          mkdir -p build/source
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - id: matrix
+        name: Select valid reusable results and batch only missing geometries
+        run: |
+          python - <<'PY'
+          import base64,csv,glob,json,os,shutil,yaml
+          groups=list(csv.DictReader(open('build/geometry/groups.csv',newline='')))
+          groups_sorted=sorted(groups,key=lambda z:(z['canonical_family'],z['canonical_trait_name']))
+          expected={}
+          for i,r in enumerate(groups_sorted,1):
+              z=dict(r);z['geometry_id']=f'G{i:04d}'
+              expected[r['geometry_hash']]=z
+          assert len(expected)==1442
+          selected={}
+          for p in sorted(glob.glob('build/reuse/**/G*.json',recursive=True)):
+              try:x=json.load(open(p))
+              except Exception:continue
+              h=x.get('geometry_hash')
+              if h not in expected:continue
+              if x.get('outcome_blind') is not True:continue
+              if x.get('austraits_memory_effects_opened') is not False:continue
+              if x.get('crosswalk_status_counts_match') is not True:continue
+              selected.setdefault(h,p)
+          os.makedirs('build/reused-selected',exist_ok=True)
+          for h,p in selected.items():
+              gid=expected[h]['geometry_id']
+              shutil.copyfile(p,f'build/reused-selected/{gid}.json')
+          cfg=yaml.safe_load(open('build/source/traits.yml'))['traits']['elements']
+          missing=[]
+          for h,r in expected.items():
+              if h in selected:continue
+              tr=r['canonical_trait_name'];u=cfg[tr].get('units')
+              missing.append({
+                'geometry_id':r['geometry_id'],'geometry_hash':h,
+                'family':r['canonical_family'],'trait_name':tr,'config_type':r['config_type'],
+                'expected_unit':'' if u is None else str(u).strip(),
+                'n_input_species':int(r['n_input_species']),'n_prune':int(r['n_prune']),'n_bind':int(r['n_bind']),
+                '_weight':int(r['n_input_species'])**2+int(r['n_prune'])**2
+              })
+          n_reused=len(selected);n_missing=len(missing)
+          assert n_reused+n_missing==1442,(n_reused,n_missing)
+          if n_missing<1:
+              raise SystemExit('all geometries already reusable; recovery workflow expects at least one missing geometry')
+          nb=min(32,n_missing)
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for r in sorted(missing,key=lambda z:(-z['_weight'],z['family'],z['trait_name'])):
+              k=min(range(nb),key=lambda q:(bins[q]['weight'],q))
+              bins[k]['systems'].append({z:r[z] for z in ['geometry_id','geometry_hash','family','trait_name','config_type','expected_unit','n_input_species','n_prune','n_bind']})
+              bins[k]['weight']+=r['_weight']
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({'batch_id':f'V{i:02d}','systems_b64':base64.b64encode(raw).decode(),'n_geometries':len(b['systems'])})
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+              fh.write(f'n_reused={n_reused}\n')
+              fh.write(f'n_missing={n_missing}\n')
+          manifest={'version':'v0.6.5.3','n_reused':n_reused,'n_missing':n_missing,'n_batches':len(include),
+                    'selection_by_outcome':False,'austraits_memory_effects_opened':False}
+          json.dump(manifest,open('build/recovery_manifest.json','w'),indent=2)
+          print(json.dumps(manifest,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-recovery-prep-v0-6-5-3
+          path: |
+            build/geometry/
+            build/reused-selected/
+            build/recovery_manifest.json
+          retention-days: 30
+
+  recover:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Verify actual identity fix is present
+        run: |
+          grep -F 'expected_fail <- nrow(sp) - expected_prune - expected_bind' scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R
+          grep -F 'n_fail==expected_fail' scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R
+      - name: Download pinned source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Decode and compute only missing geometries
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/species build/results
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_memory_informativeness_batch_v0_6_2.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --out-dir build/results \
+            --species-dir build/species \
+            --r-script scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-verified-recovery-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: [prepare,recover]
+    if: always() && needs.prepare.result == 'success' && needs.recover.result == 'success'
+    runs-on: ubuntu-24.04
+    outputs:
+      gate_pass: ${{ steps.gate.outputs.gate_pass }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-recovery-prep-v0-6-5-3
+          path: build/prep
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-verified-recovery-V*
+          path: build/new
+          merge-multiple: true
+      - name: Merge reused and newly computed geometry results
+        run: |
+          mkdir -p build/all build/info build/core
+          cp build/prep/reused-selected/G*.json build/all/ 2>/dev/null || true
+          find build/new -name 'G*.json' -type f -exec cp {} build/all/ \;
+          python - <<'PY'
+          import glob,json
+          files=glob.glob('build/all/G*.json')
+          hashes={}
+          for p in files:
+              x=json.load(open(p));h=x['geometry_hash']
+              assert x['outcome_blind'] is True
+              assert x['austraits_memory_effects_opened'] is False
+              assert x['crosswalk_status_counts_match'] is True
+              if h in hashes:raise SystemExit(f'duplicate geometry hash {h}')
+              hashes[h]=p
+          assert len(hashes)==1442,len(hashes)
+          PY
+          python scripts/analysis/aggregate_austraits_memory_informativeness_v0_6_2.py \
+            --systems-map build/prep/systems.csv \
+            --geometry-dir build/all \
+            --out build/info/result.json \
+            --table-out build/info/temporal_informativeness.csv \
+            --core-out build/core/result.json \
+            --core-table-out build/core/core_systems.csv
+      - id: gate
+        run: |
+          python - <<'PY'
+          import json,os
+          c=json.load(open('build/core/result.json'))
+          assert c['outcome_blind'] is True and c['austraits_memory_effects_opened'] is False
+          gate=bool(c.get('gate_pass') and c.get('status')=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:fh.write('gate_pass='+('true' if gate else 'false')+'\n')
+          print(json.dumps(c,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-verified-final-core-v0-6-5-3
+          path: |
+            build/info/
+            build/core/
+          retention-days: 30
+
+  model_info:
+    needs: aggregate
+    if: needs.aggregate.outputs.gate_pass == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-verified-final-core-v0-6-5-3
+          path: build/final
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Run graph-specific model-informativeness
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/run_austraits_memory_model_informativeness_v0_7.R \
+            --core-table build/final/core/core_systems.csv \
+            --out build/model/result.json \
+            --table-out build/model/simulations.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-verified-model-info-v0-6-5-3
+          path: build/model/
+          retention-days: 30
+
+  provenance:
+    needs: aggregate
+    if: needs.aggregate.outputs.gate_pass == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-verified-final-core-v0-6-5-3
+          path: build/final
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+      - name: Extract fixed BIEN source citations
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/bien-core build/provenance
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/bien-core
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          Rscript scripts/source/extract_bien_core_source_citations_v0_5.R \
+            --core-table build/bien-core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/provenance/bien_source_citations.csv
+      - name: Download pinned AusTraits source and config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit primary-source DOI overlap
+        run: |
+          python scripts/source/audit_austraits_bien_provenance_overlap_v0_5.py \
+            --austraits-parquet build/source/austraits.parquet \
+            --austraits-core build/final/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --bien-citations build/provenance/bien_source_citations.csv \
+            --out build/provenance/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-verified-provenance-v0-6-5-3
+          path: build/provenance/
+          retention-days: 30
+
+  qualification:
+    needs: [aggregate,model_info,provenance]
+    if: always() && needs.aggregate.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-verified-final-core-v0-6-5-3
+          path: build/final
+      - uses: actions/download-artifact@v4
+        if: needs.model_info.result == 'success'
+        with:
+          name: austraits-verified-model-info-v0-6-5-3
+          path: build/model
+      - uses: actions/download-artifact@v4
+        if: needs.provenance.result == 'success'
+        with:
+          name: austraits-verified-provenance-v0-6-5-3
+          path: build/provenance
+      - name: Synthesize terminal outcome-blind qualification
+        env:
+          MODEL_RESULT: ${{ needs.model_info.result }}
+          PROVENANCE_RESULT: ${{ needs.provenance.result }}
+        run: |
+          mkdir -p build/qualification
+          python - <<'PY'
+          import json,os,pathlib
+          c=json.load(open('build/final/core/result.json'))
+          core_pass=bool(c.get('gate_pass') and c.get('status')=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS')
+          model_path=pathlib.Path('build/model/result.json')
+          prov_path=pathlib.Path('build/provenance/result.json')
+          m=json.load(open(model_path)) if model_path.exists() else None
+          p=json.load(open(prov_path)) if prov_path.exists() else None
+          model_pass=bool(m and m.get('gate_pass'))
+          ready=bool(core_pass and model_pass and p is not None)
+          if ready:status='AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE'
+          elif not core_pass:status='HOLD_AUSTRAITS_FINAL_CORE'
+          elif m is not None and not model_pass:status='HOLD_AUSTRAITS_MODEL_INFORMATIVENESS'
+          else:status='HOLD_AUSTRAITS_QUALIFICATION_EXECUTION'
+          out={
+            'version':'v0.6.5.3','status':status,'outcome_blind':True,
+            'austraits_memory_effects_opened':False,
+            'final_core':{'systems':c.get('n_core_systems'),'families':c.get('n_core_families'),'traits':c.get('n_core_traits')},
+            'model_informativeness_gate_pass':model_pass,
+            'replication_language':None if p is None else p.get('replication_language'),
+            'model_job_result':os.environ.get('MODEL_RESULT'),
+            'provenance_job_result':os.environ.get('PROVENANCE_RESULT'),
+            'ready_for_real_effect_opening':ready
+          }
+          json.dump(out,open('build/qualification/result.json','w'),indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-verified-qualification-v0-6-5-3
+          path: build/qualification/
+          retention-days: 30

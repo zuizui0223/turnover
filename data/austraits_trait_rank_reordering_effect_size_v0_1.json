@@ -1,0 +1,16 @@
+{
+  "version":"v0.1",
+  "status":"FROZEN_BEFORE_AUSTRAITS_MEMORY_EFFECT_OPENING",
+  "frozen_on":"2026-10-06",
+  "question":"How often does the relative ordering of the same pair of traits reverse between plant families?",
+  "population":"The prospectively qualified AusTraits final core; matched positive-numeric core additionally for raw-log sensitivity.",
+  "pair_rule":"For every trait pair represented together in at least 2 families, compare the sign of rho_A-rho_B among families.",
+  "reversal_probability":"For a trait pair with p families where A>B and q where A<B, disagreement probability for two distinct randomly selected families is 2pq/[n(n-1)], n=p+q; ties are excluded from n.",
+  "summary":"Weight trait-pair reversal probabilities by the number of available unordered family pairs n(n-1)/2.",
+  "well_represented_threshold":10,
+  "required_axes":["S3","prune-only"],
+  "matched_scale_axes":["raw S3","raw prune-only","log S3","log prune-only"],
+  "role":"pre-frozen effect-size description of lineage-specific re-ranking; does not replace primary family-repeatability or rank-portability tests.",
+  "austraits_memory_effects_opened":false,
+  "no_posthoc_relaxation":true
+}

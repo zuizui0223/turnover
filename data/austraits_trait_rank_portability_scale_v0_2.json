@@ -1,0 +1,72 @@
+{
+  "version": "v0.2",
+  "status": "FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-06",
+  "relationship_to_v0_1": {
+    "prior_contract": "data/austraits_trait_rank_portability_v0_1.json",
+    "prior_source_native_test_unchanged": true,
+    "role": "mandatory scale sensitivity for the secondary rank-portability question when the outcome-blind matched positive-numeric core is informative",
+    "primary_family_repeatability_analysis_unchanged": true
+  },
+  "motivation": "The completed BIEN positive-only cleaning analysis showed that cross-lineage trait portability can be materially scale-dependent. AusTraits therefore receives a matched raw-versus-log rank-portability sensitivity before any AusTraits memory-loss rho is opened.",
+  "matched_positive_numeric_core": {
+    "starting_population": "final outcome-blind AusTraits crossed core after support, semantic, exact-phylogeny, known-truth informativeness and all inherited gates",
+    "numeric_only": "config type == numeric",
+    "species_state": "source-native species median under the already frozen AusTraits semantic contract",
+    "system_log_domain_pass": "every eligible species state used by the system is finite and strictly >0",
+    "timing": "domain screening occurs before any raw or log phylogenetic-memory rho is computed",
+    "no_memory_outcome_selection": true,
+    "stable_graph_rule": "After domain screening, iteratively remove families represented by fewer than 2 retained traits and traits represented in fewer than 5 retained families until stable.",
+    "minimum_final_families": 12,
+    "minimum_final_traits": 4,
+    "connected_bipartite_graph_required": true,
+    "fail_rule": "If the matched core misses any graph minimum, report the raw-versus-log sensitivity unavailable. Do not relax the positivity, degree, family, trait or connectivity rules."
+  },
+  "paired_effects": {
+    "system_set": "identical matched positive-numeric family x trait systems for raw and log",
+    "raw_species_state": "source-native species median",
+    "log_species_state": "natural log of the same strictly positive species median",
+    "dissimilarity": "absolute difference on the corresponding state scale",
+    "separation": "all unordered patristic distances on the same S3 or prune-only tree used by the master replication",
+    "memory_effect": "Spearman(patristic distance, trait dissimilarity)",
+    "axes": ["S3", "prune-only"]
+  },
+  "rank_portability": {
+    "rank_definition": "Within each family and scale, average-rank memory-loss rho and rescale to [0,1], with 0 most conservative and 1 most labile.",
+    "held_out_prediction": "Predict each held-out family x trait rank using the mean normalized rank of the same trait in all other retained families.",
+    "baseline": 0.5,
+    "gain": "1 - SSE(trait-rank prediction) / SSE(0.5 baseline)",
+    "permutations": 9999,
+    "master_seed": 20261006,
+    "null": "Within each family, permute normalized rank values over the observed trait slots, preserving the matched family-trait graph and each family rank distribution.",
+    "p_value": "one-sided, (1 + number(null gain >= observed gain)) / (B + 1)"
+  },
+  "scale_comparison": {
+    "required_outputs": [
+      "raw rank-portability gain and p on S3 and prune-only",
+      "log rank-portability gain and p on S3 and prune-only",
+      "raw-log correlation of trait mean ranks on each tree axis",
+      "direct cross-family pair-order reversal probability on raw and log scales",
+      "leave-one-trait and leave-one-family gain ranges on both scales"
+    ],
+    "interpretation": {
+      "scale_robust": "The qualitative portability decision is the same on raw and log scales and on both tree axes.",
+      "scale_sensitive": "Raw and log lead to different qualitative portability decisions on either tree axis; report both and do not privilege a scale because of outcome strength.",
+      "unavailable": "The outcome-blind matched core fails graph requirements."
+    }
+  },
+  "direct_reordering": {
+    "well_represented_pair_threshold": 10,
+    "definition": "For each trait pair co-occurring in at least the threshold number of families, calculate the probability that two distinct randomly selected families disagree about which trait has the larger memory-loss rho; report family-pair-count-weighted mean.",
+    "role": "effect-size description of lineage-specific re-ranking, not a replacement for the blocked portability test"
+  },
+  "hard_nonclaims": [
+    "Do not use observed AusTraits memory effects to decide log eligibility or matched-core membership.",
+    "Do not select whichever trait scale produces the stronger result.",
+    "Do not alter the v0.1 source-native rank-portability result or the master family-repeatability primary analysis.",
+    "Do not treat failure of raw or log portability as proof of zero trait-level structure.",
+    "Do not equate phylogenetic-memory rho with evolutionary rate."
+  ],
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

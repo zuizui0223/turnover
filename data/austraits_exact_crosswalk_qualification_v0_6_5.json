@@ -1,0 +1,27 @@
+{
+  "version": "v0.6.5",
+  "status": "FROZEN_EXACT_CROSSWALK_OUTCOME_BLIND_QUALIFICATION",
+  "frozen_on": "2026-10-06",
+  "authoritative_exact_crosswalk": {
+    "workflow_run": 37425045356,
+    "artifact": "austraits-memory-exact-crosswalk-v0-4-3"
+  },
+  "sequence": [
+    "rebuild degree-pruned geometry from exact crosswalk",
+    "run inherited known-truth temporal informativeness on unique geometries",
+    "reconstruct final connected crossed core",
+    "run graph-specific conditional-family-repeatability model-informativeness gate",
+    "audit AusTraits-BIEN primary-source DOI overlap"
+  ],
+  "scientific_contract_changed": false,
+  "thresholds_changed": false,
+  "real_austraits_memory_effects_opened": false,
+  "opening_rule": "Real AusTraits memory-loss rho remains closed unless the exact-crosswalk final core passes, the graph-specific model-informativeness gate passes, and provenance language is assigned. Provenance never changes system selection.",
+  "inherits": [
+    "data/austraits_memory_context_replication_v0_1.json",
+    "data/austraits_memory_informativeness_v0_6.json",
+    "data/austraits_memory_provenance_overlap_v0_5.json",
+    "data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json"
+  ],
+  "no_posthoc_relaxation": true
+}

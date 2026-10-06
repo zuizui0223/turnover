@@ -1,0 +1,386 @@
+name: AusTraits exact outcome-blind qualification v0.6.5
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-memory-exact-qualification-v0-6-5.yml'
+      - 'data/austraits_exact_crosswalk_qualification_v0_6_5.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Validate frozen exact qualification contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_exact_crosswalk_qualification_v0_6_5.json'))
+          m=json.load(open('data/austraits_memory_context_replication_v0_1.json'))
+          g=json.load(open('data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json'))
+          assert d['status']=='FROZEN_EXACT_CROSSWALK_OUTCOME_BLIND_QUALIFICATION'
+          assert d['scientific_contract_changed'] is False
+          assert d['thresholds_changed'] is False
+          assert d['real_austraits_memory_effects_opened'] is False
+          assert m['austraits_memory_effects_opened'] is False
+          assert g['status']=='AUSTRAITS_DOWNSTREAM_EXACT_CROSSWALK_GUARD_FROZEN'
+          PY
+      - name: Download authoritative exact crosswalk
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/crosswalk
+          gh run download 37425045356 -R "$GITHUB_REPOSITORY" -n austraits-memory-exact-crosswalk-v0-4-3 -D build/crosswalk
+          test -f build/crosswalk/crosswalk.csv
+          test -f build/crosswalk/result.json
+          python - <<'PY'
+          import csv,json
+          rows=list(csv.DictReader(open('build/crosswalk/crosswalk.csv',newline='')))
+          x=json.load(open('build/crosswalk/result.json'))
+          passed=[r for r in rows if str(r['crosswalk_pass']).strip().lower() in {'true','t','1'}]
+          assert len(rows)==3593
+          assert len(passed)==1725
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          PY
+      - name: Download exact source and trait config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Rebuild exact pre-informativeness geometry
+        run: |
+          mkdir -p build/geometry
+          python scripts/analysis/prepare_austraits_memory_geometry_v0_6_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --crosswalk build/crosswalk/crosswalk.csv \
+            --out build/geometry/result.json \
+            --systems-out build/geometry/systems.csv \
+            --groups-out build/geometry/groups.csv
+          python - <<'PY'
+          import json
+          x=json.load(open('build/geometry/result.json'))
+          assert x['n_candidate_systems']==1463,x
+          assert x['core_families']==64,x
+          assert x['core_traits']==73,x
+          assert x['connected'] is True
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          PY
+      - id: matrix
+        name: Build deterministic geometry batches
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os,yaml
+          cfg=yaml.safe_load(open('build/source/traits.yml'))['traits']['elements']
+          unit={k:('' if v.get('units') is None else str(v.get('units')).strip()) for k,v in cfg.items()}
+          rows=list(csv.DictReader(open('build/geometry/groups.csv',newline='')))
+          systems=[]
+          for i,r in enumerate(sorted(rows,key=lambda z:(z['canonical_family'],z['canonical_trait_name'])),1):
+              systems.append({
+                'geometry_id':f'G{i:04d}',
+                'geometry_hash':r['geometry_hash'],
+                'family':r['canonical_family'],
+                'trait_name':r['canonical_trait_name'],
+                'config_type':r['config_type'],
+                'expected_unit':unit[r['canonical_trait_name']],
+                'n_input_species':int(r['n_input_species']),
+                'n_prune':int(r['n_prune']),
+                'n_bind':int(r['n_bind']),
+                '_weight':int(r['n_input_species'])**2+int(r['n_prune'])**2
+              })
+          nb=128
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for r in sorted(systems,key=lambda z:(-z['_weight'],z['family'],z['trait_name'])):
+              k=min(range(nb),key=lambda i:(bins[i]['weight'],i))
+              bins[k]['systems'].append({q:r[q] for q in ['geometry_id','geometry_hash','family','trait_name','config_type','expected_unit','n_input_species','n_prune','n_bind']})
+              bins[k]['weight']+=r['_weight']
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({'batch_id':f'B{i:03d}','systems_b64':base64.b64encode(raw).decode(),'n_geometries':len(b['systems']),'weight':b['weight']})
+          assert sum(x['n_geometries'] for x in include)==len(systems)
+          assert min(x['n_geometries'] for x in include)>=1
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          json.dump({'n_unique_geometries':len(systems),'n_batches':nb,'outcome_blind':True,'austraits_memory_effects_opened':False},open('build/geometry/batch_summary.json','w'),indent=2)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-geometry-v0-6-5
+          path: build/geometry/
+          retention-days: 30
+
+  simulate:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download exact AusTraits source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Validate inherited known-truth contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_memory_informativeness_v0_6.json'))
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_INFORMATIVENESS_RESULT'
+          assert d['inherited_scientific_contract']['benchmark_delta_rho']==0.15
+          assert d['inherited_scientific_contract']['median_absolute_recovery_error_max']==0.10
+          assert d['inherited_scientific_contract']['directional_recovery_min']==0.80
+          assert d['inherited_scientific_contract']['valid_replicate_fraction_min']==0.90
+          assert d['exact_efficiency_rules']['no_pair_subsampling'] is True
+          PY
+      - name: Decode and simulate geometry batch
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/species build/results
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_memory_informativeness_batch_v0_6_2.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --out-dir build/results \
+            --species-dir build/species \
+            --r-script scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-info-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: simulate
+    if: always() && needs.simulate.result == 'success'
+    runs-on: ubuntu-24.04
+    outputs:
+      gate_pass: ${{ steps.gate.outputs.gate_pass }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-exact-info-B*
+          path: build/all-results
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-geometry-v0-6-5
+          path: build/geometry
+      - name: Aggregate exact-lineage informativeness and final core
+        run: |
+          mkdir -p build/info build/core
+          python scripts/analysis/aggregate_austraits_memory_informativeness_v0_6_2.py \
+            --systems-map build/geometry/systems.csv \
+            --geometry-dir build/all-results \
+            --out build/info/result.json \
+            --table-out build/info/temporal_informativeness.csv \
+            --core-out build/core/result.json \
+            --core-table-out build/core/core_systems.csv
+      - id: gate
+        name: Enforce outcome-blind final-core gate
+        run: |
+          python - <<'PY'
+          import json,os
+          i=json.load(open('build/info/result.json'))
+          c=json.load(open('build/core/result.json'))
+          assert i['outcome_blind'] is True and i['austraits_memory_effects_opened'] is False
+          assert c['outcome_blind'] is True and c['austraits_memory_effects_opened'] is False
+          gate=bool(c.get('gate_pass',False) and c.get('status')=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh: fh.write('gate_pass='+('true' if gate else 'false')+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-final-core-v0-6-5
+          path: |
+            build/info/
+            build/core/
+          retention-days: 30
+
+  model_info:
+    needs: aggregate
+    if: needs.aggregate.outputs.gate_pass == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-final-core-v0-6-5
+          path: build/final
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Run graph-specific model informativeness
+        run: |
+          mkdir -p build/model-info
+          Rscript scripts/analysis/run_austraits_memory_model_informativeness_v0_7.R \
+            --core-table build/final/core/core_systems.csv \
+            --out build/model-info/result.json \
+            --table-out build/model-info/simulations.csv
+          python - <<'PY'
+          import json
+          x=json.load(open('build/model-info/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-model-informativeness-v0-7
+          path: build/model-info/
+          retention-days: 30
+
+  provenance:
+    needs: aggregate
+    if: needs.aggregate.outputs.gate_pass == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-final-core-v0-6-5
+          path: build/final
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+      - name: Download fixed BIEN discovery core and extract citations
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/bien-core build/provenance build/RBIEN
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/bien-core
+          rm -rf build/RBIEN
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          Rscript scripts/source/extract_bien_core_source_citations_v0_5.R \
+            --core-table build/bien-core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/provenance/bien_source_citations.csv
+      - name: Download exact AusTraits source and config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit primary-source DOI overlap
+        run: |
+          python scripts/source/audit_austraits_bien_provenance_overlap_v0_5.py \
+            --austraits-parquet build/source/austraits.parquet \
+            --austraits-core build/final/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --bien-citations build/provenance/bien_source_citations.csv \
+            --out build/provenance/result.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/provenance/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          assert x['selection_changed_by_overlap'] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-provenance-v0-5
+          path: build/provenance/
+          retention-days: 30
+
+  qualification:
+    needs: [aggregate,model_info,provenance]
+    if: always() && needs.aggregate.outputs.gate_pass == 'true' && needs.model_info.result == 'success' && needs.provenance.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-final-core-v0-6-5
+          path: build/final
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-model-informativeness-v0-7
+          path: build/model
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-provenance-v0-5
+          path: build/provenance
+      - name: Synthesize opening readiness without opening outcomes
+        run: |
+          mkdir -p build/qualification
+          python - <<'PY'
+          import json
+          c=json.load(open('build/final/core/result.json'))
+          m=json.load(open('build/model/result.json'))
+          p=json.load(open('build/provenance/result.json'))
+          ready=bool(c.get('gate_pass') and m.get('gate_pass'))
+          out={
+            'version':'v0.6.5',
+            'status':'AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE' if ready else 'HOLD_AUSTRAITS_BEFORE_REAL_EFFECTS',
+            'outcome_blind':True,
+            'austraits_memory_effects_opened':False,
+            'final_core':{'systems':c.get('n_core_systems'),'families':c.get('n_core_families'),'traits':c.get('n_core_traits')},
+            'model_informativeness_gate_pass':bool(m.get('gate_pass')),
+            'replication_language':p.get('replication_language'),
+            'ready_for_real_effect_opening':ready
+          }
+          json.dump(out,open('build/qualification/result.json','w'),indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-qualification-v0-6-5
+          path: build/qualification/
+          retention-days: 30

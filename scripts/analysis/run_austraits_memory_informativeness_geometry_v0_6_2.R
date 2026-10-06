@@ -46,8 +46,10 @@ st <- as.character(phy$species.list$status)
 n_prune <- sum(st=="prune",na.rm=TRUE)
 n_bind <- sum(st=="bind",na.rm=TRUE)
 n_fail <- sum(st=="fail to bind",na.rm=TRUE)
-status_match <- n_prune==expected_prune && n_bind==expected_bind && n_fail==0
-if(!status_match) stop("phylo.maker status counts disagree with frozen vectorized crosswalk")
+expected_fail <- nrow(sp) - expected_prune - expected_bind
+if(expected_fail < 0) stop("invalid frozen crosswalk status counts")
+status_match <- n_prune==expected_prune && n_bind==expected_bind && n_fail==expected_fail
+if(!status_match) stop(sprintf("phylo.maker status counts disagree with frozen exact crosswalk: observed prune/bind/fail=%d/%d/%d expected=%d/%d/%d",n_prune,n_bind,n_fail,expected_prune,expected_bind,expected_fail))
 
 norm_first <- function(x) gsub("(^[[:alpha:]])","\\U\\1",x,perl=TRUE)
 norm_species <- function(x) norm_first(gsub(" ","_",x,fixed=TRUE))

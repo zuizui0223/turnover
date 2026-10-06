@@ -1,0 +1,85 @@
+name: AusTraits fail-to-bind identity smoke v0.6.5.1
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-fail-status-smoke-v0-6-5-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned AusTraits source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Run formerly failing exact-crosswalk system
+        run: |
+          mkdir -p build/test build/results build/species
+          cat > build/test/system.json <<'JSON'
+          [{
+            "geometry_id":"G0352",
+            "geometry_hash":"00cd37a8ac8c19ef13aee56d0eb87721b4956c36b9f06371175219eeaf9f65b9",
+            "family":"Chenopodiaceae",
+            "trait_name":"seedbank_longevity_class",
+            "config_type":"categorical",
+            "expected_unit":"",
+            "n_input_species":154,
+            "n_prune":34,
+            "n_bind":113
+          }]
+          JSON
+          python scripts/analysis/run_austraits_memory_informativeness_batch_v0_6_2.py \
+            --batch-json build/test/system.json \
+            --parquet build/source/austraits.parquet \
+            --out-dir build/results \
+            --species-dir build/species \
+            --r-script scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R
+      - name: Enforce fixed identity
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/results/G0352.json'))
+          assert x['n_input_species']==154
+          assert x['n_prune']==34
+          assert x['n_bind']==113
+          assert x['n_fail_to_bind']==7
+          assert x['crosswalk_status_counts_match'] is True
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          print(json.dumps({
+            'status':'FAIL_TO_BIND_IDENTITY_FIX_CONFIRMED',
+            'counts':[x['n_prune'],x['n_bind'],x['n_fail_to_bind']],
+            'informativeness_pass':x['geometry_temporal_pass']
+          },indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-fail-status-smoke-v0-6-5-1
+          path: build/results/G0352.json

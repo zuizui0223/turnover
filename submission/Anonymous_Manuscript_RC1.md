@@ -362,3 +362,17 @@ Pagel, M. (1999). Inferring the historical patterns of biological evolution. *Na
 Pavoine, S., & Ricotta, C. (2013). Testing for phylogenetic signal in biological traits: The ubiquity of cross-product statistics. *Evolution, 67*, 828–840. https://doi.org/10.1111/j.1558-5646.2012.01823.x
 
 Pearse, W. D., Davies, T. J., & Wolkovich, E. M. (2025). How to define, use, and interpret Pagel's lambda in ecology and evolution. *Global Ecology and Biogeography, 34*, e70012. https://doi.org/10.1111/geb.70012
+
+## Figure legends
+
+## Figure 1. Sampling error accounts for a substantial part of apparent cell-level variation
+
+**A**, Original S3 crossed-lmer variance shares compared with the measurement-aware point decomposition. The original residual share of 0.806 is not interpreted as biological system specificity. After incorporating species-cluster bootstrap sampling variances, typical total variance is partitioned approximately into family 15.1%, trait 5.7%, residual between-system heterogeneity 54.9%, and sampling error 24.2%. **B**, Measurement-aware S3 heterogeneity shares with pre-frozen two-way family × trait cluster-bootstrap 95% intervals. System heterogeneity is the largest point estimate, but its interval overlaps strongly with the family component; no heterogeneity component is interpreted as dominant. **C**, Mandatory prune-only sensitivity, showing a similar point decomposition (family 14.0%, trait 2.2%, system heterogeneity 58.6%, sampling error 25.3%).
+
+## Figure 2. Correlated traits and measured design artifacts do not explain the family component
+
+**A**, Observed family repeatability compared with the predeclared zero-family-effect correlated-trait null. The null preserves trait-specific means and variances, the exact sparse family × trait incidence graph, and correlations within three predeclared redundant-trait blocks while simulating no family main effect. Observed family repeatability exceeds the null on both S3 (R_family = 0.150, p = 0.017) and prune-only trees (0.148, p = 0.009). Thick lines show null 95% intervals, circles null medians, and diamonds observed values. **B**, S3 family repeatability across independent robustness audits. Values remain close to 0.15 after species-count adjustment, full geometry adjustment, BIEN source-composition adjustment, source-citation adjustment, and collapse of 12 trait labels into five predeclared biological domains. These analyses support a repeatable lineage-context pattern but do not identify its biological cause.
+
+## Figure 3. Trait identity carries little robust phylogenetic-memory information across families
+
+**A**, Leave-one-family-out portability gain using unshrunk same-trait means versus training-only BLUPs. Shrinkage changes S3 gain from −0.024 to +0.006 and prune-only gain from −0.032 to −0.0048. Thus the apparent prediction penalty largely disappears, but robust positive portability does not emerge across both tree treatments. **B**, Median training trait variance is small relative to residual variance in the same LOFO mixed models, explaining why there is little stable trait-level information to borrow. **C**, Generalization hierarchy. The trait-intrinsic hypothesis is not supported; the family-context hypothesis receives modest support; a complementary post-outcome test of smooth deep-family inheritance is not supported. The latter is exploratory and not treated as a confirmatory primary result.

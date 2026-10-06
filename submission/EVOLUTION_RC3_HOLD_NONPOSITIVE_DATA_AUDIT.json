@@ -1,0 +1,19 @@
+{
+  "status": "HOLD_BEFORE_SUBMISSION_NONPOSITIVE_RAW_DATA_AUDIT",
+  "date": "2026-10-06",
+  "package": "Evolution RC3",
+  "trigger": "Stage A raw-data validity audit reproduced 25 S3 / 18 prune systems with nonpositive species medians and showed that the blocker consists overwhelmingly of exact-zero raw values in predeclared positive-only physical traits.",
+  "stage_A": {
+    "audit_branch": "audit/trait-memory-nonpositive-values-v0-1",
+    "pull_request": 30,
+    "workflow_run": 37394585442,
+    "artifact_id": 11384305653,
+    "systems_with_median_nonpositive": 25,
+    "systems_with_any_nonpositive_raw": 49,
+    "species_with_median_nonpositive": 206,
+    "species_with_any_nonpositive_raw": 443
+  },
+  "reason": "The same inadmissible raw values contributed to the raw-scale species states used by RC3. This is therefore a primary data-validity issue, not only a failed log-sensitivity issue.",
+  "required_before_submission": "Complete frozen Stage B positive-only cleaning impact analysis. If all 201 systems retain support, rebuild the manuscript and submission package from the cleaned positive-only primary data contract. If any system loses support, re-scope the study before submission.",
+  "hard_rule": "Do not submit RC3 while this HOLD is active."
+}

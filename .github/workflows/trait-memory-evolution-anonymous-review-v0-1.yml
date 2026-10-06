@@ -1,0 +1,161 @@
+name: Trait memory Evolution anonymous review bundle v0.1
+
+on:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc1
+    paths:
+      - '.github/workflows/trait-memory-evolution-anonymous-review-v0-1.yml'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_ANONYMOUS_REVIEW_BUNDLE_V0_1.md'
+      - 'data/trait_memory_robustness_design_v0_3.json'
+      - 'data/trait_memory_figure_plan_v0_1.json'
+      - 'results/trait_memory_*'
+      - 'scripts/analysis/*trait_memory*'
+      - 'scripts/figures/*trait_memory*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Assemble neutral source tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=build/review_materials
+          mkdir -p "$B"/{data,results,analysis,figures,evidence}
+
+          cat > "$B/README.md" <<'EOF'
+          # Anonymous review materials
+
+          These files support a manuscript testing whether phylogenetic trait-memory strength is transferable across plant lineages.
+
+          The review package contains the frozen 201-system effect table, robustness-analysis inputs and outputs, canonical result summaries, and source code required to reproduce the manuscript-level analyses and figures.
+
+          Scientific interpretation is frozen in the accompanying manuscript. These review materials must not be used to select additional transformations, predictors, trait groupings or filters.
+          EOF
+
+          cp data/trait_memory_robustness_design_v0_3.json "$B/data/robustness_design.json"
+          cp data/trait_memory_figure_plan_v0_1.json "$B/data/figure_plan.json"
+
+          cp results/trait_memory_repeatability_v0_2/result.json "$B/results/repeatability_original.json"
+          cp results/trait_memory_portability_v0_2/result.json "$B/results/portability_original.json"
+          cp results/lineage_memory_repeatability_v0_2/result.json "$B/results/lineage_repeatability.json"
+          cp results/trait_memory_geometry_adjustment_v0_7_2/result.json "$B/results/geometry_adjustment.json"
+          cp results/trait_memory_source_composition_v0_1/result.json "$B/results/source_composition.json"
+          cp results/trait_memory_robust_effects_v0_3/result.json "$B/results/robust_effects.json"
+          cp results/trait_memory_measurement_aware_v0_3/result.json "$B/results/measurement_aware.json"
+          cp results/trait_memory_correlated_trait_null_v0_3/result.json "$B/results/correlated_trait_null.json"
+          cp results/trait_memory_portability_blup_v0_3/result.json "$B/results/blup_portability.json"
+          cp results/trait_memory_robustness_synthesis_v0_3/result.json "$B/results/robustness_synthesis.json"
+          cp results/trait_memory_context_synthesis_v0_2/result.json "$B/results/context_synthesis.json"
+
+          cp scripts/analysis/run_trait_memory_real_effect_v0_7.R "$B/analysis/"
+          cp scripts/analysis/fit_trait_memory_repeatability_v0_2.R "$B/analysis/"
+          cp scripts/analysis/test_trait_memory_portability_v0_2.py "$B/analysis/"
+          cp scripts/analysis/run_trait_memory_robust_system_v0_3.R "$B/analysis/"
+          cp scripts/analysis/aggregate_trait_memory_robust_v0_3.py "$B/analysis/"
+          cp scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R "$B/analysis/"
+          cp scripts/analysis/test_trait_memory_portability_blup_v0_3.R "$B/analysis/"
+          cp scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R "$B/analysis/"
+          cp scripts/analysis/test_trait_memory_weighted_spearman_v0_3.R "$B/analysis/"
+          cp scripts/figures/prepare_trait_memory_figure_data_v0_1.py "$B/figures/"
+          cp scripts/figures/render_trait_memory_figures_v0_2.py "$B/figures/"
+
+      - name: Download immutable primary effect and robustness evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=build/review_materials/evidence
+          download () {
+            id="$1"; expected="$2"; label="$3"
+            zip="$RUNNER_TEMP/$label.zip"
+            gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$zip"
+            echo "$expected  $zip" | sha256sum -c -
+            mkdir -p "$B/$label"
+            unzip -q "$zip" -d "$B/$label"
+          }
+
+          download 11264513111 391b42b53f06601c6fadaab7391eb15751e395e5bf8323ae7cc21d58c5b3e52b original-effects
+          download 11331292825 f837e85b97d42d7d34783cc2406e16eecd7acfc61afaf2a4d70bbc9f938b02f7 robust-effects
+          download 11335736009 12d046f42fc438bb688443c0ce43fb15f6ab2e07eeae578525bd613819bc9769 robustness-model
+          download 11331324873 094d6622478962a1d2c216a6a006db7190b23697c75fc44f6ecf768a526f5d3e correlated-trait-null
+          download 11331544108 59be7e1adfa8b52264a402e7b136b7b58a614b0948cc49c6b794925bc777758e blup-portability
+
+      - name: Validate scientific inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          b=Path("build/review_materials/evidence")
+
+          effects=list(csv.DictReader((b/"original-effects/effects.csv").open()))
+          assert len(effects)==201
+          assert {(r["family"],r["trait_name"]) for r in effects}
+          assert {"S3_rho","prune_only_rho"} <= set(effects[0])
+
+          robust=list(csv.DictReader((b/"robust-effects/effects_with_se_log.csv").open()))
+          assert len(robust)==201
+          assert {"S3_raw_rho","S3_raw_se","prune_raw_rho","prune_raw_se"} <= set(robust[0])
+
+          agg=json.load((b/"robust-effects/aggregate_result.json").open())
+          assert agg["reference_identity"]["pass"] is True
+          assert agg["n_systems"]==201
+
+          syn=json.load(open("results/trait_memory_context_synthesis_v0_2/result.json"))
+          assert syn["hypotheses"]["H1_trait_intrinsic_memory"]["decision"]=="NOT_SUPPORTED"
+          assert syn["hypotheses"]["H2_family_context_memory"]["decision"]=="SUPPORTED_AS_MODEST_REPEATABLE_PATTERN"
+          PY
+
+      - name: Scan unpacked bundle for identifying material
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=build/review_materials
+          test ! -d "$B/.git"
+
+          if grep -RFi --binary-files=without-match "$GITHUB_REPOSITORY_OWNER" "$B"; then
+            echo "Repository-owner identifier found in anonymous bundle" >&2
+            exit 1
+          fi
+
+          if grep -RIE --binary-files=without-match '[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}' "$B"; then
+            echo "Email address found in anonymous bundle" >&2
+            exit 1
+          fi
+
+          if grep -RFi --binary-files=without-match 'github.com' "$B"; then
+            echo "GitHub URL found in anonymous bundle" >&2
+            exit 1
+          fi
+
+          test "$(grep -RIl 'AI-assisted development disclosure' "$B/analysis" | wc -l)" -ge 4
+
+      - name: Create anonymous archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd build
+          zip -qr trait-memory-review-materials-anonymous.zip review_materials
+          sha256sum trait-memory-review-materials-anonymous.zip > trait-memory-review-materials-anonymous.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-memory-review-materials-anonymous
+          path: |
+            build/trait-memory-review-materials-anonymous.zip
+            build/trait-memory-review-materials-anonymous.sha256
+          retention-days: 30

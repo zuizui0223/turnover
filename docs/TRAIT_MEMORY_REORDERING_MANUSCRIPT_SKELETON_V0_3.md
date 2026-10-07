@@ -28,6 +28,41 @@ This decomposition yields three distinct predictions.
 
 The data support the first two weakly-to-moderately and reject the third.
 
+## Two orthogonal architecture indices
+
+The crossed model naturally defines two different repeatabilities.
+
+[
+L = rac{sigma_F^2}{sigma_F^2+sigma_U^2}
+]
+
+is **lineage memory-level stability**: whether a family tends to remain globally high or low in phylogenetic memory across traits.
+
+[
+A = rac{sigma_T^2}{sigma_T^2+sigma_U^2}
+]
+
+is **trait-allocation stability**: whether the relative trait effect survives family-specific deviations.
+
+For Gaussian crossed effects, allocation stability has a direct rank interpretation:
+
+[
+P(	ext{trait-pair order reverses between two families})
+=
+rac{arccos(A)}{pi}.
+]
+
+The expected Kendall similarity between two lineage-specific trait rankings is (2arcsin(A)/pi).
+
+Point estimates on the matched/cleaned log scale are:
+
+- BIEN S3: (L=0.184, A=0.140);
+- BIEN prune: (L=0.165, A=0.114);
+- AusTraits S3: (Lapprox0.300, Aapprox0.069);
+- AusTraits prune: (Lapprox0.333, Aapprox0.067).
+
+Thus phylogenetic memory is substantially more repeatable as a **lineage-wide level** than as a **trait allocation**, especially in AusTraits.
+
 ## Discovery: BIEN
 
 Fixed cleaned core:

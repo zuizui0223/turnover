@@ -1,0 +1,37 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_PAIRED_SPECIES_DESIGN",
+  "frozen_on":"2026-10-07",
+  "question":"Does strong cross-family trait-order reconfiguration persist when each trait pair is compared on exactly the same species and exactly the same phylogenetic tree within each family?",
+  "population":"AusTraits matched positive-numeric log core from the prospectively qualified final core.",
+  "trait_pair_selection":{
+    "rule":"Select unordered trait pairs that co-occur in at least 10 families in the fixed matched-log family-trait graph.",
+    "uses_memory_outcomes":false
+  },
+  "within_family_pair":{
+    "species_state":"source-native species median under the frozen numeric unit contract, natural-log transformed after strict positivity",
+    "shared_species":"intersection of valid species states for trait A and trait B in the same family",
+    "minimum_shared_species_before_phylogeny":20,
+    "phylogeny":"build one V.PhyloMaker2 S3 tree from the shared species list; both traits use this identical tree",
+    "minimum_S3_resolvable_tips":20,
+    "minimum_prune_native_tips":20,
+    "effect":"for each trait separately, Spearman(all unordered patristic distances, absolute log-state differences) on the identical tip set"
+  },
+  "outputs":{
+    "paired_species_reversal":"cross-family pair-order reversal probability using paired-species rho",
+    "original_restricted_reversal":"the frozen original matched-log rho reversal, restricted to exactly the family x trait-pair cells that pass the paired-species support gate",
+    "order_change_after_species_matching":"fraction of eligible family x trait-pair cells whose rho_A-rho_B sign changes after enforcing identical species sets",
+    "support":"numbers of eligible trait pairs, family-pair cells, shared species, S3 tips and prune tips"
+  },
+  "summary_thresholds":[5,10],
+  "interpretation":{
+    "reversal_persists":"species-set/subtree mismatch is not a simple explanation of lineage-specific trait re-ordering",
+    "reversal_collapses":"the biological re-wiring interpretation is substantially weakened; differential species sampling among traits explains much of the apparent re-ordering"
+  },
+  "role":"post-outcome exploratory robustness test; cannot reclassify the prospective AusTraits rank-portability result",
+  "hard_nonclaims":[
+    "Passing this test does not identify an ecological or developmental mechanism.",
+    "The common-species subset can change the biological species sample and therefore estimates a stricter matched-sample estimand.",
+    "Do not lower the 20-tip support gates based on the result."
+  ]
+}

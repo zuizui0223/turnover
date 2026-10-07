@@ -1,0 +1,16 @@
+{
+  "version":"v0.1",
+  "status":"LOW_RANK_TRAIT_ALLOCATION_EXPLORATORY_SUMMARY",
+  "post_outcome_exploratory":true,
+  "validation":"20 repeated deterministic 5-fold observed-cell cross-validations; ridge selected from the fixed grid 0.001 to 10; each latent rank compared with the best tuned additive family+trait model.",
+  "BIEN_log_S3":{"best_latent_k":2,"best_relative_sse_improvement":4.253758678629538e-9,"decision":"NO_MEANINGFUL_LOW_RANK_GAIN"},
+  "BIEN_log_prune":{"best_latent_k":2,"best_relative_sse_improvement":2.5484530041808284e-9,"decision":"NO_MEANINGFUL_LOW_RANK_GAIN"},
+  "AusTraits_log_S3":{"best_latent_k":1,"best_lambda":0.3,"best_relative_sse_improvement":0.032318978929991804,"baseline_mean_correlation":0.44997679027559817,"rank1_mean_correlation":0.5254962173495937},
+  "AusTraits_log_prune":{"best_latent_k":1,"best_lambda":0.3,"best_relative_sse_improvement":0.0765512118556485,"baseline_mean_correlation":0.4530832853404842,"rank1_mean_correlation":0.5525111988533823},
+  "interpretation":"No low-rank allocation regime improves prediction in BIEN. AusTraits shows a modest rank-1 predictive gain on both tree treatments. The latent structure is therefore compilation-specific at present and cannot be promoted to the cross-dataset central claim.",
+  "hard_nonclaims":[
+    "Do not call the AusTraits rank-1 factor a universal evolutionary regime.",
+    "Do not treat failure in BIEN as proof that its allocation is completely unstructured.",
+    "AusTraits has a denser set of correlated organ-dimension traits than BIEN, which may enable a detectable low-rank axis."
+  ]
+}

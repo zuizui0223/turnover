@@ -98,6 +98,39 @@ But the effect-size pattern is clear. For the half of pairs with the largest glo
 
 Thus the global spectrum is **not meaningless**: large global differences are more stable. The better interpretation is a probabilistic prior whose reliability increases with global separation, not a fixed hierarchy. Even strongly separated traits can exchange relative memory-gradient order in roughly one-third of lineage comparisons.
 
+
+## A quantitative soft-prior model
+
+The “global spectrum as a probabilistic prior” interpretation follows directly from the crossed architecture.
+
+For two traits (a) and (b) in family (f),
+
+[
+\theta_{fa}-\theta_{fb}=\Delta_{ab}+(U_{fa}-U_{fb}).
+]
+
+The family-wide context term cancels. If the system-specific deviations (U) are approximated as independent Gaussian terms with variance (sigma_U^2), the two-trait contrast has variance (2sigma_U^2).
+
+For a global trait difference (Delta), the probability that a family preserves the global order is
+
+[
+p=\Phi\left(\frac{\Delta}{\sqrt{2\sigma_U^2}}\right),
+]
+
+and two independent families disagree about the pair order with probability
+
+[
+P(\mathrm{reversal})=2p(1-p).
+]
+
+Using the cleaned-log system heterogeneity from the measurement-aware model and additive family-adjusted trait means, this simple model predicts weighted reversal of 43.7% on S3 versus 45.6% observed, and 44.9% on prune-only versus 47.8% observed.
+
+Across the 16 well-represented trait pairs, predicted versus observed pair reversal has Spearman rho = 0.61 (p = 0.013) on S3 and rho = 0.43 (p = 0.097) on prune-only.
+
+This makes the soft-prior interpretation quantitative: the reliability of a global pair ordering is controlled by the **signal-to-context ratio (|\Delta|/\sigma_U)**. Trait identity supplies a real prior, but lineage-specific deviations can overwhelm it when the global difference is not large.
+
+This Gaussian calculation is a statistical synthesis, not an identified evolutionary mechanism.
+
 ## The re-ranking is not a smooth deep-phylogenetic hierarchy
 
 A separate post-outcome exploratory test asks whether closely related plant families retain more similar trait-memory rankings.

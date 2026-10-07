@@ -144,9 +144,9 @@ The same named trait can therefore have a real global prior without carrying a s
 
 ## Additional cross-source evidence
 
-Across the 25 families shared by the final BIEN and AusTraits cores, log-S3 family BLUPs correlate at rho=0.412 (one-sided permutation p=0.018); log-prune gives rho=0.362 (p=0.037).
+Across the 25 families shared by the final BIEN and AusTraits cores, unadjusted log-S3 family BLUPs correlate at rho=0.412 (one-sided permutation p=0.018); log-prune gives rho=0.362 (p=0.037).
 
-This is post-outcome exploratory. It suggests some lineage-wide context transports across compilations, but is not required for the main claim.
+This exact-family correspondence is **not robust** to source-specific coverage adjustment: it attenuates to rho=0.265 (p=0.098) on S3 and 0.227 (p=0.141) on prune. Therefore the manuscript should claim repeatable lineage context within each source, not robust transport of the exact family effect across sources.
 
 Four semantic trait anchors are available across final cores. Their log-S3 mean memory ordering agrees for 5 of 6 pairwise comparisons (Spearman rho=0.80). This is descriptive only.
 
@@ -158,7 +158,28 @@ In BIEN, family-to-family trait-ranking disagreement is not detectably related t
 
 The lineage-specific ranking is therefore mosaic rather than a smoothly inherited family-level hierarchy in the discovery data.
 
-AusTraits applies the identical exploratory question separately.
+AusTraits gives the same null result independently. Among 41 families with valid full-backbone representatives:
+
+- source-native S3 shared>=4: rho=-0.051, p=0.878;
+- source-native prune shared>=4: rho=-0.079, p=0.947;
+- matched-log S3: rho=-0.071, p=0.858;
+- matched-log prune: rho=-0.057, p=0.799.
+
+Thus the re-ordering is phylogenetically mosaic in both compilations rather than a smooth deep-family inheritance pattern.
+
+## Robustness of re-ordering
+
+The matched-log AusTraits result survives progressively stricter species-support thresholds. S3 reversal remains roughly 47-49% from >=20 through >=150 species per system; prune remains similarly high over thresholds with enough well-represented pairs.
+
+Functional modules do not explain the effect. In AusTraits matched-log S3, within-module reversal is 50.9% and between-module reversal 49.1%; prune gives 50.8% and 50.2%, respectively. BIEN shows the same qualitative pattern.
+
+The family-wide context is also stable to measured tree/data geometry in AusTraits: S3 repeatability 0.296 becomes 0.299 after species-count/prune-fraction adjustment, and prune 0.391 becomes 0.397 after native-species-count adjustment.
+
+## Mechanism remains open
+
+Exploratory screens do not identify family crown age, family richness, perennial fraction, or woody fraction as a robust explanation of the lineage-wide context. A BIEN prune-only richness association does not reproduce on BIEN S3 or in AusTraits.
+
+The paper should therefore stop at the architectural result: lineage context is repeatable, but the ecological/evolutionary driver remains unidentified.
 
 ## What changes relative to previous comparative biology
 

@@ -12,8 +12,8 @@ family_blup<-function(x,col){
  d<-data.frame(rho=as.numeric(x[[col]]),family=factor(x$family),trait_name=factor(x$trait_name))
  fit<-lmer(rho~0+trait_name+(1|family),data=d,REML=TRUE,
            control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=200000)))
- re<-ranef(fit)$family[,1]
- data.frame(family=names(re),context=as.numeric(re),stringsAsFactors=FALSE)
+ rf<-ranef(fit)$family
+ data.frame(family=rownames(rf),context=as.numeric(rf[,1]),stringsAsFactors=FALSE)
 }
 family_geom<-function(families){
  tips<-tips.info.TPL

@@ -289,5 +289,25 @@
       "between_module_weighted_reversal_probability": 0.4748427672955975
     },
     "interpretation": "Frequent re-ranking is not confined to comparisons among functionally disparate trait modules. Well-represented within-module pairs reverse at least as often as between-module pairs in this small descriptive subset. This supports spectrum-wide re-ordering rather than a simple between-module artifact, but the module comparison is exploratory and underpowered."
+  },
+  "global_separation_vs_reversal_exploratory": {
+    "chronology": "post-outcome descriptive check motivated by the alternative explanation that near-half reversal could be driven only by globally near-tied trait pairs",
+    "pair_population": "16 trait pairs co-occurring in at least 10 families",
+    "cleaned_log_S3": {
+      "spearman_global_abs_mean_difference_vs_reversal": -0.35346135534751466,
+      "p_two_sided": 0.17927285792318032,
+      "top_half_global_separation_weighted_reversal": 0.4203208556149733,
+      "top_quartile_global_separation_weighted_reversal": 0.3387096774193548,
+      "bottom_half_global_separation_weighted_reversal": 0.5096774193548387
+    },
+    "cleaned_log_prune": {
+      "spearman_global_abs_mean_difference_vs_reversal": -0.5224462547732156,
+      "p_two_sided": 0.03787963330550777,
+      "top_half_global_separation_weighted_reversal": 0.44881889763779526,
+      "top_quartile_global_separation_weighted_reversal": 0.3870967741935484,
+      "bottom_half_global_separation_weighted_reversal": 0.5165165165165165
+    },
+    "interpretation": "Trait pairs that are farther apart in the global memory-gradient spectrum tend to retain their ordering more often, especially on prune-only. Thus the global spectrum is informative rather than meaningless. However, even the top quartile of globally separated pairs reverses across families roughly one-third to two-fifths of the time, so large aggregate differences do not define a fixed lineage-level hierarchy.",
+    "hard_nonclaim": "Do not describe all pair ordering as approximately random. Reversal is conditional on the separation of pairwise global means."
   }
 }

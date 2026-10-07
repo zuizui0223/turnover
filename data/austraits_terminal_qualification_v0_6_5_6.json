@@ -1,0 +1,18 @@
+{
+  "version":"v0.6.5.6",
+  "status":"AUSTRAITS_QUALIFICATION_SYNTHESIS_PRE_EFFECT",
+  "frozen_on":"2026-10-07",
+  "inputs":{
+    "final_core_run":37560915567,
+    "final_core_artifact":"austraits-final-core-v0-6-5-4",
+    "model_info_run":37560915567,
+    "model_info_artifact":"austraits-model-info-v0-6-5-4",
+    "provenance_run":37561075466,
+    "provenance_artifact":"austraits-provenance-v0-6-5-5"
+  },
+  "opening_rule":"Open real AusTraits memory rho only if final core gate_pass=true, model-informativeness gate_pass=true, and provenance audit has completed with a replication_language label. Provenance label changes wording only, never system selection.",
+  "scientific_change":false,
+  "thresholds_changed":false,
+  "selection_changed":false,
+  "memory_effects_opened":false
+}

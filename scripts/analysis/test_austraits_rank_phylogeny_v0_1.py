@@ -37,14 +37,20 @@ def run(df,dist,col,min_shared,B,seed):
     prof,rows=pair_table(df,col,min_shared)
     lookup={tuple(sorted((a,b))):float(d) for a,b,n,k,d in rows if d is not None and np.isfinite(d)}
     fams=sorted(prof);tree=sorted(set(dist.family1)|set(dist.family2))
-    if fams!=tree:raise RuntimeError(f'family mismatch profiles={len(fams)} tree={len(tree)}')
-    obs,n=stat(dist,lookup,{f:f for f in fams})
+    missing_from_tree=sorted(set(fams)-set(tree))
+    missing_from_profiles=sorted(set(tree)-set(fams))
+    if missing_from_profiles:raise RuntimeError(f'tree families absent from profiles: {missing_from_profiles}')
+    if len(tree)<30:raise RuntimeError(f'too few valid family representatives: {len(tree)}')
+    prof={f:prof[f] for f in tree}
+    _,rows=pair_table(df[df.family.isin(tree)],col,min_shared)
+    lookup={tuple(sorted((a,b))):float(d) for a,b,n,k,d in rows if d is not None and np.isfinite(d)}
+    obs,n=stat(dist,lookup,{f:f for f in tree})
     rng=np.random.default_rng(seed);null=np.empty(B)
-    arr=np.asarray(fams,dtype=object)
+    arr=np.asarray(tree,dtype=object)
     for i in range(B):
-        perm=rng.permutation(arr);null[i]=stat(dist,lookup,dict(zip(fams,perm.tolist())))[0]
+        perm=rng.permutation(arr);null[i]=stat(dist,lookup,dict(zip(tree,perm.tolist())))[0]
     ok=np.isfinite(null);p=float((1+np.sum(null[ok]>=obs))/(1+ok.sum()))
-    return {'column':col,'minimum_shared_traits':min_shared,'n_eligible_family_pairs':int(n),
+    return {'column':col,'minimum_shared_traits':min_shared,'n_valid_tree_families':len(tree),'families_without_tree_representative':missing_from_tree,'n_eligible_family_pairs':int(n),
             'spearman_distance_vs_rank_disagreement':obs,'permutation':{
             'replicates':B,'valid_replicates':int(ok.sum()),'p_one_sided_positive':p,
             'null_median':float(np.nanmedian(null)),'null_q025':float(np.nanquantile(null,.025)),'null_q975':float(np.nanquantile(null,.975))}}

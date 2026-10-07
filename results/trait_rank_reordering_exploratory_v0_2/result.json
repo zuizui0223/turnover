@@ -394,6 +394,26 @@
         "model_predicted_reversal_probability": 0.3446759190908294
       }
     },
-    "interpretation": "A pair needs a global gap about 1.49 times the lineage-specific system SD to reduce cross-lineage disagreement below 25%, and about 2.29 times the system SD to reduce it below 10%. In BIEN, even the largest observed adjusted global gaps among well-represented pairs are only about 1.07-1.09 system SD, so no pair enters the strongly lineage-invariant regime."
+    "interpretation": "A pair needs a global gap about 1.49 times the lineage-specific system SD to reduce cross-lineage disagreement below 25%, and about 2.29 times the system SD to reduce it below 10%. In BIEN, even the largest observed adjusted global gaps among well-represented pairs are only about 1.07-1.09 system SD, so no pair enters the strongly lineage-invariant regime.",
+    "well_represented_pair_distribution": {
+      "n_pairs": 16,
+      "cleaned_log_S3": {
+        "median_abs_Delta_over_sigma_U": 0.567124693698843,
+        "max_abs_Delta_over_sigma_U": 1.072385726174009,
+        "n_predicted_reversal_gt_0_40": 12,
+        "n_predicted_reversal_gt_one_third": 16,
+        "n_predicted_reversal_gt_0_25": 16,
+        "n_predicted_reversal_lt_0_10": 0
+      },
+      "cleaned_log_prune": {
+        "median_abs_Delta_over_sigma_U": 0.45133659869641746,
+        "max_abs_Delta_over_sigma_U": 1.0857480010332248,
+        "n_predicted_reversal_gt_0_40": 14,
+        "n_predicted_reversal_gt_one_third": 16,
+        "n_predicted_reversal_gt_0_25": 16,
+        "n_predicted_reversal_lt_0_10": 0
+      },
+      "interpretation": "Every well-represented trait pair lies in a regime where the Gaussian crossed model predicts at least one-third cross-lineage order disagreement on both tree treatments; none approaches a <10% disagreement lineage-invariant regime."
+    }
   }
 }

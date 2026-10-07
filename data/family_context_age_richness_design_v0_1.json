@@ -1,0 +1,18 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_FAMILY_AGE_RESULT",
+  "frozen_on":"2026-10-07",
+  "question":"Does lineage-wide phylogenetic-memory context vary systematically with family crown age or backbone family richness?",
+  "sources":["BIEN cleaned all-201 log core","AusTraits 254-system matched log core"],
+  "context_score":"BLUP family random intercept from rho ~ 0 + trait_name + (1|family), separately by source and tree axis",
+  "family_age":"GBOTB.extended.TPL tree height minus depth of full-backbone family crown MRCA",
+  "family_richness":"number of GBOTB backbone tips assigned to family",
+  "tests":["Spearman(context, crown_age)","Spearman(context, log10(backbone_tip_richness))"],
+  "axes":["log S3","log prune-only"],
+  "role":"Post-outcome exploratory mechanism screen only.",
+  "interpretation":{
+    "replicated_age_direction":"same-sign age association with p<=0.05 in both compilations on S3, supported by prune direction",
+    "not_replicated":"do not use age/richness as explanation of lineage context"
+  },
+  "no_posthoc_relaxation":true
+}

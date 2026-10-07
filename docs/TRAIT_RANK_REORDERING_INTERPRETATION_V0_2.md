@@ -2,6 +2,19 @@
 
 Status: post-outcome exploratory synthesis using the pre-frozen positive-only cleaning analysis. This supersedes the v0.1 interpretation for manuscript framing. The BIEN rank analysis remains exploratory; the corresponding AusTraits rank-portability test is frozen before any AusTraits memory-loss outcome is opened.
 
+
+## Terminology boundary
+
+The response is a distance-based phylogenetic-memory gradient,
+
+`rho = Spearman(patristic distance, pairwise trait dissimilarity)`.
+
+It is not Blomberg's K, Pagel's lambda, a general estimator of phylogenetic signal, or an evolutionary-rate parameter. The safest wording for the reordered quantity is therefore **relative trait-memory gradient ordering**.
+
+“Conservative-to-labile spectrum” may be used only as intuitive shorthand and should not imply that a larger or smaller rho is universally equivalent to more or less evolutionary conservatism under other comparative-method estimators.
+
+All portability and reversal claims in this manuscript concern this pre-frozen distance-based descriptor.
+
 ## The result changed after the scale blocker was resolved
 
 The earlier raw-scale result suggested almost no robust trait portability. That is not the full result.

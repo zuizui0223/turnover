@@ -198,6 +198,39 @@ On the cleaned log scale:
 
 This is descriptive because only four well-represented within-module pairs are available, but it argues against a simple explanation in which re-ranking occurs only because unrelated functions are being compared.
 
+
+## Three-level architecture
+
+The cleaned BIEN result is best described as three distinct components rather than a binary trait-versus-lineage contrast.
+
+1. **Global trait prior**
+   - Traits differ reproducibly in average phylogenetic memory.
+   - On the cleaned log scale, trait identity has modest held-out-family predictive information.
+
+2. **Lineage-wide shift**
+   - Families differ in overall memory strength across represented traits.
+   - This family-wide component survives the correlated-trait/shared-design null and measured geometry/provenance adjustments.
+   - It is not detectably organized along deeper family phylogeny.
+
+3. **Lineage-specific re-ranking**
+   - Within a family, individual traits deviate strongly enough from the global spectrum that pairwise trait order reverses between families roughly 45-48% of the time.
+   - The same reversal magnitude is recovered after finite-species sampling error is separated.
+   - Re-ranking is not reduced within functional modules and is not detectably organized by deep family phylogenetic distance.
+
+The family-wide shift and the magnitude of rank re-ordering are also largely orthogonal. On cleaned log effects, the absolute family-wide shift is essentially unrelated to global-ranking disagreement (Spearman approximately -0.11 on S3 and -0.04 on prune-only).
+
+Thus "lineage context" is not one axis. A lineage can shift all traits together and can separately reassemble their relative ordering.
+
+## Stronger conceptual synthesis
+
+The result is not that global trait regularities are false. It is that **marginal regularity and conditional organization are different biological objects**.
+
+A trait spectrum estimated across many lineages is a real population-level prior. But the hierarchy realized inside a particular lineage is reconstructed strongly enough that close relatives do not inherit detectably more similar rankings.
+
+Candidate conceptual statement:
+
+> Global evolutionary regularities can be reproducible marginal averages while lineage-level trait hierarchies remain phylogenetically mosaic.
+
 ## What changes relative to previous literature
 
 Blomberg et al. (2003) showed widespread phylogenetic signal and average differences among trait categories. That establishes a global tendency.
@@ -240,9 +273,15 @@ The surprise is the coexistence of a stable global spectrum and unstable lineage
 
 The strong manuscript wording is conditional on the prospectively frozen AusTraits test.
 
-The existing exact AusTraits crosswalk already leaves 1,725 eligible systems, 65 families and 212 traits before downstream informativeness filtering. Outcome-blind degree pruning leaves a large connected graph, so prospective replication is feasible.
+Outcome-blind AusTraits qualification is now complete:
 
-A matched positive-numeric raw-versus-log rank sensitivity has been frozen separately before AusTraits memory outcomes.
+- final core: 259 systems / 42 families / 14 traits;
+- all 259 systems are numeric continuous traits;
+- graph-specific model-informativeness: PASS;
+- provenance label: independent-compilation validation;
+- matched positive raw/log core: 254 systems / 42 families / 13 traits.
+
+Real AusTraits memory effects were authorized only after these gates completed. The prospective result must be interpreted under the already frozen family-repeatability, rank-portability, pair-reversal, and raw/log rules.
 
 ## Figure logic
 

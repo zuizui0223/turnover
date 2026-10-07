@@ -1,0 +1,16 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_DESCRIPTIVE_MODULE_ANNOTATION",
+  "frozen_on":"2026-10-07",
+  "role":"Descriptive biological annotation only. Not used for system admission, primary inference, or threshold selection.",
+  "modules":{
+    "fruit":["fruit_height","fruit_length","fruit_width"],
+    "leaf":["leaf_area","leaf_mass_per_area","leaf_length","leaf_width","petiole_length"],
+    "seed":["seed_dry_mass","seed_germination","seed_height","seed_length","seed_width"],
+    "whole_plant":["plant_height"]
+  },
+  "question":"Is strong lineage-specific rank re-ordering confined to comparisons between functionally disparate trait modules?",
+  "well_represented_pair_minimum_families":10,
+  "interpretation":"Compare within-module and between-module weighted pair-order reversal probabilities without a significance claim.",
+  "hard_nonclaims":["Module labels are coarse.","This is post-outcome descriptive evidence, not a prospective module hypothesis."]
+}

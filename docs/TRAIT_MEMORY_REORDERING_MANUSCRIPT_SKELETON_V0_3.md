@@ -1,0 +1,281 @@
+# Manuscript skeleton v0.3: lineage memory level and trait allocation are separable
+
+## One biological question
+
+**When evolutionary history leaves a phenotypic signature, what is actually conserved across lineages: the average tendency of a trait, the overall memory level of a lineage, or the identity of the traits that carry that memory?**
+
+Previous comparative work already established that phylogenetic signal varies among traits and among clades. The present study asks a different question: which components of that structure are portable.
+
+## Core model
+
+For family (f) and trait (t),
+
+[
+ho_{ft} = mu + F_f + T_t + U_{ft}.
+]
+
+Interpretation:
+
+- (T_t): weak trait-level prior in average phylogenetic memory.
+- (F_f): lineage-wide memory level shared across the traits represented in that family.
+- (U_{ft}): lineage-specific allocation of memory among traits, plus finite-sample uncertainty where not explicitly separated.
+
+This decomposition yields three distinct predictions.
+
+1. If trait identity is intrinsically informative, (T_t) should improve held-out-family prediction of absolute rho.
+2. If lineages differ repeatably in overall memory level, (F_f) should recur across multiple traits.
+3. If trait allocation is conserved, the relative ordering of traits should remain portable across families.
+
+The data support the first two weakly-to-moderately and reject the third.
+
+## Discovery: BIEN
+
+Fixed cleaned core:
+
+- 201 family x trait systems;
+- 45 families;
+- 12 continuous traits.
+
+### Trait-average prior
+
+On the all-201 log scale, named trait identity improves held-out-family absolute prediction:
+
+- S3 gain +3.79%, p=0.0005;
+- prune gain +4.40%, p=0.0008.
+
+Trait identity therefore contains real but modest average information.
+
+### Lineage-wide memory level
+
+Conditional family repeatability is about 0.18.
+
+Measurement-aware log-S3 heterogeneity is approximately:
+
+- family 16%;
+- trait 12%;
+- family-by-trait/system 72%.
+
+The family component survives measured geometry, provenance and correlated-trait audits, although its magnitude is imprecise.
+
+### Trait allocation is strongly re-ordered
+
+For well-represented trait pairs:
+
+- log-S3 cross-family order reversal = 45.6%;
+- log-prune = 47.8%.
+
+These correspond to 85.4% and 89.5% of the pair-specific finite-sample maximum.
+
+The measurement-aware model independently predicts approximately 45.5% and 46.4% reversal.
+
+Thus the observed re-ordering is not explained by finite-species sampling error in the BIEN discovery.
+
+## Prospective independent-compilation validation: AusTraits
+
+Outcome-blind qualification produced:
+
+- 259 systems;
+- 42 families;
+- 14 traits;
+- provenance label: independent-compilation validation.
+
+Only one of 130 retrievable AusTraits primary DOIs overlaps the BIEN DOI set, but DOI metadata coverage is 67.4%, so the stronger independent-source label is not used.
+
+### Lineage-wide memory level strengthens
+
+Prospective conditional family repeatability:
+
+- S3 = 0.296;
+- 95% bootstrap CI = 0.147–0.432;
+- prune = 0.391.
+
+The lower S3 interval exceeds the pre-frozen 0.10 practical reference.
+
+Measured species-support/native-tip geometry does not explain this result:
+
+- S3 repeatability 0.296 -> 0.299 after adjustment;
+- prune 0.391 -> 0.397.
+
+### Weak trait-average information replicates
+
+On the identical 254-system positive-numeric log core:
+
+- S3 absolute trait prediction gain +1.67%, p=0.0027;
+- prune gain +1.27%, p=0.0071.
+
+Thus trait identity again gives a small but reproducible average prior.
+
+### A portable trait hierarchy does not replicate
+
+The prospectively frozen source-native rank-portability test fails:
+
+- S3 gain -3.78%;
+- prune gain -1.55%.
+
+On the matched log core:
+
+- S3 rank gain approximately -0.2%;
+- prune approximately -1.8%.
+
+Therefore a universal conservative-to-labile ordering of traits is not supported.
+
+### Re-ordering is near its attainable maximum
+
+On the matched log core:
+
+- S3 reversal 48.8%, 92.9% of pair-specific maximum;
+- prune reversal 48.2%, 91.8% of maximum.
+
+On source-native scale:
+
+- S3 50.5%, 96.2% of maximum;
+- prune 50.3%, 95.7% of maximum.
+
+The matched-log crossed model estimates:
+
+- family share 28.5% / 31.8% on S3 / prune;
+- trait share 4.9% / 4.7%;
+- residual 66.6% / 63.6%.
+
+The trait-contrast correlation across families is only about 0.068, predicting approximately 47.8% pair-order reversal. Again, model-implied and directly observed re-ordering are nearly identical.
+
+## Memory level and memory allocation are separate lineage properties
+
+A lineage's overall family BLUP is almost unrelated to how faithfully its trait ordering follows the global trait prior.
+
+Using matched/cleaned log-S3:
+
+- BIEN: family BLUP versus global-order disagreement rho = -0.112, p=0.462;
+- AusTraits: rho = -0.018, p=0.909.
+
+Thus a lineage can retain unusually strong or weak overall phylogenetic memory without becoming more or less faithful to the global trait ordering.
+
+This motivates a two-dimensional view of lineage context:
+
+1. **memory level** — how strongly history structures traits on average;
+2. **memory allocation** — which traits carry that history within the lineage.
+
+The two are empirically close to decoupled.
+
+## Re-ordering is not a simple support or module artifact
+
+AusTraits matched-log S3 reversal remains roughly 47–49% as the minimum species support per system is increased from 20 to 150.
+
+Within functional modules, re-ordering is at least as strong as between modules:
+
+- S3 within-module 50.9% versus between-module 49.1%;
+- prune 50.8% versus 50.2%.
+
+BIEN shows the same qualitative pattern.
+
+Thus re-ordering is not produced merely by comparing unrelated functional systems such as leaves versus seeds.
+
+## Trait allocation is phylogenetically mosaic
+
+Family patristic distance does not predict how different two families are in trait ordering.
+
+BIEN log:
+
+- S3 rho=0.037, p=0.340;
+- prune rho=-0.011, p=0.529.
+
+AusTraits:
+
+- source-native S3 rho=-0.051, p=0.878;
+- source-native prune rho=-0.079, p=0.947;
+- matched-log S3 rho=-0.071, p=0.858;
+- matched-log prune rho=-0.057, p=0.799.
+
+Thus the identity of the traits carrying evolutionary memory is not smoothly inherited along deep family phylogeny. It is mosaic at this scale.
+
+## The exact family effect is not robustly portable across compilations
+
+Across 25 shared families, unadjusted family BLUPs correlate between BIEN and AusTraits:
+
+- log-S3 rho=0.412;
+- log-prune rho=0.362.
+
+However, source-specific support/geometry adjustment attenuates these to approximately 0.265 and 0.227 and removes conventional significance.
+
+Therefore claim:
+
+- repeatable family context **within each compilation**;
+
+do not claim:
+
+- robust transport of the exact family score between compilations.
+
+## Mechanism remains open
+
+Current exploratory screens do not provide a robust explanation for lineage-wide memory level.
+
+Not supported on the primary axes:
+
+- family crown age;
+- family richness;
+- perennial fraction;
+- woody fraction.
+
+A BIEN prune-only richness association does not reproduce in BIEN S3 or AusTraits.
+
+A deeper tree-topology / patristic-rank geometry sensitivity is being treated separately; persistence after that audit would further narrow simple methodological explanations.
+
+## What changes relative to previous comparative biology
+
+Existing work established that:
+
+- phylogenetic signal is common;
+- traits and trait categories differ on average;
+- the same trait can differ in signal among clades.
+
+The closest empirical precedent compares the same traits among a small number of clades, for example the seven leaf traits studied across three major Pelargonium clades.
+
+The present study adds a different inferential level:
+
+- a many-lineage x many-trait crossed design;
+- held-out-lineage prediction of absolute trait effects;
+- a separate held-out-lineage test of trait rank portability;
+- direct cross-lineage pair-order reversal;
+- lineage-wide family repeatability;
+- independent-compilation validation;
+- explicit separation of memory level from memory allocation.
+
+## Central claim
+
+> **Lineages differ repeatably in the overall level of phylogenetic memory, but independently rewire which traits carry that memory.**
+
+More conservative:
+
+> **Traits carry weak global priors in phylogenetic memory, whereas lineage context strongly reconstructs their relative ordering.**
+
+Conceptual:
+
+> **A macroevolutionary average can be reproducible without being a rule that individual lineages obey.**
+
+## Possible titles
+
+- **Lineages rewire the trait allocation of phylogenetic memory**
+- **Evolutionary memory has a lineage level but no portable trait hierarchy**
+- **Weak trait priors and lineage-specific allocation of phylogenetic memory**
+- **Lineages rewrite which traits carry evolutionary history**
+
+Avoid claiming a universal hierarchy, because the prospective AusTraits rank-portability criterion failed.
+
+## Figure logic
+
+1. Conceptual decomposition into trait prior (T_t), lineage memory level (F_f), and trait allocation (U_{ft}).
+2. Absolute versus rank portability in BIEN and AusTraits.
+3. Pair-order reversal relative to pair-specific maximum.
+4. Variance architecture and model-implied reversal.
+5. Memory level versus allocation disagreement, showing decoupling.
+6. Deep phylogeny and robustness tests.
+
+## Hard boundaries
+
+- The strict prospective portable-hierarchy prediction was not validated.
+- Trait identity is not zero.
+- Near-maximal rank re-ordering does not imply random trait evolution.
+- rho is a phylogenetic-memory statistic, not an evolutionary rate.
+- Residual/system variance is not a diagnosed biological interaction.
+- The exact family effect is not robustly portable across compilations.
+- AusTraits is independent-compilation validation, not fully verified independent-source replication.

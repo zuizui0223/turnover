@@ -30,6 +30,21 @@ Westoby et al. (2023, Journal of Ecology; DOI 10.1111/1365-2745.14150) further e
 
 The present study must therefore describe rho as a **phylogenetic-memory statistic**, not a direct rate of evolution or a diagnosed causal mechanism.
 
+
+### Sampling and incomplete-clade estimation can create apparent context dependence
+
+Pearse et al. (2025, Global Ecology and Biogeography; DOI 10.1111/geb.70012) emphasize for Pagel's lambda that estimates can differ among incompletely sampled species subsets even under an invariant underlying evolutionary model. Such differences should not automatically be interpreted as evidence for different evolutionary histories.
+
+Although the present rho is a different, pre-frozen distance-based descriptor, the same inferential caution applies. Cross-lineage differences are not by themselves mechanistic evidence.
+
+This is why the manuscript must distinguish:
+- finite-species estimation error;
+- measured tree/species-coverage geometry;
+- source-composition heterogeneity;
+- remaining latent between-system heterogeneity.
+
+The measurement-aware BIEN analysis attributes a material share to sampling error, but substantial latent re-ordering remains. Even then, call it **lineage-specific heterogeneity** or **re-ordering**, not a diagnosed lineage-specific evolutionary mechanism.
+
 ## The unresolved question
 
 Existing work establishes two facts that are usually discussed separately:

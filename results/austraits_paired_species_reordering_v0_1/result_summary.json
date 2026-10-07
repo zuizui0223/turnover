@@ -1,0 +1,25 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_PAIRED_SPECIES_REORDERING_SUMMARY",
+  "post_outcome_exploratory":true,
+  "population":{"families":42,"supported_family_trait_pair_cells":592,"trait_pairs":33},
+  "shared_species":{"minimum":21,"median":98.5,"maximum":2202},
+  "S3":{
+    "original_restricted_weighted_reversal":0.4878898762850671,
+    "paired_species_weighted_reversal":0.47081373061508974,
+    "paired_fraction_pair_specific_maximum":0.8964830789648308,
+    "order_change_after_species_matching":0.16722972972972974
+  },
+  "prune":{
+    "original_restricted_weighted_reversal":0.4819213973799127,
+    "paired_species_weighted_reversal":0.4726637554585153,
+    "paired_fraction_pair_specific_maximum":0.8999002327901563,
+    "order_change_after_species_matching":0.13874788494077833
+  },
+  "interpretation":"Re-estimating both traits of each family-trait-pair cell on the identical shared-species set leaves cross-family trait-order reversal near 47% on both tree axes. Differences in species composition among traits therefore do not explain the near-half re-ordering.",
+  "hard_nonclaims":[
+    "Species matching changes some individual family-pair orders and does not imply exact invariance of every rho estimate.",
+    "This analysis does not remove all measurement error or trait-state uncertainty.",
+    "This is post-outcome exploratory."
+  ]
+}

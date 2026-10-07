@@ -20,7 +20,7 @@ con.execute("CREATE TEMP TABLE candidates(system_id VARCHAR,family VARCHAR,trait
 con.executemany("INSERT INTO candidates VALUES (?,?,?,?)",[(s["system_id"],s["family"],s["trait_name"],s["expected_unit"]) for s in systems])
 sql=r"""
 WITH base AS (
- SELECT c.system_id,trim(CAST(a.family AS VARCHAR)) family,trim(CAST(a.genus AS VARCHAR)) genus,
+ SELECT c.system_id,trim(CAST(a.family AS VARCHAR)) AS family_name,trim(CAST(a.genus AS VARCHAR)) AS genus,
         trim(CAST(a.binomial AS VARCHAR)) species,c.expected_unit,
         trim(CAST(a.dataset_id AS VARCHAR))||chr(31)||trim(CAST(a.observation_id AS VARCHAR)) record_key,
         try_cast(trim(CAST(a.value AS VARCHAR)) AS DOUBLE) value_num,
@@ -35,17 +35,17 @@ WITH base AS (
    AND a.value IS NOT NULL AND trim(CAST(a.value AS VARCHAR))<>''
 ),
 dedup AS (
- SELECT DISTINCT system_id,family,genus,species,expected_unit,record_key,value_num,unit FROM base
+ SELECT DISTINCT system_id,family_name,genus,species,expected_unit,record_key,value_num,unit FROM base
 ),
 states AS (
- SELECT system_id,family,species,min(genus) genus,median(value_num) state_num
+ SELECT system_id,family_name,species,min(genus) genus,median(value_num) state_num
  FROM dedup
  WHERE value_num IS NOT NULL AND isfinite(value_num)
    AND expected_unit<>'' AND unit=expected_unit
- GROUP BY system_id,family,species
+ GROUP BY system_id,family_name,species
  HAVING count(DISTINCT genus)=1
 )
-SELECT system_id,family,genus,species,state_num
+SELECT system_id,family_name,genus,species,state_num
 FROM states ORDER BY system_id,species,genus
 """
 cur=con.execute(sql,[str(a.parquet)]);rows=cur.fetchall();con.close()

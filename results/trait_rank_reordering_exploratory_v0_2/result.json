@@ -333,7 +333,25 @@
       "The Gaussian contrast model is a descriptive synthesis, not an identified evolutionary mechanism.",
       "The fixed family+trait estimate of Delta is not a new primary estimator.",
       "Residual family-by-trait heterogeneity can combine multiple biological processes."
-    ]
+    ],
+    "sampling_error_extension": {
+      "derivation": "For family f and trait pair a,b, add the estimated rho sampling variances SE_fa^2 + SE_fb^2 to the latent contrast variance 2*sigma2_system. Compute family-specific order probabilities and average disagreement over distinct family pairs.",
+      "cleaned_log_S3": {
+        "latent_system_only_predicted_weighted_reversal": 0.4370614965730889,
+        "system_plus_sampling_predicted_weighted_reversal": 0.45196431849905844,
+        "observed_weighted_reversal": 0.45594855305466236,
+        "spearman_pair_predicted_vs_observed_with_sampling": 0.5360830556103972,
+        "p_two_sided": 0.03231179306672049
+      },
+      "cleaned_log_prune": {
+        "latent_system_only_predicted_weighted_reversal": 0.44866332536937076,
+        "system_plus_sampling_predicted_weighted_reversal": 0.46218616911446375,
+        "observed_weighted_reversal": 0.4778135048231511,
+        "spearman_pair_predicted_vs_observed_with_sampling": 0.42989863249910304,
+        "p_two_sided": 0.0965168429088935
+      },
+      "interpretation": "Finite-species sampling error raises expected pair-order disagreement only modestly; most of the observed re-ordering is already implied by latent system-specific heterogeneity."
+    }
   },
   "soft_prior_stability_thresholds": {
     "derivation": "Under the Gaussian contrast model P(disagreement)=2*p*(1-p), p=Phi(|Delta|/(sqrt(2)*sigma_U)). Solving for |Delta|/sigma_U gives the global-gap-to-lineage-context ratio required for a target disagreement probability.",

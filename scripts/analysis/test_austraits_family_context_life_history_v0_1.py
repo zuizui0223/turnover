@@ -20,11 +20,11 @@ con.execute("CREATE TEMP TABLE fam(family VARCHAR)")
 con.executemany("INSERT INTO fam VALUES (?)",[(f,) for f in families])
 sql=r"""
 WITH base AS (
- SELECT trim(CAST(a.family AS VARCHAR)) family,
-        trim(CAST(a.binomial AS VARCHAR)) species,
-        trim(CAST(a.trait_name AS VARCHAR)) trait_name,
-        trim(CAST(a.dataset_id AS VARCHAR))||chr(31)||trim(CAST(a.observation_id AS VARCHAR)) record_key,
-        trim(CAST(a.value AS VARCHAR)) value_text
+ SELECT trim(CAST(a.family AS VARCHAR)) AS family,
+        trim(CAST(a.binomial AS VARCHAR)) AS species,
+        trim(CAST(a.trait_name AS VARCHAR)) AS trait_name,
+        trim(CAST(a.dataset_id AS VARCHAR))||chr(31)||trim(CAST(a.observation_id AS VARCHAR)) AS record_key,
+        trim(CAST(a.value AS VARCHAR)) AS value_text
  FROM read_parquet(?) a
  JOIN fam f ON trim(CAST(a.family AS VARCHAR))=f.family
  WHERE lower(trim(CAST(a.taxon_rank AS VARCHAR)))='species'

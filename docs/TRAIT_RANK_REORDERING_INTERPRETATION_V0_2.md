@@ -80,6 +80,24 @@ These sampling-error-aware values closely match the directly observed reversal f
 For cleaned raw S3, the pre-frozen two-way cluster bootstrap gives median latent reversal 42.3%, with 90.4% of bootstrap replicates above one-third.
 
 
+
+## Re-ordering is strongest for globally close traits
+
+A natural alternative explanation for near-half pair reversal is that the global spectrum contains many nearly tied trait pairs.
+
+That explanation is partly correct and is biologically informative rather than fatal.
+
+Among the 16 trait pairs represented together in at least 10 families, larger global mean separation tends to predict lower cross-family reversal. On cleaned log effects:
+
+- S3: Spearman(global absolute mean difference, reversal) = -0.35;
+- prune-only: rho = -0.52.
+
+The association is imprecise on S3 and nominally detectable on prune-only, so the exact slope is exploratory.
+
+But the effect-size pattern is clear. For the half of pairs with the largest global separation, weighted reversal remains 42.0% on S3 and 44.9% on prune-only. For the top quartile of global separation, reversal is still 33.9% and 38.7%, respectively.
+
+Thus the global spectrum is **not meaningless**: large global differences are more stable. The better interpretation is a probabilistic prior whose reliability increases with global separation, not a fixed hierarchy. Even strongly separated traits can exchange relative memory-gradient order in roughly one-third of lineage comparisons.
+
 ## The re-ranking is not a smooth deep-phylogenetic hierarchy
 
 A separate post-outcome exploratory test asks whether closely related plant families retain more similar trait-memory rankings.

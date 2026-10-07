@@ -1,0 +1,419 @@
+{
+  "version": "v0.2",
+  "status": "POST_OUTCOME_EXPLORATORY_TRAIT_RANK_REORDERING_AFTER_POSITIVE_ONLY_CLEANING",
+  "discovery_source": "BIEN 4.2.8",
+  "chronology": {
+    "post_outcome_exploratory": true,
+    "positive_only_stage_B_was_pre_frozen_before_cleaned_outcomes": true,
+    "austraits_rank_replication_was_frozen_before_austraits_memory_outcomes": true,
+    "austraits_memory_effects_opened": false
+  },
+  "population": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "all_201_support_retained_after_cleaning": true,
+    "all_201_log_scale_available_after_cleaning": true
+  },
+  "cleaning_impact": {
+    "S3_original_vs_cleaned_spearman": 0.9910388650805381,
+    "prune_original_vs_cleaned_spearman": 0.9935584453967785,
+    "recomputed_contaminated_systems": 49,
+    "inherited_clean_systems": 152
+  },
+  "rank_portability": {
+    "definition": "Within each family, average-rank memory-loss rho scaled to [0,1], predicted in a held-out family by the same trait's mean rank in all other families; baseline=0.5. P values use 9999 within-family blocked permutations.",
+    "cleaned_raw": {
+      "S3": {
+        "gain": 0.057560777547218556,
+        "spearman_observed_vs_predicted": 0.18924493107408266,
+        "p_one_sided": 0.0012,
+        "null_q025": -0.10615131031252178,
+        "null_q975": 0.0033127499117542596,
+        "leave_one_trait_gain_range": [
+          0.01947758807224531,
+          0.07317387634459482
+        ],
+        "leave_one_family_gain_range": [
+          0.039921535448026235,
+          0.08385333617500146
+        ]
+      },
+      "prune_only": {
+        "gain": -0.04066765494292013,
+        "spearman_observed_vs_predicted": 0.02497289333853807,
+        "p_one_sided": 0.2131,
+        "null_q025": -0.10631003974161858,
+        "null_q975": 0.004576048782267037,
+        "leave_one_trait_gain_range": [
+          -0.05666052873267269,
+          -0.029389709394738617
+        ],
+        "leave_one_family_gain_range": [
+          -0.053774870750096904,
+          -0.026966743045407915
+        ]
+      }
+    },
+    "cleaned_log": {
+      "S3": {
+        "gain": 0.0681399209446556,
+        "spearman_observed_vs_predicted": 0.18299780941722762,
+        "p_one_sided": 0.0003,
+        "null_q025": -0.10593937167408977,
+        "null_q975": 0.0028177052294021845,
+        "leave_one_trait_gain_range": [
+          0.03374379245016412,
+          0.1459517678777904
+        ],
+        "leave_one_family_gain_range": [
+          0.05091084612571062,
+          0.09018174850315341
+        ]
+      },
+      "prune_only": {
+        "gain": 0.02790313402089284,
+        "spearman_observed_vs_predicted": 0.18245910981678512,
+        "p_one_sided": 0.0071,
+        "null_q025": -0.10610403173829945,
+        "null_q975": 0.0007522320552029887,
+        "leave_one_trait_gain_range": [
+          -0.014751892854929949,
+          0.07661929288971969
+        ],
+        "leave_one_family_gain_range": [
+          0.01310010025913766,
+          0.0464474490157738
+        ],
+        "trait_omissions_with_negative_gain": [
+          "leaf area per leaf dry mass",
+          "diameter at breast height (1.3 m)",
+          "seed mass"
+        ]
+      }
+    }
+  },
+  "absolute_memory_portability_blup": {
+    "cleaned_raw": {
+      "S3_gain": 0.012078564256229551,
+      "prune_gain": 0.00003355500575730197
+    },
+    "cleaned_log": {
+      "S3_gain": 0.05921568531504062,
+      "prune_gain": 0.05508136601822178
+    },
+    "interpretation": "Trait identity contains modest transferable information on the log scale. The earlier near-zero portability framing is therefore scale-dependent and should not be retained as the manuscript's central claim."
+  },
+  "global_trait_spectrum": {
+    "cleaned_raw_S3_vs_prune_mean_rank_spearman": 0.9090909090909092,
+    "cleaned_log_S3_vs_prune_mean_rank_spearman": 0.9160839160839163,
+    "S3_raw_vs_log_mean_rank_spearman": 0.7552447552447553,
+    "prune_raw_vs_log_mean_rank_spearman": 0.6713286713286714,
+    "interpretation": "A reproducible aggregate trait spectrum exists, especially across tree treatments within a fixed trait scale."
+  },
+  "direct_cross_family_rank_reversal": {
+    "definition": "For each pair of traits, among families containing both traits, the reversal probability is the probability that two distinct randomly chosen families disagree about which trait has the larger memory-loss rho. Weighted summaries weight by the number of available family pairs.",
+    "well_represented_pairs_minimum_cooccurrence_10": {
+      "n_trait_pairs": 16,
+      "cleaned_raw_S3": 0.4829581993569132,
+      "cleaned_raw_prune": 0.5080385852090032,
+      "cleaned_log_S3": 0.45594855305466236,
+      "cleaned_log_prune": 0.4778135048231511
+    },
+    "all_pairs_with_at_least_2_families": {
+      "n_trait_pairs": 56,
+      "cleaned_raw_S3": 0.467005076142132,
+      "cleaned_raw_prune": 0.4946931241347485,
+      "cleaned_log_S3": 0.4407014305491463,
+      "cleaned_log_prune": 0.4660821412090448
+    },
+    "interpretation": "Even on the cleaned log scale, two families disagree on the relative ordering of the same two traits roughly 46-48% of the time for well-represented trait pairs."
+  },
+  "family_pair_rank_similarity": {
+    "minimum_shared_traits_3": {
+      "n_family_pairs": 289,
+      "cleaned_raw_S3_mean_spearman": 0.10677212061295105,
+      "cleaned_raw_prune_mean_spearman": 0.0388531883341572,
+      "cleaned_log_S3_mean_spearman": 0.17357884330202672,
+      "cleaned_log_prune_mean_spearman": 0.08381117152743449
+    },
+    "minimum_shared_traits_4": {
+      "n_family_pairs": 147,
+      "cleaned_raw_S3_mean_spearman": 0.1010689990281827,
+      "cleaned_raw_prune_mean_spearman": -0.01885325558794946,
+      "cleaned_log_S3_mean_spearman": 0.16778425655976675,
+      "cleaned_log_prune_mean_spearman": 0.0729348882410107
+    }
+  },
+  "measurement_aware_latent_reordering": {
+    "derivation": "For latent rho = intercept + family + trait + system, a within-family two-trait contrast cancels the family main effect. Across two random families, contrast correlation r=sigma2_trait/(sigma2_trait+sigma2_system). Under the Gaussian crossed model, P(order reverses)=acos(r)/pi.",
+    "cleaned_raw": {
+      "S3": {
+        "contrast_correlation": 0.1053207468710831,
+        "expected_reversal_probability": 0.46641307517661484
+      },
+      "prune_only": {
+        "contrast_correlation": 0.04799901210995392,
+        "expected_reversal_probability": 0.48471556710204394
+      },
+      "S3_two_way_cluster_bootstrap": {
+        "replicates": 500,
+        "reversal_probability_median": 0.42324964,
+        "reversal_probability_q025": 0.21148231,
+        "reversal_probability_q975": 0.4958147,
+        "fraction_reversal_gt_one_third": 0.904
+      }
+    },
+    "cleaned_log": {
+      "S3": {
+        "sigma2_trait": 0.0016508088179507854,
+        "sigma2_system": 0.010153192920624502,
+        "contrast_correlation": 0.1398516244330911,
+        "expected_reversal_probability": 0.45533744174032925
+      },
+      "prune_only": {
+        "sigma2_trait": 0.0019745188140528743,
+        "sigma2_system": 0.01530765787254657,
+        "contrast_correlation": 0.11425174327629177,
+        "expected_reversal_probability": 0.46355295200011565
+      }
+    },
+    "interpretation": "The direct observed reversal frequencies and the sampling-error-aware latent model converge on the same result: the relative ordering of trait memory is extensively re-ranked across families."
+  },
+  "revised_central_interpretation": "Trait identity defines a statistically reproducible but weak global spectrum of phylogenetic memory. That spectrum is not a fixed lineage-level hierarchy: lineage-specific re-ranking is so extensive that the relative order of two traits reverses between families nearly half the time. The strongest result is therefore coexistence of a real aggregate trait prior with strong lineage contingency, not absence of trait-level structure.",
+  "candidate_claim": "A reproducible global spectrum of phylogenetic trait memory coexists with near-half cross-lineage reordering.",
+  "hard_nonclaims": [
+    "Do not claim that trait identity has zero transferable information.",
+    "Do not retain the old claim that trait portability is generally absent without specifying raw scale.",
+    "Do not equate memory-loss rho with an evolutionary rate.",
+    "Do not identify system-specific heterogeneity with a known evolutionary mechanism.",
+    "Do not call BIEN rank reordering prospective.",
+    "Do not call near-half reversal exact randomness; weak but detectable aggregate trait structure remains."
+  ],
+  "coarse_grained_hierarchy": {
+    "scale": "cleaned natural-log species states",
+    "pair_population": "trait pairs co-occurring in at least 5 families",
+    "definition": "Global rank gap is the absolute difference between traits' mean within-family normalized ranks. Reversal is the family-pair-count-weighted probability that two distinct families disagree on which trait has larger memory-loss rho.",
+    "S3": {
+      "n_pairs": 41,
+      "spearman_global_rank_gap_vs_reversal": -0.5544656701487847,
+      "rank_gap_le_0_20": {
+        "reversal_probability": 0.5052854122621564
+      },
+      "rank_gap_gt_0_30": {
+        "reversal_probability": 0.24598930481283424
+      }
+    },
+    "prune_only": {
+      "n_pairs": 41,
+      "spearman_global_rank_gap_vs_reversal": -0.6219165859731944,
+      "rank_gap_le_0_20": {
+        "reversal_probability": 0.5233160621761658
+      },
+      "rank_gap_gt_0_30": {
+        "reversal_probability": 0.31527093596059114
+      }
+    },
+    "robust_anchor_examples_min_10_families": [
+      {
+        "trait_pair": [
+          "leaf area per leaf dry mass",
+          "seed mass"
+        ],
+        "n_families": 21,
+        "S3_reversal_probability": 0.2571428571428571,
+        "prune_reversal_probability": 0.3238095238095238,
+        "direction": "leaf area per leaf dry mass is more conservative (lower memory-loss rho) in the majority of families"
+      },
+      {
+        "trait_pair": [
+          "diameter at breast height (1.3 m)",
+          "stem wood density"
+        ],
+        "n_families": 13,
+        "S3_reversal_probability": 0.38461538461538464,
+        "prune_reversal_probability": 0.38461538461538464,
+        "direction": "diameter at breast height is more conservative in the majority of families"
+      }
+    ],
+    "interpretation": "The global spectrum behaves as a coarse prior: traits far apart on the aggregate spectrum have appreciably more stable ordering, whereas fine distinctions among nearby traits are almost completely re-ranked by lineage context."
+  },
+  "robust_partial_order": {
+    "scale": "cleaned natural-log species states",
+    "eligibility": "trait pair co-occurs in at least 10 families",
+    "robustness_rule": "same majority direction on S3 and prune-only, with majority consistency >=0.75 on both axes",
+    "n_eligible_pairs": 16,
+    "n_robust_pairs": 2,
+    "robust_fraction": 0.125,
+    "edges": [
+      {
+        "more_conservative": "leaf area per leaf dry mass",
+        "more_labile": "seed mass",
+        "n_families": 21,
+        "S3_majority_consistency": 0.8571428571428571,
+        "prune_majority_consistency": 0.8095238095238095,
+        "S3_cross_family_reversal_probability": 0.2571428571428571,
+        "prune_cross_family_reversal_probability": 0.3238095238095238
+      },
+      {
+        "more_conservative": "diameter at breast height (1.3 m)",
+        "more_labile": "stem wood density",
+        "n_families": 13,
+        "S3_majority_consistency": 0.7692307692307693,
+        "prune_majority_consistency": 0.7692307692307693,
+        "S3_cross_family_reversal_probability": 0.38461538461538464,
+        "prune_cross_family_reversal_probability": 0.38461538461538464
+      }
+    ],
+    "interpretation": "Only a sparse set of coarse pairwise inequalities survives across lineages and tree treatments. The aggregate trait spectrum should be interpreted as a weak partial order rather than a portable total ranking."
+  },
+  "functional_module_exploratory": {
+    "chronology": "post-outcome descriptive analysis using the trait modules frozen before the original BIEN memory outcomes",
+    "module_contract": "data/trait_memory_modules_v0_1.json",
+    "well_represented_pair_rule": "trait pair represented together in at least 10 families",
+    "n_well_represented_pairs": 16,
+    "n_within_module_pairs": 4,
+    "n_between_module_pairs": 12,
+    "cleaned_log_S3": {
+      "within_module_weighted_reversal_probability": 0.4840989399293286,
+      "between_module_weighted_reversal_probability": 0.449685534591195,
+      "within_module_pairs": [
+        "diameter at breast height (1.3 m) vs stem wood density",
+        "leaf area vs leaf area per leaf dry mass",
+        "leaf area vs leaf dry mass per leaf fresh mass",
+        "leaf area per leaf dry mass vs leaf dry mass per leaf fresh mass"
+      ]
+    },
+    "cleaned_log_prune_only": {
+      "within_module_weighted_reversal_probability": 0.4911660777385159,
+      "between_module_weighted_reversal_probability": 0.4748427672955975
+    },
+    "interpretation": "Frequent re-ranking is not confined to comparisons among functionally disparate trait modules. Well-represented within-module pairs reverse at least as often as between-module pairs in this small descriptive subset. This supports spectrum-wide re-ordering rather than a simple between-module artifact, but the module comparison is exploratory and underpowered."
+  },
+  "global_separation_vs_reversal_exploratory": {
+    "chronology": "post-outcome descriptive check motivated by the alternative explanation that near-half reversal could be driven only by globally near-tied trait pairs",
+    "pair_population": "16 trait pairs co-occurring in at least 10 families",
+    "cleaned_log_S3": {
+      "spearman_global_abs_mean_difference_vs_reversal": -0.35346135534751466,
+      "p_two_sided": 0.17927285792318032,
+      "top_half_global_separation_weighted_reversal": 0.4203208556149733,
+      "top_quartile_global_separation_weighted_reversal": 0.3387096774193548,
+      "bottom_half_global_separation_weighted_reversal": 0.5096774193548387
+    },
+    "cleaned_log_prune": {
+      "spearman_global_abs_mean_difference_vs_reversal": -0.5224462547732156,
+      "p_two_sided": 0.03787963330550777,
+      "top_half_global_separation_weighted_reversal": 0.44881889763779526,
+      "top_quartile_global_separation_weighted_reversal": 0.3870967741935484,
+      "bottom_half_global_separation_weighted_reversal": 0.5165165165165165
+    },
+    "interpretation": "Trait pairs that are farther apart in the global memory-gradient spectrum tend to retain their ordering more often, especially on prune-only. Thus the global spectrum is informative rather than meaningless. However, even the top quartile of globally separated pairs reverses across families roughly one-third to two-fifths of the time, so large aggregate differences do not define a fixed lineage-level hierarchy.",
+    "hard_nonclaim": "Do not describe all pair ordering as approximately random. Reversal is conditional on the separation of pairwise global means."
+  },
+  "gaussian_soft_prior_model_exploratory": {
+    "chronology": "post-outcome mechanistic-statistical synthesis derived from the already fitted measurement-aware crossed model; no system selection or primary inference changed",
+    "derivation": "For traits a and b in family f, theta_fa-theta_fb = Delta_ab + (U_fa-U_fb); the family-wide effect cancels. Under iid Gaussian U with variance sigma2_system, the contrast variance is 2*sigma2_system. Let p=Phi(Delta_ab/sqrt(2*sigma2_system)); for two independent families, predicted pair-order disagreement is 2*p*(1-p).",
+    "trait_mean_estimation": "Delta_ab estimated from the cleaned log effects using a two-way additive family+trait model on the fixed 201-system graph; this is descriptive and not a replacement for the measurement-aware fit.",
+    "well_represented_pairs_minimum_cooccurrence": 10,
+    "n_pairs": 16,
+    "cleaned_log_S3": {
+      "observed_weighted_reversal_probability": 0.45594855305466236,
+      "model_predicted_weighted_reversal_probability": 0.4370614965730889,
+      "spearman_predicted_vs_observed_pair_reversal": 0.6067753266799001,
+      "p_two_sided": 0.012692841373323554
+    },
+    "cleaned_log_prune": {
+      "observed_weighted_reversal_probability": 0.4778135048231511,
+      "model_predicted_weighted_reversal_probability": 0.44866332536937076,
+      "spearman_predicted_vs_observed_pair_reversal": 0.42989863249910304,
+      "p_two_sided": 0.0965168429088935
+    },
+    "interpretation": "The global trait spectrum behaves quantitatively like a probabilistic prior. Pairwise ordering is most reliable when the global trait difference is large relative to lineage-specific family-by-trait heterogeneity. A simple Gaussian contrast model, with no family-wide effect in the within-family contrast, reproduces the overall reversal magnitude and much of the pair-to-pair variation.",
+    "hard_nonclaims": [
+      "The Gaussian contrast model is a descriptive synthesis, not an identified evolutionary mechanism.",
+      "The fixed family+trait estimate of Delta is not a new primary estimator.",
+      "Residual family-by-trait heterogeneity can combine multiple biological processes."
+    ],
+    "sampling_error_extension": {
+      "derivation": "For family f and trait pair a,b, add the estimated rho sampling variances SE_fa^2 + SE_fb^2 to the latent contrast variance 2*sigma2_system. Compute family-specific order probabilities and average disagreement over distinct family pairs.",
+      "cleaned_log_S3": {
+        "latent_system_only_predicted_weighted_reversal": 0.4370614965730889,
+        "system_plus_sampling_predicted_weighted_reversal": 0.45196431849905844,
+        "observed_weighted_reversal": 0.45594855305466236,
+        "spearman_pair_predicted_vs_observed_with_sampling": 0.5360830556103972,
+        "p_two_sided": 0.03231179306672049
+      },
+      "cleaned_log_prune": {
+        "latent_system_only_predicted_weighted_reversal": 0.44866332536937076,
+        "system_plus_sampling_predicted_weighted_reversal": 0.46218616911446375,
+        "observed_weighted_reversal": 0.4778135048231511,
+        "spearman_pair_predicted_vs_observed_with_sampling": 0.42989863249910304,
+        "p_two_sided": 0.0965168429088935
+      },
+      "interpretation": "Finite-species sampling error raises expected pair-order disagreement only modestly; most of the observed re-ordering is already implied by latent system-specific heterogeneity."
+    },
+    "rank_similarity_crosscheck": {
+      "derivation": "For the latent crossed Gaussian model, correlation of two lineage trait profiles after the family-wide shift cancels is r=sigma2_trait/(sigma2_trait+sigma2_system). The corresponding Gaussian-copula Spearman correlation is (6/pi)*asin(r/2).",
+      "cleaned_log_S3": {
+        "latent_profile_correlation_r": 0.1398516244330911,
+        "model_expected_spearman": 0.1336575376591372,
+        "observed_mean_family_pair_spearman_shared_traits_ge_3": 0.17357884330202672
+      },
+      "cleaned_log_prune": {
+        "latent_profile_correlation_r": 0.11425174327629177,
+        "model_expected_spearman": 0.10916180565813552,
+        "observed_mean_family_pair_spearman_shared_traits_ge_3": 0.08381117152743449
+      },
+      "interpretation": "The same trait-versus-system variance ratio that predicts pair-order reversal also predicts the observed weak similarity among complete lineage trait rankings."
+    }
+  },
+  "soft_prior_stability_thresholds": {
+    "derivation": "Under the Gaussian contrast model P(disagreement)=2*p*(1-p), p=Phi(|Delta|/(sqrt(2)*sigma_U)). Solving for |Delta|/sigma_U gives the global-gap-to-lineage-context ratio required for a target disagreement probability.",
+    "required_abs_Delta_over_sigma_U": {
+      "disagreement_0_40": 0.8394629577823437,
+      "disagreement_one_third": 1.1339627024700987,
+      "disagreement_0_25": 1.4874639702935368,
+      "disagreement_0_10": 2.288786954411945,
+      "disagreement_0_05": 2.7560503086066777
+    },
+    "empirical_well_represented_pair_maxima": {
+      "cleaned_log_S3": {
+        "maximum_abs_Delta": 0.10805686013936527,
+        "sigma_U": 0.10076305335103984,
+        "max_abs_Delta_over_sigma_U": 1.072385726174009,
+        "corresponding_pair": "diameter at breast height (1.3 m) vs whole plant height",
+        "observed_reversal_probability": 0.32727272727272727,
+        "model_predicted_reversal_probability": 0.3478006796324279
+      },
+      "cleaned_log_prune": {
+        "maximum_abs_Delta": 0.13433321598175849,
+        "sigma_U": 0.12372412001120303,
+        "max_abs_Delta_over_sigma_U": 1.0857480010332248,
+        "corresponding_pair": "diameter at breast height (1.3 m) vs stem wood density",
+        "observed_reversal_probability": 0.38461538461538464,
+        "model_predicted_reversal_probability": 0.3446759190908294
+      }
+    },
+    "interpretation": "A pair needs a global gap about 1.49 times the lineage-specific system SD to reduce cross-lineage disagreement below 25%, and about 2.29 times the system SD to reduce it below 10%. In BIEN, even the largest observed adjusted global gaps among well-represented pairs are only about 1.07-1.09 system SD, so no pair enters the strongly lineage-invariant regime.",
+    "well_represented_pair_distribution": {
+      "n_pairs": 16,
+      "cleaned_log_S3": {
+        "median_abs_Delta_over_sigma_U": 0.567124693698843,
+        "max_abs_Delta_over_sigma_U": 1.072385726174009,
+        "n_predicted_reversal_gt_0_40": 12,
+        "n_predicted_reversal_gt_one_third": 16,
+        "n_predicted_reversal_gt_0_25": 16,
+        "n_predicted_reversal_lt_0_10": 0
+      },
+      "cleaned_log_prune": {
+        "median_abs_Delta_over_sigma_U": 0.45133659869641746,
+        "max_abs_Delta_over_sigma_U": 1.0857480010332248,
+        "n_predicted_reversal_gt_0_40": 14,
+        "n_predicted_reversal_gt_one_third": 16,
+        "n_predicted_reversal_gt_0_25": 16,
+        "n_predicted_reversal_lt_0_10": 0
+      },
+      "interpretation": "Every well-represented trait pair lies in a regime where the Gaussian crossed model predicts at least one-third cross-lineage order disagreement on both tree treatments; none approaches a <10% disagreement lineage-invariant regime."
+    }
+  }
+}

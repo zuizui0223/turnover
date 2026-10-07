@@ -1,0 +1,90 @@
+name: Exploratory trait-rank deep phylogeny v0.1
+
+on:
+  push:
+    branches:
+      - analysis/trait-rank-reordering-v0-1
+    paths:
+      - '.github/workflows/trait-rank-phylogeny-v0-1.yml'
+      - 'data/trait_rank_phylogeny_design_v0_1.json'
+      - 'scripts/analysis/test_trait_rank_phylogeny_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pre-frozen cleaned 201-system effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/cleaned
+          gh run download 37402668768 -R "$GITHUB_REPOSITORY" -n trait-memory-positive-only-cleaning-impact-v0-2 -D build/cleaned
+          test -f build/cleaned/cleaned-201/effects_positive_only_cleaned.csv
+          python - <<'PY'
+          import csv,json
+          d=json.load(open('data/trait_rank_phylogeny_design_v0_1.json'))
+          assert d['status']=='POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_RANK_PHYLOGENY_RESULT'
+          assert d['relationship_to_prior_work']['rank_phylogeny_association_opened'] is False
+          rows=list(csv.DictReader(open('build/cleaned/cleaned-201/effects_positive_only_cleaned.csv',newline='')))
+          assert len(rows)==201
+          assert len({r['family'] for r in rows})==45
+          assert len({r['trait_name'] for r in rows})==12
+          PY
+      - name: Build identical full-backbone family distance matrix
+        run: |
+          mkdir -p build/family
+          Rscript scripts/analysis/build_full_family_phylogeny_v0_1_3.R \
+            --effects build/cleaned/cleaned-201/effects_positive_only_cleaned.csv \
+            --reps-out build/family/family_representatives.csv \
+            --dist-out build/family/family_distances.csv \
+            --result build/family/coverage.json
+          python - <<'PY'
+          import json,csv
+          x=json.load(open('build/family/coverage.json'))
+          assert x['representative_rule']=='full GBOTB family crown'
+          assert x['gate_pass'] is True
+          assert x['n_valid_family_representatives']==45
+          assert x['n_family_pairs']==990
+          PY
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Test phylogenetic inheritance of rank profiles
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/test_trait_rank_phylogeny_v0_1.py \
+            --effects build/cleaned/cleaned-201/effects_positive_only_cleaned.csv \
+            --distances build/family/family_distances.csv \
+            --out build/result/result.json \
+            --pairs-out build/result/family_pair_rank_disagreement.csv \
+            --permutations 9999 \
+            --seed 20261006
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trait-rank-phylogeny-v0-1
+          path: |
+            build/result/
+            build/family/family_representatives.csv
+            build/family/family_distances.csv
+            build/family/coverage.json
+          retention-days: 30

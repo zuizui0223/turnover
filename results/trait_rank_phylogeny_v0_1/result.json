@@ -1,0 +1,65 @@
+{
+  "version": "v0.1",
+  "status": "TRAIT_RANK_PHYLOGENY_EXPLORATORY_ESTIMATED",
+  "post_outcome_exploratory": true,
+  "design": "data/trait_rank_phylogeny_design_v0_1.json",
+  "evidence_workflow_run": 37461998372,
+  "evidence_artifact_id": 11414451174,
+  "population": {
+    "systems": 201,
+    "families": 45,
+    "traits": 12
+  },
+  "primary_cleaned_log_S3": {
+    "minimum_shared_traits": 4,
+    "n_eligible_family_pairs": 147,
+    "spearman_distance_vs_rank_disagreement": 0.03740012413473933,
+    "permutation_p_one_sided_positive": 0.3404,
+    "null_q025": -0.18628966682806702,
+    "null_q975": 0.1961153453637651
+  },
+  "mandatory_cleaned_log_prune": {
+    "minimum_shared_traits": 4,
+    "n_eligible_family_pairs": 147,
+    "spearman_distance_vs_rank_disagreement": -0.011311937770550097,
+    "permutation_p_one_sided_positive": 0.5285,
+    "null_q025": -0.1923802586817317,
+    "null_q975": 0.20230609512080297
+  },
+  "shared3_sensitivity": {
+    "cleaned_log_S3": {
+      "n_eligible_family_pairs": 289,
+      "spearman_distance_vs_rank_disagreement": 0.07913708682728729,
+      "permutation_p_one_sided_positive": 0.1395
+    },
+    "cleaned_log_prune": {
+      "n_eligible_family_pairs": 289,
+      "spearman_distance_vs_rank_disagreement": 0.048136391015209515,
+      "permutation_p_one_sided_positive": 0.2495
+    }
+  },
+  "raw_descriptive": {
+    "S3": {
+      "spearman_distance_vs_rank_disagreement": -0.023069887463423734,
+      "permutation_p_one_sided_positive": 0.59
+    },
+    "prune_only": {
+      "spearman_distance_vs_rank_disagreement": 0.10467597051585535,
+      "permutation_p_one_sided_positive": 0.0808
+    }
+  },
+  "distance_quartile_pattern": {
+    "cleaned_log_S3_median_rank_disagreement": [0.5, 0.4, 0.5, 0.42857142857142855],
+    "cleaned_log_prune_median_rank_disagreement": [0.5285714285714286, 0.4666666666666667, 0.5, 0.5],
+    "interpretation": "There is no monotonic increase in ranking disagreement from close to distant family pairs."
+  },
+  "decision": "NO_DETECTABLE_DEEP_PHYLOGENETIC_ORGANIZATION_OF_TRAIT_RANK_REORDERING",
+  "interpretation": "Related plant families do not show detectably more similar conservative-to-labile trait-memory rankings. The family-specific ranking architecture is therefore better described as phylogenetically mosaic than as a smoothly inherited deeper-lineage hierarchy at this resolution.",
+  "relationship_to_family_mean_context": "This independently matches the earlier result that the family-wide memory context score is not associated with family patristic distance. Both the family main effect and the trait-ranking architecture lack detectable smooth deep-phylogenetic organization.",
+  "hard_nonclaims": [
+    "A null distance association does not prove rankings are evolutionarily random.",
+    "This analysis does not identify the ecological or evolutionary driver of re-ranking.",
+    "This post-outcome exploratory result cannot replace the prospective AusTraits replication.",
+    "Memory-loss rho is not an evolutionary-rate estimator."
+  ]
+}

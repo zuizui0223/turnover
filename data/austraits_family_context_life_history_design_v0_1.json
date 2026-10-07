@@ -1,0 +1,19 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_LIFE_HISTORY_CONTEXT_RESULT",
+  "frozen_on":"2026-10-07",
+  "question":"Can lineage-wide phylogenetic-memory context be explained by family composition in woodiness or life history?",
+  "source":"AusTraits 7.0.0",
+  "predictors":{
+    "woody_fraction":"fraction of species with unique modal woodiness state == woody",
+    "perennial_fraction":"fraction of species with unique modal life_history state in {perennial, short_lived_perennial}"
+  },
+  "species_state":"unique modal categorical state after dataset_id + observation_id record deduplication; tied species excluded",
+  "minimum_species_per_family_predictor":20,
+  "context_score":"family BLUP from rho ~ 0 + trait_name + (1|family)",
+  "axes":["source-native S3","source-native prune-only","matched-log S3","matched-log prune-only"],
+  "test":"two-sided Spearman correlation of family BLUP with each predictor",
+  "role":"Post-outcome exploratory biological mechanism screen only.",
+  "hard_nonclaims":["Australian-flora family composition need not represent global family composition.","Association does not establish a causal mechanism.","No result may alter the prospective AusTraits decisions."],
+  "no_posthoc_relaxation":true
+}

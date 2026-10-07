@@ -1,0 +1,37 @@
+name: AusTraits split-half measurement-aware architecture v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-split-half-measurement-aware-v0-1.yml'
+      - 'data/austraits_split_half_measurement_aware_v0_1.json'
+      - 'scripts/analysis/fit_austraits_split_half_measurement_aware_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Download frozen effects and complete split-half artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects build/split
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          gh run download 37615646597 -R "$GITHUB_REPOSITORY" -n austraits-split-half-rank-reliability-v0-1 -D build/split
+      - name: Fit measurement-aware crossed architecture
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/fit_austraits_split_half_measurement_aware_v0_1.py             --effects build/effects/effects.csv             --split-rhos build/split/split_rhos.csv             --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-split-half-measurement-aware-v0-1
+          path: build/result/result.json
+          retention-days: 30

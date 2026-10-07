@@ -157,6 +157,30 @@ This motivates a two-dimensional view of lineage context:
 
 The two are empirically close to decoupled.
 
+## Global trait means behave as graded priors, not fixed rankings
+
+The failure of overall rank portability does not mean that trait averages are useless.
+
+Using leave-one-family-out trait means, pairwise ordering is calibrated by the magnitude of the predicted trait difference.
+
+BIEN log-S3:
+- lowest prior-margin quartile: 47.8% ordering agreement;
+- highest quartile: 73.5%;
+- +1 SD in absolute prior margin increases agreement by about 7.4 percentage points under a two-way clustered linear-probability model.
+
+AusTraits log-S3:
+- lowest quartile: 48.3%;
+- highest quartile: 64.0%;
+- +1 SD margin increases agreement by about 4.9 percentage points.
+
+AusTraits prune gives a similar positive calibration; BIEN prune is weaker.
+
+Therefore the appropriate interpretation of the global trait effect is probabilistic:
+
+> **Trait identity supplies a graded prior. When two traits have strongly separated global memory means, their ordering is more likely to survive in a new lineage; when the prior separation is small, lineage-specific allocation dominates.**
+
+This resolves the apparent tension between positive absolute portability and failed rank portability.
+
 ## Re-ordering is not a simple support or module artifact
 
 AusTraits matched-log S3 reversal remains roughly 47–49% as the minimum species support per system is increased from 20 to 150.

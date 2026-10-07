@@ -38,7 +38,7 @@ con.executemany("INSERT INTO candidates VALUES (?,?,?,?,?)",cand)
 sql=r"""
 WITH base AS (
  SELECT c.system_id,
-        trim(CAST(a.family AS VARCHAR)) family,
+        trim(CAST(a.family AS VARCHAR)) AS "family",
         trim(CAST(a.genus AS VARCHAR)) genus,
         trim(CAST(a.binomial AS VARCHAR)) species,
         c.trait_name,c.config_type,c.expected_unit,

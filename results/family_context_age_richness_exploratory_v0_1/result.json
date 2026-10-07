@@ -1,0 +1,15 @@
+{
+  "version":"v0.1",
+  "status":"FAMILY_CONTEXT_AGE_RICHNESS_EXPLORATORY_ESTIMATED",
+  "post_outcome_exploratory":true,
+  "BIEN":{
+    "S3":{"n_families":45,"crown_age":{"rho":0.0212,"p":0.89},"richness":{"rho":-0.2666,"p":0.0767}},
+    "prune":{"n_families":45,"crown_age":{"rho":0.0437,"p":0.7754},"richness":{"rho":-0.3477,"p":0.0193}}
+  },
+  "AusTraits":{
+    "S3":{"n_families":42,"n_valid_family_geometry":41,"crown_age":{"rho":0.0066,"p":0.9672},"richness":{"rho":-0.1681,"p":0.2934}},
+    "prune":{"n_families":42,"n_valid_family_geometry":41,"crown_age":{"rho":-0.0956,"p":0.5519},"richness":{"rho":-0.0556,"p":0.73}}
+  },
+  "interpretation":"Family-wide phylogenetic-memory context is not explained by a replicated monotonic association with family crown age or backbone family richness. A BIEN-only negative richness association on prune-only trees does not reproduce in AusTraits and should not be used as a general mechanism.",
+  "hard_nonclaims":["Null age/richness associations do not identify the true biological driver.","This is post-outcome exploratory evidence."]
+}

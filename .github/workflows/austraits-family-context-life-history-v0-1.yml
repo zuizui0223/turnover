@@ -1,0 +1,40 @@
+name: AusTraits family-context life-history screen v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-family-context-life-history-v0-1.yml'
+      - 'data/austraits_family_context_life_history_design_v0_1.json'
+      - 'scripts/analysis/test_austraits_family_context_life_history_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb numpy pandas scipy statsmodels
+      - name: Download frozen effects and source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects build/source
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - run: |
+          mkdir -p build/result
+          python scripts/analysis/test_austraits_family_context_life_history_v0_1.py \
+            --parquet build/source/austraits.parquet --effects build/effects/effects.csv \
+            --out build/result/result.json --predictors-out build/result/family_predictors.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-family-context-life-history-v0-1
+          path: build/result/

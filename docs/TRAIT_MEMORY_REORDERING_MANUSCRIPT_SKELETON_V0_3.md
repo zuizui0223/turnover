@@ -345,6 +345,28 @@ Tree geometry explains a minority of the lineage-wide memory-level component, es
 
 For trait allocation itself, support restriction, functional modules, split-half estimator reliability, shared-species matching and deep-family distance all leave strong re-ordering. The ecological/developmental cause of that allocation remains unidentified.
 
+## Allocation amplitude is repeatable within a trait universe but not portable across universes
+
+A separate post-outcome analysis asks whether some families are generally more prone to large trait-specific deviations.
+
+Traits were divided into balanced disjoint subsets. For each family and subset, allocation amplitude was defined as the RMS of trait-specific deviations after removing both source-wide trait means and the subset-wide family shift.
+
+Across all balanced partitions:
+
+- BIEN log-S3: median half-to-half family amplitude correlation = 0.392; after adjusting each half for observed trait count and species support = 0.260;
+- BIEN log-prune: 0.350 -> 0.249;
+- AusTraits log-S3: 0.378 -> 0.376;
+- AusTraits log-prune: 0.154 -> 0.177.
+
+Thus within a given compilation and trait universe, families that express larger allocation deviations for one group of traits tend to do so for another.
+
+However, the exact family amplitude does not transport between BIEN and AusTraits across the 25 shared families:
+
+- log-S3 rho = 0.028; adjusted rho = 0.018;
+- log-prune rho = 0.255; adjusted rho = 0.272; neither is conventionally significant.
+
+Therefore “rewiring propensity” is not a universal scalar property of a family. The more defensible interpretation is **lineage x trait-domain contingency**: a family may show a characteristic allocation amplitude within a given trait universe, but that amplitude need not persist when a substantially different trait set is examined.
+
 ## Low-dimensional allocation regimes are not a cross-dataset generality
 
 A ridge-regularized low-rank family-by-trait model was evaluated by repeated held-out-cell cross-validation.

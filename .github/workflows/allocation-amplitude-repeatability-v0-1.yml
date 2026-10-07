@@ -1,0 +1,37 @@
+name: Allocation-amplitude repeatability v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/allocation-amplitude-repeatability-v0-1.yml'
+      - 'data/allocation_amplitude_repeatability_v0_1.json'
+      - 'scripts/analysis/analyze_allocation_amplitude_repeatability_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy statsmodels
+      - name: Download frozen effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/bien build/aus
+          gh run download 37402668768 -R "$GITHUB_REPOSITORY" -n trait-memory-positive-only-cleaning-impact-v0-2 -D build/bien
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/aus
+      - name: Estimate allocation-amplitude repeatability
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/analyze_allocation_amplitude_repeatability_v0_1.py             --bien-effects build/bien/cleaned-201/effects_positive_only_cleaned.csv             --austraits-effects build/aus/effects.csv             --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: allocation-amplitude-repeatability-v0-1
+          path: build/result/result.json
+          retention-days: 30

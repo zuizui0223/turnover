@@ -245,6 +245,32 @@ Thus portability is not an all-or-none trait property. It is controlled by a **s
 
 The observed leave-one-family-out margin calibration follows this prediction qualitatively. Trait pairs with almost no global separation are near chance ordering inside a new family, whereas strongly separated pairs are more likely to retain their order.
 
+## A cross-compilation portability law emerges after normalization
+
+The pair-specific signal-to-contingency rule can be tested across compilations by normalizing each leave-one-family-out global trait contrast by the estimated lineage-specific deviation scale:
+
+[
+x=rac{|Delta T|}{sqrt{2sigma_U^2}}.
+]
+
+Using measurement-aware (sigma_U^2) for BIEN and the high-support split-half measurement-aware estimate for AusTraits, the S3 family x trait-pair observations from both compilations fall on the same probabilistic calibration.
+
+A pooled probit model with two-way cluster-robust uncertainty gives:
+
+- common slope = 0.764, SE = 0.204, p = 1.8e-4;
+- source intercept shift = -0.069, p = 0.665;
+- source x slope interaction = 0.029, p = 0.943.
+
+Thus there is no detectable need for a different S3 calibration law in BIEN versus AusTraits.
+
+The idealized Gaussian crossed model predicts slope 1. The empirical slope is smaller, so the simple equation is somewhat overconfident, but the normalized trait contrast remains strongly predictive.
+
+This suggests a more general statement than a fixed trait hierarchy:
+
+> **Whether a trait ordering transports to a new lineage is governed by the size of the global trait contrast relative to lineage-specific contingency.**
+
+The prune-only calibration is less clean, so this cross-compilation law should be presented as S3-primary with mandatory prune sensitivity rather than as tree-treatment invariant.
+
 ## Re-ordering is not a simple support or module artifact
 
 AusTraits matched-log S3 reversal remains roughly 47–49% as the minimum species support per system is increased from 20 to 150.

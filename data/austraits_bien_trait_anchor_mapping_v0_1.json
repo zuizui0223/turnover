@@ -1,0 +1,44 @@
+{
+  "version":"v0.1",
+  "status":"DESCRIPTIVE_CROSS_SOURCE_TRAIT_ANCHORS_POST_OPENING",
+  "created_on":"2026-10-07",
+  "role":"Descriptive semantic mapping only. It does not alter any AusTraits or BIEN system selection, model, rank statistic, or outcome interpretation threshold.",
+  "austraits_final_traits":14,
+  "bien_final_traits":12,
+  "anchors":[
+    {
+      "austraits":"leaf_area",
+      "bien":["leaf area"],
+      "relationship":"same trait concept",
+      "log_absolute_dissimilarity_equivalence":"direct"
+    },
+    {
+      "austraits":"leaf_mass_per_area",
+      "bien":["leaf area per leaf dry mass"],
+      "relationship":"reciprocal physical trait: LMA = 1/SLA up to unit constants",
+      "log_absolute_dissimilarity_equivalence":"exact because |log(LMA_i)-log(LMA_j)| = |log(SLA_i)-log(SLA_j)|"
+    },
+    {
+      "austraits":"plant_height",
+      "bien":["whole plant height","maximum whole plant height"],
+      "relationship":"same biological dimension with source-specific trait definitions",
+      "log_absolute_dissimilarity_equivalence":"not asserted as exact because state definitions differ"
+    },
+    {
+      "austraits":"seed_dry_mass",
+      "bien":["seed mass"],
+      "relationship":"same biological dimension",
+      "log_absolute_dissimilarity_equivalence":"expected up to source/unit conventions; no exact identity claim"
+    }
+  ],
+  "austraits_traits_without_direct_BIEN_final_core_anchor":[
+    "fruit_height","fruit_length","fruit_width","leaf_length","leaf_width",
+    "petiole_length","seed_germination","seed_height","seed_length","seed_width"
+  ],
+  "interpretation":"If the global-spectrum/re-ordering architecture validates in AusTraits, it is not merely re-estimation on the identical BIEN trait set. Several anchor traits recur, while most final AusTraits traits are distinct.",
+  "hard_nonclaims":[
+    "Do not treat semantic anchors as shared observations or shared source data.",
+    "Do not use anchor status to select systems or traits.",
+    "Do not claim exact equivalence for plant height or seed mass definitions."
+  ]
+}

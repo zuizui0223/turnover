@@ -1,0 +1,24 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_TRAIT_PRIOR_MARGIN_DESIGN",
+  "frozen_on":"2026-10-07",
+  "question":"Does the global trait-average difference act as a graded prior, such that larger leave-one-family-out trait-mean separation predicts more stable pairwise ordering inside a lineage?",
+  "datasets":["BIEN cleaned log core","AusTraits matched positive-numeric log core"],
+  "prediction_unit":"family x unordered trait pair",
+  "predictor":"absolute difference between the two trait means estimated from all other families",
+  "outcome":"1 if the focal family's observed trait ordering matches the leave-one-family-out predicted ordering, 0 otherwise; ties excluded",
+  "summaries":[
+    "overall pair-order agreement",
+    "agreement by quartile of absolute prior margin",
+    "Spearman association between absolute margin and agreement",
+    "linear-probability slope per 1 SD margin with two-way clustering by family and trait pair"
+  ],
+  "axes":["S3","prune-only"],
+  "interpretation":"A positive margin-agreement relationship means trait averages behave as probabilistic priors: strongly separated traits are more likely to preserve order, while weakly separated traits are readily re-ranked.",
+  "role":"post-outcome explanatory analysis only; cannot rescue the failed prospective AusTraits rank-portability criterion",
+  "hard_nonclaims":[
+    "Do not call a positive calibration relationship a universal hierarchy.",
+    "Do not interpret nonmonotonic quartile bins as contradiction if the continuous clustered slope remains positive.",
+    "Do not use the analysis to redefine trait pairs or thresholds."
+  ]
+}

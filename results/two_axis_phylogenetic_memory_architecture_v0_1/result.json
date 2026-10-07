@@ -1,63 +1,97 @@
 {
-  "version":"v0.1",
-  "status":"TWO_AXIS_PHYLOGENETIC_MEMORY_ARCHITECTURE_SYNTHESIS",
-  "created_on":"2026-10-07",
-  "model":"rho_ft = mu + F_f + T_t + U_ft",
-  "indices":{
-    "memory_level_stability_L":"sigma2_family / (sigma2_family + sigma2_system)",
-    "trait_allocation_stability_A":"sigma2_trait / (sigma2_trait + sigma2_system)",
-    "gaussian_pair_order_reversal":"acos(A) / pi",
-    "expected_kendall_similarity_between_lineage_rankings":"2*asin(A) / pi"
+  "version": "v0.1",
+  "status": "TWO_AXIS_PHYLOGENETIC_MEMORY_ARCHITECTURE_SYNTHESIS",
+  "created_on": "2026-10-07",
+  "model": "rho_ft = mu + F_f + T_t + U_ft",
+  "indices": {
+    "memory_level_stability_L": "sigma2_family / (sigma2_family + sigma2_system)",
+    "trait_allocation_stability_A": "sigma2_trait / (sigma2_trait + sigma2_system)",
+    "gaussian_pair_order_reversal": "acos(A) / pi",
+    "expected_kendall_similarity_between_lineage_rankings": "2*asin(A) / pi"
   },
-  "BIEN_log_S3":{
-    "sigma2_family":0.0022944429918388917,
-    "sigma2_trait":0.0016508088179507854,
-    "sigma2_system":0.010153192920624502,
-    "L":0.18432761112024043,
-    "A":0.1398516244330911,
-    "predicted_pair_order_reversal":0.45533744174032925,
-    "expected_kendall_similarity":0.08932511651934161,
-    "observed_well_represented_pair_reversal":0.45594855305466236
+  "BIEN_log_S3": {
+    "sigma2_family": 0.0022944429918388917,
+    "sigma2_trait": 0.0016508088179507854,
+    "sigma2_system": 0.010153192920624502,
+    "L": 0.18432761112024043,
+    "A": 0.1398516244330911,
+    "predicted_pair_order_reversal": 0.45533744174032925,
+    "expected_kendall_similarity": 0.08932511651934161,
+    "observed_well_represented_pair_reversal": 0.45594855305466236
   },
-  "BIEN_log_prune":{
-    "sigma2_family":0.003032388881838877,
-    "sigma2_trait":0.0019745188140528743,
-    "sigma2_system":0.01530765787254657,
-    "L":0.16534248371606666,
-    "A":0.11425174327629177,
-    "predicted_pair_order_reversal":0.46355295200011565,
-    "expected_kendall_similarity":0.07289409599976877,
-    "observed_well_represented_pair_reversal":0.4778135048231511
+  "BIEN_log_prune": {
+    "sigma2_family": 0.003032388881838877,
+    "sigma2_trait": 0.0019745188140528743,
+    "sigma2_system": 0.01530765787254657,
+    "L": 0.16534248371606666,
+    "A": 0.11425174327629177,
+    "predicted_pair_order_reversal": 0.46355295200011565,
+    "expected_kendall_similarity": 0.07289409599976877,
+    "observed_well_represented_pair_reversal": 0.4778135048231511
   },
-  "AusTraits_log_S3":{
-    "sigma2_family":0.0069,
-    "sigma2_trait":0.0012,
-    "sigma2_system_or_residual":0.0161,
-    "L":0.3,
-    "A":0.06936416184971098,
-    "predicted_pair_order_reversal":0.4779029577505633,
-    "expected_kendall_similarity":0.04419408449887339,
-    "observed_well_represented_pair_reversal":0.48761318981718776
+  "AusTraits_log_S3": {
+    "sigma2_family": 0.0069,
+    "sigma2_trait": 0.0012,
+    "sigma2_system_or_residual": 0.0161,
+    "L": 0.3,
+    "A": 0.06936416184971098,
+    "predicted_pair_order_reversal": 0.4779029577505633,
+    "expected_kendall_similarity": 0.04419408449887339,
+    "observed_well_represented_pair_reversal": 0.48761318981718776
   },
-  "AusTraits_log_prune":{
-    "sigma2_family":0.0091,
-    "sigma2_trait":0.0013,
-    "sigma2_system_or_residual":0.0182,
-    "L":0.3333333333333333,
-    "A":0.06666666666666667,
-    "predicted_pair_order_reversal":0.4787635903929203,
-    "expected_kendall_similarity":0.04247281921415938,
-    "observed_well_represented_pair_reversal":0.48180420297283444
+  "AusTraits_log_prune": {
+    "sigma2_family": 0.0091,
+    "sigma2_trait": 0.0013,
+    "sigma2_system_or_residual": 0.0182,
+    "L": 0.3333333333333333,
+    "A": 0.06666666666666667,
+    "predicted_pair_order_reversal": 0.4787635903929203,
+    "expected_kendall_similarity": 0.04247281921415938,
+    "observed_well_represented_pair_reversal": 0.48180420297283444
   },
-  "level_allocation_decoupling":{
-    "BIEN_log_S3_family_BLUP_vs_global_order_disagreement":{"spearman":-0.1124044395203626,"p_two_sided":0.4622494091540926},
-    "AusTraits_log_S3_family_BLUP_vs_global_order_disagreement":{"spearman":-0.018274160631051497,"p_two_sided":0.9085517085187096}
+  "level_allocation_decoupling": {
+    "BIEN_log_S3_family_BLUP_vs_global_order_disagreement": {
+      "spearman": -0.1124044395203626,
+      "p_two_sided": 0.4622494091540926
+    },
+    "AusTraits_log_S3_family_BLUP_vs_global_order_disagreement": {
+      "spearman": -0.018274160631051497,
+      "p_two_sided": 0.9085517085187096
+    }
   },
-  "interpretation":"Phylogenetic-memory architecture is at least two-dimensional. L quantifies repeatable lineage-wide memory level, whereas A quantifies stability of how memory is allocated among traits. In both compilations A is low and model-predicted pair-order reversal closely matches direct observed reversal. Memory level and allocation disagreement are nearly uncorrelated across families.",
-  "conceptual_claim":"A lineage can have a repeatable overall level of phylogenetic memory without inheriting a stable allocation of that memory among traits.",
-  "hard_nonclaims":[
+  "interpretation": "Phylogenetic-memory architecture is at least two-dimensional. L quantifies repeatable lineage-wide memory level, whereas A quantifies stability of how memory is allocated among traits. In both compilations A is low and model-predicted pair-order reversal closely matches direct observed reversal. Memory level and allocation disagreement are nearly uncorrelated across families.",
+  "conceptual_claim": "A lineage can have a repeatable overall level of phylogenetic memory without inheriting a stable allocation of that memory among traits.",
+  "hard_nonclaims": [
     "AusTraits residual variance is not measurement-error-separated and should not be called a pure biological family-by-trait interaction.",
     "L and A are model-based architecture indices, not evolutionary rates.",
     "Null level-allocation correlation does not prove exact independence."
-  ]
+  ],
+  "signal_to_contingency_portability_law": {
+    "status": "POST_OUTCOME_EXPLORATORY_CROSS_COMPILATION_CALIBRATION",
+    "primary_axis": "cleaned/matched log S3",
+    "predictor": "x = absolute leave-one-family-out trait-mean contrast / sqrt(2 * sigma2_system)",
+    "BIEN_sigma2_system_measurement_aware": 0.010153192920624502,
+    "AusTraits_sigma2_system_measurement_aware_high_support": 0.008724272563877887,
+    "observations": {
+      "BIEN_family_trait_pairs": 452,
+      "AusTraits_high_support_family_trait_pairs": 460
+    },
+    "common_probit_model_two_way_cluster_robust": {
+      "intercept": -0.04839427491153628,
+      "intercept_se": 0.07973478462932562,
+      "intercept_p": 0.5438903589555606,
+      "slope": 0.7635217559695818,
+      "slope_se": 0.2037173427563496,
+      "slope_p": 0.0001782880808052329
+    },
+    "source_interaction_model": {
+      "BIEN_slope": 0.7375404703078094,
+      "AusTraits_intercept_shift": -0.06931455092313812,
+      "AusTraits_intercept_shift_p": 0.6653809889051188,
+      "AusTraits_slope_difference": 0.029169170300442054,
+      "AusTraits_slope_difference_p": 0.9434349846498297
+    },
+    "interpretation": "On S3, pairwise trait-order portability is calibrated by a common signal-to-contingency ratio across BIEN and AusTraits. The global trait contrast behaves as a probabilistic prior whose predictive strength is set by its magnitude relative to lineage-specific trait deviation. The fitted slope is below the idealized Gaussian-theory value of 1, so the simple Gaussian equation is directionally useful but overconfident.",
+    "prune_sensitivity": "Positive calibration is less clean on prune-only; source and slope interactions are not statistically resolved, but the common BIEN slope is weak. Treat the cross-compilation law as S3-primary with prune sensitivity rather than fully tree-axis invariant."
+  }
 }

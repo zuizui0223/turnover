@@ -1,0 +1,233 @@
+name: AusTraits qualification aggregate continuation v0.6.5.4
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-qualification-aggregate-v0-6-5-4.yml'
+      - 'data/austraits_qualification_aggregate_fix_v0_6_5_4.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-24.04
+    outputs:
+      gate_pass: ${{ steps.gate.outputs.gate_pass }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate technical-only continuation
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_qualification_aggregate_fix_v0_6_5_4.json'))
+          assert d['status']=='TECHNICAL_AGGREGATION_CONTINUATION_PRE_EFFECT'
+          assert d['scientific_change'] is False
+          assert d['thresholds_changed'] is False
+          assert d['memory_effects_opened'] is False
+          PY
+      - name: Download completed prep and recovery artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/prep build/new
+          gh run download 37545242955 -R "$GITHUB_REPOSITORY" -n austraits-recovery-prep-v0-6-5-3 -D build/prep
+          gh run download 37545242955 -R "$GITHUB_REPOSITORY" -p 'austraits-verified-recovery-V*' -D build/new
+          test -f build/prep/geometry/systems.csv
+          test -f build/prep/recovery_manifest.json
+      - name: Merge all completed geometry results
+        run: |
+          mkdir -p build/all build/info build/core
+          cp build/prep/reused-selected/G*.json build/all/ 2>/dev/null || true
+          find build/new -name 'G*.json' -type f -exec cp {} build/all/ \;
+          python - <<'PY'
+          import glob,json
+          files=glob.glob('build/all/G*.json')
+          hashes={}
+          for p in files:
+              x=json.load(open(p));h=x['geometry_hash']
+              assert x['outcome_blind'] is True
+              assert x['austraits_memory_effects_opened'] is False
+              assert x['crosswalk_status_counts_match'] is True
+              if h in hashes:raise SystemExit(f'duplicate geometry hash {h}')
+              hashes[h]=p
+          assert len(hashes)==1442,len(hashes)
+          print({'complete_unique_geometries':len(hashes)})
+          PY
+      - name: Aggregate informativeness and rebuild final core
+        run: |
+          python scripts/analysis/aggregate_austraits_memory_informativeness_v0_6_2.py \
+            --systems-map build/prep/geometry/systems.csv \
+            --geometry-dir build/all \
+            --out build/info/result.json \
+            --table-out build/info/temporal_informativeness.csv \
+            --core-out build/core/result.json \
+            --core-table-out build/core/core_systems.csv
+      - id: gate
+        run: |
+          python - <<'PY'
+          import json,os
+          i=json.load(open('build/info/result.json'))
+          c=json.load(open('build/core/result.json'))
+          assert i['outcome_blind'] is True and i['austraits_memory_effects_opened'] is False
+          assert c['outcome_blind'] is True and c['austraits_memory_effects_opened'] is False
+          gate=bool(c.get('gate_pass') and c.get('status')=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:fh.write('gate_pass='+('true' if gate else 'false')+'\n')
+          print(json.dumps({'informativeness':i,'core':c},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-final-core-v0-6-5-4
+          path: |
+            build/info/
+            build/core/
+          retention-days: 30
+
+  model_info:
+    needs: aggregate
+    if: needs.aggregate.outputs.gate_pass == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-final-core-v0-6-5-4
+          path: build/final
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Run graph-specific model-informativeness
+        run: |
+          mkdir -p build/model
+          Rscript scripts/analysis/run_austraits_memory_model_informativeness_v0_7.R \
+            --core-table build/final/core/core_systems.csv \
+            --out build/model/result.json \
+            --table-out build/model/simulations.csv
+          cat build/model/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-model-info-v0-6-5-4
+          path: build/model/
+          retention-days: 30
+
+  provenance:
+    needs: aggregate
+    if: needs.aggregate.outputs.gate_pass == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-final-core-v0-6-5-4
+          path: build/final
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+      - name: Extract fixed BIEN source citations
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build/bien-core build/provenance
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/bien-core
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          Rscript scripts/source/extract_bien_core_source_citations_v0_5.R \
+            --core-table build/bien-core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/provenance/bien_source_citations.csv
+      - name: Download pinned AusTraits source and config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit primary-source DOI overlap
+        run: |
+          python scripts/source/audit_austraits_bien_provenance_overlap_v0_5.py \
+            --austraits-parquet build/source/austraits.parquet \
+            --austraits-core build/final/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --bien-citations build/provenance/bien_source_citations.csv \
+            --out build/provenance/result.json
+          cat build/provenance/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-provenance-v0-6-5-4
+          path: build/provenance/
+          retention-days: 30
+
+  qualification:
+    needs: [aggregate,model_info,provenance]
+    if: always() && needs.aggregate.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-final-core-v0-6-5-4
+          path: build/final
+      - uses: actions/download-artifact@v4
+        if: needs.model_info.result == 'success'
+        with:
+          name: austraits-model-info-v0-6-5-4
+          path: build/model
+      - uses: actions/download-artifact@v4
+        if: needs.provenance.result == 'success'
+        with:
+          name: austraits-provenance-v0-6-5-4
+          path: build/provenance
+      - name: Synthesize opening eligibility
+        env:
+          MODEL_RESULT: ${{ needs.model_info.result }}
+          PROVENANCE_RESULT: ${{ needs.provenance.result }}
+        run: |
+          mkdir -p build/qualification
+          python - <<'PY'
+          import json,os,pathlib
+          c=json.load(open('build/final/core/result.json'))
+          core_pass=bool(c.get('gate_pass') and c.get('status')=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS')
+          mp=pathlib.Path('build/model/result.json'); pp=pathlib.Path('build/provenance/result.json')
+          m=json.load(open(mp)) if mp.exists() else None
+          p=json.load(open(pp)) if pp.exists() else None
+          model_pass=bool(m and m.get('gate_pass'))
+          ready=bool(core_pass and model_pass and p is not None)
+          status=('AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE' if ready else
+                  'HOLD_AUSTRAITS_FINAL_CORE' if not core_pass else
+                  'HOLD_AUSTRAITS_MODEL_INFORMATIVENESS' if m is not None and not model_pass else
+                  'HOLD_AUSTRAITS_QUALIFICATION_EXECUTION')
+          out={
+            'version':'v0.6.5.4','status':status,'outcome_blind':True,
+            'austraits_memory_effects_opened':False,
+            'final_core':{'systems':c.get('n_core_systems'),'families':c.get('n_core_families'),'traits':c.get('n_core_traits')},
+            'model_informativeness_gate_pass':model_pass,
+            'replication_language':None if p is None else p.get('replication_language'),
+            'model_job_result':os.environ.get('MODEL_RESULT'),
+            'provenance_job_result':os.environ.get('PROVENANCE_RESULT'),
+            'ready_for_real_effect_opening':ready
+          }
+          json.dump(out,open('build/qualification/result.json','w'),indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-qualification-v0-6-5-4
+          path: build/qualification/
+          retention-days: 30

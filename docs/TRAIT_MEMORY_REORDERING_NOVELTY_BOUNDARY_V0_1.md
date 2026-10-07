@@ -18,7 +18,9 @@ Jones et al. (2013, American Journal of Botany; DOI 10.3732/ajb.1200526) is an e
 
 Other comparative-methods work and reviews likewise show that apparent phylogenetic signal can depend strongly on taxonomic or phylogenetic scale.
 
-Therefore neither **clade dependence**, **heterogeneous phylogenetic signal**, **same-trait differences among clades**, nor **correlated traits** is itself novel.
+Keck et al. (2016, Ecology and Evolution; DOI 10.1002/ece3.2051) went further methodologically by introducing Local Indicators of Phylogenetic Association (LIPA), explicitly motivated by the fact that phylogenetic signal is scale dependent and varies among clades. Thus even local within-tree heterogeneity in signal is established territory.
+
+Therefore neither **clade dependence**, **heterogeneous phylogenetic signal**, **same-trait differences among clades**, **local phylogenetic-signal hotspots**, nor **correlated traits** is itself novel.
 
 ### Phylogenetic signal is not an evolutionary-rate estimator or a mechanism
 

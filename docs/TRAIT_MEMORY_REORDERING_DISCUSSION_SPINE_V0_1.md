@@ -136,6 +136,15 @@ Do not claim novelty for:
 
 Blomberg et al. (2003), Jones et al. (2013), Keck et al. (2016), Ackerly (2009), and related work already establish those points.
 
+
+## 8.5. Analogy to global plant trait spectra
+
+Plant functional ecology already distinguishes global trait spectra from local departures. The global spectrum of plant form and function captures strong aggregate coordination, while leaf-economics relationships are known to be very general but not universal across sites, biomes and functional groups.
+
+The present result concerns a different object—the relative ordering of phylogenetic-memory gradients rather than trait-value correlations—but the inferential lesson is similar: a global regularity can be biologically useful without being a hard rule inside every context.
+
+This analogy should be used to explain the concept, not as the novelty claim. The distinctive contribution remains direct quantification of held-out-lineage hierarchy portability and pair-order reversal.
+
 ## 9. What this paper adds
 
 The contribution is the **portability level of inference**:

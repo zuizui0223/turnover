@@ -66,6 +66,31 @@ These sampling-error-aware values closely match the directly observed reversal f
 
 For cleaned raw S3, the pre-frozen two-way cluster bootstrap gives median latent reversal 42.3%, with 90.4% of bootstrap replicates above one-third.
 
+
+## The re-ranking is not a smooth deep-phylogenetic hierarchy
+
+A separate post-outcome exploratory test asks whether closely related plant families retain more similar trait-memory rankings.
+
+Using full-GBOTB family-crown patristic distances and family pairs sharing at least four traits:
+
+- cleaned log S3: Spearman(distance, rank disagreement) = 0.037, family-profile permutation p = 0.340;
+- cleaned log prune-only: rho = -0.011, p = 0.529.
+
+Relaxing the shared-trait requirement to at least three traits increases the eligible set from 147 to 289 family pairs but still gives only rho = 0.079 (p = 0.140) on S3 and rho = 0.048 (p = 0.250) on prune-only.
+
+Distance-quartile summaries likewise show no monotonic increase in ranking disagreement.
+
+Thus lineage-specific re-ranking is not detectably organized as a smooth inherited hierarchy over deep family phylogeny. Together with the earlier null association between family-wide context scores and family distance, this supports a **phylogenetically mosaic** lineage context rather than a single deep clade-level regime.
+
+## Functional modules do not explain the re-ranking
+
+The trait modules were annotated before the original BIEN memory outcomes. Among well-represented trait pairs (co-occurring in at least 10 families), cleaned-log rank reversal is not reduced within functional modules:
+
+- S3: within-module 48.4% versus between-module 45.0%;
+- prune-only: within-module 49.1% versus between-module 47.5%.
+
+Only four well-represented pairs are within-module, so this is descriptive rather than a powered module test. Still, the pattern argues against a simple explanation in which re-ranking occurs only because unrelated functional domains are compared.
+
 ## What the literature had established
 
 Blomberg, Garland & Ives (2003) established that phylogenetic signal is widespread and that trait categories differ on average; behavioral traits were more labile on average than several other categories.

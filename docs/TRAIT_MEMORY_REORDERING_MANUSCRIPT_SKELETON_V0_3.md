@@ -216,6 +216,28 @@ Therefore the appropriate interpretation of the global trait effect is probabili
 
 This resolves the apparent tension between positive absolute portability and failed rank portability.
 
+## Pair-specific portability follows a signal-to-contingency ratio
+
+The two-axis model also predicts when a particular trait pair should retain its global ordering.
+
+For traits (a) and (b) within family (f),
+
+[
+D_f=(T_a-T_b)+(U_{fa}-U_{fb}).
+]
+
+If lineage-specific deviations are approximately Gaussian with variance (sigma_U^2), the probability that a lineage preserves the sign of the global trait contrast is
+
+[
+P(mathrm{global order survives})
+=
+Phileft(rac{|T_a-T_b|}{sqrt{2sigma_U^2}}ight).
+]
+
+Thus portability is not an all-or-none trait property. It is controlled by a **signal-to-contingency ratio**: the global separation between two trait means relative to the scale of lineage-specific deviations.
+
+The observed leave-one-family-out margin calibration follows this prediction qualitatively. Trait pairs with almost no global separation are near chance ordering inside a new family, whereas strongly separated pairs are more likely to retain their order.
+
 ## Re-ordering is not a simple support or module artifact
 
 AusTraits matched-log S3 reversal remains roughly 47–49% as the minimum species support per system is increased from 20 to 150.

@@ -1,0 +1,29 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_FUNCTIONAL_MODULE_REORDERING_DESCRIBED",
+  "post_outcome_descriptive":true,
+  "module_contract":"data/austraits_trait_modules_v0_1.json",
+  "well_represented_pair_minimum_families":10,
+  "matched_log":{
+    "S3":{
+      "within_module":{"n_trait_pairs":6,"weighted_reversal_probability":0.4752233956133225,"fraction_of_pair_specific_maximum":0.9097978227060654},
+      "between_module":{"n_trait_pairs":27,"weighted_reversal_probability":0.4909130246646473,"fraction_of_pair_specific_maximum":0.9337448559670782}
+    },
+    "prune":{
+      "within_module":{"n_trait_pairs":6,"weighted_reversal_probability":0.5020308692120228,"fraction_of_pair_specific_maximum":0.9611197511664075},
+      "between_module":{"n_trait_pairs":27,"weighted_reversal_probability":0.47641713543920383,"fraction_of_pair_specific_maximum":0.9061728395061729}
+    }
+  },
+  "source_native":{
+    "S3":{
+      "within_module":{"n_trait_pairs":6,"weighted_reversal_probability":0.5093416795069337,"fraction_of_pair_specific_maximum":0.9747278382581649},
+      "between_module":{"n_trait_pairs":27,"weighted_reversal_probability":0.504110774556469,"fraction_of_pair_specific_maximum":0.9588477366255144}
+    },
+    "prune":{
+      "within_module":{"n_trait_pairs":6,"weighted_reversal_probability":0.5081222583266965,"fraction_of_pair_specific_maximum":0.9723950233281493},
+      "between_module":{"n_trait_pairs":27,"weighted_reversal_probability":0.5017610530563384,"fraction_of_pair_specific_maximum":0.9547325102880658}
+    }
+  },
+  "interpretation":"Strong lineage-specific re-ordering is not confined to comparisons between functionally disparate modules. Leaf, seed, and fruit traits reorder within their own modules at rates comparable to or greater than between-module comparisons.",
+  "hard_nonclaims":["Module definitions are coarse and post-outcome descriptive.","No module-specific causal mechanism is inferred."]
+}

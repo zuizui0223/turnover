@@ -73,6 +73,21 @@ Only four direct semantic trait anchors are available across final cores, so thi
 
 That is exactly the pattern expected if marginal trait means are real while lineage-specific rankings are unstable.
 
+
+## Independent deep-phylogeny test
+
+AusTraits independently gives the same mosaic result as BIEN.
+
+Among 41 final-core families with full-backbone family representatives, family patristic distance does not predict disagreement in trait-memory ranking.
+
+Matched log:
+- S3: rho = -0.071, p = 0.858 for the preregistered positive direction;
+- prune: rho = -0.057, p = 0.799.
+
+Source-native shared-trait thresholds give rho from -0.045 to -0.079, with all one-sided p values >=0.878.
+
+Thus the strong family-level context is not accompanied by a smoothly inherited deep-family hierarchy of which traits are conservative. The allocation of memory among traits is phylogenetically mosaic at this scale.
+
 ## Revised central claim
 
 > **Traits carry weak global priors in phylogenetic memory, but lineages strongly reconstruct their relative ordering.**

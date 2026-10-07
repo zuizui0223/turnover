@@ -6,7 +6,8 @@ effects_path<-getarg("--effects");geometry_path<-getarg("--geometry");out_path<-
 dir.create(dirname(out_path),recursive=TRUE,showWarnings=FALSE)
 e<-read.csv(effects_path,stringsAsFactors=FALSE,check.names=FALSE)
 g<-read.csv(geometry_path,stringsAsFactors=FALSE,check.names=FALSE)
-x<-merge(e,g,by=c("system_id","family","trait_name"),all=FALSE)
+if(anyDuplicated(e[,c("family","trait_name")])||anyDuplicated(g[,c("family","trait_name")]))stop("family-trait keys not unique")
+x<-merge(e,g,by=c("family","trait_name"),all=FALSE,suffixes=c("_effect","_geometry"))
 if(nrow(x)!=259||length(unique(x$family))!=42||length(unique(x$trait_name))!=14)stop("merge changed final core")
 
 safe_z<-function(v){

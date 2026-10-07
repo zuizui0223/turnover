@@ -1,53 +1,103 @@
 {
-  "version":"v0.1",
-  "status":"ALLOCATION_AMPLITUDE_REPEATABILITY_EXPLORATORY_ESTIMATED",
-  "post_outcome_exploratory":true,
-  "definition":"Within a trait subset, subtract each trait's source-wide mean rho, then subtract the family subset mean; allocation amplitude is the RMS of the remaining trait-specific deviations.",
-  "BIEN_log_S3":{
-    "balanced_partitions":462,
-    "median_families_per_partition":21,
-    "raw_split_trait_amplitude_correlation_median":0.39240542066629025,
-    "raw_q025":0.07537593984962407,
-    "raw_q975":0.6744262574595055,
-    "raw_fraction_positive":0.9956709956709957,
-    "support_count_adjusted_median":0.2602276442093376,
-    "adjusted_q025":-0.09891640866873065,
-    "adjusted_q975":0.5876423576423574,
-    "adjusted_fraction_positive":0.8982683982683982
+  "version": "v0.1",
+  "status": "ALLOCATION_AMPLITUDE_REPEATABILITY_EXPLORATORY_ESTIMATED",
+  "post_outcome_exploratory": true,
+  "definition": "Within a trait subset, subtract each trait's source-wide mean rho, then subtract the family subset mean; allocation amplitude is the RMS of the remaining trait-specific deviations.",
+  "workflow_run": 37641554740,
+  "axes": {
+    "log_S3": {
+      "BIEN_within_source": {
+        "n_valid_partitions": 462,
+        "median_families_per_partition": 21,
+        "raw_correlation": {
+          "median": 0.39240542066629025,
+          "mean": 0.3876168991731642,
+          "q025": 0.07537593984962407,
+          "q975": 0.6744262574595055,
+          "fraction_positive": 0.9956709956709957
+        },
+        "support_count_adjusted_correlation": {
+          "median": 0.23507632718159033,
+          "mean": 0.23271513360857418,
+          "q025": -0.11788957688338492,
+          "q975": 0.5840037593984961,
+          "fraction_positive": 0.8852813852813853
+        }
+      },
+      "AusTraits_within_source": {
+        "n_valid_partitions": 1716,
+        "median_families_per_partition": 27,
+        "raw_correlation": {
+          "median": 0.37787756598240474,
+          "mean": 0.3687216302891444,
+          "q025": 0.040348673066064364,
+          "q975": 0.6534508689839572,
+          "fraction_positive": 0.9807692307692307
+        },
+        "support_count_adjusted_correlation": {
+          "median": 0.37468344273610993,
+          "mean": 0.37551575619885647,
+          "q025": 0.02344993715961458,
+          "q975": 0.6641733244840714,
+          "fraction_positive": 0.9813519813519813
+        }
+      },
+      "cross_source": {
+        "n_shared_families": 25,
+        "raw_spearman": 0.027692307692307697,
+        "raw_p_two_sided": 0.8954607580921329,
+        "adjusted_spearman": 0.01769230769230769,
+        "adjusted_p_two_sided": 0.9331049901273374
+      }
+    },
+    "log_prune": {
+      "BIEN_within_source": {
+        "n_valid_partitions": 462,
+        "median_families_per_partition": 21,
+        "raw_correlation": {
+          "median": 0.3500846979107849,
+          "mean": 0.34749396854388176,
+          "q025": 0.03250208029956314,
+          "q975": 0.6384113023199709,
+          "fraction_positive": 0.9826839826839827
+        },
+        "support_count_adjusted_correlation": {
+          "median": 0.22997265892002733,
+          "mean": 0.24485129489367444,
+          "q025": -0.05709931944485721,
+          "q975": 0.5464678742310319,
+          "fraction_positive": 0.9285714285714286
+        }
+      },
+      "AusTraits_within_source": {
+        "n_valid_partitions": 1716,
+        "median_families_per_partition": 27,
+        "raw_correlation": {
+          "median": 0.15415019762845852,
+          "mean": 0.1509955818014507,
+          "q025": -0.1466830870279146,
+          "q975": 0.4722222222222222,
+          "fraction_positive": 0.833916083916084
+        },
+        "support_count_adjusted_correlation": {
+          "median": 0.21831096914885664,
+          "mean": 0.21522571173114421,
+          "q025": -0.0732153383015452,
+          "q975": 0.5167001114827201,
+          "fraction_positive": 0.921911421911422
+        }
+      },
+      "cross_source": {
+        "n_shared_families": 25,
+        "raw_spearman": 0.25461538461538463,
+        "raw_p_two_sided": 0.2193465644118854,
+        "adjusted_spearman": 0.2723076923076923,
+        "adjusted_p_two_sided": 0.18787807204245674
+      }
+    }
   },
-  "BIEN_log_prune":{
-    "balanced_partitions":462,
-    "median_families_per_partition":21,
-    "raw_split_trait_amplitude_correlation_median":0.3500846979107849,
-    "support_count_adjusted_median":0.24923672818409662,
-    "adjusted_fraction_positive":0.9372294372294372
-  },
-  "AusTraits_log_S3":{
-    "balanced_partitions":1716,
-    "median_families_per_partition":27,
-    "raw_split_trait_amplitude_correlation_median":0.37787756598240474,
-    "raw_q025":0.040348673066064364,
-    "raw_q975":0.6534508689839572,
-    "raw_fraction_positive":0.9807692307692307,
-    "support_count_adjusted_median":0.37557312252964425,
-    "adjusted_q025":0.008506131549609811,
-    "adjusted_q975":0.6694298012284181,
-    "adjusted_fraction_positive":0.9778554778554779
-  },
-  "AusTraits_log_prune":{
-    "balanced_partitions":1716,
-    "median_families_per_partition":27,
-    "raw_split_trait_amplitude_correlation_median":0.15415019762845852,
-    "support_count_adjusted_median":0.17744087084023974,
-    "adjusted_fraction_positive":0.87004662004662
-  },
-  "cross_source_same_family_amplitude":{
-    "n_shared_families":25,
-    "log_S3":{"raw_spearman":0.027692307692307697,"p_two_sided":0.8954607580921329,"support_adjusted_spearman":0.01769230769230769,"adjusted_p_two_sided":0.9331049901273374},
-    "log_prune":{"raw_spearman":0.25461538461538463,"p_two_sided":0.2193465644118854,"support_adjusted_spearman":0.2723076923076923,"adjusted_p_two_sided":0.18787807204245674}
-  },
-  "interpretation":"Allocation amplitude is moderately repeatable across disjoint trait subsets within a compilation, especially on S3, even after adjusting for observed trait count and species support. However, the exact family-specific amplitude does not transfer from BIEN to AusTraits. Rewiring propensity is therefore not well described as a universal family scalar; it is better treated as a lineage-by-trait-domain property.",
-  "hard_nonclaims":[
+  "interpretation": "Allocation amplitude is moderately repeatable across disjoint trait subsets within a compilation, especially on S3, even after adjusting for observed trait count and species support. However, the exact family-specific amplitude does not transfer from BIEN to AusTraits. Rewiring propensity is therefore not well described as a universal family scalar; it is better treated as a lineage-by-trait-domain property.",
+  "hard_nonclaims": [
     "Trait partitions are not independent inferential replicates.",
     "Within-source positive partition correlations do not identify a causal family property.",
     "Cross-source null correlation may partly reflect different trait universes and source construction."

@@ -20,7 +20,7 @@ con.execute("CREATE TEMP TABLE candidates(system_id VARCHAR,family VARCHAR,trait
 con.executemany("INSERT INTO candidates VALUES (?,?,?,?,?)",[(s["system_id"],s["family"],s["trait_name"],s["config_type"],s["expected_unit"]) for s in systems])
 sql=r"""
 WITH base AS (
- SELECT c.system_id,trim(CAST(a.family AS VARCHAR)) family,trim(CAST(a.genus AS VARCHAR)) genus,
+ SELECT c.system_id,trim(CAST(a.family AS VARCHAR)) AS family_name,trim(CAST(a.genus AS VARCHAR)) AS genus,
         trim(CAST(a.binomial AS VARCHAR)) species,c.config_type,c.expected_unit,
         trim(CAST(a.dataset_id AS VARCHAR))||chr(31)||trim(CAST(a.observation_id AS VARCHAR)) record_key,
         trim(CAST(a.value AS VARCHAR)) value_text,coalesce(trim(CAST(a.unit AS VARCHAR)),'') unit
@@ -34,46 +34,46 @@ WITH base AS (
    AND a.value IS NOT NULL AND trim(CAST(a.value AS VARCHAR))<>''
 ),
 dedup AS (
- SELECT DISTINCT system_id,family,genus,species,config_type,expected_unit,record_key,value_text,unit FROM base
+ SELECT DISTINCT system_id,family_name,genus,species,config_type,expected_unit,record_key,value_text,unit FROM base
 ),
 num AS (
- SELECT system_id,family,species,min(genus) genus
+ SELECT system_id,family_name,species,min(genus) genus
  FROM dedup
  WHERE config_type='numeric'
    AND try_cast(value_text AS DOUBLE) IS NOT NULL
    AND isfinite(try_cast(value_text AS DOUBLE))
    AND expected_unit<>'' AND unit=expected_unit
- GROUP BY system_id,family,species
+ GROUP BY system_id,family_name,species
  HAVING count(DISTINCT genus)=1
 ),
 cc AS (
- SELECT system_id,family,species,value_text,count(*) n
+ SELECT system_id,family_name,species,value_text,count(*) n
  FROM dedup
  WHERE config_type='categorical' AND expected_unit='' AND unit=''
- GROUP BY system_id,family,species,value_text
+ GROUP BY system_id,family_name,species,value_text
 ),
 cr AS (
  SELECT *,max(n) OVER(PARTITION BY system_id,species) max_n FROM cc
 ),
 cm AS (
- SELECT system_id,family,species,count(*) FILTER(WHERE n=max_n) n_modal
- FROM cr GROUP BY system_id,family,species
+ SELECT system_id,family_name,species,count(*) FILTER(WHERE n=max_n) n_modal
+ FROM cr GROUP BY system_id,family_name,species
 ),
 cg AS (
- SELECT system_id,family,species,min(genus) genus
+ SELECT system_id,family_name,species,min(genus) genus
  FROM dedup
  WHERE config_type='categorical' AND expected_unit='' AND unit=''
- GROUP BY system_id,family,species
+ GROUP BY system_id,family_name,species
  HAVING count(DISTINCT genus)=1
 ),
 cat AS (
- SELECT m.system_id,m.family,m.species,g.genus
- FROM cm m JOIN cg g USING(system_id,family,species)
+ SELECT m.system_id,m.family_name,m.species,g.genus
+ FROM cm m JOIN cg g USING(system_id,family_name,species)
  WHERE m.n_modal=1
 )
-SELECT system_id,family,genus,species FROM num
+SELECT system_id,family_name,genus,species FROM num
 UNION ALL
-SELECT system_id,family,genus,species FROM cat
+SELECT system_id,family_name,genus,species FROM cat
 ORDER BY system_id,species,genus
 """
 cur=con.execute(sql,[str(a.parquet)]);rows=cur.fetchall();con.close()

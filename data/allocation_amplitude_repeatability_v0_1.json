@@ -1,0 +1,30 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_ALLOCATION_AMPLITUDE_REPEATABILITY_DESIGN",
+  "frozen_on":"2026-10-07",
+  "question":"Is the magnitude of lineage-specific trait-allocation deviation a repeatable family property across disjoint trait subsets, and does that propensity transfer between BIEN and AusTraits?",
+  "datasets":["BIEN cleaned log core","AusTraits matched positive-numeric log core"],
+  "allocation_amplitude":{
+    "trait_residual":"rho_ft minus the source-wide mean rho of trait t",
+    "family_subset_centering":"within each family and trait subset subtract the family mean residual, removing lineage-wide memory level",
+    "amplitude":"RMS of the centered trait residuals"
+  },
+  "within_source_repeatability":{
+    "partition":"enumerate balanced disjoint trait partitions; BIEN 6+6, AusTraits 6+7",
+    "family_requirement":"at least 2 observed traits in each half",
+    "statistic":"Spearman correlation across families between half-A and half-B allocation amplitudes",
+    "support_adjustment":"also residualize each half amplitude on number of observed traits in that half and mean log species support before correlation"
+  },
+  "cross_source_transfer":{
+    "population":"families shared by BIEN and AusTraits",
+    "statistic":"Spearman correlation of full-trait allocation amplitude",
+    "adjustment":"also compare residual amplitudes after source-specific adjustment for observed trait count and mean log species support; BIEN additionally adjusts mean rho SE"
+  },
+  "axes":["log-S3","log-prune"],
+  "interpretation":{
+    "within_source_positive_cross_source_null":"allocation amplitude is structured within a given trait universe but is not a universal family scalar; it depends on lineage x trait-domain context",
+    "within_and_cross_positive":"some lineages possess a transferable rewiring propensity",
+    "within_null":"allocation amplitude is primarily trait-pair-specific rather than family-level"
+  },
+  "role":"post-outcome architectural analysis only"
+}

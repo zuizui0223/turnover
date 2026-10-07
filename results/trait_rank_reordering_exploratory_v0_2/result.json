@@ -351,6 +351,20 @@
         "p_two_sided": 0.0965168429088935
       },
       "interpretation": "Finite-species sampling error raises expected pair-order disagreement only modestly; most of the observed re-ordering is already implied by latent system-specific heterogeneity."
+    },
+    "rank_similarity_crosscheck": {
+      "derivation": "For the latent crossed Gaussian model, correlation of two lineage trait profiles after the family-wide shift cancels is r=sigma2_trait/(sigma2_trait+sigma2_system). The corresponding Gaussian-copula Spearman correlation is (6/pi)*asin(r/2).",
+      "cleaned_log_S3": {
+        "latent_profile_correlation_r": 0.1398516244330911,
+        "model_expected_spearman": 0.1336575376591372,
+        "observed_mean_family_pair_spearman_shared_traits_ge_3": 0.17357884330202672
+      },
+      "cleaned_log_prune": {
+        "latent_profile_correlation_r": 0.11425174327629177,
+        "model_expected_spearman": 0.10916180565813552,
+        "observed_mean_family_pair_spearman_shared_traits_ge_3": 0.08381117152743449
+      },
+      "interpretation": "The same trait-versus-system variance ratio that predicts pair-order reversal also predicts the observed weak similarity among complete lineage trait rankings."
     }
   },
   "soft_prior_stability_thresholds": {

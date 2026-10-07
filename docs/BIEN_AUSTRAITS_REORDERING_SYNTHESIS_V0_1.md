@@ -56,16 +56,18 @@ In AusTraits log-S3, the crossed model gives trait variance share 4.9%, family s
 
 The model prediction and the directly observed reversal are nearly identical in both compilations.
 
-## Lineage-wide context itself replicates
+## Lineage-wide context replicates within sources
 
-Family context is not only present in each source:
+Family context is repeatable inside both compilations:
 
 - BIEN conditional family repeatability = 0.183;
 - AusTraits = 0.296, with 95% CI 0.147–0.432 and prune estimate 0.391.
 
-Across the 25 families shared by the two final cores, log-S3 family BLUPs correlate at Spearman rho = 0.412 (one-sided permutation p = 0.018). Log-prune gives rho = 0.362 (p = 0.037).
+In AusTraits this is not explained by simple species-support or native-tip geometry. Adjustment for log species count and prune fraction changes S3 repeatability only from 0.296 to 0.299; prune-only adjustment changes 0.391 to 0.397.
 
-This is exploratory cross-source evidence, not a prospectively frozen replication test. It nevertheless suggests that some lineage-wide memory context persists across largely different trait sets and compilations.
+Across the 25 families shared by the two final cores, unadjusted log-S3 family BLUPs correlate at rho = 0.412 (one-sided permutation p = 0.018), and log-prune gives rho = 0.362 (p = 0.037). However, source-specific coverage adjustment attenuates these to rho = 0.265 (p = 0.098) and 0.227 (p = 0.141).
+
+Therefore the robust claim is **within-source repeatable lineage context**, not robust transport of the exact family score across compilations. Cross-source family correspondence is suggestive and coverage-sensitive.
 
 ## Aggregate trait means can still look reproducible
 
@@ -87,6 +89,20 @@ Matched log:
 Source-native shared-trait thresholds give rho from -0.045 to -0.079, with all one-sided p values >=0.878.
 
 Thus the strong family-level context is not accompanied by a smoothly inherited deep-family hierarchy of which traits are conservative. The allocation of memory among traits is phylogenetically mosaic at this scale.
+
+## Re-ordering survives obvious artifact and module explanations
+
+The matched-log AusTraits reversal remains high as low-support systems are removed. S3 reversal is 48.8% at the 20-species threshold, 48.7% at 30, 48.6% at 50, 47.4% at 75, 46.7% at 100, and 47.1% at 150 species. Prune-only remains similarly high wherever enough well-represented trait pairs remain.
+
+Re-ordering is also not restricted to comparisons among functionally unrelated traits. In AusTraits matched-log S3, within-module pairs reverse at 50.9% versus 49.1% between modules; prune gives 50.8% versus 50.2%. The same qualitative result occurred in BIEN.
+
+Thus the effect is not a simple consequence of low species support or of comparing leaf traits with seed, fruit, or whole-plant traits.
+
+## What does not yet explain lineage context
+
+Exploratory screens do not identify a simple organismal or deep-time driver. AusTraits family context is not detectably associated with family crown age, family richness, perennial fraction, or woody fraction on the primary S3 axis. BIEN crown age is also null; a prune-only richness association appears in BIEN but does not replicate in S3 or AusTraits.
+
+The mechanism therefore remains open. The current result is an architecture of evolutionary memory, not a diagnosed causal process.
 
 ## Revised central claim
 

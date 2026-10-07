@@ -1,0 +1,38 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_RANK1_ALLOCATION_AXIS_INTERPRETED",
+  "post_outcome_exploratory":true,
+  "CV_context":{"S3_relative_sse_improvement":0.032318978929991804,"prune_relative_sse_improvement":0.0765512118556485},
+  "cross_tree_stability":{
+    "trait_loading_spearman":0.9615384615384615,
+    "trait_loading_p":1.63176808107e-7,
+    "family_score_spearman":0.8134673041082572,
+    "family_score_p":5.861493924107028e-11
+  },
+  "organ_group_mean_loadings":{
+    "vegetative_dimension":{"S3":-0.05253587770945781,"prune":-0.07175738067548812},
+    "reproductive_size":{"S3":0.03833253383789836,"prune":0.04373381146942675},
+    "other":{"S3":-0.012364587680576286,"prune":0.004663509196015072}
+  },
+  "extreme_trait_loadings":{
+    "negative":["petiole_length","leaf_width","leaf_length","leaf_area"],
+    "positive":["seed_length","fruit_length","seed_dry_mass","seed_width","fruit_width"]
+  },
+  "family_score_correlates":{
+    "perennial_fraction":{"rho":-0.09728183589210866,"p_two_sided":0.5399500775468729,"n":42},
+    "woody_fraction":{"rho":-0.11675917787160948,"p_two_sided":0.6239756807054544,"n":20},
+    "deep_phylogeny_absolute_score_difference":{
+      "spearman_distance_vs_score_difference":0.09710728157595451,
+      "family_label_permutation_p_one_sided_positive":0.1426,
+      "n_families":41,
+      "n_pairs":820
+    }
+  },
+  "interpretation":"The AusTraits-specific rank-1 allocation factor is highly stable across S3 and prune. It descriptively contrasts vegetative dimensions (leaf length, width, area and petiole length) with reproductive organ size (especially seed length, width and dry mass plus fruit dimensions). Which families occupy either end is not detectably explained by deep family phylogeny, woodiness or perenniality. Because BIEN shows no low-rank predictive gain, this remains a compilation-specific secondary hypothesis rather than the cross-dataset central result.",
+  "hard_nonclaims":[
+    "No universal vegetative-reproductive tradeoff claim.",
+    "No causal developmental constraint claim.",
+    "Organ grouping was interpreted after the latent axis was detected.",
+    "The sign of a latent factor is arbitrary."
+  ]
+}

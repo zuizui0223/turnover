@@ -1,0 +1,25 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_RANK_REORDERING_SUPPORT_SENSITIVITY_ESTIMATED",
+  "post_outcome_exploratory":true,
+  "population":"254-system matched positive-numeric log core",
+  "well_represented_pair_minimum_families":10,
+  "threshold_grid":[20,30,50,75,100,150],
+  "S3":[
+    {"threshold_species_per_system":20,"n_systems":254,"n_families":42,"n_traits":13,"n_well_represented_trait_pairs":33,"weighted_reversal_probability":0.48761318981718776,"fraction_of_pair_specific_maximum":0.9287341360234299},
+    {"threshold_species_per_system":30,"n_systems":249,"n_families":42,"n_traits":13,"n_well_represented_trait_pairs":33,"weighted_reversal_probability":0.486935455961239,"fraction_of_pair_specific_maximum":0.9271828665568369},
+    {"threshold_species_per_system":50,"n_systems":209,"n_families":38,"n_traits":13,"n_well_represented_trait_pairs":21,"weighted_reversal_probability":0.48615759050806207,"fraction_of_pair_specific_maximum":0.9247685185185185},
+    {"threshold_species_per_system":75,"n_systems":171,"n_families":32,"n_traits":13,"n_well_represented_trait_pairs":17,"weighted_reversal_probability":0.4743784880771182,"fraction_of_pair_specific_maximum":0.8947368421052632},
+    {"threshold_species_per_system":100,"n_systems":143,"n_families":25,"n_traits":13,"n_well_represented_trait_pairs":13,"weighted_reversal_probability":0.46694560669456064,"fraction_of_pair_specific_maximum":0.8732394366197183},
+    {"threshold_species_per_system":150,"n_systems":111,"n_families":19,"n_traits":13,"n_well_represented_trait_pairs":6,"weighted_reversal_probability":0.4714548802946593,"fraction_of_pair_specific_maximum":0.8797250859106529}
+  ],
+  "prune_only":[
+    {"threshold_species_per_system":20,"n_systems":254,"n_families":42,"n_traits":13,"n_well_represented_trait_pairs":33,"weighted_reversal_probability":0.48180420297283444,"fraction_of_pair_specific_maximum":0.9176700292873413},
+    {"threshold_species_per_system":30,"n_systems":211,"n_families":36,"n_traits":13,"n_well_represented_trait_pairs":31,"weighted_reversal_probability":0.4763690922730683,"fraction_of_pair_specific_maximum":0.900709219858156},
+    {"threshold_species_per_system":50,"n_systems":128,"n_families":24,"n_traits":13,"n_well_represented_trait_pairs":6,"weighted_reversal_probability":0.4903581267217631,"fraction_of_pair_specific_maximum":0.9246753246753247},
+    {"threshold_species_per_system":75,"n_systems":75,"n_families":12,"n_traits":13,"n_well_represented_trait_pairs":3,"weighted_reversal_probability":0.5259259259259259,"fraction_of_pair_specific_maximum":0.9466666666666667},
+    {"threshold_species_per_system":100,"n_systems":59,"n_families":9,"n_traits":13,"n_well_represented_trait_pairs":0,"weighted_reversal_probability":null,"fraction_of_pair_specific_maximum":null},
+    {"threshold_species_per_system":150,"n_systems":35,"n_families":5,"n_traits":11,"n_well_represented_trait_pairs":0,"weighted_reversal_probability":null,"fraction_of_pair_specific_maximum":null}
+  ],
+  "interpretation":"Re-ordering remains high as low-species systems are progressively removed. This does not replace a measurement-error model, but strongly disfavors low-support systems as a simple explanation of the AusTraits re-ordering pattern."
+}

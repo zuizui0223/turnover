@@ -251,6 +251,24 @@ BIEN shows the same qualitative pattern.
 
 Thus re-ordering is not produced merely by comparing unrelated functional systems such as leaves versus seeds.
 
+## Split-half reliability rejects a pure estimator-instability explanation
+
+A high-support AusTraits subset was defined using matched-log systems with at least 40 native prune tips, ensuring at least 20 tips in each split half.
+
+Across 158 systems:
+
+- S3 half-A versus half-B rho reliability is 0.698–0.729 across three deterministic splits; Spearman–Brown full-data reliability is about 0.833.
+- prune half reliability is 0.619–0.659; full-data reliability is about 0.783.
+
+For trait pairs represented in at least 10 families:
+
+- S3 measurement-only split-half order reversal = 22.2%, versus 48.8% observed cross-family reversal;
+- prune measurement-only reversal = 28.4%, versus 47.7% observed cross-family reversal.
+
+This is conservative against the biological interpretation because each split-half rho uses only half the species and is therefore noisier than the full-data rho used in the cross-family comparison.
+
+Measurement and biological reversal probabilities are not additive, so the difference is not interpreted as an exact biological fraction. The key result is narrower: **finite-species estimator instability is far too small to account for near-half cross-lineage re-ordering.**
+
 ## Trait allocation is phylogenetically mosaic
 
 Family patristic distance does not predict how different two families are in trait ordering.

@@ -35,7 +35,7 @@ con.execute("CREATE TEMP TABLE candidates(family VARCHAR,trait_name VARCHAR,expe
 con.executemany("INSERT INTO candidates VALUES (?,?,?)",numeric)
 sql=r"""
 WITH base AS (
- SELECT trim(CAST(a.family AS VARCHAR)) family,
+ SELECT trim(CAST(a.family AS VARCHAR)) AS "family",
         trim(CAST(a.genus AS VARCHAR)) genus,
         trim(CAST(a.binomial AS VARCHAR)) species,
         trim(CAST(a.trait_name AS VARCHAR)) trait_name,

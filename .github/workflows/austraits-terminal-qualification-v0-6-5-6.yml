@@ -1,0 +1,104 @@
+name: AusTraits terminal qualification v0.6.5.6
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-terminal-qualification-v0-6-5-6.yml'
+      - 'data/austraits_terminal_qualification_v0_6_5_6.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate terminal synthesis contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_terminal_qualification_v0_6_5_6.json'))
+          assert d['status']=='AUSTRAITS_QUALIFICATION_SYNTHESIS_PRE_EFFECT'
+          assert d['scientific_change'] is False
+          assert d['selection_changed'] is False
+          assert d['memory_effects_opened'] is False
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-final-core-v0-6-5-4
+          path: build/final
+          repository: zuizui0223/turnover
+          run-id: 37560915567
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-model-info-v0-6-5-4
+          path: build/model
+          repository: zuizui0223/turnover
+          run-id: 37560915567
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-provenance-v0-6-5-5
+          path: build/provenance
+          repository: zuizui0223/turnover
+          run-id: 37561075466
+          github-token: ${{ github.token }}
+      - name: Synthesize opening eligibility
+        run: |
+          mkdir -p build/qualification build/reexport
+          python - <<'PY'
+          import json,shutil,os
+          c=json.load(open('build/final/core/result.json'))
+          m=json.load(open('build/model/result.json'))
+          p=json.load(open('build/provenance/result.json'))
+          assert c['status']=='AUSTRAITS_MEMORY_CROSSED_CORE_PASS' and c['gate_pass'] is True
+          assert c['outcome_blind'] is True and c['austraits_memory_effects_opened'] is False
+          assert m['status']=='AUSTRAITS_MEMORY_MODEL_INFORMATIVENESS_PASS' and m['gate_pass'] is True
+          assert m['outcome_blind'] is True and m['austraits_memory_effects_opened'] is False
+          assert p['status']=='AUSTRAITS_BIEN_PROVENANCE_OVERLAP_AUDITED'
+          assert p['outcome_blind'] is True and p['austraits_memory_effects_opened'] is False
+          assert p['selection_changed_by_overlap'] is False
+          assert p['replication_language'] in {
+            'INDEPENDENT_SOURCE_REPLICATION',
+            'LOW_OVERLAP_REPLICATION',
+            'INDEPENDENT_COMPILATION_VALIDATION'
+          }
+          out={
+            'version':'v0.6.5.6',
+            'status':'AUSTRAITS_REAL_EFFECT_OPENING_ELIGIBLE',
+            'outcome_blind':True,
+            'austraits_memory_effects_opened':False,
+            'final_core':{
+              'systems':c['n_core_systems'],'families':c['n_core_families'],'traits':c['n_core_traits']
+            },
+            'model_informativeness_gate_pass':True,
+            'replication_language':p['replication_language'],
+            'provenance':{
+              'austraits_primary_doi_coverage':p['austraits_primary_doi_coverage'],
+              'overlapping_unique_dois':p['n_overlapping_unique_dois'],
+              'overlap_fraction_of_austraits_dois':p['overlap_fraction_of_austraits_dois']
+            },
+            'ready_for_real_effect_opening':True
+          }
+          json.dump(out,open('build/qualification/result.json','w'),indent=2,sort_keys=True)
+          os.makedirs('build/reexport/core',exist_ok=True)
+          shutil.copyfile('build/final/core/result.json','build/reexport/core/result.json')
+          shutil.copyfile('build/final/core/core_systems.csv','build/reexport/core/core_systems.csv')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-qualification-v0-6-5
+          path: build/qualification/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-final-core-v0-6-5
+          path: build/reexport/
+          retention-days: 30

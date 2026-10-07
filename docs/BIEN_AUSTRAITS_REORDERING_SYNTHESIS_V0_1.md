@@ -90,6 +90,46 @@ Source-native shared-trait thresholds give rho from -0.045 to -0.079, with all o
 
 Thus the strong family-level context is not accompanied by a smoothly inherited deep-family hierarchy of which traits are conservative. The allocation of memory among traits is phylogenetically mosaic at this scale.
 
+## A two-axis architecture of lineage context
+
+The crossed model separates two different kinds of repeatability.
+
+[
+L=rac{sigma_F^2}{sigma_F^2+sigma_U^2}
+]
+
+measures repeatability of a lineage-wide **memory level**.
+
+[
+A=rac{sigma_T^2}{sigma_T^2+sigma_U^2}
+]
+
+measures stability of **trait allocation** against lineage-specific deviations.
+
+On the cleaned/matched log scale:
+
+- BIEN S3: (L=0.184, A=0.140);
+- BIEN prune: (L=0.165, A=0.114);
+- AusTraits S3: (Lapprox0.300, Aapprox0.069);
+- AusTraits prune: (Lapprox0.333, Aapprox0.067).
+
+Under a Gaussian crossed model, (P(mathrm{reversal})=arccos(A)/pi). These values predict the observed near-half pair-order reversal closely.
+
+Memory level and allocation are also empirically decoupled. Family BLUP versus disagreement with the global trait order gives rho=-0.112 in BIEN log-S3 and rho=-0.018 in AusTraits log-S3.
+
+Thus lineage context is not one scalar property. A lineage can have a reproducibly high or low overall memory gradient while independently reallocating that memory among traits.
+
+## Trait averages are graded priors, not laws
+
+The absence of robust rank portability does not make trait identity irrelevant.
+
+Leave-one-family-out pairwise predictions show that ordering agreement rises with the absolute separation between global trait means.
+
+- BIEN log-S3: lowest margin quartile 47.8% agreement; highest quartile 73.5%.
+- AusTraits log-S3: 48.3% to 64.0%.
+
+The global trait effect is therefore best understood as a **confidence-weighted prior**. Strongly separated trait means are more likely to preserve their order; weakly separated traits are readily re-ranked by lineage-specific deviations.
+
 ## Re-ordering survives obvious artifact and module explanations
 
 The matched-log AusTraits reversal remains high as low-support systems are removed. S3 reversal is 48.8% at the 20-species threshold, 48.7% at 30, 48.6% at 50, 47.4% at 75, 46.7% at 100, and 47.1% at 150 species. Prune-only remains similarly high wherever enough well-represented trait pairs remain.

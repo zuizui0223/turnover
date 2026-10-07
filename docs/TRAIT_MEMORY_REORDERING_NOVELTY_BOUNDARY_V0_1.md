@@ -45,6 +45,21 @@ This is why the manuscript must distinguish:
 
 The measurement-aware BIEN analysis attributes a material share to sampling error, but substantial latent re-ordering remains. Even then, call it **lineage-specific heterogeneity** or **re-ordering**, not a diagnosed lineage-specific evolutionary mechanism.
 
+### Evolutionary integration and rate matrices can also change among clades
+
+Multivariate comparative methods already allow evolutionary rate/covariance matrices to differ among regimes or clades. Revell & Collar (2009; Evolution, DOI 10.1111/j.1558-5646.2009.00616.x) developed likelihood tests for shifts in evolutionary rate matrices, and later Bayesian approaches such as `ratematrix` explicitly compare evolutionary integration across clades.
+
+Therefore the manuscript must not imply that **lineage-specific reorganization of multivariate evolutionary architecture** is itself newly discovered.
+
+The distinction here is that the response is not an evolutionary-rate covariance matrix. The programme asks whether a directly measured phylogenetic-memory statistic has portable structure across many repeated lineage x trait systems, and explicitly separates:
+
+- trait-average portability;
+- lineage-wide memory level;
+- within-lineage trait-order portability;
+- pair-order reversal.
+
+This is a portability/generalization problem layered on top of established clade heterogeneity.
+
 ## The unresolved question
 
 Existing work establishes two facts that are usually discussed separately:

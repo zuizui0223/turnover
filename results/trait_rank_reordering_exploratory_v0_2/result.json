@@ -309,5 +309,30 @@
     },
     "interpretation": "Trait pairs that are farther apart in the global memory-gradient spectrum tend to retain their ordering more often, especially on prune-only. Thus the global spectrum is informative rather than meaningless. However, even the top quartile of globally separated pairs reverses across families roughly one-third to two-fifths of the time, so large aggregate differences do not define a fixed lineage-level hierarchy.",
     "hard_nonclaim": "Do not describe all pair ordering as approximately random. Reversal is conditional on the separation of pairwise global means."
+  },
+  "gaussian_soft_prior_model_exploratory": {
+    "chronology": "post-outcome mechanistic-statistical synthesis derived from the already fitted measurement-aware crossed model; no system selection or primary inference changed",
+    "derivation": "For traits a and b in family f, theta_fa-theta_fb = Delta_ab + (U_fa-U_fb); the family-wide effect cancels. Under iid Gaussian U with variance sigma2_system, the contrast variance is 2*sigma2_system. Let p=Phi(Delta_ab/sqrt(2*sigma2_system)); for two independent families, predicted pair-order disagreement is 2*p*(1-p).",
+    "trait_mean_estimation": "Delta_ab estimated from the cleaned log effects using a two-way additive family+trait model on the fixed 201-system graph; this is descriptive and not a replacement for the measurement-aware fit.",
+    "well_represented_pairs_minimum_cooccurrence": 10,
+    "n_pairs": 16,
+    "cleaned_log_S3": {
+      "observed_weighted_reversal_probability": 0.45594855305466236,
+      "model_predicted_weighted_reversal_probability": 0.4370614965730889,
+      "spearman_predicted_vs_observed_pair_reversal": 0.6067753266799001,
+      "p_two_sided": 0.012692841373323554
+    },
+    "cleaned_log_prune": {
+      "observed_weighted_reversal_probability": 0.4778135048231511,
+      "model_predicted_weighted_reversal_probability": 0.44866332536937076,
+      "spearman_predicted_vs_observed_pair_reversal": 0.42989863249910304,
+      "p_two_sided": 0.0965168429088935
+    },
+    "interpretation": "The global trait spectrum behaves quantitatively like a probabilistic prior. Pairwise ordering is most reliable when the global trait difference is large relative to lineage-specific family-by-trait heterogeneity. A simple Gaussian contrast model, with no family-wide effect in the within-family contrast, reproduces the overall reversal magnitude and much of the pair-to-pair variation.",
+    "hard_nonclaims": [
+      "The Gaussian contrast model is a descriptive synthesis, not an identified evolutionary mechanism.",
+      "The fixed family+trait estimate of Delta is not a new primary estimator.",
+      "Residual family-by-trait heterogeneity can combine multiple biological processes."
+    ]
   }
 }

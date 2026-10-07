@@ -334,5 +334,34 @@
       "The fixed family+trait estimate of Delta is not a new primary estimator.",
       "Residual family-by-trait heterogeneity can combine multiple biological processes."
     ]
+  },
+  "soft_prior_stability_thresholds": {
+    "derivation": "Under the Gaussian contrast model P(disagreement)=2*p*(1-p), p=Phi(|Delta|/(sqrt(2)*sigma_U)). Solving for |Delta|/sigma_U gives the global-gap-to-lineage-context ratio required for a target disagreement probability.",
+    "required_abs_Delta_over_sigma_U": {
+      "disagreement_0_40": 0.8394629577823437,
+      "disagreement_one_third": 1.1339627024700987,
+      "disagreement_0_25": 1.4874639702935368,
+      "disagreement_0_10": 2.288786954411945,
+      "disagreement_0_05": 2.7560503086066777
+    },
+    "empirical_well_represented_pair_maxima": {
+      "cleaned_log_S3": {
+        "maximum_abs_Delta": 0.10805686013936527,
+        "sigma_U": 0.10076305335103984,
+        "max_abs_Delta_over_sigma_U": 1.072385726174009,
+        "corresponding_pair": "diameter at breast height (1.3 m) vs whole plant height",
+        "observed_reversal_probability": 0.32727272727272727,
+        "model_predicted_reversal_probability": 0.3478006796324279
+      },
+      "cleaned_log_prune": {
+        "maximum_abs_Delta": 0.13433321598175849,
+        "sigma_U": 0.12372412001120303,
+        "max_abs_Delta_over_sigma_U": 1.0857480010332248,
+        "corresponding_pair": "diameter at breast height (1.3 m) vs stem wood density",
+        "observed_reversal_probability": 0.38461538461538464,
+        "model_predicted_reversal_probability": 0.3446759190908294
+      }
+    },
+    "interpretation": "A pair needs a global gap about 1.49 times the lineage-specific system SD to reduce cross-lineage disagreement below 25%, and about 2.29 times the system SD to reduce it below 10%. In BIEN, even the largest observed adjusted global gaps among well-represented pairs are only about 1.07-1.09 system SD, so no pair enters the strongly lineage-invariant regime."
   }
 }

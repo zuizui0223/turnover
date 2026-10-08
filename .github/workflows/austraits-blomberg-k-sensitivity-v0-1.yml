@@ -58,10 +58,12 @@ jobs:
           e=pd.read_csv('build/effects/effects.csv')
           e=e[e.log_domain_pass==True]
           c=pd.read_csv('build/core/core/core_systems.csv')
-          x=e.merge(c[['family','trait_name','n_input_species','n_prune','n_bind','config_type']],
+          x=e.merge(c[['family','trait_name','n_input_species','n_prune','n_bind']],
                     on=['family','trait_name'],how='inner',validate='one_to_one')
           assert (len(x),x.family.nunique(),x.trait_name.nunique())==(254,42,13)
           assert (x.config_type=='numeric').all()
+          assert not x[['family','trait_name']].duplicated().any()
+          assert x[['n_input_species','n_prune','n_bind']].notna().all().all()
           traits=yaml.safe_load(open('build/source/traits.yml'))['traits']['elements']
           systems=[]
           for r in x.sort_values(['family','trait_name']).itertuples(index=False):

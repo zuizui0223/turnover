@@ -1,0 +1,236 @@
+name: AusTraits Blomberg K signal-sensitivity v0.1
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-blomberg-k-sensitivity-v0-1.yml'
+      - 'data/austraits_blomberg_k_sensitivity_v0_1.json'
+      - 'scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py'
+      - 'scripts/analysis/run_austraits_blomberg_k_system_v0_1.R'
+      - 'scripts/analysis/aggregate_austraits_blomberg_k_v0_1.py'
+      - 'scripts/analysis/fit_austraits_blomberg_k_architecture_v0_1.R'
+      - 'scripts/analysis/analyze_austraits_blomberg_k_portability_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas pyyaml
+      - name: Verify post-outcome fixed K sensitivity contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_blomberg_k_sensitivity_v0_1.json'))
+          assert d['status']=='POST_OUTCOME_EXPLORATORY_STANDARD_SIGNAL_SENSITIVITY'
+          assert d['rho_decisions_unchanged'] is True
+          PY
+      - name: Download frozen source-native core, effects and trait config
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/effects build/source
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+          test -f build/core/core/core_systems.csv
+          test -f build/effects/effects.csv
+      - id: matrix
+        name: Build outcome-independent matched-numeric batches
+        run: |
+          python - <<'PY'
+          import os,json,csv,base64
+          import pandas as pd,yaml
+          e=pd.read_csv('build/effects/effects.csv')
+          e=e[e.log_domain_pass==True]
+          c=pd.read_csv('build/core/core/core_systems.csv')
+          x=e.merge(c[['family','trait_name','n_input_species','n_prune','n_bind','config_type']],
+                    on=['family','trait_name'],how='inner',validate='one_to_one')
+          assert (len(x),x.family.nunique(),x.trait_name.nunique())==(254,42,13)
+          assert (x.config_type=='numeric').all()
+          traits=yaml.safe_load(open('build/source/traits.yml'))['traits']['elements']
+          systems=[]
+          for r in x.sort_values(['family','trait_name']).itertuples(index=False):
+              u=traits[r.trait_name].get('units')
+              assert u is not None
+              systems.append({
+                'system_id':r.system_id,'family':r.family,'trait_name':r.trait_name,
+                'n_input_species':int(r.n_input_species),
+                'n_prune':int(r.n_prune),'n_bind':int(r.n_bind),
+                '_weight':int(r.n_species_S3)**3
+              })
+          nb=16
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for s in sorted(systems,key=lambda z:(-z['_weight'],z['family'],z['trait_name'])):
+              i=min(range(nb),key=lambda k:(bins[k]['weight'],k))
+              bins[i]['weight']+=s['_weight']
+              bins[i]['systems'].append({k:s[k] for k in ['system_id','family','trait_name','n_input_species','n_prune','n_bind']})
+          include=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              include.append({'batch_id':f'K{i:02d}','systems_b64':base64.b64encode(raw).decode(),
+                              'n_systems':len(b['systems'])})
+          assert sum(z['n_systems'] for z in include)==254
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          print({'n_systems':254,'n_batches':len(include),'max_batch_size':max(z['n_systems'] for z in include)})
+          PY
+
+  k_effects:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::phytools
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download exact frozen source and trait config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Re-estimate fixed matched traits with Blomberg K
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          mkdir -p build/batch build/results
+          python - <<'PY'
+          import os,base64
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/results \
+            --r-script scripts/analysis/run_austraits_blomberg_k_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-blomberg-k-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: k_effects
+    if: needs.k_effects.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-blomberg-k-K*
+          path: build/all
+          merge-multiple: true
+      - name: Aggregate matched K matrix
+        run: |
+          mkdir -p build/k
+          python scripts/analysis/aggregate_austraits_blomberg_k_v0_1.py \
+            --input-dir build/all \
+            --out-csv build/k/effects.csv \
+            --out-json build/k/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-blomberg-k-effects-v0-1
+          path: build/k/
+          retention-days: 30
+
+  analyse:
+    needs: aggregate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-blomberg-k-effects-v0-1
+          path: build/k
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit K crossed architecture and portability
+        run: |
+          mkdir -p build/results
+          Rscript scripts/analysis/fit_austraits_blomberg_k_architecture_v0_1.R \
+            --effects build/k/effects.csv --out build/results/architecture.json
+          python scripts/analysis/analyze_austraits_blomberg_k_portability_v0_1.py \
+            --effects build/k/effects.csv --out build/results/portability.json
+      - name: Include correlation with original distance-dissimilarity rho
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/rho
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/rho
+          python - <<'PY'
+          import pandas as pd,json
+          from scipy.stats import spearmanr
+          k=pd.read_csv('build/k/effects.csv')
+          r=pd.read_csv('build/rho/effects.csv')
+          r=r[r.log_domain_pass==True]
+          m=k.merge(r,on=['family','trait_name'],validate='one_to_one')
+          assert (len(m),m.family.nunique(),m.trait_name.nunique())==(254,42,13)
+          out={'n_matched_systems':len(m)}
+          for label,kcol,rcol in [('S3','S3_logK','S3_log_rho'),('prune','prune_logK','prune_log_rho')]:
+              out[label]={'overall_spearman_K_vs_rho':float(spearmanr(m[kcol],m[rcol]).statistic)}
+              tau=[]
+              for fam,g in m.groupby('family'):
+                  if len(g)>=3:
+                      z=spearmanr(g[kcol],g[rcol]).statistic
+                      if pd.notna(z):tau.append(z)
+              out[label]['mean_within_family_rank_correlation']=float(pd.Series(tau).mean())
+              out[label]['n_families_shared_ge3']=len(tau)
+          with open('build/results/rho_vs_K.json','w') as fh:json.dump(out,fh,indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-blomberg-k-architecture-v0-1
+          path: build/results/
+          retention-days: 30

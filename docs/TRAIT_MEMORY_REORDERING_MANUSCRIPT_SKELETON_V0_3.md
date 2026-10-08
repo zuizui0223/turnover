@@ -6,62 +6,54 @@
 
 Previous comparative work already established that phylogenetic signal varies among traits and among clades. The present study asks a different question: which components of that structure are portable.
 
+
 ## Core model
 
-For family (f) and trait (t),
+For family \(f\) and trait \(t\), the empirical response is
 
-[
-ho_{ft} = mu + F_f + T_t + U_{ft}.
-]
+$$
+\rho_{ft}=\operatorname{Spearman}\bigl(d_{ij},\,|z_{it}-z_{jt}|\bigr),
+$$
 
-Interpretation:
+calculated over all unordered species pairs in that family. **This is a phylogenetic distance–dissimilarity association**, not an evolutionary rate or a direct estimate of the speed of trait change.
 
-- (T_t): weak trait-level prior in average phylogenetic memory.
-- (F_f): lineage-wide memory level shared across the traits represented in that family.
-- (U_{ft}): lineage-specific allocation of memory among traits, plus finite-sample uncertainty where not explicitly separated.
+The crossed statistical model is
 
-This decomposition yields three distinct predictions.
+$$
+\rho_{ft}=\mu+F_f+T_t+U_{ft}.
+$$
 
-1. If trait identity is intrinsically informative, (T_t) should improve held-out-family prediction of absolute rho.
-2. If lineages differ repeatably in overall memory level, (F_f) should recur across multiple traits.
-3. If trait allocation is conserved, the relative ordering of traits should remain portable across families.
+Here \(T_t\) is the mean trait-identity tendency, \(F_f\) is the shared family-level displacement, and \(U_{ft}\) is the system-specific deviation (including finite-sample estimation noise when not separately modeled).
 
-The data support the first two weakly-to-moderately and reject the third.
+Absolute held-out-family prediction can benefit from \(T_t\), while a within-family comparison of two traits cancels \(F_f\). Consequently, absolute trait-average portability and within-family relative-order portability are different estimands.
 
-## Two orthogonal architecture indices
 
-The crossed model naturally defines two different repeatabilities.
+## Two related—not statistically orthogonal—architecture indices
 
-[
-L = rac{sigma_F^2}{sigma_F^2+sigma_U^2}
-]
+The crossed model defines two **different but not statistically independent** repeatability ratios:
 
-is **lineage memory-level stability**: whether a family tends to remain globally high or low in phylogenetic memory across traits.
+$$
+L=\frac{\sigma_F^2}{\sigma_F^2+\sigma_U^2}
+\qquad\text{and}\qquad
+A=\frac{\sigma_T^2}{\sigma_T^2+\sigma_U^2}.
+$$
 
-[
-A = rac{sigma_T^2}{sigma_T^2+sigma_U^2}
-]
+\(L\) describes family-wide repeatability across measured traits; \(A\) describes whether a mean trait contrast survives the system-specific deviations. Both share \(\sigma_U^2\), so their statistical estimates are related.
 
-is **trait-allocation stability**: whether the relative trait effect survives family-specific deviations.
+For Gaussian crossed random effects, the model-implied pair-order reversal probability for two families is
 
-For Gaussian crossed effects, allocation stability has a direct rank interpretation:
+$$
+P(\mathrm{reversal})=\frac{\arccos(A)}{\pi}.
+$$
 
-[
-P(	ext{trait-pair order reverses between two families})
-=
-rac{arccos(A)}{pi}.
-]
+Point estimates on the cleaned/matched log scale:
 
-The expected Kendall similarity between two lineage-specific trait rankings is (2arcsin(A)/pi).
+- BIEN S3: \(L=0.184\), \(A=0.140\)
+- BIEN prune: \(L=0.165\), \(A=0.114\)
+- AusTraits S3: \(L\approx0.300\), \(A\approx0.069\)
+- AusTraits prune: \(L\approx0.333\), \(A\approx0.067\)
 
-Point estimates on the matched/cleaned log scale are:
-
-- BIEN S3: (L=0.184, A=0.140);
-- BIEN prune: (L=0.165, A=0.114);
-- AusTraits S3: (Lapprox0.300, Aapprox0.069);
-- AusTraits prune: (Lapprox0.333, Aapprox0.067).
-
-Thus phylogenetic memory is substantially more repeatable as a **lineage-wide level** than as a **trait allocation**, especially in AusTraits.
+These quantify the architecture of **the specified rho statistic**; they do not prove that the family has a transferable, intrinsic quantity of evolutionary memory. AusTraits high-support (158-system) split-half measurement-aware estimation yields \(L=0.404,\ A=0.102\) on S3 and \(L=0.419,\ A=0.098\) on prune-only. The split-half sampling variances are approximate, and the selected high-support graph differs from the full core.
 
 ## Discovery: BIEN
 
@@ -223,53 +215,36 @@ Therefore the appropriate interpretation of the global trait effect is probabili
 
 This resolves the apparent tension between positive absolute portability and failed rank portability.
 
+
 ## Pair-specific portability follows a signal-to-contingency ratio
 
-The two-axis model also predicts when a particular trait pair should retain its global ordering.
+For two traits \(a,b\) inside family \(f\),
 
-For traits (a) and (b) within family (f),
-
-[
+$$
 D_f=(T_a-T_b)+(U_{fa}-U_{fb}).
-]
+$$
 
-If lineage-specific deviations are approximately Gaussian with variance (sigma_U^2), the probability that a lineage preserves the sign of the global trait contrast is
+If \(U_{ft}\) values are independent Gaussian with variance \(\sigma_U^2\), and the global contrast \(T_a-T_b\) is fixed, then
 
-[
-P(mathrm{global order survives})
-=
-Phileft(rac{|T_a-T_b|}{sqrt{2sigma_U^2}}ight).
-]
+$$
+P(\text{predicted pair order survives in a family})
+=\Phi\left(\frac{|T_a-T_b|}{\sqrt{2\,\sigma_U^2}}\right).
+$$
 
-Thus portability is not an all-or-none trait property. It is controlled by a **signal-to-contingency ratio**: the global separation between two trait means relative to the scale of lineage-specific deviations.
+This is a **conditional model prediction**, not a theorem that phylogenetic memory has a universal hierarchy. Held-out-family pairwise agreement rises with the size of the global trait-mean contrast relative to the residual system variance.
 
-The observed leave-one-family-out margin calibration follows this prediction qualitatively. Trait pairs with almost no global separation are near chance ordering inside a new family, whereas strongly separated pairs are more likely to retain their order.
 
-## A cross-compilation portability law emerges after normalization
+## Cross-compilation calibration remains exploratory
 
-The pair-specific signal-to-contingency rule can be tested across compilations by normalizing each leave-one-family-out global trait contrast by the estimated lineage-specific deviation scale:
+Normalize the leave-one-family-out trait contrast by the modeled system-specific dispersion:
 
-[
-x=rac{|Delta T|}{sqrt{2sigma_U^2}}.
-]
+$$
+x=\frac{|\Delta T|}{\sqrt{2\,\sigma_U^2}}.
+$$
 
-Using measurement-aware (sigma_U^2) for BIEN and the high-support split-half measurement-aware estimate for AusTraits, the S3 family x trait-pair observations from both compilations fall on the same probabilistic calibration.
+A post-outcome pooled S3 probit calibration had estimated common slope 0.764 (SE 0.204), with no detectable between-compilation slope interaction. This is **suggestive calibration within the rho estimator**, not confirmation of a universal evolutionary process. The prune-only calibration was less stable.
 
-A pooled probit model with two-way cluster-robust uncertainty gives:
-
-- common slope = 0.764, SE = 0.204, p = 1.8e-4;
-- source intercept shift = -0.069, p = 0.665;
-- source x slope interaction = 0.029, p = 0.943.
-
-Thus there is no detectable need for a different S3 calibration law in BIEN versus AusTraits.
-
-The idealized Gaussian crossed model predicts slope 1. The empirical slope is smaller, so the simple equation is somewhat overconfident, but the normalized trait contrast remains strongly predictive.
-
-This suggests a more general statement than a fixed trait hierarchy:
-
-> **Whether a trait ordering transports to a new lineage is governed by the size of the global trait contrast relative to lineage-specific contingency.**
-
-The prune-only calibration is less clean, so this cross-compilation law should be presented as S3-primary with mandatory prune sensitivity rather than as tree-treatment invariant.
+The normalized margin is useful as a probabilistic prediction of pair-order retention. Its applicability to conventional phylogenetic signal requires a distinct estimator-sensitivity analysis (including Blomberg's \(K\)).
 
 ## Re-ordering is not a simple support or module artifact
 
@@ -426,9 +401,9 @@ The present study adds a different inferential level:
 - independent-compilation validation;
 - explicit separation of memory level from memory allocation.
 
-## Central claim
+## Central claim (rho-specific pending conventional-signal sensitivity)
 
-> **Lineages differ repeatably in the overall level of phylogenetic memory, but independently rewire which traits carry that memory.**
+> **Lineages differ in the repeatable family-level component of phylogenetic distance–dissimilarity coupling, while the relative trait-specific coupling is extensively reorganized among families.**
 
 More conservative:
 
@@ -458,6 +433,9 @@ Avoid claiming a universal hierarchy, because the prospective AusTraits rank-por
 
 ## Hard boundaries
 
+- Do not translate a higher distance–dissimilarity rho into faster evolution or inherently greater trait lability; its biological orientation differs from a direct rate measurement.
+- A standard-signal comparison using Blomberg's K is a separate post-outcome sensitivity and is not yet evidence for a universal memory-allocation phenomenon.
+- L and A are different but not orthogonal indices.
 - The strict prospective portable-hierarchy prediction was not validated.
 - Trait identity is not zero.
 - Near-maximal rank re-ordering does not imply random trait evolution.

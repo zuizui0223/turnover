@@ -29,6 +29,10 @@ For a species with >=2 positive-source datasets, compute the sample variance of 
 
 **12 of 13 traits passed the previously frozen cross-dataset coverage gate and the positive-source dispersion calibration.** Seed height does not have sufficient family spread. The future model therefore compares **249 original systems / 42 families / 12 traits** on both sides; no observed K-driven exclusions are allowed. 244 of these 249 systems have >=5 multi-dataset species for local ratio estimation. The other 5 receive the same K-blind trait-global median imputation only in the `system_local` model.
 
+## Matched-graph observed target (computed before opening OU+source outcomes)
+
+Recomputing the exact original LOFO within-family K rank gain on the observation-error-eligible 12-trait subset gives **+8.0083% S3 / +15.5766% prune-only**, versus **+8.0818% / +15.3072%** on the original 13-trait graph. There are 249 systems from the same 42 families, and every family retains >=2 traits. The source-coverage gate therefore did **not** erase the observed rank-prediction phenomenon. These are observed-only results, **not** a source-noise process-null verdict.
+
 ## What this does **not** establish
 
 This is not a measured independent *instrument error variance*. Same-species data from different AusTraits datasets may cover different populations, years, environments and protocols. Dataset replication is not guaranteed independent biological replication; source compilation can duplicate underlying field measurements. The ratio may therefore contain real intraspecific biology or systematic source artifacts.

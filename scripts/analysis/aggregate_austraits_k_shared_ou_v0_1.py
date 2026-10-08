@@ -17,6 +17,25 @@ AXES={'S3':'S3_logK','prune_only':'prune_logK'}
 N=254
 B=256
 
+def verify_archived_K_identity(sid:str,axis:str,meta:dict,r,col:str)->None:
+    """Check OU reassembly against its exact frozen K, allowing only known
+    independent 4-decimal rounding of the separately archived logK column.
+    """
+    frozen_K = float(getattr(r, 'S3_K' if axis == 'S3' else 'prune_K'))
+    frozen_logK = float(getattr(r,col))
+    reconstructed_logK = float(meta['observed_logK'])
+    if not (np.isfinite(frozen_K) and frozen_K > 0 and
+            np.isfinite(frozen_logK) and np.isfinite(reconstructed_logK)):
+        raise ValueError('OU K identity has nonfinite values '+sid+' '+axis)
+    if abs(reconstructed_logK - np.log(frozen_K)) > 3e-10:
+        raise ValueError('OU logK differs from archived K '+sid+' '+axis)
+    # Four-decimal K and four-decimal log(K) were rounded independently;
+    # on the original K scale, combine their strict rounding allowances.
+    tolerance = 0.00006 * (1.0 + max(1.0, frozen_K))
+    if abs(np.exp(frozen_logK) - frozen_K) > tolerance:
+        raise ValueError('inconsistent archived K and logK '+sid+' '+axis)
+
+
 def normalize(rows:pd.DataFrame,expected:pd.DataFrame)->pd.DataFrame:
     z=rows.sort_values(['family','trait_name']).reset_index(drop=True)
     if not z[['system_id','family','trait_name']].equals(
@@ -55,25 +74,7 @@ def main():
             raise ValueError('OU alpha reference differs among systems')
         for axis,col in AXES.items():
             meta=z['axes'][axis]
-            # The original phytools K and log(K) were independently rounded to
-            # four decimals in the archived K artifact.  Comparing log(rounded K)
-            # to rounded log(K) can spuriously reject small K values (A0003 S3).
-            # Revalidate the *same frozen K field* consumed by the OU R worker;
-            # separately check that the archived log(K) is consistent within
-            # its fixed decimal-rounding error. Never loosen tree/K validation.
-            frozen_K = float(getattr(r, 'S3_K' if axis == 'S3' else 'prune_K'))
-            frozen_logK = float(getattr(r,col))
-            reconstructed_logK = float(meta['observed_logK'])
-            if not (np.isfinite(frozen_K) and frozen_K > 0 and
-                    np.isfinite(frozen_logK) and np.isfinite(reconstructed_logK)):
-                raise ValueError('OU K identity has nonfinite values '+sid+' '+axis)
-            if abs(reconstructed_logK - np.log(frozen_K)) > 3e-10:
-                raise ValueError('OU logK differs from archived K '+sid+' '+axis)
-            # Independent four-decimal roundings: |K - exp(logK)| is bounded
-            # by the sum of each transformation's rounding error.
-            tolerance = 0.00006 * (1.0 + max(1.0, frozen_K))
-            if abs(np.exp(frozen_logK) - frozen_K) > tolerance:
-                raise ValueError('inconsistent archived K and logK '+sid+' '+axis)
+            verify_archived_K_identity(sid,axis,meta,r,col)
             if meta['relative_fast_K_error']>.00021:
                 raise ValueError('fast OU K failed K validation')
             for label in SCENARIOS:

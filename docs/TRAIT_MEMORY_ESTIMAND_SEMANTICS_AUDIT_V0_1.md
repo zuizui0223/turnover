@@ -18,13 +18,40 @@ It is NOT an estimate of:
 
 If a positive rho is labelled "greater evolutionary lability" and a low rho is labelled "stronger conservatism", the biological orientation is not established by the statistic itself.
 
+## Exact affine-invariance result
+
+For any real trait vector \(z\), any constant \(b\), and nonzero scalar \(a\),
+
+$
+\left|(az_i+b)-(az_j+b)\right|=|a|\,|z_i-z_j|.
+$
+
+Multiplying *all* trait dissimilarities by the same strictly positive constant leaves their ranks unchanged. Thus, for a fixed tree and sampled species set,
+
+$
+\rho_{\mathrm{distance,disparity}}(az+b)
+=\rho_{\mathrm{distance,disparity}}(z),\quad a\ne0.
+$
+
+This equality is exact whenever the Spearman correlation is defined (and preserves any ties). It has a direct evolutionary implication: for a fixed Brownian tree, a realization at diffusion variance \(\sigma^2\) can be written \(z=\mu+\sigma W\), where \(W\) is the unit-rate Brownian tip vector. Therefore
+
+$
+\rho(\mu+\sigma W)=\rho(W)
+$
+
+for every realization \(W\) and every \(\sigma>0\). The entire distribution of this rho statistic under the simple homogeneous BM model is invariant to the BM evolutionary rate **on a fixed phylogeny**.
+
+This is stronger than 'the rho statistic may be only weakly related to rate': homogeneous rate is mathematically non-identifiable from this ordinal rho statistic in the BM model.
+
+A nonlinear transform such as \(z\mapsto\log z\) does *not* preserve the ranks of all absolute pairwise trait differences, explaining why cleaned raw and log analyses can differ even with identical systems. Changes in species sets, trees or evolutionary process can also change rho.
+
 ## Brownian-motion diagnostic
 
 Under homogeneous Brownian evolution with rate sigma^2 on a fixed ultrametric phylogeny,
 
   E[(z_i-z_j)^2 | d_ij] = sigma^2 * d_ij.
 
-Thus a positive association between phylogenetic distance and squared trait dissimilarity is expected under Brownian phylogenetic structure. Increasing sigma^2 multiplies dissimilarity magnitudes without necessarily changing their Spearman rank correlation.
+Thus a positive association between phylogenetic distance and squared trait dissimilarity is expected under Brownian phylogenetic structure. Increasing sigma^2 under a homogeneous Brownian model multiplies realized dissimilarities uniformly and therefore leaves the Spearman rank correlation exactly unchanged on the same fixed tree and realization.
 
 Conversely, phylogenetically independent tip states may exhibit rho near zero despite substantial raw trait variance.
 

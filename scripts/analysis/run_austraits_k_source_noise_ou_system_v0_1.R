@@ -89,9 +89,9 @@ for(axis in names(trees)){
      stop(sprintf("K identity differs, %s: %.9f versus %.9f",axis,checkK,frozen_K))
   sc<-list()
   for(i in 1:3){
-    c<-c(0.25,1,4)[[i]]
+    cval<-c(0.25,1,4)[[i]]
     label<-c("c0p25","c1","c4")[[i]]
-    alpha<-c/Tref
+    alpha<-cval/Tref
     if(abs(alpha-reference$absolute_alpha_grid[[label]])>1e-10*alpha)
        stop("changed global OU alpha")
     set.seed(20261008L+sidnum*101L+(if(axis=="S3")0L else 1000000L)+(i-1L)*2000000L)

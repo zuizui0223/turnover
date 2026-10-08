@@ -19,6 +19,16 @@ The independently recomputed empirical source-conditioned ranks were **+8.00831%
 
 Of the 12 predeclared model×OU×tree **rank-gain** checks, **3** exceed the null 97.5% quantile (all `system_local` on prune), while **9 do not**. Crucially, all six `trait_global` rank checks accommodate the observed rank gain. Therefore the original pre-outcome decision rule for the primary endpoint resolves to **`RANK_PORTABILITY_NOT_BEYOND_ALL_SOURCE_OU_ENVELOPES`**. This is a **failure to require process heterogeneity**, *not* evidence that the source-noise generating process was the true one.
 
+## Exact inferential limitation of rank-gain (global trait-label invariance)
+
+The pre-frozen rank-gain statistic on the graph is
+
+`G = 1 - sum[(r_ft - mean_{f'!=f} r_f't)^2] / sum[(r_ft - 1/2)^2]`,
+
+where `r_ft` is the within-family normalized rank of named trait `t`. For **any one-to-one global permutation of the trait-name labels**, applied consistently across all families, `G` is exactly unchanged: every trait's held-out observations and leave-one-family-out means are merely renamed as a group. On the actual fixed 249-system K graph, a random full permutation of the 12 names produced bitwise-identical gains of **0.080083109348 S3** and **0.155765651273 prune** (differences 0.0).
+
+This is a mathematical design property, **not** a data-specific failure or a simulation discovery. It explains why reproducing `G` only validates **magnitude of trait-ranking portability**, even when a process null assigns different names to high- versus low-K traits. The primary pre-frozen decision still stands; the exploratory named-trait-profile posterior-predictive check addresses a scientifically different, additional target.
+
 ## Why metric-matching is insufficient: post-outcome named-trait profile check
 
 The primary statistic measures the *degree of portability* without requiring the *identity and order of the traits* to match. We therefore added a separately labelled **exploratory posterior-predictive named-trait profile diagnostic**, after seeing the primary null outcome. It computes average within-family normalized ranks for each trait on the exact same system graph; Spearman correlation compares empirical trait mean ranks to those predicted across the 256 source-noise OU realizations. The null reference compares each synthetic replicate with the prediction averaged from its other 255 replicates.

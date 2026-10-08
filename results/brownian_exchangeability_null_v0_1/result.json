@@ -1,0 +1,116 @@
+{
+  "version": "v0.1",
+  "status": "BROWNIAN_IDENTICAL_PROCESS_NULL_ESTIMATED",
+  "simulation": {
+    "families": 24,
+    "traits": 8,
+    "replicates": 128,
+    "seed": 20261008,
+    "branch_geometry_modes": [
+      "deep",
+      "standard",
+      "starish"
+    ],
+    "species_sizes": [
+      24,
+      30,
+      36,
+      44,
+      56,
+      72
+    ],
+    "same_evolutionary_rate_for_every_trait_and_family": true,
+    "species_states_from_phylogenetic_brownian_mvn": true
+  },
+  "theoretical_exchangeable_pair_reversal": 0.5,
+  "summary": {
+    "rho_reversal": {
+      "mean": 0.5004013409032091,
+      "q025": 0.48304865424430643,
+      "q975": 0.5138457556935818
+    },
+    "K_reversal": {
+      "mean": 0.4997735507246377,
+      "q025": 0.47767210144927535,
+      "q975": 0.5129334886128365
+    },
+    "rho_L": {
+      "mean": 0.18643294889952422,
+      "q025": 0.07468593752066571,
+      "q975": 0.29860638937660294
+    },
+    "rho_A": {
+      "mean": 0.009330915158820147,
+      "q025": 0,
+      "q975": 0.05199501661265724
+    },
+    "logK_L": {
+      "mean": 0.04105469385179726,
+      "q025": 0,
+      "q975": 0.15204590372939208
+    },
+    "logK_A": {
+      "mean": 0.00890886027169532,
+      "q025": 0,
+      "q975": 0.0577323088003489
+    },
+    "mean_rho": {
+      "mean": 0.48118914954512304,
+      "q025": 0.4485186598518111,
+      "q975": 0.5114069346160799
+    },
+    "mean_rho_deep": {
+      "mean": 0.5633769924582397,
+      "q025": 0.5163598908569816,
+      "q975": 0.6225933308644036
+    },
+    "mean_rho_standard": {
+      "mean": 0.42325158439499566,
+      "q025": 0.3690909598344105,
+      "q975": 0.4809362710766317
+    },
+    "mean_rho_starish": {
+      "mean": 0.4569388717821337,
+      "q025": 0.4047579586334828,
+      "q975": 0.5132349231491468
+    },
+    "mean_K": {
+      "mean": 1.001393941256317,
+      "q025": 0.9020218798009101,
+      "q975": 1.1058824029799366
+    },
+    "mean_K_deep": {
+      "mean": 1.0104940265841253,
+      "q025": 0.7549458760240482,
+      "q975": 1.3043935588867355
+    },
+    "mean_K_standard": {
+      "mean": 0.9961144944200122,
+      "q025": 0.8073611995104691,
+      "q975": 1.1990130449643213
+    },
+    "mean_K_starish": {
+      "mean": 0.9975733027648138,
+      "q025": 0.8421198246417042,
+      "q975": 1.213701803016035
+    },
+    "cross_metric_spearman": {
+      "mean": 0.5928121418325965,
+      "q025": 0.5006493638607818,
+      "q975": 0.6644442767815968
+    }
+  },
+  "scale_invariance": {
+    "rho_original": 0.19525276487443288,
+    "rho_scaled_x10": 0.19525276487443288,
+    "K_original": 0.33257008484793255,
+    "K_scaled_x10": 0.33257008484793255
+  },
+  "hard_nonclaims": [
+    "These synthetic family trees are not the observed BIEN or AusTraits phylogenies; this is not an empirical-null p-value.",
+    "Near-half reversal under identical-rate Brownian motion does not demonstrate biological or adaptive rewiring.",
+    "Symmetry gives P(opposite ordering across two independent families)=1/2 for exchangeable trait dynamics and continuous non-tied contrasts.",
+    "A calibrated biological-process null requires conditioning on observed family trees, tip coverage and trait-specific missingness.",
+    "Crossed L/A in the simulation uses balanced random-effects method-of-moments, not the empirical Gaussian REML fit."
+  ]
+}

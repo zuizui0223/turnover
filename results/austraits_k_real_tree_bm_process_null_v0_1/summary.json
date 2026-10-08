@@ -1,0 +1,111 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_K_REAL_TREE_BM_PROCESS_NULL_CALIBRATION_COMPLETE",
+  "decision": "BEYOND_IDENTICAL_BM_K_NULL_ON_BOTH_AXES",
+  "post_outcome_exploratory": true,
+  "source_workflows": {
+    "observed_K": 37725935020,
+    "original_BM_null": 37746671909,
+    "final_decision_and_BM_centering": 37750895593
+  },
+  "fixed_design": {
+    "systems": 254,
+    "families": 42,
+    "traits": 13,
+    "shared_evolutionary_rate_under_null": 1,
+    "same_process_for_all_families_and_traits": true,
+    "observed_trees_and_tip_sets_held_fixed": true,
+    "null_replicates": 64,
+    "decision_contract": "data/austraits_k_real_tree_bm_interpretation_v0_1.json"
+  },
+  "axes": {
+    "S3": {
+      "rank_gain": {
+        "observed": 0.08081813737789167,
+        "null_mean": -0.04995457921977001,
+        "null_q025": -0.08401137041775486,
+        "null_q975": 0.0033092459969774187,
+        "p_ge": 0.015384615384615385
+      },
+      "absolute_gain": {
+        "observed": 0.04449723234056946,
+        "null_mean": -0.05046075046243942,
+        "null_q025": -0.09664408862889616,
+        "null_q975": 0.0027434743409560517,
+        "p_ge": 0.015384615384615385
+      },
+      "pair_order_reversal": {
+        "observed": 0.44028703229113275,
+        "null_mean": 0.49829177093713384,
+        "null_q025": 0.4792778233267447,
+        "null_q975": 0.510637515610111,
+        "p_null_le": 0.015384615384615385
+      },
+      "conditional_family_repeatability": {
+        "observed": 0.5306,
+        "null_mean": 0.0252,
+        "null_q025": 0,
+        "null_q975": 0.1132,
+        "p_null_ge": 0.0154
+      },
+      "BM_expected_logK_centered_rank_gain": {
+        "observed": 0.0937363274215165,
+        "null_upper_q975": 0.03340970790561513,
+        "p_ge": 0.015384615384615385
+      },
+      "BM_expected_logK_standardized_rank_gain": {
+        "observed": 0.07895573711274229,
+        "null_upper_q975": 0.025784584725249204,
+        "p_ge": 0.015384615384615385
+      }
+    },
+    "prune_only": {
+      "rank_gain": {
+        "observed": 0.15307160494652883,
+        "null_mean": -0.048347048087059856,
+        "null_q025": -0.0877101019876676,
+        "null_q975": 0.0153460791099003,
+        "p_ge": 0.015384615384615385
+      },
+      "absolute_gain": {
+        "observed": 0.06156647271645732,
+        "null_mean": -0.04953079402946016,
+        "null_q025": -0.08612592204879431,
+        "null_q975": 0.010140647491897824,
+        "p_ge": 0.015384615384615385
+      },
+      "pair_order_reversal": {
+        "observed": 0.39876986160943106,
+        "null_mean": 0.49772829051417083,
+        "null_q025": 0.4734794122672134,
+        "null_q975": 0.511989577994191,
+        "p_null_le": 0.015384615384615385
+      },
+      "conditional_family_repeatability": {
+        "observed": 0.5881,
+        "null_mean": 0.0213,
+        "null_q025": 0,
+        "null_q975": 0.0892,
+        "p_null_ge": 0.0154
+      },
+      "BM_expected_logK_centered_rank_gain": {
+        "observed": 0.14617578596553737,
+        "null_upper_q975": 0.009820911747080004,
+        "p_ge": 0.015384615384615385
+      },
+      "BM_expected_logK_standardized_rank_gain": {
+        "observed": 0.13306520611816552,
+        "null_upper_q975": 0.014042488994572406,
+        "p_ge": 0.015384615384615385
+      }
+    }
+  },
+  "interpretation": "On fixed observed source-native trees and species support, empirical K family repeatability, named-trait mean and rank predictive gains, and lower-than-half trait-order reversal exceed the matched identical-process independent Brownian model. This is evidence of reproducible structure in the standardized phylogenetic-signal statistic not reproduced by this particular Brownian process null.",
+  "hard_nonclaims": [
+    "Equal Brownian process null exceedance does not prove selection, evolutionary-rate heterogeneity or adaptive trait-memory reallocation.",
+    "Other homogeneous non-Brownian processes, measurement error, species covariance, trait covariance, and source-data effects remain possible.",
+    "K (relative to BM) and distance–disparity rho are distinct statistics; K is not an evolutionary-rate estimator.",
+    "With 64 simulations the minimum nonzero empirical-tail p is 1/65; the comparisons are post-outcome, not fully multiplicity corrected.",
+    "The exact pre-registered BIEN and AusTraits rho decisions have not been reclassified."
+  ]
+}

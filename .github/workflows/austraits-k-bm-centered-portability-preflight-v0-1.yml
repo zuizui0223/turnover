@@ -1,0 +1,35 @@
+name: AusTraits BM-normalized K portability preflight v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-bm-centered-portability-preflight-v0-1.yml'
+      - 'data/austraits_k_real_tree_bm_centered_portability_v0_1.json'
+      - 'scripts/analysis/analyze_austraits_k_bm_centered_portability_v0_1.py'
+      - 'tests/test_austraits_k_bm_centered_portability_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Verify source-fixed Brownian centering and synthetic leakage guards
+        run: |
+          python -m py_compile scripts/analysis/analyze_austraits_k_bm_centered_portability_v0_1.py tests/test_austraits_k_bm_centered_portability_v0_1.py
+          python tests/test_austraits_k_bm_centered_portability_v0_1.py
+          python - <<'PY'
+          import json
+          x=json.load(open('data/austraits_k_real_tree_bm_centered_portability_v0_1.json'))
+          assert x['status']=='POST_RHO_K_OUTCOME_PRE_REAL_TREE_BM_CALIBRATION_DEVIATION_DESIGN'
+          assert x['axes']==['S3','prune_only']
+          PY

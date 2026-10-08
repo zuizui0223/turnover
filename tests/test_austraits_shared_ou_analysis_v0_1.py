@@ -90,11 +90,15 @@ with tempfile.TemporaryDirectory(prefix="aust_ou_preflight_") as temp:
                 'null_family_repeatability':{'mean':.02,'q025':0,'q975':.1,'p_null_ge_observed':1/257}
             }
             x['scenarios'][scen]['axes'][axis]['null']['rank_gain']['q975']=empirical['rank_gain']-.01
-    verdict=compare(x,family,design)
+    # Classification uses a separate synthetic schema fixture with the required
+    # metadata count. The 4-draw aggregation mock is NOT a scientific result.
+    classification_fixture=json.loads(json.dumps(x))
+    classification_fixture['replicates_per_scenario']=256
+    verdict=compare(classification_fixture,family,design)
     assert verdict['decision']=='K_STRUCTURE_BEYOND_ALL_THREE_EQUAL_OU_SCENARIOS'
 
-    x['scenarios']['c4']['axes']['S3']['null']['rank_gain']['q975']+=.1
-    assert compare(x,family,design)['decision']=='K_STRUCTURE_NOT_BEYOND_ALL_EQUAL_OU_SCENARIOS'
+    classification_fixture['scenarios']['c4']['axes']['S3']['null']['rank_gain']['q975']+=.1
+    assert compare(classification_fixture,family,design)['decision']=='K_STRUCTURE_NOT_BEYOND_ALL_EQUAL_OU_SCENARIOS'
 
     altered=json.loads((root/'input'/'A0001.json').read_text())
     altered['family']='BROKEN'

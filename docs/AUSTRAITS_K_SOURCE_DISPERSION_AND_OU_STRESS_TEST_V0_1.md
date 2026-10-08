@@ -76,6 +76,18 @@ The source-plus-OU forward model was independently frozen **before opening the m
 
 The new [real-tree smoke-test Action](https://github.com/zuizui0223/turnover/actions/runs/37785073697) and [249-system production Action](https://github.com/zuizui0223/turnover/actions/runs/37785257795) were submitted. The simulation code, data-source lock, source ratio lock, exact K identification and decision rule are versioned. **No inference about whether this alternative succeeds can be made until its jobs complete and final artifacts are validated.**
 
+## What the fixed source-noise model predicts mathematically
+
+The specified model is `Y_tip = X_tip + sqrt(eta * s_X^2) * epsilon_tip`, with `epsilon_tip iid N(0,1)` and `s_X^2` the realized across-tip sample variance of latent OU states. Conditional on those latent tips,
+
+`E[s_Y^2 | X] = (1+eta) s_X^2`.
+
+Consequently, the noise component's share of **expected total sample variance** is `eta/(1+eta)`: approximately 19.7% for the globally calibrated leaf-mass-per-area eta of 0.2461, 7.7% for leaf area eta 0.0835, 3.8% for leaf length eta 0.0398, and 0.22% for fruit length eta 0.00225. These are **model-implied fractions, not measured independent error fractions**.
+
+The key distinction is that Blomberg K is sensitive to the **phylogenetic distribution** of that extra variance, not just its magnitude. On a star phylogeny with equal terminal branch lengths, `C = t I`, the GLS mean is the arithmetic mean and the K normalization simplifies to exactly `K=1` for every nonconstant tip-value vector. In that limiting geometry, independent tip noise alone cannot generate portable K rankings. A source-noise explanation for the empirical K architecture therefore necessarily acts through the combination of source error and **nonstar empirical tree covariance**.
+
+This is a pre-outcome theoretical check, **not evidence** that the real 249-system OU+source simulations meet the frozen primary rank-gain criterion.
+
 ## Scientific interpretation boundary
 
 This tests *independent source-associated tip dispersion*. It does not test correlated traits, systematic dataset-level biases shared across species, or lab-verified repeatability error. Those remain distinct and untested. Even a successful null reproduction would provide compatibility with the modeled source channel, not demonstrate that source error caused the observed K pattern.

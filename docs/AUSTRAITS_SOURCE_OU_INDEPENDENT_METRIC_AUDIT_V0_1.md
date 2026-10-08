@@ -1,6 +1,6 @@
 # Independent metric audit of the 249-system source-noise OU simulations
 
-**Status:** Independent from the primary aggregation code, using the complete 16 successful source-native batch artifacts of [GitHub Actions #37785257795](https://github.com/zuizui0223/turnover/actions/runs/37785257795). The primary workflow's aggregation/12 REML fits/final interpretation must be checked separately before closing the canonical result.
+**Status:** Independently recomputed and now **verified against the original production 249-system metric aggregation** from [GitHub Actions #37785257795](https://github.com/zuizui0223/turnover/actions/runs/37785257795). All 12 scenario×axis rank-gain observed/null means/quantiles/p values agree within machine precision (largest absolute difference below 1.0e-15). The 12 original REML family ICC refits and final interpretation artifact are separate remaining reproducibility gates.
 
 **Graph:** 249 family×trait systems, 42 families, 12 named traits; `seed_height` removed by the earlier K-blind source-coverage gate on BOTH observed and null. Each scenario uses 256 draws per system and each exact native tree treatment. No parameters were tuned to empirical K; the whole analysis is **post-original-rho/K and post-homogeneous-OU outcomes**.
 

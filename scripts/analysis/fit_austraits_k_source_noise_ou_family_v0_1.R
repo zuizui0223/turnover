@@ -51,7 +51,7 @@ if(n_valid<.95*256)stop("too many failed OU family fits")
 r<-draws[is.finite(draws)]
 out<-list(version="v0.1",
   status="AUSTRAITS_SOURCE_NOISE_OU_FAMILY_REPEATABILITY_CALIBRATED",
-  post_BM_outcome_pre_OU_outcome=TRUE,
+  post_observed_K_and_equal_OU_outcomes=TRUE,
   scenario=scenario,model=model,axis=axis,
   n_systems=249,n_families=42,n_traits=12,
   n_null_replicates=256,valid_null_replicates=n_valid,

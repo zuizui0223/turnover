@@ -1,0 +1,360 @@
+name: AusTraits real-tree shared-OU K null v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-real-tree-shared-ou-v0-1.yml'
+      - 'data/austraits_k_equal_ou_alternative_null_v0_1.json'
+      - 'scripts/analysis/austraits_ou_k_kernel_v0_1.cpp'
+      - 'scripts/analysis/run_austraits_k_shared_ou_system_v0_1.R'
+      - 'scripts/analysis/aggregate_austraits_k_ou_time_reference_v0_1.py'
+      - 'scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py'
+      - 'scripts/analysis/fit_austraits_k_shared_ou_family_v0_1.R'
+      - 'scripts/analysis/interpret_austraits_k_shared_ou_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas
+      - name: Verify frozen homogeneous-OU reference design
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_k_equal_ou_alternative_null_v0_1.json'))
+          assert d['status']=='POST_EQUAL_BM_OUTCOME_PRE_EQUAL_OU_NULL_DESIGN_FROZEN'
+          assert d['fixed_population']['systems']==254
+          assert d['OU_process']['simulations_per_system_per_axis_per_scenario']==256
+          assert d['OU_process']['fixed_dimensionless_alpha_grid']==[0.25,1,4]
+          assert d['OU_process']['independent_traits_given_tree'] is True
+          PY
+      - name: Download frozen K effects and exact AusTraits final core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+      - id: matrix
+        name: Freeze balanced 16-batch exact family-trait graph
+        run: |
+          python - <<'PY'
+          import os,json,base64,pandas as pd
+          k=pd.read_csv('build/K/effects.csv')
+          c=pd.read_csv('build/core/core/core_systems.csv')
+          x=k.merge(c[['family','trait_name','n_input_species','n_prune','n_bind']],
+                    on=['family','trait_name'],validate='one_to_one',how='inner')
+          assert (len(x),x.family.nunique(),x.trait_name.nunique())==(254,42,13)
+          assert not x[['family','trait_name']].duplicated().any()
+          sys=[]
+          for r in x.itertuples(index=False):
+              sys.append({
+                'system_id':r.system_id,'family':r.family,'trait_name':r.trait_name,
+                'n_input_species':int(r.n_input_species),
+                'n_prune':int(r.n_prune),'n_bind':int(r.n_bind),
+                '_weight':int(r.n_species_S3)**3
+              })
+          nbin=16
+          bins=[{'weight':0,'systems':[]} for _ in range(nbin)]
+          for r in sorted(sys,key=lambda x:(-x['_weight'],x['family'],x['trait_name'])):
+              i=min(range(nbin),key=lambda b:(bins[b]['weight'],b))
+              bins[i]['weight']+=r['_weight']
+              bins[i]['systems'].append({k:r[k] for k in ['system_id','family','trait_name','n_input_species','n_prune','n_bind']})
+          include=[]
+          for i,b in enumerate(bins,1):
+              payload=base64.b64encode(json.dumps(b['systems'],separators=(',',':')).encode()).decode()
+              include.append({'batch_id':f'B{i:02d}','systems_b64':payload,'n_systems':len(b['systems'])})
+          assert sum(b['n_systems'] for b in include)==254
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':include},separators=(',',':'))+'\n')
+          print({'systems':254,'families':42,'traits':13,'batches':16})
+          PY
+
+  references:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned source and trait schema
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Reconstruct exact trees and freeze reference time depths, without OU outcomes
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+          AUSTRAITS_OU_PHASE: reference
+        run: |
+          mkdir -p build/batch build/depths
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/depths \
+            --r-script scripts/analysis/run_austraits_k_shared_ou_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-depth-${{ matrix.batch_id }}
+          path: build/depths/*.json
+          retention-days: 30
+
+  reference:
+    needs: references
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-ou-depth-B*
+          path: build/depths
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas
+      - name: Download frozen K observations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/time-reference
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Calculate one common alpha time scale from 508 exact trees
+        run: |
+          python scripts/analysis/aggregate_austraits_k_ou_time_reference_v0_1.py \
+            --metadata-dir build/depths \
+            --reference-effects build/K/effects.csv \
+            --out build/time-reference/time_reference.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-time-reference-v0-1
+          path: build/time-reference/time_reference.json
+          retention-days: 30
+
+  null_batches:
+    needs: [prepare,reference]
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::Rcpp
+      - name: Pin source-native V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned source and trait schema
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-ou-time-reference-v0-1
+          path: build/time-reference
+      - name: Download frozen observed K identity reference
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Simulate identical-parameter stationary OU on exact source-native trees
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+          AUSTRAITS_OU_PHASE: simulate
+          AUSTRAITS_OU_TREF_FILE: build/time-reference/time_reference.json
+          AUSTRAITS_OU_K_REFERENCE_FILE: build/K/effects.csv
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          mkdir -p build/batch build/results build/rcpp-cache
+          python - <<'PY'
+          import os,base64
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/results \
+            --r-script scripts/analysis/run_austraits_k_shared_ou_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-sim-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: null_batches
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-ou-sim-B*
+          path: build/all
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-ou-time-reference-v0-1
+          path: build/time-reference
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Download fixed K observations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/results build/tables
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Match all 254 source-native system identities and OU alpha values
+        run: |
+          python scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py \
+            --input-dir build/all \
+            --observed-K build/K/effects.csv \
+            --time-reference build/time-reference/time_reference.json \
+            --out build/results/metric_null.json \
+            --tables-dir build/tables
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-metric-null-v0-1
+          path: |
+            build/results/metric_null.json
+            build/tables/
+          retention-days: 30
+
+  family_null:
+    needs: aggregate
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include:
+          - {scenario: c0p25, axis: S3}
+          - {scenario: c0p25, axis: prune_only}
+          - {scenario: c1, axis: S3}
+          - {scenario: c1, axis: prune_only}
+          - {scenario: c4, axis: S3}
+          - {scenario: c4, axis: prune_only}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-ou-metric-null-v0-1
+          path: build/data
+      - name: Download frozen observed K
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/family
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Calibrate fixed-family REML on 256 OU replicates
+        run: |
+          Rscript scripts/analysis/fit_austraits_k_shared_ou_family_v0_1.R \
+            --observed-K build/K/effects.csv \
+            --null-table build/data/tables/null_effects_${{ matrix.scenario }}.csv \
+            --scenario ${{ matrix.scenario }} \
+            --axis ${{ matrix.axis }} \
+            --out build/family/result_${{ matrix.scenario }}_${{ matrix.axis }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-family-${{ matrix.scenario }}-${{ matrix.axis }}
+          path: build/family/*.json
+          retention-days: 30
+
+  interpret:
+    needs: family_null
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-ou-metric-null-v0-1
+          path: build/data
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-ou-family-c*
+          path: build/family
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Apply frozen all-three-scenario scientific decision
+        run: |
+          mkdir -p build/final
+          python scripts/analysis/interpret_austraits_k_shared_ou_v0_1.py \
+            --metrics build/data/results/metric_null.json \
+            --family-dir build/family \
+            --design data/austraits_k_equal_ou_alternative_null_v0_1.json \
+            --out build/final/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-shared-ou-process-null-final-v0-1
+          path: build/final/result.json
+          retention-days: 30

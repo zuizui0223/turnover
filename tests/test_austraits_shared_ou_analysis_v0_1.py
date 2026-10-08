@@ -41,6 +41,9 @@ with tempfile.TemporaryDirectory(prefix="aust_ou_preflight_") as temp:
              'trait_name':f'T{t:02d}',
              'S3_logK':float(np.cos(t*.4)+rng.normal(0,.12)),
              'prune_logK':float(np.sin(t*.4)+rng.normal(0,.12))}
+        # Match the real archival schema: source K and log(K) are both stored.
+        row['S3_K']=float(np.exp(row['S3_logK']))
+        row['prune_K']=float(np.exp(row['prune_logK']))
         observed.append(row)
         system={'version':'v0.1',
                 'status':'AUSTRAITS_REAL_TREE_SHARED_OU_NULL_SYSTEM_ESTIMATED',

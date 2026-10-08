@@ -1,0 +1,31 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_SPLIT_HALF_MEASUREMENT_AWARE_DESIGN",
+  "frozen_on":"2026-10-07",
+  "question":"After estimating finite-species rho uncertainty from split halves, does the two-axis lineage-memory architecture persist in the high-support AusTraits subset?",
+  "population":"158 matched positive-numeric log systems with prune-native tips >=40.",
+  "sampling_variance":{
+    "half_estimator":"For each of three deterministic split replicates, compute (rho_A-rho_B)^2/2 as the half-sample error variance contribution under equal independent halves.",
+    "full_data_conversion":"Approximate full-data sampling variance as one half of half-sample variance, yielding mean((rho_A-rho_B)^2)/4 per system.",
+    "interpretation":"This is an empirical split-half approximation, not an exact analytic variance estimator."
+  },
+  "model":"rho_ft ~ intercept + family random effect + trait random effect + system random effect, with the split-half sampling variance added as known diagonal observation variance.",
+  "estimation":"REML by direct Gaussian covariance optimization.",
+  "outputs":[
+    "sigma2_family",
+    "sigma2_trait",
+    "sigma2_system",
+    "mean_sampling_variance",
+    "sampling share of mean total variance",
+    "memory-level stability L=sigma2_family/(sigma2_family+sigma2_system)",
+    "allocation stability A=sigma2_trait/(sigma2_trait+sigma2_system)",
+    "Gaussian pair-order reversal acos(A)/pi"
+  ],
+  "axes":["log-S3","log-prune"],
+  "role":"post-outcome measurement-error sensitivity; cannot reclassify prospective decisions",
+  "hard_nonclaims":[
+    "Three split replicates provide a noisy per-system variance estimate.",
+    "The inverse-information scaling from half to full sample is an approximation.",
+    "The system component may still contain unmodeled estimation error and biological heterogeneity."
+  ]
+}

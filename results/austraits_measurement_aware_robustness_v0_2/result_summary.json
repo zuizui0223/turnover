@@ -1,0 +1,101 @@
+{
+  "version": "v0.2",
+  "status": "AUSTRAITS_MEASUREMENT_AWARE_ROBUSTNESS_CI_VALIDATED",
+  "execution": {
+    "workflow_run": 37705659924,
+    "artifact": "austraits-measurement-aware-robustness-v0-2",
+    "post_outcome_exploratory": true
+  },
+  "population": {
+    "systems": 158,
+    "families": 30,
+    "traits": 13,
+    "selection": "log-positive numeric; native prune tips >=40"
+  },
+  "estimands": {
+    "L": "sigma2_family/(sigma2_family+sigma2_system)",
+    "A": "sigma2_trait/(sigma2_trait+sigma2_system)",
+    "warning": "L and A share the same system component and must not be called statistically independent."
+  },
+  "S3": {
+    "L": 0.4038378889511059,
+    "A": 0.1017373781744747,
+    "L_minus_A": 0.3021005107766312,
+    "sampling_share": 0.1373717719793188,
+    "expected_pair_order_reversal": 0.4675598598242635,
+    "bootstrap": {
+      "requested": 999,
+      "valid": 998,
+      "seed": 20261008,
+      "L_ci95": [
+        0.17700201945898392,
+        0.5901544450832915
+      ],
+      "A_ci95": [
+        0.000030469109489494757,
+        0.2675481781668492
+      ],
+      "L_minus_A_ci95": [
+        0.0358778291994045,
+        0.5047854885057781
+      ],
+      "fraction_L_gt_A": 0.9919839679358717
+    },
+    "nine_variance_sensitivities": {
+      "all_L_gt_A": true,
+      "L_range": [
+        0.3749115297905292,
+        0.4319683454726904
+      ],
+      "A_range": [
+        0.09298817783345824,
+        0.1811919120922273
+      ],
+      "smallest_L_minus_A": 0.2507764333804631
+    }
+  },
+  "prune_only": {
+    "L": 0.41853511251392184,
+    "A": 0.09842711762072703,
+    "L_minus_A": 0.3201079948931948,
+    "sampling_share": 0.18155857859815683,
+    "expected_pair_order_reversal": 0.4686188660781454,
+    "bootstrap": {
+      "requested": 999,
+      "valid": 996,
+      "seed": 20262008,
+      "L_ci95": [
+        0.17492561980006618,
+        0.5994973008783876
+      ],
+      "A_ci95": [
+        0.00002485699738619611,
+        0.2860396491411652
+      ],
+      "L_minus_A_ci95": [
+        0.053098535499694705,
+        0.534430907538368
+      ],
+      "fraction_L_gt_A": 0.9889558232931727
+    },
+    "nine_variance_sensitivities": {
+      "all_L_gt_A": true,
+      "L_range": [
+        0.3407781052848061,
+        0.5333453043427644
+      ],
+      "A_range": [
+        0.08907352382385657,
+        0.129383892915311
+      ],
+      "smallest_L_minus_A": 0.25170458146094954
+    }
+  },
+  "warnings": [
+    "The per-system variance v_i is approximated from only three paired split-halves; conditional bootstrap excludes its uncertainty.",
+    "Sampling errors between different traits sharing species or phylogenetic placements need not be independent.",
+    "Do not identify biological causes or reclassify the pre-frozen prospective AusTraits decisions.",
+    "The high-support core is a subset of the full 259-system prospective core.",
+    "The rho estimator measures phylogenetic distance-dissimilarity coupling rather than evolutionary rate."
+  ]
+}

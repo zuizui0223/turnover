@@ -1,0 +1,11 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_STANDARD_SIGNAL_SENSITIVITY",
+  "frozen_on":"2026-10-07",
+  "question":"Does the two-axis lineage-memory architecture persist under Blomberg K?",
+  "population":"fixed AusTraits 254-system matched positive-numeric log core; 42 families; 13 traits",
+  "estimator":"Blomberg K on natural-log species states; prune-only emphasized because tree resolution can affect K; S3 mandatory sensitivity",
+  "tests":["family repeatability of log(K)","held-out-family absolute trait portability","within-family rank portability","cross-family pair-order reversal"],
+  "role":"post-outcome statistic sensitivity only",
+  "rho_decisions_unchanged":true
+}

@@ -1,0 +1,13 @@
+{
+  "version":"v0.6.5.5",
+  "status":"TECHNICAL_PROVENANCE_RETRY_PRE_EFFECT",
+  "frozen_on":"2026-10-07",
+  "source_final_core_run":37560915567,
+  "source_artifact":"austraits-final-core-v0-6-5-4",
+  "failure":"Provenance job failed before analysis because pip could not resolve duckdb from the transient package index.",
+  "fix":"Install Python dependencies from the explicit public PyPI simple index and rerun the identical frozen provenance-overlap analysis.",
+  "scientific_change":false,
+  "selection_changed":false,
+  "thresholds_changed":false,
+  "memory_effects_opened":false
+}

@@ -1,0 +1,42 @@
+name: AusTraits trait-allocation life-history distance v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-allocation-life-history-v0-1.yml'
+      - 'data/austraits_allocation_life_history_design_v0_1.json'
+      - 'scripts/analysis/test_austraits_allocation_life_history_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Download frozen AusTraits effects and life-history predictors
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects build/predictors
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          gh run download 37611753420 -R "$GITHUB_REPOSITORY" -n austraits-family-context-life-history-v0-1 -D build/predictors
+          test -f build/effects/effects.csv
+          test -f build/predictors/family_predictors.csv
+      - name: Test life-history distances against trait-allocation disagreement
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/test_austraits_allocation_life_history_v0_1.py \
+            --effects build/effects/effects.csv \
+            --family-predictors build/predictors/family_predictors.csv \
+            --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-allocation-life-history-v0-1
+          path: build/result/result.json
+          retention-days: 30

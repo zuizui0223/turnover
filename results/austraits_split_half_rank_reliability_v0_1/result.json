@@ -1,0 +1,79 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_SPLIT_HALF_RANK_RELIABILITY_COMPLETE_FROM_ALL_158_SYSTEM_ARTIFACTS",
+  "created_on": "2026-10-07",
+  "population": {
+    "systems": 158,
+    "families": 30,
+    "traits": 13,
+    "rule": "matched positive-numeric log core with prune-only native tips >=40"
+  },
+  "S3": {
+    "system_half_A_vs_half_B_spearman": [
+      0.7287645184184934,
+      0.6977968609168262,
+      0.7139712515429866
+    ],
+    "mean_split_half_reliability": 0.7135108769594355,
+    "mean_spearman_brown_full_reliability": 0.8327421639161208,
+    "well_represented_pairs_min10": {
+      "n_trait_pairs": 14,
+      "measurement_only_order_reversal_replicates": [
+        0.2079207920792079,
+        0.2315270935960591,
+        0.22660098522167488
+      ],
+      "mean_measurement_only_order_reversal": 0.22201629029898062,
+      "observed_full_data_cross_family_reversal": 0.48815461346633415,
+      "measurement_to_observed_ratio": 0.45480731754733705,
+      "observed_fraction_of_pair_specific_maximum": 0.9190140845070423
+    },
+    "min5": {
+      "n_trait_pairs": 36,
+      "mean_measurement_only_order_reversal": 0.25141774891774893,
+      "observed_full_data_cross_family_reversal": 0.48778103616813295,
+      "measurement_to_observed_ratio": 0.5154315774405955
+    }
+  },
+  "prune_only": {
+    "system_half_A_vs_half_B_spearman": [
+      0.6185755989515591,
+      0.6593971459947964,
+      0.6544497958495819
+    ],
+    "mean_split_half_reliability": 0.644140846931979,
+    "mean_spearman_brown_full_reliability": 0.7834091843841434,
+    "well_represented_pairs_min10": {
+      "n_trait_pairs": 14,
+      "measurement_only_order_reversal_replicates": [
+        0.27586206896551724,
+        0.270935960591133,
+        0.3054187192118227
+      ],
+      "mean_measurement_only_order_reversal": 0.28407224958949095,
+      "observed_full_data_cross_family_reversal": 0.4769326683291771,
+      "measurement_to_observed_ratio": 0.595623383452998,
+      "observed_fraction_of_pair_specific_maximum": 0.897887323943662
+    },
+    "min5": {
+      "n_trait_pairs": 36,
+      "mean_measurement_only_order_reversal": 0.3077651515151515,
+      "observed_full_data_cross_family_reversal": 0.4814271749755621,
+      "measurement_to_observed_ratio": 0.6392766497461928
+    }
+  },
+  "interpretation": "Even when each system is deliberately estimated from only half its species, measurement-induced trait-order reversal is much lower than full-data cross-family re-ordering. Because half-sample rho estimates are noisier than the full-data estimates used in the biological comparison, this split-half analysis is conservative with respect to the measurement-noise explanation. Estimator instability therefore cannot account for the near-half observed cross-lineage re-ordering.",
+  "hard_nonclaims": [
+    "Measurement-only and biological reversal probabilities are not additive, so observed minus split-half reversal is not interpreted as an exact biological fraction.",
+    "Split-half reliability does not identify the ecological mechanism of re-ordering.",
+    "This is a post-outcome exploratory reliability analysis."
+  ],
+  "conservative_sign_flip_correction": {
+    "assumption": "Treat the half-sample within-family order-disagreement rate as if it were the full-data pairwise measurement-disagreement rate. Because each half uses fewer species than the actual full-data estimates, this deliberately overstates full-data measurement instability.",
+    "formula": "p_true=(p_observed-p_measurement)/(1-2*p_measurement)",
+    "S3_min10_corrected_cross_family_reversal": 0.4786940994736599,
+    "prune_min10_corrected_cross_family_reversal": 0.44658553236680165,
+    "interpretation": "Even under this deliberately pessimistic symmetric independent sign-flip approximation, latent cross-family re-ordering remains very high.",
+    "role": "illustrative sensitivity, not a formal measurement-error model"
+  }
+}

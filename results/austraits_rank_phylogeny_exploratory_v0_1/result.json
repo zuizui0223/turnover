@@ -1,0 +1,18 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_RANK_PHYLOGENY_EXPLORATORY_ESTIMATED",
+  "post_outcome_exploratory":true,
+  "coverage":{"n_focal_families":42,"n_valid_family_representatives":41,"family_without_representative":"Chenopodiaceae"},
+  "source_native":{
+    "S3_shared4":{"n_eligible_family_pairs":418,"spearman_distance_vs_rank_disagreement":-0.051441378256708074,"p_one_sided_positive":0.8778},
+    "prune_shared4":{"n_eligible_family_pairs":418,"spearman_distance_vs_rank_disagreement":-0.0788485073803434,"p_one_sided_positive":0.9472},
+    "S3_shared3":{"n_eligible_family_pairs":627,"spearman_distance_vs_rank_disagreement":-0.04488889700438243,"p_one_sided_positive":0.9270},
+    "prune_shared3":{"n_eligible_family_pairs":627,"spearman_distance_vs_rank_disagreement":-0.061045656253789604,"p_one_sided_positive":0.9687}
+  },
+  "matched_log":{
+    "S3_shared4":{"n_eligible_family_pairs":418,"spearman_distance_vs_rank_disagreement":-0.070850194237344,"p_one_sided_positive":0.8583},
+    "prune_shared4":{"n_eligible_family_pairs":418,"spearman_distance_vs_rank_disagreement":-0.057384394042273315,"p_one_sided_positive":0.7994}
+  },
+  "interpretation":"Family-specific trait-memory rankings are not detectably more similar among closely related families. Together with the BIEN null result, lineage-specific re-ordering is better described as a deep-phylogenetically mosaic reconstruction than as a smoothly inherited higher-level ranking regime.",
+  "hard_nonclaims":["Null deep-phylogeny association does not imply random evolution.","No ecological or developmental mechanism is identified.","Post-outcome exploratory result only."]
+}

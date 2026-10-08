@@ -1,0 +1,77 @@
+name: AusTraits measurement-aware L-A robustness v0.2
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-measurement-aware-robustness-v0-2.yml'
+      - 'data/austraits_measurement_aware_robustness_v0_2.json'
+      - 'scripts/analysis/sensitivity_austraits_measurement_aware_v0_2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Validate fixed post-outcome sensitivity contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_measurement_aware_robustness_v0_2.json'))
+          assert d['status']=='POST_OUTCOME_MEASUREMENT_VARIANCE_ROBUSTNESS_SPECIFICATION'
+          assert d['variance_estimation']['multipliers']==[0,0.25,0.5,1,2,4]
+          assert d['bootstrap']['replicates']==999
+          PY
+      - name: Download frozen real effects, split halves, and original model
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects build/splits build/v1 build/result
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          gh run download 37615646597 -R "$GITHUB_REPOSITORY" -n austraits-split-half-rank-reliability-v0-1 -D build/splits
+          gh run download 37642313948 -R "$GITHUB_REPOSITORY" -n austraits-split-half-measurement-aware-v0-1 -D build/v1
+          test -f build/effects/effects.csv
+          test -f build/splits/split_rhos.csv
+          test -f build/v1/result.json
+      - name: Fit variance-scale grid and conditional parametric bootstrap
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/sensitivity_austraits_measurement_aware_v0_2.py \
+            --effects build/effects/effects.csv \
+            --split-rhos build/splits/split_rhos.csv \
+            --out build/result/result.json \
+            --bootstrap 999 --seed 20261008
+      - name: Reproduce original corrected estimates and validate diagnostics
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('build/result/result.json'))
+          b=json.load(open('build/v1/result.json'))
+          assert a['population']=={'systems':158,'families':30,'traits':13}
+          for name,prev in [('S3','S3'),('prune','prune_only')]:
+              z=a['axes'][name]
+              f=z['fits']['scale_1']
+              assert abs(f['L']-b[prev]['memory_level_stability_L'])<0.002
+              assert abs(f['A']-b[prev]['allocation_stability_A'])<0.002
+              assert len(z['fits'])==9
+              assert z['conditional_bootstrap']['replicates_valid']>=950
+              assert all(x['optimizer_success'] for x in z['fits'].values())
+          print('PASS: 158-system identity, original REML estimates, nine variance sensitivities, bootstrap validity')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-measurement-aware-robustness-v0-2
+          path: build/result/result.json
+          retention-days: 30

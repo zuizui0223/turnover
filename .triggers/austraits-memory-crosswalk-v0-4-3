@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: run corrected species-grain + ambiguous-genus fail-closed AusTraits v0.4.2 crosswalk before any memory effect.

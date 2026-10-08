@@ -1,0 +1,93 @@
+name: AusTraits exact-crosswalk geometry rebuild v0.6.4
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-memory-geometry-exact-v0-6-4.yml'
+      - 'data/austraits_exact_crosswalk_downstream_rebuild_v0_6_4.json'
+      - 'scripts/analysis/prepare_austraits_memory_geometry_v0_6_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Validate exact-crosswalk rebuild contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_exact_crosswalk_downstream_rebuild_v0_6_4.json'))
+          g=json.load(open('data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json'))
+          assert d['status']=='FROZEN_EXACT_CROSSWALK_DOWNSTREAM_REBUILD'
+          assert d['scientific_contract_changed'] is False
+          assert d['chronology']['real_austraits_memory_effects_opened'] is False
+          assert g['status']=='AUSTRAITS_DOWNSTREAM_EXACT_CROSSWALK_GUARD_FROZEN'
+          PY
+      - name: Download authoritative exact crosswalk
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/crosswalk
+          gh run download 37425045356 -R "$GITHUB_REPOSITORY" -n austraits-memory-exact-crosswalk-v0-4-3 -D build/crosswalk
+          test -f build/crosswalk/crosswalk.csv
+          test -f build/crosswalk/result.json
+          python - <<'PY'
+          import csv,json
+          x=json.load(open('build/crosswalk/result.json'))
+          rows=list(csv.DictReader(open('build/crosswalk/crosswalk.csv',newline='')))
+          passed=[r for r in rows if str(r['crosswalk_pass']).strip().lower() in {'true','t','1'}]
+          assert len(rows)==3593,len(rows)
+          assert len(passed)==1725,len(passed)
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          PY
+      - name: Download exact AusTraits source and trait config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Rebuild necessary core and geometry hashes
+        run: |
+          mkdir -p build/geometry
+          python scripts/analysis/prepare_austraits_memory_geometry_v0_6_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --crosswalk build/crosswalk/crosswalk.csv \
+            --out build/geometry/result.json \
+            --systems-out build/geometry/systems.csv \
+            --groups-out build/geometry/groups.csv
+      - name: Enforce exact-lineage identity and no outcome opening
+        run: |
+          python - <<'PY'
+          import csv,json
+          x=json.load(open('build/geometry/result.json'))
+          s=list(csv.DictReader(open('build/geometry/systems.csv',newline='')))
+          g=list(csv.DictReader(open('build/geometry/groups.csv',newline='')))
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          assert x['n_candidate_systems']==1463,x
+          assert x['core_families']==64,x
+          assert x['core_traits']==73,x
+          assert x['connected'] is True
+          assert len(s)==1463
+          assert len(g)==x['n_unique_geometries']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-memory-geometry-exact-v0-6-4
+          path: build/geometry/
+          retention-days: 30

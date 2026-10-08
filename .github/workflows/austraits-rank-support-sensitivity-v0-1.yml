@@ -1,0 +1,34 @@
+name: AusTraits rank-reordering support sensitivity v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-rank-support-sensitivity-v0-1.yml'
+      - 'scripts/analysis/austraits_rank_support_sensitivity_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas
+      - name: Download frozen AusTraits effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+      - run: |
+          mkdir -p build/result
+          python scripts/analysis/austraits_rank_support_sensitivity_v0_1.py \
+            --effects build/effects/effects.csv --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-rank-support-sensitivity-v0-1
+          path: build/result/result.json

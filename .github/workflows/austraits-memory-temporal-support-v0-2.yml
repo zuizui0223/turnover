@@ -1,0 +1,55 @@
+name: AusTraits memory temporal support v0.2
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime
+        run: pip install duckdb pyyaml
+      - name: Validate prospective replication contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_memory_context_replication_v0_1.json'))
+          s=json.load(open('data/austraits_memory_temporal_support_v0_2.json'))
+          prior=json.load(open('results/trait_memory_context_synthesis_v0_1/result.json'))
+          assert prior['status']=='POST_OUTCOME_INTEGRATIVE_SYNTHESIS_NO_NEW_INFERENCE'
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert d['source']['release']=='7.0.0'
+          assert d['primary_prediction']['practical_reference']==0.10
+          assert d['austraits_memory_effects_opened'] is False
+          assert s['status']=='FROZEN_BEFORE_AUSTRAITS_TEMPORAL_SUPPORT_COUNTING'
+          assert s['structural_pass']=='at least 20 distinct binomial species'
+          assert s['austraits_memory_effects_opened'] is False
+          PY
+      - name: Download exact source files
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10             -o build/source/austraits.parquet             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail             -o build/source/traits.yml             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Count temporal support only
+        run: |
+          mkdir -p build/austraits_memory_temporal_support_v0_2
+          python scripts/source/audit_austraits_memory_temporal_support_v0_2.py             --parquet build/source/austraits.parquet             --traits-yml build/source/traits.yml             --out build/austraits_memory_temporal_support_v0_2/result.json             --table-out build/austraits_memory_temporal_support_v0_2/family_trait_support.csv
+      - name: Enforce outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/austraits_memory_temporal_support_v0_2/result.json'))
+          assert x['outcome_blind'] is True
+          assert x['austraits_memory_effects_opened'] is False
+          assert x['status'] in {'AUSTRAITS_MEMORY_TEMPORAL_SUPPORT_PASS','HOLD_AUSTRAITS_MEMORY_TEMPORAL_SUPPORT'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-memory-temporal-support-v0-2
+          path: build/austraits_memory_temporal_support_v0_2/

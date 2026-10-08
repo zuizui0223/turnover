@@ -1,0 +1,36 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_MEMORY_LEVEL_ALLOCATION_DECOUPLING",
+  "created_on":"2026-10-07",
+  "question":"Is a lineage's overall phylogenetic-memory level related to how closely its within-lineage trait ordering follows the global trait prior?",
+  "definitions":{
+    "memory_level":"family BLUP from rho ~ 0 + trait_name + (1|family) on cleaned/matched log S3 effects",
+    "allocation_disagreement":"within each family, fraction of non-tied trait-pair comparisons whose observed order disagrees with leave-one-family-out global trait means",
+    "allocation_alignment":"Spearman correlation, within a family, between observed trait rho and leave-one-family-out global trait means when at least 3 traits are available"
+  },
+  "BIEN_log_S3":{
+    "n_families":45,
+    "family_variance":0.0029866134576228415,
+    "residual_variance":0.013527888080635582,
+    "BLUP_vs_allocation_disagreement":{"spearman_rho":-0.1124044395203626,"p_two_sided":0.4622494091540926},
+    "BLUP_vs_alignment":{"n_families":35,"spearman_rho":-0.022350444463973478,"p_two_sided":0.8985916591502949},
+    "mean_family_alignment":0.4092517006802721,
+    "mean_family_global_order_disagreement":0.38313932980599635
+  },
+  "AusTraits_matched_log_S3":{
+    "n_families":42,
+    "family_variance":0.006760475483064877,
+    "residual_variance":0.016130474853077916,
+    "BLUP_vs_allocation_disagreement":{"spearman_rho":-0.018274160631051497,"p_two_sided":0.9085517085187096},
+    "BLUP_vs_alignment":{"n_families":39,"spearman_rho":0.03697514413326096,"p_two_sided":0.8231672046861077},
+    "mean_family_alignment":0.09656283887053117,
+    "mean_family_global_order_disagreement":0.48627972556543986
+  },
+  "interpretation":"Overall lineage-wide memory level and trait-specific allocation of memory are empirically decoupled in both compilations. A family can show high or low average phylogenetic memory without being more or less faithful to the global trait ordering.",
+  "conceptual_model":"Lineage context has at least two separable dimensions: a scalar memory-level shift F_f and a trait-allocation/re-ordering component U_ft.",
+  "hard_nonclaims":[
+    "This post-outcome analysis does not identify a mechanism.",
+    "Null correlation does not prove exact statistical independence.",
+    "Family BLUP and allocation metrics are estimated with unequal precision among families."
+  ]
+}

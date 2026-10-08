@@ -1,0 +1,32 @@
+{
+  "version": "v0.6.4",
+  "status": "AUSTRAITS_EXACT_GEOMETRY_REBUILD_PASS",
+  "evidence": {
+    "workflow_run": 37459250266,
+    "artifact_id": 11411157156,
+    "authoritative_exact_crosswalk_run": 37425045356,
+    "authoritative_exact_crosswalk_artifact": "austraits-memory-exact-crosswalk-v0-4-3"
+  },
+  "outcome_blind": true,
+  "austraits_memory_effects_opened": false,
+  "exact_crosswalk": {
+    "candidate_systems": 3593,
+    "pass_systems": 1725
+  },
+  "necessary_pre_informativeness_core": {
+    "systems": 1463,
+    "families": 64,
+    "traits": 73,
+    "connected": true,
+    "numeric_systems": 461,
+    "categorical_systems": 1002
+  },
+  "geometry_deduplication": {
+    "unique_geometries": 1442,
+    "duplicate_systems_saved": 21,
+    "groups_larger_than_one": 19,
+    "maximum_group_size": 3
+  },
+  "decision": "PASS_TO_EXACT_KNOWN_TRUTH_INFORMATIVENESS",
+  "interpretation": "The downstream graph rebuilt from the exact V.PhyloMaker2 crosswalk is large, connected, and comfortably above all frozen graph minima. This result opens only the known-truth informativeness gate; no AusTraits phylogenetic-memory outcome has been computed."
+}

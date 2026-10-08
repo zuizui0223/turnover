@@ -1,0 +1,27 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_AUSTRAITS_RANK1_INTERPRETATION",
+  "frozen_on":"2026-10-07",
+  "trigger":"Low-rank cross-validation showed rank-1 improvement in AusTraits but no meaningful low-rank gain in BIEN.",
+  "population":"AusTraits 254-system matched positive-numeric log core.",
+  "model":"Fit rank-1 family-by-trait bilinear factor at the cross-validated lambda=0.3 separately for S3 and prune-only.",
+  "outputs":[
+    "trait loadings on each tree axis",
+    "family scores on each tree axis",
+    "S3-prune loading correlation",
+    "S3-prune family-score correlation",
+    "descriptive organ-group means for vegetative dimensions, reproductive-size traits, and other traits",
+    "correlation of family scores with woody and perennial fractions"
+  ],
+  "organ_groups":{
+    "vegetative_dimension":["leaf_length","leaf_width","leaf_area","petiole_length"],
+    "reproductive_size":["fruit_length","fruit_width","fruit_height","seed_length","seed_width","seed_height","seed_dry_mass"],
+    "other":["plant_height","leaf_mass_per_area"]
+  },
+  "role":"post-outcome interpretation only; organ groups are descriptive after the latent factor was observed and are not inferentially pre-registered.",
+  "hard_nonclaims":[
+    "Do not call the axis a universal regime because BIEN did not show low-rank predictive gain.",
+    "Do not assign a causal mechanism from trait loading signs alone.",
+    "The sign of a latent factor is arbitrary; align prune to S3 before interpretation."
+  ]
+}

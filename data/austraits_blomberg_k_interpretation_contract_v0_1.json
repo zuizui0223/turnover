@@ -1,0 +1,40 @@
+{
+  "version": "v0.1",
+  "status": "POST_RHO_PRE_K_OUTCOME_INTERPRETATION_CONTRACT",
+  "date": "2026-10-08",
+  "prerequisites": {
+    "matched_graph": "254 matched positive numeric AusTraits family-trait systems, 42 families, 13 traits",
+    "tree_axes": [
+      "prune_primary",
+      "S3_sensitivity"
+    ],
+    "outcome_blind_with_respect_to_K": true,
+    "rho_primary_status_unchanged": true
+  },
+  "separation": {
+    "evidence_of_family_structure": "conditional family repeatability in log(K) after named trait fixed effects",
+    "evidence_of_reordering": "cross-family reversal of log(K) ordering for trait pairs co-occurring in >=10 families",
+    "average_trait_portability": "held-out-family absolute log(K) prediction versus baseline",
+    "relative_trait_portability": "held-out-family within-family log(K) rank prediction versus 0.5 baseline",
+    "rho_K_correlation": "descriptive system-level and within-family rank correlation of log(K) with source-native rho"
+  },
+  "interpretation": {
+    "family_reference_threshold": 0.1,
+    "substantial_reordering_threshold": 0.3333333333333333,
+    "strong_reordering_threshold": 0.4,
+    "condition": "Report all tree axes and all inferential quantities independently without selecting the strongest axis.",
+    "concordant": "Both K tree axes have family repeatability >0.10 and well-represented trait-pair reversal >=0.40.",
+    "partial": "One but not both axes meets the concordant condition, or family/reversal criteria do not both succeed on both axes.",
+    "discordant": "Neither axis has family repeatability >0.10 nor both-axis substantial reordering; report K evidence as discordant with rho architecture.",
+    "note": "These effect-size thresholds describe correspondence with the exploratory rho architecture; K sensitivity is not an independent prospective replication and does not change the original preregistered decisions."
+  },
+  "outcome_if_discordant": "Reframe principal discovery as estimator-specific portability of distance-dissimilarity coupling. Do not claim a universal evolutionary memory hierarchy.",
+  "outcome_if_concordant": "May describe architecture as detectable with two distinct phylogenetic-structure statistics while preserving different biological interpretations of rho versus Blomberg K.",
+  "inference_boundaries": [
+    "K (relative to Brownian expectation) is not an evolutionary rate",
+    "rho is not a measure of the physical rate of evolutionary change",
+    "trait rankings must use same complete 254-system graph",
+    "do not claim mechanism, adaptive rewiring, or developmental reactivation",
+    "high reordering alone does not establish nonzero biological interaction without sensitivity to finite-species error"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": "v0.5",
+  "status": "FROZEN_BEFORE_AUSTRAITS_PROVENANCE_OVERLAP_OPENING",
+  "frozen_on": "2026-10-03",
+  "purpose": "Determine the language of source independence for the AusTraits replication without changing the admitted systems.",
+  "timing": "Run only after the final AusTraits outcome-blind core is fixed and before real AusTraits memory rho is opened.",
+  "austraits_provenance": {
+    "unit": "distinct dataset_id contributing at least one eligible record to a final-core system",
+    "source_metadata": "pinned AusTraits v7 data/<dataset_id>/metadata.yml",
+    "identifier": "primary-source DOI parsed and normalized where available"
+  },
+  "bien_provenance": {
+    "unit": "distinct source_citation contributing eligible records to the fixed BIEN 201-system discovery core",
+    "source_field": "BIEN agg_traits.source_citation",
+    "identifier": "DOI parsed and normalized where available"
+  },
+  "overlap_metric": "number of distinct AusTraits resolvable primary-source DOIs also present among BIEN resolvable source DOIs / number of distinct AusTraits resolvable primary-source DOIs",
+  "doi_coverage_metric": "number of final-core AusTraits contributing dataset_ids with a resolvable primary DOI / all final-core contributing dataset_ids",
+  "language_rule": {
+    "independent_source_replication": "overlap_fraction == 0 AND doi_coverage >= 0.80",
+    "low_overlap_replication": "0 < overlap_fraction <= 0.10 AND doi_coverage >= 0.80",
+    "independent_compilation_validation": "overlap_fraction > 0.10 OR doi_coverage < 0.80"
+  },
+  "caution": "Even independent_source_replication refers to documented primary-source DOI overlap, not proof that no underlying measurements were ever shared.",
+  "system_selection_from_overlap": false,
+  "thresholds_changed": false,
+  "austraits_memory_effects_opened": false
+}

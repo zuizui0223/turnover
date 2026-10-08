@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: strict package-equivalent correction before any AusTraits memory effect: deduplicate by raw binomial and fail closed on species with conflicting genus labels; thresholds/tree/semantic state rules unchanged.

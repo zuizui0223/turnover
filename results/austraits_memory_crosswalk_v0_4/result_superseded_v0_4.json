@@ -1,0 +1,30 @@
+{
+  "version": "v0.4",
+  "status": "SUPERSEDED_AUSTRAITS_MEMORY_CROSSWALK_SPECIES_GRAIN",
+  "original_result": {
+    "version": "v0.4",
+    "status": "AUSTRAITS_MEMORY_PHYLOGENY_CROSSWALK_PASS",
+    "evidence_workflow_run": 37113852461,
+    "evidence_job_id": 111176737623,
+    "evidence_artifact_id": 11270932293,
+    "evidence_artifact_sha256": "7d9cf872e869d8b86febec1b24b4d2172be608d946f992d13d6bc85b01c3156d",
+    "outcome_blind": true,
+    "austraits_memory_effects_opened": false,
+    "n_candidate_systems": 3593,
+    "n_crosswalk_pass": 1725,
+    "n_independent_families": 65,
+    "n_distinct_traits": 212,
+    "hold_reason_counts": {
+      "PRIMARY_RESOLVABLE_LT20": 14,
+      "PRUNE_ONLY_LT20": 1868
+    },
+    "gate_pass": true,
+    "crosswalk_table_artifact": "austraits-memory-crosswalk-v0-4/crosswalk.csv",
+    "next_gate": "Build exact necessary crossed core and run inherited temporal informativeness."
+  },
+  "superseded_on": "2026-10-03",
+  "trigger": "data/austraits_phylo_species_dedup_fix_v0_4_1.json",
+  "reason": "The original vectorized status count treated distinct species+genus rows as separate inputs, while V.PhyloMaker2 removes duplicated species before status assignment. Partial v0.6.2 execution detected exact-count disagreements before any real AusTraits memory effect was opened.",
+  "original_result_terminal": false,
+  "real_austraits_memory_effects_opened": false
+}

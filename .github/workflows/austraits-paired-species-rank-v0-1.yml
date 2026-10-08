@@ -1,0 +1,156 @@
+name: AusTraits paired-species rank reordering v0.1
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-paired-species-rank-v0-1.yml'
+      - 'data/austraits_paired_species_rank_reordering_v0_1.json'
+      - 'scripts/analysis/run_austraits_paired_species_batch_v0_1.py'
+      - 'scripts/analysis/run_austraits_paired_species_system_v0_1.R'
+      - 'scripts/analysis/summarize_austraits_paired_species_reordering_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas pyyaml
+      - name: Download frozen final core, effects and trait config
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final build/effects build/source
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/final
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - id: matrix
+        name: Select outcome-independent well-represented trait-pair cells
+        run: |
+          python - <<'PY'
+          import base64,json,os,pandas as pd,yaml
+          e=pd.read_csv('build/effects/effects.csv')
+          e=e[e.log_domain_pass==True].copy()
+          cfg=yaml.safe_load(open('build/source/traits.yml'))['traits']['elements']
+          fam_by_trait={t:set(g.family) for t,g in e.groupby('trait_name')}
+          traits=sorted(fam_by_trait)
+          pairs=[]
+          for i,a in enumerate(traits):
+              for b in traits[i+1:]:
+                  fams=sorted(fam_by_trait[a]&fam_by_trait[b])
+                  if len(fams)>=10:pairs.append((a,b,fams))
+          cells=[]
+          k=0
+          for a,b,fams in pairs:
+              ua=cfg[a].get('units');ub=cfg[b].get('units')
+              if ua is None or ub is None:raise SystemExit('numeric matched core trait missing unit')
+              for fam in fams:
+                  k+=1
+                  cells.append({'cell_id':f'P{k:04d}','family':fam,'trait_a':a,'trait_b':b,
+                                'unit_a':str(ua).strip(),'unit_b':str(ub).strip()})
+          print({'trait_pairs':len(pairs),'family_pair_cells':len(cells)})
+          nb=16
+          bins=[[] for _ in range(nb)]
+          for i,c in enumerate(cells):bins[i%nb].append(c)
+          inc=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b,separators=(',',':')).encode()
+              inc.append({'batch_id':f'P{i:02d}','cells_b64':base64.b64encode(raw).decode(),'n_cells':len(b)})
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  paired:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Decode and compute matched-species trait-pair rhos
+        env:
+          CELLS_B64: ${{ matrix.cells_b64 }}
+        run: |
+          mkdir -p build/batch build/result
+          python - <<'PY'
+          import base64,os
+          open('build/batch/cells.json','wb').write(base64.b64decode(os.environ['CELLS_B64']))
+          PY
+          python scripts/analysis/run_austraits_paired_species_batch_v0_1.py \
+            --batch-json build/batch/cells.json \
+            --parquet build/source/austraits.parquet \
+            --out-dir build/result \
+            --r-script scripts/analysis/run_austraits_paired_species_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-paired-species-${{ matrix.batch_id }}
+          path: build/result/*.json
+          retention-days: 30
+
+  summarize:
+    needs: paired
+    if: needs.paired.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-paired-species-P*
+          path: build/all
+          merge-multiple: true
+      - name: Download frozen original effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas
+      - name: Summarize paired-species reordering
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/summarize_austraits_paired_species_reordering_v0_1.py \
+            --input-dir build/all --original-effects build/effects/effects.csv \
+            --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-paired-species-rank-v0-1
+          path: build/result/result.json
+          retention-days: 30

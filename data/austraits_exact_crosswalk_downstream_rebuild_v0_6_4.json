@@ -1,0 +1,34 @@
+{
+  "version": "v0.6.4",
+  "status": "FROZEN_EXACT_CROSSWALK_DOWNSTREAM_REBUILD",
+  "frozen_on": "2026-10-06",
+  "chronology": {
+    "exact_crosswalk_completed": true,
+    "authoritative_exact_crosswalk_run": 37425045356,
+    "authoritative_exact_crosswalk_artifact": "austraits-memory-exact-crosswalk-v0-4-3",
+    "real_austraits_memory_effects_opened": false
+  },
+  "scientific_contract_changed": false,
+  "changes": [
+    "Replace the superseded vectorized crosswalk artifact with the completed exact V.PhyloMaker2 v0.4.3 crosswalk.",
+    "Rebuild the pre-informativeness degree-pruned core and geometry hashes from that exact crosswalk.",
+    "Retain all existing source, semantic, support, degree, connectivity, phylogeny, informativeness, and no-relaxation rules."
+  ],
+  "unchanged": {
+    "family_degree_min": 2,
+    "trait_degree_min": 5,
+    "minimum_families": 12,
+    "minimum_traits": 4,
+    "connected_required": true,
+    "geometry_algorithm": "scripts/analysis/prepare_austraits_memory_geometry_v0_6_1.py",
+    "thresholds_changed": false,
+    "trait_semantics_changed": false,
+    "phylogeny_changed": false,
+    "source_changed": false
+  },
+  "expected_exact_crosswalk_identity": {
+    "candidate_systems": 3593,
+    "pass_systems": 1725
+  },
+  "no_posthoc_relaxation": true
+}

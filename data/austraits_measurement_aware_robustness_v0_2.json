@@ -1,0 +1,37 @@
+{
+  "version":"v0.2",
+  "status":"POST_OUTCOME_MEASUREMENT_VARIANCE_ROBUSTNESS_SPECIFICATION",
+  "date":"2026-10-08",
+  "purpose":"Audit robustness and conditional uncertainty of the two-axis AusTraits measurement-aware L/A architecture without modifying the 158-system high-support core.",
+  "input_runs":{
+    "full_effects":37561484157,
+    "split_half":37615646597,
+    "original_measurement_aware":37642313948
+  },
+  "estimand":{
+    "L":"sigma2_family/(sigma2_family+sigma2_system)",
+    "A":"sigma2_trait/(sigma2_trait+sigma2_system)",
+    "model":"Gaussian crossed family and trait random intercepts with system-specific independent residual variance sigma2_system + v_i; REML; no reassignment of systems.",
+    "warning":"L and A are two estimands sharing the same system variance, not statistically independent or orthogonal biological processes."
+  },
+  "variance_estimation":{
+    "reference":"mean over 3 split replicates of (rho_halfA-rho_halfB)^2/4",
+    "multipliers":[0,0.25,0.5,1,2,4],
+    "additional_robustness":["cap measurement variances at within-axis 95th percentile","shrink each variance 50% toward median of its named trait","replace each variance with pooled global median"],
+    "no_posthoc_changes_to_measurement_model":true
+  },
+  "bootstrap":{
+    "replicates":999,
+    "seed":20261008,
+    "type":"parametric conditional on the reference split-half variance v_i, fixed crossed family-trait observation graph and fitted Gaussian variance components",
+    "report":["95% percentile CI of L","95% percentile CI of A","95% percentile CI of L-A","fraction of replicates with L>A"],
+    "not_included":["uncertainty in v_i from only three split replicates","phylogenetic tree estimation uncertainty","covariance of rho errors among traits measured on overlapping species"]
+  },
+  "hard_nonclaims":[
+    "Do not call split-half-derived v_i an exact unbiased full-data variance.",
+    "Do not call conditional bootstrap fraction a p-value.",
+    "Do not claim a significant evolutionary mechanism or directionality.",
+    "The 158-system high-support subset is not the whole prospective 259-system AusTraits core.",
+    "Do not reclassify any pre-frozen prospective AusTraits decision."
+  ]
+}

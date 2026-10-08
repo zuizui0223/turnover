@@ -1,0 +1,31 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_LOW_RANK_ALLOCATION_DESIGN",
+  "frozen_on":"2026-10-07",
+  "question":"Can lineage-specific trait-memory allocation be explained by a small number of recurrent latent allocation regimes?",
+  "datasets":["BIEN cleaned log core","AusTraits matched positive-numeric log core"],
+  "model":{
+    "response":"log-scale memory-loss rho",
+    "baseline":"additive intercept + family bias + trait bias",
+    "latent_extension":"add rank-k bilinear family-by-trait factor U_f dot V_t for k=1,2,3,4",
+    "ridge_grid":[0.001,0.003,0.01,0.03,0.1,0.3,1.0,3.0,10.0],
+    "axes":["S3","prune-only"]
+  },
+  "validation":{
+    "scheme":"20 repeated deterministic 5-fold observed-cell cross-validations; each family's observed cells are distributed cyclically among folds after seeded shuffling",
+    "graph_rule":"Every held-out observation must retain at least one training observation for its family and trait; invalid split repetitions are discarded.",
+    "selection_advantage":"For each k, report the best cross-validated SSE over the full ridge grid. This gives latent-factor models a tuning advantage; failure to beat the best additive model is therefore strong evidence against simple low-rank allocation structure.",
+    "primary_quantity":"relative SSE improvement versus best k=0 additive model"
+  },
+  "interpretation":{
+    "low_rank_supported":"one or more k>0 models improve held-out SSE consistently in both datasets and both tree axes",
+    "dataset_specific":"improvement only in one compilation or tree axis",
+    "not_supported":"best latent models fail to improve or worsen held-out SSE; lineage-specific allocation is not well summarized by a few recurrent latent regimes"
+  },
+  "role":"post-outcome explanatory analysis only",
+  "hard_nonclaims":[
+    "Failure of k<=4 factors does not prove allocation is unstructured at all scales.",
+    "Latent factors are statistical axes, not biological mechanisms.",
+    "Do not use the selected factor rank to redefine the primary lineage-context claims."
+  ]
+}

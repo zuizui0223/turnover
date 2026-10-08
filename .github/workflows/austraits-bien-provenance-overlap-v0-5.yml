@@ -1,0 +1,90 @@
+name: AusTraits-BIEN provenance overlap v0.5
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  provenance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::RPostgreSQL
+            any::DBI
+      - name: Install Python runtime
+        run: pip install duckdb pyyaml
+      - name: Block superseded AusTraits core lineage
+        run: |
+          python - <<'PY'
+          import json
+          g=json.load(open('data/austraits_exact_crosswalk_downstream_guard_v0_6_6.json'))
+          assert g['status']=='AUSTRAITS_DOWNSTREAM_EXACT_CROSSWALK_GUARD_FROZEN'
+          raise SystemExit('Provenance audit is intentionally blocked until a new final core is rebuilt from exact v0.4.3 crosswalk.')
+          PY
+      - name: Download fixed BIEN discovery core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/bien-core
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/bien-core
+          test -f build/bien-core/trait_memory_crossed_core_v0_6/core_systems.csv
+      - name: Pin RBIEN and extract BIEN source citations
+        env:
+          RBIEN_SOURCE_DIR: build/RBIEN
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/bmaitner/RBIEN.git build/RBIEN
+          git -C build/RBIEN checkout 531cb221bd44cf43419e89b2354f6424e718cd53
+          mkdir -p build/provenance
+          Rscript scripts/source/extract_bien_core_source_citations_v0_5.R \
+            --core-table build/bien-core/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out build/provenance/bien_source_citations.csv
+      - name: Download exact AusTraits v7 source and trait config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail \
+            -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit primary-source DOI overlap
+        run: |
+          python scripts/source/audit_austraits_bien_provenance_overlap_v0_5.py \
+            --austraits-parquet build/source/austraits.parquet \
+            --austraits-core build/austraits-core/austraits_memory_crossed_core_v0_6/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --bien-citations build/provenance/bien_source_citations.csv \
+            --out build/provenance/result.json
+      - name: Enforce label-only role
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_memory_provenance_overlap_v0_5.json'))
+          x=json.load(open('build/provenance/result.json'))
+          assert d['system_selection_from_overlap'] is False
+          assert d['thresholds_changed'] is False
+          assert x['selection_changed_by_overlap'] is False
+          assert x['austraits_memory_effects_opened'] is False
+          assert x['replication_language'] in {
+            'INDEPENDENT_SOURCE_REPLICATION',
+            'LOW_OVERLAP_REPLICATION',
+            'INDEPENDENT_COMPILATION_VALIDATION'
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-bien-provenance-overlap-v0-5
+          path: build/provenance/

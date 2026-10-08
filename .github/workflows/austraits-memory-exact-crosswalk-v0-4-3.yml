@@ -1,0 +1,128 @@
+name: AusTraits exact V.PhyloMaker2 crosswalk v0.4.3
+# Exact v0.4.3 completed successfully; manual-only after authoritative freeze to avoid
+# re-running the 64-batch crosswalk on every PR synchronize event.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Download semantic artifact and source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/semantic build/source
+          gh run download 37113685476 -R "$GITHUB_REPOSITORY" -n austraits-memory-semantic-v0-3 -D build/semantic
+          curl -L --fail --retry 4 -o build/source/austraits.parquet https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Extract exact semantic species lists
+        run: |
+          mkdir -p build/species
+          python scripts/source/extract_austraits_exact_crosswalk_species_v0_4_3.py \
+            --parquet build/source/austraits.parquet --semantic-table build/semantic/semantic.csv \
+            --traits-yml build/source/traits.yml --out-dir build/species --manifest build/manifest.csv
+      - id: m
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os
+          rows=list(csv.DictReader(open('build/manifest.csv')))
+          bins=[[] for _ in range(64)]
+          weights=[0]*64
+          for r in sorted(rows,key=lambda z:(-int(z['n_species']),z['family'],z['trait_name'])):
+              k=min(range(64),key=lambda i:(weights[i],i))
+              bins[k].append(r);weights[k]+=int(r['n_species'])**2
+          inc=[]
+          assignments=[]
+          for i,b in enumerate(bins,1):
+              bid=f'X{i:03d}'
+              inc.append({'batch_id':bid})
+              for r in b:
+                  z=dict(r);z['batch_id']=bid;assignments.append(z)
+          assert len(assignments)==3593
+          import csv
+          with open('build/assignments.csv','w',newline='') as fh:
+              w=csv.DictWriter(fh,fieldnames=['batch_id','system_id','family','trait_name','config_type','n_species'])
+              w.writeheader();w.writerows(assignments)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-crosswalk-species-v0-4-3
+          path: |
+            build/species/
+            build/manifest.csv
+            build/assignments.csv
+          retention-days: 30
+  crosswalk:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-exact-crosswalk-species-v0-4-3
+          path: build/input
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Run exact systems assigned to batch
+        env:
+          BATCH_ID: ${{ matrix.batch_id }}
+        run: |
+          mkdir -p build/results
+          python - <<'PY'
+          import csv,os,subprocess
+          rows=[r for r in csv.DictReader(open('build/input/assignments.csv')) if r['batch_id']==os.environ['BATCH_ID']]
+          if not rows: raise SystemExit('empty batch')
+          for r in rows:
+              cmd=['Rscript','scripts/source/run_austraits_exact_crosswalk_v0_4_3.R',
+                   '--species-table',f"build/input/species/{r['system_id']}.csv",'--id',r['system_id'],
+                   '--family',r['family'],'--trait',r['trait_name'],'--class',r['config_type'],
+                   '--out',f"build/results/{r['system_id']}.json"]
+              subprocess.run(cmd,check=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-exact-crosswalk-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+  aggregate:
+    needs: crosswalk
+    if: always() && needs.crosswalk.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-exact-crosswalk-X*
+          path: build/all
+          merge-multiple: true
+      - run: |
+          mkdir -p build/final
+          python scripts/source/aggregate_austraits_exact_crosswalk_v0_4_3.py --dir build/all --out build/final/result.json --table build/final/crosswalk.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-memory-exact-crosswalk-v0-4-3
+          path: build/final/

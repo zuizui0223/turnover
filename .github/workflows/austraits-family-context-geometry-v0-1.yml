@@ -1,0 +1,38 @@
+name: AusTraits family-context geometry sensitivity v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-family-context-geometry-v0-1.yml'
+      - 'scripts/analysis/test_austraits_family_context_geometry_v0_1.R'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - run: |
+          mkdir -p build/result
+          Rscript scripts/analysis/test_austraits_family_context_geometry_v0_1.R \
+            --effects build/effects/effects.csv --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-family-context-geometry-v0-1
+          path: build/result/result.json

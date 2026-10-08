@@ -1,0 +1,165 @@
+name: AusTraits family-context tree geometry v0.1
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-family-context-tree-geometry-v0-1.yml'
+      - 'data/austraits_family_context_tree_geometry_v0_1.json'
+      - 'scripts/analysis/run_austraits_tree_geometry_batch_v0_1.py'
+      - 'scripts/analysis/run_austraits_tree_geometry_system_v0_1.R'
+      - 'scripts/analysis/aggregate_austraits_tree_geometry_v0_1.py'
+      - 'scripts/analysis/fit_austraits_tree_geometry_context_v0_1.R'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pyyaml
+      - name: Download final core and trait config
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final build/source
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/final
+          test -f build/final/core/core_systems.csv
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - id: matrix
+        name: Build deterministic geometry batches
+        run: |
+          python - <<'PY'
+          import base64,csv,json,os,yaml
+          rows=list(csv.DictReader(open('build/final/core/core_systems.csv',newline='')))
+          cfg=yaml.safe_load(open('build/source/traits.yml'))['traits']['elements']
+          systems=[]
+          for i,r in enumerate(sorted(rows,key=lambda z:(z['family'],z['trait_name'])),1):
+              tr=r['trait_name'];u=cfg[tr].get('units')
+              systems.append({
+                'system_id':f'T{i:04d}','family':r['family'],'trait_name':tr,'config_type':r['config_type'],
+                'expected_unit':'' if u is None else str(u).strip(),
+                'n_input_species':int(r['n_input_species']),'n_prune':int(r['n_prune']),'n_bind':int(r['n_bind']),
+                '_weight':int(r['n_input_species'])**2+int(r['n_prune'])**2
+              })
+          assert len(systems)==259
+          nb=16
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for r in sorted(systems,key=lambda z:(-z['_weight'],z['family'],z['trait_name'])):
+              k=min(range(nb),key=lambda q:(bins[q]['weight'],q))
+              bins[k]['systems'].append({z:r[z] for z in ['system_id','family','trait_name','config_type','expected_unit','n_input_species','n_prune','n_bind']})
+              bins[k]['weight']+=r['_weight']
+          inc=[]
+          for i,b in enumerate(bins,1):
+              raw=json.dumps(b['systems'],separators=(',',':')).encode()
+              inc.append({'batch_id':f'G{i:02d}','systems_b64':base64.b64encode(raw).decode(),'n_systems':len(b['systems'])})
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  geometry:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::ape
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Decode and compute tree geometry
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+        run: |
+          mkdir -p build/batch build/species build/result
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_tree_geometry_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --out-dir build/result \
+            --species-dir build/species \
+            --r-script scripts/analysis/run_austraits_tree_geometry_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-tree-geometry-${{ matrix.batch_id }}
+          path: build/result/*.json
+          retention-days: 30
+
+  analyse:
+    needs: geometry
+    if: needs.geometry.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-tree-geometry-G*
+          path: build/all
+          merge-multiple: true
+      - name: Download frozen real effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          test -f build/effects/effects.csv
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Aggregate geometry
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/aggregate_austraits_tree_geometry_v0_1.py \
+            --input-dir build/all --out build/result/tree_geometry.csv
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Test family-context sensitivity to topology geometry
+        run: |
+          Rscript scripts/analysis/fit_austraits_tree_geometry_context_v0_1.R \
+            --effects build/effects/effects.csv \
+            --geometry build/result/tree_geometry.csv \
+            --out build/result/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-family-context-tree-geometry-v0-1
+          path: build/result/
+          retention-days: 30

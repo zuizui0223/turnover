@@ -1,0 +1,15 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_FAMILY_CONTEXT_GEOMETRY_SENSITIVITY_ESTIMATED",
+  "post_outcome_exploratory":true,
+  "source_native":{
+    "S3_unadjusted":{"family_variance":0.0078,"residual_variance":0.0187,"conditional_family_repeatability":0.2958},
+    "S3_adjusted":{"family_variance":0.0080,"residual_variance":0.0187,"conditional_family_repeatability":0.2992,
+      "coverage_fixed_effects":{"z_log_n_s3":-0.0147,"z_prune_fraction":-0.0187}},
+    "prune_unadjusted":{"family_variance":0.0135,"residual_variance":0.0210,"conditional_family_repeatability":0.3910},
+    "prune_adjusted":{"family_variance":0.0138,"residual_variance":0.0209,"conditional_family_repeatability":0.3969,
+      "coverage_fixed_effects":{"z_log_n_prune":0.0205}}
+  },
+  "interpretation":"Species support and native-tip coverage do not provide a simple explanation for the strong AusTraits family context. Adjusted family repeatability is essentially unchanged or slightly larger.",
+  "hard_nonclaims":["Only measured coverage/tree-composition covariates were tested.","No causal biological driver is identified."]
+}

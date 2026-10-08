@@ -1,0 +1,41 @@
+name: Low-rank trait-allocation cross-validation v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/low-rank-trait-allocation-v0-1.yml'
+      - 'data/low_rank_trait_allocation_design_v0_1.json'
+      - 'scripts/analysis/test_low_rank_trait_allocation_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas
+      - name: Download frozen BIEN and AusTraits effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/bien build/aus
+          gh run download 37402668768 -R "$GITHUB_REPOSITORY" -n trait-memory-positive-only-cleaning-impact-v0-2 -D build/bien
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/aus
+      - name: Cross-validate low-rank allocation regimes
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/test_low_rank_trait_allocation_v0_1.py \
+            --bien-effects build/bien/cleaned-201/effects_positive_only_cleaned.csv \
+            --austraits-effects build/aus/effects.csv \
+            --out build/result/result.json --replicates 20
+      - uses: actions/upload-artifact@v4
+        with:
+          name: low-rank-trait-allocation-v0-1
+          path: build/result/result.json
+          retention-days: 30

@@ -1,0 +1,35 @@
+name: Trait-memory K interpretation contract preflight
+
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-blomberg-k-interpretation-preflight-v0-1.yml'
+      - 'data/austraits_blomberg_k_interpretation_contract_v0_1.json'
+      - 'scripts/analysis/interpret_austraits_blomberg_k_v0_1.py'
+      - 'tests/test_austraits_blomberg_k_interpretation_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate K interpretation script and outcome-blind thresholds
+        run: |
+          python -m py_compile scripts/analysis/interpret_austraits_blomberg_k_v0_1.py tests/test_austraits_blomberg_k_interpretation_v0_1.py
+          python tests/test_austraits_blomberg_k_interpretation_v0_1.py
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_blomberg_k_interpretation_contract_v0_1.json'))
+          assert d['status']=='POST_RHO_PRE_K_OUTCOME_INTERPRETATION_CONTRACT'
+          assert d['interpretation']['strong_reordering_threshold']==0.40
+          assert d['prerequisites']['outcome_blind_with_respect_to_K'] is True
+          PY

@@ -1,0 +1,22 @@
+{
+  "version":"v0.6.5.1",
+  "status":"TECHNICAL_EXACT_CROSSWALK_IDENTITY_FIX_PRE_EFFECT",
+  "frozen_on":"2026-10-06",
+  "trigger":{
+    "qualification_run":37459606358,
+    "failed_job":112255720311,
+    "system":"Chenopodiaceae x seedbank_longevity_class",
+    "real_austraits_memory_effects_opened":false
+  },
+  "bug":"The informativeness geometry checker required n_fail_to_bind == 0 even though the frozen exact-crosswalk eligibility contract allows fail-to-bind species provided prune>=20 and prune+bind>=20.",
+  "observed_frozen_counts":{"n_input_species":154,"n_prune":34,"n_bind":113,"expected_n_fail_to_bind":7},
+  "fix":"Require observed prune, bind, and fail counts to equal the exact-crosswalk counts, with expected_fail = n_input_species - expected_prune - expected_bind.",
+  "scientific_change":false,
+  "thresholds_changed":false,
+  "source_changed":false,
+  "semantic_rules_changed":false,
+  "phylogeny_changed":false,
+  "informativeness_benchmark_changed":false,
+  "system_selection_rule_changed":false,
+  "no_posthoc_relaxation":true
+}

@@ -1,0 +1,42 @@
+{
+  "version": "v0.5.1",
+  "status": "SUPERSEDED_AUSTRAITS_MEMORY_PRE_CORE_UPSTREAM_CROSSWALK",
+  "superseded_on": "2026-10-03",
+  "upstream_fix": "data/austraits_phylo_species_dedup_fix_v0_4_1.json",
+  "reason": "Pre-core must be rebuilt from corrected v0.4.1 crosswalk.",
+  "prior_result": {
+    "version": "v0.5.1",
+    "status": "AUSTRAITS_MEMORY_PRE_INFORMATIVENESS_CORE_READY",
+    "source_crosswalk": {
+      "workflow_run": 37113852461,
+      "artifact_id": 11270932293,
+      "artifact_sha256": "7d9cf872e869d8b86febec1b24b4d2172be608d946f992d13d6bc85b01c3156d"
+    },
+    "outcome_blind": true,
+    "austraits_memory_effects_opened": false,
+    "n_crosswalk_pass_systems": 1725,
+    "n_simulation_candidate_systems": 1463,
+    "n_candidate_families": 64,
+    "n_candidate_traits": 73,
+    "connected": true,
+    "connected_components": 1,
+    "iterations": 2,
+    "minimum_family_degree": 2,
+    "minimum_trait_degree": 5,
+    "minimum_final_families": 12,
+    "minimum_final_traits": 4,
+    "gate_pass": true,
+    "species_count_distribution": {
+      "median_n_input_species": 113,
+      "q95_n_input_species": 997,
+      "max_n_input_species": 3048
+    },
+    "config_type_counts": {
+      "numeric": 461,
+      "categorical": 1002
+    },
+    "next_gate": "Compute outcome-blind exact species-geometry signatures, then run inherited temporal informativeness only once per unique geometry."
+  },
+  "prior_result_terminal": false,
+  "austraits_memory_effects_opened": false
+}

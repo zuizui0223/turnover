@@ -1,0 +1,27 @@
+{
+  "version": "v0.4.2",
+  "status": "AUSTRAITS_PHYLO_AMBIGUOUS_GENUS_FAILCLOSED_PRE_CORRECTED_RESULT",
+  "frozen_on": "2026-10-03",
+  "amends": "data/austraits_phylo_species_dedup_fix_v0_4_1.json",
+  "chronology": {
+    "corrected_species_grain_crosswalk_result_seen": false,
+    "real_austraits_memory_effects_opened": false
+  },
+  "ambiguity_rule": "Within each family x trait system, a raw binomial is eligible for phylogeny only when all eligible source rows imply exactly one distinct nonempty genus. Species with >1 genus are excluded before prune/bind/fail assignment.",
+  "reason": "V.PhyloMaker2 requires one genus per species. Choosing one of several conflicting AusTraits genus strings after qualification results would be arbitrary. Fail-closed exclusion is deterministic and can only reduce support.",
+  "unique_genus_rule": "For species with exactly one distinct genus, use that genus. No fuzzy matching or synonym repair is introduced.",
+  "applies_to": [
+    "numeric semantic species",
+    "categorical unique-mode semantic species",
+    "corrected crosswalk",
+    "geometry hashing",
+    "informativeness species reconstruction"
+  ],
+  "direction_of_change": "STRICTER_ONLY",
+  "thresholds_changed": false,
+  "semantic_state_rules_changed": false,
+  "source_changed": false,
+  "phylogeny_changed": false,
+  "can_increase_pass_counts": false,
+  "no_posthoc_relaxation": true
+}

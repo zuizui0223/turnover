@@ -1,0 +1,42 @@
+name: BIEN-AusTraits post-outcome architecture synthesis v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/bien-austraits-architecture-synthesis-v0-1.yml'
+      - 'scripts/analysis/synthesize_bien_austraits_architecture_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthesize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy statsmodels
+      - name: Download BIEN cleaned Stage B and AusTraits outcomes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/bien build/aus build/analysis
+          gh run download 37402668768 -R "$GITHUB_REPOSITORY" -n trait-memory-positive-only-cleaning-impact-v0-2 -D build/bien
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/aus
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-prospective-replication-v0-1 -D build/analysis
+      - name: Build harmonized cross-source synthesis
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/synthesize_bien_austraits_architecture_v0_1.py \
+            --bien-effects build/bien/cleaned-201/effects_positive_only_cleaned.csv \
+            --austraits-effects build/aus/effects.csv \
+            --austraits-analysis-dir build/analysis \
+            --out build/result/result.json \
+            --family-scores-out build/result/cross_source_family_blups.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bien-austraits-architecture-synthesis-v0-1
+          path: build/result/
+          retention-days: 30

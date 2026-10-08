@@ -1,0 +1,33 @@
+{
+  "version":"v0.7",
+  "status":"AUSTRAITS_MEMORY_MODEL_INFORMATIVENESS_PASS",
+  "outcome_blind":true,
+  "austraits_memory_effects_opened":false,
+  "evidence_workflow_run":37560915567,
+  "evidence_artifact_id":11457140920,
+  "n_core_systems":259,
+  "n_families":42,
+  "n_traits":14,
+  "replicates_per_benchmark":1000,
+  "master_seed":20261003,
+  "meaningful_benchmark":{
+    "target_repeatability":0.2,
+    "successful_fit_fraction":1.0,
+    "singular_fraction":0.0,
+    "median_estimate":0.1958,
+    "median_absolute_error":0.0458,
+    "fraction_estimate_gt_0_10":0.915,
+    "pass":true
+  },
+  "null_benchmark":{
+    "target_repeatability":0.0,
+    "successful_fit_fraction":1.0,
+    "singular_fraction":0.486,
+    "median_estimate":0.0013,
+    "median_absolute_error":0.0013,
+    "fraction_estimate_gt_0_10":0.008,
+    "pass":true
+  },
+  "gate_pass":true,
+  "interpretation":"The realized 259-system graph can recover a biologically meaningful 0.20 conditional family repeatability while rarely producing >0.10 under the zero-family-effect benchmark. The prospective family-context estimand is sufficiently identifiable to open only after provenance labeling completes."
+}

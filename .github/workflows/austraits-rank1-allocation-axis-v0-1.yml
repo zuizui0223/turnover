@@ -1,0 +1,37 @@
+name: AusTraits rank-1 allocation axis interpretation v0.1
+on:
+  push:
+    branches:
+      - replication/austraits-memory-context-v0-1
+    paths:
+      - '.github/workflows/austraits-rank1-allocation-axis-v0-1.yml'
+      - 'data/austraits_rank1_allocation_interpretation_v0_1.json'
+      - 'scripts/analysis/interpret_austraits_rank1_allocation_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Download frozen AusTraits effects and family predictors
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/effects build/predictors
+          gh run download 37561484157 -R "$GITHUB_REPOSITORY" -n austraits-real-effects-v0-1 -D build/effects
+          gh run download 37611753420 -R "$GITHUB_REPOSITORY" -n austraits-family-context-life-history-v0-1 -D build/predictors
+      - name: Fit and interpret fixed rank-1 axis
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/interpret_austraits_rank1_allocation_v0_1.py             --effects build/effects/effects.csv             --family-predictors build/predictors/family_predictors.csv             --out build/result/result.json             --trait-loadings-out build/result/trait_loadings.csv             --family-scores-out build/result/family_scores.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-rank1-allocation-axis-v0-1
+          path: build/result/
+          retention-days: 30

@@ -1,0 +1,2 @@
+triggered_on: 2026-10-04
+reason: vectorized AusTraits crosswalk disagreed with actual pinned V.PhyloMaker2 statuses in informativeness execution; recompute all 3,593 semantic-PASS systems exactly before any memory effect.

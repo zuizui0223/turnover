@@ -1,0 +1,46 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_DESIGN_FROZEN_BEFORE_AUSTRAITS_RANK_PHYLOGENY_RESULT",
+  "frozen_on":"2026-10-07",
+  "programme_name":"Deep phylogenetic organization of AusTraits lineage-specific trait-memory rankings",
+  "chronology":{
+    "austraits_memory_effects_opened":true,
+    "rank_reordering_result_opened":true,
+    "rank_phylogeny_association_opened":false
+  },
+  "question":"Are family-specific conservative-to-labile trait-memory rankings more similar between closely related plant families?",
+  "population":{
+    "systems":259,
+    "families":42,
+    "traits":14,
+    "primary_effect":"source-native S3 rho",
+    "mandatory_tree_sensitivity":"source-native prune-only rho",
+    "matched_log_sensitivity":"the 254-system positive-numeric matched core"
+  },
+  "family_phylogeny":{
+    "backbone":"GBOTB.extended.TPL",
+    "representative_rule":"full GBOTB family crown using all backbone tips in that family",
+    "distance":"patristic distance between family crown representatives",
+    "minimum_valid_family_representatives":30
+  },
+  "rank_profile_dissimilarity":{
+    "minimum_shared_traits_primary":4,
+    "statistic":"Among shared traits, fraction of non-tied unordered trait-pair comparisons whose relative order differs between the two families",
+    "minimum_shared_traits_sensitivity":3
+  },
+  "association":{
+    "statistic":"Spearman correlation between family patristic distance and rank disagreement",
+    "expected_direction_if_deep_inheritance":"positive",
+    "permutations":9999,
+    "seed":20261007,
+    "null":"permute complete observed family rank profiles, including sparse trait coverage, among the fixed family-tree positions",
+    "p_value":"one-sided positive"
+  },
+  "interpretation":{
+    "positive_on_both_axes":"deep phylogenetic continuity of lineage-specific trait rankings",
+    "weak_or_null_on_both_axes":"phylogenetically mosaic re-ranking at family scale",
+    "axis_sensitive":"do not call robust deep inheritance"
+  },
+  "role":"Post-outcome exploratory structure test only; cannot reclassify the prospective AusTraits primary or rank-portability decisions.",
+  "no_posthoc_relaxation":true
+}

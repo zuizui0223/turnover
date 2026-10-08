@@ -1,0 +1,30 @@
+{
+  "version":"v0.1",
+  "status":"POST_OUTCOME_EXPLORATORY_ALLOCATION_DRIVER_DESIGN",
+  "frozen_on":"2026-10-07",
+  "question":"Do differences in family life-history composition predict how differently two families allocate phylogenetic memory among traits?",
+  "population":"AusTraits matched positive-numeric log core; 42 families, 254 systems, 13 traits.",
+  "rank_disagreement":{
+    "minimum_shared_traits_primary":4,
+    "minimum_shared_traits_sensitivity":3,
+    "definition":"fraction of non-tied shared trait-pair comparisons whose relative order differs between the two families"
+  },
+  "predictors":{
+    "perennial_distance":"absolute difference in family perennial_fraction",
+    "woody_distance":"absolute difference in family woody_fraction where both families have woody_fraction",
+    "combined_strategy_distance":"Euclidean distance in standardized perennial_fraction and woody_fraction where both are available"
+  },
+  "association":{
+    "statistic":"Spearman correlation between predictor distance and rank disagreement",
+    "null":"9999 permutations of complete family predictor profiles among family identities, preserving the fixed observed rank-disagreement graph",
+    "seed":20261007,
+    "expected_direction_if_strategy_drives_allocation":"positive"
+  },
+  "axes":["matched-log S3","matched-log prune-only"],
+  "role":"post-outcome exploratory mechanism screen only",
+  "hard_nonclaims":[
+    "Australian-flora family composition is not assumed to equal global family composition.",
+    "A null result does not exclude finer ecological drivers.",
+    "Do not interpret pairwise non-independence with naive parametric p values; use the family-label permutation."
+  ]
+}

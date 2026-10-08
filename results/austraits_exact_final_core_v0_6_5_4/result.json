@@ -1,0 +1,31 @@
+{
+  "version":"v0.6.5.4",
+  "status":"AUSTRAITS_EXACT_FINAL_CORE_PASS",
+  "outcome_blind":true,
+  "austraits_memory_effects_opened":false,
+  "evidence_workflow_run":37560915567,
+  "evidence_artifact_id":11456517166,
+  "informativeness":{
+    "candidate_systems":1463,
+    "temporal_pass_systems":312,
+    "pass_families_before_final_core":44,
+    "pass_traits_before_final_core":48
+  },
+  "final_core":{
+    "systems":259,
+    "families":42,
+    "traits":14,
+    "connected":true,
+    "connected_components":1,
+    "config_type":"numeric_only",
+    "minimum_family_degree":2,
+    "minimum_trait_degree":5,
+    "traits":[
+      "fruit_height","fruit_length","fruit_width","leaf_area","leaf_length",
+      "leaf_mass_per_area","leaf_width","petiole_length","plant_height",
+      "seed_dry_mass","seed_germination","seed_height","seed_length","seed_width"
+    ]
+  },
+  "interpretation":"The exact-crosswalk, source-native, known-truth-informative AusTraits replication core passes all graph requirements and contains only continuous numeric traits, closely matching the continuous-trait scope of the BIEN discovery core.",
+  "next_gate":"Graph-specific model informativeness and provenance overlap before real memory rho."
+}

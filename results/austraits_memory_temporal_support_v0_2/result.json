@@ -1,0 +1,28 @@
+{
+  "version": "v0.2",
+  "status": "AUSTRAITS_MEMORY_TEMPORAL_SUPPORT_PASS",
+  "evidence_workflow_run": 37113526646,
+  "evidence_job_id": 111175839679,
+  "evidence_artifact_id": 11271276064,
+  "evidence_artifact_sha256": "ce2f92dd5c9144f5dd5e06d9326d57752fe6efbfd00d174e843f0fc0ceea3d57",
+  "outcome_blind": true,
+  "austraits_memory_effects_opened": false,
+  "source_version": "7.0.0",
+  "n_config_traits_numeric_or_categorical": 559,
+  "n_unknown_parquet_trait_names": 0,
+  "n_family_trait_systems": 30821,
+  "n_structural_pass_systems": 4833,
+  "n_independent_families": 128,
+  "n_distinct_traits": 301,
+  "diagnostic_necessary_core": {
+    "iterations": 2,
+    "systems": 4497,
+    "families": 127,
+    "traits": 122
+  },
+  "minimum_families": 12,
+  "minimum_traits": 4,
+  "gate_pass": true,
+  "support_table_artifact": "austraits-memory-temporal-support-v0-2/family_trait_support.csv",
+  "next_gate": "Run source-native AusTraits semantic validity."
+}

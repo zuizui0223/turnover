@@ -1,0 +1,13 @@
+{
+  "version": "v0.6.6",
+  "status": "AUSTRAITS_DOWNSTREAM_EXACT_CROSSWALK_GUARD_FROZEN",
+  "frozen_on": "2026-10-04",
+  "authoritative_crosswalk_workflow": "AusTraits exact V.PhyloMaker2 crosswalk v0.4.3",
+  "superseded_inputs": [
+    "workflow run 37113852461 vectorized crosswalk",
+    "workflow run 37128923077 geometry preparation derived from superseded crosswalk"
+  ],
+  "rule": "No final informativeness, provenance, model-informativeness, or real-effect execution may consume a system/core/geometry artifact descended from the superseded vectorized crosswalk. Rebuild every downstream artifact from the completed exact v0.4.3 crosswalk.",
+  "real_austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

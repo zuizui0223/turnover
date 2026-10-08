@@ -1,0 +1,37 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_TREE_GEOMETRY_FAMILY_CONTEXT_SENSITIVITY_ESTIMATED",
+  "post_outcome_exploratory":true,
+  "population":{"systems":259,"families":42,"traits":14},
+  "S3":{
+    "unadjusted_repeatability":0.2958,
+    "adjusted_repeatability":0.2511,
+    "unadjusted_family_variance":0.0078,
+    "adjusted_family_variance":0.0062,
+    "family_variance_retained_fraction":0.7913,
+    "repeatability_change":-0.0447,
+    "largest_one_at_a_time_attenuation":{"metric":"pairwise_distance_cv","repeatability":0.2573}
+  },
+  "prune_only":{
+    "unadjusted_repeatability":0.3910,
+    "adjusted_repeatability":0.3584,
+    "unadjusted_family_variance":0.0135,
+    "adjusted_family_variance":0.0114,
+    "family_variance_retained_fraction":0.8468,
+    "repeatability_change":-0.0325,
+    "largest_one_at_a_time_attenuation":{"metric":"pairwise_distance_cv","repeatability":0.3459}
+  },
+  "metrics_adjusted":[
+    "log tip count",
+    "polytomy burden",
+    "pairwise patristic-distance CV",
+    "maximum distance-tie share",
+    "pendant-branch-length CV"
+  ],
+  "interpretation":"Measured tree topology and patristic-distance geometry explain a minority of the prospective AusTraits family-level context, especially via pairwise-distance CV, but they do not remove it. Roughly 79% of S3 and 85% of prune family variance remains after joint adjustment.",
+  "hard_nonclaims":[
+    "Persistence after these metrics does not prove the remainder is biological.",
+    "The geometry metrics are correlated and their one-at-a-time coefficients are not causal effects.",
+    "This is a post-outcome sensitivity analysis."
+  ]
+}

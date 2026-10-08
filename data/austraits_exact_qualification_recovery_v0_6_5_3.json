@@ -1,0 +1,39 @@
+{
+  "version": "v0.6.5.3",
+  "status": "FROZEN_EXACT_QUALIFICATION_RECOVERY_VERIFIED_FIX",
+  "frozen_on": "2026-10-07",
+  "authoritative_geometry_artifact": {
+    "workflow_run": 37459250266,
+    "artifact": "austraits-memory-geometry-exact-v0-6-4",
+    "n_unique_geometries": 1442
+  },
+  "reusable_outcome_blind_runs": [
+    37459606358,
+    37471163860,
+    37482213049
+  ],
+  "reuse_rule": "Reuse a geometry result only if its geometry_hash belongs to the authoritative exact geometry map, outcome_blind=true, austraits_memory_effects_opened=false, and crosswalk_status_counts_match=true. Reuse is independent of PASS/HOLD outcome.",
+  "missing_rule": "Compute only authoritative geometry hashes not represented by a reusable valid result.",
+  "technical_fix": {
+    "script": "scripts/analysis/run_austraits_memory_informativeness_geometry_v0_6_2.R",
+    "verified_rule": "expected_fail = n_input_species - expected_prune - expected_bind; observed prune, bind and fail counts must all equal the frozen exact-crosswalk counts.",
+    "previous_noop_fix_acknowledged": true,
+    "scientific_change": false,
+    "thresholds_changed": false,
+    "source_changed": false,
+    "semantic_rules_changed": false,
+    "phylogeny_changed": false,
+    "informativeness_benchmark_changed": false
+  },
+  "downstream_sequence": [
+    "merge valid reusable and newly computed geometry results",
+    "aggregate inherited temporal informativeness",
+    "rebuild final crossed core",
+    "run graph-specific family-repeatability model-informativeness",
+    "audit AusTraits-BIEN primary-source DOI overlap",
+    "synthesize opening eligibility without opening any real memory rho"
+  ],
+  "selection_by_outcome": false,
+  "real_austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true
+}

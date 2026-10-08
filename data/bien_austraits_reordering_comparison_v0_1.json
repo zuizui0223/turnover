@@ -1,0 +1,30 @@
+{
+  "version":"v0.1",
+  "status":"FROZEN_BEFORE_AUSTRAITS_AGGREGATE_RESULT",
+  "frozen_on":"2026-10-07",
+  "role":"Descriptive cross-dataset comparison after the already prospectively frozen AusTraits inference. This comparison cannot alter either dataset's within-source decisions.",
+  "bien_reference":{
+    "rank_reordering_result":"results/trait_rank_reordering_exploratory_v0_2/result.json",
+    "family_context_reference":"results/trait_memory_context_synthesis_v0_2/result.json"
+  },
+  "austraits_reference":"austraits-prospective-replication-v0-1 synthesis artifact",
+  "required_comparisons":[
+    "family conditional repeatability: BIEN versus AusTraits S3, with prune descriptive sensitivity",
+    "held-out-family rank portability gain and one-sided p on S3 and prune",
+    "well-represented trait-pair weighted reversal probability on S3 and prune",
+    "matched raw-versus-log rank portability and reversal direction",
+    "trait-set overlap/anchor count and provenance label"
+  ],
+  "validation_language":{
+    "architecture_validated":"AusTraits shows positive significant rank portability on both tree axes and at least substantial pair-order reordering (>=1/3) on both axes under the pre-frozen decision rules.",
+    "strong_architecture_validated":"Same as architecture_validated with reversal >=0.40 on both axes.",
+    "partial_or_axis_sensitive":"Only one tree axis or one scale supports the conjunction.",
+    "not_validated":"The pre-frozen global-spectrum portability component is absent on S3 or reordering is below 1/3 on either tree axis."
+  },
+  "hard_nonclaims":[
+    "Do not require numerical equality of BIEN and AusTraits effect sizes.",
+    "Do not relabel AusTraits as independent-source replication.",
+    "Do not privilege raw or log scale based on which matches BIEN better.",
+    "Do not extend conclusions to Blomberg K or Pagel lambda."
+  ]
+}

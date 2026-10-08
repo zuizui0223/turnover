@@ -1,0 +1,70 @@
+name: AusTraits memory phylogeny crosswalk v0.4.2
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  crosswalk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: r-lib/actions/setup-r@v2
+      - run: pip install duckdb
+      - name: Download semantic artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/semantic
+          gh run download 37113685476 -R "$GITHUB_REPOSITORY" -n austraits-memory-semantic-v0-3 -D build/semantic
+          test -f build/semantic/semantic.csv
+      - name: Download exact AusTraits source
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Pin V.PhyloMaker2 metadata
+        run: |
+          mkdir -p build/vpm
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/vpm/repo
+          git -C build/vpm/repo checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          Rscript - <<'RS'
+          load('build/vpm/repo/data/GBOTB.extended.TPL.rda')
+          load('build/vpm/repo/data/nodes.info.1.TPL.rda')
+          writeLines(GBOTB.extended.TPL$tip.label,'build/vpm/tree_tips.txt')
+          write.csv(nodes.info.1.TPL,'build/vpm/nodes.csv',row.names=FALSE)
+          RS
+      - name: Validate crosswalk contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_memory_phylogeny_crosswalk_v0_4.json'))
+          a=json.load(open('data/austraits_phylo_species_dedup_fix_v0_4_1.json'))
+          g=json.load(open('data/austraits_phylo_ambiguous_genus_failclosed_v0_4_2.json'))
+          s=json.load(open('results/austraits_memory_semantic_v0_3/result.json'))
+          assert d['status']=='FROZEN_BEFORE_AUSTRAITS_TEMPORAL_MEMORY_EFFECT_OPENING'
+          assert d['phylogeny']['scenario']=='S3'
+          assert d['system_pass']=='primary_resolvable_species >=20 AND prune_species >=20'
+          assert a['status']=='AUSTRAITS_PHYLOMAKER_SPECIES_DEDUP_FIX_AFTER_VALIDATION_FAILURE_PRE_EFFECT'
+          assert a['thresholds_changed'] is False
+          assert a['semantic_rules_changed'] is False
+          assert a['source_changed'] is False
+          assert a['phylogeny_changed'] is False
+          assert a['trigger']['real_austraits_memory_effects_opened'] is False
+          assert g['status']=='AUSTRAITS_PHYLO_AMBIGUOUS_GENUS_FAILCLOSED_PRE_CORRECTED_RESULT'
+          assert g['direction_of_change']=='STRICTER_ONLY'
+          assert g['can_increase_pass_counts'] is False
+          assert s['status']=='AUSTRAITS_MEMORY_SEMANTIC_PASS'
+          assert s['n_semantic_pass']==3593
+          PY
+      - name: Run vectorized crosswalk
+        run: |
+          mkdir -p build/austraits_memory_crosswalk_v0_4
+          python scripts/source/audit_austraits_memory_crosswalk_v0_4.py             --parquet build/source/austraits.parquet             --semantic-table build/semantic/semantic.csv             --tree-tips build/vpm/tree_tips.txt             --nodes build/vpm/nodes.csv             --out build/austraits_memory_crosswalk_v0_4/result.json             --table-out build/austraits_memory_crosswalk_v0_4/crosswalk.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-memory-crosswalk-v0-4-2
+          path: build/austraits_memory_crosswalk_v0_4/

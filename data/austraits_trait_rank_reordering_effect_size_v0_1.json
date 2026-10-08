@@ -1,0 +1,50 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_AUSTRAITS_MEMORY_EFFECT_OPENING",
+  "frozen_on": "2026-10-06",
+  "question": "How often does the relative ordering of the same pair of traits reverse between plant families?",
+  "population": "The prospectively qualified AusTraits final core; matched positive-numeric core additionally for raw-log sensitivity.",
+  "pair_rule": "For every trait pair represented together in at least 2 families, compare the sign of rho_A-rho_B among families.",
+  "reversal_probability": "For a trait pair with p families where A>B and q where A<B, disagreement probability for two distinct randomly selected families is 2pq/[n(n-1)], n=p+q; ties are excluded from n.",
+  "summary": "Weight trait-pair reversal probabilities by the number of available unordered family pairs n(n-1)/2.",
+  "well_represented_threshold": 10,
+  "required_axes": [
+    "S3",
+    "prune-only"
+  ],
+  "matched_scale_axes": [
+    "raw S3",
+    "raw prune-only",
+    "log S3",
+    "log prune-only"
+  ],
+  "role": "pre-frozen effect-size description of lineage-specific re-ranking; does not replace primary family-repeatability or rank-portability tests.",
+  "austraits_memory_effects_opened": false,
+  "no_posthoc_relaxation": true,
+  "interpretation_thresholds": {
+    "strong_reordering": "family-pair-count-weighted reversal probability >=0.40 on both S3 and prune-only",
+    "substantial_reordering": "weighted reversal probability >=1/3 on both axes but strong criterion not met",
+    "limited_or_axis_sensitive": "either axis has weighted reversal probability <1/3"
+  },
+  "conjunction_replication": {
+    "global_spectrum_component": "pre-frozen within-family rank portability gain >0 and one-sided blocked-permutation p<=0.05 on both S3 and prune-only",
+    "reordering_component": "at least substantial_reordering on both tree axes",
+    "strong_replication": "global_spectrum_component plus strong_reordering",
+    "interpretation": "A replicated global trait hierarchy may coexist with frequent lineage-specific pair-order reversals."
+  },
+  "threshold_rationale": {
+    "maximum_reversal_probability": 0.5,
+    "strong_threshold_0_40": "0.40 is 80% of the theoretical maximum pair-order disagreement probability of 0.50.",
+    "substantial_threshold_one_third": "1/3 is two-thirds of the theoretical maximum and distinguishes frequent reordering from modest minority reversals.",
+    "chronology": "Thresholds frozen after the BIEN exploratory discovery but before any AusTraits memory-loss outcome; they define replication strength, not discovery significance."
+  },
+  "post_opening_mathematical_correction": {
+    "added_on": "2026-10-07",
+    "outcomes_already_opened": true,
+    "threshold_changed": false,
+    "decision_changed": false,
+    "correction": "The frozen threshold rationale described 0.50 as the theoretical maximum. Under the actual statistic, two distinct families are sampled without replacement, so for a trait pair represented in n non-tied families the maximum is 2*floor(n/2)*ceil(n/2)/[n(n-1)], which is slightly greater than 0.50 for finite n and approaches 0.50 as n grows.",
+    "implication": "The pre-frozen 0.40 and 1/3 thresholds remain exactly unchanged. Their original percentage-of-maximum gloss is withdrawn; they are retained only as pre-frozen absolute effect-size thresholds.",
+    "recommended_posthoc_effect_size": "Also report observed discordant family pairs divided by the pair-specific maximum floor(n/2)*ceil(n/2), aggregated by summing discordant counts and maxima across trait pairs."
+  }
+}

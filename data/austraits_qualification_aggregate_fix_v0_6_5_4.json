@@ -1,0 +1,30 @@
+{
+  "version": "v0.6.5.4",
+  "status": "TECHNICAL_AGGREGATION_CONTINUATION_PRE_EFFECT",
+  "frozen_on": "2026-10-07",
+  "source_run": 37545242955,
+  "source_artifacts": {
+    "prep": "austraits-recovery-prep-v0-6-5-3",
+    "recovery_pattern": "austraits-verified-recovery-V*"
+  },
+  "verified_upstream": {
+    "prepare_success": true,
+    "recover_batches_success": 32,
+    "recover_batches_failed": 0,
+    "geometry_results_complete_before_aggregation": true
+  },
+  "failure": "Aggregation referenced build/prep/systems.csv although the uploaded prep artifact preserves build/geometry/systems.csv as geometry/systems.csv.",
+  "fix": "Use build/prep/geometry/systems.csv. Reuse the already completed 32 recovery artifacts; do not recompute geometry informativeness.",
+  "scientific_change": false,
+  "thresholds_changed": false,
+  "selection_changed": false,
+  "memory_effects_opened": false,
+  "next": [
+    "aggregate all 1442 outcome-blind geometry results",
+    "rebuild final crossed core",
+    "run graph-specific model-informativeness",
+    "run provenance overlap audit",
+    "synthesize opening eligibility"
+  ],
+  "no_posthoc_relaxation": true
+}

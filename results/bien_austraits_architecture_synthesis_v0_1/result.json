@@ -1,0 +1,61 @@
+{
+  "version":"v0.1",
+  "status":"BIEN_AUSTRAITS_POST_OUTCOME_ARCHITECTURE_SYNTHESIS",
+  "chronology":"Post-outcome synthesis. It does not reclassify the prospectively frozen AusTraits decisions.",
+  "strict_prefrozen_architecture_validation":{
+    "validated":false,
+    "decision":"NOT_VALIDATED",
+    "reason":"AusTraits pre-frozen rank-portability component did not achieve positive gain on both tree axes."
+  },
+  "source_dimensions":{
+    "BIEN":{"systems":201,"families":45,"traits":12},
+    "AusTraits":{"systems":259,"families":42,"traits":14},
+    "AusTraits_matched_log":{"systems":254,"families":42,"traits":13}
+  },
+  "family_context":{
+    "BIEN_primary_raw":{"estimate":0.1825,"ci95":[0.0285,0.3369],"interpretation":"UNCERTAIN_RELATIVE_TO_0.10"},
+    "AusTraits_source_native":{"estimate":0.2958,"ci95":[0.1469,0.4324],"interpretation":"REPEATABLE_LINEAGE_CONTEXT","prune_estimate":0.391},
+    "cross_source_log_S3_BLUP":{"n_shared_families":25,"spearman":0.4115384615384615,"p_one_sided":0.0182,
+      "BIEN_conditional_repeatability":0.1808479323886273,"AusTraits_conditional_repeatability":0.2953339806251155},
+    "cross_source_log_prune_BLUP":{"n_shared_families":25,"spearman":0.36153846153846153,"p_one_sided":0.0370}
+  },
+  "harmonized_absolute_trait_portability":{
+    "BIEN_log_S3":{"gain":0.037933857326415854,"p_one_sided":0.0005},
+    "BIEN_log_prune":{"gain":0.04404007272064525,"p_one_sided":0.0008},
+    "AusTraits_log_S3":{"gain":0.016680120759307804,"p_one_sided":0.0027},
+    "AusTraits_log_prune":{"gain":0.01269101200269196,"p_one_sided":0.0071},
+    "interpretation":"Named trait identity improves held-out-family absolute-rho prediction on both tree axes in both compilations, but gains are small."
+  },
+  "within_family_rank_portability":{
+    "BIEN_log_S3":{"gain":0.0681399209446556,"p_one_sided":0.0003},
+    "BIEN_log_prune":{"gain":0.02790313402089284,"p_one_sided":0.0071},
+    "AusTraits_source_native_S3":{"gain":-0.03781757136112773,"p_one_sided":0.1967,"axis_pass":false},
+    "AusTraits_source_native_prune":{"gain":-0.015508323524787482,"p_one_sided":0.0503,"axis_pass":false},
+    "AusTraits_matched_log_S3":{"gain":-0.001966978444815748,"p_one_sided":0.0266,"axis_pass":false},
+    "AusTraits_matched_log_prune":{"gain":-0.01758195024546616,"p_one_sided":0.0729,"axis_pass":false},
+    "interpretation":"A robust portable conservative-to-labile hierarchy is not validated across compilations."
+  },
+  "pair_order_reordering":{
+    "BIEN_log_S3":{"n_trait_pairs":16,"weighted_reversal_probability":0.45594855305466236,"fraction_of_pair_specific_maximum":0.8542168674698796},
+    "BIEN_log_prune":{"n_trait_pairs":16,"weighted_reversal_probability":0.4778135048231511,"fraction_of_pair_specific_maximum":0.8951807228915662},
+    "AusTraits_log_S3":{"n_trait_pairs":33,"weighted_reversal_probability":0.48761318981718776,"fraction_of_pair_specific_maximum":0.9287341360234299},
+    "AusTraits_log_prune":{"n_trait_pairs":33,"weighted_reversal_probability":0.48180420297283444,"fraction_of_pair_specific_maximum":0.9176700292873413},
+    "AusTraits_source_native_S3":{"n_trait_pairs":33,"weighted_reversal_probability":0.5050401503502477,"fraction_of_pair_specific_maximum":0.9619264562316954},
+    "AusTraits_source_native_prune":{"n_trait_pairs":33,"weighted_reversal_probability":0.5028365136668386,"fraction_of_pair_specific_maximum":0.9574468085106383}
+  },
+  "anchor_trait_descriptive":{
+    "n_anchor_concepts":4,
+    "log_S3_mean_rho_spearman":0.8,
+    "pairwise_order_agreement":0.8333333333333334,
+    "interpretation":"Only four semantic anchors; descriptive, not an inferential replication test."
+  },
+  "revised_cross_dataset_architecture":{
+    "supported":[
+      "lineage-wide family context recurs within both compilations",
+      "trait identity carries modest absolute cross-lineage predictive information in both compilations",
+      "trait-pair ordering is extensively reconfigured among families in both compilations"
+    ],
+    "not_supported":["a robust portable conservative-to-labile trait hierarchy across lineages"],
+    "central_interpretation":"Traits carry weak global priors in average phylogenetic memory, while lineage context strongly reconstructs their relative ordering."
+  }
+}

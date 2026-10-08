@@ -1,0 +1,38 @@
+{
+  "version":"v0.1",
+  "status":"AUSTRAITS_ALLOCATION_DRIVER_LIFE_HISTORY_EXPLORATORY_ESTIMATED",
+  "post_outcome_exploratory":true,
+  "population":{"systems":254,"families":42,"traits":13,"scale":"matched positive-numeric log"},
+  "axes":{
+    "log_S3":{
+      "shared4":{
+        "perennial_distance":{"n_family_pairs":418,"spearman":-0.018085268731423826,"p_one_sided_positive":0.5704},
+        "woody_distance":{"n_family_pairs":118,"spearman":-0.0535953278627372,"p_one_sided_positive":0.5541987789010109},
+        "combined_strategy_distance":{"n_family_pairs":118,"spearman":0.003129080130992544,"p_one_sided_positive":0.449004103693324}
+      },
+      "shared3":{
+        "perennial_distance":{"n_family_pairs":657,"spearman":0.0012371190278054928,"p_one_sided_positive":0.4481},
+        "woody_distance":{"n_family_pairs":182,"spearman":-0.0762806695783979,"p_one_sided_positive":0.6485},
+        "combined_strategy_distance":{"n_family_pairs":182,"spearman":-0.06353412794243846,"p_one_sided_positive":0.6216}
+      }
+    },
+    "log_prune":{
+      "shared4":{
+        "perennial_distance":{"n_family_pairs":418,"spearman":0.004987970666980067,"p_one_sided_positive":0.4243},
+        "woody_distance":{"n_family_pairs":118,"spearman":-0.16767223521561925,"p_one_sided_positive":0.7750975878290461},
+        "combined_strategy_distance":{"n_family_pairs":118,"spearman":-0.16622854132169676,"p_one_sided_positive":0.7728956060454409}
+      },
+      "shared3":{
+        "perennial_distance":{"n_family_pairs":657,"spearman":-0.02451581985611127,"p_one_sided_positive":0.6736},
+        "woody_distance":{"n_family_pairs":182,"spearman":-0.03307883887919318,"p_one_sided_positive":0.5268},
+        "combined_strategy_distance":{"n_family_pairs":182,"spearman":-0.054801270295873256,"p_one_sided_positive":0.5866}
+      }
+    }
+  },
+  "interpretation":"Differences in perennial or woody composition do not predict how differently two families rank trait-specific phylogenetic memory. Simple family life-history composition therefore does not explain lineage-specific memory allocation.",
+  "hard_nonclaims":[
+    "Australian-flora family composition may not represent global family composition.",
+    "Null results do not exclude finer ecological or developmental drivers.",
+    "This is post-outcome exploratory."
+  ]
+}

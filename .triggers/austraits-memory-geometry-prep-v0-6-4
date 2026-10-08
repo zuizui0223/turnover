@@ -1,0 +1,2 @@
+triggered_on: 2026-10-03
+reason: rebuild necessary core and geometry hashes from corrected AusTraits crosswalk run 37128637788 before any memory effect.

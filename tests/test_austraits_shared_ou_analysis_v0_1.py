@@ -100,10 +100,18 @@ with tempfile.TemporaryDirectory(prefix="aust_ou_preflight_") as temp:
     altered['family']='BROKEN'
     (root/'input'/'A0001.json').write_text(json.dumps(altered))
     try:
-        agg.main()
-    except ValueError as e:
-        assert 'identity' in str(e) or 'graph' in str(e)
-    else:
-        raise AssertionError('OU source identity mismatch not blocked')
+        sys.argv=['test','--input-dir',str(root/'input'),
+                  '--observed-K',str(root/'K.csv'),
+                  '--time-reference',str(root/'time.json'),
+                  '--out',str(root/'result.json'),
+                  '--tables-dir',str(root/'tables')]
+        try:
+            agg.main()
+        except ValueError as e:
+            assert 'identity' in str(e) or 'graph' in str(e)
+        else:
+            raise AssertionError('OU source identity mismatch not blocked')
+    finally:
+        sys.argv=oldarg
 
 print("PASS: exact 254-cell graph, three scenarios, aggregated OU K metrics, verdict, source-identity stop")

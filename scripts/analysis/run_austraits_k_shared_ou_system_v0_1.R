@@ -128,7 +128,7 @@ if(phase=="reference"){
  ans$axes<-results
 }
 dir.create(dirname(out_file),recursive=TRUE,showWarnings=FALSE)
-write_json(ans,out_file,pretty=TRUE,auto_unbox=TRUE,null="null")
+write_json(ans,out_file,pretty=TRUE,auto_unbox=TRUE,null="null",digits=15)
 cat(toJSON(list(status=ans$status,system_id=sid,
                 phase=phase,n_tips_S3=ctxs$S3$n,
                 max_tip_depth_S3=ctxs$S3$depth),auto_unbox=TRUE),"\n")

@@ -33,6 +33,27 @@ For a species with >=2 positive-source datasets, compute the sample variance of 
 
 Recomputing the exact original LOFO within-family K rank gain on the observation-error-eligible 12-trait subset gives **+8.0083% S3 / +15.5766% prune-only**, versus **+8.0818% / +15.3072%** on the original 13-trait graph. There are 249 systems from the same 42 families, and every family retains >=2 traits. The source-coverage gate therefore did **not** erase the observed rank-prediction phenomenon. These are observed-only results, **not** a source-noise process-null verdict.
 
+## Post-dispersion K-blind influence audit
+
+The original observed K and the source-calibrated OU process model remain unchanged. A separate **post-dispersion** audit removes each contributing family in turn from the source-error median (without refitting K, reselecting models, or retuning noise):
+
+| Trait | Full median source/among-species variance | Range of leave-one-family-out median | Calibrated families |
+|---|---:|---:|---:|
+| leaf_mass_per_area | 0.24611 | 0.19840–0.27114 | 5 |
+| leaf_area | 0.08354 | 0.06141–0.10568 | 6 |
+| leaf_length | 0.03982 | 0.03972–0.03992 | 40 |
+| plant_height | 0.07862 | 0.07813–0.08034 | 35 |
+| fruit_length | 0.00225 | 0.00211–0.00228 | 29 |
+| fruit_height | 0.00397 | **0–0.00795** | 4 |
+
+Of **246** systems with a calibrated within-species cross-dataset variance ratio on the original 254-system graph, **29 (11.79%)** have a **median source variance of zero**. This includes 2/4 fruit-height systems, 6/29 fruit-length systems, and 5/18 petiole-length systems. Such exact zeros do **not** establish no measurement error: reporting precision, truly repeated equal values, shared underlying primary observations across source compilations or genuine low variability are alternatives. The source-only archive does not distinguish these explanations.
+
+Among the originally calibrated systems, a small number have ratios greater than one (e.g., seed_width/Casuarinaceae 2.3723; leaf_length/Casuarinaceae 2.0841; leaf_area/Orchidaceae 1.4697). As pre-frozen, these are not capped or deleted based on their magnitudes.
+
+The median ratios are **point-input error envelopes**, not posterior distributions or precise known variance parameters. The leave-one-family-out audit quantifies family-support sensitivity but is *not* new calibration of the frozen primary OU+source scenarios. Do not rerun the primary comparison under selectively chosen extremes and represent it as preregistered confirmation.
+
+[Reproducible influence audit](https://github.com/zuizui0223/turnover/actions/runs/37786690562), based only on frozen source-dispersion output.
+
 ## What this does **not** establish
 
 This is not a measured independent *instrument error variance*. Same-species data from different AusTraits datasets may cover different populations, years, environments and protocols. Dataset replication is not guaranteed independent biological replication; source compilation can duplicate underlying field measurements. The ratio may therefore contain real intraspecific biology or systematic source artifacts.

@@ -1,0 +1,115 @@
+name: AusTraits shared-OU real-tree smoke test v0.1
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-shared-ou-real-tree-smoke-v0-1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml pandas
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::Rcpp
+      - name: Pin V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download fixed K effects and exact source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/core build/source build/results
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Select one frozen small native-tip tree
+        run: |
+          python - <<'PY'
+          import pandas as pd,json
+          e=pd.read_csv('build/K/effects.csv')
+          c=pd.read_csv('build/core/core/core_systems.csv')
+          m=e.merge(c[['family','trait_name','n_input_species','n_prune','n_bind']],
+                    on=['family','trait_name'],validate='one_to_one')
+          m=m.sort_values(['n_species_prune','family','trait_name'])
+          r=m.iloc[0]
+          s={k:int(r[k]) if k in ('n_input_species','n_prune','n_bind') else str(r[k])
+             for k in ('system_id','family','trait_name','n_input_species','n_prune','n_bind')}
+          json.dump([s],open('build/smoke_batch.json','w'))
+          print({'TEST_ONLY_system':s['system_id'],'native_prune_tips':s['n_prune']})
+          PY
+      - name: Reconstruct and audit one true source-native system tree
+        env:
+          AUSTRAITS_OU_PHASE: reference
+        run: |
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/smoke_batch.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/reftest \
+            --r-script scripts/analysis/run_austraits_k_shared_ou_system_v0_1.R
+      - name: Make a clearly test-only T_ref fixture
+        run: |
+          python - <<'PY'
+          import json,glob
+          x=json.load(open(glob.glob('build/reftest/*.json')[0]))
+          assert x['status']=='AUSTRAITS_REAL_TREE_OU_DEPTH_REFERENCE_ESTIMATED'
+          tref=sum(x['axes'][a]['maximum_root_to_tip_depth'] for a in ['S3','prune_only'])/2
+          assert tref>0
+          json.dump({
+            'version':'TEST_ONLY','status':'AUSTRAITS_REAL_TREE_OU_TIME_REFERENCE_FROZEN',
+            'n_systems':254,'n_axis_tree_samples':508,'T_ref':tref,
+            'TEST_ONLY_NOT_SCIENTIFIC':True
+          },open('build/smoke-time-reference.json','w'))
+          PY
+      - name: Simulate real-tree OU with the optimized K kernel
+        env:
+          AUSTRAITS_OU_PHASE: simulate
+          AUSTRAITS_OU_TREF_FILE: build/smoke-time-reference.json
+          AUSTRAITS_OU_K_REFERENCE_FILE: build/K/effects.csv
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          mkdir -p build/rcpp-cache
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/smoke_batch.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/ou-smoke \
+            --r-script scripts/analysis/run_austraits_k_shared_ou_system_v0_1.R
+          python - <<'PY'
+          import json,glob,math
+          x=json.load(open(glob.glob('build/ou-smoke/*.json')[0]))
+          assert x['status']=='AUSTRAITS_REAL_TREE_SHARED_OU_NULL_SYSTEM_ESTIMATED'
+          assert x['n_scenarios']==3 and x['ou_null_replicates_per_scenario']==256
+          for ax in ['S3','prune_only']:
+              a=x['axes'][ax]
+              assert a['relative_fast_K_error']<.00021
+              for c in ['c0p25','c1','c4']:
+                  assert len(a['scenarios'][c]['logK'])==256
+                  assert all(math.isfinite(z) for z in a['scenarios'][c]['logK'])
+          print('PASS: exact real-tree observed K identity, 3 shared OU scenarios, 256 K draws each')
+          print('TEST ONLY: T_ref is an arbitrary one-system fixture and NOT used for scientific OU inference')
+          PY

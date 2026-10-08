@@ -1,0 +1,49 @@
+{
+  "version": "v0.1",
+  "status": "POST_EQUAL_BM_OUTCOME_PRE_EQUAL_OU_NULL_DESIGN_FROZEN",
+  "frozen_on": "2026-10-08",
+  "aim": "Test whether one homogeneous Ornstein-Uhlenbeck process shared by all traits and families can generate the empirical AusTraits log(K) family repeatability and trait rank predictive gains, conditional on exact observed system trees.",
+  "original_K_reference_workflow": 37725935020,
+  "exact_tree_BM_process_null_workflow": 37746671909,
+  "fixed_population": {
+    "systems": 254,
+    "families": 42,
+    "traits": 13,
+    "tree_axes": [
+      "S3",
+      "prune_only"
+    ],
+    "same_tip_sets": true
+  },
+  "OU_process": {
+    "stochastic_dynamics": "dX = alpha(theta - X) dt + sigma dW, with theta=0 and sigma2=1 identical for all families and traits in each scenario.",
+    "ancestral_state": "Stationary N(theta, sigma2/(2*alpha)) at each independently simulated exact system-tree root.",
+    "absolute_time_scale": "Tree edge-length units from the pinned source-native GBOTB.extended.TPL; alpha is constant across ALL 254 systems in a given scenario.",
+    "reference_time": "T_ref = median of each exact system tree's maximum root-to-tip depth across all 254 fixed systems, computed before simulating outcomes.",
+    "fixed_dimensionless_alpha_grid": [
+      0.25,
+      1,
+      4
+    ],
+    "absolute_alpha_per_scenario": "alpha = c / T_ref for c in [0.25,1,4]. No alpha is chosen after comparing to empirical K.",
+    "simulations_per_system_per_axis_per_scenario": 256,
+    "random_seed": 20261008,
+    "implementation": "Use exact reassembled source-native trees and a fast O(n_edges) K evaluator validated against the original frozen phytools K estimates; no outcome-based system filtering.",
+    "simulation_loop": "For each branch l, child = exp(-alpha*l)*parent + sqrt((1-exp(-2alpha*l))/(2alpha))*N(0,1).",
+    "independent_traits_given_tree": true
+  },
+  "predeclared_outputs": [
+    "Matched-graph LOFO absolute log(K) prediction gain",
+    "Matched-graph LOFO within-family rank prediction gain",
+    "K family conditional repeatability after named-trait fixed effects",
+    "Cross-family pair-order reversal for trait pairs shared by at least 10 families",
+    "Null p-values with (1+exceedances)/(1+256) per scenario"
+  ],
+  "decision": {
+    "conservative": "If ANY of the 3 homogeneous-OU scenarios accommodates the observed K family and trait-rank effects, do not claim these effects require trait-/lineage-specific evolutionary-process parameters.",
+    "evidence_beyond_grid": "Only if the empirical effects exceed the upper 97.5% null quantile for both family repeatability and rank predictive gain on BOTH tree axes for ALL 3 scenarios, describe them as beyond the pre-frozen set of homogeneous OU alternatives.",
+    "boundary": "This does not exclude other untested homogeneous processes, trait covariance or measurement/source biases."
+  },
+  "no_preregistered_rho_reclassification": true,
+  "output_status": "DESIGN_ONLY_NOT_EXECUTED"
+}

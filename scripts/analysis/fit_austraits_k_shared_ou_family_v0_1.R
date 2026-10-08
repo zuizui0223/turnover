@@ -38,7 +38,9 @@ draws<-numeric(256)
 for(i in 0:255) {
   dd<-null[null$replicate==i,]
   dd<-dd[order(dd$family,dd$trait_name),]
-  if(!identical(pairs,dd[,c("family","trait_name")]))
+  key_observed<-paste(pairs$family,pairs$trait_name,sep="|")
+  key_null<-paste(dd$family,dd$trait_name,sep="|")
+  if(!identical(key_observed,key_null))
      stop(sprintf("null graph mismatch replicate %d",i))
   draws[i+1]<-get_ICC(dd)
 }

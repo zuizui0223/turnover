@@ -1,0 +1,79 @@
+{
+  "version": "v0.1",
+  "status": "POST_OBSERVED_K_AND_SHARED_OU_PRE_SOURCE_DISPERSION_OUTCOMES_FROZEN",
+  "frozen_on": "2026-10-08",
+  "question": "Can trait-specific or family-trait-specific observational/source-associated variation, calibrated without K outcomes, cause positive cross-family Blomberg K trait-rank portability even when the latent process is homogeneous stationary OU?",
+  "input_identity": {
+    "source_dispersion_design": "data/austraits_k_cross_source_dispersion_design_v0_1.json",
+    "source_dispersion_workflow": "austraits-k-cross-source-dispersion-v0-1",
+    "observed_K_workflow": 37725935020,
+    "core_workflow": 37561341286,
+    "tree_axes": [
+      "S3",
+      "prune_only"
+    ],
+    "full_original_graph": {
+      "systems": 254,
+      "families": 42,
+      "traits": 13
+    }
+  },
+  "fixed_subgraph": {
+    "rule": "Remove seed_height solely because it prospectively failed the K-blind cross-source replication feasibility gate; no further empirical K-based exclusions. Compute every observed statistic again on exactly the same 12-trait graph used in the null.",
+    "expected_traits": 12,
+    "source_exclusion": [
+      "seed_height"
+    ],
+    "family_support": "Retain families with >=2 trait systems; model and metric implementations must stop if any trait has <=1 families or 42 families are not preserved."
+  },
+  "latent_evolution": {
+    "model": "Stationary OU with common global alpha, theta=0 and sigma2=1 across all family-trait systems, conditioned on exact original system trees and tip support.",
+    "dimensionless_alphas": [
+      0.25,
+      1,
+      4
+    ],
+    "alpha_time_reference_workflow": 37754329843,
+    "alpha_absolute_definition": "alpha=c/T_ref with the original 508 tree-based T_ref=47.5820775; do not use any OU outcomes to alter c.",
+    "draws_per_system_axis_scenario": 256,
+    "seed": 20261008
+  },
+  "observation_heterogeneity": {
+    "states": "Y_tip = X_tip + epsilon_tip; epsilon iid Normal(0, sqrt(eta * Var_sample(X_tip))), per system, independent of X except for this sample-spread normalization.",
+    "source_error_role": "eta is source-derived relative same-species cross-dataset dispersion; a stress-test observation heterogeneity envelope, not a direct instrument measurement-error estimate.",
+    "models": [
+      {
+        "id": "trait_global",
+        "eta_rule": "For all systems of a trait, use median of K-blind system ratios across source-qualified family systems, independently of observed K."
+      },
+      {
+        "id": "system_local",
+        "eta_rule": "Use K-blind family×trait system relative source-dispersion ratio if source-qualified (>=5 multiple-positive-dataset species), otherwise impute the frozen trait_global ratio. No K-dependent imputation."
+      }
+    ],
+    "uncalibrated_trait_policy": "Always exclude seed_height from both observed and simulated comparisons, retaining the complete 12-trait fixed subgraph; do not change model after source ratios are observed.",
+    "parameter_constraints": "Require finite eta>=0 for each retained trait and system. Never cap extreme ratios after observing them; fail if invalid.",
+    "noise_multipliers": [
+      1
+    ]
+  },
+  "outcomes": {
+    "primary": "LOFO within-family rank prediction gain on frozen 12-trait graph, both tree axes.",
+    "secondary": [
+      "LOFO absolute log(K) prediction gain",
+      "Family random-intercept ICC conditional on named trait on identical 12-trait graph",
+      "Matched graph pair reversal"
+    ],
+    "null_uncertainty": "Empirical percentile of 256 replicate metrics, report q2.5, q97.5, and one-sided (1 + count(null>=observed))/257. Strong exceedance requires empirical rank gain > all six scenario q97.5 values on BOTH trees; report borderline p>=.025 separately.",
+    "decision": "If ANY pre-specified global OU+source noise scenario accommodates observed rank gain on EITHER tree, do not claim that rank portability requires process heterogeneity; if all 12 tests exceed, describe beyond the six tested independent stationary OU+source heterogeneity envelopes, not evidence of adaptation."
+  },
+  "scientific_guards": [
+    "Cross-dataset differences combine natural intraspecific, phenotypic plasticity, protocol and source effects and are not pure analytical error.",
+    "Do not claim the scenario set is exhaustive, or that measured source variation caused pattern matching.",
+    "The frozen observational K and source crosswalk are shared; this is a conditioned exploratory process-null comparison.",
+    "Trait covariance and source correlation among species remain unmodeled.",
+    "Process null frozen after observed rho, K and homogeneous OU outcomes; cannot be labelled a prospective discovery.",
+    "No model tuning on K, rank gain or ICC; no result-dependent removal or rescaling of traits."
+  ],
+  "status_note": "FROZEN_BEFORE_SOURCE_DISPERSION_MAGNITUDES_OR_ANY_OU_PLUS_NOISE_OUTCOMES"
+}

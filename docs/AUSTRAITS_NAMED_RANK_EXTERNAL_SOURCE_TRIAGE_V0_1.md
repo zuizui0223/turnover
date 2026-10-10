@@ -20,7 +20,7 @@ The external protocol requires **at least 10 families with 20 distinct species p
 | **MorFunSeed** Brazil, 2026, primary seed morphology | 131 plant species total | Seed width and dry mass potentially available (2) | **HARD structural fail:** fewer than 200 species total |
 | **Western Ghats** India, 2025, new leaf measurements | 93 woody species total | Leaf area only (1) | **HARD structural fail:** fewer than 200 species total |
 
-TRY is an integrated database and includes primary and secondary sources. Its 2026 publication date does **not** prove non-overlap with AusTraits primary datasets. Trait-registry counts are not proof of ≥20 species in ≥10 families after source-level de-duplication, nor evidence that the five trait concepts have semantically matching measurements.
+TRY is an integrated database and includes primary and secondary sources. Its 2026 public release date does **not** prove non-overlap with AusTraits primary datasets; TRY states that **version 7 data import was completed on 2025-07-25**, so a newly released interface must not be mistaken for newly collected, independently sampled biological measurements. Trait-registry counts are not proof of ≥20 species in ≥10 families after source-level de-duplication, nor evidence that the five trait concepts have semantically matching measurements.
 
 MorFunSeed and Western Ghats are useful as **supporting measurement sources** for narrower, externally predeclared supplemental questions. Neither can be upgraded to a five-trait independent replication by weakening the previously frozen family thresholds.
 

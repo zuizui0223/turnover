@@ -1,0 +1,75 @@
+{
+  "version": "v0.1",
+  "status": "POST_AUSTRAITS_K_SOURCE_OU_DISCOVERY_PRE_NEW_SOURCE_OUTCOME_VALIDATION_DESIGN",
+  "frozen_on": "2026-10-10",
+  "discovery_source": "AusTraits v7.0.0; 249 family×trait systems / 42 families / 12 traits; original shared-OU+source noise inputs unchanged",
+  "discovery_evidence": {
+    "primary_rank_gain_result": "RANK_PORTABILITY_NOT_BEYOND_ALL_SOURCE_OU_ENVELOPES",
+    "source_OU_workflow": 37785257795,
+    "independent_source_OU_workflow": 37793799844,
+    "exploratory_named_rank_workflow": 38058633092,
+    "scope": "Hypothesis generation only. All five directional trait departures were selected after seeing the AusTraits output."
+  },
+  "question": "Do signed differences between empirical named-trait phylogenetic K ranks and independently source-calibrated homogeneous OU+observation models recur in a genuinely held-out primary observation source?",
+  "named_sign_predictions": [
+    {
+      "trait_name": "seed_width",
+      "expected_direction": "observed_rank_higher_than_homogeneous_source_OU_expected",
+      "AusTraits_discovery_difference_range": [
+        0.21,
+        0.361
+      ]
+    },
+    {
+      "trait_name": "leaf_area",
+      "expected_direction": "observed_rank_higher_than_homogeneous_source_OU_expected",
+      "AusTraits_discovery_difference_range": [
+        0.083,
+        0.3
+      ]
+    },
+    {
+      "trait_name": "seed_dry_mass",
+      "expected_direction": "observed_rank_higher_than_homogeneous_source_OU_expected",
+      "AusTraits_discovery_difference_range": [
+        0.126,
+        0.183
+      ]
+    },
+    {
+      "trait_name": "leaf_width",
+      "expected_direction": "observed_rank_lower_than_homogeneous_source_OU_expected",
+      "AusTraits_discovery_difference_range": [
+        -0.243,
+        -0.181
+      ]
+    },
+    {
+      "trait_name": "petiole_length",
+      "expected_direction": "observed_rank_lower_than_homogeneous_source_OU_expected",
+      "AusTraits_discovery_difference_range": [
+        -0.223,
+        -0.152
+      ]
+    }
+  ],
+  "gate_order": [
+    "Identify a new external primary observation collection or demonstrably nonoverlapping compilation without looking at K/target outcomes; never recycle original AusTraits measurements as independence.",
+    "Freeze trait semantics, measurement units and source crosswalk for the five named traits before accessing the target biological outcomes. Exclude incompatible dimensional definitions; no post-outcome semantic adjustment.",
+    "Verify provenance at primary DOI/dataset/measurement-ID level. Where coverage cannot establish independent primary observations, report source-overlap-limited transport rather than independent replication.",
+    "Before measuring new K, determine species-tip support, V.PhyloMaker2 scenario3/prune trees and K simulation informativeness; for a trait to count require at least 10 independent families with >=20 species, and at least 10 families with >=2 named traits for paired profile inference.",
+    "Recompute independent K and the matched observational heterogeneity model on source-native species sets; do not use discovery K values to set target error ratios or OU attraction.",
+    "Score the frozen five signed profile departures, aggregate two-sided and sign-oriented discrepancies with uncertainty clustered by family and source dataset, and compare to a source-conditioned homogeneous OU posterior-predictive distribution.",
+    "Report each tree axis and qualified/unqualified hypothesis separately. No new family or trait exclusions from observing target K.",
+    "Disclose any repeated primary source, low DOI ascertainment, incompatible trait semantics or tree uncertainty. If no source satisfies gates, mark untested and do not claim validation."
+  ],
+  "primary_new_source_decision": {
+    "condition": "At least four of five preread signed departures have qualified independent source support, preserve predicted directions on both S3 and prune trees, and a source-conditioned named-rank profile discrepancy is above its 97.5th simulated percentile on both tree axes.",
+    "failed_or_incomplete": "NO_TRANSFERABLE_NAMED_RANK_PATTERN_ESTABLISHED",
+    "passed": "INDEPENDENT_SOURCE_NAMED_RANK_DEPARTURE_REPLICATED_WITHIN_TESTED_NULL_FAMILY",
+    "caveats": "Neither decision identifies selection or a trait-specific OU parameter; model family remains finite and comparisons depend on the source sampling graph."
+  },
+  "no_reopening": "The completed BIEN 201-system rho study has an explicit analysis-stop rule; no new primary hypothesis mining on those observed effects or retrospective reclassification of BIEN/AusTraits rho predictions is permitted.",
+  "analysis_window": "No new-source trait values or K outcomes have been observed for this protocol. The discovery source is not an independent validation cohort.",
+  "status_note": "DESIGN_ONLY; no external validation performed"
+}

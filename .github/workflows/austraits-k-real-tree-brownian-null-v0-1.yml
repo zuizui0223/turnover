@@ -1,0 +1,310 @@
+name: AusTraits K real-tree identical-Brownian process null v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-real-tree-brownian-null-v0-1.yml'
+      - 'data/austraits_k_real_tree_brownian_null_v0_1.json'
+      - 'scripts/analysis/run_austraits_k_brownian_null_system_v0_1.R'
+      - 'scripts/analysis/aggregate_austraits_k_brownian_null_v0_1.py'
+      - 'scripts/analysis/fit_austraits_k_brownian_null_family_v0_1.R'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      smoke_system: ${{ steps.matrix.outputs.smoke_system }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas
+      - name: Validate fixed real-tree process-null contract
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/austraits_k_real_tree_brownian_null_v0_1.json'))
+          assert d['status']=='POST_OUTCOME_REAL_TREE_IDENTICAL_BROWNIAN_PROCESS_NULL_FROZEN'
+          assert d['population']['systems']==254
+          assert d['process_null']['replicates']==64
+          assert d['population']['fixed_tip_sets'] is True
+          assert d['process_null']['no_parameter_tuning_from_outcome'] is True
+          PY
+      - name: Download fixed K observations and exact core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/k
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/k
+          test -f build/core/core/core_systems.csv
+          test -f build/k/effects.csv
+      - id: matrix
+        name: Deterministic null batches and small-tree K identity smoke
+        run: |
+          python - <<'PY'
+          import pandas as pd,base64,json,os
+          k=pd.read_csv('build/k/effects.csv')
+          c=pd.read_csv('build/core/core/core_systems.csv')
+          d=k.merge(c[['family','trait_name','n_input_species','n_prune','n_bind']],
+                    on=['family','trait_name'],validate='one_to_one',how='inner')
+          assert (len(d),d.family.nunique(),d.trait_name.nunique())==(254,42,13)
+          assert not d[['family','trait_name']].duplicated().any()
+          systems=[]
+          for r in d.itertuples(index=False):
+              systems.append({
+                'system_id':r.system_id,'family':r.family,'trait_name':r.trait_name,
+                'n_input_species':int(r.n_input_species),'n_prune':int(r.n_prune),
+                'n_bind':int(r.n_bind),'_weight':int(r.n_species_S3)**3})
+          nb=16
+          bins=[{'weight':0,'systems':[]} for _ in range(nb)]
+          for s in sorted(systems,key=lambda v:(-v['_weight'],v['family'],v['trait_name'])):
+              i=min(range(nb),key=lambda j:(bins[j]['weight'],j))
+              bins[i]['weight']+=s['_weight']
+              bins[i]['systems'].append({k:v for k,v in s.items() if k!='_weight'})
+          inc=[]
+          for i,b in enumerate(bins,1):
+              buf=json.dumps(b['systems'],separators=(',',':')).encode()
+              inc.append({'batch_id':f'N{i:02d}',
+                          'systems_b64':base64.b64encode(buf).decode(),
+                          'n_systems':len(b['systems'])})
+          assert sum(r['n_systems'] for r in inc)==254
+          smoke=min(systems,key=lambda x:(abs(x['n_prune']-40),x['family'],x['trait_name']))
+          sm={key:smoke[key] for key in smoke if key!='_weight'}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+              fh.write('smoke_system='+base64.b64encode(json.dumps([sm]).encode()).decode()+'\n')
+          print({'n_systems':254,'n_batches':len(inc),'smoke_n_prune':sm['n_prune']})
+          PY
+
+  smoke:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::phytools
+      - name: Pin source-native V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned AusTraits source and config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Verify manual O(n) K equals phytools K on real exact tree
+        env:
+          SYSTEMS_B64: ${{ needs.prepare.outputs.smoke_system }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          mkdir -p build/batch build/results
+          python - <<'PY'
+          import base64,os
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/results \
+            --r-script scripts/analysis/run_austraits_k_brownian_null_system_v0_1.R
+          python - <<'PY'
+          import glob,json
+          xs=glob.glob('build/results/*.json')
+          assert len(xs)==1
+          d=json.load(open(xs[0]))
+          assert d['status']=='AUSTRAITS_REAL_TREE_BROWNIAN_NULL_SYSTEM_ESTIMATED'
+          for a in ['S3','prune_only']:
+              assert d[a]['rel_error_manual_vs_phytools']<1e-5
+              assert len(d[a]['null_logK'])==64
+          print('PASS: exact real-tree fast K matches phytools on both axes')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-real-tree-bm-smoke-v0-1
+          path: build/results/*.json
+          retention-days: 30
+
+  null_batch:
+    needs: [prepare,smoke]
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::phytools
+      - name: Pin source-native V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download pinned source and traits config
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Simulate fixed exact-tree same-process BM null
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          mkdir -p build/batch build/results
+          python - <<'PY'
+          import os,base64
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/results \
+            --r-script scripts/analysis/run_austraits_k_brownian_null_system_v0_1.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-real-tree-bm-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: null_batch
+    if: needs.null_batch.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-k-real-tree-bm-N*
+          path: build/all
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Download frozen K results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/result
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Aggregate matched null distribution and verify all 254 K estimates
+        run: |
+          python scripts/analysis/aggregate_austraits_k_brownian_null_v0_1.py \
+            --input-dir build/all \
+            --observed-K build/K/effects.csv \
+            --out build/result/metric_null.json \
+            --null-table-out build/result/null_effects.csv \
+            --n-replicates 64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-real-tree-bm-metrics-v0-1
+          path: build/result/
+          retention-days: 30
+
+  family_null:
+    needs: aggregate
+    if: needs.aggregate.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-real-tree-bm-metrics-v0-1
+          path: build/result
+      - name: Download frozen K results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit identical frozen K family model for observed and 64 BM replicates
+        run: |
+          Rscript scripts/analysis/fit_austraits_k_brownian_null_family_v0_1.R \
+            --observed-K build/K/effects.csv \
+            --null-table build/result/null_effects.csv \
+            --out build/result/family_null.json
+      - name: Verify complete graph and publish calibration summary
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('build/result/metric_null.json'))
+          b=json.load(open('build/result/family_null.json'))
+          assert a['observed_graph']=={'systems':254,'families':42,'traits':13}
+          assert a['null_replicates']==64 and b['n_null_replicates']==64
+          for ax,bx in [('S3','S3_logK'),('prune_only','prune_logK')]:
+              assert a['axes'][ax]['observed']['n_trait_pairs']>=10
+              assert b['axes'][bx]['valid_null_replicates']>=61
+          print(json.dumps({
+              'S3_rank_gain_empirical':a['axes']['S3']['observed']['rank_gain'],
+              'S3_BM_rank_gain_null_95%':[
+                 a['axes']['S3']['null']['rank_gain']['q025'],
+                 a['axes']['S3']['null']['rank_gain']['q975']],
+              'prune_family_icc_empirical':b['axes']['prune_logK']['observed_family_repeatability'],
+              'prune_BM_family_icc_null_95%':[
+                 b['axes']['prune_logK']['null_family_repeatability']['q025'],
+                 b['axes']['prune_logK']['null_family_repeatability']['q975']]
+          },indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-real-tree-bm-final-v0-1
+          path: |
+            build/result/metric_null.json
+            build/result/family_null.json
+          retention-days: 30

@@ -1,0 +1,51 @@
+name: AusTraits K-blind source dispersion influence v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-source-dispersion-influence-v0-1.yml'
+      - 'scripts/analysis/audit_austraits_k_source_dispersion_stability_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Recover immutable source-only dispersion outcomes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source build/audit
+          gh run download 37784017236 -R "$GITHUB_REPOSITORY" -n austraits-k-cross-source-dispersion-v0-1 -D build/source
+          test -f build/source/source_dispersion.json
+      - name: Recompute all 13 trait influence ranges without K
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_source_dispersion_stability_v0_1.py
+          python scripts/analysis/audit_austraits_k_source_dispersion_stability_v0_1.py \
+            --source build/source/source_dispersion.json \
+            --out build/audit/influence.json
+          python - <<'PY'
+          import json
+          x=json.load(open("build/audit/influence.json"))
+          assert x['graph']=={'systems':254,'families':42,'traits':13}
+          assert (x['calibrated_systems'],x['zero_ratio_systems'])==(246,29)
+          assert sum(v['qualified_for_forward_model'] for v in x['trait_influence'].values())==12
+          assert x['trait_influence']['seed_height']['qualified_for_forward_model'] is False
+          assert x['original_OU_source_parameters_unchanged'] is True
+          print('PASS: immutable source-only LOFO influence; original OU+noise model unchanged')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-source-dispersion-influence-v0-1
+          path: build/audit/influence.json
+          retention-days: 30

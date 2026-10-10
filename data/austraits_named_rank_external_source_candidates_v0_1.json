@@ -1,0 +1,124 @@
+{
+  "version": "v0.1",
+  "status": "EXTERNAL_NAMED_RANK_SOURCE_CANDIDATES_METADATA_ONLY_PRE_VALIDATION_HOLD",
+  "checked_on": "2026-10-11",
+  "parent_protocol": "data/austraits_named_rank_external_validation_protocol_v0_1.json",
+  "scope": "Source discovery and public metadata, without new trait values, K values, family effects, source overlap outcomes or phylogenetic signal.",
+  "frozen_primary_minimums": {
+    "family_min_species_per_trait": 20,
+    "min_families_per_trait": 10,
+    "min_families_with_two_traits": 10,
+    "min_signed_traits_supported": 4
+  },
+  "discovery_only_targets": [
+    {
+      "name": "seed_width",
+      "try_id": 239,
+      "try_label": "Seed width",
+      "semantics": "linear dimension of seed, exclude seed coat/fruit width substitutions",
+      "needs_trait_ontology_review": true
+    },
+    {
+      "name": "leaf_area",
+      "try_id": 3108,
+      "try_label": "Leaf area (compound: leaf, petiole excluded)",
+      "semantics": "projected single leaf area, lamina only. Compound leaf vs leaflet ambiguity requires AusTraits APD/source row-level audit; TRY generic 1,3110,3113,3114 are NOT automatically interchangeable.",
+      "needs_trait_ontology_review": true
+    },
+    {
+      "name": "seed_dry_mass",
+      "try_id": 26,
+      "try_label": "Seed dry mass",
+      "semantics": "single dry seed mass, exclude dispersal unit/fruit mass or 1000 seed mass without certified conversion",
+      "needs_trait_ontology_review": true
+    },
+    {
+      "name": "leaf_width",
+      "try_id": 145,
+      "try_label": "Leaf width",
+      "semantics": "max lamina width, exclude petiole and leaflet-only without recorded taxonomy",
+      "needs_trait_ontology_review": true
+    },
+    {
+      "name": "petiole_length",
+      "try_id": 143,
+      "try_label": "Leaf petiole length",
+      "semantics": "petiole length, do not merge rachis or compound leaf stem length without source-level mapping",
+      "needs_trait_ontology_review": true
+    }
+  ],
+  "sources": [
+    {
+      "id": "TRY7",
+      "name": "TRY Plant Trait Database version 7",
+      "source_type": "compilation",
+      "published": "2026-09-04",
+      "landing_page": "https://www.try-db.org/",
+      "trait_index_url": "https://www.try-db.org/de/TraitSearch.php",
+      "listed_target_traits": [
+        "seed_width",
+        "leaf_area",
+        "seed_dry_mass",
+        "leaf_width",
+        "petiole_length"
+      ],
+      "reported_all_taxa": 306701,
+      "maximum_possible_species_count": null,
+      "separate_primary_dataset_identifiers_retrieved": false,
+      "primary_DOI_overlap_with_AusTraits_verified": false,
+      "full_tip_family_support_audited": false,
+      "definitional_consistency_audited": false,
+      "permission_to_access_raw_trait_records_verified": false,
+      "notes": "The summary is a database-wide count, not a qualified count per trait/family. TRY includes secondary/collective datasets; new release does not imply independent primary measurements.",
+      "public_reference_urls": [
+        "https://www.try-db.org/TryWeb/About.php",
+        "https://www.try-db.org/de/TraitSearch.php"
+      ]
+    },
+    {
+      "id": "MORFUNSEED2026",
+      "name": "MorFunSeed Cerrado and Atlantic Forest",
+      "source_type": "individual_data_article",
+      "published": "2026-05-28",
+      "landing_page": "https://doi.org/10.1111/1440-1703.70086",
+      "data_doi": "https://doi.org/10.6084/m9.figshare.32311383",
+      "listed_target_traits": [
+        "seed_width",
+        "seed_dry_mass"
+      ],
+      "reported_all_taxa": 131,
+      "maximum_possible_species_count": 131,
+      "separate_primary_dataset_identifiers_retrieved": false,
+      "primary_DOI_overlap_with_AusTraits_verified": false,
+      "full_tip_family_support_audited": false,
+      "definitional_consistency_audited": false,
+      "permission_to_access_raw_trait_records_verified": false,
+      "notes": "131 total species is fewer than the strict 10 families times 20 unique species per trait = 200 necessary count, so this source alone cannot qualify on the original protocol; it could still support complementary trait-specific checks."
+    },
+    {
+      "id": "WGINDIA2025",
+      "name": "Western Ghats woody leaf traits 2025",
+      "source_type": "individual_data_article",
+      "published": "2025-11-03",
+      "landing_page": "https://doi.org/10.1016/j.dib.2025.112225",
+      "listed_target_traits": [
+        "leaf_area"
+      ],
+      "reported_all_taxa": 93,
+      "maximum_possible_species_count": 93,
+      "separate_primary_dataset_identifiers_retrieved": false,
+      "primary_DOI_overlap_with_AusTraits_verified": false,
+      "full_tip_family_support_audited": false,
+      "definitional_consistency_audited": false,
+      "permission_to_access_raw_trait_records_verified": false,
+      "notes": "93 total species cannot meet >=200 distinct species for any one qualifying trait under frozen >=10 families x 20 species condition. Leaf area was measured on leaf blades without petioles."
+    }
+  ],
+  "prohibited_changes": [
+    "No K/result-based source selection or reweighting",
+    "Do not reopen completed BIEN 201-system rho analysis",
+    "Do not reinterpret a derivative compilation as independent without primary DOI/measurement audit",
+    "Do not relax 10-family x20-species gates after finding small datasets"
+  ],
+  "output_status": "CANDIDATE_METADATA_ONLY_NO_INDEPENDENT_SOURCE_QUALIFIED"
+}

@@ -1,0 +1,37 @@
+{
+  "version": "v0.1",
+  "status": "POST_K_AND_SHARED_OU_OUTCOME_PRE_SOURCE_COVERAGE_AUDIT_FROZEN",
+  "frozen_on": "2026-10-08",
+  "aim": "Determine whether independent within-species observations across AusTraits source datasets are numerous enough to calibrate trait-specific observational noise independently of the previously observed K ranking.",
+  "population": {
+    "source": "AusTraits 7.0.0 flattened parquet SHA256 5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "K_effects_workflow": 37725935020,
+    "exact_core_workflow": 37561341286,
+    "systems": 254,
+    "families": 42,
+    "traits": 13
+  },
+  "record_definition": {
+    "join": "Exact source-native K family and trait and species-rank taxon; numeric finite values in original source trait-config units, deduplicated by (dataset_id,observation_id,value), with one genus per species; no observed-K-dependent filtering.",
+    "species_state": "Use the original matched median of numeric observations for the K trait-state eligibility check; for log-scale repeatability, positive records only.",
+    "independent_observation": "Distinct dataset_id + observation_id record key, not two identical rows.",
+    "independent_dataset": "Distinct nonempty dataset_id; at least 2 datasets for the same family+trait+species.",
+    "meaning": "Across-dataset dispersion measures observational/intraspecific/source heterogeneity; it is not a pure instrument measurement-error estimate."
+  },
+  "predeclared_feasibility": {
+    "minimum_multidataset_species_per_trait": 30,
+    "minimum_families_per_trait_with_5_multidataset_species": 3,
+    "minimum_qualifying_traits": 6,
+    "minimum_overall_qualifying_source_fraction": 0,
+    "decision": "Proceed to source-calibrated error-process null only if at least 6 of 13 traits each have at least 30 multidataset species from at least 3 families with 5 or more such species; otherwise report that independent calibration is not sufficiently supported for this 13-trait graph."
+  },
+  "inference_firewall": [
+    "Run no new K association/regression against source-repeatability descriptors during feasibility.",
+    "Do not tune noise intensities from observed K, family ICC, rank gain, pair reversal or OU discrepancy.",
+    "Do not label source heterogeneity as instrument measurement error.",
+    "Never treat duplicate records from one dataset or observation_id as independent replicates.",
+    "Keep original prospective rho replication failure, Brownian and OU outcomes unchanged.",
+    "Descriptive source coverage is an exploratory post-K/OU workflow, not independent preregistration of the original discovery."
+  ],
+  "output_status": "DESIGN_ONLY_NO_SOURCE_AUDIT_OUTCOMES_OPENED"
+}

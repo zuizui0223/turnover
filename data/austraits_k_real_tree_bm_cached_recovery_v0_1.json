@@ -1,0 +1,37 @@
+{
+  "version": "v0.1",
+  "status": "TECHNICAL_CACHE_K_LARGEST_BATCH_RECOVERY",
+  "date": "2026-10-08",
+  "original_workflow_run": 37746671909,
+  "scientific_contract": "data/austraits_k_real_tree_brownian_null_v0_1.json",
+  "population": {
+    "systems": 254,
+    "families": 42,
+    "traits": 13,
+    "simulations_per_system": 64,
+    "axes": [
+      "S3",
+      "prune_only"
+    ]
+  },
+  "completed_work_policy": "Reuse the frozen 15 completed N01-N15 batch artifacts exactly; recompute only N16 with the same V.PhyloMaker2 tree and Brownian draw sequence.",
+  "difference": {
+    "old": "phytools::phylosig method K is recomputed on every observed tree, sometimes using a large dense covariance matrix.",
+    "new": "The previously archived phytools K from frozen run 37725935020 is used as exact-reference output; the independent O(n_edges) fast K on observed states must reproduce that archived value at its persisted decimal precision.",
+    "tolerance": 0.0002,
+    "formula_unchanged": true,
+    "brownian_seed_unchanged": true,
+    "simulations_unchanged": true,
+    "phylogeny_source_unchanged": true,
+    "trait_tip_sets_unchanged": true
+  },
+  "reason": "A particularly large N16 system can dominate K numeric re-validation runtime despite independent validation on smaller observed trees and completed empirical K estimation.",
+  "success_gates": [
+    "Exactly 15 frozen original null batch artifacts N01-N15 reused unchanged.",
+    "Exactly one N16 artifact regenerated with archived phytools K cross-check.",
+    "No duplicate family-trait systems; exactly 254 system IDs and 64 null draws per axis.",
+    "Observed cached K identity and species tip support verified for each N16 system.",
+    "Exact original scientific metrics and family repeatability procedures applied without changing thresholds."
+  ],
+  "no_posthoc_scientific_relaxation": true
+}

@@ -36,6 +36,25 @@ MorFunSeed and Western Ghats are useful as **supporting measurement sources** fo
 
 These candidate IDs are grounded in the [TRY Data Explorer](https://www.try-db.org/de/TraitSearch.php). Trait semantics are not yet adjudicated against the pinned [AusTraits Plant Dictionary](https://doi.org/10.1038/s41597-024-03368-z). The dictionary explicitly warns that leaf and leaflet area measurements can be mixed under a general leaf-area concept. As a result, **leaf_area must remain on semantic HOLD** until a documented source-level crosswalk is available.
 
+## Public TRY directory versus pinned AusTraits source-provenance audit (2026-10-11)
+
+The new [public-source audit workflow #38107630927](https://github.com/zuizui0223/turnover/actions/runs/38107630927) **succeeded**, retrieving the actual publicly listed source directory and the pinned original AusTraits data-source metadata without accessing any TRY numeric trait measurements:
+
+| Metadata quantity | Verified count |
+|---|---:|
+| Public TRY Data Explorer DatasetIDs | **888** |
+| TRY directory entries with a linked source/publication DOI | **99** |
+| Potentially contributing AusTraits source IDs on frozen 254 K systems | **190** |
+| Readable pinned AusTraits source metadata | **190** |
+| AusTraits source IDs with recoverable primary DOI | **128 (67.4%)** |
+| Exact DOI pairs shared by these restricted public-link sets | **0** |
+| Strict lexical-name possible matches | **0** |
+| Independently qualified TRY v7 sources | **0** |
+
+**Critical interpretation:** Zero DOI/title matches is only zero in **this incomplete cross-index**. The public TRY Explorer reports version **6.0**, not TRY v7, and just 99 of the 888 listed historical directory entries advertise a DOI hyperlink. Meanwhile 62/190 AusTraits source candidates have no recoverable DOI. Thus lack of shared source hyperlinks is absolutely **not** proof of independent underlying primary measurements or absence of measurement duplication. Even a shared DOI would establish overlapping citations, not identical individual measurements. The audit never evaluated TRY v7 per-trait family support, record-lineage IDs or semantic equivalence, which remain formal HOLD conditions.
+
+The reproducible source inventory (TRY public directory, AusTraits source metadata, potential lexical matches, linked-DOI candidates and guarded summary JSON) is saved as the above GitHub Actions artifact, **not** committed as a new biological outcome. Numeric TRY trait records were never requested or opened. The exploratory named-rank hypotheses selected from AusTraits remain unvalidated.
+
 ## Required next *data request* (metadata first, K/value blinded)
 
 Ask for the following **catalogue fields** for those five candidate trait IDs, before requesting phenotype values: source dataset identifier, original primary dataset DOI/citation, observation or measurement identifier availability, source taxon name, standardized family, valid trait ID and full definition, native unit, petiole/leaflet/seed-part protocol, primary versus derivative-source lineage, permission/license and approximate per-family distinct species counts for each trait. Request a contributor-level dataset catalogue first; do **not** treat a dataset-level count as independent observation proof.

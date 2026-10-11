@@ -63,7 +63,7 @@ def parse_try_catalog(html):
                                 if (d:=normalized_doi(link.get("href")))})
             # TRY wraps linked citations with a literal '(link)' anchor in
             # its visible dataset title; this is not part of the study name.
-            dataset_title=re.sub(r"\\s*\\(?link\\)?\\s*$","",fields[1],flags=re.I).strip()
+            dataset_title=re.sub(r"\s*\(link\)\s*$","",fields[1],flags=re.I).strip()
             if not dataset_title:continue
             possible.append({"try_dataset_id":int(fields[0]),
                              "try_dataset_title":dataset_title,

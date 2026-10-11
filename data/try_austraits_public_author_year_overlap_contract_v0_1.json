@@ -19,14 +19,15 @@
   },
   "matching_rules": {
     "austraits_source_id_pattern": "^([A-Za-z]+)_((?:19|20)[0-9]{2})(?:_|$)",
-    "surname_min_letters": 4,
+    "surname_min_letters": 3,
     "tokenization": "casefold ASCII alphabetic words from TRY title, exact normalized surname token only",
     "strong_citation_candidate": "TRY public dataset title explicitly contains the same surname token AND the exact four-digit publication year from AusTraits dataset ID",
     "weak_citation_candidate": "TRY public dataset title contains the exact surname token, but not the source-ID publication year; treat as lexical research lead only",
     "doi_enrichment": "Do not infer a TRY DOI from its DatasetID or title; separately preserve the independently recovered AusTraits publication DOI and actual TRY hyperlink DOIs, if any",
     "record_overlap_status": "AUTHOR_YEAR_MATCH_INDICATES_POTENTIAL_SHARED_PUBLICATION_NOT_SHARED_PRIMARY_MEASUREMENT",
     "no_match_status": "NO_AUTHOR_YEAR_MATCH_NOT_PROVEN_INDEPENDENT",
-    "ambiguous_year": "Never treat absent or different TRY title year as a source independence PASS"
+    "ambiguous_year": "Never treat absent or different TRY title year as a source independence PASS",
+    "short_surname_rule": "Three-letter surname tokens are accepted ONLY as possible cited-study candidates when the exact four-digit publication year also matches. Author-only three-letter matches remain weak and cannot establish common publication."
   },
   "known_publication_example": {
     "austraits_source_id": "Tng_2013",
@@ -45,5 +46,6 @@
     "No relaxation of frozen external 10 families x20 species, 4 traits, 10 multi-trait families",
     "Closed BIEN 201-system rho outcomes remain unopened"
   ],
-  "output_status": "MATCHER_DESIGN_ONLY_POST_METADATA_DISCOVERY"
+  "output_status": "MATCHER_DESIGN_ONLY_POST_METADATA_DISCOVERY",
+  "status_note": "Eligibility threshold typo corrected to permit the explicitly frozen Tng three-letter surname; it changes metadata pattern recognition only, never biological source qualification or any K outcome."
 }

@@ -62,9 +62,19 @@ def parse_try_catalog(html):
         # Fail closed rather than interpreting a login/maintenance page as
         # an empty data-custodian registry.
         raise ValueError("TRY public catalogue HTML has no DatasetID table")
-    if len({x["try_dataset_id"] for x in possible}) != len(possible):
-        raise ValueError("TRY directory contains duplicate dataset IDs")
-    return sorted(possible,key=lambda r:r["try_dataset_id"])
+    # TRY's HTML can nest its actual dataset table in a surrounding layout
+    # table; recursive scans then encounter the exact same <tr> twice.
+    # Accept only identical duplicate representations. Conflicting public
+    # entries for the same ID are a genuine metadata inconsistency and HOLD.
+    unique={}
+    for row in possible:
+        identifier=row["try_dataset_id"]
+        if identifier in unique:
+            if unique[identifier]!=row:
+                raise ValueError("TRY directory contains conflicting dataset ID rows")
+            continue
+        unique[identifier]=row
+    return sorted(unique.values(),key=lambda r:r["try_dataset_id"])
 
 def extract_source_ids(parquet, core, traits_yml):
     k=pd.read_csv(core)

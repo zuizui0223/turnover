@@ -55,9 +55,16 @@ def parse_try_catalog(html):
             if not fields[1]:continue
             access=next((p for p in fields[2:] if p.lower().startswith(
                 ("public","restricted","cur. na"))), "UNVERIFIED")
+            # Hyperlinks in the public TRY directory sometimes resolve to
+            # the original published source. Collect DOI strings from *links
+            # only*, not from any trait/value table.
+            linked_dois=sorted({d for cell in cells[1:]
+                                for link in cell.find_all("a",href=True)
+                                if (d:=normalized_doi(link.get("href")))})
             possible.append({"try_dataset_id":int(fields[0]),
                              "try_dataset_title":fields[1],
-                             "public_explorer_access_status":access})
+                             "public_explorer_access_status":access,
+                             "try_source_link_dois":";".join(linked_dois)})
     if not possible:
         # Fail closed rather than interpreting a login/maintenance page as
         # an empty data-custodian registry.
@@ -148,6 +155,20 @@ def audit(catalog,aus,contract):
                     "try_dataset_title":t["try_dataset_title"],
                     "lexical_jaccard":round(sim,4),
                     "classification":"POTENTIAL_NAME_OVERLAP_NOT_RECORD_LINKAGE"})
+    by_doi={}
+    for a in aus:
+        if a["austraits_primary_doi"]:
+            by_doi.setdefault(a["austraits_primary_doi"],[]).append(a["austraits_dataset_id"])
+    doi_hits=[]
+    for t in catalog:
+        for doi in filter(None,str(t.get("try_source_link_dois","")).split(";")):
+            for ds in by_doi.get(doi,[]):
+                doi_hits.append({
+                    "shared_primary_publication_doi":doi,
+                    "austraits_dataset_id":ds,
+                    "try_public_directory_dataset_id":t["try_dataset_id"],
+                    "try_dataset_title":t["try_dataset_title"],
+                    "classification":"SAME_DOI_PUBLIC_SOURCE_REFERENCE_NOT_MEASUREMENT_MATCH"})
     summary={
       "version":"v0.1","status":STATUS,
       "try_index_advertised_version":"6.0 (public Data Explorer; NOT current main TRY v7 release)",
@@ -156,6 +177,8 @@ def audit(catalog,aus,contract):
       "austraits_source_metadata_readable":sum(r["source_metadata_status"]=="READABLE" for r in aus),
       "austraits_primary_doi_covered":sum(bool(r["austraits_primary_doi"]) for r in aus),
       "potential_lexical_name_overlap_pairs":len(hits),
+      "try_directory_doi_linked_dataset_rows":sum(bool(t.get("try_source_link_dois")) for t in catalog),
+      "direct_public_doi_overlap_pairs":len(doi_hits),
       "external_independent_validation_sources_qualified":0,
       "final_status":"HOLD_TRY_V7_SOURCE_LINEAGE_AND_TRAIT_FAMILY_SUPPORT_UNVERIFIED",
       "hard_boundaries":[
@@ -167,7 +190,7 @@ def audit(catalog,aus,contract):
         "New external raw data requires TRY request and use/access authorization",
         "Frozen 10-family x 20-species gate and five named trait predictions unchanged"]
     }
-    return summary,hits
+    return summary,hits,doi_hits
 
 def write_csv(path,rows,fields):
     Path(path).parent.mkdir(parents=True,exist_ok=True)
@@ -193,16 +216,18 @@ def main():
     commit=design["sources"]["austraits_source_commit"]
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
         aus=list(pool.map(lambda ds:get_primary_metadata(ds,commit),src))
-    summary,hits=audit(catalog,aus,design)
+    summary,hits,doi_hits=audit(catalog,aus,design)
     summary["try_directory_html_sha256"]=hashlib.sha256(payload.content).hexdigest()
     out=Path(a.__dict__["out_dir"])
     out.mkdir(parents=True,exist_ok=True)
     write_csv(out/"try_public_directory.csv",catalog,
-        ["try_dataset_id","try_dataset_title","public_explorer_access_status"])
+        ["try_dataset_id","try_dataset_title","public_explorer_access_status","try_source_link_dois"])
     write_csv(out/"austraits_fixed_core_source_metadata.csv",aus,
         ["austraits_dataset_id","austraits_primary_doi","austraits_primary_reference","source_metadata_status"])
     write_csv(out/"lexical_overlap_candidates.csv",hits,
         ["austraits_dataset_id","try_public_directory_dataset_id","try_dataset_title","lexical_jaccard","classification"])
+    write_csv(out/"doi_overlap_candidates.csv",doi_hits,
+        ["shared_primary_publication_doi","austraits_dataset_id","try_public_directory_dataset_id","try_dataset_title","classification"])
     (out/"summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
     print(json.dumps(summary,indent=2,sort_keys=True))
 

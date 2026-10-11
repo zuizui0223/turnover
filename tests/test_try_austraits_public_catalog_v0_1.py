@@ -11,7 +11,7 @@ html="""<html><body>
 <table><tr><th>Other</th></tr><tr><td>1</td></tr></table>
 <table><tr><th>DatasetID</th><th>Dataset</th><th>Main Custodian</th><th>Institution</th><th>Availability</th></tr>
 <tr><td>562</td><td>1000Seedweight</td><td>Custodian A</td><td>University</td><td>public</td></tr>
-<tr><td>733</td><td>Proteaceae_traits</td><td>Custodian B</td><td>University</td><td>public</td></tr>
+<tr><td>733</td><td>Proteaceae_morphological_comparative_traits</td><td>Custodian B</td><td>University</td><td>public</td></tr>
 <tr><td>920</td><td>Prof. Chaeho Plant Trait Data</td><td>Custodian C</td><td>University</td><td>restricted 2026-09-04</td></tr>
 </table></body></html>"""
 items=parse_try_catalog(html)
@@ -20,8 +20,8 @@ assert [r["try_dataset_id"] for r in items]==[562,733,920]
 assert items[2]["public_explorer_access_status"].startswith("restricted")
 assert normalized_doi("https://doi.org/10.1038/s41597-021-01006-6")=="10.1038/s41597-021-01006-6"
 assert normalized_doi("NO_DOI") is None
-assert name_overlap("Proteaceae_traits","Proteaceae traits")>0.8
-aus=[{"austraits_dataset_id":"Proteaceae_traits",
+assert name_overlap("Proteaceae_morphological_comparative_traits","Proteaceae morphological comparative traits")>0.8
+aus=[{"austraits_dataset_id":"Proteaceae_morphological_comparative_traits",
       "austraits_primary_doi":"10.1234/example",
       "source_metadata_status":"READABLE"}]
 try:

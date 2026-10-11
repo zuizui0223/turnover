@@ -29,6 +29,19 @@ The `Tng_2013` / TRY 625 shared-study candidate **explains how a true cited-stud
 
 A new source-only author/year audit `scripts/source/audit_try_austraits_shared_publication_v0_1.py` detects matching exact surname and year, reports weaker surname-only leads separately, and **does not** count a publication citation as an independently observed measurement. The match rules are archived in `data/try_austraits_public_author_year_overlap_contract_v0_1.json`; [GitHub reproducibility workflow](https://github.com/zuizui0223/turnover/actions/runs/38108651376). The previously frozen five signed K-rank predictions and external validation thresholds are unchanged.
 
+## Quantitative recheck from archived public source indices
+
+A second, locally executed author-token/ID-year scan of the exact publicly archived **888 TRY historical directory rows** against the pinned **190 AusTraits source rows** finds:
+
+| Matching rule | Pairs | Interpretation |
+|---|---:|---|
+| Exact source-name surname **plus exact four-digit publication year** in the TRY title | **1** | Tng_2013 → TRY DatasetID 625; plausible same original study |
+| Exact surname, but no matching title year | **18** | Citation/source tracing leads only, **not** evidence of identical publications or measurements |
+
+The second class includes multiple `Wright` surname matches and the `Fonseca` source name; those leads can reflect common researchers rather than a particular source publication. Three-letter surnames are eligible for the strict rule when their **year also matches**; this was explicitly corrected to admit `Tng` (three letters), without touching any biological source eligibility rule.
+
+This result is based only on prior **public source metadata ZIP archives**, not a new TRY v7 data release, and it does **not** change the original DOI-link intersection result of zero. GitHub Actions [#38108762861](https://github.com/zuizui0223/turnover/actions/runs/38108762861) provides the automated reproduction of this source-only matcher; the local archived result does not imply that the remote workflow has completed.
+
 ## Why this matters scientifically
 
 The original main result remains that a homogeneous stationary OU model with externally calibrated source-associated variation **can reproduce the scalar strength of cross-family Blomberg K trait-rank portability**, whereas the same models **do not reproduce the realized 12 named-trait rank profile**. The latter is *post-outcome discovery*, not verified differential selection.

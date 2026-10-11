@@ -1,0 +1,49 @@
+{
+  "version": "v0.1",
+  "status": "POST_PUBLIC_METADATA_INSPECTION_PRE_AUTOMATED_AUTHOR_YEAR_AUDIT_FROZEN",
+  "created_on": "2026-10-11",
+  "purpose": "Adjudicate possible common original publications missed by zero direct TRY-directory DOI hyperlinks, WITHOUT trait values, K outcomes or cross-compilation measurement-identity claims.",
+  "sources": {
+    "try_public_directory_artifact": {
+      "workflow_run_id": 38107630927,
+      "artifact_name": "try-public-v6-austraits-source-metadata-v0-1",
+      "file": "try_public_directory.csv",
+      "describes": "Historical TRY v6 public Explorer, not current TRY v7"
+    },
+    "austraits_core_source_artifact": {
+      "workflow_run_id": 38107630927,
+      "artifact_name": "try-public-v6-austraits-source-metadata-v0-1",
+      "file": "austraits_fixed_core_source_metadata.csv",
+      "describes": "AusTraits fixed 254 family×trait K core contributing source IDs"
+    }
+  },
+  "matching_rules": {
+    "austraits_source_id_pattern": "^([A-Za-z]+)_((?:19|20)[0-9]{2})(?:_|$)",
+    "surname_min_letters": 4,
+    "tokenization": "casefold ASCII alphabetic words from TRY title, exact normalized surname token only",
+    "strong_citation_candidate": "TRY public dataset title explicitly contains the same surname token AND the exact four-digit publication year from AusTraits dataset ID",
+    "weak_citation_candidate": "TRY public dataset title contains the exact surname token, but not the source-ID publication year; treat as lexical research lead only",
+    "doi_enrichment": "Do not infer a TRY DOI from its DatasetID or title; separately preserve the independently recovered AusTraits publication DOI and actual TRY hyperlink DOIs, if any",
+    "record_overlap_status": "AUTHOR_YEAR_MATCH_INDICATES_POTENTIAL_SHARED_PUBLICATION_NOT_SHARED_PRIMARY_MEASUREMENT",
+    "no_match_status": "NO_AUTHOR_YEAR_MATCH_NOT_PROVEN_INDEPENDENT",
+    "ambiguous_year": "Never treat absent or different TRY title year as a source independence PASS"
+  },
+  "known_publication_example": {
+    "austraits_source_id": "Tng_2013",
+    "try_public_dataset_id": 625,
+    "try_title": "Tng et al 2013 Traits",
+    "austraits_primary_doi": "10.1371/journal.pone.0084378",
+    "article_title": "Plant Traits Demonstrate That Temperate and Tropical Giant Eucalypt Forests Are Ecologically Convergent with Rainforest Not Savanna",
+    "publication_year": 2013,
+    "try_public_source_reference": "TRY 2020 Global Change Biology source Table A1 includes Dataset 625, Tng et al. (2013); not a TRY v7 source certification."
+  },
+  "hypothesis_preexistence": "The five AusTraits named-trait signs were selected from already-seen outcomes; this metadata search cannot validate those signs.",
+  "guardrails": [
+    "No TRY numerical trait values or current TRY7 data opened",
+    "Do not infer independent data from missing DOI links or absent author-year links",
+    "Do not identify same measurement IDs from matching publications",
+    "No relaxation of frozen external 10 families x20 species, 4 traits, 10 multi-trait families",
+    "Closed BIEN 201-system rho outcomes remain unopened"
+  ],
+  "output_status": "MATCHER_DESIGN_ONLY_POST_METADATA_DISCOVERY"
+}

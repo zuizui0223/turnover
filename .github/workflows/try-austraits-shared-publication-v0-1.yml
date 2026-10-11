@@ -1,0 +1,66 @@
+name: TRY AusTraits public shared-study citation audit v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/try-austraits-shared-publication-v0-1.yml'
+      - 'data/try_austraits_public_author_year_overlap_contract_v0_1.json'
+      - 'scripts/source/audit_try_austraits_shared_publication_v0_1.py'
+      - 'tests/test_try_austraits_shared_publication_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  citation_overlap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source-only author-year matcher and fail-closed scientific language
+        run: |
+          python -m py_compile scripts/source/audit_try_austraits_shared_publication_v0_1.py
+          python tests/test_try_austraits_shared_publication_v0_1.py
+      - name: Recover public historical TRY index and pinned AusTraits source metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source build/result
+          gh run download 38107630927 -R "$GITHUB_REPOSITORY" \
+             -n try-public-v6-austraits-source-metadata-v0-1 -D build/source
+          test -f build/source/try_public_directory.csv
+          test -f build/source/austraits_fixed_core_source_metadata.csv
+      - name: Detect shared study citations not represented by public DOI links
+        run: |
+          python scripts/source/audit_try_austraits_shared_publication_v0_1.py \
+            --try-catalog build/source/try_public_directory.csv \
+            --austraits-source build/source/austraits_fixed_core_source_metadata.csv \
+            --design data/try_austraits_public_author_year_overlap_contract_v0_1.json \
+            --output-dir build/result
+          python - <<'PY'
+          import json,csv
+          d=json.load(open('build/result/summary.json'))
+          assert d['status']=='TRY_AUSTRAITS_POSSIBLE_SHARED_PUBLICATIONS_AUDITED'
+          assert d['try_catalog_ids']==888
+          assert d['austraits_core_contributing_source_ids']==190
+          assert d['strong_author_year_publication_candidates']>=1
+          assert d['try_v7_independent_validation_sources_qualified']==0
+          a=list(csv.DictReader(open('build/result/strong_publication_candidates.csv')))
+          assert any(x['austraits_source_id']=='Tng_2013' and
+                     x['try_public_dataset_id']=='625' and
+                     x['austraits_source_primary_doi']=='10.1371/journal.pone.0084378'
+                     for x in a)
+          print('PASS: detectable shared-study citation despite 0 directly shared linked DOIs')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: try-austraits-shared-publication-candidates-v0-1
+          path: build/result/
+          retention-days: 30

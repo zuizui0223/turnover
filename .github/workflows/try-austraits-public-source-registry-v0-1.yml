@@ -1,0 +1,70 @@
+name: TRY public directory vs AusTraits source metadata v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/try-austraits-public-source-registry-v0-1.yml'
+      - 'data/try_austraits_public_source_registry_design_v0_1.json'
+      - 'scripts/source/audit_try_austraits_public_catalog_v0_1.py'
+      - 'tests/test_try_austraits_public_catalog_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  metadata_audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas duckdb beautifulsoup4 requests pyyaml
+      - name: Guard TRY Explorer version and metadata-only source comparators
+        run: |
+          python -m py_compile scripts/source/audit_try_austraits_public_catalog_v0_1.py
+          python tests/test_try_austraits_public_catalog_v0_1.py
+      - name: Recover fixed AusTraits K graph with no new trait/phylogeny analysis
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/source build/result
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/K/effects.csv
+      - name: Download version-locked AusTraits public compilation and trait-unit dictionary
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Archive historical public TRY directory and original AusTraits contributing-source metadata
+        run: |
+          python scripts/source/audit_try_austraits_public_catalog_v0_1.py \
+            --design data/try_austraits_public_source_registry_design_v0_1.json \
+            --try-url https://www.try-db.org/de/Datasets.php \
+            --austraits-parquet build/source/austraits.parquet \
+            --core build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/result
+          python - <<'PY'
+          import json
+          d=json.load(open('build/result/summary.json'))
+          assert d['status']=='TRY_PUBLIC_DIRECTORY_VERSUS_AUSTRAITS_CORE_METADATA_AUDITED'
+          assert d['try_public_directory_dataset_rows']>=100
+          assert d['austraits_source_candidate_dataset_ids']>0
+          assert d['external_independent_validation_sources_qualified']==0
+          assert d['final_status']=='HOLD_TRY_V7_SOURCE_LINEAGE_AND_TRAIT_FAMILY_SUPPORT_UNVERIFIED'
+          print('PASS: no trait values from TRY and no false independent-source inference')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: try-public-v6-austraits-source-metadata-v0-1
+          path: build/result/
+          retention-days: 30

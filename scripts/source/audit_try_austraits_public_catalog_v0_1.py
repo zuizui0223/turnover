@@ -61,8 +61,12 @@ def parse_try_catalog(html):
             linked_dois=sorted({d for cell in cells[1:]
                                 for link in cell.find_all("a",href=True)
                                 if (d:=normalized_doi(link.get("href")))})
+            # TRY wraps linked citations with a literal '(link)' anchor in
+            # its visible dataset title; this is not part of the study name.
+            dataset_title=re.sub(r"\\s*\\(?link\\)?\\s*$","",fields[1],flags=re.I).strip()
+            if not dataset_title:continue
             possible.append({"try_dataset_id":int(fields[0]),
-                             "try_dataset_title":fields[1],
+                             "try_dataset_title":dataset_title,
                              "public_explorer_access_status":access,
                              "try_source_link_dois":";".join(linked_dois)})
     if not possible:

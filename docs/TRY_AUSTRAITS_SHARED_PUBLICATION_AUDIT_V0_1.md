@@ -42,6 +42,24 @@ The second class includes multiple `Wright` surname matches and the `Fonseca` so
 
 This result is based only on prior **public source metadata ZIP archives**, not a new TRY v7 data release, and it does **not** change the original DOI-link intersection result of zero. GitHub Actions [#38108762861](https://github.com/zuizui0223/turnover/actions/runs/38108762861) provides the automated reproduction of this source-only matcher; the local archived result does not imply that the remote workflow has completed.
 
+## Source-native exposure of the original phylogenetic K cohort (2026-10-13)
+
+After the matched historical TRY/AusTraits study-citation audit **passed** in [workflow #38403020753](https://github.com/zuizui0223/turnover/actions/runs/38403020753) (**1 strong author–year publication lead, 18 weak author-only pairs**), the exact original species-median support for all **254 family×trait K systems, 42 families, 13 traits** was independently reconstructed without selecting or exporting K effect values. The [frozen-source exposure workflow #38403894412](https://github.com/zuizui0223/turnover/actions/runs/38403894412) **passed** with each of the original system-species counts reproduced.
+
+| Trait within original K graph | Species×system cells carrying a positive record from `Tng_2013` | Total species×system cells for trait | Exposed families |
+|---|---:|---:|---:|
+| `leaf_area` | **34** | 1,712 | 4 |
+| `leaf_mass_per_area` | 29 | 1,081 | 4 |
+| `plant_height` | 69 | 13,053 | 16 |
+| All other 10 traits (including `seed_width`, `seed_dry_mass`, `leaf_width`, `petiole_length`) | **0** | — | 0 |
+| **All 254 systems together** | **132** | **66,330** | — |
+
+These are **source-exposed species×system cells**, not unique species across traits, independent measurements or verified TRY–AusTraits duplicated records. The separate count of positive Tng original observation keys was also 132. **Only one of the five discovery-generated signed target traits, `leaf_area`, has any direct source exposure to this one historically shared-publication lead**; it comprises 34/1,712 ≈ **1.99%** of that trait’s species-system support.
+
+The 18 **weak author-only** bibliographic matches were kept separate: altogether 4,111 species×system cells had at least one record from the corresponding AusTraits source IDs; a strong author-year result was never imputed for these weak author matches. In particular, the much larger weak-source seed-dry-mass count requires a dedicated **named-source database lineage** audit rather than being called 4,111 confirmed shared measurements.
+
+All of the above were computed entirely inside the already seen original AusTraits discovery data to assess *possible provenance exposure*. They do not constitute new independent TRY v7 K evidence, and do not change the original OU/source null, named-trait sign discovery or external validation threshold. The historical public TRY Explorer is still version 6, not the requested version 7 primary record genealogy.
+
 ## Why this matters scientifically
 
 The original main result remains that a homogeneous stationary OU model with externally calibrated source-associated variation **can reproduce the scalar strength of cross-family Blomberg K trait-rank portability**, whereas the same models **do not reproduce the realized 12 named-trait rank profile**. The latter is *post-outcome discovery*, not verified differential selection.

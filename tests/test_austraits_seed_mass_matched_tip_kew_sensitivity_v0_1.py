@@ -53,6 +53,6 @@ with tempfile.TemporaryDirectory(prefix="synthetic_aust_sourceK_") as t:
   assert output["not_independent_validation"] is True
   bad=result[:-1]
   try:aggregate(bad,expected)
-  except ValueError as e:assert "13" in str(e)
+  except ValueError as e:assert "incomplete no-Kew sensitivity" in str(e)
   else:raise AssertionError("missing family improperly accepted")
 print("PASS: 13 presupported reduced-tip systems, separated S3/prune holds, no independent-source claim")

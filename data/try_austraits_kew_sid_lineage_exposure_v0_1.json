@@ -1,0 +1,43 @@
+{
+  "version": "v0.1",
+  "status": "POST_PUBLIC_KAW_SOURCE_IDENTITY_PRE_KEW_SOURCE_EXPOSURE_COUNT_FROZEN",
+  "frozen_on": "2026-10-13",
+  "source_identity": {
+    "aus_dataset_id": "Kew_2019_1",
+    "aus_release": "AusTraits v7.0.0",
+    "source_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "source_metadata_path": "data/Kew_2019_1/metadata.yml",
+    "pin_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "aus_title": "Seed Information Database (SID) and Seed Bank Database",
+    "try_historical_candidate_ids": [
+      21,
+      565
+    ],
+    "try_historical_candidate_titles": [
+      "KEW Seed Information Database (SID)",
+      "Seed Information Database, Royal Botanic Gardens, Kew"
+    ],
+    "try_v7_status": "UNKNOWN_NOT_AUTHORIZED_OR_VERIFIED"
+  },
+  "fixed_original_graph": {
+    "systems": 254,
+    "families": 42,
+    "traits": 13
+  },
+  "fixed_external_named_traits": [
+    "seed_width",
+    "leaf_area",
+    "seed_dry_mass",
+    "leaf_width",
+    "petiole_length"
+  ],
+  "audit_measure": "Among exact original numeric-median positive species in each family×trait K-system, count those with >=1 positive source-native observation from Kew_2019_1 and number distinct dataset_id + observation_id keys; show aggregate trait and whole-graph counts only.",
+  "hard_nonclaims": [
+    "AusTraits Kew_2019_1 is itself a derivative SID compilation with potentially heterogeneous underlying primary data identifiers; its dataset_id does NOT identify a single independently sampled study.",
+    "TRY historical Kew SID dataset labels matching the same named database do not establish identical record IDs or inclusion in current TRY7.",
+    "Source-exposed species are not all the Kew-referenced observations: multiple datasets per species and differing original measurements are possible.",
+    "No independent TRY source qualifies under the frozen 10-family×20-species/four-of-five external validation gate.",
+    "No raw species IDs, measurement values or K effects enter the output. No retrospective null parameter change."
+  ],
+  "outcome_status": "SOURCE_METADATA_ONLY_NOT_PRIMARY_RECORD_LINKAGE"
+}

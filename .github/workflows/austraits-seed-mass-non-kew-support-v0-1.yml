@@ -1,0 +1,74 @@
+name: AusTraits seed mass support without Kew SID v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-seed-mass-non-kew-support-v0-1.yml'
+      - 'data/austraits_seed_mass_without_kew_source_support_contract_v0_1.json'
+      - 'scripts/source/audit_austraits_seed_mass_non_kew_support_v0_1.py'
+      - 'tests/test_austraits_seed_mass_non_kew_support_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  non_kew_species_support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml
+      - name: Verify no-K support recalculation and corruption guards
+        run: |
+          python -m py_compile scripts/source/audit_austraits_seed_mass_non_kew_support_v0_1.py
+          python tests/test_austraits_seed_mass_non_kew_support_v0_1.py
+      - name: Recover original exact source cohort and original K system labels only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/core build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+             -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+             -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/K/effects.csv
+          test -f build/core/core/core_systems.csv
+      - name: Obtain SHA-locked original AusTraits compilation
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Recalculate original species-median support excluding only Kew SID records
+        run: |
+          python scripts/source/audit_austraits_seed_mass_non_kew_support_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_seed_mass_without_kew_source_support_contract_v0_1.json \
+            --out build/result/source_support_without_kew.json
+          python - <<'PY'
+          import json
+          d=json.load(open('build/result/source_support_without_kew.json'))
+          assert d['status']=='AUSTRAITS_SEED_MASS_NO_KEW_SOURCE_SUPPORT_AUDITED'
+          assert d['original_graph']=={'systems':254,'families':42,'traits':13}
+          assert d['original_seed_mass_species_system_cells']==4242
+          assert d['original_seed_mass_families']==15
+          assert not d['K_effect_values_opened'] and not d['TRY_v7_measurements_opened']
+          assert d['not_independent_replication'] is True
+          print('PASS: exact non-Kew observation support recalculated, no K values generated')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-seed-mass-non-kew-support-v0-1
+          path: build/result/source_support_without_kew.json
+          retention-days: 30

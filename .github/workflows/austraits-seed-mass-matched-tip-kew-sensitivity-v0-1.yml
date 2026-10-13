@@ -1,0 +1,98 @@
+name: AusTraits seed mass paired-tip K source sensitivity v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-seed-mass-matched-tip-kew-sensitivity-v0-1.yml'
+      - 'data/austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.json'
+      - 'scripts/analysis/run_austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.py'
+      - 'scripts/analysis/fit_austraits_seed_mass_matched_tip_kew_pair_v0_1.R'
+      - 'tests/test_austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  matched_tip_sensitivity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 140
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - name: Preflight 13-family matching and support/phylogenetic axis holds
+        run: |
+          python -m py_compile scripts/analysis/run_austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.py
+          python tests/test_austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.py
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::phytools
+            any::jsonlite
+      - name: Pin original phylogeny maker and check K sensitivity R source syntax
+        run: |
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_seed_mass_matched_tip_kew_pair_v0_1.R')"
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Recover original 254-system K graph, presupported non-Kew 13-family cohort
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/core build/support build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+             -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+             -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38405502183 -R "$GITHUB_REPOSITORY" \
+             -n austraits-seed-mass-non-kew-support-v0-1 -D build/support
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+          test -f build/support/source_support_without_kew.json
+      - name: Verify fixed AusTraits release and original trait unit dictionary
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+             -o build/source/austraits.parquet \
+             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Estimate paired K on exactly identical reduced species tips and trees
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --support build/support/source_support_without_kew.json \
+            --design data/austraits_seed_mass_matched_tip_kew_sensitivity_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_seed_mass_matched_tip_kew_pair_v0_1.R \
+            --out build/result/matched_tip_k_source_sensitivity.json
+          python - <<'PY'
+          import json,math
+          v=json.load(open('build/result/matched_tip_k_source_sensitivity.json'))
+          assert v['status']=='AUSTRAITS_SEED_MASS_MATCHED_TIP_KEW_SENSITIVITY_REESTIMATED'
+          assert v['source_only_support_families_before_K']==13
+          assert not v['selection_parameters_or_process_null_changed']
+          assert not v['trait_values_or_species_ids_persisted']
+          for axis in ('S3','prune_only'):
+            d=v['axes'][axis]
+            assert d['n_paired_supported_families']+d['n_axis_holds']==13
+          print('PASS: source-versus-tree support decomposition on identical family×axis tips')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-seed-mass-matched-tip-kew-sensitivity-v0-1
+          path: build/result/matched_tip_k_source_sensitivity.json
+          retention-days: 30

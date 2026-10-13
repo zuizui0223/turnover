@@ -10,9 +10,9 @@ In an independently [frozen source-only support protocol](https://github.com/zui
 
 ## Complete original versus no-Kew native species support
 
-<| Original original-K seed-dry-mass systems: 15 families, 4,242 species×system cells.
-<| After source exclusion: **2,072 / 4,242 (48.84%) retained**, **2,170 (51.16%) lost**.
-<| **13 of 15 families** still have at least 20 positive species medians without `Kew_2019_1`.
+- Original K seed-dry-mass systems: 15 families, 4,242 species×system cells.
+- After source exclusion: **2,072 / 4,242 (48.84%) retained**, **2,170 (51.16%) lost**.
+- **13 of 15 families** still have at least 20 positive species medians without `Kew_2019_1`.
 
 | Family | Original species | Non-Kew supported species | Retained |
 |---|---:|---:|---:|

@@ -122,11 +122,12 @@ def main():
     design=json.loads(a.design.read_text())
     meta=certify_public_metadata(design,read_csv(a.__dict__["try_directory"]),
                                  a.__dict__["kew_metadata"])
-    cand,expected,_,_=build_candidates(a.__dict__["observed_K"],a.core,
-                   a.__dict__["traits_yml"],{
-                     "status":"POST_PUBLIC_METADATA_INSPECTION_PRE_AUTOMATED_AUTHOR_YEAR_AUDIT_FROZEN"
-                   } if False else {"status":"POST_PUBLIC_KAW_SOURCE_IDENTITY_PRE_KEW_SOURCE_EXPOSURE_COUNT_FROZEN"},
-                   read_csv(a.__dict__["strong_links"]),read_csv(a.__dict__["weak_leads"]))
+    original_source_contract=json.loads(
+      Path("data/try_austraits_shared_source_exposure_contract_v0_1.json").read_text())
+    cand,expected,_,_=build_candidates(
+      a.__dict__["observed_K"],a.core,a.__dict__["traits_yml"],
+      original_source_contract,read_csv(a.__dict__["strong_links"]),
+      read_csv(a.__dict__["weak_leads"]))
     # The previous call validates original K source metadata and historical
     # Tng matching. No historical TRY data is used as a Kew measurement.
     rows=query_source(a.parquet,cand,{"Kew_2019_1"},set())

@@ -1,0 +1,59 @@
+name: AusTraits organ K lineage-exception native trait ontology audit v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-exception-source-ontology-v0-1.yml'
+      - 'data/austraits_k_exception_family_native_source_semantics_v0_1.json'
+      - 'scripts/source/audit_austraits_k_exception_native_source_semantics_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original_source_metadata:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml requests
+      - name: Recover immutable original AusTraits species/trait source citation reference
+        run: |
+          mkdir -p build/source build/result
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit source-native definitions for Casuarinaceae, Rubiaceae and Fabaceae without opening K
+        run: |
+          python -m py_compile scripts/source/audit_austraits_k_exception_native_source_semantics_v0_1.py
+          python scripts/source/audit_austraits_k_exception_native_source_semantics_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_exception_family_native_source_semantics_v0_1.json \
+            --out build/result/three_family_native_source_ontology.json
+          python - <<'PY'
+          import json
+          q=json.load(open('build/result/three_family_native_source_ontology.json'))
+          assert q['status']=='AUSTRAITS_K_EXCEPTION_ORGAN_NATIVE_SOURCE_METADATA_AUDITED'
+          assert q['original_selected_family_pairs']==3
+          assert q['all_three_original_shared_positive_species_counts_reproduced']
+          assert q['total_original_AusTraits_dataset_IDs_with_public_native_metadata']>=1
+          assert len(q['pairs'])==3
+          assert not q['K_effects_read_or_reestimated']
+          assert q['no_trait_state_values_or_species_names_persisted']
+          assert q['publication_linkage_not_identical_specimen_evidence']
+          print('PASS: original botanical organ variable/method definitions without K-direction access')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-exception-native-source-ontology-v0-1
+          path: build/result/three_family_native_source_ontology.json
+          retention-days: 30

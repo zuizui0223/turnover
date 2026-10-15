@@ -44,6 +44,22 @@ Among **397 cross-organ pair identities valid on both tree treatments**, **290**
 
 Removing **any one** of the 12 named traits leaves at least ~75.6% of surviving cross-organ comparisons oriented reproductive higher on S3 and prune. This argues against a **single source/trait** explaining the entire *descriptive* advantage, but **does not eliminate shared primary-dataset reuse, trait class-level protocol effects, covariation or biological confounders**.
 
+## Important lineage exceptions: the reproductive advantage is NOT universal
+
+The [subsequent independently repeated 34-family source-level summary #38686389859](https://github.com/zuizui0223/turnover/actions/runs/38686389859) also archives all **34 individual family-level** reproductive-higher K counts, without exporting species IDs or raw trait values. The following are **post-outcome descriptive examples**, not independent evidence of evolutionary constraints in any one family:
+
+| Family | Reproductive higher K: S3 | Reproductive higher K: prune | Caution |
+|---|---:|---:|---|
+| Fabaceae | 35/36 | 34/34 | Strong reproductive advantage in this original trait/source mix |
+| Poaceae | 20/20 | 19/20 | Strong on both native trees |
+| Cyperaceae | 10/10 | 10/10 | Strong, but ten within-family pair comparisons are dependent |
+| **Casuarinaceae** | **2/12** | **3/12** | **Consistent opposite tendency** |
+| **Rubiaceae** | **1/6** | **2/6** | Opposite tendency, small support |
+| Lauraceae | 1/9 | 6/9 | **Substantially tree-sensitive** |
+| Orchidaceae | 0/4 | 0/4 | Only four cross-organ pair contrasts; below the ≥5 descriptive support criterion |
+
+This is the *lineage-context component* of the result: a broad organ predictor transfers partly between plant families, but individual clades exhibit strong, repeatable exceptions or tree-dependence. In particular, **Casuarinaceae** is a concrete falsification target for a naive universal reproductive-K superiority claim. Family-specific trait mixtures, source measurement protocols, functional modifications of leaves/reproductive structures and taxon support must be audited before interpreting the contrast developmentally. **Do not treat 35 Fabaceae trait-pair rows as 35 independent evolutionary origins**.
+
 ## Finding 2 — Genuine leave-one-plant-family-out predictive transfer *within the same compilation*
 
 For each of 42 folds, **all K outcomes from one entire family were excluded from model fitting**. Training uses the other 41 families and the same matched-tip 12-trait pair comparisons. Prediction asks whether trait A has higher K than trait B in that held-out family. Classification of exactly 50:50 predictions is scored as **half-credit**, not arbitrarily as one label.

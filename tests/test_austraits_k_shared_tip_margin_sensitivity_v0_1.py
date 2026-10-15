@@ -22,7 +22,10 @@ qualified=sorted((z for z in support["family_trait_pair_support"]
 assert len(qualified)==760
 rng=np.random.default_rng(20261015)
 s3flip=set(map(int,rng.choice(760,151,replace=False)))
-pruneflip=set(map(int,rng.choice(747,137,replace=False)))
+pruneholds=set(i for i,z in enumerate(qualified) if z["family"]=="Fabaceae")
+pruneholds=set(sorted(pruneholds)[:13])
+assert len(pruneholds)==13
+pruneflip=set(map(int,rng.choice([i for i in range(760) if i not in pruneholds],137,replace=False)))
 batches=[]
 for start in range(0,760,32):
     batch=[]
@@ -30,7 +33,7 @@ for start in range(0,760,32):
         orig=float(.05+.1*(i%23))
         axes={}
         for axis in ("S3","prune_only"):
-            if axis=="prune_only" and i>=747:
+            if axis=="prune_only" and i in pruneholds:
                 axes[axis]={"status":"HOLD_FEWER_THAN_20_MATCHED_TIPS",
                             "n_tips":19}
                 continue

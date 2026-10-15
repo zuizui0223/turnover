@@ -98,8 +98,17 @@ def analyze(k,raw,design):
                     rawB=raw[B.system_id]["axes"][axis]
                     # The same source-native K graph was independently
                     # recomputed in the archived original processes.
-                    if abs(float(rawA["observed_logK"])-float(getattr(A,column)))>1e-3 or abs(float(rawB["observed_logK"])-float(getattr(B,column)))>1e-3:
-                        raise ValueError("original K response differs materially from source-OU archive")
+                    # The source-OU native kernel stores log(K) reconstructed
+                    # from the FOUR-DECIMAL published original K field; the
+                    # independently archived original *_logK uses the
+                    # pre-rounding K. Comparing those two log columns can
+                    # spuriously differ by >0.01 for small K. Validate on
+                    # the original rounded K SCALE, then use the original
+                    # high-precision logK for the observed pair response.
+                    k_col="S3_K" if axis=="S3" else "prune_K"
+                    if (not np.isclose(np.exp(float(rawA["observed_logK"])),float(getattr(A,k_col)),rtol=1e-10,atol=1e-10)
+                        or not np.isclose(np.exp(float(rawB["observed_logK"])),float(getattr(B,k_col)),rtol=1e-10,atol=1e-10)):
+                        raise ValueError("original rounded K response does not match source-OU archive")
                     a=np.asarray(rawA["scenarios"][scenario]["models"][model]["logK"],float)
                     b=np.asarray(rawB["scenarios"][scenario]["models"][model]["logK"],float)
                     if a.shape!=(N,) or b.shape!=(N,) or not np.isfinite(a).all() or not np.isfinite(b).all():

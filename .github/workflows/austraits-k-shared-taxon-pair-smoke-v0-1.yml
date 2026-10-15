@@ -1,0 +1,110 @@
+name: AusTraits matched-taxon two-trait real-tree K smoke v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-shared-taxon-pair-smoke-v0-1.yml'
+      - 'scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py'
+      - 'scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R'
+      - 'scripts/analysis/aggregate_austraits_k_shared_taxon_pair_results_v0_1.py'
+      - 'tests/test_austraits_k_shared_taxon_pair_metrics_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  test_actual_pairs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml numpy
+      - name: Validate all 760 synthetic pair outcomes before opening matched trait K
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/support build/K build/source build/batch build/results
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+            -n austraits-blomberg-k-effects-v0-1 -D build/K
+          python -m py_compile scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py scripts/analysis/aggregate_austraits_k_shared_taxon_pair_results_v0_1.py
+          python tests/test_austraits_k_shared_taxon_pair_metrics_v0_1.py \
+            --support build/support/shared_taxon_pair_support.json
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::Rcpp
+            any::phytools
+      - name: Pin original native tree builder and compile exact K kernel
+        run: |
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R')"
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Reconstruct pinned original species-native states
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Select two fixed qualifying pair systems by SOURCE support only
+        run: |
+          python - <<'PY'
+          import json
+          z=json.load(open('build/support/shared_taxon_pair_support.json'))
+          rows=z['family_trait_pair_support']
+          requested=[('Arecaceae','fruit_height','fruit_length'),
+                     ('Asteraceae','leaf_length','leaf_width')]
+          selected=[]
+          for key in requested:
+              matches=[r for r in rows if (r['family'],r['trait_A'],r['trait_B'])==key]
+              assert len(matches)==1 and matches[0]['qualifies_20_common_species']
+              selected.extend(matches)
+          assert selected[0]['n_common_species_same_genus']<60
+          assert selected[1]['n_common_species_same_genus']>=500
+          open('build/batch/systems.json','w').write(json.dumps(selected))
+          print('Fixed source-only test pair shared species counts:',
+                [r['n_common_species_same_genus'] for r in selected])
+          PY
+      - name: Execute exact matched-species S3 and prune-only K for small and large tree
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --support build/support/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --observed-K build/K/effects.csv \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R \
+            --out build/results/smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/results/smoke.json'))
+          assert x['status']=='AUSTRAITS_K_SHARED_TAXON_PAIR_BATCH_REESTIMATED'
+          assert x['n_family_trait_pairs']==2
+          assert len(x['pairs'])==2
+          assert all(r['axes']['S3']['status']=='PASS' for r in x['pairs'])
+          assert x['no_species_names_or_raw_values_persisted'] is True
+          print('PASS: paired K on exact same taxa, small/large native trees')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-shared-taxon-pair-smoke-v0-1
+          path: build/results/smoke.json
+          retention-days: 30

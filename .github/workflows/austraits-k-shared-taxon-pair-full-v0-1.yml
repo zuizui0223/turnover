@@ -116,8 +116,6 @@ jobs:
           curl -L --fail -o build/source/traits.yml \
             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
       - name: Estimate paired K on same exact species and S3/prune tree in all frozen family×trait pairs
-        env:
-          OPENBLAS_NUM_THREADS: '1'
         run: |
           python scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py \
             --batch-json build/batches/${{ matrix.batch_id }}.json \

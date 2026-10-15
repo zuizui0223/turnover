@@ -75,6 +75,17 @@ def module_summary(df,design):
         if g.family.nunique()!=34 or g.named_pair.nunique()!=36:
             raise ValueError("not original 34-family/36 cross-organ-pair cohort")
         item=boot_over_families(g,draws,seed+j)
+        # Preserve plant FAMILY context; no individual species or raw trait
+        # values are persisted. Family-specific exceptions must not be
+        # obscured by a pooled reproductive-versus-vegetative percentage.
+        byfamily=g.groupby("family").repro_wins.agg(["sum","size","mean"])
+        item["per_family_descriptive"]={
+            str(fam):{
+                "n_cross_organ_pair_comparisons":int(z["size"]),
+                "n_reproductive_K_higher":int(z["sum"]),
+                "reproductive_K_higher_rate":float(z["mean"]),
+                "at_least_five_pair_comparisons":bool(z["size"]>=5)}
+            for fam,z in byfamily.iterrows()}
         bypair=g.groupby("named_pair").repro_wins.agg(["size","mean"])
         supported=bypair[bypair["size"]>=5]
         item["n_reproductive_vegetative_named_pair_types"]=len(bypair)

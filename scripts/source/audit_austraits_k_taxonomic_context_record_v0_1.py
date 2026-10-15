@@ -206,7 +206,7 @@ def positive_control_all_trait_contexts(parquet,design):
        SELECT trim(CAST(dataset_id AS VARCHAR)) ds,
          count(*) n_all_original_trait_records,
          sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_genus%' THEN 1 ELSE 0 END) genus,
-         sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_family%' THEN 1 ELSE 0 END) family,
+         sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_family%' THEN 1 ELSE 0 END) AS family_infer,
          sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_taxonomy%' THEN 1 ELSE 0 END) taxonomy,
          sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%scored from text%' THEN 1 ELSE 0 END) scored,
          sum(CASE WHEN length(coalesce(method_context_properties,''))>2 THEN 1 ELSE 0 END) nonempty

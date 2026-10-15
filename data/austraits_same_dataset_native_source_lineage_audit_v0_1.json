@@ -1,0 +1,62 @@
+{
+  "version": "v0.1",
+  "status": "POST_ORGAN_K_SAME_SOURCE_DISCOVERY_NATIVE_PROVENANCE_AUDIT_EXPLORATORY_FROZEN",
+  "freeze_date": "2026-10-15",
+  "scientific_question": "Which publicly documented source studies, species descriptions and measurement regimes contribute matched reproductive and vegetative trait observations to the 279 K-blind same-AusTraits-dataset family×pair cohorts?",
+  "inputs": {
+    "original_source_eligibility_run": 38696272257,
+    "original_matched_taxon_source_support_run": 38673955087,
+    "source_restricted_K_reestimation_run": 38698215216,
+    "source_values": "AusTraits v7.0.0 SHA256 5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "native_metadata_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c"
+  },
+  "original_eligibility": {
+    "n_total_named_trait_familypairs": 760,
+    "cross_organ_supported_on_original_tips": 406,
+    "same_dataset_20_species_cross_organ_pairs": 279,
+    "families": 32,
+    "native_unit_validity": "Must reproduce the original 254 source-native eligible species medians and all 279 same-DatasetID positive source species×pair counts before reporting provenance concentration."
+  },
+  "metadata_only_audit": {
+    "source_unit": "AusTraits contributing dataset_id is a provenance label, not necessarily a single originally sampled study",
+    "aggregate": "For each original qualified family×pair×species, count contributing DatasetIDs whose native-unit positive records exist for both traits. Aggregate distinct family×pair×species cells by public DatasetID; avoid double-counting duplicate observations in one dataset.",
+    "counts": [
+      "Total unique family×pair×species support cells",
+      "number of species×pair cells with multiple shared original DatasetIDs",
+      "top source DatasetIDs by positive species×pair cell coverage",
+      "fraction of all shared source support associated with each dataset ID, allowing >100% sum due to overlapping datasets"
+    ],
+    "public_source_citations": "Retrieve original pinned data/{dataset_id}/metadata.yml primary titles/DOI, description, basis_of_record, native trait var/method tags and value_type for both paired traits.",
+    "auto_source_grouping": "DESCRIPTIVE ONLY: Source metadata may explicitly mention a flora/online species profile, a compiled database/collation, an individually measured collection, or be unclassified. Never certify independence or measurement homology from keyword tags.",
+    "original_trait_values_persisted": false,
+    "original_species_names_or_observation_ids_persisted": false,
+    "K_effects_read": false,
+    "prevent_pubmed_claim": "No bibliographic citation can establish identical original specimen measurement or independent external replication without record-level provenance."
+  },
+  "exploratory_classification": {
+    "floristic_descriptive_keywords": [
+      "flora",
+      "plantnet",
+      "species profile",
+      "taxonomic description",
+      "plant information network",
+      "herbarium species descriptions"
+    ],
+    "compilation_keywords": [
+      "database",
+      "compiled",
+      "compilation",
+      "collation",
+      "aggregated data",
+      "secondary source"
+    ],
+    "provisional_direct_measurement": "Only indicate if both native traits explicitly identify measurement basis and dataset record type field/preserved specimen, without floristic/compilation indicators. NEVER call it independently validated primary data.",
+    "unknown_defaults_to_hold": true
+  },
+  "guardrails": [
+    "All metadata labels are post-outcome exploratory descriptions, never new K-based source selection.",
+    "Do not filter out source IDs or recalibrate source-OU process parameters after seeing their trait K effects.",
+    "A shared AusTraits dataset ID, even same observation key, does not prove the same individual was measured for two organs.",
+    "No new independent TRY v7 validation exists; do not reopen closed BIEN 201-system rho analysis."
+  ]
+}

@@ -35,9 +35,16 @@ sample["dataset"]["description"]="Original compiled source"
 assert category(sample)=="EXPLICIT_DATABASE_OR_COMPILATION_METADATA_INDICATOR"
 sample["source"]["primary"]["title"]="Measured seed and leaf traits"
 sample["dataset"]={"description":"Field collections","basis_of_record":"field"}
-assert category(sample)=="METADATA_CONSISTENT_WITH_DIRECT_MEASUREMENT_NOT_VALIDATED"
+assert category(sample)=="FIELD_MEASUREMENT_METADATA_INDICATOR_NOT_INDEPENDENCE_PASS"
 sample["dataset"]["basis_of_record"]="unknown"
 assert category(sample)=="SOURCE_MODALITY_UNDETERMINED_BY_PUBLIC_METADATA"
+sample["source"]["primary"]["title"]="A monograph of Daviesia"
+sample["dataset"]["description"]="Transcribed from a taxonomic revision"
+sample["dataset"]["basis_of_record"]="preserved_specimen"
+assert category(sample)=="EXPLICIT_TAXONOMIC_TREATMENT_TRANSCRIPTION_INDICATOR"
+sample["source"]["primary"]["title"]="Random plant trait study"
+sample["dataset"]["description"]="Unspecified preserved leaves"
+assert category(sample)=="PRESERVED_SPECIMEN_BASIS_UNVERIFIED_PRIMARY_LINEAGE"
 fixture={r["dataset_id"]:r for r in []}
 tot=sum(x["n_same_AusTraits_dataset_species"] for x in selected)
 meta={"test_dataset":{

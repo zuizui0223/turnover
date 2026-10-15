@@ -1,0 +1,78 @@
+{
+  "version": "v0.1",
+  "status": "POST_EMPIRICAL_K_AND_SOURCE_DIAGNOSTICS_PRE_SHARED_TAXON_OVERLAP_RESULTS_FROZEN",
+  "frozen_on": "2026-10-15",
+  "question": "When two functional traits in the same plant family are estimated on exactly the same species tips and phylogeny, are their estimated Blomberg K values still ordered differently?",
+  "scope": "Exploratory within-AusTraits geometric and sample-support sensitivity only. Original K, homogeneous BM/OU and source-noise null verdicts are immutable.",
+  "source": {
+    "release": "AusTraits v7.0.0",
+    "source_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "original_K_reference_workflow": 37725935020,
+    "original_core_workflow": 37561341286,
+    "original_tree_maker_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "graph": {
+      "systems": 254,
+      "families": 42,
+      "traits": 13
+    },
+    "named_trait_subset": "12 frozen source-calibrated traits; seed_height omitted based on K-blind source coverage gate originally frozen before its coverage result",
+    "expected_named_traits": [
+      "fruit_height",
+      "fruit_length",
+      "fruit_width",
+      "leaf_area",
+      "leaf_length",
+      "leaf_mass_per_area",
+      "leaf_width",
+      "petiole_length",
+      "plant_height",
+      "seed_dry_mass",
+      "seed_length",
+      "seed_width"
+    ]
+  },
+  "eligibility": {
+    "use_original_K_values_for_selection": false,
+    "original_species_state_rule": "Same frozen positive finite source-native unit record eligibility, record duplication and median per binomial with unique genus as original 254-system source pipeline.",
+    "pre_intersection_support": "Use only original K-eligible positive species in each of the 254 systems; all 254 original n_input_species counts must be independently reproduced, no new species admitted.",
+    "shared_taxon_match": "Within each family only, intersect two original K-eligible binomials and require identical genus labels across trait sources; never equate synonyms by fuzzy match, genus ambiguity is a HOLD.",
+    "min_shared_original_species_for_R_tree": 20,
+    "min_shared_prune_tips_to_report_prune": 20,
+    "method": "For every one of the 66 unique named-trait pairs, audit ALL original families where both traits occur; retain every family×pair with >=20 common species, without regard to original observed K or signed contrast.",
+    "pair_level_generalization_min_families": 5,
+    "no_postresult_pair_filtering": true,
+    "family_unit_of_independence": "Family; multiple pairs within the same family are dependent.",
+    "global_all_12_intersection": "Not required. Pairwise shared-species K rankings must NOT be interpreted as a single transitive 12-trait rank hierarchy."
+  },
+  "K_estimator": {
+    "response": "natural log of positive species-level median trait value; Blomberg's K via phytools::phylosig(method='K',test=FALSE) on identical tips and identical tree",
+    "tree_axes": [
+      "V.PhyloMaker2 S3 built on pair-specific shared species",
+      "prune-only tree using original GBOTB.extended.TPL tips from exact same pair-specific shared species"
+    ],
+    "contrast": "delta_logK = log(K_trait_A_on_shared_tips) - log(K_trait_B_on_shared_tips), lexicographic trait A then trait B",
+    "additional_geometry_comparison": "Compare paired same-tip logK differences to the original independently supported system logK differences, BUT their difference includes changed taxon support/geometry and cannot be assigned solely to a biological process.",
+    "tree_maker_source": "Pinned native GBOTB ext tree and V.PhyloMaker2 at source commit, original family/taxon construction",
+    "no_rolling_outcome_reweighting": true
+  },
+  "outputs": {
+    "step_1": "K-blind support audit, every original family×trait graph and all 66 trait pairs, counts of shared positive species and n qualifying families; no species names or trait values leave runner.",
+    "step_2": "For eligible family×pair: both trait K values on the same S3/prune tree, signed delta, original unmatched-tip difference and descriptive geometry shift; no species names in artifact.",
+    "summary": "List of 66 pair support counts, all eligible family-level contrasts and per-pair sign agreement for pairs with >=5 independent families, along with S3/prune coverage; report descriptive signs but no selection/adaptation or inferential p-values.",
+    "signed_discovery_hypotheses": [
+      "seed_width",
+      "leaf_area",
+      "seed_dry_mass",
+      "leaf_width",
+      "petiole_length"
+    ],
+    "no_hypothesis_upgrading": "The five names were selected after seeing original K/source-OU outcomes; pair contrasts are NOT external validation."
+  },
+  "hard_nonclaims": [
+    "Matched tips remove the deterministic difference in tip support/tree geometry for a within-pair contrast; they do not equalize source quality, trait-specific measurement noise, phylogenetic covariance or effect size.",
+    "Zero matched-support is an identifiability limit, not evidence of equal evolutionary constraint.",
+    "A K ranking is not evolutionary rate and neither statistic by itself identifies alpha, sigma2 or adaptation.",
+    "BIEN original 201-system rho study is scientifically closed and will not be reopened.",
+    "TRY version 7 measurement-record independence has not been established."
+  ]
+}

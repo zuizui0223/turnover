@@ -136,6 +136,18 @@ def audit_axis(g,design,rng):
     overall["equal_family_rate"]=float(fam_rate.mean())
     overall["equal_family_bootstrap_q025"]=float(np.quantile(famboots,.025))
     overall["equal_family_bootstrap_q975"]=float(np.quantile(famboots,.975))
+    # An alternative generalization unit is the named TRAIT PAIR rather than
+    # the family or family×pair row. This is descriptive: pair types with
+    # only one or two independent families have very unstable rates.
+    types=g.groupby(["trait_A","trait_B"],sort=True).flip.agg(["size","mean"])
+    if len(types)!=66:
+        raise ValueError("not all 66 fixed named-trait pair types represented")
+    supported=types.loc[types["size"]>=5]
+    overall["equal_trait_pair_type_rate_all_66"]=float(types["mean"].mean())
+    overall["equal_trait_pair_type_rate_ge5_families"]=float(supported["mean"].mean())
+    overall["n_trait_pair_types"]=len(types)
+    overall["n_trait_pair_types_ge5_families"]=len(supported)
+    overall["trait_pair_type_averages_are_exploratory"]=True
     out={"total":overall,"strata":{}}
     for label,variable,edges in (
         ("original_abs_logK","abs_orig",design["exploratory_strata"]["original_abs_logK_edges"]),

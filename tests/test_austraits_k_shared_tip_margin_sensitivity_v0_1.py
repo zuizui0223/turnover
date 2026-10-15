@@ -63,6 +63,10 @@ assert x["status"]==STATUS and x["source_support_graph"]["families"]==42
 assert x["both_axes"]["paired_family_trait_pairs"]==747
 assert x["axes"]["S3"]["total"]["n_flips"]==151
 assert x["axes"]["prune_only"]["total"]["n_flips"]==137
+assert x["axes"]["S3"]["total"]["n_trait_pair_types"]==66
+assert x["axes"]["prune_only"]["total"]["n_trait_pair_types"]==66
+assert x["axes"]["S3"]["total"]["n_trait_pair_types_ge5_families"]>0
+assert x["axes"]["S3"]["total"]["trait_pair_type_averages_are_exploratory"]
 assert len(x["axes"]["S3"]["strata"]["original_abs_logK"])==5
 assert len(x["axes"]["S3"]["strata"]["shared_fraction_larger"])==5
 assert x["no_Try_independent_validation"] and x["post_outcome_exploratory"]

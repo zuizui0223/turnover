@@ -13,7 +13,11 @@ import argparse,concurrent.futures,json,re,urllib.parse
 from collections import defaultdict
 from pathlib import Path
 import duckdb,pandas as pd,requests,yaml
+import sys
 
+# Source and analytical audits have separate command-line entry directories.
+# Keep the original frozen 279-pair eligibility function, not a copied rule.
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"analysis"))
 from run_austraits_k_same_dataset_pair_batch_v0_1 import qualify
 
 DESIGN="POST_ORGAN_K_SAME_SOURCE_DISCOVERY_NATIVE_PROVENANCE_AUDIT_EXPLORATORY_FROZEN"

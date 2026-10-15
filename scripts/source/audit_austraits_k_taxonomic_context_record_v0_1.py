@@ -192,6 +192,49 @@ def audit(original_counts,flagged_counts,expected,design):
     }
     return out
 
+def positive_control_all_trait_contexts(parquet,design):
+    """Verify the native method-context text can actually expose higher-taxon
+    inference in ALL original trait records, not only the 12 numerical K
+    traits. This QA does not open or report trait values/species identities.
+    """
+    sources=list(design["source_ids"])
+    if len(sources)!=5:
+        raise ValueError("not the fixed five floristic sources")
+    con=duckdb.connect(":memory:")
+    placeholders=",".join(["?"]*len(sources))
+    query=f"""
+       SELECT trim(CAST(dataset_id AS VARCHAR)) ds,
+         count(*) n_all_original_trait_records,
+         sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_genus%' THEN 1 ELSE 0 END) genus,
+         sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_family%' THEN 1 ELSE 0 END) family,
+         sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%inferred_from_taxonomy%' THEN 1 ELSE 0 END) taxonomy,
+         sum(CASE WHEN lower(coalesce(method_context_properties,'')) LIKE '%scored from text%' THEN 1 ELSE 0 END) scored,
+         sum(CASE WHEN length(coalesce(method_context_properties,''))>2 THEN 1 ELSE 0 END) nonempty
+       FROM read_parquet(?)
+       WHERE trim(CAST(dataset_id AS VARCHAR)) IN ({placeholders})
+       GROUP BY ds ORDER BY ds
+    """
+    try:
+        rows=con.execute(query,[str(parquet)]+sources).fetchall()
+    finally:con.close()
+    if len(rows)!=5:
+        raise ValueError("original source context control lost source dataset")
+    result={}
+    for ds,n,g,f,t,s,c in rows:
+        result[ds]={
+          "all_record_types_count":int(n),
+          "records_with_genus_inference_label":int(g),
+          "records_with_family_inference_label":int(f),
+          "records_with_taxonomic_inference_label":int(t),
+          "records_with_scored_text_label":int(s),
+          "records_with_nonempty_method_context":int(c)}
+    result["positive_control_higher_taxon_labels_detected_elsewhere"]=bool(
+       sum(r["records_with_genus_inference_label"]+
+           r["records_with_family_inference_label"]+
+           r["records_with_taxonomic_inference_label"] for r in result.values())>0)
+    return result
+
+
 def main():
     p=argparse.ArgumentParser()
     for arg in ("parquet","observed-K","core","traits-yml","design","out"):
@@ -202,11 +245,13 @@ def main():
         a.__dict__["observed_K"],a.core,a.__dict__["traits_yml"],design)
     original,rows=fetch_counts(a.parquet,candidates,design)
     result=audit(original,rows,expected,design)
+    result["all_trait_method_context_positive_control"]=positive_control_all_trait_contexts(a.parquet,design)
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(result,indent=2,sort_keys=True,allow_nan=False)+"\n")
     print(json.dumps({"status":STATUS,
          "total_positive_original_record_keys":result["total_original_positive_source_record_value_keys"],
          "any_higher_taxon_inference_flagged_records":result["total_higher_taxon_inference_flagged_original_positive_source_records"],
-         "nonempty_method_context":result["total_original_positive_source_record_keys_with_method_context"]}))
+         "nonempty_method_context":result["total_original_positive_source_record_keys_with_method_context"],
+         "all_trait_positive_control_detected":result["all_trait_method_context_positive_control"]["positive_control_higher_taxon_labels_detected_elsewhere"]}))
 if __name__=="__main__":
     main()

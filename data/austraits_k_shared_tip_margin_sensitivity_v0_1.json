@@ -1,0 +1,81 @@
+{
+  "version": "v0.1",
+  "status": "POST_760_MATCHED_K_OUTCOME_EXPLORATORY_MARGIN_AND_SUPPORT_AUDIT",
+  "created_on": "2026-10-15",
+  "provenance": {
+    "batch_workflow": 38674635870,
+    "source_only_support_workflow": 38673955087,
+    "original_systems": 254,
+    "source_calibrated_systems": 249,
+    "eligible_family_trait_pairs": 760,
+    "families": 42,
+    "pair_types": 66,
+    "tree_axes": [
+      "S3",
+      "prune_only"
+    ],
+    "data_source": "pinned AusTraits v7.0.0 native original source species median K"
+  },
+  "aim": "Determine how the descriptive probability of changing the sign of a between-trait Blomberg K contrast after forcing identical tips and trees varies with original absolute logK difference and shared-species coverage, without treating the 760 within-family comparisons as independent studies.",
+  "estimands": {
+    "sign_reversal": "delta_original_logK * delta_shared_logK < 0 for valid matched-tree axes",
+    "original_gap": "abs(delta_original_logK), from original independently supported trait-specific species/tip K",
+    "shared_fraction_smaller": "n_shared / min(n_original_trait_A,n_original_trait_B)",
+    "shared_fraction_larger": "n_shared / max(n_original_trait_A,n_original_trait_B)",
+    "shared_tip_count": "n_shared, not necessarily native prune tip count",
+    "support_change": "delta_shared_logK - delta_original_logK",
+    "consistency_check": "delta_shared_logK == log(K_A / K_B) and source support system IDs/family/trait pair match original K-blind frozen graph"
+  },
+  "exploratory_strata": {
+    "original_abs_logK_edges": [
+      0,
+      0.1,
+      0.25,
+      0.5,
+      1,
+      null
+    ],
+    "fraction_of_larger_original_cohort_edges": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      1.000001
+    ],
+    "common_species_count_edges": [
+      20,
+      40,
+      100,
+      200,
+      500,
+      null
+    ],
+    "bins_are_exploratory_after_seen_pair_outcomes": true,
+    "include_all_qualifying_760_pairs_with_separate_prune_axis_holds": true
+  },
+  "uncertainty": {
+    "independence_cluster": "Plant family (42 clusters); never binomial CI over 760 dependent pair rows",
+    "cluster_resampling_draws": 5000,
+    "seed": 20261015,
+    "report_types": [
+      "pair-weighted reversal rate and family-resampled 95% percentile interval",
+      "equal-family-mean reversal rate and family-resampled 95% percentile interval",
+      "margin and larger-cohort-coverage stratum pair-weighted rates and family-resampled 95% descriptive intervals"
+    ],
+    "empty_strata": "Never count a bootstrap draw with zero sampled eligible pairs. Fail if this occurs excessively."
+  },
+  "exploratory_adjusted_model": {
+    "primary_descriptive_link": "GEE logistic with exchangeable working correlation by family; covariates original absolute logK gap, 1 - fraction of larger original cohort retained, log shared species count",
+    "secondary_sensitivity": "OLS linear probability model with family and named-trait-pair fixed effects, cluster-robust by family, to check within-family/pair confounding of coverage associations",
+    "avoid_overclaim": "All coefficients, intervals and p-values are post-760-data descriptive sensitivity; the sign threshold mechanically depends on original gap and source subset changes; adjustment does not identify causal sampling or evolutionary rate effects."
+  },
+  "scientific_limits": [
+    "Within-family trait-pair comparisons are strongly dependent and their family distribution uneven; report both family-balanced and pair-weighted reversal rates.",
+    "Between-pair intersections do not define a single transitive 12-trait K hierarchy.",
+    "Absolute logK gap is observed before matched-tip reanalysis, not a prospective evolutionary property.",
+    "Source overlap fraction and pair tip size are correlated; model association is not causal.",
+    "No changes to original Brownian, OU, source-variation, named-trait or BIEN stop-rule results.",
+    "No TRY v7 independent dataset has been source-qualified and five signed focal traits were selected post-original-K."
+  ]
+}

@@ -11,7 +11,7 @@ import pandas as pd,duckdb,yaml
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"/"source"))
 from audit_austraits_k_taxonomic_context_record_v0_1 import (
-    prepare,fetch_counts,audit,STATUS)
+    prepare,fetch_counts,audit,positive_control_all_trait_contexts,STATUS)
 
 p=argparse.ArgumentParser()
 for nm in ("observed-K","core","traits-yml","design"):
@@ -50,6 +50,16 @@ with tempfile.TemporaryDirectory() as td:
     # species median support or method-context inference counts.
     rows.append({**rows[5],"unit":"cm","value":9999.0,
           "observation_id":"wrong_unit","method_context_properties":"inferred_from_taxonomy"})
+    # Non-K trait records are a strictly separate positive control for
+    # recognizing native genus-inferred scoring labels. They are NOT used
+    # in any of the 254 original numerical K input medians.
+    for source_id in d["source_ids"]:
+        rows.append(dict(family="Otheraceae",trait_name="seed_shape",
+          genus="Other",binomial="Other species",
+          dataset_id=source_id,observation_id=f"shape_{source_id}",
+          value="round",unit="",taxon_rank="species",
+          method_context_properties='{"trait scoring method":"inferred_from_genus"}'
+            if source_id=="ABRS_2023" else '{"trait scoring method":"scored from text"}'))
     df=pd.DataFrame(rows)
     c=duckdb.connect(":memory:");c.register("source",df)
     parquet=path/"mini.parquet"
@@ -61,4 +71,7 @@ with tempfile.TemporaryDirectory() as td:
     assert (src,trait,n_record,n_cell,n_system,n_fam)==("ABRS_2023","fruit_length",25,25,1,1)
     assert (n_faminfer,n_genus,n_taxon,n_higher,n_higher_cells)==(1,3,0,4,4)
     assert n_scored==11 and n_context==15
+    ctrl=positive_control_all_trait_contexts(parquet,d)
+    assert ctrl["positive_control_higher_taxon_labels_detected_elsewhere"] is True
+    assert ctrl["ABRS_2023"]["records_with_genus_inference_label"]==1
 print("PASS: frozen original 254 K source median graph, native inferred-from-genus/family/specific context and wrong-unit exclusion")

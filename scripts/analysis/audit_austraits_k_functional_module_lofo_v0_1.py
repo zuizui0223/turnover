@@ -149,12 +149,15 @@ def score_fold_predictions(g,model_cols,draws,seed):
         tab=g.assign(
             delta_brier=g["pooled_other_families_brier"]-g[model+"_brier"],
             delta_accuracy=g[model+"_accuracy"]-g["pooled_other_families_accuracy"]
-        ).groupby("family")[["delta_brier","delta_accuracy"]].agg(["sum","count"])
-        count=tab[("delta_brier","count")].reindex(fams).to_numpy(float)
+        ).groupby("family").agg(
+            delta_brier_sum=("delta_brier","sum"),
+            delta_accuracy_sum=("delta_accuracy","sum"),
+            n=("delta_brier","size"))
+        count=tab["n"].reindex(fams).to_numpy(float)
         if np.any(count==0):raise ValueError("LOFO evaluation family absent")
         vals={}
         for col in ("delta_brier","delta_accuracy"):
-            sums=tab[(col,"sum")].reindex(fams).to_numpy(float)
+            sums=tab[col+"_sum"].reindex(fams).to_numpy(float)
             draws_sum=sums[draws_i].sum(axis=1)
             draws_num=count[draws_i].sum(axis=1)
             z=draws_sum/draws_num

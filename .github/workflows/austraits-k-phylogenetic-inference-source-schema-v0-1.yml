@@ -1,0 +1,63 @@
+name: AusTraits source native taxonomic inference metadata schema audit v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-phylogenetic-inference-source-schema-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original_native_source_inference_fields:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb
+      - name: Download original 41.5 MB source-native AusTraits 7.0 parquet
+        run: |
+          mkdir -p build/source build/result
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+      - name: Check if trait-scoring inferred from genus/family can be distinguished from observed leaf and seed measurements
+        run: |
+          python - <<'PY'
+          import duckdb,json
+          from pathlib import Path
+          c=duckdb.connect(':memory:')
+          schema=c.execute("DESCRIBE SELECT * FROM read_parquet('build/source/austraits.parquet')").fetchall()
+          cols=[{'column':str(r[0]),'type':str(r[1])} for r in schema]
+          tokens=('infer','context','scor','basis','method','remark','original','source','dataset','value_type','obs')
+          possible=[r for r in cols if any(k in r['column'].lower() for k in tokens)]
+          expected={'dataset_id','observation_id','trait_name','value','unit','genus','family'}
+          if not expected.issubset(set(r['column'] for r in cols)):
+              raise ValueError('original pinned AusTraits source schema identity changed')
+          inference=[r['column'] for r in cols if 'infer' in r['column'].lower()
+             or 'scoring' in r['column'].lower() or 'context' in r['column'].lower()]
+          values={
+              'version':'v0.1',
+              'status':'AUSTRAITS_ORIGINAL_PARQUET_INFERENCE_METADATA_SCHEMA_AUDITED',
+              'source_SHA256':'5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99',
+              'n_columns':len(cols),
+              'all_schema_columns':cols,
+              'possible_provenance_or_scoring_columns':possible,
+              'possible_taxonomic_inference_or_context_columns':inference,
+              'can_identify_inferred_from_genus_family_from_columns_alone':False,
+              'scientific_boundary':'Only source-native schema inspected. ABRS/PlantNet/VicFlora original metadata support genus/family inferred status in original contexts; actual K trait-record incidence is not inferred from the mere existence or absence of a flattened field. No traits/K/species or source IDs exported.'
+          }
+          Path('build/result/native_inference_metadata_schema.json').write_text(json.dumps(values,indent=2)+'\n')
+          print(json.dumps({k:values[k] for k in ('n_columns','possible_taxonomic_inference_or_context_columns')},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-native-inference-schema-v0-1
+          path: build/result/native_inference_metadata_schema.json
+          retention-days: 30

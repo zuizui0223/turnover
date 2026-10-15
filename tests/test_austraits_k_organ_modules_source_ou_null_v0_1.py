@@ -28,7 +28,8 @@ for r in K.itertuples(index=False):
             scenarios[c]={"models":{
                 m:{"logK":rng.normal(loc=0,scale=1,size=256).tolist()}
                 for m in ("trait_global","system_local")}}
-        axis[name]={"observed_logK":float(getattr(r,column)),
+        original_K_col="S3_K" if name=="S3" else "prune_K"
+        axis[name]={"observed_logK":float(np.log(getattr(r,original_K_col))),
                     "scenarios":scenarios}
     null[r.system_id]={
        "status":VALID_STATUS,"system_id":r.system_id,

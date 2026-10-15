@@ -61,7 +61,8 @@
     "report_types": [
       "pair-weighted reversal rate and family-resampled 95% percentile interval",
       "equal-family-mean reversal rate and family-resampled 95% percentile interval",
-      "margin and larger-cohort-coverage stratum pair-weighted rates and family-resampled 95% descriptive intervals"
+      "margin and larger-cohort-coverage stratum pair-weighted rates and family-resampled 95% descriptive intervals",
+      "Descriptive equal-named-trait-pair-type average across all 66 pair types and separately pair types represented in at least five independent families; no inferential confidence interval for types with one or two families."
     ],
     "empty_strata": "Never count a bootstrap draw with zero sampled eligible pairs. Fail if this occurs excessively."
   },
@@ -76,6 +77,7 @@
     "Absolute logK gap is observed before matched-tip reanalysis, not a prospective evolutionary property.",
     "Source overlap fraction and pair tip size are correlated; model association is not causal.",
     "No changes to original Brownian, OU, source-variation, named-trait or BIEN stop-rule results.",
-    "No TRY v7 independent dataset has been source-qualified and five signed focal traits were selected post-original-K."
+    "No TRY v7 independent dataset has been source-qualified and five signed focal traits were selected post-original-K.",
+    "The estimand changes if weighting equal family×trait comparisons, equal families, or equal named-trait-pair types; interpret all three side by side and avoid treating a sparse pair-type average as precise."
   ]
 }

@@ -1,0 +1,75 @@
+name: AusTraits K-blind shared-taxon cross-trait pair support v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-shared-taxon-pair-support-v0-1.yml'
+      - 'data/austraits_k_shared_taxa_cross_trait_design_v0_1.json'
+      - 'scripts/analysis/audit_austraits_k_shared_taxon_pair_support_v0_1.py'
+      - 'tests/test_austraits_k_shared_taxon_pair_support_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source_only_overlap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml
+      - name: Check support audit and synthetic graph/trait leakage firewalls
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_shared_taxon_pair_support_v0_1.py
+          python tests/test_austraits_k_shared_taxon_pair_support_v0_1.py
+      - name: Recover original 254-system trait/taxon graph identities only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/core build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+             -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+             -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+      - name: Obtain original SHA-locked native source compilation and units
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit ALL 66 trait pairs and common species independently of observed K effects
+        run: |
+          python scripts/analysis/audit_austraits_k_shared_taxon_pair_support_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --out build/result/shared_taxon_pair_support.json
+          python - <<'PY'
+          import json
+          z=json.load(open('build/result/shared_taxon_pair_support.json'))
+          assert z['status']=='AUSTRAITS_K_SHARED_TAXON_PAIR_SUPPORT_AUDITED'
+          assert z['original_graph']=={'systems':254,'families':42,'traits':13}
+          assert z['named_graph']=={'systems':249,'families':42,'traits':12}
+          assert len(z['trait_pairs'])==66
+          assert z['qualifying_family_trait_pairs']>0
+          assert z['no_K_effect_magnitudes_opened']
+          assert z['no_species_or_trait_values_persisted']
+          print('PASS: source-only pairwise overlap support frozen before matched K outcomes')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-shared-taxon-pair-support-v0-1
+          path: build/result/shared_taxon_pair_support.json
+          retention-days: 30

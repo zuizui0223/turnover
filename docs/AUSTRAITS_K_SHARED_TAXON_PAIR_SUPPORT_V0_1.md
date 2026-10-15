@@ -37,6 +37,12 @@ The fact that only 7 original pair-specific tip supports are literally identical
 
 All ten combinations among the five discovery-selected named traits have at least one eligible family, but only nine have >=5. The five signed named-trait deviations were selected **after** the original AusTraits K outcomes and do not constitute independent replication.
 
+## Ten source-ineligible family×pair comparisons (not removed by K outcomes)
+
+All 770 original family×two-trait combinations were checked. Only ten had 15–19 shared species, below the frozen minimum of 20. These were **Arecaceae** (fruit height–petiole length 17; fruit height–seed width 17; petiole length–seed width 15), **Asteraceae** (leaf mass per area–petiole length 19), **Casuarinaceae** (fruit length–seed length 18; fruit length–seed width 17) and **Elaeocarpaceae** (fruit width–LMA 17; fruit width–seed dry mass 16; LMA–seed dry mass 18; seed dry mass–seed width 19).
+
+These are explicit **source-geometry feasibility holds**, not null ecological effects or optional exclusions from negative K. Both `seed_width` and `seed_dry_mass` appear among the ten, which needs disclosure when summarizing five previously discovery-selected traits.
+
 ## Scientific importance and restrictions
 
 **Why this matters:** If two traits share most of the species in a family, large pairwise K differences cannot simply be attributed to the two traits having totally nonoverlapping taxon sets. But the K comparison remains vulnerable to unequal numbers of tips, unequal exact branch geometry when using the *original* separately sampled trees, trait source calibration differences, taxonomic missingness and phylogenetic covariance. High species overlap alone does **not** show that the original rank survives an identical-tree comparison.

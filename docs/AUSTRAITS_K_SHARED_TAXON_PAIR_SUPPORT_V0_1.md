@@ -13,8 +13,10 @@
 | Median shared species per eligible family×pair | **105** (range 20–2,202) |
 | Median overlap as fraction of the **smaller** trait species set | **95.4%** |
 | Distinct genus-name conflicts for the same original binomial | **0** |
+| Pair comparisons where the **entire smaller** original species cohort is shared | **120 / 760** |
+| Pair comparisons where **both original trait cohorts are exactly identical** | **7 / 760** |
 
-The median 95.4% denominator is `n_shared / min(n_original_A,n_original_B)`. It does **not** mean the larger trait cohort has 95.4% common support, nor does it ensure identical tip sets before the matched-pair reconstruction.
+The fact that only 7 original pair-specific tip supports are literally identical highlights why this controlled same-tip K comparison remains necessary even when the typical overlap is high. The median 95.4% denominator is `n_shared / min(n_original_A,n_original_B)`. It does **not** mean the larger trait cohort has 95.4% common support, nor does it ensure identical tip sets before the matched-pair reconstruction.
 
 ## Examples with independent family replication
 

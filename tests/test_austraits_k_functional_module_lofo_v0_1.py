@@ -67,6 +67,10 @@ m=result["reproductive_vegetative_matched_tip"]
 assert m["S3"]["n_supported_family_pair_observations"]==406
 assert m["prune_only"]["n_supported_family_pair_observations"]==397
 assert m["S3"]["n_independent_families_with_cross_organ_comparisons"]==34
+assert len(m["S3"]["per_family_descriptive"])==34
+assert len(m["prune_only"]["per_family_descriptive"])==34
+assert sum(v["n_cross_organ_pair_comparisons"] for v in m["S3"]["per_family_descriptive"].values())==406
+assert sum(v["n_cross_organ_pair_comparisons"] for v in m["prune_only"]["per_family_descriptive"].values())==397
 assert result["reproductive_vegetative_both_trees"]["n_evaluable_on_both_trees"]==397
 s=result["left_one_whole_family_out_prediction"]
 assert s["S3"]["all_source_eligible_pairs"]["n_families"]==42

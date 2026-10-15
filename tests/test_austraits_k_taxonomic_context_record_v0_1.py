@@ -73,5 +73,5 @@ with tempfile.TemporaryDirectory() as td:
     assert n_scored==11 and n_context==15
     ctrl=positive_control_all_trait_contexts(parquet,d)
     assert ctrl["positive_control_higher_taxon_labels_detected_elsewhere"] is True
-    assert ctrl["ABRS_2023"]["records_with_genus_inference_label"]==1
+    assert ctrl["ABRS_2023"]["records_with_genus_inference_label"]==4  # 3 numeric synthetic records + 1 non-K categorical positive control
 print("PASS: frozen original 254 K source median graph, native inferred-from-genus/family/specific context and wrong-unit exclusion")

@@ -86,6 +86,17 @@ Original 410-pair **equal-family** observed rates were **75.13% S3 / 80.24% prun
 
 The tested source-OU models assume independent latent trait processes, fixed source-dispersion point estimates and simplified observation covariance; their failure to reproduce this post-outcome feature **does not identify true trait-specific OU alpha, adaptive constraint, stabilizing selection or evolutionary rate**.
 
+## Literature context: this is not the first report of phylogenetic seed/fruit conservatism
+
+This result must be positioned against known work rather than pitched as the discovery that reproductive traits can have phylogenetic signal:
+
+- [Ackerly (2009), PNAS, DOI:10.1073/pnas.0901635106](https://doi.org/10.1073/pnas.0901635106) already compared evolutionary signal and evolutionary **rates** for seed size, leaf size, and plant height across several plant clades, explicitly addressing why evolutionary rate and phylogenetic signal must not be conflated.
+- [Wang et al. (2023), Frontiers in Plant Science, DOI:10.3389/fpls.2023.1266798](https://doi.org/10.3389/fpls.2023.1266798) examined seed-mass variation in 1,071 species, finding a substantial phylogenetic contribution to seed mass in a different variance-partitioning framework. That is NOT a matched-tip cross-trait K comparison.
+- [Pothasin et al. (2022), Frontiers in Plant Science, DOI:10.3389/fpls.2022.852167](https://doi.org/10.3389/fpls.2022.852167) reported a tropical forest dataset with 196 tree and liana species whose **seed size showed no detectable phylogenetic signal** under their test. That counterexample is compatible with our observed **lineage context** and rules out interpreting our organ advantage as universal.
+- [“Climate modulation of phylogenetic and functional constraints on fruit volume” (2026), Plant Diversity, DOI:10.1016/j.pld.2026.03.010](https://doi.org/10.1016/j.pld.2026.03.010) reported strong fruit-volume phylogenetic signal, and distinct effects of phylogeny, plant height and leaf area across climate contexts, though with **Pagel λ** and mixed models rather than matched-tip K.
+
+**Potential incremental contribution here:** a broad organ-type contrast in **many distinct families**, evaluated on **exactly the same taxa/trees within a trait pair**, subjected to **whole-family out-of-sample prediction** and an explicit **independently frozen source-heterogeneity plus shared-OU posterior predictive check**. The module contrast is nevertheless **selected after seeing the current data**; no claim of first discovery or verified selection is legitimate. Strong manuscript conclusions require independent original-measurement validation and a covariance/source-aware evolutionary model.
+
 ## Ecological interpretation, alternative mechanisms and next discriminators
 
 The defensible positive, **descriptive and cross-validated** ecological pattern is:

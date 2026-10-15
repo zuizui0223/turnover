@@ -19,8 +19,8 @@ from run_austraits_k_same_dataset_pair_batch_v0_1 import qualify
 DESIGN="POST_ORGAN_K_SAME_SOURCE_DISCOVERY_NATIVE_PROVENANCE_AUDIT_EXPLORATORY_FROZEN"
 STATUS="AUSTRAITS_279_COMMON_DATASET_NATIVE_SOURCE_PROVENANCE_AUDITED"
 
-FLORA=re.compile(r"\\b(?:flora|plantnet|species profile|taxonomic description|plant information network|herbarium species descriptions)\\b",re.I)
-COMPILED=re.compile(r"\\b(?:database|compiled|compilation|collation|aggregated data|secondary source)\\b",re.I)
+FLORA=re.compile(r"\b(?:flora|plantnet|species profile|taxonomic description|plant information network|herbarium species descriptions)\b",re.I)
+COMPILED=re.compile(r"\b(?:database|compiled|compilation|collation|aggregated data|secondary source)\b",re.I)
 
 def category(meta):
     src=(meta.get("source") or {}).get("primary") or {}

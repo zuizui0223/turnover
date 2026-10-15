@@ -233,6 +233,17 @@ def predictive_lofo(df,design):
                    design["predictive_models"]["bootstrap_42_families"],
                    design["matched_tip"]["bootstrap_seed"]+j+2*(ax=="prune_only"))}
         # Family held out in every fold, no same-family training rows.
+        # A separate, explicitly IN-SAMPLE fit to all discovery families is
+        # archived ONLY to lock the prior for independent new-source testing.
+        # It never enters or updates any LOFO held-out-family prediction.
+        locked=LogisticRegression(C=1.0,fit_intercept=False,
+                      solver="lbfgs",max_iter=1000).fit(mod,g.y.to_numpy(int))
+        b=float(locked.coef_[0,0])
+        out[ax]["all_original_families_fit_for_future_external_validation_ONLY"]={
+             "module_coefficient":b,
+             "probability_reproductive_higher":float(1/(1+np.exp(-b))),
+             "training_families":42,
+             "never_used_as_LOFO_test_prediction":True}
         out[ax]["prediction_design"]="LOFO: every predictor trained on all other families only; no original K of the heldout family is accessed as a covariate."
     return out
 

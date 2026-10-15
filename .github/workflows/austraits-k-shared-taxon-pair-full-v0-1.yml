@@ -1,0 +1,194 @@
+name: AusTraits 760 same-tip two-trait K comparisons v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-shared-taxon-pair-full-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# Post-observed-K exploratory geometry sensitivity. The 760 pairs were
+# selected ONLY by original source-native common species counts, before
+# looking at the 760 matched-phylogeny K outcomes.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.pairs.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Recover immutable independent original source-only trait pair support
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/support build/batches
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+      - id: pairs
+        name: Freeze all 760 qualifying original pair outcomes into balanced batches without K
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          x=json.load(open('build/support/shared_taxon_pair_support.json'))
+          assert x['status']=='AUSTRAITS_K_SHARED_TAXON_PAIR_SUPPORT_AUDITED'
+          assert x['qualifying_family_trait_pairs']==760
+          pairs=[r for r in x['family_trait_pair_support'] if r['qualifies_20_common_species']]
+          assert len(pairs)==760
+          bins=[{'weight':0,'pairs':[]} for _ in range(24)]
+          for row in sorted(pairs,key=lambda r:(-r['n_common_species_same_genus']**2,
+              r['family'],r['trait_A'],r['trait_B'])):
+              v=min(range(24),key=lambda j:(bins[j]['weight'],j))
+              n=row['n_common_species_same_genus']
+              bins[v]['pairs'].append(row)
+              bins[v]['weight']+=n*n
+          matrix=[]
+          for j,b in enumerate(bins,1):
+              bid=f'B{j:02d}'
+              assert b['pairs']
+              Path('build/batches',bid+'.json').write_text(json.dumps(b['pairs'],sort_keys=True))
+              matrix.append({'batch_id':bid,'count':len(b['pairs'])})
+          assert sum(m['count'] for m in matrix)==760
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('matrix='+json.dumps({'include':matrix},separators=(',',':'))+'\n')
+          print('PASS: exact 760 pairs, 66 unique named-trait types, 24 source-only batches')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-matched-taxon-frozen-pair-batches-v0-1
+          path: build/batches/*.json
+          retention-days: 30
+
+  simulate:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml numpy
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Install pinned original plant phylogenetic tree source
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Load frozen exact common-species pairs and original K identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/support build/source build/output build/rcpp-pair-cache
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+             -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+             -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-matched-taxon-frozen-pair-batches-v0-1
+          path: build/batches
+      - name: Reconstruct original SHA-pinned numeric source states only
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Estimate paired K on same exact species and S3/prune tree in all frozen family×trait pairs
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py \
+            --batch-json build/batches/${{ matrix.batch_id }}.json \
+            --support build/support/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --observed-K build/K/effects.csv \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R \
+            --out build/output/${{ matrix.batch_id }}.json
+          python - <<'PY'
+          import json,os
+          m=os.environ['BATCH_ID']
+          r=json.load(open(f'build/output/{m}.json'))
+          assert r['status']=='AUSTRAITS_K_SHARED_TAXON_PAIR_BATCH_REESTIMATED'
+          assert len(r['pairs'])==r['n_family_trait_pairs']==int(os.environ['BATCH_COUNT'])
+          assert r['no_species_names_or_raw_values_persisted'] is True
+          print('PASS: real-tree pair batch',m,len(r['pairs']))
+          PY
+        env:
+          BATCH_ID: ${{ matrix.batch_id }}
+          BATCH_COUNT: ${{ matrix.count }}
+          OPENBLAS_NUM_THREADS: '1'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-matched-taxon-${{ matrix.batch_id }}-v0-1
+          path: build/output/${{ matrix.batch_id }}.json
+          retention-days: 30
+
+  summarize:
+    needs: simulate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-k-matched-taxon-B*-v0-1
+          path: build/all
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Recover frozen source-eligible 760 pair support reference
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/support build/result
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+      - name: Check 24 complete batches, same-species K identities and 66 trait pair summaries
+        run: |
+          test "$(find build/all -maxdepth 1 -name '*.json' | wc -l)" -eq 24
+          python scripts/analysis/aggregate_austraits_k_shared_taxon_pair_results_v0_1.py \
+            --batch-dir build/all \
+            --support build/support/shared_taxon_pair_support.json \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --out build/result/same_species_two_trait_K.json
+          python - <<'PY'
+          import json
+          z=json.load(open('build/result/same_species_two_trait_K.json'))
+          assert z['status']=='AUSTRAITS_K_SHARED_TAXON_PAIR_COMPARISON_AUDITED'
+          assert z['matched_source_graph']=={
+           'systems':249,'families':42,'traits':12,
+           'eligible_family_trait_pairs':760,'possible_trait_pairs':66}
+          assert len(z['five_frozen_discovery_named_trait_pairs'])==10
+          assert not z['external_independent_validation']
+          assert z['not_a_new_process_null'] is True
+          print('PASS: complete original source-native 760 pairs; descriptive post-outcome K')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-matched-taxon-760-final-v0-1
+          path: build/result/same_species_two_trait_K.json
+          retention-days: 30

@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/austraits-k-functional-module-lofo-v0-1.yml'
       - 'data/austraits_k_functional_module_portability_v0_1.json'
+      - 'data/austraits_reproductive_vegetative_k_external_validation_protocol_v0_1.json'
       - 'scripts/analysis/audit_austraits_k_functional_module_lofo_v0_1.py'
       - 'tests/test_austraits_k_functional_module_lofo_v0_1.py'
   workflow_dispatch:
@@ -69,7 +70,14 @@ jobs:
                   assert math.isfinite(scores[model]['Brier_loss'])
           assert not z['independent_TRY_v7_validation']
           assert not z['new_OU_Brownian_process_parameters_fitted']
-          print('PASS: 34 cross-organ source/tip-matched families and heldout K prediction across 42 families')
+          external=json.load(open('data/austraits_reproductive_vegetative_k_external_validation_protocol_v0_1.json'))
+          assert external['status']=='POST_AUSTRAITS_760_K_AND_ORGAN_CLASS_DISCOVERY_PRE_ANY_INDEPENDENT_EXTERNAL_ORGAN_K_OUTCOMES'
+          e=external['frozen_all_discovery_42_family_logistic']
+          for axis,field in [('S3','S3_logit_coefficient'),('prune_only','prune_logit_coefficient')]:
+              b=z['left_one_whole_family_out_prediction'][axis]['all_original_families_fit_for_future_external_validation_ONLY']
+              assert b['never_used_as_LOFO_test_prediction']
+              assert abs(b['module_coefficient']-e[field])<1e-6
+          print('PASS: 34 cross-organ source/tip-matched families, 42 heldout folds, and independently locked new-source logistic coefficients')
           PY
       - uses: actions/upload-artifact@v4
         with:

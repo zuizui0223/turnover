@@ -17,6 +17,21 @@ The 760 source-qualified pairs are repeated contrasts among 42 plant families an
 
 The family-equal estimates are smaller because a few families with many pair comparisons contribute more rows and more reversals to the pair-weighted summary. One cannot claim "20% of independent plant families" invert their K rankings. Bootstrap units are whole families, resampled **5,000 times with frozen seed 20261015**, preserving all original trait pairs from a sampled family.
 
+## Additional generalization-unit sensitivity: traits and families are different targets
+
+Because some named-trait pairs occur in only one or two families while others recur many times, **averaging first across all 66 trait-pair types** changes the estimand again:
+
+| Equal-weight target (descriptive) | S3 reversal frequency | Prune reversal frequency |
+|---|---:|---:|
+| Every valid family×pair observation | 19.87% | 18.34% |
+| **Every family** | **14.69%** | **12.64%** |
+| **Every one of 66 named-trait-pair types** | **28.03%** | **28.79%** |
+| Pair types recurring in ≥5 families only | **24.22% (54 types)** | **22.33% (53 types)** |
+
+These are **four different descriptive sampling targets**, not four estimates of one universal true rate. The equal-66-type mean is particularly unstable because several trait combinations occur in very few families and receive the same weight as heavily replicated combinations; it has **no defensible 66-independent-type confidence interval** here. The ≥5-family restriction is presented only as a support diagnostic; it is not a new primary outcome-driven selection criterion.
+
+The substantive point is that a statement about "the proportion of lineages" (families), "the proportion of available family×trait contrasts", and "the proportion of named-trait-pair categories" is *not interchangeable*. This is central to the project's question of transporting named-trait phylogenetic K order across lineages.
+
 ## Result 2. Original K contrast margin predicts a sign flip
 
 Sign reversal is defined by `ΔlogK_original × ΔlogK_matched < 0`, so its negative relationship with `|ΔlogK_original|` is partly **mathematical**, not proof of biology.

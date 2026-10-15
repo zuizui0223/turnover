@@ -23,18 +23,34 @@ from run_austraits_k_same_dataset_pair_batch_v0_1 import qualify
 DESIGN="POST_ORGAN_K_SAME_SOURCE_DISCOVERY_NATIVE_PROVENANCE_AUDIT_EXPLORATORY_FROZEN"
 STATUS="AUSTRAITS_279_COMMON_DATASET_NATIVE_SOURCE_PROVENANCE_AUDITED"
 
-FLORA=re.compile(r"\b(?:flora|plantnet|species profile|taxonomic description|plant information network|herbarium species descriptions)\b",re.I)
-COMPILED=re.compile(r"\b(?:database|compiled|compilation|collation|aggregated data|secondary source)\b",re.I)
+# These are deliberately narrow metadata TEXT indicators. A research title
+# mentioning "five floras" or source notes mentioning a flora should not
+# automatically be declared a compiled flora dataset. Neither field nor
+# preserved_specimen metadata alone certifies new independent measurements.
+FLORA=re.compile(
+ r"(?:\bflora of\b|\bonline flora\b|\bflora online\b|\belectronic flora\b|"
+ r"\bvicflora\b|\be?flora of\b|\bplantnet\b|\bgrass flora\b|"
+ r"\bspecies profiles?\b|\bplant information network\b)",re.I)
+TREATMENT=re.compile(
+ r"(?:\bmonograph\b|\btaxonomic revision\b|\brevision of\b|"
+ r"\binteractive identification\b|\btranscribed from\b|"
+ r"\btransposed from\b|\btaxonomic description\b)",re.I)
+COMPILED=re.compile(
+ r"(?:\bdatabase\b|\bcompiled\b|\bcompilation\b|\bcollation\b|"
+ r"\baggregated data\b|\bsecondary source\b|"
+ r"\btranscribed from a variety of sources\b)",re.I)
 
 def category(meta):
     src=(meta.get("source") or {}).get("primary") or {}
     d=meta.get("dataset") or {}
     if not isinstance(src,dict) or not isinstance(d,dict):
         raise ValueError("native source metadata missing citation/dataset fields")
-    label=" | ".join(str(x or "") for x in (src.get("title"),d.get("description"),
-                                                d.get("notes")))
+    label=" | ".join(str(x or "") for x in
+                   (src.get("title"),d.get("description")))
     if FLORA.search(label):
         return "EXPLICIT_FLORISTIC_SPECIES_PROFILE_METADATA_INDICATOR"
+    if TREATMENT.search(label):
+        return "EXPLICIT_TAXONOMIC_TREATMENT_TRANSCRIPTION_INDICATOR"
     if COMPILED.search(label):
         return "EXPLICIT_DATABASE_OR_COMPILATION_METADATA_INDICATOR"
     basis=str(d.get("basis_of_record") or "").strip().lower()
@@ -42,9 +58,11 @@ def category(meta):
             and t.get("trait_name") in ("fruit_height","fruit_length","fruit_width",
              "seed_dry_mass","seed_length","seed_width","leaf_area","leaf_length",
              "leaf_mass_per_area","leaf_width","petiole_length","plant_height")]
-    if basis in ("field","preserved_specimen") and for_tr and all(
+    if basis=="field" and for_tr and all(
           str(t.get("basis_of_value") or "").lower()=="measurement" for t in for_tr):
-        return "METADATA_CONSISTENT_WITH_DIRECT_MEASUREMENT_NOT_VALIDATED"
+        return "FIELD_MEASUREMENT_METADATA_INDICATOR_NOT_INDEPENDENCE_PASS"
+    if basis=="preserved_specimen":
+        return "PRESERVED_SPECIMEN_BASIS_UNVERIFIED_PRIMARY_LINEAGE"
     return "SOURCE_MODALITY_UNDETERMINED_BY_PUBLIC_METADATA"
 
 def metadata_one(dataset_id,commit):

@@ -1,0 +1,99 @@
+{
+  "version": "v0.1",
+  "status": "POST_760_K_OUTCOMES_FUNCTIONAL_MODULE_EXPLORATORY_AUDIT_FROZEN_BEFORE_NEW_RESULTS",
+  "frozen_on": "2026-10-15",
+  "aim": "Does the biological reproductive-versus-vegetative organ grouping describe higher phylogenetic K across plant families on identical species/tips, and can it predict held-out plant family trait-ordering without peeking at that family's K?",
+  "provenance": {
+    "matched_tip_run": 38674635870,
+    "original_support_run": 38673955087,
+    "observed_K_run": 37725935020,
+    "source_ou_run": 37785257795,
+    "discovery_status": "All original K, 760 matched-tip K and their focal-trait profile outcomes were observed before selecting this broad functional module interpretation; this is exploratory model-adequacy and predictive generalization, NOT prospective discovery."
+  },
+  "fixed_organ_classes": {
+    "reproductive": [
+      "fruit_height",
+      "fruit_length",
+      "fruit_width",
+      "seed_dry_mass",
+      "seed_length",
+      "seed_width"
+    ],
+    "vegetative": [
+      "leaf_area",
+      "leaf_length",
+      "leaf_mass_per_area",
+      "leaf_width",
+      "petiole_length",
+      "plant_height"
+    ],
+    "no_class_overlap": true,
+    "seed_height": "Not in 249-system original K-blind source-calibratable subgraph; never added"
+  },
+  "matched_tip": {
+    "original_pairs": 760,
+    "S3_expected": 760,
+    "prune_expected": 747,
+    "shared_exact_species_and_tree": true,
+    "family_independence_unit": 42,
+    "reproductive_vegetative_comparison": "For every supported family×pair where exactly one trait is reproductive, record 1 if reproductive K>vegetative K, else 0. Pair types and family rows remain dependent.",
+    "all_36_cross_module_pair_types_included": true,
+    "family_cluster_bootstrap_draws": 5000,
+    "bootstrap_seed": 20261015,
+    "summarize": [
+      "pair-weighted reproductive K higher proportion; family resampling 95% CI",
+      "equal-family mean proportion; family resampling 95% CI",
+      "all 36 cross-module pair-types equal-weight, and descriptive >=5-family pair type rate",
+      "only fruits versus vegetative, only seeds versus vegetative, excluding seed_dry_mass, excluding leaf_area, leave-one-named-trait-out min/max",
+      "joint S3/prune axis agreement where both available"
+    ]
+  },
+  "predictive_models": {
+    "validation": "Leave ONE WHOLE plant family out, fit entirely on all OTHER families; score held-out family rows. Never train on any K outcome in the held-out family.",
+    "baseline": "Smoothed pooled other-family positive lexical-order rate, (n_positive+1)/(n+2). Inherently a label-order baseline, not a biological causal null.",
+    "module": "Fixed biological module contrast +1 if trait A reproductive and B vegetative, -1 if reversed, 0 if same module; sklearn ridge logistic regression C=1.0, no intercept, fixed solver lbfgs, no hyperparameter tuning.",
+    "named_trait": "12-trait Bradley-Terry-style logistic features +1 for trait A, -1 for trait B, ridge logistic C=1.0, no intercept; a family-agnostic transitive prior across PAIR-SPECIFIC taxon cohorts, not proof of a universal shared-species 12-trait hierarchy.",
+    "saturated_pair": "Same named-trait pair positive-rank direction in OTHER families, Laplace-smoothed (positives+1)/(training families+2), defaults to 0.5 for a pair not observed in any other family.",
+    "accurate_scores": [
+      "Brier loss",
+      "binary log loss",
+      "hard sign accuracy with 0.5 credit for ties"
+    ],
+    "score_slices": [
+      "all 760/747 supported rows",
+      "named pair types with >=5 supported families"
+    ],
+    "Brier_lower_better": true,
+    "bootstrap_42_families": 5000,
+    "training_only_baseline_source_no_measurement_leakage": true
+  },
+  "original_source_OU_process_null": {
+    "aim": "Different null question on the ORIGINAL separate-tip 249 system K graph, not the matched-tip graph: Does homogeneous OU plus fixed K-blind source-associated observational noise predict how often reproductive morphology outranks vegetative morphology?",
+    "graph": {
+      "systems": 249,
+      "families": 42,
+      "traits": 12
+    },
+    "conditions": [
+      "2 source-variation models",
+      "3 homogeneous OU strengths c=.25,1,4",
+      "S3 and prune"
+    ],
+    "replicates_per_condition": 256,
+    "statistics": [
+      "pair-weighted cross-module reproductive-higher fraction on original separate tip source K",
+      "equal-family reproductive-higher fraction over families with at least one cross-module comparison"
+    ],
+    "simulated_tail": "Conditional posterior-predictive descriptive Monte Carlo (1 + #sim>=observed)/257 and q2.5/q97.5; module label grouping selected post-outcome and multiple correlated scenarios must NOT be treated as independent confirmations.",
+    "not_same_tip": "Do not directly compare the original-separate-taxon OU null distribution to the matched-taxon observed module percentage; compare each null only to its exact observed original 249-graph counterpart."
+  },
+  "hard_nonclaims": [
+    "This entire module hypothesis was articulated after seeing named-trait hierarchy and 760 pairwise results. No preregistered confirmatory p-value can be claimed.",
+    "Phenological/developmental evolutionary constraints, species-specific OU alpha and natural selection are not identified by Blomberg K or class contrasts.",
+    "Matched identical taxa/trees do not equalize observation quality, source provenance, measurement protocols or phylogenetic trait covariance.",
+    "Multinomial correlations among within-family and pair-specific observations require family-clustered uncertainty; source datasets can span multiple plant families.",
+    "A common module is a predictor of K on the retained sampling graph, not proof of one universal K ordering on a common 12-trait taxon set.",
+    "Source OU process null may be misspecified and uses original separate taxon supports; even a poor module posterior-predictive fit does not imply adaptive/selection mechanism.",
+    "No independent TRY v7 primary measurement dataset has passed provenance checks; do not reopen closed BIEN 201-system rho analysis."
+  ]
+}

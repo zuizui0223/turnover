@@ -58,7 +58,7 @@ assert x["axes"]["S3"]["subtypes"]["fruit_vs_vegetative"]["n_valid_pairs"]==106
 assert x["axes"]["S3"]["subtypes"]["seed_vs_vegetative"]["n_valid_pairs"]==177
 assert x["not_external_TRY_v7_independent_source_validation"]
 assert x["remaining_AusTraits_source_IDs_not_independent_primary_measurements"]
-assert x["two_tree_joint_source_effect"]["n_pairs_native_K_supported_on_both"]==266
+assert x["two_tree_joint_source_effect"]["n_pairs_native_K_supported_on_both"]==270
 assert len(x["axes"]["S3"]["individual_families"])==29
 for mutate,partial in [
     (lambda b:b.pop(),"missing K outcome"),

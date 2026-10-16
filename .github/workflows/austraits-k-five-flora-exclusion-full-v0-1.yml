@@ -6,6 +6,11 @@ on:
       - analysis/brownian-process-null-v0-1
     paths:
       - '.github/workflows/austraits-k-five-flora-exclusion-full-v0-1.yml'
+      - 'scripts/analysis/aggregate_austraits_k_five_flora_exclusion_v0_1.py'
+      - 'tests/test_austraits_k_five_flora_exclusion_aggregate_v0_1.py'
+      - 'scripts/analysis/run_austraits_k_five_flora_exclusion_batch_v0_1.py'
+      - 'scripts/analysis/fit_austraits_k_five_flora_exclusion_pairs_v0_1.R'
+      - 'data/austraits_k_exclude_five_electronic_floras_support_v0_1.json'
   workflow_dispatch:
 
 permissions:

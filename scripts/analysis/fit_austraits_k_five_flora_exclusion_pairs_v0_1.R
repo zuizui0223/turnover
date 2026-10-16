@@ -80,7 +80,7 @@ compute_pair<-function(entry){
              family=fam,trait_A=trA,trait_B=trB,
              system_A=entry$system_A,system_B=entry$system_B,
              n_initial_nonflora_positive_median_species=as.integer(entry$n_initial_nonflora_positive_median_species),
-             n_nonflora_positive_species=as.integer(entry$n_pair_native_positive_source_median),
+             n_nonflora_positive_species=as.integer(entry$n_nonflora_positive_species),
              n_lost_after_source_median=as.integer(entry$n_lost_after_source_median))
   if((trA%in%REPRESENTED)==(trB%in%REPRESENTED))
     stop("only original cross-organ biological K pairs allowed")
@@ -88,11 +88,11 @@ compute_pair<-function(entry){
     if(entry$status!="HOLD_NONFLORA_NATIVE_MEDIANS_BELOW_20_AFTER_FLORA_EXCLUSION")
       stop("unknown original K-blind source eligibility status")
     return(c(base,list(axes=list(
-      S3=list(status="HOLD_NONFLORA_NATIVE_MEDIANS_BELOW_20_AFTER_FLORA_EXCLUSION",n_tips=entry$n_pair_native_positive_source_median),
-      prune_only=list(status="HOLD_NONFLORA_NATIVE_MEDIANS_BELOW_20_AFTER_FLORA_EXCLUSION",n_tips=entry$n_pair_native_positive_source_median)))))
+      S3=list(status="HOLD_NONFLORA_NATIVE_MEDIANS_BELOW_20_AFTER_FLORA_EXCLUSION",n_tips=entry$n_nonflora_positive_species),
+      prune_only=list(status="HOLD_NONFLORA_NATIVE_MEDIANS_BELOW_20_AFTER_FLORA_EXCLUSION",n_tips=entry$n_nonflora_positive_species)))))
   }
   sp<-read.csv(entry$state_table,stringsAsFactors=FALSE,check.names=FALSE)
-  expected_n<-as.integer(entry$n_pair_native_positive_source_median)
+  expected_n<-as.integer(entry$n_nonflora_positive_species)
   if(nrow(sp)!=expected_n||expected_n<20L||
      any(sp$family!=fam)||anyDuplicated(sp$species)||
      any(!is.finite(as.matrix(sp[,c("all_A","all_B","source_A","source_B")]))))

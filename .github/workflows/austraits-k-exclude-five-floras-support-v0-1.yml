@@ -1,0 +1,89 @@
+name: AusTraits K five-flora exclusion source support v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-exclude-five-floras-support-v0-1.yml'
+      - 'data/austraits_k_exclude_five_electronic_floras_support_v0_1.json'
+      - 'scripts/source/audit_austraits_k_exclude_five_floras_support_v0_1.py'
+      - 'tests/test_austraits_k_exclude_five_floras_support_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source_only_no_floras:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas duckdb pyyaml
+      - name: Recover pinned 254 original K system labels, 760 source-blind trait-pair support and original species counts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/support build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+            -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+            -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+          test -f build/support/shared_taxon_pair_support.json
+      - name: Verify frozen original 41.5 MB source-native measurement compilation
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Synthetic exact K-blind source graph and five e-flora removal correctness tests
+        run: |
+          python -m py_compile scripts/source/audit_austraits_k_exclude_five_floras_support_v0_1.py
+          python tests/test_austraits_k_exclude_five_floras_support_v0_1.py \
+            --observed-K build/K/effects.csv \
+            --core build/core/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --original-pairs build/support/shared_taxon_pair_support.json \
+            --original-source-design data/austraits_k_cross_trait_shared_dataset_support_v0_1.json \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json
+      - name: Recalculate source-native K-eligible species support across all 760 fixed pairs after excluding five electronic floras
+        run: |
+          python scripts/source/audit_austraits_k_exclude_five_floras_support_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --observed-K build/K/effects.csv \
+            --core build/core/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --original-pairs build/support/shared_taxon_pair_support.json \
+            --original-source-design data/austraits_k_cross_trait_shared_dataset_support_v0_1.json \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json \
+            --out build/result/source_support_excluding_five_floras.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/result/source_support_excluding_five_floras.json'))
+          assert x['status']=='AUSTRAITS_K_FIVE_FLORA_EXCLUSION_SOURCE_SUPPORT_AUDITED'
+          assert x['original_graph']=={'systems':254,'families':42,'traits':13}
+          assert x['original_species_system_cells']==66330
+          assert x['original_pairs']==760
+          assert x['original_cross_organ_pairs']==406
+          assert x['K_blind_source_eligibility_frozen_before_this_support_result']
+          assert not x['same_nonflora_dataset_id_not_independent_original_measurements']==False
+          assert x['no_K_effect_values_accessed_or_recomputed']
+          assert x['no_species_measurement_values_or_original_record_ids_exported']
+          print('PASS: original nonflora source-only 760 K pair support; no biological outcome opened')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-five-flora-exclusion-support-v0-1
+          path: build/result/source_support_excluding_five_floras.json
+          retention-days: 30

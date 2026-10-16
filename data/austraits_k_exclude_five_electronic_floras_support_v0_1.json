@@ -78,7 +78,10 @@
     ],
     "important_estimand": "Change in paired logK organ difference caused by five-flora source value substitution on identical species/tips/tree; do NOT compare full original-tip K to restricted-tip K as a pure source effect.",
     "source_only_eligibility_must_be_frozen_prior_to_K": true,
-    "family_bootstrap_draws": 5000
+    "family_bootstrap_draws": 5000,
+    "family_bootstrap_seed": 20261016,
+    "paired_source_analysis_within_original_AusTraits_only": true,
+    "note": "New bootstrap random seed added for reproducibility before any new five-flora-excluded K result was visible; source-only eligibility and five original flora IDs remain unchanged."
   },
   "hard_nonclaims": [
     "All prospective-on-new-data replication gates for TRY v7 remain unchanged and unmet.",

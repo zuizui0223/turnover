@@ -87,10 +87,10 @@ def calculate(source,original,design,batches):
                     raise ValueError("invalid pinned five-flora-excluded species or tree HOLD label")
             seen[key]=row
     if set(seen)!=set(original_index):
-        raise ValueError(f"missing K outcome for frozen 283 common-dataset source-eligible pairs: {len(seen)}/283")
-    B=design["reporting"]["family_cluster_bootstrap_draws"]
-    seed=design["reporting"]["seed"]
-    if B!=5000 or seed!=20261015:raise ValueError("family bootstrap config was mutated")
+        raise ValueError(f"missing K outcome for frozen 283 five-flora-excluded source-eligible pairs: {len(seen)}/283")
+    B=design["downstream_if_qualified"]["family_bootstrap_draws"]
+    seed=design["downstream_if_qualified"]["family_bootstrap_seed"]
+    if B!=5000 or seed!=20261016:raise ValueError("family bootstrap config was mutated")
     result={"version":"v0.1","status":STATUS,
        "original_source_blind_pair_universe":760,
        "original_cross_organ_pairs":406,
@@ -102,7 +102,7 @@ def calculate(source,original,design,batches):
        "axes":{},
        "hard_nonclaims":[
           "Source-composition-only effects are estimated on the same native taxon tips and tree WITHIN each source-qualified pair. Family/trait pair membership was already selected by source availability before K re-estimation.",
-          "A excluded-flora source medians_id may contain compiled datasets and distinct protocols; it is not guaranteed to identify a shared physical specimen or independent primary origin.",
+          "Excluding five electronic flora dataset IDs does not certify the remaining observations as primary or independent specimens; monographs and compiled trait archives can remain.",
           "Source-qualified subset selection and differential trait measurement protocols can themselves bias direction; family/bootstrap intervals are descriptive within AusTraits.",
           "Original post-outcome organ grouping has no external independent empirical validation and cannot identify evolutionary selection or alpha.",
           "The signed pair sets are not a global 12-trait ranking. Closed BIEN rho study not reopened."]}
@@ -123,23 +123,24 @@ def calculate(source,original,design,batches):
             ds=sign*float(d["delta_source"])
             scored.append({
               "family":row["family"],"trait_A":row["trait_A"],"trait_B":row["trait_B"],
-              "n_same_source_species":row["n_nonflora_positive_species"],
+              "n_nonflora_species":row["n_nonflora_positive_species"],
               "n_native_tree_tips":int(d["n_tips"]),
-              "delta_full":df,"delta_shared_dataset":ds,"delta_measurement_only":ds-df,
+              "delta_full":df,"delta_five_flora_removed":ds,"delta_measurement_only":ds-df,
               "reproductive_K_higher_full_medians":int(df>0),
               "reproductive_K_higher_nonflora_medians":int(ds>0),
               "sign_reversal_due_to_measurement_source":int(df*ds<0),
               "subtype":"seed_vs_vegetative" if row["trait_A"].startswith("seed_") or row["trait_B"].startswith("seed_") else "fruit_vs_vegetative"
             })
         if len(scored)+len(holds)!=283:raise ValueError("source K all prequalified pairs not adjudicated")
-        min_families=design["eligibility_and_stop"]["minimum_independent_families_for_pooled_cross_organ_summary"]
-        min_sub=design["eligibility_and_stop"]["minimum_families_fruit_and_seed_separately"]
+        min_families=design["descriptive_support_gates"]["minimum_cross_organ_families_for_exploratory_reestimated_K"]
+        min_fruit=design["descriptive_support_gates"]["minimum_fruit_vs_vegetative_families"]
+        min_seed=design["descriptive_support_gates"]["minimum_seed_vs_vegetative_families"]
         families={x["family"] for x in scored}
         fruit=[x for x in scored if x["subtype"]=="fruit_vs_vegetative"]
         seedonly=[x for x in scored if x["subtype"]=="seed_vs_vegetative"]
         supported=(len(families)>=min_families and
-           len({x["family"] for x in fruit})>=min_sub and
-           len({x["family"] for x in seedonly})>=min_sub)
+           len({x["family"] for x in fruit})>=min_fruit and
+           len({x["family"] for x in seedonly})>=min_seed)
         summary={
            "n_preK_nonflora_qualified_pairs":283,
            "n_valid_real_tree_K_pairs":len(scored),
@@ -182,7 +183,7 @@ def calculate(source,original,design,batches):
                "n_reproductive_win_full_source":sum(x["reproductive_K_higher_full_medians"] for x in xs),
                "n_reproductive_win_nonflora":sum(x["reproductive_K_higher_nonflora_medians"] for x in xs),
                "n_measurement_only_sign_flips":sum(x["sign_reversal_due_to_measurement_source"] for x in xs),
-               "min_nonflora_species":min(x["n_same_source_species"] for x in xs)}
+               "min_nonflora_species":min(x["n_nonflora_species"] for x in xs)}
         result["axes"][axis]=summary
     # On both tree axes where full/restricted-source K is successfully
     # identified; check whether the five-flora-excluded organ winner agrees.
@@ -220,7 +221,7 @@ def main():
     args.out.write_text(json.dumps(result,indent=2,sort_keys=True,allow_nan=False)+"\n")
     print(json.dumps({axis:{
       "n":result["axes"][axis]["n_valid_real_tree_K_pairs"],
-      "matched_dataset_reproductive_rate":result["axes"][axis]["nonflora_source_same_tips"]["pair_weighted_rate"],
+      "nonflora_reproductive_rate":result["axes"][axis]["nonflora_source_same_tips"]["pair_weighted_rate"],
       "full_source_reproductive_rate":result["axes"][axis]["full_sources_same_tips"]["pair_weighted_rate"],
       "sign_flips":result["axes"][axis]["n_five_flora_source_removal_sign_flips"]}
       for axis in ("S3","prune_only")},indent=2))

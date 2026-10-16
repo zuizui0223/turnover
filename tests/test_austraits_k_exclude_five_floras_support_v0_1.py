@@ -22,7 +22,7 @@ d=json.loads(a.design.read_text())
 original=json.loads(a.__dict__["original_pairs"].read_text())
 src_d=json.loads(a.__dict__["original_source_design"].read_text())
 excluded=check_design(d)
-cand,systems,pairs,expected,repro,veg=read_inputs(
+cand,pairs,_source_pair_ref,expected,repro,veg=read_inputs(
     a.__dict__["observed_K"],a.core,a.__dict__["traits_yml"],original,src_d)
 assert len(cand)==254 and len(pairs)==760
 assert (len(expected),len(repro),len(veg))==(254,6,6)

@@ -52,7 +52,7 @@ assert len(B)==16
 x=calculate(source,original,design,B)
 assert x["status"]==STATUS and x["nonflora_supported_before_K_pairs"]==283
 assert x["axes"]["S3"]["n_valid_real_tree_K_pairs"]==283
-assert x["axes"]["prune_only"]["n_valid_real_tree_K_pairs"]==266
+assert x["axes"]["prune_only"]["n_valid_real_tree_K_pairs"]==270  # 283 original pairs minus 13 synthetic native-prune holds
 assert x["axes"]["S3"]["nonflora_source_same_tips"]["n_distinct_plant_families"]==29
 assert x["axes"]["S3"]["subtypes"]["fruit_vs_vegetative"]["n_valid_pairs"]==106
 assert x["axes"]["S3"]["subtypes"]["seed_vs_vegetative"]["n_valid_pairs"]==177

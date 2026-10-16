@@ -272,7 +272,7 @@ def main():
     cfg=json.loads(a.__dict__["original_source_design"].read_text())
     design=json.loads(a.design.read_text())
     excluded=check_design(design)
-    candidates,systems,pairs,original_sys,rep,veg=read_inputs(
+    candidates,pairs,_source_pair_ref,original_sys,rep,veg=read_inputs(
        a.__dict__["observed_K"],a.core,a.__dict__["traits_yml"],original,cfg)
     orig,no,rows=source_only_counts(a.parquet,candidates,pairs,excluded)
     result=adjudicate(orig,no,rows,original_sys,pairs,rep,veg,design)

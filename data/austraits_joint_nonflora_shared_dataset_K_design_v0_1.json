@@ -79,5 +79,16 @@
     "After reporting source-only joint restriction, no more discovery-generated positive biological subgroup analyses on the same AusTraits K phenotype archive; move to figures/manuscript and independent primary measurements.",
     "Do not interpret K as an evolutionary rate, stabilizing selection, alpha or intrinsic trait-specific memory coefficient.",
     "No automated re-opening of closed BIEN 201-system rho and no claim that TRY version 7 primary source independence has been established."
-  ]
+  ],
+  "bootstrap": {
+    "resample_unit": "whole original plant family",
+    "draws": 5000,
+    "seed": 20261017
+  },
+  "expected_fixed_source_only_trait_class_support": {
+    "source_qualified_pairs": 142,
+    "families": 24,
+    "fruit_vegetative_pairs": 43,
+    "seed_vegetative_pairs": 99
+  }
 }

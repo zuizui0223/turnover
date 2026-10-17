@@ -1,0 +1,38 @@
+name: AusTraits shared-OU scientific pipeline preflight v0.1
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-shared-ou-analysis-preflight-v0-1.yml'
+      - 'scripts/analysis/aggregate_austraits_k_ou_time_reference_v0_1.py'
+      - 'scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py'
+      - 'scripts/analysis/fit_austraits_k_shared_ou_family_v0_1.R'
+      - 'scripts/analysis/interpret_austraits_k_shared_ou_v0_1.py'
+      - 'tests/test_austraits_shared_ou_analysis_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Compile Python and exercise complete synthetic metric pipeline
+        run: |
+          python -m py_compile scripts/analysis/aggregate_austraits_k_ou_time_reference_v0_1.py \
+            scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py \
+            scripts/analysis/interpret_austraits_k_shared_ou_v0_1.py \
+            tests/test_austraits_shared_ou_analysis_v0_1.py
+          python tests/test_austraits_shared_ou_analysis_v0_1.py
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Parse scientific R system estimator and full-null REML scripts
+        run: |
+          Rscript -e "parse(file='scripts/analysis/run_austraits_k_shared_ou_system_v0_1.R'); parse(file='scripts/analysis/fit_austraits_k_shared_ou_family_v0_1.R')"

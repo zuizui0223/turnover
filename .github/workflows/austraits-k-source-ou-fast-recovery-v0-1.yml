@@ -1,0 +1,151 @@
+name: AusTraits source-OU parity-checked fast recovery v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-source-ou-fast-recovery-v0-1.yml'
+      - 'scripts/analysis/aggregate_austraits_k_source_noise_ou_fast_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# No new simulations, parameters, source selections or scientific decisions.
+# The 16 archived original 249-system OU+source draws are immutable inputs.
+jobs:
+  aggregate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Recover all fixed simulation and K-blind source calibration artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/all build/source build/time build/K build/results build/tables
+          for i in $(seq -w 1 16); do
+            gh run download 37785257795 -R "$GITHUB_REPOSITORY" -n "austraits-source-ou-sim-B${i}" -D build/all
+          done
+          gh run download 37784017236 -R "$GITHUB_REPOSITORY" -n austraits-k-cross-source-dispersion-v0-1 -D build/source
+          gh run download 37754329843 -R "$GITHUB_REPOSITORY" -n austraits-ou-time-reference-v0-1 -D build/time
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test "$(find build/all -maxdepth 1 -name '*.json' | wc -l)" -eq 249
+      - name: Prove metric parity and aggregate frozen full graph from immutable draws
+        run: |
+          python -m py_compile scripts/analysis/aggregate_austraits_k_source_noise_ou_fast_v0_1.py
+          python scripts/analysis/aggregate_austraits_k_source_noise_ou_fast_v0_1.py \
+            --input-dir build/all \
+            --observed-K build/K/effects.csv \
+            --source-calibration build/source/source_dispersion.json \
+            --time-reference build/time/time_reference.json \
+            --design data/austraits_k_source_dispersion_ou_null_design_v0_1.json \
+            --out build/results/metric_null.json \
+            --tables-dir build/tables
+          python - <<'PY'
+          import json,math,os
+          x=json.load(open('build/results/metric_null.json'))
+          assert x['status']=='AUSTRAITS_K_SOURCE_NOISE_OU_METRIC_NULL_ESTIMATED'
+          assert x['observed_graph']=={'systems':249,'families':42,'traits':12}
+          assert x['replicates']==256
+          assert set(x['models'])=={'trait_global','system_local'}
+          for m in x['models']:
+              assert set(x['models'][m])=={'c0p25','c1','c4'}
+              for s in x['models'][m]:
+                  for axis in ('S3','prune_only'):
+                      a=x['models'][m][s]['axes'][axis]
+                      assert math.isfinite(a['observed']['rank_gain'])
+                      assert math.isfinite(a['null']['rank_gain']['q975'])
+          print('PASS: fixed independent OU+source model, 249 K systems, all six scenarios')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-source-ou-fast-metric-v0-1
+          path: |
+            build/results/metric_null.json
+            build/tables/
+          retention-days: 30
+
+  family_null:
+    needs: aggregate
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {model: trait_global, scenario: c0p25, axis: S3}
+          - {model: trait_global, scenario: c0p25, axis: prune_only}
+          - {model: trait_global, scenario: c1, axis: S3}
+          - {model: trait_global, scenario: c1, axis: prune_only}
+          - {model: trait_global, scenario: c4, axis: S3}
+          - {model: trait_global, scenario: c4, axis: prune_only}
+          - {model: system_local, scenario: c0p25, axis: S3}
+          - {model: system_local, scenario: c0p25, axis: prune_only}
+          - {model: system_local, scenario: c1, axis: S3}
+          - {model: system_local, scenario: c1, axis: prune_only}
+          - {model: system_local, scenario: c4, axis: S3}
+          - {model: system_local, scenario: c4, axis: prune_only}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-source-ou-fast-metric-v0-1
+          path: build/data
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit unchanged 249-system conditional family ICC to full 256 replicate nulls
+        run: |
+          mkdir -p build/family
+          Rscript scripts/analysis/fit_austraits_k_source_noise_ou_family_v0_1.R \
+            --observed-K build/data/tables/observed_subset.csv \
+            --null-table build/data/tables/null_effects_${{ matrix.model }}_${{ matrix.scenario }}.csv \
+            --model ${{ matrix.model }} --scenario ${{ matrix.scenario }} \
+            --axis ${{ matrix.axis }} \
+            --out build/family/result_${{ matrix.model }}_${{ matrix.scenario }}_${{ matrix.axis }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-source-ou-fast-family-${{ matrix.model }}-${{ matrix.scenario }}-${{ matrix.axis }}
+          path: build/family/*.json
+          retention-days: 30
+
+  interpret:
+    needs: family_null
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-source-ou-fast-metric-v0-1
+          path: build/data
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-source-ou-fast-family-*
+          path: build/family
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Apply original fixed post-K/OU source-noise decision unchanged
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/interpret_austraits_k_source_noise_ou_v0_1.py \
+            --metrics build/data/results/metric_null.json \
+            --family-dir build/family \
+            --design data/austraits_k_source_dispersion_ou_null_design_v0_1.json \
+            --out build/result/verdict.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-source-ou-fast-final-verdict-v0-1
+          path: build/result/verdict.json
+          retention-days: 30

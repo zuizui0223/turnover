@@ -1,0 +1,35 @@
+{
+  "version": "v0.1",
+  "status": "POST_RHO_K_OUTCOME_BUT_PRE_REAL_TREE_BM_NULL_INTERPRETATION",
+  "frozen_date": "2026-10-08",
+  "source_run": "37746671909",
+  "comparator_run": "37725935020",
+  "fixed_graph": {
+    "systems": 254,
+    "families": 42,
+    "traits": 13
+  },
+  "null_replicates": 64,
+  "primary_axis": "prune_logK",
+  "sensitivity_axis": "S3_logK",
+  "primary_process_null": "independent Brownian trajectories on exact observed system trees with all families and traits sharing identical sigma2",
+  "comparisons": {
+    "family_repeatability": "Observed log(K) family conditional repeatability versus the null distribution of the identical REML fit, one-sided high",
+    "rank_portability": "Observed LOFO within-family K rank prediction SSE gain versus the matched Brownian-null distribution, one-sided high",
+    "absolute_portability": "Observed held-out-family log(K) absolute prediction gain versus the matched Brownian-null distribution, one-sided high",
+    "reversal": "Observed weighted pair-order reversal versus null distribution, two-sided; 50% itself is not evidence for adaptive rewiring"
+  },
+  "outcome_categories": {
+    "strong": "Observed rank portability AND conditional family repeatability exceed their individual 97.5% null quantiles on BOTH prune and S3. Label as beyond identical-BM null on these K metrics; no causal ecology claim.",
+    "partial": "At least one metric exceeds its null 97.5% bound but strong condition is not met; report which axis/metric and source graph support it.",
+    "not_supported": "No rank-portability or family repeatability metric exceeds its null 97.5% bound. Retain descriptive estimator differences, do not claim process heterogeneity.",
+    "insufficient": "Missing or invalid fixed graph, unmatched K calculations, <61/64 family-null valid replicates, or incomplete K-null data; no scientific verdict."
+  },
+  "multiple_testing_caution": "These contrasts are post-outcome exploratory; quantile thresholds are descriptive calibration markers, not a preregistered family-wise error guarantee.",
+  "limits": [
+    "A Brownian-null exceedance may arise from non-Brownian processes, unmodeled trait covariance, measurement error or data-source artifacts rather than adaptive reallocation.",
+    "Same-rate Brownian null is one reference process and not evidence of all alternative processes being excluded.",
+    "No refit, source filter or metric change after inspecting process-null results.",
+    "Do not treat observed 40-50% reversal as by itself a discovery."
+  ]
+}

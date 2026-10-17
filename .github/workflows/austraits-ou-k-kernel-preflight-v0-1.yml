@@ -1,0 +1,29 @@
+name: AusTraits shared-OU K kernel preflight v0.1
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-ou-k-kernel-preflight-v0-1.yml'
+      - 'scripts/analysis/austraits_ou_k_kernel_v0_1.cpp'
+      - 'tests/test_austraits_ou_k_kernel_v0_1.R'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::phytools
+            any::Rcpp
+      - name: Verify C++ K identity and OU simulation on synthetic tree
+        run: Rscript tests/test_austraits_ou_k_kernel_v0_1.R

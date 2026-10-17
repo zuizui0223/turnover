@@ -1,0 +1,94 @@
+{
+  "version": "v0.1",
+  "status": "POST_AUSTRAITS_K_DISCOVERY_AND_FIVE_FLORA_K_PRE_JOINT_SOURCE_K_RESULTS_FROZEN",
+  "frozen_date": "2026-10-17",
+  "rationale": "The 283-pair five electronic-flora exclusion leaves organ datasets from different original source archives. A source-only K-blind 760-pair eligibility audit had already identified 142 of these organ pairs in 24 families with >=20 original-eligible species observed in identical remaining (non-flora) AusTraits dataset IDs.",
+  "independent_eligibility": {
+    "original_common_tip_support_workflow": 38673955087,
+    "five_flora_source_only_support_workflow": 38920414545,
+    "original_K_reestimation_workflow": 38922133371,
+    "original_systems": 254,
+    "original_named_traits": 12,
+    "original_source_K_blind_eligible_pairs": 760,
+    "original_cross_organ_pairs": 406,
+    "five_flora_removed_pairs_with_20_shared_native_species": 283,
+    "exact_common_nonflora_DatasetID_pairs_with_20_species": 142,
+    "independent_plant_family_clusters": 24,
+    "original_AusTraits_release": "v7.0.0",
+    "original_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "pinned_native_unit_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "original_phylogenetic_tree_maker_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+  },
+  "excluded_original_AusTraits_DatasetIDs": [
+    "ABRS_2023",
+    "NHNSW_2023",
+    "RBGV_2023",
+    "NTH_2023",
+    "SAH_2023"
+  ],
+  "organ_classes": {
+    "reproductive": [
+      "fruit_height",
+      "fruit_length",
+      "fruit_width",
+      "seed_dry_mass",
+      "seed_length",
+      "seed_width"
+    ],
+    "vegetative": [
+      "leaf_area",
+      "leaf_length",
+      "leaf_mass_per_area",
+      "leaf_width",
+      "petiole_length",
+      "plant_height"
+    ]
+  },
+  "species_and_dataset_rules": [
+    "Original frozen positive and finite source-native K-eligible median species, unique genus, native original unit and original independent measurement observation keys exactly retained.",
+    "Build positive native-unit median using ONLY nonflora original DatasetIDs on original eligible species, retain only positive medians for both compared organs.",
+    "For those same species, find identical nonflora DatasetID with at least one finite positive native-unit observation of EACH trait; retain only the 142 family×organ pairs from K-blind support with >=20 species.",
+    "For each paired species calculate 2 organ states under ALL surviving nonflora DatasetIDs (not shared by traits required) and 2 organ states from ONLY DatasetIDs shared by both organ traits on that SAME species.",
+    "Both source arms use precisely identical species tips and a single source-pair-specific V.PhyloMaker2 S3 tree; separately on exactly same original GBOTB native prune-only tree with >=20 original tips.",
+    "If common nonflora dataset medians are nonpositive for a species, exclude it identically from both source arms; a family×pair with fewer than 20 valid tips gets HOLD, never swapped for a favorable pair.",
+    "A shared remaining DatasetID may include multiple original primary studies; original IDs are not identical primary measurements nor genuine source independence."
+  ],
+  "estimands": {
+    "primary": "The pair-weighted and family-equal fraction of comparisons where K_reproductive>K_vegetative using ONLY source medians from the same remaining nonflora DatasetIDs on identical species and trees, separate S3/prune.",
+    "paired_source_shift": "Reproductive−vegetative ΔlogK(common nonflora DatasetID) minus ΔlogK(all surviving nonflora DatasetIDs) on the identical source-selected species and native tree.",
+    "sensitivity": [
+      "Number of source-only K sign inversions on same tips/tree",
+      "Separate fruit-vs-vegetative and seed-vs-vegetative direction",
+      "Exclude seed_dry_mass (Kew SID secondary source concern)",
+      "S3 and prune joint sign consistency and holds",
+      "Whole-family bootstrap 5000 replicates with deterministic seed 20261017",
+      "Family-specific positive and opposing source-qualified case descriptions"
+    ],
+    "no_original_K_or_ou_refit": true
+  },
+  "decision_boundary": {
+    "min_source_qualified_families_for_pooled_exploratory_reporting": 10,
+    "min_fruit_vs_vegetative_families": 5,
+    "min_seed_vs_vegetative_families": 5,
+    "no_eligibility_relaxation_after_observed_K": true,
+    "if_unmet": "HOLD_JOINT_NONFLORA_SOURCE_MEASUREMENT_SCOPE_TOO_SMALL",
+    "independent_replication_status": "THIS IS WITHIN ORIGINAL AUSTRAITS NOT INDEPENDENT"
+  },
+  "scientific_stop_rule": [
+    "This is explicitly a final joint source/taxon sensitivity after seeing all original organ results. The source eligibility was fixed without using new K outcomes, but organ class and the five Flora IDs arose after original K outcomes.",
+    "After reporting source-only joint restriction, no more discovery-generated positive biological subgroup analyses on the same AusTraits K phenotype archive; move to figures/manuscript and independent primary measurements.",
+    "Do not interpret K as an evolutionary rate, stabilizing selection, alpha or intrinsic trait-specific memory coefficient.",
+    "No automated re-opening of closed BIEN 201-system rho and no claim that TRY version 7 primary source independence has been established."
+  ],
+  "bootstrap": {
+    "resample_unit": "whole original plant family",
+    "draws": 5000,
+    "seed": 20261017
+  },
+  "expected_fixed_source_only_trait_class_support": {
+    "source_qualified_pairs": 142,
+    "families": 24,
+    "fruit_vegetative_pairs": 43,
+    "seed_vegetative_pairs": 99
+  }
+}

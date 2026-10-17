@@ -1,0 +1,87 @@
+name: TRY AusTraits Kew SID named source lineage exposure v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/try-austraits-kew-sid-lineage-exposure-v0-1.yml'
+      - 'data/try_austraits_kew_sid_lineage_exposure_v0_1.json'
+      - 'scripts/source/audit_try_austraits_kew_sid_exposure_v0_1.py'
+      - 'tests/test_try_austraits_kew_sid_exposure_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source_lineage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml
+      - name: Prove no-K / no-TRY-v7 source lineage invariants
+        run: |
+          python -m py_compile scripts/source/audit_try_austraits_kew_sid_exposure_v0_1.py
+          python tests/test_try_austraits_kew_sid_exposure_v0_1.py
+      - name: Recover original K graph, pinned historical TRY directory and verified original study candidates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/try build/study build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+             -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+             -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38107630927 -R "$GITHUB_REPOSITORY" \
+             -n try-public-v6-austraits-source-metadata-v0-1 -D build/try
+          gh run download 38403020753 -R "$GITHUB_REPOSITORY" \
+             -n try-austraits-shared-publication-candidates-v0-1 -D build/study
+          test -f build/try/try_public_directory.csv
+          test -f build/study/strong_publication_candidates.csv
+          test -f build/study/weak_author_only_leads.csv
+          test -f build/K/effects.csv
+          test -f build/core/core/core_systems.csv
+      - name: Verify original AusTraits source compilation and Kew database family definition
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+             -o build/source/austraits.parquet \
+             https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+          curl -L --fail -o build/source/kew_metadata.yml \
+             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/data/Kew_2019_1/metadata.yml
+      - name: Count same-named Kew SID source exposure against original 254-system K species
+        run: |
+          python scripts/source/audit_try_austraits_kew_sid_exposure_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --strong-links build/study/strong_publication_candidates.csv \
+            --weak-leads build/study/weak_author_only_leads.csv \
+            --design data/try_austraits_kew_sid_lineage_exposure_v0_1.json \
+            --try-directory build/try/try_public_directory.csv \
+            --kew-metadata build/source/kew_metadata.yml \
+            --out build/result/kew_sid_exposure.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/result/kew_sid_exposure.json'))
+          assert r['status']=='TRY_AUSTRAITS_KEW_SID_NAMED_SOURCE_FAMILY_EXPOSURE_AUDITED'
+          assert r['graph']=={'systems':254,'families':42,'traits':13}
+          assert r['source_identity']['austraits_original_nested_source_field']=='original_dataset_id'
+          assert r['traits']['seed_dry_mass']['kew_sid_source_species_system_cells']>0
+          assert not r['external_try_v7_independent_validation_qualified']
+          assert not r['K_effects_or_trait_values_exported']
+          print('PASS: original source lineage Kew SID exposed; no record or v7 independent PASS claim')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: try-austraits-kew-sid-original-k-exposure-v0-1
+          path: build/result/kew_sid_exposure.json
+          retention-days: 30

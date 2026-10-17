@@ -1,0 +1,48 @@
+name: AusTraits named-rank external-source metadata gate v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-named-rank-external-source-metadata-v0-1.yml'
+      - 'data/austraits_named_rank_external_source_candidates_v0_1.json'
+      - 'scripts/source/audit_external_named_rank_source_candidates_v0_1.py'
+      - 'tests/test_external_named_rank_source_candidates_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preoutcome_metadata_gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check metadata-only external-source triage and closed discovery
+        run: |
+          python -m py_compile scripts/source/audit_external_named_rank_source_candidates_v0_1.py tests/test_external_named_rank_source_candidates_v0_1.py
+          python tests/test_external_named_rank_source_candidates_v0_1.py
+      - name: Adjudicate source eligibility without downloading trait measurements
+        run: |
+          mkdir -p build/result
+          python scripts/source/audit_external_named_rank_source_candidates_v0_1.py \
+            --candidates data/austraits_named_rank_external_source_candidates_v0_1.json \
+            --out build/result/metadata_triage.json
+          python - <<'PY'
+          import json
+          a=json.load(open('build/result/metadata_triage.json'))
+          assert a['qualified_independent_validation_sources']==0
+          assert a['hard_total_species_ineligible']==2
+          assert a['holds_require_new_source_metadata_or_qualified_raw_input']==1
+          print('PASS: external validation remains gated; K outcomes never opened')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-named-rank-external-source-metadata-v0-1
+          path: build/result/metadata_triage.json
+          retention-days: 30

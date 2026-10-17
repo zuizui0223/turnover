@@ -1,0 +1,252 @@
+name: AusTraits K source-noise exact-tree OU null v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-source-noise-ou-full-v0-1.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+# Precommitted matching: 249 systems, 42 families, 12 traits, seed_height
+# removed from BOTH observed data and simulations by K-blind coverage rule.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas
+      - name: Fetch frozen original 254-system K and exact source support
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - id: matrix
+        name: Freeze immutable 249-system 12-trait batch matrix
+        run: |
+          python - <<'PY'
+          import pandas as pd,os,json,base64
+          k=pd.read_csv('build/K/effects.csv')
+          c=pd.read_csv('build/core/core/core_systems.csv')
+          assert (len(k),k.family.nunique(),k.trait_name.nunique())==(254,42,13)
+          x=k[k.trait_name!='seed_height'].merge(
+              c[['family','trait_name','n_input_species','n_prune','n_bind']],
+              on=['family','trait_name'],validate='one_to_one')
+          assert (len(x),x.family.nunique(),x.trait_name.nunique())==(249,42,12)
+          sys=[]
+          for r in x.itertuples(index=False):
+              sys.append({'system_id':r.system_id,'family':r.family,'trait_name':r.trait_name,
+                'n_input_species':int(r.n_input_species),'n_prune':int(r.n_prune),
+                'n_bind':int(r.n_bind),'_weight':int(r.n_species_S3)**3})
+          bins=[{'weight':0,'systems':[]} for _ in range(16)]
+          for item in sorted(sys,key=lambda z:(-z['_weight'],z['family'],z['trait_name'])):
+              i=min(range(16),key=lambda t:(bins[t]['weight'],t))
+              bins[i]['weight']+=item['_weight']
+              bins[i]['systems'].append({key:item[key] for key in (
+                  'system_id','family','trait_name','n_input_species','n_prune','n_bind')})
+          inc=[]
+          for i,b in enumerate(bins,1):
+              enc=base64.b64encode(json.dumps(b['systems'],separators=(',',':')).encode()).decode()
+              inc.append({'batch_id':f'B{i:02d}','systems_b64':enc,'count':len(b['systems'])})
+          assert sum(p['count'] for p in inc)==249
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          print('PASS: 249 K-native systems, 42 families, 12 traits, 16 batches')
+          PY
+
+  simulate:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::Rcpp
+      - name: Pin source-native exact phylogeny algorithm
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Recover K-blind source ratios, alpha reference and empirical K identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/calibration build/time build/K build/source build/batch build/results build/rcpp-source-cache
+          gh run download 37784017236 -R "$GITHUB_REPOSITORY" -n austraits-k-cross-source-dispersion-v0-1 -D build/calibration
+          gh run download 37754329843 -R "$GITHUB_REPOSITORY" -n austraits-ou-time-reference-v0-1 -D build/time
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Reassemble original source-native species states
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Simulate 3 shared OU attraction strengths by 2 K-blind noise models
+        env:
+          SYSTEMS_B64: ${{ matrix.systems_b64 }}
+          AUSTRAITS_SOURCE_DISPERSION_FILE: build/calibration/source_dispersion.json
+          AUSTRAITS_OU_TREF_FILE: build/time/time_reference.json
+          AUSTRAITS_OU_K_REFERENCE_FILE: build/K/effects.csv
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python - <<'PY'
+          import os,base64
+          open('build/batch/systems.json','wb').write(base64.b64decode(os.environ['SYSTEMS_B64']))
+          PY
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/results \
+            --r-script scripts/analysis/run_austraits_k_source_noise_ou_system_v0_1.R
+          test "$(find build/results -name '*.json' | wc -l)" -eq ${{ matrix.count }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-source-ou-sim-${{ matrix.batch_id }}
+          path: build/results/*.json
+          retention-days: 30
+
+  aggregate:
+    needs: simulate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-source-ou-sim-B*
+          path: build/all
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas numpy scipy
+      - name: Recover fixed source calibration and old reference inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source build/time build/K build/results build/tables
+          gh run download 37784017236 -R "$GITHUB_REPOSITORY" -n austraits-k-cross-source-dispersion-v0-1 -D build/source
+          gh run download 37754329843 -R "$GITHUB_REPOSITORY" -n austraits-ou-time-reference-v0-1 -D build/time
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Aggregate full fixed graph and empirical-versus-null LOFO prediction
+        run: |
+          test "$(find build/all -maxdepth 1 -name '*.json' | wc -l)" -eq 249
+          python scripts/analysis/aggregate_austraits_k_source_noise_ou_v0_1.py \
+            --input-dir build/all \
+            --observed-K build/K/effects.csv \
+            --source-calibration build/source/source_dispersion.json \
+            --time-reference build/time/time_reference.json \
+            --design data/austraits_k_source_dispersion_ou_null_design_v0_1.json \
+            --out build/results/metric_null.json \
+            --tables-dir build/tables
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-source-noise-ou-metric-v0-1
+          path: |
+            build/results/metric_null.json
+            build/tables/
+          retention-days: 30
+
+  family_null:
+    needs: aggregate
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {model: trait_global, scenario: c0p25, axis: S3}
+          - {model: trait_global, scenario: c0p25, axis: prune_only}
+          - {model: trait_global, scenario: c1, axis: S3}
+          - {model: trait_global, scenario: c1, axis: prune_only}
+          - {model: trait_global, scenario: c4, axis: S3}
+          - {model: trait_global, scenario: c4, axis: prune_only}
+          - {model: system_local, scenario: c0p25, axis: S3}
+          - {model: system_local, scenario: c0p25, axis: prune_only}
+          - {model: system_local, scenario: c1, axis: S3}
+          - {model: system_local, scenario: c1, axis: prune_only}
+          - {model: system_local, scenario: c4, axis: S3}
+          - {model: system_local, scenario: c4, axis: prune_only}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-source-noise-ou-metric-v0-1
+          path: build/data
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Fit 256 OU+source-noise family ICC replicates on same 249 systems
+        run: |
+          mkdir -p build/family
+          Rscript scripts/analysis/fit_austraits_k_source_noise_ou_family_v0_1.R \
+            --observed-K build/data/tables/observed_subset.csv \
+            --null-table build/data/tables/null_effects_${{ matrix.model }}_${{ matrix.scenario }}.csv \
+            --model ${{ matrix.model }} --scenario ${{ matrix.scenario }} \
+            --axis ${{ matrix.axis }} \
+            --out build/family/result_${{ matrix.model }}_${{ matrix.scenario }}_${{ matrix.axis }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-source-ou-family-${{ matrix.model }}-${{ matrix.scenario }}-${{ matrix.axis }}
+          path: build/family/*.json
+          retention-days: 30
+
+  interpret:
+    needs: family_null
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-source-noise-ou-metric-v0-1
+          path: build/data
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-source-ou-family-*
+          path: build/family
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Apply pre-registered-on-process rank-primary verdict and secondary family ICC
+        run: |
+          mkdir -p build/final
+          python scripts/analysis/interpret_austraits_k_source_noise_ou_v0_1.py \
+            --metrics build/data/results/metric_null.json \
+            --family-dir build/family \
+            --design data/austraits_k_source_dispersion_ou_null_design_v0_1.json \
+            --out build/final/verdict.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-source-noise-ou-verdict-v0-1
+          path: build/final/verdict.json
+          retention-days: 30

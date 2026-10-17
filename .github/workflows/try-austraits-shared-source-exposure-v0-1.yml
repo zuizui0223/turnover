@@ -1,0 +1,79 @@
+name: TRY AusTraits shared study original K source exposure v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/try-austraits-shared-source-exposure-v0-1.yml'
+      - 'data/try_austraits_shared_source_exposure_contract_v0_1.json'
+      - 'scripts/source/audit_try_austraits_shared_source_exposure_v0_1.py'
+      - 'tests/test_try_austraits_shared_source_exposure_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source_only_audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml
+      - name: Test original graph and no-K source-only safeguards
+        run: |
+          python -m py_compile scripts/source/audit_try_austraits_shared_source_exposure_v0_1.py
+          python tests/test_try_austraits_shared_source_exposure_v0_1.py
+      - name: Download immutable original cohort and validated 2026-10-13 TRY historical study matches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source build/K build/core build/study build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+            -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+            -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38403020753 -R "$GITHUB_REPOSITORY" \
+            -n try-austraits-shared-publication-candidates-v0-1 -D build/study
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+          test -f build/study/strong_publication_candidates.csv
+          test -f build/study/weak_author_only_leads.csv
+      - name: Download SHA-pinned original AusTraits species measurement compilation for source identifiers only
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Quantify strong Tng versus weak author leads on exact K cohort without reopening K effects
+        run: |
+          python scripts/source/audit_try_austraits_shared_source_exposure_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --strong-links build/study/strong_publication_candidates.csv \
+            --weak-leads build/study/weak_author_only_leads.csv \
+            --design data/try_austraits_shared_source_exposure_contract_v0_1.json \
+            --out build/result/source_exposure.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/result/source_exposure.json'))
+          assert x['status']=='TRY_AUSTRAITS_POSSIBLE_SHARED_SOURCE_K_COHORT_EXPOSURE_AUDITED'
+          assert x['graph']=={'systems':254,'families':42,'traits':13}
+          assert x['strong_source_ids']==['Tng_2013']
+          assert x['source_exposure_is_not_independent_record_match']
+          assert not x['TRY_v7_measurements_opened'] and not x['K_effect_values_opened']
+          print('PASS: validated exact original tip species support and source provenance-only exposure')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: try-austraits-original-k-source-exposure-v0-1
+          path: build/result/source_exposure.json
+          retention-days: 30

@@ -1,0 +1,70 @@
+{
+  "version": "v0.1",
+  "status": "POST_ORGAN_K_SOURCE_PROVENANCE_PRE_NATIVE_CONTEXT_COUNTS_FROZEN",
+  "frozen_on": "2026-10-15",
+  "objective": "Check whether original K-eligible positive native-unit numeric morphology records in major floristic AusTraits sources carry method-context flags for genus/family/taxonomic inference, potentially imposing phylogenetic correlation into source trait values.",
+  "inputs": {
+    "release": "AusTraits v7.0.0",
+    "parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "original_254_K_systems_run": 37725935020,
+    "original_254_source_core_run": 37561341286,
+    "original_metadata_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "native_parquet_schema_run": 38704189501,
+    "current_original_source_provenance_run": 38703414522
+  },
+  "source_ids": [
+    "ABRS_2023",
+    "NHNSW_2023",
+    "RBGV_2023",
+    "NTH_2023",
+    "SAH_2023"
+  ],
+  "target_traits": [
+    "fruit_height",
+    "fruit_length",
+    "fruit_width",
+    "leaf_area",
+    "leaf_length",
+    "leaf_mass_per_area",
+    "leaf_width",
+    "petiole_length",
+    "plant_height",
+    "seed_dry_mass",
+    "seed_length",
+    "seed_width"
+  ],
+  "exact_original_taxon_graph": {
+    "systems": 254,
+    "families": 42,
+    "traits": 13
+  },
+  "record_eligibility": {
+    "original": "Same original source-native units, species-rank, binomial, unambiguous genus, original dataset_id+observation_id and finite original numeric median>0 species state as primary K analysis.",
+    "positive_source_record": "Only a finite positive original measurement from one of five fixed flora datasets contributing to an original K-eligible species-system cell.",
+    "context_field": "method_context_properties from flattened 68-column original AusTraits parquet, not merely available method categories from source metadata.",
+    "de_duplicate": "Dedup original K records without context to reproduce state medians; for each original record key+value, aggregate method context evidence by ANY flag, without duplicating observation counts.",
+    "flags": [
+      "inferred_from_family",
+      "inferred_from_genus",
+      "inferred_from_taxonomy",
+      "inferred_from_species",
+      "inferred_from_trait",
+      "scored from text",
+      "unknown/no recognized context label"
+    ],
+    "precedence": "Higher-taxonomic inference indicators may co-occur; report each flag's own counts and the union of family+genus+taxonomy, never sum overlapping flags as independent records."
+  },
+  "report": [
+    "Audit all original 254 K native species-median cell support exactly; fail if a single original system count differs.",
+    "Per dataset×named trait counts of positive original observation keys and unique species×system cells, counts carrying genus/family/taxonomic inference versus scored text, and unknown context.",
+    "Aggregate 5-flora input counts and family×trait system representation, with a clear NONCLAIM that method-context flags might be incomplete and direct scoring is not guaranteed direct specimen measurement.",
+    "No K recalculation, no selection of favorable named traits or taxa, no species names/trait measurement values/observation IDs exported.",
+    "If no readable record method contexts exist for relevant traits, mark original source-inference mechanism UNTESTED, not ruled out."
+  ],
+  "ethics_and_scope": [
+    "Entire audit is exploratory after the original 760 K outcomes, the 279 same-source K outcomes and biological grouping; its aim is critical measurement validity, not a new positive evolutionary-process hypothesis.",
+    "The presence of a higher-taxon inference category in ABRS metadata alone does not establish it was used in any numerical K state; only the actual original record method context can adjudicate observed incidence.",
+    "Even if genus/family flags are absent, numerical trait values extracted from species flora descriptions are not independently sampled physical individuals. Absence of evidence in one context field does not prove independent measurement.",
+    "Original homogeneous OU/source classifier and closed BIEN 201-system rho study are not reopened."
+  ]
+}

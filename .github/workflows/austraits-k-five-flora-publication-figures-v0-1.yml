@@ -1,0 +1,46 @@
+name: AusTraits five-flora organ K manuscript figures v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-five-flora-publication-figures-v0-1.yml'
+      - 'scripts/analysis/plot_austraits_k_five_flora_exclusion_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  figures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install matplotlib numpy
+      - name: Recover fully verified 283-pair AusTraits matched-source K result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source build/figures
+          gh run download 38922133371 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-283-final-v0-1 -D build/source
+          test -f build/source/five_flora_exclusion_organ_K.json
+      - name: Replot all 29 source-supported families and exact family-bootstrap organ class effects
+        run: |
+          python -m py_compile scripts/analysis/plot_austraits_k_five_flora_exclusion_v0_1.py
+          python scripts/analysis/plot_austraits_k_five_flora_exclusion_v0_1.py \
+            --input build/source/five_flora_exclusion_organ_K.json \
+            --out-dir build/figures
+          test "$(find build/figures -type f | wc -l)" -eq 4
+          find build/figures -type f -size +2k -print
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-five-flora-organ-K-manuscript-figures-v0-1
+          path: build/figures/
+          retention-days: 90

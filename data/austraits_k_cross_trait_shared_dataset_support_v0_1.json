@@ -1,0 +1,69 @@
+{
+  "version": "v0.1",
+  "status": "POST_K_AND_MODULE_DISCOVERY_PRE_SHARED_DATASET_SUPPORT_OUTCOME_FROZEN",
+  "frozen_on": "2026-10-15",
+  "purpose": "K-blind diagnostic of how many original 760 pairwise same-species matched trait comparisons can ALSO be supported by at least one common AusTraits dataset_id for both organ measurements on each species.",
+  "provenance": {
+    "original_shared_tip_support_run": 38673955087,
+    "matched_tip_K_run": 38674635870,
+    "module_observation_run": 38686737184,
+    "source_parquet": "AusTraits v7.0.0 (SHA256 5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99)",
+    "pinned_AusTraits_config_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "graph": {
+      "original_systems": 254,
+      "source_calibrated_systems": 249,
+      "families": 42,
+      "traits": 12,
+      "qualifying_matched_tip_family_pairs": 760
+    },
+    "post_outcome": true
+  },
+  "identity_rules": {
+    "original_species": "Exact originally eligible finite positive species median per source-native unit, with unambiguous species genus. Does NOT add any species unavailable in the original K graph.",
+    "family_trait_pair": "Exactly the frozen 760 pairs with >=20 originally shared species and identical genus, unrelated to either K sign or module win rate.",
+    "shared_dataset_species": "Of those originally shared trait-pair species, requires at least one IDENTICAL AusTraits dataset_id with at least one finite positive source-native numeric measurement of EACH trait for that same species; this does not require same observation_id.",
+    "stronger_same_observation_key_species": "Separately count if any identical (dataset_id,observation_id) occurs for both trait source measurements of same species; an observation key MAY be study-specific and does not automatically mean same individual or physical specimen.",
+    "nested_source_lineage": "A shared AusTraits dataset_id can contain compiled studies and distinct original measurements (e.g. Kew_2019_1), so it does not certify same PRIMARY measured specimen or across-dataset independence.",
+    "evidence_grain": "Family×trait-pair counts only; never species names, original dataset/source IDs or numeric values in public artifact.",
+    "cross_organ_classes": {
+      "reproductive": [
+        "fruit_height",
+        "fruit_length",
+        "fruit_width",
+        "seed_dry_mass",
+        "seed_length",
+        "seed_width"
+      ],
+      "vegetative": [
+        "leaf_area",
+        "leaf_length",
+        "leaf_mass_per_area",
+        "leaf_width",
+        "petiole_length",
+        "plant_height"
+      ]
+    }
+  },
+  "gates": {
+    "min_exact_species_per_family_pair_with_same_AusTraits_dataset_id": 20,
+    "min_independent_family_clusters_for_cross_organ_descriptive_generalization": 10,
+    "min_fruit_vs_vegetative_families": 5,
+    "min_seed_vs_vegetative_families": 5,
+    "no_post_K_result_based_relaxation": true,
+    "no_primary_measurement_independence_claim": true
+  },
+  "outputs": [
+    "Reproduce all 760 K-blind original pair identities and source-native species counts from original AusTraits parquet.",
+    "Across the 760 original pair-support systems, report number retaining >=20 shared-dataset positive species, number retaining >=20 exact same observation keys, and counts split by within/between organ class.",
+    "For 36 reproductive×vegetative named pair types, report family support count and source shared-species count; separate seed-vs-vegetative and fruit-vs-vegetative.",
+    "Report original matched-tip K cohort availability only. Never calculate K effects, select favorable pair types, or claim same-DatasetID means source independence.",
+    "If source dataset/taxon graph fails prespecified support, conclude SAME_SOURCE_BIOLOGICAL_K_COMPARISON_NOT_IDENTIFIABLE_FROM_AVAILABLE_OBSERVATIONS instead of tweaking exclusions."
+  ],
+  "hard_nonclaims": [
+    "Within-AusTraits original measurement source support only, not independent TRY v7 data.",
+    "Observation IDs and dataset IDs are database-specific: matching IDs do not establish physical specimen identity across all source collections.",
+    "No evolutionary process alpha, selection, rate or organ-specific developmental constraint can follow from source-support counts.",
+    "The 760 pair K and subsequent organ grouping are post-outcome discoveries; this source support sensitivity is likewise post-outcome.",
+    "Closed BIEN 201-system rho study is not reopened and original OU/source-null classifier remains unchanged."
+  ]
+}

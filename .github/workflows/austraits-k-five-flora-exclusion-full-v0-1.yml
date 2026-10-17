@@ -1,0 +1,221 @@
+name: AusTraits five electronic flora exclusion paired organ K v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-five-flora-exclusion-full-v0-1.yml'
+      - 'scripts/analysis/aggregate_austraits_k_five_flora_exclusion_v0_1.py'
+      - 'tests/test_austraits_k_five_flora_exclusion_aggregate_v0_1.py'
+      - 'scripts/analysis/run_austraits_k_five_flora_exclusion_batch_v0_1.py'
+      - 'scripts/analysis/fit_austraits_k_five_flora_exclusion_pairs_v0_1.R'
+      - 'data/austraits_k_exclude_five_electronic_floras_support_v0_1.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# K-blind original support: 283/406 family×cross-organ pairs across 29 plant
+# families have >=20 original positive shared non-flora native source species.
+# Source identity and exclusion list were fixed without viewing new K results.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      batches: ${{ steps.freeze_batch.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml numpy
+      - name: Recover pinned non-flora 283 species support and original K-blind 760 family×trait cohort
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/no-flora build/original build/batches
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/no-flora
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original
+          test -f build/no-flora/source_support_excluding_five_floras.json
+          test -f build/original/shared_taxon_pair_support.json
+      - name: Run synthetic full 283 K-pair graph and family cluster bootstrap integrity tests
+        run: |
+          python -m py_compile scripts/analysis/aggregate_austraits_k_five_flora_exclusion_v0_1.py
+          python tests/test_austraits_k_five_flora_exclusion_aggregate_v0_1.py \
+            --source-support build/no-flora/source_support_excluding_five_floras.json \
+            --original-pair-support build/original/shared_taxon_pair_support.json \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json
+      - id: freeze_batch
+        name: Partition all 283 source-only K-eligible pairs into 16 balanced immutable batches BEFORE matched K
+        run: |
+          python - <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,'scripts/analysis')
+          from run_austraits_k_five_flora_exclusion_batch_v0_1 import cohort
+          src=json.load(open('build/no-flora/source_support_excluding_five_floras.json'))
+          original=json.load(open('build/original/shared_taxon_pair_support.json'))
+          d=json.load(open('data/austraits_k_exclude_five_electronic_floras_support_v0_1.json'))
+          pairs=cohort(src,original,d)
+          assert len(pairs)==283
+          bins=[{'weight':0,'pairs':[]} for i in range(16)]
+          for row in sorted(pairs,key=lambda z:(-z['n_nonflora_positive_median_shared_species']**2,
+                                      z['family'],z['trait_A'],z['trait_B'])):
+            i=min(range(16),key=lambda j:(bins[j]['weight'],j))
+            bins[i]['pairs'].append(row)
+            bins[i]['weight']+=row['n_nonflora_positive_median_shared_species']**2
+          matrix=[]
+          for i,b in enumerate(bins,1):
+            bid=f'B{i:02d}'
+            assert b['pairs']
+            Path('build/batches',bid+'.json').write_text(json.dumps(b['pairs'],sort_keys=True))
+            matrix.append({'batch_id':bid,'n_pairs':len(b['pairs'])})
+          assert sum(x['n_pairs'] for x in matrix)==283
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+            f.write('matrix='+json.dumps({'include':matrix},separators=(',',':'))+'\n')
+          print('PASS: 283 exact K-blind original source-only pairs allocated to 16 jobs')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-five-flora-frozen-batch-cohort-v0-1
+          path: build/batches/*.json
+          retention-days: 30
+
+  fit:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.batches) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 200
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml numpy
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Pin original unchanged GBOTB/native V.PhyloMaker2
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Recover original exact positive-species source-only constraints
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/no-flora build/original build/source build/output
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/no-flora
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-five-flora-frozen-batch-cohort-v0-1
+          path: build/batches
+      - name: SHA-verified original native AusTraits record archive
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Reestimate full-source vs five-flora-excluded K on exactly the same pair-specific species and trees
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          BATCH_ID: ${{ matrix.batch_id }}
+          N_BATCH_PAIRS: ${{ matrix.n_pairs }}
+        run: |
+          python scripts/analysis/run_austraits_k_five_flora_exclusion_batch_v0_1.py \
+            --batch-json "build/batches/${BATCH_ID}.json" \
+            --nonflora-support build/no-flora/source_support_excluding_five_floras.json \
+            --original-pair-support build/original/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_five_flora_exclusion_pairs_v0_1.R \
+            --out "build/output/${BATCH_ID}.json"
+          python - <<'PY'
+          import json,os
+          bid=os.environ['BATCH_ID']
+          r=json.load(open(f'build/output/{bid}.json'))
+          assert r['status']=='AUSTRAITS_K_FIVE_FLORA_EXCLUSION_PAIR_BATCH_COMPLETE'
+          assert len(r['pairs'])==int(os.environ['N_BATCH_PAIRS'])
+          assert r['NOT_independent_primary_measurement_validation']
+          assert r['remaining_AusTraits_IDs_not_independent_primary_measurements']
+          assert r['no_species_observation_IDs_or_raw_trait_measurements_persisted']
+          print('PASS: exactly original source-fixed nonflora cohort',bid)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-five-flora-excluded-${{ matrix.batch_id }}-v0-1
+          path: build/output/${{ matrix.batch_id }}.json
+          retention-days: 30
+
+  report:
+    needs: fit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas duckdb pyyaml
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-k-five-flora-excluded-B*-v0-1
+          path: build/all
+          merge-multiple: true
+      - name: Recover original source-only K paired species reference for EXACT 283 cohort
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/no-flora build/original build/result
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/no-flora
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original
+      - name: Independently validate all 283 original source-eligible paired-tree K contrasts
+        run: |
+          test "$(find build/all -maxdepth 1 -name 'B*.json' | wc -l)" -eq 16
+          python scripts/analysis/aggregate_austraits_k_five_flora_exclusion_v0_1.py \
+            --batch-dir build/all \
+            --source-support build/no-flora/source_support_excluding_five_floras.json \
+            --original-pair-support build/original/shared_taxon_pair_support.json \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json \
+            --out build/result/five_flora_exclusion_organ_K.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/result/five_flora_exclusion_organ_K.json'))
+          assert r['status']=='AUSTRAITS_K_FIVE_FLORA_EXCLUSION_ORGAN_SENSITIVITY_AGGREGATED_V0_1'
+          assert r['original_source_blind_pair_universe']==760
+          assert r['original_cross_organ_pairs']==406
+          assert r['nonflora_supported_before_K_pairs']==283
+          assert r['original_nonflora_supported_families']==29
+          assert r['not_external_TRY_v7_independent_source_validation']
+          assert r['remaining_AusTraits_source_IDs_not_independent_primary_measurements']
+          for axis in ('S3','prune_only'):
+            x=r['axes'][axis]
+            assert x['n_preK_nonflora_qualified_pairs']==283
+            assert x['n_valid_real_tree_K_pairs']+x['n_nonflora_median_or_phylo_K_holds']==283
+          print('PASS: complete source-excluded 283 organ trait K robustness with whole-family uncertainty')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-five-flora-exclusion-283-final-v0-1
+          path: build/result/five_flora_exclusion_organ_K.json
+          retention-days: 30

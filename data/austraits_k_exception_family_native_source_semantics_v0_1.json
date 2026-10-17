@@ -1,0 +1,53 @@
+{
+  "version": "v0.1",
+  "status": "POST_DISCOVERY_EXCEPTION_FAMILIES_PRE_NATIVE_SOURCE_METADATA_AUDIT_FROZEN",
+  "frozen_on": "2026-10-15",
+  "biological_question": "Which actual original AusTraits studies support the source-matched leaf-length versus fruit-length K comparisons for an apparent reversed lineage (Casuarinaceae), another low-reproductive-K lineage (Rubiaceae) and strong reproductive-K lineage (Fabaceae)? Do their native protocols identify comparable organs?",
+  "family_trait_pairs": [
+    {
+      "family": "Casuarinaceae",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_length",
+      "original_source_shared_species": 35,
+      "discovery_role": "lineage exception"
+    },
+    {
+      "family": "Rubiaceae",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_length",
+      "original_source_shared_species": 98,
+      "discovery_role": "lineage exception"
+    },
+    {
+      "family": "Fabaceae",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_length",
+      "original_source_shared_species": 1860,
+      "discovery_role": "positive comparator"
+    }
+  ],
+  "source_reference": {
+    "original_AusTraits": "v7.0.0 (SHA256 5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99)",
+    "original_source_build_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "source_support_workflow": 38696272257,
+    "source_only_shared_dataset_definition": "Same trait-pair species/genus with finite positive source-native values for fruit length and leaf length at an identical original AusTraits dataset_id; species medians must pass original K eligibility."
+  },
+  "pre_K_output_only": true,
+  "metadata_retrieval": {
+    "original_source_metadata_url_template": "https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/data/{dataset_id}/metadata.yml",
+    "primary_citation_title_and_doi": true,
+    "original_input_trait_var_names": true,
+    "original_trait_method_text": true,
+    "original_entity_type_and_aggregation": true,
+    "dataset_description": true,
+    "do_not_export_species_names_or_values": true,
+    "resolve_only_public_metadata": true
+  },
+  "interpretation_firewall": [
+    "DatasetID matching shows archived compilation overlap, not identical plant specimens, independently sampled primary records, or valid homologous organ identity.",
+    "Casuarinaceae true leaves are scale teeth, and photosynthesis is transferred to branchlets; cone-like infructescence differs from the winged samara; public floristic background is an a priori plausibility check but does not identify native trait variables.",
+    "If a source methods document does not explicitly distinguish reduced leaf length and fruit/samara vs cone dimensions, classify ontology as UNKNOWN_ORGAN_SEMANTICS not comparable.",
+    "No K effect, trait median value or directional winner read by this source metadata audit.",
+    "These three family/pair examples were selected after observed module outcome; cannot be used as independent mechanism confirmation."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "version": "v0.1",
+  "status": "POST_AUSTRAITS_760_K_AND_ORGAN_CLASS_DISCOVERY_PRE_ANY_INDEPENDENT_EXTERNAL_ORGAN_K_OUTCOMES",
+  "frozen_on": "2026-10-15",
+  "purpose": "Prospectively test a previously discovery-generated broad functional module K contrast in genuinely independent primary plant measurements; never label AusTraits discovery itself as prospective.",
+  "distinct_from_preexisting_named_trait_protocol": "data/austraits_named_rank_external_validation_protocol_v0_1.json",
+  "discovery_provenance": {
+    "matched_tip_full_run": 38674635870,
+    "family_LOFO_run": 38686389859,
+    "original_tip_source_OU_model_adequacy_run": 38685916126,
+    "discovery_34_families": "313/406 S3 and 314/397 prune reproductive > vegetative, 34 original AusTraits families",
+    "challenge_sources": [
+      "AusTraits Kew_2019_1 partially derived from Kew Seed Information Database",
+      "Tng_2013 potentially shared historical study with TRY DatasetID 625"
+    ],
+    "exploratory_exception_families": [
+      "Casuarinaceae",
+      "Rubiaceae"
+    ],
+    "no_new_external_values_opened": true
+  },
+  "frozen_biological_classes": {
+    "reproductive": [
+      "fruit_height",
+      "fruit_length",
+      "fruit_width",
+      "seed_dry_mass",
+      "seed_length",
+      "seed_width"
+    ],
+    "vegetative": [
+      "leaf_area",
+      "leaf_length",
+      "leaf_mass_per_area",
+      "leaf_width",
+      "petiole_length",
+      "plant_height"
+    ],
+    "seed_height_excluded": "Fails original K-blind source calibration coverage; is not resurrected to improve results."
+  },
+  "frozen_all_discovery_42_family_logistic": {
+    "method": "scikit-learn LogisticRegression C=1, no intercept, lbfgs; predictor +1 if A reproductive, B vegetative; -1 vice versa; 0 same class; trained on original matched-tip 760/747 family×trait pairs after K outcomes were seen.",
+    "S3_logit_coefficient": 1.1969663999479374,
+    "S3_probability_reproductive_higher": 0.76798468336497,
+    "prune_logit_coefficient": 1.3106084570798038,
+    "prune_probability_reproductive_higher": 0.7876149549522402,
+    "training_is_not_independent_validation": true,
+    "no_hyperparameter_tuning_using_external_outcomes": true
+  },
+  "eligibility_gates_to_be_resolved_before_external_K": {
+    "source_independence": "Audit dataset release, raw measurement lineage, original specimen/observation IDs where available and original primary citation/source DOI, excluding any observations derived from original AusTraits contributing raw records, Kew SID or Tng study where primary record overlap cannot be distinguished. Unknown independence=HOLD, not PASS.",
+    "source_access": "Use data only under provider's valid license/registration/permissions; do not scrape restricted TRY records or redistribute original measurements.",
+    "trait_semantics": "Fix projected leaf versus leaflet, petiole inclusion, fruit versus infructescence, seed versus diaspore mass, and dry versus assumed dry seed mass definitions. Exclude incompatible concept measurements before K outputs.",
+    "nonredundant_original_family_support": 12,
+    "min_same_species_per_family_pair": 20,
+    "minimum_family_support_on_both_axes": true,
+    "native_tree_treatments": [
+      "V.PhyloMaker2 original native S3",
+      "GBOTB native prune-only"
+    ],
+    "pair_definition": "One family×one reproductive trait×one vegetative trait from exactly the same originally source-qualified species on exactly the same tree. Families count once regardless of number of trait pairs.",
+    "min_families_with_fruit_versus_vegetative": 6,
+    "min_families_with_seed_versus_vegetative": 6,
+    "min_distinct_reproductive_trait_names": 2,
+    "min_distinct_vegetative_trait_names": 2,
+    "do_not_lower_after_outcomes": true
+  },
+  "post_qualification_external_estimands": {
+    "primary": "Within each of >=12 fully qualified independent families, fraction of reproductive-versus-vegetative same-tip comparisons with K_reproductive>K_vegetative; equally weight families (not dependent trait-pair rows). Report both S3 and prune with 5,000 family bootstrap replicates.",
+    "secondary": [
+      "Pair-weighted organ direction and support coverage, with family-bootstrap interval",
+      "Brier skill of the locked discovery-trained organ-only probability versus the locked global baseline as independently estimated from the discovery cohort; report both tree axes",
+      "Leave-one-organ-member-out trait sensitivity and fruit-only versus vegetative and seed-only versus vegetative",
+      "Source- and protocol-specific measurement error/covariance model fitted without using the discovery K outcomes",
+      "Pre-specified original source lineage-based exclusions and missingness reporting"
+    ],
+    "provisional_positive_decision": "Only if >=12 independent qualifying families including both fruit and seed comparisons meet gates and the family-bootstrap 95% lower bound of reproductive-higher rate exceeds 0.5 on BOTH tree axes; treat failed support as UNTESTED not evidence for biological equality.",
+    "negative_decision": "If gates pass but the lower bound fails on either axis, do not claim independent confirmed reproductive-vegetative K ordering.",
+    "source_noise_process_requirement": "Any mechanistic process conclusion requires a new source-specific joint trait-covariance and measurement-error-aware evolutionary null, not merely sign direction."
+  },
+  "hard_nonclaims": [
+    "This is a prospective-on-NEW-DATA replication plan for a hypothesis generated after seeing all original AusTraits K and shared-tip outcomes; no original finding is relabelled preregistered.",
+    "Current TRY version 7 record-level source identity/permissions remain unverified; a database name or newer release is not independent primary measurement proof.",
+    "A cross-organ K advantage is not an evolutionary rate difference or evidence of selection, stabilizing selection or developmental canalization.",
+    "Do not reopen the scientifically closed BIEN 201-system rho analysis or change its unrelated frozen outcome adjudication.",
+    "If independent primary measurements with correct family/trait/tip support cannot be obtained, record external validation HOLD without changing thresholds."
+  ]
+}

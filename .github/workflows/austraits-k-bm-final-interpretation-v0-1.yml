@@ -1,0 +1,77 @@
+name: AusTraits K Brownian-null final interpretation v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-bm-final-interpretation-v0-1.yml'
+      - 'data/austraits_k_real_tree_bm_interpretation_v0_1.json'
+      - 'data/austraits_k_real_tree_bm_centered_portability_v0_1.json'
+      - 'scripts/analysis/interpret_austraits_k_real_tree_bm_v0_1.py'
+      - 'scripts/analysis/analyze_austraits_k_bm_centered_portability_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  interpret:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Download frozen complete 254-system K-null result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/final build/full build/K build/result
+          gh run download 37746671909 -R "$GITHUB_REPOSITORY" -n austraits-k-real-tree-bm-final-v0-1 -D build/final
+          gh run download 37746671909 -R "$GITHUB_REPOSITORY" -n austraits-k-real-tree-bm-metrics-v0-1 -D build/full
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/final/metric_null.json
+          test -f build/final/family_null.json
+          test -f build/full/null_effects.csv
+          test -f build/K/effects.csv
+      - name: Apply already-frozen K-versus-Brownian-null decision
+        run: |
+          python scripts/analysis/interpret_austraits_k_real_tree_bm_v0_1.py \
+            --metrics build/final/metric_null.json \
+            --family build/final/family_null.json \
+            --contract data/austraits_k_real_tree_bm_interpretation_v0_1.json \
+            --out build/result/interpretation.json
+      - name: Compare empirical K trait ranks after BM expectation centering
+        run: |
+          python scripts/analysis/analyze_austraits_k_bm_centered_portability_v0_1.py \
+            --observed-K build/K/effects.csv \
+            --null-table build/full/null_effects.csv \
+            --out build/result/centered_portability.json \
+            --replicates 64
+      - name: Validate entire graph and unaltered result status
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('build/result/interpretation.json'))
+          b=json.load(open('build/result/centered_portability.json'))
+          assert a['status']=='AUSTRAITS_K_REAL_TREE_BM_NULL_INTERPRETED'
+          assert a['fixed_graph']=={'systems':254,'families':42,'traits':13}
+          assert a['null_replicates']==64
+          assert b['status']=='AUSTRAITS_REAL_TREE_BM_CENTERED_K_PORTABILITY_ESTIMATED'
+          assert b['fixed_graph']==a['fixed_graph'] and b['replicates']==64
+          for ax in ('S3','prune_only'):
+              assert a['axes'][ax]['valid_family_null_replicates']==64
+              for norm in ('excess','standardized_excess'):
+                  for metric in ('rank_gain','absolute_gain'):
+                      assert b['axes'][ax]['normalizations'][norm][metric]['p_null_ge_observed']>0
+          print('PASS: fixed graph and matched Brownian metrics, family null, and BM-centered null.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-real-tree-bm-interpretation-v0-1
+          path: build/result/
+          retention-days: 30

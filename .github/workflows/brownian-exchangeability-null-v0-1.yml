@@ -1,0 +1,60 @@
+name: Brownian exchangeability process-null counterexample v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/brownian-exchangeability-null-v0-1.yml'
+      - 'scripts/analysis/simulate_brownian_exchangeability_null_v0_1.py'
+      - 'results/brownian_exchangeability_null_v0_1/result.json'
+      - 'docs/BROWNIAN_EXCHANGEABILITY_NULL_INTERPRETATION_V0_1.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  known_truth:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy scipy
+      - name: Check synthetic process-null code
+        run: |
+          python -m py_compile scripts/analysis/simulate_brownian_exchangeability_null_v0_1.py
+      - name: Reproduce fixed identical-rate Brownian known-truth benchmark
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          mkdir -p build/result
+          python scripts/analysis/simulate_brownian_exchangeability_null_v0_1.py \
+            --families 24 --traits 8 --replicates 128 --seed 20261008 \
+            --out build/result/result.json
+      - name: Validate actual output against frozen local benchmark
+        run: |
+          python - <<'PY'
+          import json,math
+          d=json.load(open('build/result/result.json'))
+          ref=json.load(open('results/brownian_exchangeability_null_v0_1/result.json'))
+          assert d['status']=='BROWNIAN_IDENTICAL_PROCESS_NULL_ESTIMATED'
+          assert d['simulation']==ref['simulation']
+          for k in ['rho_reversal','K_reversal','rho_L','rho_A','logK_L','logK_A',
+                    'mean_rho_deep','mean_rho_starish','mean_K_deep','mean_K_starish']:
+              assert math.isclose(d['summary'][k]['mean'],ref['summary'][k]['mean'],rel_tol=0,abs_tol=1e-8),(k,d['summary'][k],ref['summary'][k])
+          assert abs(d['scale_invariance']['rho_original']-d['scale_invariance']['rho_scaled_x10'])<1e-12
+          assert abs(d['scale_invariance']['K_original']-d['scale_invariance']['K_scaled_x10'])<1e-8
+          assert 0.48 <= d['summary']['rho_reversal']['mean'] <= 0.52
+          assert 0.48 <= d['summary']['K_reversal']['mean'] <= 0.52
+          assert d['summary']['rho_L']['mean'] > d['summary']['logK_L']['mean']
+          print('PASS: 128 independent BM realizations, fixed seed, expected reversals, rho geometry effect, and K scale invariance')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brownian-exchangeability-null-v0-1
+          path: build/result/result.json
+          retention-days: 30

@@ -1,0 +1,214 @@
+name: AusTraits 142 joint nonflora and identical source organ K v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-joint-nonflora-dataset-full-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# FINAL post-outcome within-AusTraits organ-source robustness sensitivity.
+# 142 pair IDs / 24 families were pre-qualified by the existing independent
+# 760-pair K-BLIND source-only support; no new K outcomes select these pairs.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      batches: ${{ steps.source_pairs.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - name: Retrieve original 760 K-blind and five-flora-excluded 142 joint-source original study cohorts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/batches
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+          test -f build/source-support/source_support_excluding_five_floras.json
+          test -f build/original-support/shared_taxon_pair_support.json
+      - name: Test full original 142 eligible source-only pair and family-bootstrap K integrity on synthetic K values
+        run: |
+          python -m py_compile scripts/analysis/run_austraits_k_joint_nonflora_dataset_batch_v0_1.py scripts/analysis/aggregate_austraits_k_joint_nonflora_dataset_v0_1.py
+          python tests/test_austraits_k_joint_nonflora_dataset_aggregate_v0_1.py \
+            --source-support build/source-support/source_support_excluding_five_floras.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json
+      - id: source_pairs
+        name: Partition EXACT source-selected 142 family×organ pairs into 12 balanced batches without K outcomes
+        run: |
+          python - <<'PY'
+          import json,sys,os
+          from pathlib import Path
+          sys.path.insert(0,"scripts/analysis")
+          from run_austraits_k_joint_nonflora_dataset_batch_v0_1 import cohort
+          s=json.load(open("build/source-support/source_support_excluding_five_floras.json"))
+          o=json.load(open("build/original-support/shared_taxon_pair_support.json"))
+          d=json.load(open("data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json"))
+          selected=cohort(s,o,d)
+          assert len(selected)==142
+          bins=[{"size":0,"rows":[]} for _ in range(12)]
+          for r in sorted(selected,key=lambda x:(-x["n_same_AusTraits_dataset_species"]**2,
+              x["family"],x["trait_A"],x["trait_B"])):
+            n=r["n_same_AusTraits_dataset_species"]
+            i=min(range(12),key=lambda j:(bins[j]["size"],j))
+            bins[i]["rows"].append(r)
+            bins[i]["size"]+=n*n
+          matrix=[]
+          for i,b in enumerate(bins,1):
+            assert b["rows"]
+            bid=f"B{i:02d}"
+            Path("build/batches",bid+".json").write_text(json.dumps(b["rows"],sort_keys=True))
+            matrix.append({"id":bid,"n_pairs":len(b["rows"])})
+          assert sum(a["n_pairs"] for a in matrix)==142
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+            f.write("matrix="+json.dumps({"include":matrix},separators=(",",":"))+"\n")
+          print("PASS: no K-derived selection; 142 original source-qualified pairs in 24 families")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-joint-nonflora-source-K-blind-batches-v0-1
+          path: build/batches/*.json
+          retention-days: 30
+
+  estimate:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.batches) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Install original pinned source-independent native plant tree algorithm
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Recover K-blind native pair support references, no K effect magnitudes used
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/source build/output
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-joint-nonflora-source-K-blind-batches-v0-1
+          path: build/batches
+      - name: Download SHA256-pinned original positive native-unit observations and trait definitions
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Estimate matched-tip original Rcpp K for both organs and both nonflora source arms
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          BATCH_ID: ${{ matrix.id }}
+          EXPECTED_PAIRS: ${{ matrix.n_pairs }}
+        run: |
+          python scripts/analysis/run_austraits_k_joint_nonflora_dataset_batch_v0_1.py \
+            --batch-json "build/batches/${BATCH_ID}.json" \
+            --source-support build/source-support/source_support_excluding_five_floras.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_same_dataset_organ_pairs_v0_1.R \
+            --out "build/output/${BATCH_ID}.json"
+          python - <<'PY'
+          import json,os
+          r=json.load(open("build/output/"+os.environ["BATCH_ID"]+".json"))
+          assert r["status"]=="AUSTRAITS_K_JOINT_NONFLORA_SHARED_DATASET_BATCH_COMPLETE"
+          assert len(r["pairs"])==int(os.environ["EXPECTED_PAIRS"])
+          assert r["joint_nonflora_and_identical_source_post_outcome_exploratory"]
+          assert r["not_independent_primary_measurement_validation"]
+          assert r["source_arm_semantics"]["same_matched_taxa_and_native_phylogeny_for_both_source_arms"]
+          print("PASS: source K arm with original frozen family×trait identities",len(r["pairs"]))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-joint-nonflora-source-${{ matrix.id }}-v0-1
+          path: build/output/${{ matrix.id }}.json
+          retention-days: 30
+
+  summarize:
+    needs: estimate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas duckdb pyyaml
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-k-joint-nonflora-source-B*-v0-1
+          path: build/all
+          merge-multiple: true
+      - name: Fetch unchanged pinned original K-blind support sources
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/result
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+      - name: Validate all 142 original K-blind source-selected pairs and whole-family resampled biological contrast
+        run: |
+          test "$(find build/all -maxdepth 1 -name 'B*.json' | wc -l)" -eq 12
+          python scripts/analysis/aggregate_austraits_k_joint_nonflora_dataset_v0_1.py \
+            --batch-dir build/all \
+            --source-support build/source-support/source_support_excluding_five_floras.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json \
+            --out build/result/joint_nonflora_shared_source_K.json
+          python - <<'PY'
+          import json
+          x=json.load(open("build/result/joint_nonflora_shared_source_K.json"))
+          assert x["status"]=="AUSTRAITS_K_JOINT_NONFLORA_SHARED_DATASET_SENSITIVITY_AGGREGATED_V0_1"
+          assert x["joint_nonflora_source_qualified_before_K_pairs"]==142
+          assert x["original_joint_source_qualified_families"]==24
+          assert x["not_external_TRY_v7_independent_source_validation"]
+          assert x["identical_nonflora_dataset_id_does_not_prove_same_primary_specimen"]
+          for axis in ("S3","prune_only"):
+            z=x["axes"][axis]
+            assert z["n_valid_real_tree_K_pairs"]+z["n_species_median_or_phylo_K_holds"]==142
+            assert z["passes_descriptive_minimum_family_support"]
+          print("PASS: final 142 original jointly restricted organ contrasts, no causal process or external replication claims")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-joint-nonflora-shared-dataset-142-final-v0-1
+          path: build/result/joint_nonflora_shared_source_K.json
+          retention-days: 60

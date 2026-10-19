@@ -34,8 +34,8 @@ ORGAN_TRAITS = {
 # seed_dry_mass; likewise seed height is not one of the frozen organ traits.
 AMBIGUOUS = {"seedmass", "seedfreshmass", "wholeplantheight", "height", "leafsize"}
 COL_ALIASES = {
-    "species": ("scientificname", "species", "speciesname", "acceptedname", "latinname"),
-    "family": ("family", "familyname"),
+    "species": ("scientificname", "species", "speciesname", "acceptedname", "latinname", "speciesaccepted"),
+    "family": ("family", "familyname", "familyaccepted"),
     "trait": ("traitname", "trait", "traitenglish", "traitnameenglish", "traittype"),
     "value": ("traitvalue", "value", "measurementvalue", "observedvalue"),
     "source": ("reference", "referenceid", "source", "sourceid", "citation", "doi"),

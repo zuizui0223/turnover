@@ -63,7 +63,7 @@ hard-sign scores up to rounding**, requiring no new model outputs.
    alone:** the magnitude of heldout-family predicted probabilities
    depends on the other families' data. Its improvement from
    `0.25062→0.21378 S3` and `0.25017→0.20671 prune`
-   remains a **retrospective, conditional probability-calibration result**.
+   remains a **retrospective, conditional probabilistic prediction-score result**; calibration was not separately diagnosed.
    It is not source-independent or unbiased prospective evidence.
 4. The paper's stronger ecological content is (a) the **reproductive
    versus vegetative K asymmetry** on matched species and trees and

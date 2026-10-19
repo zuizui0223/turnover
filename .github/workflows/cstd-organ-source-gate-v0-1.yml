@@ -1,0 +1,105 @@
+name: CSTD organ source-only screen v0.1
+
+on:
+  push:
+    branches:
+      - source/cstd-organ-metadata-screen-v0-1
+    paths:
+      - scripts/source/audit_cstd_organ_metadata_v0_1.py
+      - scripts/source/audit_cstd_cptd_pair_support_v0_1.py
+      - scripts/source/probe_cstd_cptd_provenance_schema_v0_1.py
+      - scripts/source/audit_cstd_cptd_original_reference_coverage_v0_1.py
+      - docs/INDEPENDENT_ORGAN_K_SOURCE_SCREEN_V0_1.md
+      - .github/workflows/cstd-organ-source-gate-v0-1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_gate_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install schema-only parser
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+      - name: Fetch public pinned CSTD v4 workbook
+        shell: bash
+        run: |
+          mkdir -p .source-cache
+          curl --fail --location --show-error --silent --retry 3 \
+            https://ndownloader.figshare.com/files/53721110 \
+            -o .source-cache/CSTD_v1.xlsx
+          echo "Workbook downloaded; MD5 verified by the parser before any metadata analysis."
+      - name: Inspect presence metadata only (no trait outcome/K)
+        shell: bash
+        run: |
+          python scripts/source/audit_cstd_organ_metadata_v0_1.py \
+            --source .source-cache/CSTD_v1.xlsx \
+            --output source_gate_artifacts/cstd_organ_source_gate_v0_1.json
+      - name: Inspect China Plant Trait Database v2 CSV metadata only
+        shell: bash
+        run: |
+          curl --fail --location --show-error --silent --retry 3 https://ndownloader.figshare.com/files/38095836 -o .source-cache/cptd_morphometric.csv
+          curl --fail --location --show-error --silent --retry 3 https://ndownloader.figshare.com/files/38095881 -o .source-cache/cptd_species_translations.csv
+          curl --fail --location --show-error --silent --retry 3 https://ndownloader.figshare.com/files/38095812 -o .source-cache/cptd_chemical.csv
+          (
+            cd .source-cache
+            printf 'ca21286257508e05cd2e102cbfbac748  cptd_morphometric.csv\n' | md5sum --check
+            printf '2c1285a6bf78112c855f0ce735685343  cptd_species_translations.csv\n' | md5sum --check
+            printf 'bf772a9e6a7251f8bed33d06d29f8fed  cptd_chemical.csv\n' | md5sum --check
+          )
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          report = {}
+          for filename in ('cptd_morphometric.csv', 'cptd_species_translations.csv', 'cptd_chemical.csv'):
+              with (Path('.source-cache') / filename).open(encoding='utf-8-sig', errors='replace', newline='') as f:
+                  reader = csv.reader(f)
+                  header = next(reader)
+                  n = sum(1 for _ in reader)
+              report[filename] = {'metadata_headers_only': header, 'row_count': n}
+          print('CPTD_V2_METADATA_ONLY=' + json.dumps(report, ensure_ascii=False))
+          PY
+      - name: Screen CSTD × CPTD matching accepted species without phenotype effect
+        shell: bash
+        run: |
+          python scripts/source/audit_cstd_cptd_pair_support_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --translation .source-cache/cptd_species_translations.csv \
+            --chemical .source-cache/cptd_chemical.csv \
+            --output source_gate_artifacts/cstd_cptd_source_support_v0_1.json
+      - name: Probe original source and trait ontology metadata only
+        shell: bash
+        run: |
+          curl --fail --location --show-error --silent --retry 3 \
+            https://ndownloader.figshare.com/files/38095863 -o .source-cache/cptd_sites.csv
+          python scripts/source/probe_cstd_cptd_provenance_schema_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --sites .source-cache/cptd_sites.csv \
+            --output source_gate_artifacts/cstd_cptd_provenance_schema_v0_1.json
+      - name: Trace CSTD publication sources and CPTD site sources per frozen pair
+        shell: bash
+        run: |
+          python scripts/source/audit_cstd_cptd_original_reference_coverage_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --translation .source-cache/cptd_species_translations.csv \
+            --chemical .source-cache/cptd_chemical.csv \
+            --sites .source-cache/cptd_sites.csv \
+            --source-support source_gate_artifacts/cstd_cptd_source_support_v0_1.json \
+            --cstd-support source_gate_artifacts/cstd_organ_source_gate_v0_1.json \
+            --output source_gate_artifacts/cstd_cptd_original_reference_coverage_v0_1.json
+      - name: Upload source-only report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cstd-organ-source-only-v0-1
+          path: source_gate_artifacts/
+          if-no-files-found: warn
+          retention-days: 30

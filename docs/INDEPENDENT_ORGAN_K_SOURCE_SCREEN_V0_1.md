@@ -39,6 +39,46 @@ The report's `structural_necessary_gate_possible_unverified` indicates only whet
 - ForestGEO data access: https://ctfs.si.edu/datarequest/
 - Hong Kong primary seed/fruit database: https://doi.org/10.3390/data11010008
 
+## Actual outcome-blind CSTD screen — 2026-10-19
+
+The pinned workbook passed its MD5 identity check and its accepted species/family
+metadata were read successfully in [GitHub Actions #39208217308](https://github.com/zuizui0223/turnover/actions/runs/39208217308).
+**No numeric trait comparison was performed**.
+
+- 694 distinct source reference labels; 3,232 family×accepted-species metadata
+  keys with one of the strictly mapped organ traits.
+- At least 20 same-species metadata-presence overlaps in **67 family×trait
+  pairs spanning 20 families**.
+- Fruit-vs-vegetative support in 16 families and seed-vs-vegetative in 20.
+- Four candidate reproductive names: fruit length/width, seed length/width.
+- Only **ONE** admissible candidate vegetative name in CSTD:
+  `plant_height`. The fixed protocol requires **TWO**.
+
+**Decision for CSTD-alone: STRUCTURAL HOLD (one vegetative trait),
+irrespective of the otherwise-promising family counts.** No K computation is
+authorized. This is not evidence against the biological organ hypothesis.
+
+The China Plant Trait Database v2 (CPTD v2; accession
+https://figshare.com/articles/dataset/The_China_Plant_Trait_Database_Version_2_0/19448219)
+was independently screened at schema level in
+[GitHub Actions #39208517972](https://github.com/zuizui0223/turnover/actions/runs/39208517972).
+The original chemical-traits CSV (2,888 rows) includes `Average LA` and
+`LMA` fields that **may** supply two frozen leaf traits, but the separate
+morphometric file (2,415 rows) contains categorical leaf size/shape and must
+not be substituted for numeric leaf area. Original taxon translations contain
+2,949 sample rows. Source DOI/record independence, leaf/leaflet ontology,
+field-versus-literature provenance, and CSTD species overlap remain unverified.
+The audit code `scripts/source/audit_cstd_cptd_pair_support_v0_1.py` screens
+only exact accepted-binomial overlap and measurement *presence*.
+
+### Pinned CPTD v2 public file identities
+
+| File | Figshare file ID | MD5 |
+| --- | --- | --- |
+| Species translations.csv | 38095881 | `2c1285a6bf78112c855f0ce735685343` |
+| Chemical traits.csv | 38095812 | `bf772a9e6a7251f8bed33d06d29f8fed` |
+| Morphometric traits.csv | 38095836 | `ca21286257508e05cd2e102cbfbac748` |
+
 ## Scientific boundaries
 
 Nothing in this source-only step updates the original AusTraits 77–79% exploratory organ-K finding, the closed BIEN 201-system rho conclusion, or the fixed external success criterion. An inaccessible or unsupported independent source yields **UNTESTED**, not a negative evolutionary conclusion.

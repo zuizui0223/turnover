@@ -82,17 +82,30 @@ jobs:
           test -s build/review_package/organ_K_supplementary_tables.pdf
           test -s build/review_package/organ_K_coauthor_manuscript.docx
           test -s build/review_package/organ_K_supplementary_tables.docx
-      - name: Verify both accuracy identities survived DOCX and PDF conversion
+      - name: Verify math survived PDF conversion despite word-wrap
         shell: bash
         run: |
           pdftotext -layout build/review_package/organ_K_coauthor_manuscript.pdf \
             build/review_package/pdf_text_for_qa.txt
-          grep -F '490/760 = 64.47%' build/review_package/pdf_text_for_qa.txt
-          grep -F '489/747 = 65.46%' build/review_package/pdf_text_for_qa.txt
           pdftotext -layout build/review_package/organ_K_supplementary_tables.pdf \
             build/review_package/supp_text_for_qa.txt
-          grep -F '490/760 = 64.47%' build/review_package/supp_text_for_qa.txt
-          grep -F '489/747 = 65.46%' build/review_package/supp_text_for_qa.txt
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          main = ' '.join(Path('build/review_package/pdf_text_for_qa.txt').read_text().split())
+          supp = ' '.join(Path('build/review_package/supp_text_for_qa.txt').read_text().split())
+          gate = main.partition('Consequently, the full-cohort')[2].partition('The coefficients')[0]
+          if not gate:
+              raise AssertionError('Main PDF lost Methods accuracy-identity location')
+          for token in ('313', '314', '0.5', '354', '350', '760', '747',
+                        '490/760', '489/747', '64.47%', '65.46%'):
+              if token not in gate:
+                  raise AssertionError('Main PDF Methods mathematical identity missing '+token)
+          for token in ('490/760', '489/747', '64.47%', '65.46%'):
+              if token not in supp:
+                  raise AssertionError('Supplement PDF accuracy identity missing '+token)
+          print('PDF_MATH_IDENTITY_RENDER_PASS: both S3/prune arithmetic equations legible')
+          PY
       - name: Create long-lived reviewer artifact with source fingerprint
         shell: bash
         run: |

@@ -1,0 +1,214 @@
+name: AusTraits 279 shared-dataset organ K source robustness v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-same-dataset-organ-full-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# All 279 family×pair analyses were source-eligible BEFORE this source arm K
+# estimator runs. Biological organ grouping was selected after original K.
+# Distinct K source arms use exactly the same species and phylogenetic trees.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    outputs:
+      batches: ${{ steps.source_pairs.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml numpy
+      - name: Recover frozen 279 source-eligible family×organ pair identities before new K values
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/batches
+          gh run download 38696272257 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-cross-trait-common-dataset-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+          test -f build/source-support/shared_dataset_source_support.json
+          test -f build/original-support/shared_taxon_pair_support.json
+      - name: Synthetic complete 279-K family / tree axis / source arithmetic fail-closed tests
+        run: |
+          python tests/test_austraits_k_same_dataset_organ_aggregate_v0_1.py \
+            --source-support build/source-support/shared_dataset_source_support.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --design data/austraits_k_same_dataset_organ_matched_tip_sensitivity_v0_1.json
+      - id: source_pairs
+        name: Freeze ALL source-qualified 279 organ pairs in 16 original-source-only workload batches
+        run: |
+          python - <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,'scripts/analysis')
+          from run_austraits_k_same_dataset_pair_batch_v0_1 import qualify
+          d=json.load(open('data/austraits_k_same_dataset_organ_matched_tip_sensitivity_v0_1.json'))
+          s=json.load(open('build/source-support/shared_dataset_source_support.json'))
+          o=json.load(open('build/original-support/shared_taxon_pair_support.json'))
+          pairs=qualify(s,o,d)
+          assert len(pairs)==279
+          bins=[{'weight':0,'pairs':[]} for _ in range(16)]
+          for row in sorted(pairs,key=lambda x:(-x['n_same_AusTraits_dataset_species']**2,
+               x['family'],x['trait_A'],x['trait_B'])):
+              k=min(range(16),key=lambda j:(bins[j]['weight'],j))
+              bins[k]['pairs'].append(row)
+              bins[k]['weight']+=row['n_same_AusTraits_dataset_species']**2
+          matrix=[]
+          for j,b in enumerate(bins,1):
+              assert b['pairs']
+              bid=f'B{j:02d}'
+              Path('build/batches',bid+'.json').write_text(json.dumps(b['pairs'],sort_keys=True))
+              matrix.append({'batch_id':bid,'n_pairs':len(b['pairs'])})
+          assert sum(z['n_pairs'] for z in matrix)==279
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('matrix='+json.dumps({'include':matrix},separators=(',',':'))+'\n')
+          print('PASS: 279 untouched K-blind common-source eligible pairs, 16 balanced jobs')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-279-same-source-frozen-batch-support-v0-1
+          path: build/batches/*.json
+          retention-days: 30
+
+  fit:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.batches) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 200
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml numpy
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Install fixed native plant phylogenetic tree implementation
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Retrieve immutable original source-only eligibility and positive source observations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/source build/out
+          gh run download 38696272257 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-cross-trait-common-dataset-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-k-279-same-source-frozen-batch-support-v0-1
+          path: build/batches
+      - name: Download immutable original AusTraits source record compilation and units
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Fit two organs × two measurement source arms on identical pair-specific species and native trees
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          BATCH_ID: ${{ matrix.batch_id }}
+          N_BATCH_PAIRS: ${{ matrix.n_pairs }}
+        run: |
+          mkdir -p build/out
+          python scripts/analysis/run_austraits_k_same_dataset_pair_batch_v0_1.py \
+            --batch-json "build/batches/${BATCH_ID}.json" \
+            --source-support build/source-support/shared_dataset_source_support.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_same_dataset_organ_matched_tip_sensitivity_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_same_dataset_organ_pairs_v0_1.R \
+            --out "build/out/${BATCH_ID}.json"
+          python - <<'PY'
+          import json,os
+          b=os.environ['BATCH_ID']
+          x=json.load(open(f'build/out/{b}.json'))
+          assert x['status']=='AUSTRAITS_K_SAME_DATASET_PAIR_BATCH_COMPLETE'
+          assert len(x['pairs'])==int(os.environ['N_BATCH_PAIRS'])
+          assert x['NOT_independent_primary_measurement_validation']
+          assert x['same_AusTraits_dataset_id_not_same_specimen']
+          assert x['no_species_observation_IDs_or_raw_trait_measurements_persisted']
+          print('PASS: source K pair',b,'complete, original source eligibility preserved')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-279-source-arm-${{ matrix.batch_id }}-v0-1
+          path: build/out/${{ matrix.batch_id }}.json
+          retention-days: 30
+
+  summary:
+    needs: fit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas duckdb pyyaml
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-k-279-source-arm-B*-v0-1
+          path: build/all
+          merge-multiple: true
+      - name: Recover immutable K-blind source- and common-tip support references
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/result
+          gh run download 38696272257 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-cross-trait-common-dataset-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+      - name: Reconcile all 279 K-blind pairs and 5,000 family-cluster bootstrap replicates
+        run: |
+          test "$(find build/all -maxdepth 1 -name 'B*.json' | wc -l)" -eq 16
+          python scripts/analysis/aggregate_austraits_k_same_dataset_organ_sensitivity_v0_1.py \
+            --batch-dir build/all \
+            --source-support build/source-support/shared_dataset_source_support.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --design data/austraits_k_same_dataset_organ_matched_tip_sensitivity_v0_1.json \
+            --out build/result/organ_same_dataset_K_sensitivity.json
+          python - <<'PY'
+          import json
+          d=json.load(open('build/result/organ_same_dataset_K_sensitivity.json'))
+          assert d['status']=='AUSTRAITS_K_SAME_DATASET_ORGAN_SENSITIVITY_AGGREGATED_V0_1'
+          assert d['source_qualified_before_K_pairs']==279
+          assert d['original_source_qualified_families']==32
+          assert d['not_external_TRY_v7_independent_source_validation']
+          assert d['same_dataset_id_not_same_primary_specimen']
+          for axis in ('S3','prune_only'):
+            v=d['axes'][axis]
+            assert v['n_valid_real_tree_K_pairs']+v['n_species_median_or_phylo_K_holds']==279
+            assert v['n_valid_real_tree_K_pairs']>=0
+          print('PASS: reproducible 279-pair within-source shared-tip K sensitivity')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-279-same-dataset-organ-final-v0-1
+          path: build/result/organ_same_dataset_K_sensitivity.json
+          retention-days: 30

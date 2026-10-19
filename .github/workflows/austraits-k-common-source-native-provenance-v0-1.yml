@@ -1,0 +1,78 @@
+name: AusTraits 279 organ K common source native provenance v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-common-source-native-provenance-v0-1.yml'
+      - 'data/austraits_same_dataset_native_source_lineage_audit_v0_1.json'
+      - 'scripts/source/audit_austraits_same_dataset_native_source_lineage_v0_1.py'
+      - 'tests/test_austraits_same_dataset_native_source_lineage_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  public_source_provenance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml requests
+      - name: Recover 279 frozen source-eligible matched organ pairs; no phylogenetic K effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/source build/results
+          gh run download 38696272257 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-cross-trait-common-dataset-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+          test -f build/source-support/shared_dataset_source_support.json
+          test -f build/original-support/shared_taxon_pair_support.json
+      - name: Validate exact 279 source K graph and synthetic primary metadata classification
+        run: |
+          python -m py_compile scripts/source/audit_austraits_same_dataset_native_source_lineage_v0_1.py
+          python tests/test_austraits_same_dataset_native_source_lineage_v0_1.py \
+            --source-support build/source-support/shared_dataset_source_support.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json
+      - name: Recover pinned original source-native species and exact unit definitions
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Quantify how much K source-matched morphology comes from original floristic compilations versus study datasets
+        run: |
+          python scripts/source/audit_austraits_same_dataset_native_source_lineage_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --source-support build/source-support/shared_dataset_source_support.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --design data/austraits_same_dataset_native_source_lineage_audit_v0_1.json \
+            --out build/results/common_source_native_provenance.json
+          python - <<'PY'
+          import json
+          z=json.load(open('build/results/common_source_native_provenance.json'))
+          assert z['status']=='AUSTRAITS_279_COMMON_DATASET_NATIVE_SOURCE_PROVENANCE_AUDITED'
+          assert z['all_original_279_K_blind_source_qualified_family_pair_counts_reproduced']
+          assert z['n_source_eligible_family_trait_pairs']==279
+          assert z['n_original_contributing_AusTraits_dataset_IDs']>0
+          assert z['n_source_positive_species_pair_cells']>0
+          assert not z['K_effects_reestimated_or_source_selected_from_K']
+          assert not z['raw_species_observation_or_measurement_values_exported']
+          assert not z['independent_source_or_specimen_confirmed']
+          print('PASS: source-native original study metadata and species×pair lineage concentration')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-279-common-source-native-provenance-v0-1
+          path: build/results/common_source_native_provenance.json
+          retention-days: 30

@@ -1,0 +1,85 @@
+name: AusTraits original cross-trait common-source support v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-cross-trait-shared-dataset-source-support-v0-1.yml'
+      - 'data/austraits_k_cross_trait_shared_dataset_support_v0_1.json'
+      - 'scripts/source/audit_austraits_k_cross_trait_shared_dataset_support_v0_1.py'
+      - 'tests/test_austraits_k_cross_trait_shared_dataset_support_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  K_blind_shared_dataset_support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml
+      - name: Retrieve pinned original species cohort, frozen 760-pair K-blind supports and native unit definitions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/core build/support build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+            -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+            -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+          test -f build/support/shared_taxon_pair_support.json
+      - name: Freeze original source identity by release SHA and pinned source unit dictionary
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Test exact native-source dataset/observation cross-trait record joins on synthetic input and 760 fixed pairs
+        run: |
+          python -m py_compile scripts/source/audit_austraits_k_cross_trait_shared_dataset_support_v0_1.py
+          python tests/test_austraits_k_cross_trait_shared_dataset_support_v0_1.py \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --support build/support/shared_taxon_pair_support.json \
+            --design data/austraits_k_cross_trait_shared_dataset_support_v0_1.json
+      - name: Reconstruct exact 760 source-native shared-DatasetID and shared-observation-key positive species support
+        run: |
+          python scripts/source/audit_austraits_k_cross_trait_shared_dataset_support_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --traits-yml build/source/traits.yml \
+            --support build/support/shared_taxon_pair_support.json \
+            --design data/austraits_k_cross_trait_shared_dataset_support_v0_1.json \
+            --out build/result/shared_dataset_source_support.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/result/shared_dataset_source_support.json'))
+          assert x['status']=='AUSTRAITS_CROSS_TRAIT_COMMON_DATASET_SUPPORT_AUDITED'
+          assert x['source_support_original_graph']=={'systems':254,'families':42,'traits':13}
+          assert x['source_calibrated_original_K_graph']=={'systems':249,'families':42,'traits':12}
+          assert x['original_pair_support_cohort']==760
+          assert x['cross_organ']['n_original_family_trait_pairs']==406
+          assert x['K_outcomes_opened_or_reestimated'] is False
+          assert x['public_species_names_or_measurement_values_emitted'] is False
+          assert x['TRY_v7_independent_source_qualified'] is False
+          print('PASS: original K-blind same-Austraits-dataset 760-pair coverage (not actual same specimen)')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-cross-trait-common-dataset-support-v0-1
+          path: build/result/shared_dataset_source_support.json
+          retention-days: 30

@@ -1,0 +1,60 @@
+name: AusTraits source-OU named trait alignment exploratory v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-source-ou-named-trait-alignment-v0-1.yml'
+      - 'scripts/analysis/audit_austraits_k_source_ou_named_rank_alignment_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  named_profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas scipy
+      - name: Recover all 16 immutable 249-system source-OU simulation batches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/input build/K build/output
+          for i in $(seq -w 1 16); do
+            gh run download 37785257795 -R "$GITHUB_REPOSITORY" -n "austraits-source-ou-sim-B${i}" -D build/input
+          done
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test "$(find build/input -name '*.json' | wc -l)" -eq 249
+      - name: Independently compare source-OU expected named trait K hierarchy to original named hierarchy
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_source_ou_named_rank_alignment_v0_1.py
+          python scripts/analysis/audit_austraits_k_source_ou_named_rank_alignment_v0_1.py \
+            --input-dir build/input \
+            --observed-K build/K/effects.csv \
+            --out build/output/named_trait_alignment.json
+          python - <<'PY'
+          import json,math
+          r=json.load(open('build/output/named_trait_alignment.json'))
+          assert r['status']=='AUSTRAITS_SOURCE_OU_NAMED_TRAIT_ALIGNMENT_EXPLORATORY_V0_1'
+          assert r['fixed_graph']=={'systems':249,'families':42,'traits':12}
+          assert r['after_empirical_K_and_source_OU_outcomes'] is True
+          for model in ('trait_global','system_local'):
+              for c in ('c0p25','c1','c4'):
+                  for axis in ('S3','prune_only'):
+                      v=r['models'][model][c][axis]
+                      assert len(v['observed_mean_normalized_within_family_rank'])==12
+                      assert math.isfinite(v['observed_vs_null_expected_named_trait_rho'])
+          print('PASS: 12 full-graph post-outcome profile comparisons, no new process parameters')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-source-ou-named-trait-alignment-v0-1
+          path: build/output/named_trait_alignment.json
+          retention-days: 30

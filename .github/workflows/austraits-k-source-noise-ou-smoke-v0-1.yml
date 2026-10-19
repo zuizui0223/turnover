@@ -1,0 +1,132 @@
+name: AusTraits source-noise OU real-tree smoke v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-source-noise-ou-smoke-v0-1.yml'
+      - 'data/austraits_k_source_dispersion_ou_null_design_v0_1.json'
+      - 'scripts/analysis/austraits_ou_source_noise_k_kernel_v0_1.cpp'
+      - 'scripts/analysis/run_austraits_k_source_noise_ou_system_v0_1.R'
+      - 'scripts/analysis/interpret_austraits_k_source_noise_ou_v0_1.py'
+      - 'tests/test_austraits_k_source_noise_ou_verdict_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  real_tree_smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas duckdb pyyaml scipy
+      - name: Validate outcome-independent decision schema
+        run: |
+          python -m py_compile scripts/analysis/aggregate_austraits_k_source_noise_ou_v0_1.py scripts/analysis/interpret_austraits_k_source_noise_ou_v0_1.py
+          python tests/test_austraits_k_source_noise_ou_verdict_v0_1.py
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::Rcpp
+      - name: Unit-test new source-noise K kernel on small synthetic trees
+        run: |
+          Rscript - <<'RS'
+          suppressPackageStartupMessages({library(ape);library(Rcpp)})
+          sourceCpp("scripts/analysis/austraits_ou_source_noise_k_kernel_v0_1.cpp",
+                  rebuild=TRUE,showOutput=FALSE)
+          tree<-reorder.phylo(rtree(24),"cladewise")
+          e<-tree$edge
+          n<-length(tree$tip.label)
+          root<-setdiff(unique(e[,1]),e[,2])
+          traceC<-sum(node.depth.edgelength(tree)[seq_len(n)])
+          post<-rev(unique(e[,1]))
+          set.seed(4)
+          zero<-simulate_shared_ou_source_noise_logK_cpp(e,tree$edge.length,n,post,root,
+              traceC,.05,0,0,16L)
+          stopifnot(length(zero$trait_global)==16L,
+                    identical(zero$trait_global,zero$system_local))
+          set.seed(4)
+          nz<-simulate_shared_ou_source_noise_logK_cpp(e,tree$edge.length,n,post,root,
+              traceC,.05,.02,.35,16L)
+          stopifnot(all(is.finite(unlist(nz))),
+                    any(abs(nz$trait_global-nz$system_local)>1e-7))
+          cat("PASS: shared zero error, positive K-blind source-noise effects on 24-tip tree\n")
+          RS
+      - name: Pin tree builder
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Download fixed 249-system input references and source calibration
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/source-dispersion build/time-reference build/source build/results build/batch build/rcpp-source-cache
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 37784017236 -R "$GITHUB_REPOSITORY" -n austraits-k-cross-source-dispersion-v0-1 -D build/source-dispersion
+          gh run download 37754329843 -R "$GITHUB_REPOSITORY" -n austraits-ou-time-reference-v0-1 -D build/time-reference
+      - name: Download version-locked native source
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Pick first fixed core system with K-blind source calibration
+        run: |
+          python - <<'PY'
+          import json,pandas as pd
+          k=pd.read_csv('build/K/effects.csv')
+          core=pd.read_csv('build/core/core/core_systems.csv')
+          x=k[k.trait_name!='seed_height'].merge(
+              core[['family','trait_name','n_input_species','n_prune','n_bind']],
+              on=['family','trait_name'],validate='one_to_one')
+          r=x.sort_values('system_id').iloc[0]
+          fields=['system_id','family','trait_name','n_input_species','n_prune','n_bind']
+          d={f:(int(r[f]) if f.startswith('n_') else str(r[f])) for f in fields}
+          open('build/batch/systems.json','w').write(json.dumps([d]))
+          print('source-noise real-tree preflight:',d['system_id'],d['trait_name'])
+          PY
+      - name: Execute full OU+source K under exact native tip/tree model
+        env:
+          AUSTRAITS_SOURCE_DISPERSION_FILE: build/source-dispersion/source_dispersion.json
+          AUSTRAITS_OU_TREF_FILE: build/time-reference/time_reference.json
+          AUSTRAITS_OU_K_REFERENCE_FILE: build/K/effects.csv
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json build/batch/systems.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/results \
+            --r-script scripts/analysis/run_austraits_k_source_noise_ou_system_v0_1.R
+          python - <<'PY'
+          import glob,json,numpy as np
+          fs=glob.glob('build/results/*.json')
+          assert len(fs)==1
+          z=json.load(open(fs[0]))
+          assert z['status']=='AUSTRAITS_K_SOURCE_NOISE_OU_SYSTEM_ESTIMATED'
+          for axis in ('S3','prune_only'):
+              for scen in ('c0p25','c1','c4'):
+                  for model in ('trait_global','system_local'):
+                      v=z['axes'][axis]['scenarios'][scen]['models'][model]['logK']
+                      assert len(v)==256 and np.isfinite(np.asarray(v,float)).all()
+          print('PASS: 12 source-noise OU K draw sets on exact observed system trees')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-source-noise-ou-smoke-v0-1
+          path: build/results/*.json
+          retention-days: 30

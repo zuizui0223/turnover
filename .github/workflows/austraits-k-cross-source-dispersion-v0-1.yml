@@ -1,0 +1,77 @@
+name: AusTraits K-blind cross-source dispersion v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-cross-source-dispersion-v0-1.yml'
+      - 'data/austraits_k_cross_source_dispersion_design_v0_1.json'
+      - 'scripts/analysis/estimate_austraits_k_cross_source_dispersion_v0_1.py'
+      - 'tests/test_austraits_k_cross_source_dispersion_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  estimate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml numpy pandas
+      - name: Check source-only estimator and synthetic graph contracts
+        run: |
+          python -m py_compile scripts/analysis/estimate_austraits_k_cross_source_dispersion_v0_1.py tests/test_austraits_k_cross_source_dispersion_v0_1.py
+          python tests/test_austraits_k_cross_source_dispersion_v0_1.py
+      - name: Get frozen exact original K cohort and independent source-coverage gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/coverage build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 37783083851 -R "$GITHUB_REPOSITORY" -n austraits-k-source-replicate-feasibility-v0-1 -D build/coverage
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+          test -f build/coverage/source_repeatability_feasibility.json
+      - name: Download source-native AusTraits and original version-locked units
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail \
+            -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Calibrate cross-dataset variance without phylogenetic K values
+        run: |
+          python scripts/analysis/estimate_austraits_k_cross_source_dispersion_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --coverage build/coverage/source_repeatability_feasibility.json \
+            --design data/austraits_k_cross_source_dispersion_design_v0_1.json \
+            --out build/result/source_dispersion.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/result/source_dispersion.json'))
+          assert r['status']=='AUSTRAITS_K_CROSS_SOURCE_DISPERSION_ESTIMATED'
+          assert r['graph']=={'systems':254,'families':42,'traits':13}
+          assert len(r['systems'])==254 and len(r['traits'])==13
+          assert r['no_K_response_used'] is True
+          for row in r['systems']:
+              assert set(row).isdisjoint({'S3_K','prune_K','S3_logK','prune_logK','rank_gain','family_ICC'})
+          print('PASS: fixed graph, source-only pooled variances; eligible traits:',r['eligible_traits'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-cross-source-dispersion-v0-1
+          path: build/result/source_dispersion.json
+          retention-days: 30

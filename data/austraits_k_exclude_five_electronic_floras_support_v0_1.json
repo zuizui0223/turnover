@@ -1,0 +1,93 @@
+{
+  "version": "v0.1",
+  "status": "POST_279_K_AND_FLORA_LINEAGE_OUTCOMES_PRE_FLORA_EXCLUSION_SUPPORT_COUNTS_FROZEN",
+  "frozen_date": "2026-10-16",
+  "scientific_question": "Without the five electronic flora/PlantNet source archives dominating source-matched reproductive versus vegetative trait K support, how many original within-family matched-species comparisons retain at least 20 species with native positive medians for both traits?",
+  "original_cohort": {
+    "original_K_effect_run": 37725935020,
+    "original_core_run": 37561341286,
+    "original_K_blind_760_pair_support_run": 38673955087,
+    "original_279_same_dataset_support_run": 38696272257,
+    "original_279_K_source_robustness_run": 38698215216,
+    "original_native_method_context_positive_control_run": 38705851279,
+    "original_data_release": "AusTraits v7.0.0",
+    "parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "source_native_unit_dictionary_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "original_graph": {
+      "systems": 254,
+      "families": 42,
+      "traits": 13
+    },
+    "source_calibratable_graph": {
+      "systems": 249,
+      "families": 42,
+      "traits": 12
+    },
+    "original_K_blind_family_trait_pairs": 760,
+    "original_reproductive_vegetative_family_pairs": 406,
+    "discovery_organ_contrast_seen_before_this_support_audit": true
+  },
+  "fixed_excluded_contributing_AusTraits_dataset_ids": [
+    "ABRS_2023",
+    "NHNSW_2023",
+    "RBGV_2023",
+    "NTH_2023",
+    "SAH_2023"
+  ],
+  "exclusion_rationale": "These five pinned datasets describe electronic Floras or PlantNet and together contributed 49,746 of 65,043 source links for 279 same-DatasetID matched-organ species×pair cells. They are NOT assumed to be the only secondary/descriptive sources.",
+  "eligibility": {
+    "original_numerical_species_rule": "Exact source-native units, original species-rank and unambiguous genus eligibility, deduplicate all finite records by system/genus/binomial/dataset_id/observation_id/value; median >0, matching every one of 254 frozen system n_input_species.",
+    "no_flora_numeric_species_rule": "Within each ORIGINAL K-eligible species, recompute positive median from all original source records EXCEPT five frozen electronic flora datasets; do not add new species/taxa absent original graph.",
+    "pair_same_species": "For each of 760 fixed original K-blind family×trait pairs, count exact common binomials with the same unambiguous genus before and after five-flora removal. No pair is added based on observed K.",
+    "no_flora_shared_dataset_rule": "Within species passing no-flora median for both traits, require at least one same non-flora dataset_id with a finite positive observation for both traits. The same dataset_id DOES NOT prove identical source study or physical specimen.",
+    "min_positive_nonflora_species_per_family_trait_pair": 20,
+    "min_positive_same_nonflora_dataset_species_per_family_trait_pair": 20,
+    "original_cross_organ_classes": {
+      "reproductive": [
+        "fruit_height",
+        "fruit_length",
+        "fruit_width",
+        "seed_dry_mass",
+        "seed_length",
+        "seed_width"
+      ],
+      "vegetative": [
+        "leaf_area",
+        "leaf_length",
+        "leaf_mass_per_area",
+        "leaf_width",
+        "petiole_length",
+        "plant_height"
+      ]
+    },
+    "single_family_independence_unit": "Plant family; do not interpret repeated trait pairs as independent evolutionary replicates."
+  },
+  "descriptive_support_gates": {
+    "minimum_cross_organ_families_for_exploratory_reestimated_K": 10,
+    "minimum_fruit_vs_vegetative_families": 5,
+    "minimum_seed_vs_vegetative_families": 5,
+    "minimum_distinct_reproductive_and_vegetative_trait_names_each": 2,
+    "no_relaxing_after_seen_source_support": true,
+    "if_insufficient": "HOLD_NONFLORA_PRIMARY_MEASUREMENT_SCOPE_NOT_ESTABLISHED; report source-availability limitation, never a null biological result."
+  },
+  "downstream_if_qualified": {
+    "focus": "Run within the same original source comparison, on no-flora-supported species and identical original native phylogenies for both organ traits: original ALL-source species medians versus floras-excluded medians. This is a new post-outcome robustness check, not independent trait validation.",
+    "native_tree_axes": [
+      "V.PhyloMaker2 S3 original commit",
+      "GBOTB native prune-only original backbone"
+    ],
+    "important_estimand": "Change in paired logK organ difference caused by five-flora source value substitution on identical species/tips/tree; do NOT compare full original-tip K to restricted-tip K as a pure source effect.",
+    "source_only_eligibility_must_be_frozen_prior_to_K": true,
+    "family_bootstrap_draws": 5000,
+    "family_bootstrap_seed": 20261016,
+    "paired_source_analysis_within_original_AusTraits_only": true,
+    "note": "New bootstrap random seed added for reproducibility before any new five-flora-excluded K result was visible; source-only eligibility and five original flora IDs remain unchanged."
+  },
+  "hard_nonclaims": [
+    "All prospective-on-new-data replication gates for TRY v7 remain unchanged and unmet.",
+    "Five flora exclusion does not make remaining AusTraits values independent; many remaining source IDs may be monographs, Flora-derived compilation, curated taxonomic estimates or have primary record overlap.",
+    "Source-exclusion cohort was motivated after observing the K outcomes, organ hierarchy and source concentration; results are explicitly post-outcome sensitivity only.",
+    "A strong phylogenetic K value does not identify OU alpha, selection, absolute evolutionary rate or developmental constraint.",
+    "Do not reopen scientifically closed 201-system BIEN rho analysis or retune source OU from this post-outcome source exclusion."
+  ]
+}

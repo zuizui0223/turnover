@@ -1,0 +1,40 @@
+{
+  "version": "v0.1",
+  "status": "POST_PUBLICATION_LINKAGE_PRE_SOURCE_EXPOSURE_OUTCOME_FROZEN",
+  "frozen_on": "2026-10-13",
+  "question": "Which source-native AusTraits K-system species are associated with historical TRY/AusTraits shared-publication leads, before any independent TRY v7 biological outcome?",
+  "source_inputs": {
+    "pinned_austraits": "AusTraits 7.0.0",
+    "pinned_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "K_original_effects_run_id": 37725935020,
+    "original_core_run_id": 37561341286,
+    "public_linkage_run_id": 38403020753,
+    "original_graph": {
+      "systems": 254,
+      "families": 42,
+      "traits": 13
+    },
+    "source_index_kind": "TRY HISTORICAL PUBLIC EXPLORER VERSION 6, NOT CURRENT TRY VERSION 7",
+    "strong_source_id": "Tng_2013",
+    "try_public_dataset_id": 625,
+    "strong_publication_doi": "10.1371/journal.pone.0084378"
+  },
+  "eligibility": {
+    "species_support": "Recompute original source-native species medians from all original numeric source values; keep only exactly original 254-system cohort species with genus unambiguous and median>0, without changing tree/tip cohort.",
+    "source_measurement_eligibility": "Positive finite original numeric source records in exact source-native expected units; deduplicate source ID + observation ID + value. Count distinct species-system cells and distinct dataset-ID-observation-ID keys.",
+    "source_grouping": "Strong = fixed Tng_2013 matching author+year publication lead. Weak = separately listed author-only candidate AusTraits source IDs. Never mix into one confirmed shared-publication category.",
+    "raw_species_ids": "Never export named species, source observation IDs or trait measurements.",
+    "report_grain": "Summaries by named trait, plus exact strong/weak source IDs and aggregate family/system counts. No species-level records persisted.",
+    "original_graph_identity": "Require every original K family×trait to have exactly the frozen n_input_species recomputed from source-native median eligibility."
+  },
+  "safety": {
+    "no_new_try_v7_records": true,
+    "no_phylogenetic_K_outcomes_used": true,
+    "no_trait_values_exported": true,
+    "DOI_match_is_not_individual_record_match": true,
+    "no_change_to_external_validation": "10 families×20 distinct species per trait; at least 10 paired family supports; 4/5 frozen signed traits",
+    "no_BIEN_reopening": true,
+    "provisional_result_type": "OUTCOME-BLIND SOURCE PROVENANCE EXPOSURE, NOT ECOLOGICAL SELECTION"
+  },
+  "output_status": "DESIGN_ONLY"
+}

@@ -1,0 +1,148 @@
+name: AusTraits shared-OU archived-null recovery v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-shared-ou-archive-recovery-v0-1.yml'
+      - 'scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py'
+      - 'tests/test_austraits_k_shared_ou_rounding_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# The original 16 simulations all succeeded on run 37754329843.
+# This lane downloads those immutable archived outcomes; it does not
+# rerun the 254 source-native trees, select an alpha, or resimulate OU.
+jobs:
+  aggregate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Regression-test independent 4-decimal K/logK rounding
+        run: |
+          python -m py_compile scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py tests/test_austraits_k_shared_ou_rounding_v0_1.py
+          python tests/test_austraits_k_shared_ou_rounding_v0_1.py
+      - name: Recover original completed simulation artifacts without refitting
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/all build/time-reference build/K build/results build/tables
+          for i in $(seq -w 1 16); do
+            gh run download 37754329843 -R "$GITHUB_REPOSITORY" -n "austraits-ou-sim-B${i}" -D build/all
+          done
+          gh run download 37754329843 -R "$GITHUB_REPOSITORY" -n austraits-ou-time-reference-v0-1 -D build/time-reference
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test "$(find build/all -maxdepth 1 -name '*.json' | wc -l)" -eq 254
+          test -f build/time-reference/time_reference.json
+          test -f build/K/effects.csv
+      - name: Reconcile K-scale precision and aggregate all 3 pre-frozen OU scenarios
+        run: |
+          python scripts/analysis/aggregate_austraits_k_shared_ou_v0_1.py \
+            --input-dir build/all \
+            --observed-K build/K/effects.csv \
+            --time-reference build/time-reference/time_reference.json \
+            --out build/results/metric_null.json \
+            --tables-dir build/tables
+          python - <<'PY'
+          import json
+          z=json.load(open('build/results/metric_null.json'))
+          assert z['status']=='AUSTRAITS_REAL_TREE_SHARED_OU_K_METRIC_NULL_ESTIMATED'
+          assert z['observed_graph']=={'systems':254,'families':42,'traits':13}
+          assert z['replicates_per_scenario']==256
+          assert set(z['scenarios'])=={'c0p25','c1','c4'}
+          print('PASS: archived shared-OU full graph and 3 fixed alpha scenarios')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-metric-null-recovered-v0-1
+          path: |
+            build/results/metric_null.json
+            build/tables/
+          retention-days: 30
+
+  family_null:
+    needs: aggregate
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include:
+          - {scenario: c0p25, axis: S3}
+          - {scenario: c0p25, axis: prune_only}
+          - {scenario: c1, axis: S3}
+          - {scenario: c1, axis: prune_only}
+          - {scenario: c4, axis: S3}
+          - {scenario: c4, axis: prune_only}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-ou-metric-null-recovered-v0-1
+          path: build/data
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+      - name: Download original unmodified K reference
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/family
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+      - name: Calibrate full fixed-family REML against all 256 draws
+        run: |
+          Rscript scripts/analysis/fit_austraits_k_shared_ou_family_v0_1.R \
+            --observed-K build/K/effects.csv \
+            --null-table build/data/tables/null_effects_${{ matrix.scenario }}.csv \
+            --scenario ${{ matrix.scenario }} \
+            --axis ${{ matrix.axis }} \
+            --out build/family/result_${{ matrix.scenario }}_${{ matrix.axis }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-ou-family-recovered-${{ matrix.scenario }}-${{ matrix.axis }}
+          path: build/family/*.json
+          retention-days: 30
+
+  interpret:
+    needs: family_null
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-ou-metric-null-recovered-v0-1
+          path: build/data
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-ou-family-recovered-c*
+          path: build/family
+          merge-multiple: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Apply original pre-outcome 3-scenario decision unchanged
+        run: |
+          mkdir -p build/final
+          python scripts/analysis/interpret_austraits_k_shared_ou_v0_1.py \
+            --metrics build/data/results/metric_null.json \
+            --family-dir build/family \
+            --design data/austraits_k_equal_ou_alternative_null_v0_1.json \
+            --out build/final/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-shared-ou-process-null-recovered-final-v0-1
+          path: build/final/result.json
+          retention-days: 30

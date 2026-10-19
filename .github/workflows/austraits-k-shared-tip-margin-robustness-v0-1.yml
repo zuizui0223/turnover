@@ -1,0 +1,76 @@
+name: AusTraits 760 matched K margin and family uncertainty audit v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-shared-tip-margin-robustness-v0-1.yml'
+      - 'data/austraits_k_shared_tip_margin_sensitivity_v0_1.json'
+      - 'scripts/analysis/audit_austraits_k_shared_tip_margin_sensitivity_v0_1.py'
+      - 'tests/test_austraits_k_shared_tip_margin_sensitivity_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  post_outcome_diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas numpy scipy statsmodels
+      - name: Recover exact original source-only 760-pair support and 24 completed K batches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/support build/batches build/result
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+          for i in $(seq -w 1 24); do
+            gh run download 38674635870 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-k-matched-taxon-B${i}-v0-1" -D build/batches
+          done
+          test "$(find build/batches -maxdepth 1 -name 'B*.json' | wc -l)" -eq 24
+          test -f build/support/shared_taxon_pair_support.json
+      - name: Test synthetic complete 760-pair K graph and 42-family inference guards
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_shared_tip_margin_sensitivity_v0_1.py
+          python tests/test_austraits_k_shared_tip_margin_sensitivity_v0_1.py \
+            --support build/support/shared_taxon_pair_support.json
+      - name: Recalculate original margin/taxon coverage strata with family cluster bootstrap
+        run: |
+          python scripts/analysis/audit_austraits_k_shared_tip_margin_sensitivity_v0_1.py \
+            --support build/support/shared_taxon_pair_support.json \
+            --batch-dir build/batches \
+            --design data/austraits_k_shared_tip_margin_sensitivity_v0_1.json \
+            --out build/result/k_pair_margin_robustness.json
+          python - <<'PY'
+          import json,math
+          d=json.load(open('build/result/k_pair_margin_robustness.json'))
+          assert d['status']=='AUSTRAITS_K_SHARED_TIP_MARGIN_COVERAGE_EXPLORATORY_AUDITED'
+          assert d['source_support_graph']=={
+            'systems':249,'families':42,'trait_pair_types':66,
+            'eligible_family_trait_pairs':760}
+          assert d['post_outcome_exploratory'] is True
+          assert d['no_Try_independent_validation'] is True
+          for axis,n,flip in [('S3',760,151),('prune_only',747,137)]:
+              r=d['axes'][axis]
+              assert r['total']['n_pairs']==n
+              assert r['total']['n_flips']==flip
+              assert math.isfinite(r['total']['equal_family_rate'])
+              assert len(r['strata']['original_abs_logK'])==5
+              assert len(r['strata']['shared_fraction_larger'])==5
+              assert len(r['strata']['n_shared_species'])==5
+              assert all(0<=g['pair_weighted_rate']<=1 for g in r['strata']['original_abs_logK'])
+          print('PASS: all source-native original 760 pair identities and family confidence intervals')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-shared-tip-margin-and-family-uncertainty-v0-1
+          path: build/result/k_pair_margin_robustness.json
+          retention-days: 30

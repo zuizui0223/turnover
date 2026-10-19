@@ -1,0 +1,36 @@
+name: AusTraits K real-tree Brownian-null verdict preflight v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-real-tree-bm-verdict-preflight-v0-1.yml'
+      - 'data/austraits_k_real_tree_bm_interpretation_v0_1.json'
+      - 'scripts/analysis/interpret_austraits_k_real_tree_bm_v0_1.py'
+      - 'tests/test_austraits_k_real_tree_bm_interpretation_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen interpretation contract and synthetic scenarios
+        run: |
+          python -m py_compile scripts/analysis/interpret_austraits_k_real_tree_bm_v0_1.py tests/test_austraits_k_real_tree_bm_interpretation_v0_1.py
+          python tests/test_austraits_k_real_tree_bm_interpretation_v0_1.py
+          python - <<'PY'
+          import json
+          p='data/austraits_k_real_tree_bm_interpretation_v0_1.json'
+          x=json.load(open(p))
+          assert x['status']=='POST_RHO_K_OUTCOME_BUT_PRE_REAL_TREE_BM_NULL_INTERPRETATION'
+          assert x['fixed_graph']=={'systems':254,'families':42,'traits':13}
+          assert x['null_replicates']==64
+          PY

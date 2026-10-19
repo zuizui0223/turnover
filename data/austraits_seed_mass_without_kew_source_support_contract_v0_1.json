@@ -1,0 +1,34 @@
+{
+  "version": "v0.1",
+  "status": "AFTER_KEW_EXPOSURE_BEFORE_SOURCE_EXCLUSION_SUPPORT_OUTCOME_FROZEN",
+  "frozen_on": "2026-10-13",
+  "purpose": "How much of the original 15-family seed_dry_mass cohort can be reconstructed using original AusTraits data excluding only Kew_2019_1? Count support only; do not reopen phylogenetic K or change original graph/inference.",
+  "fixed_source": {
+    "release": "AusTraits 7.0.0",
+    "original_effects_run": 37725935020,
+    "original_core_run": 37561341286,
+    "parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "excluded_dataset_id": "Kew_2019_1",
+    "trait": "seed_dry_mass",
+    "original_graph": {
+      "systems": 254,
+      "families": 42,
+      "traits": 13
+    },
+    "original_seed_dry_mass_species_system_cells": 4242,
+    "original_seed_dry_mass_systems": 15
+  },
+  "species_filter": "Match original frozen source-unit/species/genus/finiteness/observation dedup then full original all-record positive species median. Independently recompute positive source species median after removing Kew_2019_1. Count only original eligible species surviving this removal.",
+  "outputs": [
+    "Per family system original source-native species support and non-Kew positive-median species support",
+    "Number and fraction lost on each family system",
+    "Number of families with >=20 surviving non-Kew species, same threshold used in external candidate preflight only as descriptive diagnostic",
+    "All-graph non-Kew support check and zero K effect magnitudes, species IDs or numeric trait values"
+  ],
+  "interpretation": [
+    "Excluding Kew is an exploratory *post-outcome source availability* sensitivity, not an independent external validation or original pre-frozen process null.",
+    "Even non-Kew AusTraits sources may reuse Kew or TRY underlying primary measurements; counting non-Kew dataset_id is not a record-lineage independent-source PASS.",
+    "Never claim a trait loses signal or selection from reduced species counts alone.",
+    "Original seed mass K rank cannot be inferred on a changed species support without explicitly re-estimating phylogenies and respecting the exploratory label."
+  ]
+}

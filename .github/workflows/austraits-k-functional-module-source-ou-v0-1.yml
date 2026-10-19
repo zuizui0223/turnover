@@ -1,0 +1,75 @@
+name: AusTraits reproductive organ source-OU model adequacy v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-functional-module-source-ou-v0-1.yml'
+      - 'data/austraits_k_functional_module_portability_v0_1.json'
+      - 'scripts/analysis/audit_austraits_k_organ_modules_source_ou_null_v0_1.py'
+      - 'tests/test_austraits_k_organ_modules_source_ou_null_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original_tip_posterior_predictive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas numpy
+      - name: Retrieve immutable original 249 K systems and 16 OU source simulations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/K build/null build/result
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+            -n austraits-blomberg-k-effects-v0-1 -D build/K
+          for i in $(seq -w 1 16); do
+            gh run download 37785257795 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-source-ou-sim-B${i}" -D build/null
+          done
+          test -f build/K/effects.csv
+          test "$(find build/null -maxdepth 1 -name '*.json' | wc -l)" -eq 249
+      - name: Validate source-OU origin graph with 256 synthetic replicates per original system
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_organ_modules_source_ou_null_v0_1.py
+          python tests/test_austraits_k_organ_modules_source_ou_null_v0_1.py \
+            --observed-K build/K/effects.csv
+      - name: Explore whether fixed homogeneous OU and source-associated variance predict reproductive organ K dominance on ORIGINAL disparate tips
+        run: |
+          python scripts/analysis/audit_austraits_k_organ_modules_source_ou_null_v0_1.py \
+            --source-ou-dir build/null \
+            --observed-K build/K/effects.csv \
+            --design data/austraits_k_functional_module_portability_v0_1.json \
+            --out build/result/functional_module_source_ou_adequacy.json
+          python - <<'PY'
+          import json,math
+          z=json.load(open('build/result/functional_module_source_ou_adequacy.json'))
+          assert z['status']=='AUSTRAITS_K_ORGAN_MODULE_SOURCE_OU_POST_OUTCOME_ADEQUACY_V0_1'
+          assert z['observed_original_tip_inter_organ_pairs']==410
+          assert z['families_with_inter_organ_pairs']==34
+          assert z['simulation_draws']==256
+          assert z['NOT_applicable_to_760_matched_taxon_null_distribution']
+          assert z['after_observed_K_OU_source_and_matched_tip_K']
+          assert not z['independent_TRY_v7_validation']
+          for m in ('trait_global','system_local'):
+            for scenario in ('c0p25','c1','c4'):
+              for axis in ('S3','prune_only'):
+                x=z['model_results'][m][scenario][axis]
+                for score in ('pair_weighted','equal_family'):
+                  assert math.isfinite(x[score]['observed'])
+                  assert 1/257<=x[score]['descriptive_Monte_Carlo_p_one_sided']<=1
+          print('PASS: all 12 exploratory OU source-envelope model adequacy checks on original fixed source-native geometry')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-functional-module-source-ou-adequacy-v0-1
+          path: build/result/functional_module_source_ou_adequacy.json
+          retention-days: 30

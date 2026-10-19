@@ -1,0 +1,37 @@
+{
+  "version": "v0.1",
+  "status": "POST_COVERAGE_PRE_CROSS_SOURCE_DISPERSION_FROZEN",
+  "frozen_on": "2026-10-08",
+  "question": "How much same-species source-associated log-scale dispersion, with no use of phylogenetic K outcomes, exists for each named trait, relative to within-family interspecific variation?",
+  "source_identity": {
+    "parquet_version": "AusTraits v7.0.0",
+    "sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "original_K_workflow": 37725935020,
+    "original_core_workflow": 37561341286,
+    "coverage_workflow": 37783083851,
+    "graph": {
+      "systems": 254,
+      "families": 42,
+      "traits": 13
+    }
+  },
+  "data_rules": {
+    "cohort": "Exact original 254 fixed family×trait systems; exact original species-rank, non-null IDs and units, deduplicate (dataset_id, observation_id, numeric value), collapse source measurements within a species to median(log positive value), retain only species whose original all-record raw median is positive, and reject if species counts or graph differ.",
+    "source_unit": "Distinct dataset_id; different dataset names are not guaranteed independent primary experiments or identical environmental contexts",
+    "paired_sampling": "For every eligible species with >=2 positive dataset-specific medians calculate unbiased sample variance (ddof=1) across dataset medians. Each species contributes one estimate, regardless of dataset count.",
+    "system_dispersion": "For systems with >=5 multi-dataset species, median of their cross-dataset sample variances; otherwise system is uncalibrated.",
+    "between_species_scale": "Sample variance (ddof=1) of log(original source-native all-record species medians) on every full system, including single-dataset species. No K value used.",
+    "system_relative_dispersion": "system_dispersion / between_species_scale when denominator>0; otherwise uncalibrated.",
+    "trait_summary": "Across all calibrated family systems of a trait, unweighted median system_relative_dispersion, plus quartiles and max; no winsorizing or K-informed exclusion.",
+    "minimum_calibration": "At least 3 families with 5 or more multi-dataset species and >=30 multi-dataset species in total, as already frozen before coverage. The nonqualifying seed_height is always flagged uncalibrated."
+  },
+  "safeguards": [
+    "The output consists of aggregate counts/dispersion; no species, coordinates, raw values or source dataset IDs are persisted.",
+    "Both source and within-species biological heterogeneity contaminate the dispersion; call it an observational/source heterogeneity envelope, not pure instrument measurement error.",
+    "Do not open or use K effect magnitudes, family ICC, rank gain or OU outcomes for selecting weights, ratios or thresholds.",
+    "High source dispersion does not prove it causes portable K rankings; next step is matched-tree simulation with separately frozen forward model and original graph.",
+    "No upper cap, lower cap or noise scenario chosen after reading empirical K. If trait ratios are undefined or unsupported, hold inference rather than impute them.",
+    "All downstream sensitivity is post empirical rho/K and equal BM/OU outcomes, and cannot become prospective validation."
+  ],
+  "output_status": "DESIGN_ONLY_NOT_EXECUTED"
+}

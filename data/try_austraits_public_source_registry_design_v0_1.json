@@ -1,0 +1,52 @@
+{
+  "version": "v0.1",
+  "status": "PRE_PUBLIC_METADATA_CATALOG_AUDIT_PROTOCOL_FIXED",
+  "frozen_on": "2026-10-11",
+  "purpose": "Acquire public TRY Data Explorer directory metadata for provenance preflight and compare with pinned AusTraits source metadata on the exact 254-system discovery graph, without opening TRY trait values.",
+  "sources": {
+    "try_directory": "https://www.try-db.org/de/Datasets.php",
+    "try_explorer_version_reference": "https://www.try-db.org/de/de.php",
+    "try_explorer_declared_database_version": "6.0",
+    "try_v7_main_database": "https://www.try-db.org/",
+    "try_data_release_format": "https://www.try-db.org/TryWeb/TRY_Data_Release_Notes.pdf",
+    "try_data_request": "https://www.try-db.org/TryWeb/Prop0.php",
+    "austraits_parquet": "https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet",
+    "austraits_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "austraits_source_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "core_workflow": 37561341286,
+    "K_reference_workflow": 37725935020
+  },
+  "known_version_boundary": "TRY website main database reports v7, but public Explorer advertises v6.0/2022-10-13; public directory is not certified to contain all TRY v7 primary sources or current access rights.",
+  "fields": [
+    "TRY historical public directory DatasetID",
+    "Dataset title",
+    "Declared availability in public Explorer",
+    "AusTraits exact fixed-core contributing dataset_id",
+    "AusTraits dataset metadata primary DOI (if recoverable)",
+    "Lexical dataset name similarity used ONLY to flag possible overlap, never establish independence"
+  ],
+  "minimum_operational_checks": {
+    "try_catalog_min_rows": 100,
+    "require_unique_try_id": true,
+    "source_graph_systems": 254,
+    "source_graph_families": 42,
+    "source_graph_traits": 13,
+    "strict_parquet_hash": true
+  },
+  "conservative_verdicts": {
+    "public_catalog_download_unavailable": "HOLD_PUBLIC_CATALOG_NOT_VERIFIED",
+    "metadata_exists_no_version_identity": "HOLD_TRY_V7_SOURCE_INDEPENDENCE_UNVERIFIED",
+    "lexical_match": "POTENTIAL_NAME_OVERLAP_REQUIRES_PRIMARY_SOURCE_AUDIT",
+    "lexical_nonmatch": "NO_DOCUMENTED_MATCH_NOT_INDEPENDENCE_PASS",
+    "missing_doi": "UNKNOWN_PRIMARY_DOI_NOT_INDEPENDENCE_PASS"
+  },
+  "no_outcomes": [
+    "No TRY individual trait values are requested or opened.",
+    "No K, rho, trait ranks or named-trait signed outcomes are inspected.",
+    "Never use TRY v6 directory counts as TRY v7 species-family sample support.",
+    "Do not infer external validation independence from absence of title or DOI matches.",
+    "No relaxation of 10 families x 20 species, four of five traits, or >=10 families with two traits.",
+    "Closed BIEN 201-system rho core remains closed."
+  ],
+  "output_status": "DESIGN_ONLY_PRE_FIRST_PUBLIC_METADATA_FETCH"
+}

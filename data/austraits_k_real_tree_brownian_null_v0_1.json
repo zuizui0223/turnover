@@ -1,0 +1,55 @@
+{
+  "version": "v0.1",
+  "status": "POST_OUTCOME_REAL_TREE_IDENTICAL_BROWNIAN_PROCESS_NULL_FROZEN",
+  "date": "2026-10-08",
+  "motivating_failure": "A 50% rank-reversal probability is expected even when independent traits evolve under the same stochastic Brownian process; observed differences in estimator strength can also arise from phylogenetic geometry.",
+  "population": {
+    "source": "AusTraits 7.0.0 qualified positive-numeric log-core and its exact source-native trees",
+    "systems": 254,
+    "families": 42,
+    "traits": 13,
+    "fixed_system_membership": true,
+    "fixed_tip_sets": true,
+    "reference_K_artifact": "austraits-blomberg-k-effects-v0-1 from workflow 37725935020",
+    "source_artifact": "austraits-real-effects-v0-1 from workflow 37561484157",
+    "tree_axes": [
+      "S3",
+      "prune_only"
+    ],
+    "backbone": "GBOTB.extended.TPL V.PhyloMaker2 pinned commit 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+  },
+  "process_null": {
+    "simulated_independent_trait_evolution": "Brownian motion sigma2=1 on each exact system tree, starting at root value 0",
+    "species_state_values": "all new simulations; no observed trait states used in the null except to verify exact tree and K identity",
+    "replicates": 64,
+    "master_seed": 20261008,
+    "independence": "separate Brownian draws for every trait system and simulation replicate, conditional on each exact input phylogeny",
+    "expectation": "Same process parameter across all named traits and families; observed tree shape and taxon coverage can nevertheless induce systematic differences in K distributions.",
+    "simulation_metric": "exact phytools phylosig-method-K formula evaluated using an O(n_edges) phylogenetic independent-contrasts recursion, checked against phytools on observed trait states before opening null result",
+    "no_parameter_tuning_from_outcome": true
+  },
+  "analysis": {
+    "primary_axis": "prune_only",
+    "mandatory_sensitivity": "S3",
+    "measures": [
+      "held-out-family absolute log(K) prediction gain versus held-out-family global-mean baseline",
+      "held-out-family within-family rank prediction gain versus 0.5 baseline",
+      "weighted cross-family pair-order reversal for trait pairs co-occurring in >=10 families",
+      "conditional family repeatability from log(K) ~ 0+named_trait+(1|family), REML"
+    ],
+    "graph_and_bins_identical_between_empirical_and_null": true,
+    "empirical_tail_p": "(1 + #{null replicate >= observed})/(1+valid replicates) for predictability and repeatability; two-tailed rank reversal assessment and null interval",
+    "note": "64 Monte Carlo replicates resolve p-values no smaller than 1/65 and are preliminary process-null calibration; increase precision without changing specification only if warranted."
+  },
+  "interpretation": {
+    "null_emulates_empirical_structure": "If the observed family or trait effects lie inside the identical-process null distribution, do not attribute them to process heterogeneity.",
+    "beyond_null": "If observed family repeatability and trait ranking exceed calibrated null tails on both tree axes, infer evidence of reproducible heterogeneity in the phylogenetic-signal statistic beyond equal-rate Brownian processes, not necessarily selection/adaptation.",
+    "observed_reversal_near_half": "Do not treat 50% reversal itself as evidence of biological rewiring."
+  },
+  "limitations": [
+    "Different traits use independently generated Brownian trajectories, so cross-trait evolutionary covariance is absent from this null.",
+    "Underlying published phylogenies and taxonomy are assumed correct.",
+    "This is a post-outcome test, not a revision of the pre-frozen rho programme.",
+    "No mechanistic inference from a single equal-rate-Brownian null."
+  ]
+}

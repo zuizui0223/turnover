@@ -1,0 +1,74 @@
+name: AusTraits K source-replicate feasibility v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-source-replicate-feasibility-v0-1.yml'
+      - 'data/austraits_k_source_repeatability_feasibility_v0_1.json'
+      - 'scripts/analysis/audit_austraits_k_source_repeatability_v0_1.py'
+      - 'tests/test_austraits_k_source_repeatability_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source_coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas pyyaml duckdb
+      - name: Check frozen decision and synthetic graph guards
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_source_repeatability_v0_1.py tests/test_austraits_k_source_repeatability_v0_1.py
+          python tests/test_austraits_k_source_repeatability_v0_1.py
+      - name: Recover exact 254-system K source graph without fetching outcomes for inference
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+      - name: Download immutable original AusTraits source and trait-unit schema
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail \
+            -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Audit cross-dataset same-species repeat coverage without reading K statistics
+        run: |
+          python scripts/analysis/audit_austraits_k_source_repeatability_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --core build/core/core/core_systems.csv \
+            --observed-K build/K/effects.csv \
+            --design data/austraits_k_source_repeatability_feasibility_v0_1.json \
+            --out build/result/source_repeatability_feasibility.json
+      - name: Verify original cohort and no K response leakage
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/result/source_repeatability_feasibility.json'))
+          assert d['graph']=={'systems':254,'families':42,'traits':13}
+          assert d['status']=='AUSTRAITS_K_SOURCE_REPLICATE_FEASIBILITY_AUDITED'
+          assert len(d['traits'])==13
+          assert not any(k in str(d).lower() for k in ('rank_gain','logk','family_icc','observed_k'))
+          print('PASS: source-only independent-record coverage decision')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-source-replicate-feasibility-v0-1
+          path: build/result/source_repeatability_feasibility.json
+          retention-days: 30

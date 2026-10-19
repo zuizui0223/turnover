@@ -1,0 +1,114 @@
+name: AusTraits joint no-flora and same-source real-tree K smoke v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-joint-nonflora-dataset-smoke-v0-1.yml'
+      - 'scripts/analysis/run_austraits_k_joint_nonflora_dataset_batch_v0_1.py'
+      - 'tests/test_austraits_k_joint_nonflora_dataset_batch_v0_1.py'
+      - 'data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  native_source_fixture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - name: Recover original pinned native K-blind family×trait source support
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source-support build/original-support build/source build/batch build/result
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/source-support
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/original-support
+      - name: Synthetic original 142-pair cohort, positive median and shared-only native source unit guard
+        run: |
+          python -m py_compile scripts/analysis/run_austraits_k_joint_nonflora_dataset_batch_v0_1.py
+          python tests/test_austraits_k_joint_nonflora_dataset_batch_v0_1.py \
+            --source-support build/source-support/source_support_excluding_five_floras.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Reproduce original native tree construction and Blomberg K kernel parity
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_k_same_dataset_organ_pairs_v0_1.R')"
+      - name: Fetch immutable AusTraits original source-native 7.0.0 records and units
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Choose 31- and 1095-species fixed source-only test pairs; no K-value filtering
+        run: |
+          python - <<'PY'
+          import json,sys
+          sys.path.insert(0,'scripts/analysis')
+          from run_austraits_k_joint_nonflora_dataset_batch_v0_1 import cohort
+          s=json.load(open('build/source-support/source_support_excluding_five_floras.json'))
+          o=json.load(open('build/original-support/shared_taxon_pair_support.json'))
+          d=json.load(open('data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json'))
+          a=cohort(s,o,d)
+          fixtures=[('Annonaceae','leaf_length','seed_length',31),
+                    ('Fabaceae','leaf_length','seed_length',1095)]
+          selected=[]
+          for f,x,y,n in fixtures:
+              v=[r for r in a if (r['family'],r['trait_A'],r['trait_B'])==(f,x,y)]
+              assert len(v)==1 and v[0]['n_same_AusTraits_dataset_species']==n
+              selected+=v
+          open('build/batch/smoke.json','w').write(json.dumps(selected))
+          print('PASS: fixed source-only joint noflora DatasetID cohort (31,1095)')
+          PY
+      - name: Evaluate identical tip/native phylogenies under nonflora versus same DatasetID nonflora source medians
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_k_joint_nonflora_dataset_batch_v0_1.py \
+            --batch-json build/batch/smoke.json \
+            --source-support build/source-support/source_support_excluding_five_floras.json \
+            --original-pair-support build/original-support/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_same_dataset_organ_pairs_v0_1.R \
+            --out build/result/joint_smoke.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/result/joint_smoke.json'))
+          assert r['status']=='AUSTRAITS_K_JOINT_NONFLORA_SHARED_DATASET_BATCH_COMPLETE'
+          assert len(r['pairs'])==2
+          assert r['joint_nonflora_and_identical_source_post_outcome_exploratory']
+          assert r['not_independent_primary_measurement_validation']
+          assert all(x['axes']['S3']['status']=='PASS' for x in r['pairs'])
+          print('PASS: parity-checked joint native K on two source-only original real phylogenies')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-joint-nonflora-dataset-smoke-v0-1
+          path: build/result/joint_smoke.json
+          retention-days: 30

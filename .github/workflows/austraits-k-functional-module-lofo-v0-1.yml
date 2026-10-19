@@ -1,0 +1,86 @@
+name: AusTraits same-tip reproductive vegetative K and LOFO v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-functional-module-lofo-v0-1.yml'
+      - 'data/austraits_k_functional_module_portability_v0_1.json'
+      - 'data/austraits_reproductive_vegetative_k_external_validation_protocol_v0_1.json'
+      - 'scripts/analysis/audit_austraits_k_functional_module_lofo_v0_1.py'
+      - 'tests/test_austraits_k_functional_module_lofo_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  whole_family_holdout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas numpy scipy statsmodels scikit-learn
+      - name: Recover validated 760 matched K comparisons and fixed K-blind support
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/support build/batches build/result
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+          for i in $(seq -w 1 24); do
+            gh run download 38674635870 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-k-matched-taxon-B${i}-v0-1" -D build/batches
+          done
+          test -f build/support/shared_taxon_pair_support.json
+          test "$(find build/batches -maxdepth 1 -name 'B*.json' | wc -l)" -eq 24
+      - name: Test full synthetic 760 graph and no held-out family leakage
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_functional_module_lofo_v0_1.py
+          python tests/test_austraits_k_functional_module_lofo_v0_1.py \
+            --support build/support/shared_taxon_pair_support.json
+      - name: Compare exact same-tip reproductive versus vegetative K and LOFO model skill
+        run: |
+          python scripts/analysis/audit_austraits_k_functional_module_lofo_v0_1.py \
+            --batch-dir build/batches \
+            --support build/support/shared_taxon_pair_support.json \
+            --margin-design data/austraits_k_shared_tip_margin_sensitivity_v0_1.json \
+            --design data/austraits_k_functional_module_portability_v0_1.json \
+            --out build/result/reproductive_vegetative_lofo.json
+          python - <<'PY'
+          import json,math
+          z=json.load(open('build/result/reproductive_vegetative_lofo.json'))
+          assert z['status']=='AUSTRAITS_K_REPRODUCTIVE_VEGETATIVE_LOFO_EXPLORATORY_V0_1'
+          assert z['post_original_K_and_760_outcomes_exploratory']
+          assert z['source_data_provenance']['plant_families']==42
+          for a,n in [('S3',406),('prune_only',397)]:
+              m=z['reproductive_vegetative_matched_tip'][a]
+              assert m['n_supported_family_pair_observations']==n
+              assert m['n_independent_families_with_cross_organ_comparisons']==34
+              assert m['n_reproductive_vegetative_named_pair_types']==36
+              assert .5<m['pair_weighted_reproductive_K_higher_rate']<1
+              scores=z['left_one_whole_family_out_prediction'][a]['all_source_eligible_pairs']['scores']
+              for model in ('pooled_other_families','reproductive_vegetative',
+                            'named_trait_Bradley_Terry','named_pair_Laplace'):
+                  assert 0<=scores[model]['hard_sign_accuracy_with_half_credit_for_ties']<=1
+                  assert math.isfinite(scores[model]['Brier_loss'])
+          assert not z['independent_TRY_v7_validation']
+          assert not z['new_OU_Brownian_process_parameters_fitted']
+          external=json.load(open('data/austraits_reproductive_vegetative_k_external_validation_protocol_v0_1.json'))
+          assert external['status']=='POST_AUSTRAITS_760_K_AND_ORGAN_CLASS_DISCOVERY_PRE_ANY_INDEPENDENT_EXTERNAL_ORGAN_K_OUTCOMES'
+          e=external['frozen_all_discovery_42_family_logistic']
+          for axis,field in [('S3','S3_logit_coefficient'),('prune_only','prune_logit_coefficient')]:
+              b=z['left_one_whole_family_out_prediction'][axis]['all_original_families_fit_for_future_external_validation_ONLY']
+              assert b['never_used_as_LOFO_test_prediction']
+              assert abs(b['module_coefficient']-e[field])<1e-6
+          print('PASS: 34 cross-organ source/tip-matched families, 42 heldout folds, and independently locked new-source logistic coefficients')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-reproductive-vegetative-lofo-v0-1
+          path: build/result/reproductive_vegetative_lofo.json
+          retention-days: 30

@@ -1,0 +1,80 @@
+name: AusTraits K original floristic method-context inference audit v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-taxonomic-inference-positive-record-v0-1.yml'
+      - 'data/austraits_k_taxonomic_context_record_audit_v0_1.json'
+      - 'scripts/source/audit_austraits_k_taxonomic_context_record_v0_1.py'
+      - 'tests/test_austraits_k_taxonomic_context_record_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original_floristic_method_records:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml
+      - name: Recover original unchanged 254 K family×trait species cohort and original source native units
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/source build/result
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" \
+             -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+             -n austraits-blomberg-k-effects-v0-1 -D build/K
+          test -f build/core/core/core_systems.csv
+          test -f build/K/effects.csv
+      - name: Verify pinned original 68-column source with inference method contexts
+        run: |
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Synthetic method-context tests, exactly pinned original 254 K species support and invalid-unit exclusions
+        run: |
+          python -m py_compile scripts/source/audit_austraits_k_taxonomic_context_record_v0_1.py
+          python tests/test_austraits_k_taxonomic_context_record_v0_1.py \
+            --observed-K build/K/effects.csv \
+            --core build/core/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_taxonomic_context_record_audit_v0_1.json
+      - name: Count actual original positive flora observations flagged inferred from genus, family or taxonomy before any K reanalysis
+        run: |
+          python scripts/source/audit_austraits_k_taxonomic_context_record_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --observed-K build/K/effects.csv \
+            --core build/core/core/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_taxonomic_context_record_audit_v0_1.json \
+            --out build/result/original_floristic_inference_records.json
+          python - <<'PY'
+          import json
+          z=json.load(open('build/result/original_floristic_inference_records.json'))
+          assert z['status']=='AUSTRAITS_K_NATIVE_TAXONOMIC_INFERENCE_CONTEXT_AUDITED'
+          assert z['original_254_K_native_species_state_graph_recovered']
+          assert z['original_graph']=={'systems':254,'families':42,'traits':13,
+                                       'source_calibratable_traits':12}
+          assert len(z['audited_floristic_dataset_ids'])==5
+          assert len(z['trait_dataset_results'])>0
+          assert not z['K_reestimated_or_selected_using_context']
+          assert not z['species_names_measurement_values_or_ids_exported']
+          print('PASS: original K-positive source records, actual method contexts and genus/family inference flag counts')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-original-flora-method-inference-v0-1
+          path: build/result/original_floristic_inference_records.json
+          retention-days: 30

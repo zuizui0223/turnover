@@ -1,0 +1,50 @@
+name: AusTraits strict nonflora organ K manuscript figures v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-nonflora-three-stage-publication-figures-v0-1.yml'
+      - 'scripts/analysis/plot_austraits_k_nonflora_cohort_transition_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  figures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install matplotlib numpy
+      - name: Retrieve original frozen 142 paired K and independently validated 283-to-142 decomposition
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source build/decomp build/figures
+          gh run download 39006469805 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-joint-nonflora-shared-dataset-142-final-v0-1 -D build/source
+          gh run download 39202352075 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-283-to-142-cohort-transition-v0-1 -D build/decomp
+          test -f build/source/joint_nonflora_shared_source_K.json
+          test -f build/decomp/nonflora_283_to_142_source_support_transition.json
+      - name: Render strict paired source/taxon K transitions and lineage exceptions with exact 95% family-bootstrap intervals
+        run: |
+          python -m py_compile scripts/analysis/plot_austraits_k_nonflora_cohort_transition_v0_1.py
+          python scripts/analysis/plot_austraits_k_nonflora_cohort_transition_v0_1.py \
+            --transition build/decomp/nonflora_283_to_142_source_support_transition.json \
+            --joint build/source/joint_nonflora_shared_source_K.json \
+            --out-dir build/figures
+          test "$(find build/figures -maxdepth 1 -type f | wc -l)" -eq 4
+          find build/figures -maxdepth 1 -type f -size +3k -print
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-nonflora-source-transition-publication-figures-v0-1
+          path: build/figures/
+          retention-days: 90

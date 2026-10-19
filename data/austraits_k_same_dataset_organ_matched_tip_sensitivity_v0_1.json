@@ -1,0 +1,72 @@
+{
+  "version": "v0.1",
+  "status": "POST_ORGAN_K_DISCOVERY_AND_SOURCE_SUPPORT_PRE_SAME_SOURCE_RESTRICTED_K_OUTCOME_FROZEN",
+  "frozen_on": "2026-10-15",
+  "question": "Does the reproductive-versus-vegetative phylogenetic K advantage persist when the two traits are measured in the same contributing AusTraits dataset for the same species and compared on identical species and trees?",
+  "scientific_role": "POST_DISCOVERY_WITHIN_AUSTRAITS_SOURCE_ROBUSTNESS_NOT_INDEPENDENT_CONFIRMATION",
+  "input_origin": {
+    "source_support_workflow": 38696272257,
+    "shared_taxon_K_blind_support_workflow": 38673955087,
+    "original_760_matched_tip_K_workflow": 38674635870,
+    "native_austraits_release": "v7.0.0",
+    "parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "native_unit_dictionary_commit": "7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c",
+    "phylogeny_builder_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "output_freeze_before_source_restricted_K": true
+  },
+  "prior_outcome_blind_support": {
+    "all_original_K_blind_family_trait_pairs": 760,
+    "cross_organ_pairs": 406,
+    "cross_organ_pairs_with_20_same_AusTraits_dataset_species": 279,
+    "families_with_cross_organ_shared_dataset_support": 32,
+    "seed_versus_vegetative_pairs": 120,
+    "fruit_versus_vegetative_pairs": 159,
+    "cross_organ_qualifying_same_record_key_pairs": 277,
+    "source_ID_sharing_is_not_primary_measurement_independence": true
+  },
+  "units": {
+    "original_source_state": "Median of all finite, native-unit, unique (genus,species,dataset_id,observation_id,value) records per original species for each trait; must reproduce original K species positive-median graph exactly.",
+    "positive_dataset_intersection": "Species and genus must match across pair; dataset_id must have a finite positive native-unit source observation for BOTH traits. This selects a common set of dataset_id(s) for that pair/species before any new K result.",
+    "source_restricted_state": "Median of all finite native-unit measurements from ONLY those dataset_id(s) shared by both traits for each exact species. Require both resulting medians positive, else source-restricted observation HOLD; no source substitution to rescue a pair.",
+    "reference_all_source_state": "Original all-dataset median for the exact same surviving pair/species, NOT K on original independent-trait taxon sets.",
+    "min_species_to_construct_S3_tree": 20,
+    "min_prune_tips_for_prune_K": 20,
+    "excluded_source_names_for_outcome_selection": "NONE: cohorts selected by source dataset identity and positive support only, not by observed original organ K direction.",
+    "R_K_estimator": "Natural log of positive median states, original exact real-tree phylosig(K) equivalent Rcpp with small tree parity against phytools::phylosig(method=K,test=FALSE)."
+  },
+  "target_comparisons": {
+    "family_pair_K_difference_full": "log(K_reproductive_from_all_sources_on_source_cohort_tips) - log(K_vegetative_from_all_sources_on_source_cohort_tips)",
+    "family_pair_K_difference_common_dataset": "log(K_reproductive_from_common_source_medians) - log(K_vegetative_from_common_source_medians)",
+    "source_measurement_delta": "common_dataset_delta - all_source_delta on the EXACT same matched species/branches/phylogeny",
+    "compare_to_prior_760": "Original 760 same-tip results use DIFFERENT matched taxon cohorts; do not attribute their contrast differences solely to source measurements. Report descriptive only.",
+    "S3_axis": "Original V.PhyloMaker2 scenario 3 built on pair-specific original common-dataset source species set",
+    "prune_axis": "Original native GBOTB prune-only with >=20 original observed tips; nonqualifying pair×tree HOLD"
+  },
+  "eligibility_and_stop": {
+    "all_initial_279_pairs_assessed": true,
+    "no_pair_discarded_by_K_direction": true,
+    "if_medians_fail_support": "HOLD_SOURCE_NATIVE_MEDIANS_BELOW_20_AFTER_SAME_DATASET_RESTRICTION",
+    "minimum_independent_families_for_pooled_cross_organ_summary": 10,
+    "minimum_families_fruit_and_seed_separately": 5,
+    "if_cannot_satisfy": "Report source-specific identifiability limit, no new generalization claim."
+  },
+  "reporting": {
+    "family_cluster_bootstrap_draws": 5000,
+    "seed": 20261015,
+    "summaries": [
+      "Pair-weighted and equal-family reproductive-K-higher rate in full-source arm on restricted same-source taxon cohort and shared-dataset source arm, separately on S3/prune.",
+      "Paired within-family×pair sign flips attributable to changing measurement source on EXACT same tips/tree.",
+      "Mean/median source-composition change in cross-organ logK contrast and its family bootstrap sensitivity.",
+      "Within-source results by fruit vs vegetative, seed vs vegetative; and whether exceptions Casuarinaceae/Rubiaceae persist with sufficient source support.",
+      "Family and trait-pair counts and source-median holds; no raw species, specimen, dataset labels or phenotype values exported.",
+      "Data compatibility and observation key identity limitations."
+    ]
+  },
+  "hard_nonclaims": [
+    "Same AusTraits dataset ID is NOT a proof of same original experiment, collector or specimen; datasets can be compilations and methods differ within them.",
+    "This is a post-outcome source composition robustness test on original AusTraits discovery data, not a holdout independent test of biological organ evolutionary constraints.",
+    "K describes phylogenetic signal conditioned on selected tips and covariance geometry, not independent selection/OU alpha/evolutionary speed.",
+    "Between-pair shared species sets can differ and cannot be treated as a universal global 12-trait ranking.",
+    "Historical TRY Kew and Tng overlaps and permissions remain open, closed BIEN 201-system rho study never reopened."
+  ]
+}

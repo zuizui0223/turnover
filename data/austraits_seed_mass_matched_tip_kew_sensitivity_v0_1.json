@@ -1,0 +1,46 @@
+{
+  "version": "v0.1",
+  "status": "POST_ORIGINAL_K_AND_SOURCE_SUPPORT_PRE_MATCHED_TIP_K_SENSITIVITY_OUTCOME_FROZEN",
+  "frozen_on": "2026-10-13",
+  "motivation": "A native Kew SID source contributes observations to 78.88% of original seed mass species-system cells and 51.16% cannot be retained after excluding its source ID; test whether using Kew changes K, independent from source-driven tip pruning.",
+  "archive_inputs": {
+    "austraits_release": "7.0.0",
+    "parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+    "tree_maker_repo": "https://github.com/jinyizju/V.PhyloMaker2",
+    "tree_maker_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "original_K_reference_run": 37725935020,
+    "original_core_run": 37561341286,
+    "source_only_support_run": 38405502183
+  },
+  "graph": {
+    "original_systems": 254,
+    "original_seed_mass_family_systems": 15,
+    "fixed_source_removed": "Kew_2019_1",
+    "post_outcome_support_threshold": 20,
+    "eligible_reduced_source_systems": 13,
+    "other_traits": "Never recompute or choose based on original K result or alter their original graph"
+  },
+  "paired_tip_design": {
+    "species": "Rebuild the original source-native all-dataset median and Kew-removed median for EXACTLY the same pre-outcome Kew-removed-positive species; do not add formerly excluded original-K species.",
+    "geometries": [
+      "V.PhyloMaker2 scenario 3",
+      "Original GBOTB prune-only"
+    ],
+    "tree_membership": "Compute each paired K on an identical generated tree and identical tip set. The only contrast within each paired tree is the trait state sourced from all datasets versus non-Kew datasets.",
+    "axis_support": "If either generated S3/prune-only tree has fewer than 20 matched tips, mark that axis HOLD rather than adapting the threshold. Do not pick families based on K effect.",
+    "K_estimand": "Blomberg K of natural log of positive species median trait values, using phytools::phylosig(method=K,test=FALSE) to reproduce original K implementation.",
+    "comparison": [
+      "delta_source_logK = log(K_nonKew_reduced_tree) - log(K_allSources_reduced_tree)",
+      "delta_support_geometry_logK = log(K_allSources_reduced_tree) - log(K_original_original_tip_set)",
+      "delta_total_logK = delta_source_logK + delta_support_geometry_logK, exploratory source+tip geometry decomposition"
+    ]
+  },
+  "final_summary": {
+    "stratification": "13 presupported family systems; separate S3 and prune, descriptive median delta_source, range and signs; no p-values or selection claims",
+    "no_phylogenetic_process_null_retesting": true,
+    "no_predeclaration_claim": true,
+    "no_trait_specific_selection_or_evolution_claim": true,
+    "external_independent_validation_status": "HOLD_TRY7_LINEAGE_UNVERIFIED",
+    "BIEN_study_stop_rule": "do not reopen"
+  }
+}

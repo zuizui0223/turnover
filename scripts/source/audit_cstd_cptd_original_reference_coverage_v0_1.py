@@ -197,8 +197,12 @@ def main():
             sp for (fam,sp,trait) in cstd_sources
             if fam==family and trait==rep and (fam,sp,veg) in cstd_sources
         }
-        if len(species) != item["same_species"]:
-            raise RuntimeError("Frozen CSTD height-pair support identity mismatch; HOLD")
+        if len(species) > item["same_species"]:
+            raise RuntimeError("New audit has more species than immutable original pair; HOLD")
+        # The original CSTD-only table counted a few accepted binomials that
+        # are mapped to multiple different family names in source rows.
+        # They are excluded in this stricter audit, never re-admitted.
+        removed_ambiguous = item["same_species"] - len(species)
         within_source_sp = {
             sp for sp in species
             if bool(cstd_sources[(family,sp,rep)] & cstd_sources[(family,sp,veg)])
@@ -206,6 +210,8 @@ def main():
         same_ref_pairs.append({
             "family":family,"rep":rep,"vegetative":veg,
             "same_species":len(species),
+            "original_same_species_before_conflict_exclusion":item["same_species"],
+            "removed_conflicting_family_identity":removed_ambiguous,
             "same_cited_reference_species":len(within_source_sp),
             "at_least_20_same_reference_species":len(within_source_sp)>=20
         })

@@ -1,0 +1,184 @@
+{
+  "version": "v0.2",
+  "frozen_as_of": "2026-10-19",
+  "source_branch": "analysis/brownian-process-null-v0-1",
+  "role": "REPORTING_ONLY_NO_NEW_EMPIRICAL_EFFECTS",
+  "source_run_ids": {
+    "original_matched_tip_K": 38674635870,
+    "functional_module_LOFO": 38685668376,
+    "source_ou_original_tip_check": 38685916126,
+    "electronic_flora_exclusion": 38922133371,
+    "joint_nonflora_shared_source": 39006469805,
+    "matched_three_stage_decomposition": 39202352075,
+    "publication_figure_pipeline": 39202748709
+  },
+  "phenotype_scope": {
+    "continuous_traits": 12,
+    "matched_all_pairs_S3": 760,
+    "matched_all_pairs_prune": 747,
+    "families_in_LOFO": 42,
+    "cross_organ_S3": {
+      "wins": 313,
+      "pairs": 406,
+      "families": 34
+    },
+    "cross_organ_prune": {
+      "wins": 314,
+      "pairs": 397,
+      "families": 34
+    },
+    "seed_dry_mass_excluded": {
+      "S3": {
+        "wins": 263,
+        "pairs": 344
+      },
+      "prune": {
+        "wins": 268,
+        "pairs": 337
+      }
+    },
+    "fruit_vs_vegetative": {
+      "S3": {
+        "wins": 149,
+        "pairs": 193
+      },
+      "prune": {
+        "wins": 150,
+        "pairs": 189
+      }
+    }
+  },
+  "predictive_whole_family_holdout": {
+    "S3": {
+      "pooled_accuracy": 0.5263,
+      "organ_accuracy": 0.6447,
+      "pooled_brier": 0.25062,
+      "organ_brier": 0.21378,
+      "trait_brier": 0.21792,
+      "organ_brier_gain_ci": [
+        0.00433,
+        0.06388
+      ]
+    },
+    "prune": {
+      "pooled_accuracy": 0.5382,
+      "organ_accuracy": 0.6546,
+      "pooled_brier": 0.25017,
+      "organ_brier": 0.20671,
+      "trait_brier": 0.21156,
+      "organ_brier_gain_ci": [
+        0.01946,
+        0.06338
+      ]
+    }
+  },
+  "full_source_exclusion": {
+    "S3": {
+      "wins": 221,
+      "pairs": 283,
+      "families": 29,
+      "family_equal": 0.756,
+      "family_equal_CI": [
+        0.645,
+        0.854
+      ]
+    },
+    "prune": {
+      "wins": 180,
+      "pairs": 233,
+      "families": 25,
+      "family_equal": 0.74,
+      "family_equal_CI": [
+        0.61,
+        0.854
+      ]
+    }
+  },
+  "strict_joint_source": {
+    "S3": {
+      "wins": 120,
+      "pairs": 142,
+      "families": 24,
+      "family_equal": 0.8219,
+      "family_equal_CI": [
+        0.7115,
+        0.9139
+      ]
+    },
+    "prune": {
+      "wins": 81,
+      "pairs": 101,
+      "families": 18,
+      "family_equal": 0.6989,
+      "family_equal_CI": [
+        0.5306,
+        0.85
+      ]
+    }
+  },
+  "same_pair_ID_three_stage": {
+    "S3": {
+      "N": 142,
+      "families": 24,
+      "wins": [
+        110,
+        121,
+        120
+      ],
+      "flip_count": [
+        23,
+        9
+      ],
+      "abs_delta_logK_median": [
+        0.1964,
+        0.0758
+      ]
+    },
+    "prune": {
+      "N": 101,
+      "families": 18,
+      "wins": [
+        82,
+        83,
+        81
+      ],
+      "flip_count": [
+        13,
+        12
+      ],
+      "abs_delta_logK_median": [
+        0.2513,
+        0.0948
+      ]
+    }
+  },
+  "original_unequal_tip_source_OU_postdiscovery": {
+    "S3": {
+      "observed_wins": 302,
+      "N": 410,
+      "tested_scenario_mean_range": [
+        0.5783,
+        0.6434
+      ]
+    },
+    "prune": {
+      "observed_wins": 330,
+      "N": 410,
+      "tested_scenario_mean_range": [
+        0.607,
+        0.6767
+      ]
+    }
+  },
+  "predeclared_scalar_source_OU_judgement": "RANK_PORTABILITY_NOT_BEYOND_ALL_SOURCE_OU_ENVELOPES",
+  "hard_boundaries": [
+    "Organ grouping and source sensitivities were proposed after the initial K analysis; original AusTraits can support exploration, not preregistered confirmation.",
+    "LOFO within AusTraits leaves families out but does not leave out underlying source regimes or provide a prospective independent dataset.",
+    "The 410-pair original-unequal-tip OU simulation is NOT the null for the matched 406/397-pair observations.",
+    "K is relative phylogenetic signal, NOT evolutionary rate, OU alpha, selection coefficient or constraint strength.",
+    "Dependent within-family pair rows are not independent evolutionary replicates; use family resampling.",
+    "Strict-source sampling restrictions change which taxa and tips are included; 84.5% does not mean a causal increase in reproductive conservatism.",
+    "Remaining source-ID matches do not demonstrate direct individually matched original primary measurements.",
+    "BIEN 201-system rho study is closed; TRY, NHM and CSTD external source gates did not qualify independent reproduction."
+  ]
+}

@@ -1,3 +1,27 @@
+## Coauthor review package validated — 2026-10-19 (latest editorial state)
+
+**Status: ready for coauthor scientific review; NOT submitted or merged.**
+
+The final GitHub Actions [coauthor review bundle #39236507614](https://github.com/zuizui0223/turnover/actions/runs/39236507614) completed successfully. Its full bundle is `austraits-organ-K-coauthor-review-v0-1`, containing:
+
+- 10-page editable **manuscript DOCX** and static **PDF**, including **three exact source-backed figures** with one full page per figure and their scientific captions.
+- 3-page landscape **Supplementary Tables S1–S3 DOCX/PDF**, rendered as four proper native Word tables rather than the original collapsed Pandoc table layout.
+- Figure 1–3 original PNG and vector SVG, `figure_manifest.json`, `source_manifest.json` with SHA256 and pinned prior original result archives, plus README.
+
+### Verified render and editorial QA
+
+An actual image inspection found that the **earlier Figure 1 legend overlapped the last family's pair-count label**; it was moved into empty upper-left plot space. [Corrected figure source CI #39233969489](https://github.com/zuizui0223/turnover/actions/runs/39233969489) passed and those corrected source-verified figures are used in the compiled package.
+
+The first supplement PDF broke column formatting across 5–6 pages; a direct native Word table formatter corrected the layout. The latest 3-page supplement was visually reviewed page by page and all original values/columns were retained. The 10-page manuscript was also rendered page by page. No more overlaid legend or unnecessary duplicate “Original archival Figure” captions remain. Source-linked figure alt descriptions are attached to all three Word figures, but not printed as duplicate captions.
+
+Post-render counts were **10 manuscript pages and 3 supplement pages**. Both Word files passed the bundled accessibility audit with **zero high, medium or low findings**. The archival main-source and supplementary claims remain the original frozen AusTraits observations, not new biological inference.
+
+A separate [coauthor referee-risk review](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORGAN_K_COAUTHOR_REFEREE_RISKS_V0_1.md) identifies priority objections: non-nested organ selection, K versus absolute evolutionary rates, unequal source-tip null geometry, species-selection versus source-value changes, and source/family nonindependence.
+
+**Last scientific/editorial blocks:** Coauthor approvals, target journal and formatting, data-source redistribution/citation rights and explicit manuscript submission consent remain unresolved. Do not claim new independent primary-source replication or evolutionary selection from this paper package.
+
+---
+
 # AusTraits organ-function K paper — submission readiness (2026-10-19)
 
 **Scope:** completed exploratory paper package on `paper/austraits-organ-ecology-v0-2`,

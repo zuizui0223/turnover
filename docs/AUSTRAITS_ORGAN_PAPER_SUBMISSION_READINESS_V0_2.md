@@ -1,3 +1,17 @@
+## Final inferential revision — held-out sign accuracy is redundant (2026-10-19)
+
+**Critical correction, mathematically verified without new trait outcomes.** The organ-only model's 64.47% S3 / 65.46% native-prune leave-one-family-out hard accuracy is **not** a second discovery beyond 313/406 (77.1%) and 314/397 (79.1%) reproductive K wins. For every held-out family, the signed logistic organ coefficient stays positive because at most 36 cross-organ named trait comparisons are removed from original positive winner-minus-loser margins of 220 S3 and 231 prune. Same-organ rows have zero model feature and always receive half-credit. The exact identities are `(313+354/2)/760=64.47%` and `(314+350/2)/747=65.46%`.
+
+The original Brier improvements `0.25062→0.21378 S3` and `0.25017→0.20671 prune` remain valid **conditional probabilistic predictive scores**—not independent biological confirmations and **not direct calibration tests**. Organ grouping was chosen after observing the same original K outcomes; heldout-family coefficients do not correct that non-nested selection.
+
+[Exact source-code and count proof](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_LOFO_HARD_ACCURACY_DEPENDENCE_VERDICT_V0_1.md). [Validated reporting-only audit CI #39274486381](https://github.com/zuizui0223/turnover/actions/runs/39274486381), [retitled conditional Brier figure CI #39274477504](https://github.com/zuizui0223/turnover/actions/runs/39274477504) and [recompiled Word/PDF coauthor package CI #39274585459](https://github.com/zuizui0223/turnover/actions/runs/39274585459). Final review package includes source-linked figures, 2 QA summaries, and 10-page main / 3-page landscape supplement. Actual PDF text and rendered pages have been checked for intact arithmetic and visual consistency.
+
+**Revised central paper evidence:** A post-selected but persistent reproductive > vegetative K tendency on matched original AusTraits species/trees, and the original fixed-pair species/tip/source sensitivity. The hard accuracy cannot be counted twice. No new independent primary-source validation or evolutionary process test is claimed.
+
+**Current author-facing state:** scientifically transparent *exploratory* coauthor-review draft; **not** submitted, not merged, and not proof of a universal evolutionary constraint. Still needs author/journal approvals and original data rights/archiving checks.
+
+---
+
 ## Coauthor review package validated — 2026-10-19 (latest editorial state)
 
 **Status: ready for coauthor scientific review; NOT submitted or merged.**

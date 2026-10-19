@@ -118,6 +118,10 @@ def check_claims(d, manuscript=None):
                 "S3 directional transitions missing")
         require("newly discovered subgroup" in manuscript,
                 "freeze/stop disclosure absent")
+        require("non-nested hypothesis selection" in m,
+                "post-selected organ definition / non-nested fold caveat absent")
+        require("hypothesis-selection leakage" in m,
+                "LOFO selection-leakage caveat absent")
     return {
         "status":"PASS_REPORTING_ONLY",
         "matched_cross_organ_S3_percent":round(100*n["cross_organ_S3"]["wins"]/

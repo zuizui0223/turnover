@@ -1,0 +1,51 @@
+{
+  "version": "v0.1",
+  "status": "POST_COMPLETE_283_AND_142_K_RESULTS_THREE_STAGE_SUPPORT_SOURCE_DECOMPOSITION",
+  "recorded_on": "2026-10-19",
+  "question": "Why did the observed reproductive-versus-vegetative K-higher fraction rise after imposing the strict 142 comparison source-matched species cohort: pair selection, tree/tip restriction, or same-dataset measurement values?",
+  "verified_inputs": {
+    "full_nonflora_native_K_workflow_run": 38922133371,
+    "full_nonflora_native_K_artifact": "austraits-k-five-flora-exclusion-283-final-v0-1",
+    "strict_nonflora_same_dataset_native_K_workflow_run": 39006469805,
+    "strict_nonflora_same_dataset_artifact": "austraits-k-joint-nonflora-shared-dataset-142-final-v0-1",
+    "original_source_only_exclusion_support_run": 38921518723,
+    "original_source_only_shared_dataset_support_run": 38920414545,
+    "K_outcomes_exist_before_this_decomposition": true
+  },
+  "fixed_cohorts": {
+    "all_original_nonflora_eligible_S3_family_pairs": 283,
+    "all_original_nonflora_eligible_prune_family_pairs": 233,
+    "all_142_joint_support_S3_family_pairs": 142,
+    "all_joint_support_prune_family_pairs": 101,
+    "all_joint_support_S3_families": 24,
+    "all_joint_support_prune_families": 18,
+    "full_283_S3_reproductive_higher": 221,
+    "full_283_prune_reproductive_higher": 180,
+    "comparison_only_original_142_keys_are_subset_of_the_283_source_blind_graph": true
+  },
+  "three_same_family_trait_pairs_stages": {
+    "stage_1_broad_nonflora": "From the 283 broad nonflora source-native K workflow, only score family×trait identities also in the fixed 142 source-qualified set; original common nonflora species support/tips per pair (not yet the strict same-DatasetID species cohort).",
+    "stage_2_same_dataset_qualified_species_all_nonflora_values": "From the strict 142 workflow on its smaller common-DatasetID species/tip set, compute K using ALL remaining nonflora datasets' species medians. Stage 1→2 changes taxon sampling and its phylogenetic geometry/K normalization, not the excluded-five-flora source policy.",
+    "stage_3_same_dataset_qualified_species_identical_dataset_only_values": "On EXACTLY the same shared-species and native-tree as stage 2, compute each organ K from only identical remaining dataset IDs common to both trait measurements for that species. Stage 2→3 isolates within-pair observational dataset-median substitution."
+  },
+  "statistical_accounting": {
+    "paired_family_unit": "Each family supplies correlated trait-pair contrasts. Resample WHOLE families; never interpret 142 pairs as independent evolutionary replicates.",
+    "bootstrap_draws": 5000,
+    "bootstrap_seed": 20261019,
+    "reports": [
+      "Separate S3 and prune, three stage pair weighted and equal family reproductive K>vegetative K frequency, family bootstrap intervals",
+      "Stage 1→2, 2→3 and 1→3 exact same original family×trait identity direction flips and paired differences (pair weighted and equal family), whole-family bootstrap descriptive intervals",
+      "Median absolute and signed logK shifts per stage, family support, pruning holds, and original 283 versus selected-142 cohort effect"
+    ],
+    "paired_K_effect_definition": "Log(K_reproductive)-log(K_vegetative) with positive sign indicating reproductive K higher.",
+    "source_only_comparison": "The difference stage2→3 is same species and same native phylogenetic tree within pair, but a change of source-native specimen/measurement composition. Does not prove whether either arm captures true biological K.",
+    "no_significance_search": "No new p-values, adaptive model tuning, post-outcome trait pair exclusions or mechanistic inference."
+  },
+  "biological_boundary": [
+    "This is a retrospective sensitivity/meta-analysis of ALREADY observed 283 and 142 paired K effects, not new independent plant measurements or a fresh evolutionary-process hypothesis.",
+    "An increase in rate from selected 283 to strictly matched 142 may reflect which families, trait pairs, species and native tree tips survive. It is NOT an increase in intrinsic reproductive constraint.",
+    "Stage 1→2 changes species and tree supports simultaneously; it cannot attribute its change to a particular environmental variable, pollinator context, evolutionary rate, or phylogenetic process.",
+    "Neither nonflora nor same DatasetID status proves independent original measurements; many remaining sources may be compilations, monographs or secondary descriptions.",
+    "All five trait-named OU source-gain and closed BIEN rho results are unchanged; TRY v7 primary independent source validation remains HOLD."
+  ]
+}

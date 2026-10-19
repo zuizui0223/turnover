@@ -61,6 +61,9 @@ def main():
     cols = {str(c):i for i,c in enumerate(next(ws.iter_rows(values_only=True)))}
     assert {"Family_accepted","Species_accepted","Trait","Reference","Value"}.issubset(cols)
     cstd_sources = defaultdict(set)
+    # Reproduce the CSTD-ONLY frozen pair roster from exact original
+    # Species_accepted strings, NEVER from taxonomic normalization.
+    cstd_sources_raw = defaultdict(set)
     canonical_fam = defaultdict(set)
     for row in ws.iter_rows(min_row=2, values_only=True):
         # Value presence is the only read permitted here. No numeric conversion.
@@ -68,11 +71,13 @@ def main():
             continue
         trait = CSTD_TRAITS.get(norm(row[cols["Trait"]]))
         family = str(row[cols["Family_accepted"]] or "").strip()
-        species = tokenized_binomial(row[cols["Species_accepted"]])
+        original_species = str(row[cols["Species_accepted"]] or "").strip()
+        species = tokenized_binomial(original_species)
         ref = str(row[cols["Reference"]] or "").strip()
         if not trait or not family or not species or not ref:
             continue
         cstd_sources[(family, species, trait)].add(ref)
+        cstd_sources_raw[(family, original_species, trait)].add(ref)
         canonical_fam[species].add(family)
     conflicts = {sp for sp, fs in canonical_fam.items() if len(fs) != 1}
     for key in list(cstd_sources):
@@ -186,31 +191,37 @@ def main():
             "verified_independent_primary_source":"UNKNOWN"
         })
 
-    # For CSTD-only organ pairs, measure whether reproductive and height
-    # records of the SAME species share any original publication label.
+    # For CSTD-only organ pairs, use the EXACT ORIGINAL accepted-name string
+    # just as the immutable CSTD v0.1 support extractor did. Normalized
+    # binomials can COMBINE distinct raw name rows with complementary traits
+    # and artificially CREATE supported pairs. Never do that in this arm.
+    # Site-crosswalk candidate counts above remain separate, provisional.
     same_ref_pairs = []
     for item in original_cstd["metadata_support_only"].get("pairs",[]):
         family, rep, veg = item["family"],item["reproductive"],item["vegetative"]
         if veg!="plant_height":
             continue
         species = {
-            sp for (fam,sp,trait) in cstd_sources
-            if fam==family and trait==rep and (fam,sp,veg) in cstd_sources
+            sp for (fam,sp,trait) in cstd_sources_raw
+            if fam==family and trait==rep and (fam,sp,veg) in cstd_sources_raw
         }
-        if len(species) > item["same_species"]:
-            raise RuntimeError("New audit has more species than immutable original pair; HOLD")
-        # The original CSTD-only table counted a few accepted binomials that
-        # are mapped to multiple different family names in source rows.
-        # They are excluded in this stricter audit, never re-admitted.
-        removed_ambiguous = item["same_species"] - len(species)
-        within_source_sp = {
+        if len(species) != item["same_species"]:
+            raise RuntimeError("Exact raw CSTD species support failed identity check; HOLD")
+        # Report stricter family-unambiguous support as a second diagnostic
+        # without changing the frozen original cohort.
+        stricter = {
             sp for sp in species
-            if bool(cstd_sources[(family,sp,rep)] & cstd_sources[(family,sp,veg)])
+            if tokenized_binomial(sp) not in conflicts
+        }
+        removed_ambiguous = len(species)-len(stricter)
+        within_source_sp = {
+            sp for sp in stricter
+            if bool(cstd_sources_raw[(family,sp,rep)] & cstd_sources_raw[(family,sp,veg)])
         }
         same_ref_pairs.append({
             "family":family,"rep":rep,"vegetative":veg,
-            "same_species":len(species),
-            "original_same_species_before_conflict_exclusion":item["same_species"],
+            "same_species":len(stricter),
+            "original_same_species_before_conflict_exclusion":len(species),
             "removed_conflicting_family_identity":removed_ambiguous,
             "same_cited_reference_species":len(within_source_sp),
             "at_least_20_same_reference_species":len(within_source_sp)>=20

@@ -1,0 +1,40 @@
+name: AusTraits organ-K manuscript reporting QA v0.2
+
+on:
+  push:
+    branches:
+      - paper/austraits-organ-ecology-v0-2
+    paths:
+      - data/austraits_organ_paper_claim_registry_v0_2.json
+      - docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md
+      - scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py
+      - .github/workflows/austraits-organ-paper-reporting-qa-v0-2.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reporting-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check claims, stage flows and no-new-outcome boundary
+        run: |
+          python scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --output results/austraits_k_organ_paper_reporting_qa_v0_2/result.json \
+            --self-test
+      - name: Preserve audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-k-paper-claim-qa-v0-2
+          path: results/austraits_k_organ_paper_reporting_qa_v0_2/result.json
+          if-no-files-found: warn
+          retention-days: 60

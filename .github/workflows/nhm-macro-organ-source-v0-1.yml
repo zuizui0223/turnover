@@ -6,6 +6,7 @@ on:
       - source/nhm-macro-organ-screen-v0-1
     paths:
       - scripts/source/audit_nhm_organ_schema_v0_1.py
+      - scripts/source/audit_nhm_organ_presence_v0_1.py
       - .github/workflows/nhm-macro-organ-source-v0-1.yml
       - docs/NHM_MACRO_ORGAN_SOURCE_SCREEN_V0_1.md
   workflow_dispatch:
@@ -38,6 +39,28 @@ jobs:
             --description-traits .source-cache/combined.csv \
             --taxonomy .source-cache/wfo-angiosperms.csv \
             --out source_gate_artifacts/nhm_source_schema_v0_1.json
+      - name: Fetch pinned distinct botanical description corpora
+        shell: bash
+        run: |
+          origin=https://raw.githubusercontent.com/NaturalHistoryMuseum/plant-traits/4843c22bb2fc91018d9828dcddebf067c83b1097
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/bhl.csv" -o .source-cache/bhl.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/efloras.flora_of_china.csv" -o .source-cache/efloras.flora_of_china.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/efloras.flora_of_north_america.csv" -o .source-cache/efloras.flora_of_north_america.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/efloras.flora_of_pakistan.csv" -o .source-cache/efloras.flora_of_pakistan.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/ecoflora.csv" -o .source-cache/ecoflora.csv
+      - name: NHM family by organ pair source-only support (no K)
+        shell: bash
+        run: |
+          python scripts/source/audit_nhm_organ_presence_v0_1.py \
+            --wfo .source-cache/wfo-angiosperms.csv \
+            --cv .source-cache/all_leaf_measurements.csv \
+            --combined .source-cache/combined.csv \
+            --bhl .source-cache/bhl.csv \
+            --eflora-china .source-cache/efloras.flora_of_china.csv \
+            --eflora-north-america .source-cache/efloras.flora_of_north_america.csv \
+            --eflora-pakistan .source-cache/efloras.flora_of_pakistan.csv \
+            --ecoflora .source-cache/ecoflora.csv \
+            --out source_gate_artifacts/nhm_organ_source_presence_v0_1.json
       - name: Archive source-only metadata
         if: always()
         uses: actions/upload-artifact@v4

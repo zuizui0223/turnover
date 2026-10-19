@@ -158,16 +158,17 @@ def fig_lofo(z, claims, out):
     ax.invert_yaxis()
     ax.set_xlim(.17,.31)
     ax.set_xlabel("Whole-family-held-out Brier probability loss (lower is better)")
-    ax.set_title("Organ category improves K rank prediction across held-out families",pad=18)
+    ax.set_title("Conditional Brier calibration of a post-selected organ model",pad=18)
     ax.grid(axis="x",alpha=.16)
     ax.spines[["top","right"]].set_visible(False)
     ax.legend(loc="lower right",frameon=False)
     fig.text(.13,.045,
              "S3 organ gain vs pooled: +0.0368 (family-bootstrap CI +0.0043 to +0.0639).\n"
              "Prune organ gain: +0.0435 (CI +0.0195 to +0.0634).\n"
-             "42 family folds within AusTraits; organ grouping chosen after observing K, so model selection is non-nested.",
+             "Post-selected grouping; family coefficient holdout is not nested hypothesis selection.\n"
+             "64.47%/65.46% hard accuracy is exactly cross-organ K wins + 0.5 credit for same-organ ties.",
              fontsize=9.3)
-    fig.subplots_adjust(left=.23,right=.94,top=.82,bottom=.28)
+    fig.subplots_adjust(left=.23,right=.94,top=.82,bottom=.31)
     save(fig,out,"figure2_family_holdout_Brier")
 
 

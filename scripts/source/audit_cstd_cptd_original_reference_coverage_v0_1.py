@@ -57,6 +57,16 @@ def main():
     assert original_cstd["status"] == "HOLD_PRE_OUTCOME"
 
     wb = load_workbook(args.cstd, read_only=True, data_only=True)
+    # CSTD source IDs must resolve against original publication bibliography.
+    ref_sheet = wb["Reference"]
+    ref_header = next(ref_sheet.iter_rows(values_only=True))
+    if tuple(ref_header[:2]) != ("ID", "Name"):
+        raise RuntimeError("CSTD reference register schema changed; HOLD")
+    ref_registry = {
+        str(row[0]).strip(): str(row[1] or "").strip()
+        for row in ref_sheet.iter_rows(min_row=2, values_only=True)
+        if row and row[0] is not None
+    }
     ws = wb["Seed trait data"]
     cols = {str(c):i for i,c in enumerate(next(ws.iter_rows(values_only=True)))}
     assert {"Family_accepted","Species_accepted","Trait","Reference","Value"}.issubset(cols)
@@ -79,6 +89,8 @@ def main():
         cstd_sources[(family, species, trait)].add(ref)
         cstd_sources_raw[(family, original_species, trait)].add(ref)
         canonical_fam[species].add(family)
+    source_labels_used = {r for refs in cstd_sources_raw.values() for r in refs}
+    unresolved_ref_ids = source_labels_used - set(ref_registry)
     conflicts = {sp for sp, fs in canonical_fam.items() if len(fs) != 1}
     for key in list(cstd_sources):
         if key[1] in conflicts:
@@ -216,7 +228,7 @@ def main():
         removed_ambiguous = len(species)-len(stricter)
         within_source_sp = {
             sp for sp in stricter
-            if bool(cstd_sources_raw[(family,sp,rep)] & cstd_sources_raw[(family,sp,veg)])
+            if bool(cstd_sources_raw[(family,sp,rep)] & cstd_sources_raw[(family,sp,veg)] & ref_registry.keys())
         }
         same_ref_pairs.append({
             "family":family,"rep":rep,"vegetative":veg,
@@ -233,6 +245,13 @@ def main():
         "K_estimated":False,
         "source_identity_md5_verified":True,
         "source_observation_independence":"NOT_ESTABLISHED",
+        "CSTD_reference_dictionary_audit":{
+            "catalogued_reference_ids":len(ref_registry),
+            "used_reference_labels_in_mapped_traits":len(source_labels_used),
+            "used_labels_with_catalogue_match":len(source_labels_used & set(ref_registry)),
+            "unresolved_used_reference_labels":len(unresolved_ref_ids),
+            "unresolved_examples_for_adjudication":sorted(unresolved_ref_ids)[:12]
+        },
         "source_provenance_level":"CSTD cited reference and CPTD site source, NOT raw specimen/field record",
         "cross_source": {
             "families_with_20plus_leaf_pair":len(family_reports),
@@ -259,6 +278,7 @@ def main():
     print("CSTD_CPTD_PROVENANCE_COVERAGE="+json.dumps({
         "status":out["status"],
         "cross_source_families":out["cross_source"]["families_with_20plus_leaf_pair"],
+        "CSTD_reference_dictionary_audit":out["CSTD_reference_dictionary_audit"],
         "family_summary":[{k:v for k,v in row.items() if k in (
             "family","unique_species_any_qualifying_leaf_pair",
             "distinct_cstd_original_reference_labels","distinct_cptd_site_source_labels",

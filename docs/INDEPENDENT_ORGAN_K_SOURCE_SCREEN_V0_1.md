@@ -205,6 +205,37 @@ remain unopened. The next true independent validation source should be a
 lineage**, not a relaxed minimum family/taxon criterion or another
 combination of secondary compilations.
 
+## Worst-one-source-label support ablation — 2026-10-19
+
+The [complete outcome-blind CI #39212013007](https://github.com/zuizui0223/turnover/actions/runs/39212013007)
+re-ran the exact frozen 17 CPTD-leaf × CSTD-seed/fruit family×pair identities
+after removing one *entire* CPTD site-source label, or one CSTD original reference,
+at a time. A source-ablation sensitivity is evaluated at **species**, not
+observation row or dependent trait-pair, resolution.
+
+| Conservative source-only sensitivity | >=20-species pairs | Distinct supporting families |
+| --- | ---: | ---: |
+| Original cross-source leaf comparisons | 17 | 3 |
+| Worst single CPTD site-source label removed for each pair | **0** | **0** |
+| Worst single CSTD original reference removed for each pair | **10** | **2** |
+
+CPTD leaf support is therefore **source-label fragile**, particularly given
+that the dominant CPTD source label covers 90.9% of the Amaranthaceae
+candidate species and 84.6% of Fabaceae. Removing a source changes which
+species are observed; it does **not** imply a change in the evolutionary trait
+process or in K. Worst-one-source ablation is a test of support robustness,
+not statistical independence of literature sources and not a new biological
+hypothesis test.
+
+**Consequence:** this CSTD×CPTD candidate remains **HOLD_PRE_OUTCOME** under
+the unchanged independent-primary-source replication protocol. Do not open
+K or call the 20-family CSTD plant-height support an independent confirmation
+of the multi-organ hypothesis. A separate 59,369-species NHM description
+plus herbarium morphology [source-only screening route](https://github.com/zuizui0223/turnover/pull/36)
+has been created to test whether another data modality provides broader
+trait-pair coverage; that route also requires original-source and ontology
+adjudication before biological outcomes.
+
 ## Scientific boundaries
 
 Nothing in this source-only step updates the original AusTraits 77–79% exploratory organ-K finding, the closed BIEN 201-system rho conclusion, or the fixed external success criterion. An inaccessible or unsupported independent source yields **UNTESTED**, not a negative evolutionary conclusion.

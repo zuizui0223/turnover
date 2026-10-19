@@ -179,6 +179,7 @@
     "Dependent within-family pair rows are not independent evolutionary replicates; use family resampling.",
     "Strict-source sampling restrictions change which taxa and tips are included; 84.5% does not mean a causal increase in reproductive conservatism.",
     "Remaining source-ID matches do not demonstrate direct individually matched original primary measurements.",
-    "BIEN 201-system rho study is closed; TRY, NHM and CSTD external source gates did not qualify independent reproduction."
+    "BIEN 201-system rho study is closed; TRY, NHM and CSTD external source gates did not qualify independent reproduction.",
+    "Cross-family LOFO coefficients are fit without the test family's K, but the reproductive/vegetative grouping was proposed after viewing original outcomes, including the nominal test families. Model selection is non-nested; conditional CI/performance are not unbiased future-data prediction."
   ]
 }

@@ -195,7 +195,7 @@ def main():
         "hard accuracy is EXACTLY the same post-selected reproductive-higher K "
         "count with half-credit for within-organ ties, not a second independent "
         "biological result. Brier improvements are conditional retrospective "
-        "probability calibration; model selection was non-nested.\n\n"
+        "Brier prediction scores, not separate calibration; model selection was non-nested.\n\n"
         "Important: This is a post-discovery exploratory analysis, "
         "NOT independently confirmed or submitted. Figure source run IDs and "
         "immutable SHA256 hashes are in source_manifest.json and the original figure_manifest.json.\n"

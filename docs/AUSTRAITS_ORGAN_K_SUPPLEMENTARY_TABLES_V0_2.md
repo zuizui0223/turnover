@@ -25,7 +25,16 @@ The complete **all-named-pair** LOFO scoring graph has 760 supported S3 pairs an
 | S3 | 52.63% | 64.47% | 0.25062 | 0.21378 | 0.21792 | +0.03684 [+0.00433, +0.06388] |
 | Native prune | 53.82% | 65.46% | 0.25017 | 0.20671 | 0.21156 | +0.04346 [+0.01946, +0.06338] |
 
-Predictions leave every evaluated family's own K outcomes out of coefficient fitting, but the **reproductive–vegetative grouping was selected using outcomes in the same original 42-family compilation**, including those in nominal test folds. The LOFO is therefore **non-nested to model/hypothesis selection**. These scores estimate conditional within-compilation predictability, not unbiased prospective out-of-source prediction. Within-organ pair scores contribute half-credit ties for organ-only sign prediction; pair-weighted scoring includes all 760/747 eligible family×pair rows.
+Predictions leave every evaluated family's own K outcomes out of *coefficient fitting*, but the reproductive–vegetative category was chosen after viewing initial K outcomes in this same 42-family data compilation; consequently, the LOFO model is **non-nested to the original hypothesis selection**. The Brier results estimate **conditional retrospective probability calibration**, not an independently selected evolutionary hypothesis or unbiased prospective transport to another compilation.
+
+**Critical: the 64.47% and 65.46% organ hard-sign accuracies are algebraically redundant with Table S1's reproductive K wins.** The predictor's one coefficient is positive in every heldout-family training sample: original cross-organ winner minus loser margins of **220 S3** and **231 prune** exceed the maximum number (**36**) of cross-organ named-trait comparisons that a single held-out family can remove. For all same-organ rows, predictor x=0 gives probability 0.5 and hence exactly half-credit accuracy. Thus:
+
+| Axis | Cross-organ reproductive K winners | Same-module rows | Hard-score identity | Original LOFO hard accuracy |
+|---|---:|---:|---|---:|
+| S3 | 313 / 406 | 354 | (313 + 354/2) / 760 | **64.47%** |
+| Native prune | 314 / 397 | 350 | (314 + 350/2) / 747 | **65.46%** |
+
+There is **no additional independent biological support** in hard accuracy after the 313/406 and 314/397 post-selected reproductive-higher K counts have been reported. Probability calibration (Brier) remains distinct from that hard-label algebra because the cross-organ predicted probability *magnitudes* are learned on other families, but the category remains post-selected. Exact counts are checked by `scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py` (not an additional empirical K analysis).
 
 ## Table S3. Exact same-family×named-pair taxon/measurement transitions
 

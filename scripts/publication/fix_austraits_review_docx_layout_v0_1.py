@@ -28,6 +28,16 @@ def format_manuscript(path):
             seen[label]=seen.get(label,0)+1
     if seen != {"Figures and captions":1,"Figure 2":1,"Figure 3":1}:
         raise ValueError("Figure headings changed: "+repr(seen))
+    descriptions=(
+        "34 plant families: fraction of same-tip reproductive versus vegetative Blomberg K comparisons higher in each family under S3 and native prune phylogenies.",
+        "Original family-held-out Brier loss under pooled, reproductive/vegetative organ, named trait and named-pair predictive priors on both trees.",
+        "Fixed family-by-trait-pair K contrast proportions over three stages: broad non-flora taxon support, restricted shared-source taxa, then shared-source values on fixed taxa."
+    )
+    shapes=doc.inline_shapes
+    if len(shapes)!=3:
+        raise ValueError("Original three figure assets missing from coauthor manuscript")
+    for shape,descr in zip(shapes,descriptions):
+        shape._inline.docPr.set("descr",descr)
     doc.save(path)
 
 

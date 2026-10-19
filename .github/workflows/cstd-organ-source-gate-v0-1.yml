@@ -6,6 +6,7 @@ on:
       - source/cstd-organ-metadata-screen-v0-1
     paths:
       - scripts/source/audit_cstd_organ_metadata_v0_1.py
+      - scripts/source/audit_cstd_cptd_pair_support_v0_1.py
       - docs/INDEPENDENT_ORGAN_K_SOURCE_SCREEN_V0_1.md
       - .github/workflows/cstd-organ-source-gate-v0-1.yml
   workflow_dispatch:
@@ -64,11 +65,19 @@ jobs:
               report[filename] = {'metadata_headers_only': header, 'row_count': n}
           print('CPTD_V2_METADATA_ONLY=' + json.dumps(report, ensure_ascii=False))
           PY
+      - name: Screen CSTD × CPTD matching accepted species without phenotype effect
+        shell: bash
+        run: |
+          python scripts/source/audit_cstd_cptd_pair_support_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --translation .source-cache/cptd_species_translations.csv \
+            --chemical .source-cache/cptd_chemical.csv \
+            --output source_gate_artifacts/cstd_cptd_source_support_v0_1.json
       - name: Upload source-only report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cstd-organ-source-only-v0-1
-          path: source_gate_artifacts/cstd_organ_source_gate_v0_1.json
+          path: source_gate_artifacts/
           if-no-files-found: warn
           retention-days: 30

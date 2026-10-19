@@ -180,7 +180,7 @@ def audit(args):
             "cptd_accepted_binomial_count": len(taxon_samples),
             "exact_binomial_taxon_overlap": len(set(species_to_family) & set(taxon_samples)),
             "species_with_CPTD_leaf_metadata_and_CSTD_reproductive_labels":
-                sum(any(t in REPS for t in traits) and bool(cptd.get(sp) & set(CPTD_TRAITS.values()))
+                sum(any(t in REPS for t in traits) and bool(cptd.get(sp, set()) & set(CPTD_TRAITS.values()))
                     for (_fa, sp), traits in cstd.items() if sp not in conflicted),
             "same_binomial_20plus_pairs_including_CSTD_height": len(pairs),
             "families_with_any_pair": len(matched_fam),

@@ -24,6 +24,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install pinned CSTD XLSX metadata reader
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
       - name: Fetch pinned NHM files without opening phenotype outcomes
         shell: bash
         run: |

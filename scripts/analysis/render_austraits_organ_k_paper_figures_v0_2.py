@@ -158,7 +158,7 @@ def fig_lofo(z, claims, out):
     ax.invert_yaxis()
     ax.set_xlim(.17,.31)
     ax.set_xlabel("Whole-family-held-out Brier probability loss (lower is better)")
-    ax.set_title("Conditional Brier calibration of a post-selected organ model",pad=18)
+    ax.set_title("Conditional Brier loss of a post-selected organ model",pad=18)
     ax.grid(axis="x",alpha=.16)
     ax.spines[["top","right"]].set_visible(False)
     ax.legend(loc="lower right",frameon=False)

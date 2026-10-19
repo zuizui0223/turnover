@@ -238,7 +238,7 @@ def main():
     manifest={
         "status":"PASS_SOURCE_LINKED_REPORTING_FIGURES",
         "source_workflow_runs":{
-            "module_lofo":38685668376,
+            "module_lofo":38686389859,
             "transition":39202352075,
             "joint_source_K":39006469805,
         },

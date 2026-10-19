@@ -67,6 +67,15 @@ def run(a):
             for sh in ("Reference", "Data description", "Trait description")
         },
     }
+    trait_dictionary = []
+    for row in wb["Trait description"].iter_rows(min_row=2, values_only=True):
+        label = str(row[0] or "").strip()
+        if norm(label) in TARGETS:
+            trait_dictionary.append({
+                "trait": label,
+                "verbatim_definition": str(row[1] or "").strip()[:800],
+            })
+    out["cstd_metadata"]["frozen_trait_definitions_only"] = trait_dictionary
     with a.sites.open(encoding="utf-8-sig", newline="") as file:
         reader = csv.DictReader(file)
         columns = reader.fieldnames or []

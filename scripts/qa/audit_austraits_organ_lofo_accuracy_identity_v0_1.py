@@ -14,7 +14,7 @@ Consequently accuracy is EXACTLY (reproductive wins + half same-module
 rows)/all eligible rows. Accuracy is not an additional independent
 cross-family replication of the post-selected organ phenotype pattern.
 Brier probabilities ARE distinct numerical predictions and remain
-conditional-on-post-selection calibration diagnostics.
+conditional-on-post-selection probabilistic prediction-score diagnostics.
 """
 import argparse
 import json
@@ -112,7 +112,7 @@ def audit(registry):
             "the 313/406 and 314/397 already-reported reproductive-win fractions "
             "with half-credit for 354/350 zero-feature same-module rows. "
             "It is not independent corroboration of an organ-specific K effect. "
-            "LOFO Brier scores do test conditional probability calibration "
+            "LOFO Brier scores compare conditional probabilistic predictions, without isolating calibration "
             "across withheld families, but the organ module was chosen after "
             "all original family outcomes; model selection remains non-nested."
         ),

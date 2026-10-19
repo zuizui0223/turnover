@@ -120,14 +120,20 @@ def fig_family(z, out):
     ax.axvline(50, color=".4", linestyle="--", linewidth=1)
     ax.set_yticks(yy, fams, fontsize=9)
     ax.invert_yaxis()
-    ax.set_xlim(-4,105)
+    ax.set_xlim(-4,125)
+    ax.set_xticks([0,20,40,60,80,100])
+    ax.axvline(103,linestyle=":",linewidth=.65,color=".7")
+    for i,f in enumerate(fams):
+        n_s3=s3.get(f,{}).get("n_cross_organ_pair_comparisons",0)
+        n_prune=pr.get(f,{}).get("n_cross_organ_pair_comparisons",0)
+        ax.text(108,yy[i],f"{n_s3}/{n_prune}",va="center",ha="left",fontsize=8.1,color=".3")
     ax.set_xlabel("Within-family cross-organ comparisons with reproductive K higher (%)")
     ax.set_title("Functional-organ phylogenetic signal across 34 plant families",pad=15)
     ax.grid(axis="x",alpha=.16)
     ax.spines[["top","right"]].set_visible(False)
     ax.legend(loc="lower right",frameon=False,title="Phylogeny treatment")
     fig.text(.14,.025,
-             "Each point is one family; symbol size reflects dependent within-family trait-pair count.\n"
+             "Each point represents a family; labels at right show dependent pair counts (S3/prune).\n"
              "Both organs use the same species and tree per pair. Post-discovery AusTraits study.",
              fontsize=9)
     fig.subplots_adjust(left=.27,right=.96,bottom=.09,top=.95)
@@ -159,7 +165,7 @@ def fig_lofo(z, claims, out):
     fig.text(.13,.045,
              "S3 organ gain vs pooled: +0.0368 (family-bootstrap CI +0.0043 to +0.0639).\n"
              "Prune organ gain: +0.0435 (CI +0.0195 to +0.0634).\n"
-             "42 family folds; both organ and named-trait priors are evaluated within AusTraits, not an independent new source.",
+             "42 family folds within AusTraits; organ grouping chosen after observing K, so model selection is non-nested.",
              fontsize=9.3)
     fig.subplots_adjust(left=.23,right=.94,top=.82,bottom=.28)
     save(fig,out,"figure2_family_holdout_Brier")

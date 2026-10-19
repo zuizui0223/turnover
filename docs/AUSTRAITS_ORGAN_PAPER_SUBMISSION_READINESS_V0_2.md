@@ -5,6 +5,24 @@ based on the fixed empirical branch `analysis/brownian-process-null-v0-1`.
 **No new trait K, OU parameter, subgroup selection, database search, phylogenetic
 reanalysis or biological p-value is performed in this branch.**
 
+## 2026-10-19 editorial and reproducibility review (newly completed)
+
+- **Exact original method trace:** The main Methods now documents species-rank records; nonmissing source DatasetID/ObservationID/genus/binomial; exact unit match; finite values; duplicate-record removal; original per-species medians strictly >0; natural-log transformation; pair-specific >=20 identical species; V.PhyloMaker2 S3, native GBOTB prune; invalid-tree/zero-variance holds; and parity checks with `phytools::phylosig`. These were verified against the original Python/R matched-tip source scripts. No new K was fitted.
+- **Bibliographic correctness:** Formal titles, authors, volume, pages/article IDs and DOIs for Ackerly (2009), Wang et al. (2023) and Pothasin et al. (2022) were cross-checked against journal/PubMed records. No new hypothesis-discovery literature mining occurred.
+- **Reviewer-facing supplementary tables:** `docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md` now reports original vs source-restricted denominators, 42-fold conditional LOFO skill, and all 142/101 stage transitions. A reporting-only QA gate verifies each numerator/denominator against the immutable claim registry.
+- **Archived source provenance:** `data/austraits_organ_paper_claim_registry_v0_2.json` now points to the final complete original 34-family LOFO artifact **#38686389859** (not an earlier preliminary run); original empirical outcomes remain unchanged.
+- **Data availability:** Clarifies that original measured AusTraits values are not redistributed in `turnover`; paper figures use aggregated source-linked artifacts and SHA256 provenance. External data access/licences and archival retention must be followed.
+- **Statistical limit:** In addition to post-discovery organ-category selection, deep phylogenetic correlation between families and shared original studies can invalidate strict independence between bootstrap family clusters. Whole-family CIs are conditional/descriptive, not full evolutionary mechanism or post-selection uncertainty.
+
+**CI verified after new Methods, references and supplement:**
+[Manuscript + supplement reporting QA PASS #39229059135](https://github.com/zuizui0223/turnover/actions/runs/39229059135);
+[three source-linked main figures PASS #39229059022](https://github.com/zuizui0223/turnover/actions/runs/39229059022).
+
+**Editorial status: READY FOR AUTHOR/COAUTHOR SCIENTIFIC REVIEW, NOT SUBMISSION.**
+No target journal, author approvals, redistribution permission for the full source matrix, submission consent or final journal formatting has been supplied. Preserve the original external confirmation gate and keep the PR as draft until those requirements are resolved.
+
+---
+
 ## What actually passed
 
 - **Manuscript claim QA: PASS** — [GitHub Actions #39227341212](https://github.com/zuizui0223/turnover/actions/runs/39227341212),

@@ -18,8 +18,21 @@ FILES = {
     "description_traits": "output/raw/ocr-traits/combined.csv",
     "taxonomy": "input/wfo-angiosperms.csv",
 }
-META_WORDS = ("species","taxon","scientific","family","genus","name","barcode",
-              "source","site","specimen","accession","gbif","wfo","trait","id","file")
+# Exact whitelist. Substring matching (e.g. "id" in "width") is forbidden:
+# it previously leaked exemplar numeric leaf width to the schema log.
+META_FIELDS = {
+    "taxon", "species", "scientificname", "scientificnameaccepted",
+    "binomial", "family", "genus", "wfo", "wfoid", "wfotaxonid",
+    "herbariumsheet", "leafindex", "accessionid", "specimenid",
+    "source", "sourceid", "sourcepublication", "site", "siteid",
+    "barcode", "specimenbarcode", "filename", "file", "taxonid",
+}
+EXPECTED_SHA256 = {
+    "herbarium_leaf": "14188d4c9691e99ebe11b4e2448af54f59a25657a4fa30140222a76b918edeef",
+    "description_traits": "7548836b788ad5c9a3a6eaf382c05646ac2b0be73d889092228a3fba9dea5e0b",
+    "taxonomy": "4f6aee584d91e3cc50989192890281b2bfb35d91d66fc12d467fec2316b24287",
+}
+
 
 
 def checksum(path):
@@ -32,9 +45,7 @@ def checksum(path):
 
 def meta_column(name):
     n = re.sub(r"[^a-z0-9]","",str(name or "").lower())
-    if n in {"length","width","area","value","measurement","height","perimeter"}:
-        return False
-    return any(key in n for key in META_WORDS)
+    return n in META_FIELDS
 
 
 def audit_file(path):
@@ -80,7 +91,10 @@ def main():
         "files":{}
     }
     for name in FILES:
-        report["files"][name]=audit_file(getattr(a,name))
+        item = audit_file(getattr(a,name))
+        if item["sha256"] != EXPECTED_SHA256[name]:
+            raise ValueError("Public NHM source file changed without source-version amendment")
+        report["files"][name]=item
     a.out.parent.mkdir(exist_ok=True,parents=True)
     a.out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("NHM_METADATA_PREFLIGHT="+json.dumps(report,ensure_ascii=False))

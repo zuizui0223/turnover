@@ -44,6 +44,8 @@ def flow(before, after, flips, n):
             "total_reversals": flips}
 
 def check_claims(d, manuscript=None):
+    require(d["source_run_ids"]["functional_module_LOFO"] == 38686389859,
+            "main paper source run not final 34-family LOFO")
     require(d["role"] == "REPORTING_ONLY_NO_NEW_EMPIRICAL_EFFECTS",
             "outcome firewall removed")
     n=d["phenotype_scope"]
@@ -133,6 +135,42 @@ def check_claims(d, manuscript=None):
         "new_biological_effects":0
     }
 
+def check_supplement_tables(d, tables):
+    """Guard supplement counts and their denominators against a different source run."""
+    src=d["source_run_ids"]
+    require(src["functional_module_LOFO"] == 38686389859,
+            "supplement no longer uses the final matched 34-family LOFO run")
+    must_have=(
+        "Table S1.", "Table S2.", "Table S3.",
+        "non-nested", "does **not** isolate", "42 families",
+        "not independent evolutionary origins"
+    )
+    lower=tables.casefold()
+    for label in must_have:
+        require(label.casefold() in lower,
+                "missing supplement evidence/limitation: "+label)
+    p=d["phenotype_scope"]
+    for tree in ("S3","prune"):
+        fam=p["cross_organ_"+tree]
+        source=d["full_source_exclusion"][tree]
+        strict=d["strict_joint_source"][tree]
+        fruit=p["fruit_vs_vegetative"][tree]
+        seed_ex=p["seed_dry_mass_excluded"][tree]
+        for z in (fam,source,strict,fruit,seed_ex):
+            value=f'{z["wins"]}/{z["pairs"]} ({100*z["wins"]/z["pairs"]:.1f}%)'
+            require(value in tables, "supplement missing source-linked pair direction: "+value)
+        score=d["predictive_whole_family_holdout"][tree]
+        require(f'{score["pooled_brier"]:.5f}' in tables,
+                "supplement pooled Brier not matched")
+        require(f'{score["organ_brier"]:.5f}' in tables,
+                "supplement organ Brier not matched")
+        n=d["same_pair_ID_three_stage"][tree]
+        for positive in n["wins"]:
+            require(f'{positive}/{n["N"]}' in tables,
+                    "supplement stage numerator/denominator mismatch")
+    return True
+
+
 def self_test(d):
     check_claims(d)
     for invalid in (
@@ -154,6 +192,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--claims",required=True,type=Path)
     parser.add_argument("--manuscript",type=Path)
+    parser.add_argument("--supplementary",type=Path)
     parser.add_argument("--output",type=Path)
     parser.add_argument("--self-test",action="store_true")
     args=parser.parse_args()
@@ -162,6 +201,9 @@ def main():
         self_test(d)
     text=args.manuscript.read_text(encoding="utf-8") if args.manuscript else None
     verdict=check_claims(d,text)
+    if args.supplementary:
+        check_supplement_tables(d,args.supplementary.read_text(encoding="utf-8"))
+        verdict["supplementary_tables_qa"]="PASS_COUNT_AND_INFERENCE_SCOPE"
     if args.output:
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.write_text(json.dumps(verdict,ensure_ascii=False,indent=2)+"\n",

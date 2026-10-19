@@ -29,10 +29,7 @@ Predictions leave every evaluated family's own K outcomes out of *coefficient fi
 
 **Critical: the 64.47% and 65.46% organ hard-sign accuracies are algebraically redundant with Table S1's reproductive K wins.** The predictor's one coefficient is positive in every heldout-family training sample: original cross-organ winner minus loser margins of **220 S3** and **231 prune** exceed the maximum number (**36**) of cross-organ named-trait comparisons that a single held-out family can remove. For all same-organ rows, predictor x=0 gives probability 0.5 and hence exactly half-credit accuracy. Thus:
 
-| Axis | Cross-organ reproductive K winners | Same-module rows | Hard-score identity | Original LOFO hard accuracy |
-|---|---:|---:|---|---:|
-| S3 | 313 / 406 | 354 | (313 + 354/2) / 760 | **64.47%** |
-| Native prune | 314 / 397 | 350 | (314 + 350/2) / 747 | **65.46%** |
+S3 identity: **(313 + 354/2) / 760 = 490/760 = 64.47%**. Native-prune identity: **(314 + 350/2) / 747 = 489/747 = 65.46%**. These denominators correspond to the same original common-tip K winners as Table S1; no second independent accuracy sample exists.
 
 There is **no additional independent biological support** in hard accuracy after the 313/406 and 314/397 post-selected reproductive-higher K counts have been reported. Probability calibration (Brier) remains distinct from that hard-label algebra because the cross-organ predicted probability *magnitudes* are learned on other families, but the category remains post-selected. Exact counts are checked by `scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py` (not an additional empirical K analysis).
 

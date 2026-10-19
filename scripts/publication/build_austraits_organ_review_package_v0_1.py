@@ -149,7 +149,7 @@ def build_review_sources(main_path, supp_path, media_dir, out_dir):
         # Reference each actual PNG only; vector remains in package separately.
         figure_num=caption_header.split()[1].strip(".")
         main+=f"### Figure {figure_num}\n\n"
-        main+=f"![Original archival Figure {figure_num}](figures/{image}){{width=5.9in}}\n\n"
+        main+=f"![](figures/{image}){{width=5.9in}}\n\n"
         main+=f"**{caption_header}** {m.group(1).strip()}\n\n"
     # No bibliography fabrication, no author/title-page identity.
     supp="# Supplementary tables — coauthor review\n\n"

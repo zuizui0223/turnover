@@ -45,7 +45,7 @@ We report hard-sign accuracy and Brier probability loss; family-cluster bootstra
 A_{\mathrm{organ}}=\frac{W_{\mathrm{reproductive}}+\tfrac12(N_{\mathrm{all}}-N_{\mathrm{cross}})}{N_{\mathrm{all}}}.
 \]
 
-For S3, \((313+0.5\times354)/760=64.47\%\); for prune, \((314+0.5\times350)/747=65.46\%\). The coefficients' **probability magnitudes**, and hence heldout-family Brier losses, are not determined by that binary identity; they evaluate conditional retrospective calibration, not independently selected functional modules. Leaving a family out does **not** leave out historical source publications or shared protocols, so this remains within-compilation post-selected prediction. The exact count identity is checked in \x60scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py\x60 without fitting any model or reopening traits.
+For S3, \((313+0.5\times354)/760=64.47\%\); for prune, \((314+0.5\times350)/747=65.46\%\). The coefficients' **probability magnitudes**, and hence heldout-family Brier losses, are not determined by that binary identity; they evaluate conditional retrospective calibration, not independently selected functional modules. Leaving a family out does **not** leave out historical source publications or shared protocols, so this remains within-compilation post-selected prediction. The exact count identity is checked in `scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py` without fitting any model or reopening traits.
 
 ### 2.4 Separating source and taxon-ascertainment sensitivity
 

@@ -40,6 +40,30 @@ jobs:
           python scripts/source/audit_cstd_organ_metadata_v0_1.py \
             --source .source-cache/CSTD_v1.xlsx \
             --output source_gate_artifacts/cstd_organ_source_gate_v0_1.json
+      - name: Inspect China Plant Trait Database v2 CSV metadata only
+        shell: bash
+        run: |
+          curl --fail --location --show-error --silent --retry 3 https://ndownloader.figshare.com/files/38095836 -o .source-cache/cptd_morphometric.csv
+          curl --fail --location --show-error --silent --retry 3 https://ndownloader.figshare.com/files/38095881 -o .source-cache/cptd_species_translations.csv
+          curl --fail --location --show-error --silent --retry 3 https://ndownloader.figshare.com/files/38095812 -o .source-cache/cptd_chemical.csv
+          (
+            cd .source-cache
+            printf 'ca21286257508e05cd2e102cbfbac748  cptd_morphometric.csv\n' | md5sum --check
+            printf '2c1285a6bf78112c855f0ce735685343  cptd_species_translations.csv\n' | md5sum --check
+            printf 'bf772a9e6a7251f8bed33d06d29f8fed  cptd_chemical.csv\n' | md5sum --check
+          )
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          report = {}
+          for filename in ('cptd_morphometric.csv', 'cptd_species_translations.csv', 'cptd_chemical.csv'):
+              with (Path('.source-cache') / filename).open(encoding='utf-8-sig', errors='replace', newline='') as f:
+                  reader = csv.reader(f)
+                  header = next(reader)
+                  n = sum(1 for _ in reader)
+              report[filename] = {'metadata_headers_only': header, 'row_count': n}
+          print('CPTD_V2_METADATA_ONLY=' + json.dumps(report, ensure_ascii=False))
+          PY
       - name: Upload source-only report
         if: always()
         uses: actions/upload-artifact@v4

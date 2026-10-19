@@ -7,6 +7,7 @@ on:
     paths:
       - scripts/source/audit_nhm_organ_schema_v0_1.py
       - scripts/source/audit_nhm_organ_presence_v0_1.py
+      - scripts/source/audit_cstd_nhm_organ_presence_v0_1.py
       - .github/workflows/nhm-macro-organ-source-v0-1.yml
       - docs/NHM_MACRO_ORGAN_SOURCE_SCREEN_V0_1.md
   workflow_dispatch:
@@ -61,6 +62,22 @@ jobs:
             --eflora-pakistan .source-cache/efloras.flora_of_pakistan.csv \
             --ecoflora .source-cache/ecoflora.csv \
             --out source_gate_artifacts/nhm_organ_source_presence_v0_1.json
+      - name: CSTD fruit/seed by NHM leaf family support — source only
+        shell: bash
+        run: |
+          curl --fail --location --show-error --silent --retry 3 \
+            https://ndownloader.figshare.com/files/53721110 -o .source-cache/CSTD_v1.xlsx
+          python scripts/source/audit_cstd_nhm_organ_presence_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --wfo .source-cache/wfo-angiosperms.csv \
+            --cv .source-cache/all_leaf_measurements.csv \
+            --combined .source-cache/combined.csv \
+            --bhl .source-cache/bhl.csv \
+            --eflora-china .source-cache/efloras.flora_of_china.csv \
+            --eflora-north-america .source-cache/efloras.flora_of_north_america.csv \
+            --eflora-pakistan .source-cache/efloras.flora_of_pakistan.csv \
+            --ecoflora .source-cache/ecoflora.csv \
+            --out source_gate_artifacts/cstd_nhm_organ_presence_v0_1.json
       - name: Archive source-only metadata
         if: always()
         uses: actions/upload-artifact@v4

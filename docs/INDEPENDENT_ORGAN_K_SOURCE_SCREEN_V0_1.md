@@ -79,6 +79,41 @@ only exact accepted-binomial overlap and measurement *presence*.
 | Chemical traits.csv | 38095812 | `bf772a9e6a7251f8bed33d06d29f8fed` |
 | Morphometric traits.csv | 38095836 | `ca21286257508e05cd2e102cbfbac748` |
 
+## Paired-source accepted-taxon screen completed — 2026-10-19
+
+[GitHub Actions #39208958392](https://github.com/zuizui0223/turnover/actions/runs/39208958392)
+completed the pinned **CSTD × CPTD v2 metadata-only join** (without comparing
+trait magnitudes). Only exact lower-case genus+species binomials were matched;
+CSTD accepted names conflicting across families were omitted, no automated
+synonym/fuzzy matches were permitted. A presence record is a necessary
+support indicator, not a verified biological measurement.
+
+| Necessary-support result | Count |
+| --- | ---: |
+| CSTD accepted binomials with approved mapped labels | 3,140 |
+| CPTD accepted binomials with mapped sample metadata | 1,284 |
+| Exact accepted binomials shared by both | **523** |
+| CSTD reproductive plus CPTD leaf metadata present | **512** species |
+| CSTD+CPTD >=20-species family×organ pairs including CSTD plant height | **84** in **20** families |
+| Pairs with CPTD leaf traits and >=20 accepted common species | **17 pairs in only 3 families** |
+| Families with any fruit vs vegetative candidate | 16 |
+| Families with any seed vs vegetative candidate | 20 |
+| Candidate vegetative names | `plant_height`, `leaf_area` candidate, `leaf_mass_per_area` candidate |
+
+Under the strict counts-only necessary support screen, the combination
+**may** meet the numerical 12-family / 6-seed / 6-fruit / 2-vegetative-label
+requirements. The crucial limit is that **only three families provide the
+new CPTD leaf comparisons at >=20 species**; most of the 20-family support
+still comes solely from original CSTD plant-height comparisons.
+
+**Final status remains HOLD**, not an independent replicate: published
+CSTD is compiled from 694 underlying source references, CPTD contains
+a mixture of direct field and literature samples, same-binomial matching
+does not establish observation independence, leaf/leaflet morphology is
+not yet harmonized, and the predeclared two-tree matched-tip crosswalk
+has not been qualified. The biologically measured K direction has not
+been opened. No change to frozen sample gates or original effect claims.
+
 ## Scientific boundaries
 
 Nothing in this source-only step updates the original AusTraits 77–79% exploratory organ-K finding, the closed BIEN 201-system rho conclusion, or the fixed external success criterion. An inaccessible or unsupported independent source yields **UNTESTED**, not a negative evolutionary conclusion.

@@ -195,6 +195,7 @@ def main():
         "sheets": result["worksheets"],
         "structural": result.get("metadata_support_only", {}).get("families_with_pair_ge_20", "UNTESTED"),
         "schema": result.get("schema", {}).get("matched_metadata_columns", {}),
+        "header_names_only": result.get("schema", {}).get("headers", []),
     }, ensure_ascii=False))
 
 

@@ -5,12 +5,13 @@
   "role": "REPORTING_ONLY_NO_NEW_EMPIRICAL_EFFECTS",
   "source_run_ids": {
     "original_matched_tip_K": 38674635870,
-    "functional_module_LOFO": 38685668376,
+    "functional_module_LOFO": 38686389859,
     "source_ou_original_tip_check": 38685916126,
     "electronic_flora_exclusion": 38922133371,
     "joint_nonflora_shared_source": 39006469805,
     "matched_three_stage_decomposition": 39202352075,
-    "publication_figure_pipeline": 39202748709
+    "publication_figure_pipeline": 39202748709,
+    "final_organ_ecology_figures": 39227341239
   },
   "phenotype_scope": {
     "continuous_traits": 12,

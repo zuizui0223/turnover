@@ -194,6 +194,12 @@ def main():
         "status": result["status"], "reason": result["reason"],
         "sheets": result["worksheets"],
         "structural": result.get("metadata_support_only", {}).get("families_with_pair_ge_20", "UNTESTED"),
+        "source_only_gate_counts": {k: v for k, v in result.get("metadata_support_only", {}).items() if k in (
+            "distinct_source_labels", "distinct_family_species_with_mapped_trait",
+            "candidate_matched_pairs_ge_20", "families_with_pair_ge_20",
+            "families_fruit_with_pair", "families_seed_with_pair",
+            "matched_reproductive_names", "matched_vegetative_names")},
+        "structural_necessary_gate_possible_unverified": result.get("structural_necessary_gate_possible_unverified", False),
         "schema": result.get("schema", {}).get("matched_metadata_columns", {}),
         "header_names_only": result.get("schema", {}).get("headers", []),
     }, ensure_ascii=False))

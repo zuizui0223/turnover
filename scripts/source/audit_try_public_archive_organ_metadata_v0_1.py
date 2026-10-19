@@ -90,7 +90,7 @@ def audit(raw):
     items=parse_catalogue(raw)
     ids=[i["archive_id"] for i in items]
     if len(items)!=EXPECTED_ENTRIES or len(set(ids))!=len(ids):
-        raise ValueError("Catalogue version changed or duplicated IDs; refuse to silently change eligible source family.")
+        raise ValueError(f"Catalogue schema gate HOLD: n={len(items)} unique={len(set(ids))} source_sha256={hashlib.sha256(raw).hexdigest()} ids_first={ids[:12]}; no outcome opened")
     candidates=[x for x in items if x["paired_module_columns_advertised"]]
     candids=tuple(sorted(x["archive_id"] for x in candidates))
     if candids!=EXPECTED_CANDIDATE_IDS:

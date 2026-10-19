@@ -7,6 +7,7 @@ on:
     paths:
       - scripts/source/audit_cstd_organ_metadata_v0_1.py
       - scripts/source/audit_cstd_cptd_pair_support_v0_1.py
+      - scripts/source/probe_cstd_cptd_provenance_schema_v0_1.py
       - docs/INDEPENDENT_ORGAN_K_SOURCE_SCREEN_V0_1.md
       - .github/workflows/cstd-organ-source-gate-v0-1.yml
   workflow_dispatch:
@@ -73,6 +74,15 @@ jobs:
             --translation .source-cache/cptd_species_translations.csv \
             --chemical .source-cache/cptd_chemical.csv \
             --output source_gate_artifacts/cstd_cptd_source_support_v0_1.json
+      - name: Probe original source and trait ontology metadata only
+        shell: bash
+        run: |
+          curl --fail --location --show-error --silent --retry 3 \
+            https://ndownloader.figshare.com/files/38095863 -o .source-cache/cptd_sites.csv
+          python scripts/source/probe_cstd_cptd_provenance_schema_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --sites .source-cache/cptd_sites.csv \
+            --output source_gate_artifacts/cstd_cptd_provenance_schema_v0_1.json
       - name: Upload source-only report
         if: always()
         uses: actions/upload-artifact@v4

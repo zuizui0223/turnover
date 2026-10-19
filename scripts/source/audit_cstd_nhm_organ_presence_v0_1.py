@@ -144,15 +144,42 @@ def main():
         "by_source":{},
         "original_external_protocol_state": "UNTESTED: no original-source independence or dual-tree matched-tip qualification",
     }
+    source_states={}
     for source in SOURCES:
         inp=getattr(a,source)
         # Single pinned commit; combined, cv and WFO also have SHA256 frozen.
         check(inp, SHA256.get(source))
         traits, rows, matched = source_presence(inp,f)
+        source_states[source]=traits
         stats=combined_support(cstd,traits,f,source)
         stats["source_rows"]=rows
         stats["source_rows_with_WFO_species"]=matched
         result["by_source"][source]=stats
+    # Source-ablation sensitivity on EXACT qualified taxon/trait membership,
+    # not on phylogenetic K outcomes. A single secondary botanical-flora
+    # source can entirely determine apparent large-sample support.
+    source_strata=[x for x in SOURCES if x!="combined"]
+    source_ablation={}
+    for excluded in [None, *source_strata]:
+        joint=defaultdict(set)
+        for name in source_strata:
+            if name==excluded:
+                continue
+            for sp,traits in source_states[name].items():
+                joint[sp].update(traits)
+        key="all_distinct_floristic_sources" if excluded is None else "without_"+excluded
+        stat=combined_support(cstd,joint,f,key)
+        source_ablation[key]={
+            "same_taxon_20plus_family_trait_pair_count":stat["same_taxon_20plus_family_trait_pair_count"],
+            "family_count":stat["family_count"],
+            "families_fruit":stat["families_fruit"],
+            "families_seed":stat["families_seed"],
+            "reproductive_trait_names":stat["reproductive_trait_names"],
+            "vegetative_trait_names":stat["vegetative_trait_names"],
+            "family_names":stat["family_names"],
+        }
+    result["description_source_ablation"]=source_ablation
+    result["description_source_ablation_notice"]="Covers the constituent published description streams only; removing a botanical-source stream is NOT equivalent to removing underlying shared publications."
     leaf_states,rows,unknown,accepted=cv_presence(a.cv,f)
     cv_report=combined_support(cstd,leaf_states,f,"herbarium_cv")
     cv_report["leaf_measurement_rows"]=rows
@@ -178,6 +205,7 @@ def main():
                             "reproductive_trait_names","vegetative_trait_names")
         } for k,v in result["by_source"].items()},
         "source_family_diversity":result["source_family_diversity"],
+        "description_source_ablation":result["description_source_ablation"],
     },ensure_ascii=False))
 
 if __name__=="__main__":

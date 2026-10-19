@@ -9,6 +9,7 @@ import argparse
 import json
 import re
 from pathlib import Path
+from audit_austraits_organ_lofo_accuracy_identity_v0_1 import audit as audit_lofo_accuracy_identity
 
 REQUIRED_CAVEATS = (
     "post-discovery", "same species", "family",
@@ -46,6 +47,9 @@ def flow(before, after, flips, n):
 def check_claims(d, manuscript=None):
     require(d["source_run_ids"]["functional_module_LOFO"] == 38686389859,
             "main paper source run not final 34-family LOFO")
+    identity=audit_lofo_accuracy_identity(d)
+    require(identity["status"] == "PASS_HARD_ACCURACY_IS_ALGEBRAIC_REEXPRESSION",
+            "independent biology inferred from redundant LOFO accuracy")
     require(d["role"] == "REPORTING_ONLY_NO_NEW_EMPIRICAL_EFFECTS",
             "outcome firewall removed")
     n=d["phenotype_scope"]
@@ -124,6 +128,12 @@ def check_claims(d, manuscript=None):
                 "post-selected organ definition / non-nested fold caveat absent")
         require("hypothesis-selection leakage" in m,
                 "LOFO selection-leakage caveat absent")
+        require("not two independent" in m,
+                "non-independent binary accuracy and K win evidence not acknowledged")
+        require("64.47%" in manuscript and "65.46%" in manuscript,
+                "LOFO original accuracy is not fully reported")
+        require("half-credit" in m and "algebraically" in m,
+                "identity derivation absent from biology manuscript")
     return {
         "status":"PASS_REPORTING_ONLY",
         "matched_cross_organ_S3_percent":round(100*n["cross_organ_S3"]["wins"]/
@@ -131,6 +141,9 @@ def check_claims(d, manuscript=None):
         "matched_cross_organ_prune_percent":round(100*n["cross_organ_prune"]["wins"]/
                                                    n["cross_organ_prune"]["pairs"],3),
         "claim_transition_flows":transitions,
+        "LOFO_hard_accuracy_independent_K_evidence":False,
+        "LOFO_identity_S3":identity["axes"]["S3"]["derived_hard_accuracy"],
+        "LOFO_identity_prune":identity["axes"]["prune"]["derived_hard_accuracy"],
         "external_primary_validation":"NOT_QUALIFIED",
         "new_biological_effects":0
     }
@@ -149,6 +162,10 @@ def check_supplement_tables(d, tables):
     for label in must_have:
         require(label.casefold() in lower,
                 "missing supplement evidence/limitation: "+label)
+    require("algebraically redundant" in lower and
+            "(313 + 354/2) / 760" in tables and
+            "(314 + 350/2) / 747" in tables,
+            "redundant heldout hard accuracy not documented in supplement")
     p=d["phenotype_scope"]
     for tree in ("S3","prune"):
         fam=p["cross_organ_"+tree]

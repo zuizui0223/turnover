@@ -87,10 +87,30 @@ def classify(candidate):
 
 
 def audit(raw):
-    items=parse_catalogue(raw)
+    raw_items=parse_catalogue(raw)
+    # Raw public page includes one extra featured dataset table (ID 127)
+    # before the complete listing. This is a duplicate *metadata card*, not
+    # an extra independently measured dataset. Prefer the full card while
+    # failing closed if two full cards disagree about the trait field list.
+    by_id={}
+    duplicate_cards=[]
+    for item in raw_items:
+        id_=item["archive_id"]
+        if id_ in by_id:
+            prior=by_id[id_]
+            duplicate_cards.append(id_)
+            if (prior["field_list"] and item["field_list"]
+                    and prior["field_list"]!=item["field_list"]):
+                raise ValueError(f"Contradictory original source field lists for archive ID {id_}")
+            score=lambda d: (bool(d["title"]),len(d["field_list"]),len(d["description"]))
+            if score(item)>score(prior):
+                by_id[id_]=item
+        else:
+            by_id[id_]=item
+    items=list(by_id.values())
     ids=[i["archive_id"] for i in items]
     if len(items)!=EXPECTED_ENTRIES or len(set(ids))!=len(ids):
-        raise ValueError(f"Catalogue schema gate HOLD: n={len(items)} unique={len(set(ids))} source_sha256={hashlib.sha256(raw).hexdigest()} ids_first={ids[:12]}; no outcome opened")
+        raise ValueError(f"Catalogue schema gate HOLD: raw={len(raw_items)} unique={len(items)} duplicate_cards={duplicate_cards} source_sha256={hashlib.sha256(raw).hexdigest()} ids_first={ids[:12]}; no outcome opened")
     candidates=[x for x in items if x["paired_module_columns_advertised"]]
     candids=tuple(sorted(x["archive_id"] for x in candidates))
     if candids!=EXPECTED_CANDIDATE_IDS:
@@ -103,6 +123,8 @@ def audit(raw):
         "screen_timestamp_date":"2026-10-19",
         "catalogue_sha256":hashlib.sha256(raw).hexdigest(),
         "catalogue_dataset_count":len(items),
+        "raw_public_metadata_cards":len(raw_items),
+        "duplicate_metadata_cards_by_id":duplicate_cards,
         "screen_definition":{
             "leaf_column_regex":LEAF_FIELD_RE.pattern,
             "reproductive_column_regex":REPRODUCTIVE_FIELD_RE.pattern,

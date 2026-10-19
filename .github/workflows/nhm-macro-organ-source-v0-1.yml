@@ -1,0 +1,90 @@
+name: NHM macro-organ source-only schema v0.1
+
+on:
+  push:
+    branches:
+      - source/nhm-macro-organ-screen-v0-1
+    paths:
+      - scripts/source/audit_nhm_organ_schema_v0_1.py
+      - scripts/source/audit_nhm_organ_presence_v0_1.py
+      - scripts/source/audit_cstd_nhm_organ_presence_v0_1.py
+      - .github/workflows/nhm-macro-organ-source-v0-1.yml
+      - docs/NHM_MACRO_ORGAN_SOURCE_SCREEN_V0_1.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pinned_source_schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned CSTD XLSX metadata reader
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+      - name: Fetch pinned NHM files without opening phenotype outcomes
+        shell: bash
+        run: |
+          mkdir -p .source-cache source_gate_artifacts
+          origin=https://raw.githubusercontent.com/NaturalHistoryMuseum/plant-traits/4843c22bb2fc91018d9828dcddebf067c83b1097
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/cv-traits/all_leaf_measurements.csv" -o .source-cache/all_leaf_measurements.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/combined.csv" -o .source-cache/combined.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/input/wfo-angiosperms.csv" -o .source-cache/wfo-angiosperms.csv
+      - name: Source-only headers and taxon-key preflight
+        shell: bash
+        run: |
+          python scripts/source/audit_nhm_organ_schema_v0_1.py \
+            --herbarium-leaf .source-cache/all_leaf_measurements.csv \
+            --description-traits .source-cache/combined.csv \
+            --taxonomy .source-cache/wfo-angiosperms.csv \
+            --out source_gate_artifacts/nhm_source_schema_v0_1.json
+      - name: Fetch pinned distinct botanical description corpora
+        shell: bash
+        run: |
+          origin=https://raw.githubusercontent.com/NaturalHistoryMuseum/plant-traits/4843c22bb2fc91018d9828dcddebf067c83b1097
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/bhl.csv" -o .source-cache/bhl.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/efloras.flora_of_china.csv" -o .source-cache/efloras.flora_of_china.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/efloras.flora_of_north_america.csv" -o .source-cache/efloras.flora_of_north_america.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/efloras.flora_of_pakistan.csv" -o .source-cache/efloras.flora_of_pakistan.csv
+          curl --fail --location --show-error --silent --retry 3 "$origin/output/raw/ocr-traits/ecoflora.csv" -o .source-cache/ecoflora.csv
+      - name: NHM family by organ pair source-only support (no K)
+        shell: bash
+        run: |
+          python scripts/source/audit_nhm_organ_presence_v0_1.py \
+            --wfo .source-cache/wfo-angiosperms.csv \
+            --cv .source-cache/all_leaf_measurements.csv \
+            --combined .source-cache/combined.csv \
+            --bhl .source-cache/bhl.csv \
+            --eflora-china .source-cache/efloras.flora_of_china.csv \
+            --eflora-north-america .source-cache/efloras.flora_of_north_america.csv \
+            --eflora-pakistan .source-cache/efloras.flora_of_pakistan.csv \
+            --ecoflora .source-cache/ecoflora.csv \
+            --out source_gate_artifacts/nhm_organ_source_presence_v0_1.json
+      - name: CSTD fruit/seed by NHM leaf family support — source only
+        shell: bash
+        run: |
+          curl --fail --location --show-error --silent --retry 3 \
+            https://ndownloader.figshare.com/files/53721110 -o .source-cache/CSTD_v1.xlsx
+          python scripts/source/audit_cstd_nhm_organ_presence_v0_1.py \
+            --cstd .source-cache/CSTD_v1.xlsx \
+            --wfo .source-cache/wfo-angiosperms.csv \
+            --cv .source-cache/all_leaf_measurements.csv \
+            --combined .source-cache/combined.csv \
+            --bhl .source-cache/bhl.csv \
+            --eflora-china .source-cache/efloras.flora_of_china.csv \
+            --eflora-north-america .source-cache/efloras.flora_of_north_america.csv \
+            --eflora-pakistan .source-cache/efloras.flora_of_pakistan.csv \
+            --ecoflora .source-cache/ecoflora.csv \
+            --out source_gate_artifacts/cstd_nhm_organ_presence_v0_1.json
+      - name: Archive source-only metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhm-organ-source-only-v0-1
+          path: source_gate_artifacts/
+          retention-days: 30
+          if-no-files-found: warn

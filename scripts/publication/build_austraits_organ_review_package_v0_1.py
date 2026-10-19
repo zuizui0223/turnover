@@ -73,9 +73,8 @@ def make_reference_doc(path, landscape=False):
         s.font.bold=True
         s.paragraph_format.space_before=Pt(10)
         s.paragraph_format.space_after=Pt(5)
-    table=d.styles["Table Normal"]
-    table.font.name="Liberation Sans"
-    table.font.size=Pt(8 if landscape else 9)
+    # Default python-docx templates do not expose a "Table Normal" style
+    # in every version. Tables inherit Normal; don't assume this style exists.
     foot=sec.footer.paragraphs[0]
     foot.text="Internal scientific review draft — post-discovery AusTraits results; not submitted"
     foot.alignment=WD_ALIGN_PARAGRAPH.CENTER
@@ -188,7 +187,7 @@ def main():
     out=build_review_sources(a.manuscript,a.supplementary,a.figures,a.out_dir)
     (a.out_dir/"source_manifest.json").write_text(json.dumps(out,indent=2)+"\n")
     (a.out_dir/"README.txt").write_text(
-        "AuTraits functional organ K — coauthor scientific review bundle\n"
+        "AusTraits functional organ K — coauthor scientific review bundle\n"
         "Generated 2026-10-19 from exact original source-output figures.\n\n"
         "CONTENTS: Main manuscript PDF/DOCX; supplemental tables PDF/DOCX; "
         "original Figure 1–3 PNG/SVG; source_manifest.json.\n\n"

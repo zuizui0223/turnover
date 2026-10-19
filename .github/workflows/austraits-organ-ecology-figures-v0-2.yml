@@ -1,0 +1,61 @@
+name: AusTraits organ ecology source-linked paper figures v0.2
+
+on:
+  push:
+    branches:
+      - paper/austraits-organ-ecology-v0-2
+    paths:
+      - scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py
+      - .github/workflows/austraits-organ-ecology-figures-v0-2.yml
+      - docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md
+      - data/austraits_organ_paper_claim_registry_v0_2.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  paper_figures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install plotting requirements (never refit any model)
+        run: python -m pip install --disable-pip-version-check numpy matplotlib
+      - name: Load only original frozen empirical effect SUMMARIES
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mkdir -p build/module build/transition build/joint build/figures
+          gh run download 38685668376 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-reproductive-vegetative-lofo-v0-1 -D build/module
+          gh run download 39202352075 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-283-to-142-cohort-transition-v0-1 -D build/transition
+          gh run download 39006469805 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-joint-nonflora-shared-dataset-142-final-v0-1 -D build/joint
+          test -f build/module/reproductive_vegetative_lofo.json
+          test -f build/transition/nonflora_283_to_142_source_support_transition.json
+          test -f build/joint/joint_nonflora_shared_source_K.json
+      - name: Render 3 source-linked main figures and verify claim provenance
+        run: |
+          python -m py_compile scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py
+          python scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py \
+            --module build/module/reproductive_vegetative_lofo.json \
+            --transition build/transition/nonflora_283_to_142_source_support_transition.json \
+            --joint build/joint/joint_nonflora_shared_source_K.json \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --out-dir build/figures
+          test "$(find build/figures -type f -name 'figure[123]*' | wc -l)" -eq 6
+          test -s build/figures/figure_manifest.json
+      - name: Upload figure bundle with exact archive SHA256 provenance manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-ecology-paper-figures-v0-2
+          path: build/figures/
+          retention-days: 90
+          if-no-files-found: error

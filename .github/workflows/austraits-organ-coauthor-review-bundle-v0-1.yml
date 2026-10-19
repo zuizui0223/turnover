@@ -6,6 +6,7 @@ on:
       - paper/austraits-organ-ecology-v0-2
     paths:
       - scripts/publication/build_austraits_organ_review_package_v0_1.py
+      - scripts/publication/fix_austraits_review_docx_layout_v0_1.py
       - docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md
       - docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md
       - .github/workflows/austraits-organ-coauthor-review-bundle-v0-1.yml
@@ -58,6 +59,11 @@ jobs:
             --from markdown --to docx --standalone \
             --reference-doc build/review_package/reference_supplement.docx \
             --output build/review_package/organ_K_supplementary_tables.docx
+      - name: Fix figure page breaks and landscape supplementary table widths
+        run: |
+          python scripts/publication/fix_austraits_review_docx_layout_v0_1.py \
+            --manuscript build/review_package/organ_K_coauthor_manuscript.docx \
+            --supplement build/review_package/organ_K_supplementary_tables.docx
       - name: Generate static PDF proofs from editable DOCX
         shell: bash
         run: |

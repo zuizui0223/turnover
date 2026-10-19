@@ -131,7 +131,7 @@ def fig_family(z, out):
     ax.set_title("Functional-organ phylogenetic signal across 34 plant families",pad=15)
     ax.grid(axis="x",alpha=.16)
     ax.spines[["top","right"]].set_visible(False)
-    ax.legend(loc="lower right",frameon=False,title="Phylogeny treatment")
+    ax.legend(loc="upper left",bbox_to_anchor=(.018,.985),frameon=False,title="Phylogeny treatment",fontsize=9)
     fig.text(.14,.025,
              "Each point represents a family; labels at right show dependent pair counts (S3/prune).\n"
              "Both organs use the same species and tree per pair. Post-discovery AusTraits study.",

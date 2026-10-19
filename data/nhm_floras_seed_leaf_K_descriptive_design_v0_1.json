@@ -1,0 +1,69 @@
+{
+  "version": "v0.1",
+  "frozen_on": "2026-10-19",
+  "status": "PRE_OUTCOME_DESCRIPTOR_ONLY",
+  "study_scope": "Distinct SECONDARY botanical-description comparative study, not the already-frozen independent direct-primary-source organ-K replication",
+  "motivating_prior": "Original AusTraits post-outcome organ grouping showed seed/fruit vs vegetative higher K ~77-79%; this new source/trait-class hypothesis is a follow-up, not an independent preregistered discovery",
+  "pinned_data": {
+    "source": "NaturalHistoryMuseum/plant-traits",
+    "sha": "4843c22bb2fc91018d9828dcddebf067c83b1097",
+    "license": "CC BY 4.0",
+    "taxonomic_reference": "input/wfo-angiosperms.csv",
+    "source_specific_strata": [
+      "efloras.flora_of_china.csv",
+      "efloras.flora_of_north_america.csv"
+    ],
+    "supporting_strata": [
+      "efloras.flora_of_pakistan.csv",
+      "ecoflora.csv",
+      "bhl.csv"
+    ],
+    "do_not_use_in_primary": [
+      "combined.csv",
+      "output/raw/cv-traits/all_leaf_measurements.csv"
+    ]
+  },
+  "pre_outcome_trait_mapping": {
+    "reproductive": {
+      "seed_length": "seed max. length [mm]",
+      "seed_width": "seed max. width [mm]"
+    },
+    "vegetative": {
+      "leaf_length": "leaf max. length [cm]",
+      "leaf_width": "leaf max. width [cm]"
+    },
+    "secondary_vegetative_only": {
+      "plant_height": "plant max. height [m]"
+    },
+    "fruit_excluded": "NHM lacks comparable continuous fruit dimension columns. Never reclassify fruit shape/type/colour as size."
+  },
+  "phenotype_semantics": "Each cell is an OCR-extracted maximum described species dimension; these are NOT organismal individual means. Never equate source source to direct primary measurement; ambiguous ranges, heights vs widths, leaf versus leaflet identity remain threats.",
+  "fixed_prequalification": {
+    "minimum_exact_source_wfo_binomials_per_family_trait_pair": 20,
+    "minimum_distinct_qualified_families_per_primary_flora": 12,
+    "require_both_native_tree_treatments": true,
+    "trees": [
+      "V.PhyloMaker2 GBOTB original S3",
+      "GBOTB backbone-native prune-only"
+    ],
+    "no_fuzzy_taxon_reassignment": true,
+    "exclude_nonpositive_or_nonfinite_values_by_positive-domain_rule_pre_before_K": true,
+    "do_not_lower_family_or_species_threshold_post_outcome": true,
+    "no_source_modality_mixing_for_primary": true,
+    "no_outcome_based_selection_of_which_floras_or_traits_to_report": true
+  },
+  "provisional_estimands_if_and_only_if_prequalification_passes": {
+    "primary": "Within each of the two primary floras, in each tree treatment separately, equal-family mean fraction of same-species same-tree seed_length K > leaf_length K; separately seed_width versus leaf_width. Each family counts once after averaging eligible pairs; report pair-weighted descriptives as secondary.",
+    "uncertainty": "5,000 complete-family bootstrap draws per source and tree; no pairwise-independent Bernoulli CI",
+    "transfer": "Qualitative direction across fixed China and North America source strata; never infer two independent evolutionary origins merely from distinct flora datasets.",
+    "null_requirement": "Do not infer organ-specific evolutionary rates, stabilizing selection or OU alpha without a separately prequalified observed-tree evolutionary+source-noise null.",
+    "classification": "Only call directional descriptive consistency when both sources and both trees have >0.5 equal-family reproductive-higher rate and 95% family bootstrap lower bounds >0.5. Otherwise mixed/insufficient; not an evolutionary null test.",
+    "negative_classification": "If no sources pass frozen two-tree support, HOLD without K. If source-specific direction differs, report disagreement without changing source, species or trait filters."
+  },
+  "hard_nonclaims": [
+    "The original external primary-measurement replication remains HOLD; this secondary described-species morphology cohort cannot validate it.",
+    "A taxonomic flora description is not a new primary species measurement; different floras may share source descriptions.",
+    "Maxima of two morphological dimensions may differ in source measurement quality; no inference of intrinsic K or evolutionary rate.",
+    "No evolutionary selection, adaptive optimum, developmental constraint or phylogenetic memory half-life conclusion from K sign alone."
+  ]
+}

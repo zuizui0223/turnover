@@ -149,7 +149,7 @@ sites) and Xu et al. (2021a/b; 18 sites). Source labels are *not*
 independent original specimen identifiers. All matched leaf species above
 carry at least one site-source label.
 
-The [original CSTD shape and protocol probe #39210980120](https://github.com/zuizui0223/turnover/actions/runs/39210980120)
+The [verified original CSTD shape and protocol probe #39211759747](https://github.com/zuizui0223/turnover/actions/runs/39211759747)
 resolved verbatim dictionary definitions: fruit/seed length are the
 longest dimension, width is the maximum perpendicular dimension, and
 plant height is above-ground height. The CPTD paper describes
@@ -172,6 +172,38 @@ insufficient for family-general evidence on the broad vegetative organ
 module, even though the weaker frozen numerical two-vegetative-name
 condition can be satisfied when height is included. This is a limitation
 of *data coverage*, not rejection of the proposed evolutionary pattern.
+
+## Frozen-pair one-whole-source-label exclusion sensitivity — 2026-10-19
+
+The [complete successful source-aware sensitivity #39212013007](https://github.com/zuizui0223/turnover/actions/runs/39212013007)
+performed a **presence-only, worst single-source deletion** for each of
+the fixed 17 CSTD reproductive/CPTD leaf qualified family×trait pairs. For
+each pair, all site-source labels were enumerated, the removal causing the
+largest reduction in usable *species* was selected, and the retained
+distinct species with another source label were recounted. A separate
+version removes a CSTD reproductive source-reference ID instead. No new
+K was estimated.
+
+| Outcome-blind 20-species support check | >=20 species pairs | Families |
+| --- | ---: | ---: |
+| Before exclusion | 17 | 3 |
+| After most impactful **CPTD site-source-label** deletion per pair | **0** | **0** |
+| After most impactful **CSTD reproductive original-reference-ID** deletion per pair | **10** | **2** |
+
+These are **post-discovery source robustness diagnostics** and not newly
+invented pass/fail criteria for the predeclared external test. They
+nevertheless show why the apparent second-vegetative-trait support is
+especially fragile: a single CPTD source group can drive the 20-species
+threshold for every one of the 17 matched leaf-pair candidates.
+
+The original CSTD reproductive-versus-plant-height comparison separately
+retains **61 pairs in 20 families** under identical registered publication
+ID for both traits; that distinct result must not be confused with the
+17 CSTD-plus-CPTD leaf pairs. All K and biological direction outputs
+remain unopened. The next true independent validation source should be a
+**larger primary-measurement dataset with paired organs and original record
+lineage**, not a relaxed minimum family/taxon criterion or another
+combination of secondary compilations.
 
 ## Scientific boundaries
 

@@ -1,0 +1,78 @@
+name: AusTraits 283 to 142 K taxon versus source transition v0.1
+
+on:
+  push:
+    branches:
+      - analysis/brownian-process-null-v0-1
+    paths:
+      - '.github/workflows/austraits-k-nonflora-cohort-transition-v0-1.yml'
+      - 'data/austraits_k_nonflora_cohort_transition_v0_1.json'
+      - 'scripts/analysis/audit_austraits_k_nonflora_cohort_transition_v0_1.py'
+      - 'tests/test_austraits_k_nonflora_cohort_transition_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# Source-only family×trait species eligibility was frozen before K
+# reestimation in TWO distinct completed original studies. This audit now
+# juxtaposes those original outputs after outcomes became available and
+# cannot be misrepresented as an independent evolutionary process result.
+jobs:
+  source_vs_sampling:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy
+      - name: Recover the two already successful source-qualified complete real-tree K outputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/broad build/strict build/result
+          gh run download 38922133371 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-283-final-v0-1 -D build/broad
+          gh run download 39006469805 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-joint-nonflora-shared-dataset-142-final-v0-1 -D build/strict
+          test -f build/broad/five_flora_exclusion_organ_K.json
+          test -f build/strict/joint_nonflora_shared_source_K.json
+      - name: Validate original complete K result identity and three-stage paired original graph on already observed outputs
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_k_nonflora_cohort_transition_v0_1.py
+          python tests/test_austraits_k_nonflora_cohort_transition_v0_1.py \
+            --broad build/broad/five_flora_exclusion_organ_K.json \
+            --joint build/strict/joint_nonflora_shared_source_K.json \
+            --design data/austraits_k_nonflora_cohort_transition_v0_1.json
+      - name: Decompose family-pair and taxon/geometry selection versus identical-tip source median substitution
+        run: |
+          python scripts/analysis/audit_austraits_k_nonflora_cohort_transition_v0_1.py \
+            --broad build/broad/five_flora_exclusion_organ_K.json \
+            --joint build/strict/joint_nonflora_shared_source_K.json \
+            --design data/austraits_k_nonflora_cohort_transition_v0_1.json \
+            --out build/result/nonflora_283_to_142_source_support_transition.json
+          python - <<'PY'
+          import json,math
+          z=json.load(open('build/result/nonflora_283_to_142_source_support_transition.json'))
+          assert z['status']=='AUSTRAITS_K_NONFLORA_COHORT_TRANSITION_EXPLORATORY_VERIFIED'
+          assert z['source_and_K_blind_eligibility_not_changed']
+          assert z['not_new_evolutionary_process_hypothesis_or_independent_external_validation']
+          for axis,n,old,matched,source in [
+              ('S3',142,110,121,120),
+              ('prune_only',101,82,83,81)]:
+              s=z['axes'][axis]
+              assert s['n_pair_identities']==n
+              seq=list(s['stage_rates'].values())
+              assert [x['n_reproductive_K_higher'] for x in seq]==[old,matched,source]
+              assert sum(x['n_pairwise_K_sign_reversals'] for x in list(s['paired_steps'].values())[:2])>0
+              assert all(math.isfinite(x['mean_signed_delta_logK']) for x in s['paired_steps'].values())
+          print('PASS: completed same-family 3-stage K transition with 5000 family bootstrap draws')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-k-283-to-142-cohort-transition-v0-1
+          path: build/result/nonflora_283_to_142_source_support_transition.json
+          retention-days: 30

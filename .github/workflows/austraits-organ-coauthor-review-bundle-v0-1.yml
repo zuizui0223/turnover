@@ -1,0 +1,87 @@
+name: AusTraits organ-K coauthor review DOCX/PDF bundle v0.1
+
+on:
+  push:
+    branches:
+      - paper/austraits-organ-ecology-v0-2
+    paths:
+      - scripts/publication/build_austraits_organ_review_package_v0_1.py
+      - docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md
+      - docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md
+      - .github/workflows/austraits-organ-coauthor-review-bundle-v0-1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  coauthor-review-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install document compilers and reference-style formatter
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq pandoc libreoffice-writer fonts-liberation >/dev/null
+          python -m pip install --disable-pip-version-check python-docx==1.2.0
+      - name: Recover EXACT corrected main-figure artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mkdir -p build/review_package/figures
+          gh run download 39233969489 -R "$GITHUB_REPOSITORY" \
+            -n austraits-organ-ecology-paper-figures-v0-2 \
+            -D build/review_package/figures
+          test -s build/review_package/figures/figure1_common_tips_family_organK.png
+          test -s build/review_package/figures/figure_manifest.json
+      - name: Compile paper/supplement source without changing biology
+        shell: bash
+        run: |
+          python scripts/publication/build_austraits_organ_review_package_v0_1.py \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --supplementary docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --figures build/review_package/figures \
+            --out-dir build/review_package
+          pandoc build/review_package/manuscript_review.md \
+            --from markdown --to docx --standalone \
+            --reference-doc build/review_package/reference_manuscript.docx \
+            --resource-path build/review_package \
+            --output build/review_package/organ_K_coauthor_manuscript.docx
+          pandoc build/review_package/supplement_review.md \
+            --from markdown --to docx --standalone \
+            --reference-doc build/review_package/reference_supplement.docx \
+            --output build/review_package/organ_K_supplementary_tables.docx
+      - name: Generate static PDF proofs from editable DOCX
+        shell: bash
+        run: |
+          profile="file:///tmp/lo_organk_${GITHUB_RUN_ID}"
+          libreoffice -env:UserInstallation="$profile" --headless \
+            --convert-to pdf --outdir build/review_package \
+            build/review_package/organ_K_coauthor_manuscript.docx \
+            build/review_package/organ_K_supplementary_tables.docx
+          test -s build/review_package/organ_K_coauthor_manuscript.pdf
+          test -s build/review_package/organ_K_supplementary_tables.pdf
+          test -s build/review_package/organ_K_coauthor_manuscript.docx
+          test -s build/review_package/organ_K_supplementary_tables.docx
+      - name: Create long-lived reviewer artifact with source fingerprint
+        shell: bash
+        run: |
+          cd build/review_package
+          zip -q -r ../austraits_organ_K_coauthor_review_v0_1.zip \
+            organ_K_coauthor_manuscript.docx organ_K_coauthor_manuscript.pdf \
+            organ_K_supplementary_tables.docx organ_K_supplementary_tables.pdf \
+            README.txt source_manifest.json figures/
+          test -s ../austraits_organ_K_coauthor_review_v0_1.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-K-coauthor-review-v0-1
+          path: build/austraits_organ_K_coauthor_review_v0_1.zip
+          retention-days: 90
+          if-no-files-found: error

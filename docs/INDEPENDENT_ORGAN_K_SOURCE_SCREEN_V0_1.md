@@ -114,6 +114,65 @@ not yet harmonized, and the predeclared two-tree matched-tip crosswalk
 has not been qualified. The biologically measured K direction has not
 been opened. No change to frozen sample gates or original effect claims.
 
+## Exact source-lineage audit completed — 2026-10-19
+
+The successful [original-reference integrity workflow #39211759747](https://github.com/zuizui0223/turnover/actions/runs/39211759747)
+joined every selected CSTD trait record's raw `Reference` ID against the
+published two-column `Reference` worksheet (`ID`, `Name`), not DOI guesses.
+There are **694 catalogued bibliographic IDs**; the selected organ-trait
+records use **580 source IDs, all 580 resolved; 0 unresolved IDs**.
+
+**CSTD-only source-linked support:** On the EXACT original
+`Species_accepted` text strings, with genus/family conflicts excluded in a
+separate sensitivity but no artificial merging of infra-specific or
+authorship-bearing names, **61** reproductive-versus-plant-height family×pair
+comparisons in **20 families** retain at least 20 same-species records where
+both traits cite an identical, registered original reference ID. This is
+shared *citation* support, NOT paired measurements of a single specimen;
+the contributing original publication may be a taxonomic compilation or
+nonstandard measurement. It is NOT a full six-versus-six organ validation.
+
+**CSTD × CPTD leaf support:** 17 >=20-binomial cross-organ comparisons remain
+within **only three families**, although CSTD height broadens the combined
+numerical support to 20 families:
+
+| Family | Species supporting at least one 20+ leaf-versus-seed/fruit comparison | Distinct CSTD cited references | Distinct CPTD site-source labels | Largest single CPTD label covers this share |
+| --- | ---: | ---: | ---: | ---: |
+| Amaranthaceae | 22 | 10 | 4 | 90.9% |
+| Fabaceae | 39 | 34 | 5 | 84.6% |
+| Rosaceae | 36 | 16 | 5 | 58.3% |
+
+The original CPTD `Sites information.csv` is fixed by Figshare ID 38095863
+and MD5 `76debd1ec32b850efa2c593ee5b94ee4`. It reports exactly 140
+sites and 7 distinct source labels, dominated by Wang et al. (2018; 104
+sites) and Xu et al. (2021a/b; 18 sites). Source labels are *not*
+independent original specimen identifiers. All matched leaf species above
+carry at least one site-source label.
+
+The [original CSTD shape and protocol probe #39210980120](https://github.com/zuizui0223/turnover/actions/runs/39210980120)
+resolved verbatim dictionary definitions: fruit/seed length are the
+longest dimension, width is the maximum perpendicular dimension, and
+plant height is above-ground height. The CPTD paper describes
+`Average LA` as scanned leaf area and `LMA` as inverse SLA. Exact organ
+homology relative to AusTraits, genotype/individual correspondence, and
+AusTraits-original-primary-source nonoverlap remain UNKNOWN.
+
+**Method QA lesson:** a first draft erroneously used genus+species
+normalization to reconstruct **CSTD-within-database** source-supported
+pairs, which can join separate original taxon text rows carrying
+complementary traits and artificially increase support. The corrected
+workflow reproduces CSTD-only pairs by immutable verbatim species labels
+and uses normalized binomials only for the separately labelled
+cross-database candidate search. Neither failure was reported as a
+biological result.
+
+**Decision remains HOLD_PRE_OUTCOME.** Removing plant height leaves
+only **three** families with 20+ seed/fruit-versus-leaf comparisons,
+insufficient for family-general evidence on the broad vegetative organ
+module, even though the weaker frozen numerical two-vegetative-name
+condition can be satisfied when height is included. This is a limitation
+of *data coverage*, not rejection of the proposed evolutionary pattern.
+
 ## Scientific boundaries
 
 Nothing in this source-only step updates the original AusTraits 77–79% exploratory organ-K finding, the closed BIEN 201-system rho conclusion, or the fixed external success criterion. An inaccessible or unsupported independent source yields **UNTESTED**, not a negative evolutionary conclusion.

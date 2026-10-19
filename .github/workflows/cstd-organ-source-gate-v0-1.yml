@@ -1,0 +1,50 @@
+name: CSTD organ source-only screen v0.1
+
+on:
+  push:
+    branches:
+      - source/cstd-organ-metadata-screen-v0-1
+    paths:
+      - scripts/source/audit_cstd_organ_metadata_v0_1.py
+      - docs/INDEPENDENT_ORGAN_K_SOURCE_SCREEN_V0_1.md
+      - .github/workflows/cstd-organ-source-gate-v0-1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_gate_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install schema-only parser
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+      - name: Fetch public pinned CSTD v4 workbook
+        shell: bash
+        run: |
+          mkdir -p .source-cache
+          curl --fail --location --show-error --silent --retry 3 \
+            https://ndownloader.figshare.com/files/53721110 \
+            -o .source-cache/CSTD_v1.xlsx
+          echo "Workbook downloaded; MD5 verified by the parser before any metadata analysis."
+      - name: Inspect presence metadata only (no trait outcome/K)
+        shell: bash
+        run: |
+          python scripts/source/audit_cstd_organ_metadata_v0_1.py \
+            --source .source-cache/CSTD_v1.xlsx \
+            --output source_gate_artifacts/cstd_organ_source_gate_v0_1.json
+      - name: Upload source-only report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cstd-organ-source-only-v0-1
+          path: source_gate_artifacts/cstd_organ_source_gate_v0_1.json
+          if-no-files-found: warn
+          retention-days: 30

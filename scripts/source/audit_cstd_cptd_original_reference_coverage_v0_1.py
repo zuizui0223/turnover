@@ -37,6 +37,25 @@ def evidence_spans(sources_by_species, species):
     return {s: len(names) for s, names in out.items()}
 
 
+def worst_single_source_ablation(species_source_sets):
+    """Conservative source-label sensitivity; does not assume each paper is independent."""
+    all_ids = {sid for ids in species_source_sets.values() for sid in ids}
+    if not all_ids:
+        return {"assessable":False,"min_remaining_species":0,"removed_source":None}
+    candidates = [
+        (sum(bool(ids - {sid}) for ids in species_source_sets.values()), sid)
+        for sid in sorted(all_ids)
+    ]
+    remaining, removed = min(candidates)
+    return {
+        "assessable":True,
+        "baseline_species":len(species_source_sets),
+        "min_remaining_species":remaining,
+        "worst_removed_source":removed,
+        "unique_source_labels":len(all_ids)
+    }
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--cstd", required=True, type=Path)
@@ -173,6 +192,36 @@ def main():
             rec["leaf_sources"][sp].update(leaf_species_source.get((sp,leaf),set()))
             rec["strategies"].update(leaf_species_strategy.get((sp,leaf),set()))
 
+    # Post-qualification metadata-only source-ablation sensitivity:
+    # re-evaluate each exact fixed pair on original *species* support when
+    # a whole CPTD site-publication label or whole CSTD reference is removed.
+    # These are conservative descriptive checks, never extra K tests.
+    individual_pair_ablation = []
+    for pair in pair_data:
+        family, reproductive, vegetative = (
+            pair["family"],pair["reproductive"],pair["vegetative"]
+        )
+        species = {
+            sp for (fa,sp,trait) in cstd_sources
+            if fa==family and trait==reproductive
+            and (sp,vegetative) in leaf_species_sites
+        }
+        if len(species) != pair["same_accepted_binomial"]:
+            raise RuntimeError("Source-ablation pair species do not reproduce frozen geometry")
+        primary_sources = {
+            sp: cstd_sources[(family,sp,reproductive)] for sp in species
+        }
+        leaf_sources = {
+            sp: leaf_species_source.get((sp,vegetative),set())
+            for sp in species
+        }
+        individual_pair_ablation.append({
+            "family":family,"reproductive":reproductive,"vegetative":vegetative,
+            "n":len(species),
+            "CSTD_original_publication_ID_ablation":worst_single_source_ablation(primary_sources),
+            "CPTD_site_source_label_ablation":worst_single_source_ablation(leaf_sources),
+        })
+
     family_reports = []
     all_rep_refs = set()
     all_leaf_refs = set()
@@ -261,7 +310,22 @@ def main():
             "distinct_cptd_site_source_labels_across_eligible_families":len(all_leaf_refs),
             "cptd_site_count":len(sites),
             "cptd_leaf_sample_trait_presence_rows":present_samples,
-            "leaf_trait_presences_with_unresolved_site":unresolved_sites
+            "leaf_trait_presences_with_unresolved_site":unresolved_sites,
+            "source_ablation_pairs":individual_pair_ablation,
+            "CPTD_site_source_ablation_20plus_pairs":sum(
+                x["CPTD_site_source_label_ablation"]["min_remaining_species"]>=20
+                for x in individual_pair_ablation),
+            "CPTD_site_source_ablation_20plus_families":len({
+                x["family"] for x in individual_pair_ablation
+                if x["CPTD_site_source_label_ablation"]["min_remaining_species"]>=20
+            }),
+            "CSTD_reference_ablation_20plus_pairs":sum(
+                x["CSTD_original_publication_ID_ablation"]["min_remaining_species"]>=20
+                for x in individual_pair_ablation),
+            "CSTD_reference_ablation_20plus_families":len({
+                x["family"] for x in individual_pair_ablation
+                if x["CSTD_original_publication_ID_ablation"]["min_remaining_species"]>=20
+            })
         },
         "cstd_within_original_reference": {
             "input_CSTD_only_pairs":len(same_ref_pairs),
@@ -285,6 +349,10 @@ def main():
             "max_species_fraction_per_single_cstd_reference",
             "max_species_fraction_per_single_cptd_source",
             "fraction_with_site_source_labels")} for row in family_reports],
+        "CPTD_site_source_ablation_20plus_pairs":out["cross_source"]["CPTD_site_source_ablation_20plus_pairs"],
+        "CPTD_site_source_ablation_20plus_families":out["cross_source"]["CPTD_site_source_ablation_20plus_families"],
+        "CSTD_reference_ablation_20plus_pairs":out["cross_source"]["CSTD_reference_ablation_20plus_pairs"],
+        "CSTD_reference_ablation_20plus_families":out["cross_source"]["CSTD_reference_ablation_20plus_families"],
         "within_reference_20plus_pairs":out["cstd_within_original_reference"]["pairs_retaining_20plus_species_with_cited_reference_shared_by_both_traits"],
         "within_reference_20plus_families":out["cstd_within_original_reference"]["families_retaining_at_least_one_20plus_same_reference_pair"],
     },ensure_ascii=False))

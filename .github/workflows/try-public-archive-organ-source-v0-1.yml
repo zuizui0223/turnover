@@ -1,0 +1,50 @@
+name: TRY public paired-organ catalogue gate v0.1
+
+on:
+  push:
+    branches:
+      - source/try-public-primary-catalog-v0-1
+    paths:
+      - scripts/source/audit_try_public_archive_organ_metadata_v0_1.py
+      - .github/workflows/try-public-archive-organ-source-v0-1.yml
+      - docs/TRY_PUBLIC_ARCHIVE_ORGAN_SOURCE_VERDICT_V0_1.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public_catalogue_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned public-html parser
+        run: python -m pip install --disable-pip-version-check beautifulsoup4==4.14.2
+      - name: Validate parser on synthetic publicly specified fields
+        run: python scripts/source/audit_try_public_archive_organ_metadata_v0_1.py --self-test
+      - name: Read ONLY public archive metadata (no registration-gated files)
+        shell: bash
+        run: |
+          mkdir -p .source-cache source_gate_artifacts
+          curl --fail --location --show-error --silent --retry 3 \
+            --user-agent "turnover-research-source-qualification/0.1" \
+            https://www.try-db.org/TryWeb/Data.php -o .source-cache/try_public_archive.html
+          test -s .source-cache/try_public_archive.html
+      - name: Frozen full-catalogue paired-field gate, outcome-blind
+        shell: bash
+        run: |
+          python scripts/source/audit_try_public_archive_organ_metadata_v0_1.py \
+            --html .source-cache/try_public_archive.html \
+            --output source_gate_artifacts/try_public_archive_organ_source_v0_1.json
+      - name: Archive PUBLIC metadata verdict
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: try-public-archive-organ-source-only-v0-1
+          path: source_gate_artifacts/
+          retention-days: 30
+          if-no-files-found: warn

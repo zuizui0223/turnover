@@ -129,12 +129,13 @@ def build(source,out,manuscript,brier_figure):
     # Secondary evidence only: append the post-selected Brier figure to the
     # supplement rather than giving it main-manuscript prominence.
     src=manuscript.read_text(encoding="utf-8")
-    m=re.search(
-        r"\\*\\*Supplementary Figure S1\\.\\*\\*\\s*([\\s\\S]*?)(?=\\n\\n### |\\Z)",
-        src
-    )
-    if not m or "64.47%" not in m.group(1) or "non-nested" not in m.group(1):
-        raise ValueError("Source supplementary caption must retain algebraic nonindependence and post-selection")
+    marker="**Supplementary Figure S1.** "
+    start=src.find(marker)
+    if start<0:
+        raise ValueError("Source supplemental figure caption missing")
+    caption=src[start+len(marker):].split("\n\n",1)[0].strip()
+    if "64.47%" not in caption or "non-nested" not in caption:
+        raise ValueError("Supplementary caption does not warn against independent biological interpretation")
     if not brier_figure.exists() or brier_figure.stat().st_size<4000:
         raise ValueError("Source-linked Brier figure missing")
     fig_title=d.add_heading("Supplementary Figure S1. Conditional Brier scoring",level=2)
@@ -145,7 +146,7 @@ def build(source,out,manuscript,brier_figure):
     shape=run.add_picture(str(brier_figure),width=Inches(8.0))
     shape._inline.docPr.set("descr",
         "Conditional cross-family Brier probability loss of pooled, organ-only, named-trait, and named-pair models; hard accuracy is algebraically redundant with original reproductive K wins.")
-    cap=d.add_paragraph("Supplementary Figure S1. "+plain(m.group(1)))
+    cap=d.add_paragraph("Supplementary Figure S1. "+plain(caption))
     cap.paragraph_format.keep_together=True
     d.save(out)
     return specs

@@ -1,3 +1,17 @@
+## 2026-10-20 — Durable aggregate archive and source-version citation VERIFIED
+
+This revision **does not** reopen any biological K or source-outcome analysis.
+
+- Verified the **exact used AusTraits v7.0.0 dataset**, Falster, Gallagher, Wenk & Sauquet (2025), DOI [10.5281/zenodo.15718081](https://doi.org/10.5281/zenodo.15718081), and distinguished it in text from the earlier **v3.0.2 resource descriptor** Falster et al. (2021), DOI [10.1038/s41597-021-01006-6](https://doi.org/10.1038/s41597-021-01006-6). The v7 release is CC BY; retain original contributing-study attributions.
+- Added verified methodological references for original Blomberg K (Blomberg et al. 2003), V.PhyloMaker2 (Jin & Qian 2022) and phytools K parity (Revell 2012) directly into the Methods and formal references.
+- Resolved time-limited GitHub Actions archive dependence: three original source-only **aggregate** JSON outputs were pinned byte-for-byte by SHA256 and permanently committed on the paper PR branch at [`results/austraits_organ_paper_frozen_aggregate_inputs_v0_1`](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_frozen_aggregate_inputs_v0_1). These are NOT new raw trait measurements, species arrays or independent datasets.
+- [Source archive SHA256 integrity CI #39402465299](https://github.com/zuizui0223/turnover/actions/runs/39402465299): **PASS**. [Figure regeneration from committed aggregates #39402642194](https://github.com/zuizui0223/turnover/actions/runs/39402642194): **PASS**. [Bibliography/method citation claims QA #39403012872](https://github.com/zuizui0223/turnover/actions/runs/39403012872): **PASS**. [Full coauthor DOCX/PDF bundle #39403013256](https://github.com/zuizui0223/turnover/actions/runs/39403013256): **PASS**, with original Figures 1–2 as main and conditional Brier as Supplementary Figure S1.
+- Code-only reproduction instructions, permanent source SHA256 fingerprints, the original archive IDs and scientific boundaries are in [`docs/AUSTRAITS_ORGAN_PAPER_REPRODUCIBILITY_V0_1.md`](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORGAN_PAPER_REPRODUCIBILITY_V0_1.md).
+
+**Current status:** Ready for coauthor scientific review, **not submitted or merged**. Open author-facing issues: coauthor consent, original-study/source attribution review, target-journal format, formal submission approval. The LOFO hard accuracy remains algebraically redundant with original organ K win counts; no independent primary validation or causal evolutionary mechanism is claimed.
+
+---
+
 ## 2026-10-20 — Final evidence hierarchy and coauthor package VERIFIED
 
 The inferential correction is now reflected in **both main-text figure prominence and the printed PDF**:

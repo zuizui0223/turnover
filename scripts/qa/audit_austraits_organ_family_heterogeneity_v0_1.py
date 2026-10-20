@@ -163,6 +163,40 @@ def audit(data):
     }
 
 
+def verify_reporting_text(result, manuscript, supplementary):
+    """Fail closed if a coauthor-facing text loses its original family qualifiers.
+
+    Reporting QA only: no family-specific p values and no new trait outcome fits.
+    """
+    sources = {"manuscript": manuscript, "supplementary": supplementary}
+    tokens = (
+        "27/34", "30/34", "75.1", "79.1", "77.1", "80.8",
+        "16/30", "16/27", "2/12", "3/12", "1/6", "2/6",
+        "Asteraceae", "Casuarinaceae", "Rubiaceae",
+        "Elaeocarpaceae", "Lauraceae", "Phyllanthaceae"
+    )
+    for label, text in sources.items():
+        for token in tokens:
+            require(token in text, label + " loses frozen family fact: " + token)
+        require("not" in text.lower() and "family" in text.lower(),
+                label + " loses exploratory/family scope")
+    require(result["axes"]["S3"]["families_with_reproductive_majority"] == 27,
+            "S3 family-majority evidence changed")
+    require(result["axes"]["prune_only"]["families_with_reproductive_majority"] == 30,
+            "prune family-majority evidence changed")
+    # Deliberately corrupted editorial wording must fail.
+    for label, text in sources.items():
+        wrong = text.replace("27/34", "27/35")
+        try:
+            for token in tokens:
+                require(token in wrong, label + " failed editorial mutation test: " + token)
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError("family text mutation was not rejected: " + label)
+    return "PASS_FROZEN_FAMILY_COUNTS_IN_COAUTHOR_TEXT"
+
+
 def self_test(data):
     good = audit(data)
     require(good["status"].startswith("PASS_"), "positive control failed")
@@ -190,6 +224,8 @@ def main():
     parser.add_argument("--input", type=Path, default=INPUT)
     parser.add_argument("--manifest", type=Path, default=MANIFEST)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--manuscript", type=Path)
+    parser.add_argument("--supplementary", type=Path)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
     raw = args.input.read_bytes()
@@ -201,6 +237,14 @@ def main():
     if args.self_test:
         self_test(d)
     result = audit(d)
+    require((args.manuscript is None) == (args.supplementary is None),
+            "manuscript and supplement must be specified together")
+    if args.manuscript is not None:
+        result["coauthor_prose_qa"] = verify_reporting_text(
+            result,
+            args.manuscript.read_text(encoding="utf-8"),
+            args.supplementary.read_text(encoding="utf-8")
+        )
     result["source_sha256_verified"] = True
     result["source_sha256"] = m["file_sha256"][name]
     content = json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2) + "\n"

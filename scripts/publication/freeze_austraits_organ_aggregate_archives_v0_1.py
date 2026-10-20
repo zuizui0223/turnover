@@ -48,9 +48,10 @@ def audit_archive(root,output=None):
               "Original trusted SHA256 mismatch: "+name)
         data=json.loads(b)
         check(data.get("status")==descriptor["status"],"Original archive status drift: "+name)
-        check("species_name" not in b.decode("utf-8").lower() and
-              '"observation_id"' not in b.decode("utf-8").lower() and
-              '"binomial"' not in b.decode("utf-8").lower(),
+        # Reject exact raw-taxon/observation keys, not explanatory metadata
+        # such as 'pair_level_K_decisions_no_species_names'.
+        check(all(('"' + key + '":') not in b.decode("utf-8").lower()
+                  for key in ("species_name","observation_id","binomial","trait_value","raw_value")),
               "Potential original specimen-level identifiers require manual authorization")
         hashes[name]=digest
         results[name]=data

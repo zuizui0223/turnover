@@ -18,7 +18,12 @@ REQUIRED_CAVEATS = (
 )
 REQUIRED_LINKS = (
     "https://github.com/zuizui0223/turnover/pull/33",
-    "https://doi.org/10.1073/pnas.0901635106"
+    "https://doi.org/10.1073/pnas.0901635106",
+    "https://doi.org/10.5281/zenodo.15718081",
+    "https://doi.org/10.1038/s41597-021-01006-6",
+    "https://doi.org/10.1111/j.0014-3820.2003.tb00285.x",
+    "https://doi.org/10.1016/j.pld.2022.05.005",
+    "https://doi.org/10.1111/j.2041-210X.2011.00169.x"
 )
 
 def require(cond, name):
@@ -124,6 +129,10 @@ def check_claims(d, manuscript=None):
                 "S3 directional transitions missing")
         require("newly discovered subgroup" in manuscript,
                 "freeze/stop disclosure absent")
+        require("version v7.0.0" in m and
+                "earlier database" in m and
+                "original source-unit" in m,
+                "versioned AusTraits data/old-descriptor distinction not documented")
         require("non-nested hypothesis selection" in m,
                 "post-selected organ definition / non-nested fold caveat absent")
         require("hypothesis-selection leakage" in m,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot three paper figures from immutable, already-opened AusTraits K aggregates.
+"""Plot two main and one supplementary figure from immutable AusTraits K aggregates.
 
 NO new fits, trait/subgroup selection, bootstrap, K estimation or new P values.
 The archive-status and exact native-S3/prune counts must match the manuscript
@@ -251,6 +251,13 @@ def main():
         },
         "original_source_sha256":fingerprints,
         "outputs":filenames,
+        "editorial_evidence_hierarchy":{
+            "main_figure_1":"figure1_common_tips_family_organK",
+            "main_figure_2":"figure3_taxon_vs_source_stages",
+            "supplementary_figure_S1":"figure2_family_holdout_Brier",
+            "Brier_is_separate_independent_ecological_confirmation":False,
+            "hard_accuracy_algebraically_redundant":True
+        },
         "new_biological_effects":0,
         "matched_trees_separate":True,
         "independent_validation":"NOT_QUALIFIED",

@@ -83,7 +83,7 @@ def make_table(d,lines):
     d.add_paragraph().paragraph_format.space_after=Pt(0)
     return ncol,len(rows)
 
-def build(source,out):
+def build(source,out,manuscript,brier_figure):
     md=source.read_text(encoding="utf-8")
     for phrase in ("313/406 (77.1%)","314/397 (79.1%)",
                    "110/142 (77.5%)","120/142 (84.5%)",
@@ -126,6 +126,27 @@ def build(source,out):
         else:i+=1
     if specs!=[(6,6),(7,3),(5,3),(4,3)]:
         raise ValueError("Unexpected original 4-table schema: "+repr(specs))
+    # Secondary evidence only: append the post-selected Brier figure to the
+    # supplement rather than giving it main-manuscript prominence.
+    src=manuscript.read_text(encoding="utf-8")
+    m=re.search(
+        r"\\*\\*Supplementary Figure S1\\.\\*\\*\\s*([\\s\\S]*?)(?=\\n\\n### |\\Z)",
+        src
+    )
+    if not m or "64.47%" not in m.group(1) or "non-nested" not in m.group(1):
+        raise ValueError("Source supplementary caption must retain algebraic nonindependence and post-selection")
+    if not brier_figure.exists() or brier_figure.stat().st_size<4000:
+        raise ValueError("Source-linked Brier figure missing")
+    fig_title=d.add_heading("Supplementary Figure S1. Conditional Brier scoring",level=2)
+    fig_title.paragraph_format.page_break_before=True
+    p=d.add_paragraph()
+    p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+    run=p.add_run()
+    shape=run.add_picture(str(brier_figure),width=Inches(8.0))
+    shape._inline.docPr.set("descr",
+        "Conditional cross-family Brier probability loss of pooled, organ-only, named-trait, and named-pair models; hard accuracy is algebraically redundant with original reproductive K wins.")
+    cap=d.add_paragraph("Supplementary Figure S1. "+plain(m.group(1)))
+    cap.paragraph_format.keep_together=True
     d.save(out)
     return specs
 
@@ -133,9 +154,11 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("--markdown",required=True,type=Path)
     p.add_argument("--output",required=True,type=Path)
+    p.add_argument("--manuscript",required=True,type=Path)
+    p.add_argument("--brier-figure",required=True,type=Path)
     a=p.parse_args()
     a.output.parent.mkdir(parents=True,exist_ok=True)
-    print("NATIVE_WORD_SUPPLEMENT_TABLES_PASS",build(a.markdown,a.output))
+    print("NATIVE_WORD_SUPPLEMENT_TABLES_PASS",build(a.markdown,a.output,a.manuscript,a.brier_figure))
 
 if __name__=="__main__":
     main()

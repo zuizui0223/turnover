@@ -1,0 +1,944 @@
+{
+  "biology_classes": {
+    "reproductive": [
+      "fruit_height",
+      "fruit_length",
+      "fruit_width",
+      "seed_dry_mass",
+      "seed_length",
+      "seed_width"
+    ],
+    "vegetative": [
+      "leaf_area",
+      "leaf_length",
+      "leaf_mass_per_area",
+      "leaf_width",
+      "petiole_length",
+      "plant_height"
+    ]
+  },
+  "independent_TRY_v7_validation": false,
+  "left_one_whole_family_out_prediction": {
+    "S3": {
+      "all_source_eligible_pairs": {
+        "n_families": 42,
+        "n_named_trait_pair_types": 66,
+        "scores": {
+          "named_pair_Laplace": {
+            "Brier_loss": 0.22661732749396224,
+            "binary_log_loss": 0.646730151673259,
+            "delta_accuracy_family_cluster_95CI": [
+              0.04633767335561057,
+              0.16744899791853318
+            ],
+            "delta_accuracy_gain_over_global": 0.11118421052631579,
+            "delta_brier_family_cluster_95CI": [
+              -0.00280409872277167,
+              0.04583237045977488
+            ],
+            "delta_brier_gain_over_global": 0.024006239978410813,
+            "family_equal_accuracy": 0.5945383367328857,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6375,
+            "heldout_family_pair_rows": 760
+          },
+          "named_trait_Bradley_Terry": {
+            "Brier_loss": 0.2179237166834602,
+            "binary_log_loss": 0.6277993551050535,
+            "delta_accuracy_family_cluster_95CI": [
+              0.05134717605472088,
+              0.17682649829123942
+            ],
+            "delta_accuracy_gain_over_global": 0.11842105263157894,
+            "delta_brier_family_cluster_95CI": [
+              0.0018000745282314812,
+              0.05884076302572607
+            ],
+            "delta_brier_gain_over_global": 0.03269985078891279,
+            "family_equal_accuracy": 0.5921604825254574,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6447368421052632,
+            "heldout_family_pair_rows": 760
+          },
+          "pooled_other_families": {
+            "Brier_loss": 0.250623567472373,
+            "binary_log_loss": 0.6944004266768723,
+            "family_equal_accuracy": 0.5021238258283998,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.5263157894736842,
+            "heldout_family_pair_rows": 760
+          },
+          "reproductive_vegetative": {
+            "Brier_loss": 0.21377685124683155,
+            "binary_log_loss": 0.6187997558966111,
+            "delta_accuracy_family_cluster_95CI": [
+              0.051013554675601584,
+              0.1795917352104489
+            ],
+            "delta_accuracy_gain_over_global": 0.11842105263157894,
+            "delta_brier_family_cluster_95CI": [
+              0.004325826798723029,
+              0.063882344645285
+            ],
+            "delta_brier_gain_over_global": 0.03684671622554147,
+            "family_equal_accuracy": 0.6076334723593495,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6447368421052632,
+            "heldout_family_pair_rows": 760
+          }
+        }
+      },
+      "pair_types_supported_in_at_least_5_families": {
+        "n_families": 42,
+        "n_named_trait_pair_types": 54,
+        "scores": {
+          "named_pair_Laplace": {
+            "Brier_loss": 0.22945062896904675,
+            "binary_log_loss": 0.6527239690229166,
+            "delta_accuracy_family_cluster_95CI": [
+              0.03284521957640302,
+              0.15617622578692492
+            ],
+            "delta_accuracy_gain_over_global": 0.09388038942976357,
+            "delta_brier_family_cluster_95CI": [
+              -0.004058701970151682,
+              0.043990493669611046
+            ],
+            "delta_brier_gain_over_global": 0.020851944186554134,
+            "family_equal_accuracy": 0.5931453510874489,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6279554937413073,
+            "heldout_family_pair_rows": 719
+          },
+          "named_trait_Bradley_Terry": {
+            "Brier_loss": 0.2227065701136851,
+            "binary_log_loss": 0.6392593249254677,
+            "delta_accuracy_family_cluster_95CI": [
+              0.03821629599847642,
+              0.16738244691913556
+            ],
+            "delta_accuracy_gain_over_global": 0.10152990264255911,
+            "delta_brier_family_cluster_95CI": [
+              -0.001321725905164335,
+              0.054838952932486536
+            ],
+            "delta_brier_gain_over_global": 0.0275960030419158,
+            "family_equal_accuracy": 0.5909203652664327,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6356050069541029,
+            "heldout_family_pair_rows": 719
+          },
+          "pooled_other_families": {
+            "Brier_loss": 0.2503025731556009,
+            "binary_log_loss": 0.6937579920858458,
+            "family_equal_accuracy": 0.5055192243918656,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.5340751043115438,
+            "heldout_family_pair_rows": 719
+          },
+          "reproductive_vegetative": {
+            "Brier_loss": 0.2171381919203095,
+            "binary_log_loss": 0.6263487793019473,
+            "delta_accuracy_family_cluster_95CI": [
+              0.03956661260586906,
+              0.17249796752949628
+            ],
+            "delta_accuracy_gain_over_global": 0.1043115438108484,
+            "delta_brier_family_cluster_95CI": [
+              0.0028138116322412613,
+              0.06201659226161292
+            ],
+            "delta_brier_gain_over_global": 0.03316438123529138,
+            "family_equal_accuracy": 0.6067938688411745,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6383866481223922,
+            "heldout_family_pair_rows": 719
+          }
+        }
+      },
+      "prediction_design": "LOFO: every predictor trained on all other families only; no original K of the heldout family is accessed as a covariate."
+    },
+    "prune_only": {
+      "all_source_eligible_pairs": {
+        "n_families": 42,
+        "n_named_trait_pair_types": 66,
+        "scores": {
+          "named_pair_Laplace": {
+            "Brier_loss": 0.21879376308219792,
+            "binary_log_loss": 0.6304836778566447,
+            "delta_accuracy_family_cluster_95CI": [
+              0.061122334205012424,
+              0.17064173217852224
+            ],
+            "delta_accuracy_gain_over_global": 0.11847389558232932,
+            "delta_brier_family_cluster_95CI": [
+              0.011461429273778996,
+              0.048125262427761925
+            ],
+            "delta_brier_gain_over_global": 0.03137947864933116,
+            "family_equal_accuracy": 0.585348744915469,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6566265060240963,
+            "heldout_family_pair_rows": 747
+          },
+          "named_trait_Bradley_Terry": {
+            "Brier_loss": 0.21156083191629674,
+            "binary_log_loss": 0.613975440046251,
+            "delta_accuracy_family_cluster_95CI": [
+              0.06296256853123254,
+              0.17610287511230904
+            ],
+            "delta_accuracy_gain_over_global": 0.12182061579651941,
+            "delta_brier_family_cluster_95CI": [
+              0.014596002541250161,
+              0.058232854189336124
+            ],
+            "delta_brier_gain_over_global": 0.03861240981523234,
+            "family_equal_accuracy": 0.596506952436271,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6599732262382865,
+            "heldout_family_pair_rows": 747
+          },
+          "pooled_other_families": {
+            "Brier_loss": 0.25017324173152905,
+            "binary_log_loss": 0.6935087227310872,
+            "family_equal_accuracy": 0.5438646022818072,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.5381526104417671,
+            "heldout_family_pair_rows": 747
+          },
+          "reproductive_vegetative": {
+            "Brier_loss": 0.20670635175567037,
+            "binary_log_loss": 0.6023141249778601,
+            "delta_accuracy_family_cluster_95CI": [
+              0.0657543173672206,
+              0.16822702492211833
+            ],
+            "delta_accuracy_gain_over_global": 0.11646586345381527,
+            "delta_brier_family_cluster_95CI": [
+              0.019457720132497393,
+              0.06337704411355774
+            ],
+            "delta_brier_gain_over_global": 0.043466889975858694,
+            "family_equal_accuracy": 0.6151149275049322,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6546184738955824,
+            "heldout_family_pair_rows": 747
+          }
+        }
+      },
+      "pair_types_supported_in_at_least_5_families": {
+        "n_families": 42,
+        "n_named_trait_pair_types": 53,
+        "scores": {
+          "named_pair_Laplace": {
+            "Brier_loss": 0.2211939273761413,
+            "binary_log_loss": 0.6356559513030798,
+            "delta_accuracy_family_cluster_95CI": [
+              0.05250644896773808,
+              0.16340791215665737
+            ],
+            "delta_accuracy_gain_over_global": 0.1099290780141844,
+            "delta_brier_family_cluster_95CI": [
+              0.008149625361165706,
+              0.04612028903296204
+            ],
+            "delta_brier_gain_over_global": 0.02886795135931297,
+            "family_equal_accuracy": 0.5838447116984083,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.648936170212766,
+            "heldout_family_pair_rows": 705
+          },
+          "named_trait_Bradley_Terry": {
+            "Brier_loss": 0.2148498554186859,
+            "binary_log_loss": 0.6216435084491753,
+            "delta_accuracy_family_cluster_95CI": [
+              0.05492848432814464,
+              0.1709136316620393
+            ],
+            "delta_accuracy_gain_over_global": 0.11347517730496454,
+            "delta_brier_family_cluster_95CI": [
+              0.01137021064575854,
+              0.05542087598281977
+            ],
+            "delta_brier_gain_over_global": 0.03521202331676837,
+            "family_equal_accuracy": 0.5947018915039508,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.6524822695035462,
+            "heldout_family_pair_rows": 705
+          },
+          "pooled_other_families": {
+            "Brier_loss": 0.25006187873545427,
+            "binary_log_loss": 0.693285092163617,
+            "family_equal_accuracy": 0.5444143935009441,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.5390070921985816,
+            "heldout_family_pair_rows": 705
+          },
+          "reproductive_vegetative": {
+            "Brier_loss": 0.20936159511523905,
+            "binary_log_loss": 0.6083370674142763,
+            "delta_accuracy_family_cluster_95CI": [
+              0.05914563883865291,
+              0.16265875779783176
+            ],
+            "delta_accuracy_gain_over_global": 0.11063829787234042,
+            "delta_brier_family_cluster_95CI": [
+              0.01581778962952327,
+              0.06123289188980376
+            ],
+            "delta_brier_gain_over_global": 0.040700283620215216,
+            "family_equal_accuracy": 0.6143045628597411,
+            "hard_sign_accuracy_with_half_credit_for_ties": 0.649645390070922,
+            "heldout_family_pair_rows": 705
+          }
+        }
+      },
+      "prediction_design": "LOFO: every predictor trained on all other families only; no original K of the heldout family is accessed as a covariate."
+    }
+  },
+  "new_OU_Brownian_process_parameters_fitted": false,
+  "no_raw_trait_values_species_ids_exported": true,
+  "post_original_K_and_760_outcomes_exploratory": true,
+  "reproductive_vegetative_both_trees": {
+    "n_evaluable_on_both_trees": 397,
+    "n_reproductive_higher_on_both": 290,
+    "n_tree_axis_disagreements": 41,
+    "n_vegetative_higher_on_both": 66
+  },
+  "reproductive_vegetative_matched_tip": {
+    "S3": {
+      "equal_family_mean_reproductive_higher_rate": 0.7472913524384114,
+      "equal_named_pair_type_rate": 0.8174174348613203,
+      "equal_pair_type_rate_ge5_families": 0.7819664708623288,
+      "family_bootstrap_equal_family_CI95": [
+        0.6430356020613374,
+        0.843633264203117
+      ],
+      "family_cluster_pair_rate_CI95": [
+        0.6619684289310743,
+        0.8600516759337794
+      ],
+      "leave_one_named_trait_out": [
+        {
+          "excluded_trait": "fruit_height",
+          "n_pairs": 382,
+          "reproductive_higher_rate": 0.7617801047120419
+        },
+        {
+          "excluded_trait": "fruit_length",
+          "n_pairs": 303,
+          "reproductive_higher_rate": 0.7656765676567657
+        },
+        {
+          "excluded_trait": "fruit_width",
+          "n_pairs": 340,
+          "reproductive_higher_rate": 0.7852941176470588
+        },
+        {
+          "excluded_trait": "leaf_area",
+          "n_pairs": 380,
+          "reproductive_higher_rate": 0.7657894736842106
+        },
+        {
+          "excluded_trait": "leaf_length",
+          "n_pairs": 306,
+          "reproductive_higher_rate": 0.7908496732026143
+        },
+        {
+          "excluded_trait": "leaf_mass_per_area",
+          "n_pairs": 382,
+          "reproductive_higher_rate": 0.7617801047120419
+        },
+        {
+          "excluded_trait": "leaf_width",
+          "n_pairs": 308,
+          "reproductive_higher_rate": 0.7564935064935064
+        },
+        {
+          "excluded_trait": "petiole_length",
+          "n_pairs": 343,
+          "reproductive_higher_rate": 0.7725947521865889
+        },
+        {
+          "excluded_trait": "plant_height",
+          "n_pairs": 311,
+          "reproductive_higher_rate": 0.7813504823151125
+        },
+        {
+          "excluded_trait": "seed_dry_mass",
+          "n_pairs": 344,
+          "reproductive_higher_rate": 0.7645348837209303
+        },
+        {
+          "excluded_trait": "seed_length",
+          "n_pairs": 324,
+          "reproductive_higher_rate": 0.7716049382716049
+        },
+        {
+          "excluded_trait": "seed_width",
+          "n_pairs": 337,
+          "reproductive_higher_rate": 0.7774480712166172
+        }
+      ],
+      "leave_one_trait_out_max_rate": 0.7908496732026143,
+      "leave_one_trait_out_min_rate": 0.7564935064935064,
+      "n_independent_families_with_cross_organ_comparisons": 34,
+      "n_reproductive_K_higher": 313,
+      "n_reproductive_vegetative_named_pair_types": 36,
+      "n_supported_family_pair_observations": 406,
+      "pair_types_with_at_least_5_family_systems": 29,
+      "pair_weighted_reproductive_K_higher_rate": 0.770935960591133,
+      "per_family_descriptive": {
+        "Annonaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 10,
+          "reproductive_K_higher_rate": 0.8333333333333334
+        },
+        "Apiaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 2,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Apocynaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 8,
+          "n_reproductive_K_higher": 8,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Arecaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 13,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.5384615384615384
+        },
+        "Asparagaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Asteraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 30,
+          "n_reproductive_K_higher": 16,
+          "reproductive_K_higher_rate": 0.5333333333333333
+        },
+        "Casuarinaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.16666666666666666
+        },
+        "Celastraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 16,
+          "n_reproductive_K_higher": 12,
+          "reproductive_K_higher_rate": 0.75
+        },
+        "Cucurbitaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 9,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.7777777777777778
+        },
+        "Cyperaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 10,
+          "n_reproductive_K_higher": 10,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Elaeocarpaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 18,
+          "n_reproductive_K_higher": 6,
+          "reproductive_K_higher_rate": 0.3333333333333333
+        },
+        "Ericaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Euphorbiaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 20,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Fabaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 36,
+          "n_reproductive_K_higher": 35,
+          "reproductive_K_higher_rate": 0.9722222222222222
+        },
+        "Goodeniaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 9,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.7777777777777778
+        },
+        "Haemodoraceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Haloragaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 1,
+          "reproductive_K_higher_rate": 0.3333333333333333
+        },
+        "Iridaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Lamiaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 4,
+          "n_reproductive_K_higher": 4,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Lauraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 9,
+          "n_reproductive_K_higher": 1,
+          "reproductive_K_higher_rate": 0.1111111111111111
+        },
+        "Malvaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 8,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.875
+        },
+        "Moraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 19,
+          "reproductive_K_higher_rate": 0.95
+        },
+        "Orchidaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 4,
+          "n_reproductive_K_higher": 0,
+          "reproductive_K_higher_rate": 0.0
+        },
+        "Phyllanthaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 4,
+          "reproductive_K_higher_rate": 0.3333333333333333
+        },
+        "Plantaginaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Poaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 20,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Proteaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 36,
+          "n_reproductive_K_higher": 32,
+          "reproductive_K_higher_rate": 0.8888888888888888
+        },
+        "Ranunculaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 4,
+          "n_reproductive_K_higher": 4,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Restionaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 2,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Rhamnaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 12,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Rubiaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 6,
+          "n_reproductive_K_higher": 1,
+          "reproductive_K_higher_rate": 0.16666666666666666
+        },
+        "Rutaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 18,
+          "reproductive_K_higher_rate": 0.9
+        },
+        "Sapotaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 11,
+          "reproductive_K_higher_rate": 0.9166666666666666
+        },
+        "Solanaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 24,
+          "n_reproductive_K_higher": 22,
+          "reproductive_K_higher_rate": 0.9166666666666666
+        }
+      },
+      "source_module_exclusion_sensitivities": {
+        "exclude_leaf_area": {
+          "equal_family_rate": 0.7465233785822022,
+          "n_family_clusters": 34,
+          "n_pairs": 380,
+          "n_reproductive_higher": 291,
+          "reproductive_higher_rate": 0.7657894736842106
+        },
+        "exclude_seed_dry_mass": {
+          "equal_family_rate": 0.75325682382134,
+          "n_family_clusters": 31,
+          "n_pairs": 344,
+          "n_reproductive_higher": 263,
+          "reproductive_higher_rate": 0.7645348837209303
+        },
+        "fruits_only_vs_vegetative": {
+          "equal_family_rate": 0.7460445468509984,
+          "n_family_clusters": 31,
+          "n_pairs": 193,
+          "n_reproductive_higher": 149,
+          "reproductive_higher_rate": 0.772020725388601
+        },
+        "seeds_only_vs_vegetative": {
+          "equal_family_rate": 0.7263791763791764,
+          "n_family_clusters": 26,
+          "n_pairs": 213,
+          "n_reproductive_higher": 164,
+          "reproductive_higher_rate": 0.7699530516431925
+        }
+      }
+    },
+    "prune_only": {
+      "equal_family_mean_reproductive_higher_rate": 0.7584117671704176,
+      "equal_named_pair_type_rate": 0.8153492824255208,
+      "equal_pair_type_rate_ge5_families": 0.7804490774042411,
+      "family_bootstrap_equal_family_CI95": [
+        0.6742051503859462,
+        0.8406128606231332
+      ],
+      "family_cluster_pair_rate_CI95": [
+        0.7099691625911769,
+        0.8609430634726934
+      ],
+      "leave_one_named_trait_out": [
+        {
+          "excluded_trait": "fruit_height",
+          "n_pairs": 375,
+          "reproductive_higher_rate": 0.7946666666666666
+        },
+        {
+          "excluded_trait": "fruit_length",
+          "n_pairs": 294,
+          "reproductive_higher_rate": 0.7891156462585034
+        },
+        {
+          "excluded_trait": "fruit_width",
+          "n_pairs": 333,
+          "reproductive_higher_rate": 0.7867867867867868
+        },
+        {
+          "excluded_trait": "leaf_area",
+          "n_pairs": 374,
+          "reproductive_higher_rate": 0.7887700534759359
+        },
+        {
+          "excluded_trait": "leaf_length",
+          "n_pairs": 297,
+          "reproductive_higher_rate": 0.8282828282828283
+        },
+        {
+          "excluded_trait": "leaf_mass_per_area",
+          "n_pairs": 375,
+          "reproductive_higher_rate": 0.784
+        },
+        {
+          "excluded_trait": "leaf_width",
+          "n_pairs": 299,
+          "reproductive_higher_rate": 0.7558528428093646
+        },
+        {
+          "excluded_trait": "petiole_length",
+          "n_pairs": 338,
+          "reproductive_higher_rate": 0.7899408284023669
+        },
+        {
+          "excluded_trait": "plant_height",
+          "n_pairs": 302,
+          "reproductive_higher_rate": 0.8013245033112583
+        },
+        {
+          "excluded_trait": "seed_dry_mass",
+          "n_pairs": 337,
+          "reproductive_higher_rate": 0.7952522255192879
+        },
+        {
+          "excluded_trait": "seed_length",
+          "n_pairs": 316,
+          "reproductive_higher_rate": 0.7974683544303798
+        },
+        {
+          "excluded_trait": "seed_width",
+          "n_pairs": 330,
+          "reproductive_higher_rate": 0.7818181818181819
+        }
+      ],
+      "leave_one_trait_out_max_rate": 0.8282828282828283,
+      "leave_one_trait_out_min_rate": 0.7558528428093646,
+      "n_independent_families_with_cross_organ_comparisons": 34,
+      "n_reproductive_K_higher": 314,
+      "n_reproductive_vegetative_named_pair_types": 36,
+      "n_supported_family_pair_observations": 397,
+      "pair_types_with_at_least_5_family_systems": 28,
+      "pair_weighted_reproductive_K_higher_rate": 0.7909319899244333,
+      "per_family_descriptive": {
+        "Annonaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 10,
+          "reproductive_K_higher_rate": 0.8333333333333334
+        },
+        "Apiaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 2,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Apocynaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 8,
+          "n_reproductive_K_higher": 8,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Arecaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 13,
+          "n_reproductive_K_higher": 8,
+          "reproductive_K_higher_rate": 0.6153846153846154
+        },
+        "Asparagaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Asteraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 27,
+          "n_reproductive_K_higher": 16,
+          "reproductive_K_higher_rate": 0.5925925925925926
+        },
+        "Casuarinaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 0.25
+        },
+        "Celastraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 16,
+          "n_reproductive_K_higher": 15,
+          "reproductive_K_higher_rate": 0.9375
+        },
+        "Cucurbitaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 9,
+          "n_reproductive_K_higher": 6,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Cyperaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 10,
+          "n_reproductive_K_higher": 10,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Elaeocarpaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 17,
+          "n_reproductive_K_higher": 9,
+          "reproductive_K_higher_rate": 0.5294117647058824
+        },
+        "Ericaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Euphorbiaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 17,
+          "reproductive_K_higher_rate": 0.85
+        },
+        "Fabaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 34,
+          "n_reproductive_K_higher": 34,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Goodeniaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 9,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.7777777777777778
+        },
+        "Haemodoraceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Haloragaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 1,
+          "reproductive_K_higher_rate": 0.3333333333333333
+        },
+        "Iridaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Lamiaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 4,
+          "n_reproductive_K_higher": 3,
+          "reproductive_K_higher_rate": 0.75
+        },
+        "Lauraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 9,
+          "n_reproductive_K_higher": 6,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Malvaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 8,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.875
+        },
+        "Moraceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 19,
+          "reproductive_K_higher_rate": 0.95
+        },
+        "Orchidaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 4,
+          "n_reproductive_K_higher": 0,
+          "reproductive_K_higher_rate": 0.0
+        },
+        "Phyllanthaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 8,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Plantaginaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 3,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.6666666666666666
+        },
+        "Poaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 20,
+          "n_reproductive_K_higher": 19,
+          "reproductive_K_higher_rate": 0.95
+        },
+        "Proteaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 36,
+          "n_reproductive_K_higher": 31,
+          "reproductive_K_higher_rate": 0.8611111111111112
+        },
+        "Ranunculaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 4,
+          "n_reproductive_K_higher": 4,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Restionaceae": {
+          "at_least_five_pair_comparisons": false,
+          "n_cross_organ_pair_comparisons": 2,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Rhamnaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 11,
+          "n_reproductive_K_higher": 11,
+          "reproductive_K_higher_rate": 1.0
+        },
+        "Rubiaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 6,
+          "n_reproductive_K_higher": 2,
+          "reproductive_K_higher_rate": 0.3333333333333333
+        },
+        "Rutaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 18,
+          "n_reproductive_K_higher": 16,
+          "reproductive_K_higher_rate": 0.8888888888888888
+        },
+        "Sapotaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 12,
+          "n_reproductive_K_higher": 7,
+          "reproductive_K_higher_rate": 0.5833333333333334
+        },
+        "Solanaceae": {
+          "at_least_five_pair_comparisons": true,
+          "n_cross_organ_pair_comparisons": 24,
+          "n_reproductive_K_higher": 21,
+          "reproductive_K_higher_rate": 0.875
+        }
+      },
+      "source_module_exclusion_sensitivities": {
+        "exclude_leaf_area": {
+          "equal_family_rate": 0.7581060135558405,
+          "n_family_clusters": 34,
+          "n_pairs": 374,
+          "n_reproductive_higher": 295,
+          "reproductive_higher_rate": 0.7887700534759359
+        },
+        "exclude_seed_dry_mass": {
+          "equal_family_rate": 0.7777876245618179,
+          "n_family_clusters": 31,
+          "n_pairs": 337,
+          "n_reproductive_higher": 268,
+          "reproductive_higher_rate": 0.7952522255192879
+        },
+        "fruits_only_vs_vegetative": {
+          "equal_family_rate": 0.7728320067029744,
+          "n_family_clusters": 31,
+          "n_pairs": 189,
+          "n_reproductive_higher": 150,
+          "reproductive_higher_rate": 0.7936507936507936
+        },
+        "seeds_only_vs_vegetative": {
+          "equal_family_rate": 0.7470619658119658,
+          "n_family_clusters": 26,
+          "n_pairs": 208,
+          "n_reproductive_higher": 164,
+          "reproductive_higher_rate": 0.7884615384615384
+        }
+      }
+    }
+  },
+  "scientific_boundary": "All results are post-discovery original AusTraits. Matched tip K and LOFO transfer cannot attribute biological causation or independent evolutionary constraint; module-based source-OU posterior-predictive adequacy is a distinct original-tip check.",
+  "source_data_provenance": {
+    "S3_valid_K_pairs": 760,
+    "original_249_family_trait_systems": 249,
+    "plant_families": 42,
+    "prune_valid_K_pairs": 747,
+    "source_eligible_family_pair_comparisons": 760
+  },
+  "status": "AUSTRAITS_K_REPRODUCTIVE_VEGETATIVE_LOFO_EXPLORATORY_V0_1",
+  "version": "v0.1"
+}

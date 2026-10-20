@@ -1,8 +1,8 @@
 # Supplementary data tables — post-discovery AusTraits organ K paper
 
-**Version v0.2 · 2026-10-19 · Reporting-only, outcome-frozen.**
+**Version v0.2 · 2026-10-20 · Reporting-only, outcome-frozen.**
 
-These tables are generated solely from `data/austraits_organ_paper_claim_registry_v0_2.json`, whose entries are keyed to completed original analysis runs. They report already-observed retrospective descriptive results. The 34–42 family clusters and repeated family-by-pair rows are not independent evolutionary origins, and S3 and prune share the underlying megaphylogeny.
+Tables S1–S3 reproduce `data/austraits_organ_paper_claim_registry_v0_2.json`, keyed to completed original analysis runs. The additional family-composition note reproduces only the permanently archived per-family aggregate (`reproductive_vegetative_lofo.json`) with a source-SHA256 audit; no original trait observations were reopened. They report already-observed retrospective descriptive results. The 34–42 family clusters and repeated family-by-pair rows are not independent evolutionary origins, and S3 and prune share the underlying megaphylogeny.
 
 ## Table S1. Source qualification, family support and reproductive-K-higher direction
 

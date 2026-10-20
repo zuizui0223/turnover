@@ -22,11 +22,12 @@ from docx.enum.section import WD_ORIENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Cm, Pt
 
-FIGS = {
+MAIN_FIGS = {
  "figure1_common_tips_family_organK.png": "Figure 1.",
- "figure2_family_holdout_Brier.png": "Figure 2.",
- "figure3_taxon_vs_source_stages.png": "Figure 3."
+ "figure3_taxon_vs_source_stages.png": "Figure 2."
 }
+SUPPLEMENT_FIG = "figure2_family_holdout_Brier.png"
+SUPPLEMENT_LABEL = "Supplementary Figure S1."
 EXPECTED_FIGURE_RUNS = {
  "module_lofo": 38686389859,
  "transition": 39202352075,
@@ -111,7 +112,7 @@ def build_review_sources(main_path, supp_path, media_dir, out_dir):
          "Original figure workflow run IDs mutated")
     must(manifest.get("new_biological_effects")==0,"Figure builder opened new effects")
     must(len(manifest.get("outputs",[]))==6,"Original three figures incomplete")
-    for p in FIGS:
+    for p in [*MAIN_FIGS, SUPPLEMENT_FIG]:
         must((media_dir/p).stat().st_size>4000,"Figure missing/empty: "+p)
         must((media_dir/p.replace(".png",".svg")).stat().st_size>4000,
              "Vector figure missing: "+p)
@@ -142,20 +143,32 @@ def build_review_sources(main_path, supp_path, media_dir, out_dir):
         main+="## "+title+"\n\n"+section(text,title)+"\n\n"
     main+="## References\n\n"+section(text,"Selected prior references")+"\n\n"
     main+="## Figures and captions\n\n"
-    for image,caption_header in FIGS.items():
-        cap=section(text, "Verified main-figure sources and captions (reporting only)")
-        m=re.search(r"\*\*"+re.escape(caption_header[:-1])+r"\.\*\*\s*([\s\S]*?)(?=\n\n\*\*Figure \d+\.|\Z)", cap)
-        must(m is not None,"Specific Figure caption missing for "+image)
-        # Reference each actual PNG only; vector remains in package separately.
+    captions=section(text, "Verified main-figure sources and captions (reporting only)")
+    def caption_for(label):
+        marker="**"+label+"** "
+        pos=captions.find(marker)
+        must(pos>=0, "Specific Figure caption missing: "+label)
+        rest=captions[pos+len(marker):]
+        nxt=re.search(r"\n\n\*\*(?:Figure [12]|Supplementary Figure S1)\.",rest)
+        return (rest[:nxt.start()] if nxt else rest).strip()
+
+    for image,caption_header in MAIN_FIGS.items():
         figure_num=caption_header.split()[1].strip(".")
         main+=f"### Figure {figure_num}\n\n"
         main+=f"![](figures/{image}){{width=5.9in}}\n\n"
-        main+=f"**{caption_header}** {m.group(1).strip()}\n\n"
+        main+=f"**{caption_header}** {caption_for(caption_header)}\n\n"
+    supplement_caption=caption_for(SUPPLEMENT_LABEL)
+    must("post" in supplement_caption.lower() and "64.47%" in supplement_caption,
+         "Supplementary Brier caption lacks redundancy caveat")
+
     # No bibliography fabrication, no author/title-page identity.
     supp="# Supplementary tables — coauthor review\n\n"
     supp+="**AusTraits organ-K post-discovery analysis • 19 October 2026.** "
     supp+="The tables are reporting-only and share the main manuscript's evidence boundaries.\n\n"
     supp+=supp_path.read_text(encoding="utf-8")
+    supp+="\n\n## Supplementary Figure S1. Conditional Brier scoring\n\n"
+    supp+=f"![Supplementary original source figure](figures/{SUPPLEMENT_FIG})\n\n"
+    supp+=f"**{SUPPLEMENT_LABEL}** {supplement_caption}\n"
     out_dir.mkdir(parents=True,exist_ok=True)
     (out_dir/"manuscript_review.md").write_text(main,encoding="utf-8")
     (out_dir/"supplement_review.md").write_text(supp,encoding="utf-8")
@@ -163,7 +176,8 @@ def build_review_sources(main_path, supp_path, media_dir, out_dir):
     make_reference_doc(out_dir/"reference_supplement.docx",True)
     return {
        "status":"READY_FOR_COAUTHOR_RENDER_NOT_SUBMISSION",
-       "original_figures":sorted(FIGS),
+       "main_figures":sorted(MAIN_FIGS),
+       "supplementary_figure":SUPPLEMENT_FIG,
        "original_source_run_ids":EXPECTED_FIGURE_RUNS,
        "input_sha256":{
          "main_manuscript":hashlib.sha256(main_path.read_bytes()).hexdigest(),
@@ -190,7 +204,7 @@ def main():
         "AusTraits functional organ K — coauthor scientific review bundle\n"
         "Generated 2026-10-19 from exact original source-output figures.\n\n"
         "CONTENTS: Main manuscript PDF/DOCX; supplemental tables PDF/DOCX; "
-        "original Figure 1–3 PNG/SVG; source_manifest.json and source-only QA.\n\n"
+        "original 2 main + 1 supplementary figure PNG/SVG; source_manifest.json and source-only QA.\n\n"
         "IMPORTANT INFERENTIAL CORRECTION: The 64.47% / 65.46% organ-only "
         "hard accuracy is EXACTLY the same post-selected reproductive-higher K "
         "count with half-credit for within-organ ties, not a second independent "

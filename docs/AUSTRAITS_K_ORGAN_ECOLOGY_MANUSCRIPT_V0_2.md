@@ -1,6 +1,6 @@
 # Plant reproductive traits frequently show higher phylogenetic K, but sampled taxa shape the contrast
 
-**Manuscript draft v0.2 — 19 October 2026**  
+**Manuscript draft v0.2 — 20 October 2026**  
 **Status:** Reporting-only synthesis of completed AusTraits analyses. The functional-organ grouping was selected *after* initial K outcomes; this is an exploratory comparative paper, **not an independent confirmatory experiment**. The results below are not a new analysis of the locked 201-system BIEN `rho` study.
 
 ## Abstract

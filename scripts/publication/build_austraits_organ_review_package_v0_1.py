@@ -141,7 +141,7 @@ def build_review_sources(main_path, supp_path, media_dir, out_dir):
     main+="Supplementary Tables S1–S3 provide the complete source and taxon support denominators, conditional family-held-out prediction scores and exact matched-identity three-stage descriptive transitions. These are **post-discovery** within-AusTraits results; neither source access nor release of aggregate values demonstrates new independent original observations.\n\n"
     for title in ("Data and code availability","Research ethics and statistical scope"):
         main+="## "+title+"\n\n"+section(text,title)+"\n\n"
-    main+="## References\n\n"+section(text,"Selected prior references")+"\n\n"
+    main+="## References\n\n"+section(text,"Selected references and reproducibility sources")+"\n\n"
     main+="## Figures and captions\n\n"
     captions=section(text, "Verified main-figure sources and captions (reporting only)")
     def caption_for(label):

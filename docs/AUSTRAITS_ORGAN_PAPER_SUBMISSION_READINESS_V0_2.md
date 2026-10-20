@@ -1,3 +1,21 @@
+## 2026-10-20 — Final evidence hierarchy and coauthor package VERIFIED
+
+The inferential correction is now reflected in **both main-text figure prominence and the printed PDF**:
+
+- **Main Figure 1:** retrospective K contrast in 34 families, 313/406 S3 and 314/397 native-prune reproductive-higher comparisons.
+- **Main Figure 2:** same original fixed 142/101 family×named-pair identities, separating taxon/tip/tree support from source-value substitution (S3 110→121→120; prune 82→83→81).
+- **Supplementary Figure S1:** original conditional Brier scoring; its 64.47%/65.46% nominal hard accuracy is algebraically redundant with the original K wins, not separate ecological confirmation.
+
+The introduction now has **two primary ecological questions**, and the Abstract/Results lead with observed K and species/source ascertainment. Brier scoring remains an explicitly secondary post-selected diagnostic. No original empirical K, 5,000-family bootstrap, biological effect, null process, or source data were newly fitted or modified.
+
+**Verified runs:** [reporting/claim QA PASS #39354410050](https://github.com/zuizui0223/turnover/actions/runs/39354410050), [source-linked figure manifest PASS #39354409982](https://github.com/zuizui0223/turnover/actions/runs/39354409982), and [coauthor DOCX/PDF bundle PASS #39354409988](https://github.com/zuizui0223/turnover/actions/runs/39354409988), including the existing PDF mathematical-identity integrity gate.
+
+The final GitHub Actions archive includes an editable **9-page main manuscript (2 figures)**, a **4-page landscape supplement (Tables S1–S3 plus Brier Figure S1)**, original source graphic SVGs/PNGs, archived reporting QA results, and original artifact SHA256 fingerprints. Both PDFs were extracted and rendered into page images; no clipped content, missing figure, duplicate figure label or broken table column was found in the final proofs.
+
+**Current delivery status:** Ready for coauthor scientific review, NOT submitted/merged. Author approval, data-rights/source citation, target journal and final submission authorization remain unresolved. The previous 10-page/3-page package and figure numbering are superseded.
+
+---
+
 ## 2026-10-20 — Main evidence hierarchy revised
 
 **Change implemented after discovering that 64.47%/65.46% LOFO hard accuracy is a mathematical re-expression of 313/406 and 314/397 cross-organ K wins.**

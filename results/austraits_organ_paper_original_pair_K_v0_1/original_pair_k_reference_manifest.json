@@ -1,0 +1,44 @@
+{
+  "axis_original_cross_organ_counts": {
+    "S3": 406,
+    "prune_only": 397
+  },
+  "axis_original_pass_counts": {
+    "S3": 760,
+    "prune_only": 747
+  },
+  "files": {
+    "B01.json": "684e593bfe8b3ff589f552208984ba324a68ad4bfbffa868c4d22b7ea46b3dab",
+    "B02.json": "cddfd1fc70c7f4656ff2fa560b276658b2f794ee0248ff9c0a5238430ca13c60",
+    "B03.json": "3c697579f18acea8a4ff21cf025ea70e934073c9995295dcd0e066318c2f2d81",
+    "B04.json": "c69573532f95d89d4eedfce18219fde007767b8f28310583a45e105a66876939",
+    "B05.json": "030c6dced8cffe2a6c709c7a561d660487a8a895f5cc30a4f880556c564e5fb9",
+    "B06.json": "06e9312275bbd2e6d06a80094d23f88f5ba402a3d9d402337f65085415e5dca8",
+    "B07.json": "118d110c91d6a8a2dbf18bae92095276a7241dcf4e447caf3d40299da0619a71",
+    "B08.json": "7f193ba888402cbfa7256e62d897815080511ad1a1193ea74c10362a2c12a815",
+    "B09.json": "108717fce187a914462b45597a5c1caee7b0336fa9c35c3f76da54607fbc294e",
+    "B10.json": "6724dea70dcf4473f554e8c86a0c35039eea6bb655fc5e576bd1e3e9d71fc68e",
+    "B11.json": "68f469a30a0d6ac34e635f6d7a234e1fa88db3a321f384e825de0c2a17fd5f67",
+    "B12.json": "29a3ca0d9fe24ee8f5bca67174064113db3d8019223f06854f69a9e716cfe3a9",
+    "B13.json": "26868f087f05c5a559342caa09258e0740be7cc8b893e1e89c93e307833698a8",
+    "B14.json": "c7a4057380cc521b6c43a08ace26e07c1f3e9ad5ddd6ec4011cdaa8ceef7d3b7",
+    "B15.json": "90ec981eefb23029d60e7423cbb19cd9d0a067aba51208c7eef5bcfb8bacbe51",
+    "B16.json": "20be37e3458d78b54faee6e0345f52c312a808febfeec37666ff8877977b5ff5",
+    "B17.json": "cb156e908cf6e879462ca3c0b40ffef5b73919c089629eaa8df783ef2676eae1",
+    "B18.json": "bd8d1db3c6ac69ba7da4aeb2074ecea8f49c60d875c28a9a183b9fe559017b45",
+    "B19.json": "60efbef6ac0d016d63c30d31006230d914e7d49132d6586abcf3d200b2306eef",
+    "B20.json": "f97b74a0fd38818340ba1b9a2ebeab041ddd84bfb55078a78c35b3c0ee50ce4b",
+    "B21.json": "d209c465915ab56d5ea408e0b9bea11146144494ecbb59c9d633d607fe58aa5d",
+    "B22.json": "08a11bb13bb46dcdd2902e4e989487dae5a7cd8ab2ab7cc8afd8383a521b11e7",
+    "B23.json": "c2c3f8f753272301a19970f62d5fd592c5b44d6b4fcaaae1a87ef57cc9322b31",
+    "B24.json": "fb0f6708b2459eaff26c1fcc79ab52ae05532c0b2622eb59aa525239516fbae2"
+  },
+  "independent_replication": false,
+  "n_original_matched_pairs": 760,
+  "new_K_models_fitted": 0,
+  "original_run_id": 38674635870,
+  "parent_rebuild_manifest_sha256": "cb96fede19539813ae5a6c1b92b2091a44c891cb6aefdb244ce5214dd75bfa28",
+  "source_species_values_saved": false,
+  "status": "PASS_PRESERVED_760_ORIGINAL_MATCHED_TIP_K_REGRESSION_REFERENCES",
+  "use": "Regression reference for fresh raw-to-K execution, not a biological third result."
+}

@@ -18,6 +18,8 @@ The complete **all-named-pair** LOFO scoring graph has 760 supported S3 pairs an
 
 *Statistical interpretation:* Each row is a family×two named traits on an explicitly pair-specific common-species tip set. Different rows can share most tips and original measurements; 5,000 whole-family bootstrap replicates quantify family-cluster uncertainty conditional on the retrospectively selected organ grouping. Higher K does not imply a slower evolutionary rate.
 
+**Frozen per-family composition audit (not another independent test):** Reproductive-higher K was the majority of observed contrasts in **27/34 S3** and **30/34 native-prune** families. Whole-family deletion left the pooled pair-weighted direction at **75.1–79.1% S3** or **77.1–80.8% prune**. **Asteraceae** was near 50% (**16/30 S3; 16/27 prune**); **Casuarinaceae** (**2/12; 3/12**) and **Rubiaceae** (**1/6; 2/6**) favored vegetative K under both tree treatments. Three families (**Elaeocarpaceae, Lauraceae, Phyllanthaceae**) switched majority direction between the *related, nonindependent* phylogenies. These are outcome-selected descriptive family observations, not trait-independent samples, corrected subgroup tests or proven family-specific constraints. Source SHA256 and per-family counts: `docs/AUSTRAITS_ORGAN_FAMILY_HETEROGENEITY_V0_1.md`; reproducible reporting gate: `scripts/qa/audit_austraits_organ_family_heterogeneity_v0_1.py`.
+
 ## Table S2. Family-held-out K-ranking prediction within a post-selected functional grouping
 
 | Tree treatment | Pooled prior sign accuracy | Organ-only sign accuracy | Pooled Brier | Organ-only Brier | Named-trait Brier | Organ-only Brier improvement, family-bootstrap 95% CI |

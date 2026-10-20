@@ -12,27 +12,33 @@ BAN={"binomial","species","species_id","species_name","genus","dataset_id",
 def need(test,message):
     if not test:raise AssertionError(message)
 
-def table(path):
+def table(path,require_k):
     with path.open(encoding="utf-8-sig",newline="") as f:
         rd=csv.DictReader(f)
         need(rd.fieldnames,"CSV header absent")
         cols=set(rd.fieldnames)
         need(not({c.lower() for c in cols}&BAN),"Raw observation columns not allowed")
         rows=list(rd)
-    need(len(rows)==254,"Original 254 systems changed")
+    need(len(rows)>=254,"Original source core or K graph has fewer than 254 rows")
     key={(r["family"],r["trait_name"]) for r in rows}
-    need(len(key)==254 and len({z[0] for z in key})==42
-         and len({z[1] for z in key})==13,"Frozen family/trait graph drift")
+    need(len(key)==len(rows),"Original family/trait systems not unique")
+    if require_k:
+        need(len(rows)==254 and len({z[0] for z in key})==42
+             and len({z[1] for z in key})==13,"Frozen 254-system K graph drift")
     return rows,key,cols
 
 def freeze(core,effects,support,design,out):
-    c,cids,ccols=table(core)
-    k,kids,kcols=table(effects)
-    need(cids==kids,"Original K and core graph mismatch")
+    c,cids,ccols=table(core,False)
+    k,kids,kcols=table(effects,True)
+    need(kids<=cids,"Original K system graph not contained in source core")
+    c={ (r["family"],r["trait_name"]):r for r in c }
+    need(all(int(c[key]["n_input_species"])>=20 for key in kids),
+         "K subset includes unsupported source core")
     need("n_input_species" in ccols,"Original support count missing")
     need({"system_id","S3_K","prune_K"}<=kcols,"Original native K fields missing")
     need(len({r["system_id"] for r in k})==254,"Duplicate system K")
-    need(all(int(x["n_input_species"])>=20 for x in c),"Source count below 20")
+    need(all(int(x["n_input_species"])>=20 for x in c.values()),
+         "Original core includes unsupported system")
     need(all(float(x["S3_K"])>0 and float(x["prune_K"])>0 for x in k),"Invalid original K")
     s=json.loads(support.read_text())
     d=json.loads(design.read_text())
@@ -52,7 +58,7 @@ def freeze(core,effects,support,design,out):
     selected=[x for x in allrows if x["qualifies_20_common_species"]]
     need(len(selected)==760 and all(x["n_common_species_same_genus"]>=20 for x in selected),
          "Matched support qualification changed")
-    need(all((x["family"],x["trait_A"]) in cids and (x["family"],x["trait_B"]) in cids
+    need(all((x["family"],x["trait_A"]) in kids and (x["family"],x["trait_B"]) in kids
              for x in allrows),"Pair refs absent from original system graph")
     need(all(not any(field in x for field in ("species","genus","binomial",
               "dataset_id","observation_id","raw_value","value")) for x in allrows),
@@ -73,6 +79,7 @@ def freeze(core,effects,support,design,out):
         "original_source_workflow_runs":RUNS,
         "source_byte_sha256":hashes,
         "original_systems":254,"original_families":42,"original_traits":13,
+        "full_source_core_systems":len(c),
         "matched_supported_pairs":760,"named_pair_types":66,
         "raw_species_or_measurement_values_included":False,
         "new_K_or_phylogeny_models_fitted":0,

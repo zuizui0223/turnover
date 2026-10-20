@@ -112,7 +112,7 @@ def self_test(repo, manuscript, decision):
     need(good["eligible_for_submission_claim"] is False,
          "Preflight accidentally became submission authorization")
     for wrong_manuscript, wrong_decision in [
-        (manuscript.replace(DOI, "10.0000/broken", 1), decision),
+        (manuscript.replace(DOI, "10.0000/broken"), decision),
         (manuscript.replace("**Keywords:**", "**Tags:**", 1), decision),
         (manuscript, decision.replace("NOT SUBMISSION AUTHORIZATION", "SUBMISSION APPROVED", 1)),
     ]:

@@ -23,19 +23,18 @@ def format_manuscript(path):
     seen={}
     for p in doc.paragraphs:
         label=p.text.strip()
-        if label in {"Figures and captions", "Figure 2", "Figure 3"}:
+        if label in {"Figures and captions", "Figure 2"}:
             p.paragraph_format.page_break_before=True
             seen[label]=seen.get(label,0)+1
-    if seen != {"Figures and captions":1,"Figure 2":1,"Figure 3":1}:
+    if seen != {"Figures and captions":1,"Figure 2":1}:
         raise ValueError("Figure headings changed: "+repr(seen))
     descriptions=(
-        "34 plant families: fraction of same-tip reproductive versus vegetative Blomberg K comparisons higher in each family under S3 and native prune phylogenies.",
-        "Original family-held-out Brier loss under pooled, reproductive/vegetative organ, named trait and named-pair predictive priors on both trees.",
-        "Fixed family-by-trait-pair K contrast proportions over three stages: broad non-flora taxon support, restricted shared-source taxa, then shared-source values on fixed taxa."
+        "Figure 1: family-level reproductive versus vegetative Blomberg K fractions on identical species and trees, displayed separately for S3 and native prune.",
+        "Figure 2: exact same family-by-trait-pair contrast across broad taxa, restricted source-qualified taxa, and same taxa with shared-source measurements."
     )
     shapes=doc.inline_shapes
-    if len(shapes)!=3:
-        raise ValueError("Original three figure assets missing from coauthor manuscript")
+    if len(shapes)!=2:
+        raise ValueError("Exactly two primary scientific figures must be present in coauthor manuscript; Brier belongs in supplement")
     for shape,descr in zip(shapes,descriptions):
         shape._inline.docPr.set("descr",descr)
     doc.save(path)

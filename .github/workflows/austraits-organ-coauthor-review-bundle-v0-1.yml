@@ -10,6 +10,12 @@ on:
       - scripts/publication/render_austraits_supplement_docx_v0_1.py
       - docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md
       - docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md
+      - data/austraits_organ_paper_claim_registry_v0_2.json
+      - scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py
+      - scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py
+      - scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py
+      - scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py
+      - results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/**
       - .github/workflows/austraits-organ-coauthor-review-bundle-v0-1.yml
   workflow_dispatch:
 
@@ -31,26 +37,39 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq pandoc libreoffice-writer fonts-liberation poppler-utils >/dev/null
-          python -m pip install --disable-pip-version-check python-docx==1.2.0
-      - name: Recover immutable source-backed main and supplementary figure archive
-        env:
-          GH_TOKEN: ${{ github.token }}
+          python -m pip install --disable-pip-version-check python-docx==1.2.0 numpy matplotlib
+      - name: Validate frozen aggregate SHA256 and regenerate figures without network source dependencies
         shell: bash
         run: |
-          mkdir -p build/review_package/figures
-          gh run download 39353861778 -R "$GITHUB_REPOSITORY" \
-            -n austraits-organ-ecology-paper-figures-v0-2 \
-            -D build/review_package/figures
+          mkdir -p build/review_package/figures build/review_package/qa
+          python scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py \
+            --inputs results/austraits_organ_paper_frozen_aggregate_inputs_v0_1
+          python scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py \
+            --module results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/reproductive_vegetative_lofo.json \
+            --transition results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/nonflora_283_to_142_source_support_transition.json \
+            --joint results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/joint_nonflora_shared_source_K.json \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --out-dir build/review_package/figures
           test -s build/review_package/figures/figure1_common_tips_family_organK.png
-          test -s build/review_package/figures/figure3_taxon_vs_source_stages.png
           test -s build/review_package/figures/figure2_family_holdout_Brier.png
+          test -s build/review_package/figures/figure3_taxon_vs_source_stages.png
           test -s build/review_package/figures/figure_manifest.json
-          mkdir -p build/review_package/qa
-          gh run download 39274486381 -R "$GITHUB_REPOSITORY" \
-            -n austraits-organ-k-paper-claim-qa-v0-2 \
-            -D build/review_package/qa
+      - name: Rebuild original reporting-only mathematical and manuscript QA from frozen counts
+        shell: bash
+        run: |
+          mkdir -p build/review_package/qa/identity build/review_package/qa/claims
+          python scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --output build/review_package/qa/identity/result.json \
+            --self-test
+          python scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --supplementary docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --output build/review_package/qa/claims/result.json \
+            --self-test
           test "$(find build/review_package/qa -name result.json -type f | wc -l)" -eq 2
-          grep -rl 'PASS_HARD_ACCURACY_IS_ALGEBRAIC_REEXPRESSION' build/review_package/qa >/dev/null
+          grep -q 'PASS_HARD_ACCURACY_IS_ALGEBRAIC_REEXPRESSION' build/review_package/qa/identity/result.json
       - name: Compile paper/supplement source without changing biology
         shell: bash
         run: |

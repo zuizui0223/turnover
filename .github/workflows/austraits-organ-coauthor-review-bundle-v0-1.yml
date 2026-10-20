@@ -16,6 +16,8 @@ on:
       - scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py
       - scripts/qa/audit_austraits_organ_family_heterogeneity_v0_1.py
       - docs/AUSTRAITS_ORGAN_FAMILY_HETEROGENEITY_V0_1.md
+      - scripts/qa/audit_austraits_organ_submission_gate_v0_1.py
+      - docs/AUSTRAITS_ORGAN_COAUTHOR_SUBMISSION_DECISION_V0_1.md
       - scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py
       - results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/**
       - .github/workflows/austraits-organ-coauthor-review-bundle-v0-1.yml
@@ -78,6 +80,16 @@ jobs:
           test "$(find build/review_package/qa -name result.json -type f | wc -l)" -eq 3
           grep -q 'PASS_HARD_ACCURACY_IS_ALGEBRAIC_REEXPRESSION' build/review_package/qa/identity/result.json
           grep -q 'PASS_FROZEN_FAMILY_COUNTS_IN_COAUTHOR_TEXT' build/review_package/qa/family/result.json
+      - name: Check provisional journal preflight and preserve honest unsatisfied gates
+        shell: bash
+        run: |
+          python scripts/qa/audit_austraits_organ_submission_gate_v0_1.py \
+            --self-test \
+            --output build/review_package/qa/submission/result.json
+          grep -q 'PASS_EDITORIAL_PREFLIGHT_WITH_HUMAN_SUBMISSION_BLOCKERS' build/review_package/qa/submission/result.json
+          grep -q '"eligible_for_submission_claim": false' build/review_package/qa/submission/result.json
+          cp docs/AUSTRAITS_ORGAN_COAUTHOR_SUBMISSION_DECISION_V0_1.md \
+            build/review_package/coauthor_submission_gate.md
       - name: Compile paper/supplement source without changing biology
         shell: bash
         run: |
@@ -148,7 +160,7 @@ jobs:
           zip -q -r ../austraits_organ_K_coauthor_review_v0_1.zip \
             organ_K_coauthor_manuscript.docx organ_K_coauthor_manuscript.pdf \
             organ_K_supplementary_tables.docx organ_K_supplementary_tables.pdf \
-            README.txt source_manifest.json figures/ qa/
+            README.txt source_manifest.json coauthor_submission_gate.md figures/ qa/
           test -s ../austraits_organ_K_coauthor_review_v0_1.zip
       - uses: actions/upload-artifact@v4
         with:

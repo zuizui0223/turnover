@@ -1,3 +1,19 @@
+## 2026-10-20 — Main evidence hierarchy revised
+
+**Change implemented after discovering that 64.47%/65.46% LOFO hard accuracy is a mathematical re-expression of 313/406 and 314/397 cross-organ K wins.**
+
+The paper's two core ecological observations are now visually prioritized:
+- **Main Figure 1**: 34-family reproductive-versus-vegetative K direction, each organ evaluated on identical species and native tree within each pair.
+- **Main Figure 2**: exact 142 S3 (101 native-prune) pair identity support comparison, separating changed species/tips/tree geometry from measurement-source-value substitution on the identical retained tips.
+- **Supplementary Figure S1**: retrospective conditional Brier scores; the former Figure 2 is no longer presented as independent confirmation. Binary accuracy is explicitly algebraically redundant, model selection non-nested and original source-family reuse unresolved.
+
+The original verified source-renderer still archives all three original graphic files as six PNG/SVG assets, with an explicit `editorial_evidence_hierarchy` lookup in its SHA256 provenance manifest. The compiled Word/PDF paper uses **two main figures**, while Supplementary Tables S1–S3 now include a supplemental Brier graphic with the post-selection caption. The main Abstract/Introduction/Results place source/taxon ascertainment **before** conditional prediction scores.
+
+The original biology, 12 morphological trait definitions, family counts, S3/prune K estimates, 5k family bootstrap intervals and frozen observational K source results **have not changed**. Future independent measurement validation remains open and is not inferred here; new TRY or other databases are not required for reporting this exploratory manuscript.
+
+The earlier 10-page/3-page manuscript/supplement package is superseded; its PDF should not be sent to coauthors as the final evidence hierarchy. Generate the new source-pinned package from `.github/workflows/austraits-organ-coauthor-review-bundle-v0-1.yml` and use its finalized PDF/DOCX after render QA.
+
+---
 ## Final inferential revision — held-out sign accuracy is redundant (2026-10-19)
 
 **Critical correction, mathematically verified without new trait outcomes.** The organ-only model's 64.47% S3 / 65.46% native-prune leave-one-family-out hard accuracy is **not** a second discovery beyond 313/406 (77.1%) and 314/397 (79.1%) reproductive K wins. For every held-out family, the signed logistic organ coefficient stays positive because at most 36 cross-organ named trait comparisons are removed from original positive winner-minus-loser margins of 220 S3 and 231 prune. Same-organ rows have zero model feature and always receive half-credit. The exact identities are `(313+354/2)/760=64.47%` and `(314+350/2)/747=65.46%`.

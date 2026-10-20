@@ -32,7 +32,7 @@ jobs:
           sudo apt-get update -qq
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq pandoc libreoffice-writer fonts-liberation poppler-utils >/dev/null
           python -m pip install --disable-pip-version-check python-docx==1.2.0
-      - name: Recover EXACT corrected main-figure artifact
+      - name: Recover immutable source-backed main and supplementary figure archive
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -42,6 +42,8 @@ jobs:
             -n austraits-organ-ecology-paper-figures-v0-2 \
             -D build/review_package/figures
           test -s build/review_package/figures/figure1_common_tips_family_organK.png
+          test -s build/review_package/figures/figure3_taxon_vs_source_stages.png
+          test -s build/review_package/figures/figure2_family_holdout_Brier.png
           test -s build/review_package/figures/figure_manifest.json
           mkdir -p build/review_package/qa
           gh run download 39274486381 -R "$GITHUB_REPOSITORY" \
@@ -64,6 +66,8 @@ jobs:
             --output build/review_package/organ_K_coauthor_manuscript.docx
           python scripts/publication/render_austraits_supplement_docx_v0_1.py \
             --markdown docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --brier-figure build/review_package/figures/figure2_family_holdout_Brier.png \
             --output build/review_package/organ_K_supplementary_tables.docx
       - name: Fix figure page breaks and landscape supplementary table widths
         run: |

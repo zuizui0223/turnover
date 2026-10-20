@@ -35,6 +35,10 @@ It uses:
 
 The experiment uploads only technical JSON results; original raw species observations remain transient runner-local inputs.
 
+## Final combined clean-run CI verified
+
+The combined [public raw-source and native K CI #39451543289](https://github.com/zuizui0223/turnover/actions/runs/39451543289) completed **PASS**, including a complete pairwise source-support regression (770 original candidates and 760 qualifiers, all source/tip counts matching) and exact historical numeric K equality on both native trees for two previously qualified pairs (four K contrasts, maximum absolute difference 0.0). Only summary audit JSONs and original already-aggregated K values are uploaded; the public original specimen/source trait records are not copied to the repository.
+
 ## Still to be done, without overclaiming
 1. Execute a *full fresh raw-to-K run* for all 760 original source-qualified comparisons and independently compare each estimated K against the permanently stored 24 original batches. The archive makes this possible without historical artifact downloads but does not itself perform 760 fresh R fits.
 2. Verify all original contributing-study citation and data/metadata/source-unit obligations for any chosen journal. Public source access and two exact numeric regression cases do not certify full repository-to-submission compliance.

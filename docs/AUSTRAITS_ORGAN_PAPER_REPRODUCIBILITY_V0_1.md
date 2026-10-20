@@ -1,6 +1,6 @@
 # AusTraits organ-K paper — durable reproducibility and source citation (v0.1)
 
-**Updated: 2026-10-20.** Scope: original AusTraits v7.0.0 `turnover` paper PR #38; descriptive, **post-discovery** source/organ-K results only. This file is not a new dataset, biological fit, source-trait search, or independent replication.
+**Updated: 2026-10-21.** Scope: original AusTraits v7.0.0 `turnover` paper PR #38; descriptive, **post-discovery** source/organ-K results only. This file is not a new dataset, biological fit, source-trait search, or independent replication.
 
 ## Exact primary dataset version and method citations
 
@@ -29,6 +29,14 @@ The original three figure-input aggregate JSON files came from GitHub Actions an
 | `joint_nonflora_shared_source_K.json` | 39006469805 | `fc9bc62297a16db916f21704203ab1859f65dce33303a8199cb49a6596819dbb` |
 
 These **aggregate** data contain family-level and original family×named-trait-pair K summaries, not new trait measurements or raw species-by-specimen records. Frozen statuses, exact file checksums, non-independence flags and original pair/tip counts are checked by `scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py`. The original external primary-source validation of the organ K hierarchy **remains untested**.
+
+## Public raw-data source-selection and native K technical reproduction (2026-10-21)
+
+**A second, more complete tier of reproducibility is now supported.** We preserved the original source-only 259-system core (254 K-system subset), 254 original K estimates and all 770 candidate / 760 supported pair identities under [permanent source/K reference files](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_frozen_rebuild_inputs_v0_1). The original complete **24 real-tree paired K batch outputs** (760 S3 and 747 native-prune valid comparisons) have also been permanently recorded under [original per-pair K outputs](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_original_pair_K_v0_1). All original aggregate input files have SHA256 manifests; none includes raw species/observation trait values. [Source-core preservation #39448885872](https://github.com/zuizui0223/turnover/actions/runs/39448885872) and [original R K archival #39450135788](https://github.com/zuizui0223/turnover/actions/runs/39450135788) both passed.
+
+[Fresh source-to-K CI #39451543289](https://github.com/zuizui0223/turnover/actions/runs/39451543289) then downloaded the original **public** AusTraits v7 flattened Parquet, verified source SHA256 **5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99**, and rebuilt the **entire source-only 770/760 pair-eligibility graph** with every pair/source count agreeing with the archived original. The unchanged R/C++ and pinned V.PhyloMaker2 scripts also recomputed *two previously source-qualified cross-organ exemplar pairs* on both S3 and native-prune trees: Casuarinaceae fruit length/leaf length (47 shared species, 47/40 tree tips) and Asteraceae fruit width/leaf length (177 shared species, 177/81 tips). All four recomputed K and log-contrast outputs were **numerically identical to the frozen original R pair-batch references (maximum absolute difference 0.0)**.
+
+**Important boundary:** This is a *technical regression of original within-AusTraits computations*, **not a full fresh rerun of all 760 phylogenetic K pairs** and not independent underlying original publications, external biological validation, new rate/selection/OU inference or prospective organ grouping. The reviewed ecological effects 313/406 and 314/397 remain unchanged. The exact source selection, commands, tests and remaining reproducibility limitations are recorded in [raw-K technical documentation](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORGAN_RAW_K_REBUILD_VERIFICATION_V0_1.md).
 
 ## Offline relative-to-repository figure reconstruction
 

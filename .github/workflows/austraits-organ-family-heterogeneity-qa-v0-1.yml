@@ -1,0 +1,39 @@
+name: AusTraits organ-K family heterogeneity QA v0.1
+
+on:
+  push:
+    branches:
+      - paper/austraits-organ-ecology-v0-2
+    paths:
+      - .github/workflows/austraits-organ-family-heterogeneity-qa-v0-1.yml
+      - scripts/qa/audit_austraits_organ_family_heterogeneity_v0_1.py
+      - docs/AUSTRAITS_ORGAN_FAMILY_HETEROGENEITY_V0_1.md
+      - results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/reproductive_vegetative_lofo.json
+      - results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/frozen_input_manifest.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-family-descriptive-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Authenticate frozen source and audit family heterogeneity
+        run: |
+          python scripts/qa/audit_austraits_organ_family_heterogeneity_v0_1.py \
+            --self-test \
+            --output results/austraits_organ_family_heterogeneity_v0_1/audit.json
+      - name: Preserve machine-readable audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-family-heterogeneity-audit-v0-1
+          path: results/austraits_organ_family_heterogeneity_v0_1/audit.json
+          retention-days: 60
+          if-no-files-found: warn

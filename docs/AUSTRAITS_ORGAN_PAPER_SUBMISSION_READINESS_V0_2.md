@@ -1,3 +1,13 @@
+## 2026-10-21 — Public AusTraits v7 raw-source reconstruction VERIFIED (technical, not independent ecology)
+
+**Real new-env source-to-K step completed, with the biological inference frozen.** [Final combined CI #39451543289 PASS](https://github.com/zuizui0223/turnover/actions/runs/39451543289) downloaded the exact public AusTraits v7.0.0 flattened Parquet, validated original source SHA256, rebuilt **all 770 original potential family×trait pairs and 760 qualified shared-species comparisons** with each original cohort/tip count identical, and re-estimated **two original cross-organ pairs** on both original S3/prune trees. All four newly computed K and log-contrast values were **bit-for-bit numerically identical** to the preserved original real-tree R comparisons (reported maximum absolute difference 0.0).
+
+**Historical expiry dependence removed:** [Original core/254-system K and source-only 760 graph permanently frozen #39448885872](https://github.com/zuizui0223/turnover/actions/runs/39448885872), plus [24 complete original matched K batches preserved #39450135788](https://github.com/zuizui0223/turnover/actions/runs/39450135788). Aggregate-only files and byte SHA256 checks are under the paper branch; original species/trait measurements are downloaded from the public AusTraits release into temporary runner storage, not redistributed in the repository. Full [step-by-step technical audit and source files](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORGAN_RAW_K_REBUILD_VERIFICATION_V0_1.md).
+
+**Not yet completed:** all **760** matched-tip K pairs rerun and checked from scratch; journal-level complete analysis metadata/data/code compliance, contributing-publication citations and real coauthor approvals. The original **313/406 S3** and **314/397 prune** observational reproductive-higher claims, 142/101 source/tip stages, and LOFO algebraic nonindependence remain unchanged. No new independent study, OU process, evolution rate, selection regime or universal mechanism has been established. **PR #38 remains Draft / unmerged / unsubmitted.**
+
+---
+
 ## 2026-10-20 — Durable aggregate archive and source-version citation VERIFIED
 
 This revision **does not** reopen any biological K or source-outcome analysis.

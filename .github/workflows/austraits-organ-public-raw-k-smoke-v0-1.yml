@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/austraits-organ-public-raw-k-smoke-v0-1.yml
       - scripts/qa/audit_austraits_organ_raw_k_smoke_v0_1.py
+      - scripts/qa/audit_austraits_organ_public_source_support_regression_v0_1.py
       - results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/**
   workflow_dispatch:
 permissions:
@@ -50,6 +51,20 @@ jobs:
           echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
           curl -L --fail --retry 3 -o build/source/traits.yml \
             https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Rebuild all 770 candidate / 760 supported original pairs from actual public v7
+        run: |
+          python scripts/analysis/audit_austraits_k_shared_taxon_pair_support_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --core results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/core_systems.csv \
+            --observed-K results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/original_K_effects.csv \
+            --traits-yml build/source/traits.yml \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --out build/rawK/recomputed_full_support.json
+          python scripts/qa/audit_austraits_organ_public_source_support_regression_v0_1.py \
+            --original results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+            --recomputed build/rawK/recomputed_full_support.json \
+            --output build/rawK/source_support_verdict.json \
+            --self-test
       - name: Actually recompute source-native species states and matched-tip K on S3/prune
         env:
           OPENBLAS_NUM_THREADS: '1'
@@ -73,6 +88,7 @@ jobs:
             --report build/rawK/raw_to_K_reproduction_verdict.json
           grep -q PASS_PUBLIC_AUSTRAITS_V7_RAW_TO_K_TECHNICAL_SMOKE \
             build/rawK/raw_to_K_reproduction_verdict.json
+            build/rawK/source_support_verdict.json
       - uses: actions/upload-artifact@v4
         with:
           name: austraits-original-public-v7-raw-to-K-two-pair-smoke-v0-1

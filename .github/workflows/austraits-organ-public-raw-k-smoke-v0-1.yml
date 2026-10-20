@@ -88,6 +88,7 @@ jobs:
             --report build/rawK/raw_to_K_reproduction_verdict.json
           grep -q PASS_PUBLIC_AUSTRAITS_V7_RAW_TO_K_TECHNICAL_SMOKE \
             build/rawK/raw_to_K_reproduction_verdict.json
+          grep -q PASS_PUBLIC_AUSTRAITS_V7_ALL_760_SOURCE_OVERLAP_REBUILT \
             build/rawK/source_support_verdict.json
       - uses: actions/upload-artifact@v4
         with:
@@ -95,5 +96,6 @@ jobs:
           path: |
             build/rawK/reestimated_K.json
             build/rawK/raw_to_K_reproduction_verdict.json
+            build/rawK/source_support_verdict.json
           retention-days: 90
           if-no-files-found: error

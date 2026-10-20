@@ -38,7 +38,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p build/review_package/figures
-          gh run download 39274477504 -R "$GITHUB_REPOSITORY" \
+          gh run download 39353861778 -R "$GITHUB_REPOSITORY" \
             -n austraits-organ-ecology-paper-figures-v0-2 \
             -D build/review_package/figures
           test -s build/review_package/figures/figure1_common_tips_family_organK.png

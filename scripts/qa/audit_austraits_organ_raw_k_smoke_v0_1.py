@@ -45,8 +45,33 @@ def prepare(base,out):
             "pairs":[{"family":x["family"],"n_original_common_species":
                       x["n_common_species_same_genus"]} for x in rows]}
 
+def historical_matched_K(base):
+    "Check SHA-pinned original 24 R-batch outputs and return original per-pair values."
+    prior=Path("results/austraits_organ_paper_original_pair_K_v0_1")
+    manifest=json.loads((prior/"original_pair_k_reference_manifest.json").read_text())
+    need(manifest["status"]=="PASS_PRESERVED_760_ORIGINAL_MATCHED_TIP_K_REGRESSION_REFERENCES"
+         and manifest["n_original_matched_pairs"]==760,
+         "Historical per-pair matched R K archive missing")
+    need(manifest["parent_rebuild_manifest_sha256"]==
+         hashlib.sha256((base/"frozen_rebuild_manifest.json").read_bytes()).hexdigest(),
+         "Historical per-pair outcomes do not share the exact source cohort")
+    found={}
+    for filename,sha in manifest["files"].items():
+        data=(prior/filename).read_bytes()
+        need(hashlib.sha256(data).hexdigest()==sha,
+             "Historical raw R pair outcome archive tampered: "+filename)
+        b=json.loads(data)
+        for p in b["pairs"]:
+            key=(p["family"],p["trait_A"],p["trait_B"])
+            need(key not in found, "Duplicate historical pair identity")
+            found[key]=p
+    need(len(found)==760,"Historical matched K reference incomplete")
+    return found
+
+
 def finish(base,batch,raw,parquet,out):
     source_check(base)
+    historical=historical_matched_K(base)
     need(hashlib.sha256(parquet.read_bytes()).hexdigest()==SHA,
          "Downloaded public Parquet differs from original SHA256")
     items=json.loads(batch.read_text())
@@ -62,11 +87,15 @@ def finish(base,batch,raw,parquet,out):
         key=(orig["family"],orig["trait_A"],orig["trait_B"])
         need(key in indexed,"Source-qualified pair dropped from R results")
         v=indexed[key]
-        need(v["n_shared_species"]==orig["n_common_species_same_genus"],
+        need(key in historical,"No historical matched K reference for original case")
+        earlier=historical[key]
+        need(v["n_shared_species"]==orig["n_common_species_same_genus"]==
+             earlier["n_shared_species"],
              "Original vs reconstructed source-tip cohort differs")
         tree={}
         for t in ("S3","prune_only"):
             x=v["axes"][t]
+            previous=earlier["axes"][t]
             need(x["status"]=="PASS" and x["n_tips"]>=20,
                  "Original comparison missing native K tree support: "+t)
             a,b=float(x["K_A"]),float(x["K_B"])
@@ -77,8 +106,21 @@ def finish(base,batch,raw,parquet,out):
             need(abs((float(x["delta_shared_logK"])-float(x["delta_original_logK"]))
                      -float(x["delta_support_shift"]))<2e-9,
                  "Support-versus-original comparison arithmetic mismatch")
+            need(previous["status"]=="PASS" and
+                 previous["n_tips"]==x["n_tips"],
+                 "Exact original tree tip geometry differs in fresh reconstruction")
+            max_difference=max(abs(float(x[k])-float(previous[k]))
+                               for k in ("K_A","K_B","delta_shared_logK",
+                                         "delta_original_logK","delta_support_shift"))
+            need(all(math.isclose(float(x[k]),float(previous[k]),
+                     rel_tol=1e-7,abs_tol=2e-8) for k in
+                     ("K_A","K_B","delta_shared_logK",
+                      "delta_original_logK","delta_support_shift")),
+                 "Recomputed exact original matched K values do not agree")
             tree[t]={"status":"PASS","n_tips":x["n_tips"],
-                     "K_log_contrast_identity_pass":True}
+                     "K_log_contrast_identity_pass":True,
+                     "historical_numeric_K_regression_pass":True,
+                     "max_abs_K_or_log_contrast_difference":max_difference}
         summary.append({"family":v["family"],"trait_A":v["trait_A"],
                         "trait_B":v["trait_B"],
                         "original_matched_species_count":v["n_shared_species"],
@@ -90,7 +132,8 @@ def finish(base,batch,raw,parquet,out):
             "n_technical_smoke_pairs":2,
             "original_full_source_supported_comparisons":760,
             "all_760_original_pairs_recomputed":False,
-            "exact_original_matched_pair_numeric_parity_verified":False,
+            "exact_original_matched_pair_numeric_parity_verified":True,
+            "original_matched_K_reference_batch_count":24,
             "independent_primary_measurement_replication":False,
             "new_biological_support_claim":False,"original_raw_values_saved":False,
             "pairs":summary}

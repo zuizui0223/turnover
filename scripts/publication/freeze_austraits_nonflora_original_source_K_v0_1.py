@@ -70,10 +70,11 @@ def archive(args):
             path=directory/filename
             require(path.is_file(),"Original nonflora K batch missing "+prefix+filename)
             v=json.loads(path.read_text())
-            require(v["status"]==expected_status and
-                    v["n_family_trait_pairs"]==len(v["pairs"]) if prefix=="strict" else
-                    v["status"]==expected_status and len(v["pairs"])>0,
+            require(v["status"]==expected_status and len(v.get("pairs",[]))>0,
                     "Original source K batch malformed "+prefix+filename)
+            if prefix=="strict":
+                require(v["n_original_K_blind_source_selected_pairs"]==len(v["pairs"]),
+                        "Original strict source batch pair count changed")
             for item in v["pairs"]:
                 key=item["family"],item["trait_A"],item["trait_B"]
                 require(key not in seen,"Repeated original nonflora pair "+str(key))

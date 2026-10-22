@@ -16,6 +16,7 @@ from pathlib import Path
 MANUSCRIPT = Path("docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md")
 DECISION = Path("docs/AUSTRAITS_ORGAN_COAUTHOR_SUBMISSION_DECISION_V0_1.md")
 SOURCE = Path("results/austraits_organ_paper_frozen_aggregate_inputs_v0_1")
+REPLAY = Path("results/austraits_organ_paper_public_v7_full_K_replay_v0_1")
 REQUIRED_CODE = (
     "scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R",
     "scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py",
@@ -39,6 +40,9 @@ def text_checks(manuscript: str, decision: str):
     need("post-discovery" in manuscript.casefold() and
          "non-nested hypothesis selection" in manuscript.casefold(),
          "Post-selection caveats missing")
+    need("760 original matched-tip K comparisons" in manuscript and
+         "760-pair K rerun" in decision and "same AusTraits" in decision,
+         "Complete paired K technical reproduction and original-source limitations missing")
     need("Data Accessibility Statement" in manuscript,
          "Candidate venue requires Data Accessibility Statement wording")
     need("not" in manuscript.casefold() and
@@ -60,8 +64,46 @@ def text_checks(manuscript: str, decision: str):
          "Official candidate journal source missing")
     return keywords
 
+def validate_full_replay(repo: Path):
+    """Verify durable clean-source K replay without authorizing journal submission."""
+    home = repo / REPLAY
+    m = json.loads((home / "reproduction_archive_manifest.json").read_text(encoding="utf-8"))
+    need(m["status"] == "PASS_PERMANENT_FULL_760_CLEAN_SOURCE_K_REPLAY_ARCHIVE_V0_1",
+         "Full native K reproducibility archive invalid")
+    need(m["original_actions_run_id"] == 39713644617
+         and m["n_recomputed_original_pairs"] == 760,
+         "Full original comparison population missing")
+    expected = {"S3": {"pass": 760, "hold": 0, "cross": 406, "wins": 313},
+                "prune_only": {"pass": 747, "hold": 13, "cross": 397, "wins": 314}}
+    need(m["native_axes"] == expected, "Full source-to-K original denominator mismatch")
+    need(m["max_absolute_numeric_K_or_logK_difference"] == 0.0,
+         "Historical K numerical discrepancy is not the verified exact zero")
+    need(m["complete_clean_source_K_replay"] is True
+         and m["independent_biological_source_validation"] is False
+         and m["raw_species_measurements_committed"] is False,
+         "Archive confuses computational reproduction with biological replication")
+    hashes = m["permanent_file_sha256"]
+    names = {f"B{b:02d}_{kind}.json"
+             for b in range(1, 25) for kind in ("fresh", "audit")}
+    names.add("all_760_native_K_regression.json")
+    need(set(hashes) == names and len(hashes) == m["files_permanently_preserved"] == 49,
+         "Full run is missing original 24 K/24 QA/1 aggregate files")
+    for name, expected_sha in hashes.items():
+        need((home / name).is_file(), "Reproduced K file absent: " + name)
+        need(hashlib.sha256((home / name).read_bytes()).hexdigest() == expected_sha,
+             "Full public-source K replay was silently changed: " + name)
+    result = json.loads((home / "all_760_native_K_regression.json").read_text())
+    need(result["status"] == "PASS_ALL_760_RAW_SOURCE_K_RECOMPUTED_AND_MATCHED"
+         and result["axes"] == expected
+         and result["original_source_qualified_pairs"] == 760
+         and result["max_absolute_numeric_K_or_logK_difference"] == 0.0
+         and result["independent_original_measurement_replication"] is False,
+         "Final clean-source K evidence changed")
+    return m
+
 def audit(repo: Path, manuscript: str, decision: str):
     keys = text_checks(manuscript, decision)
+    full_replay = validate_full_replay(repo)
     source_dir = repo / SOURCE
     manifest_path = source_dir / "frozen_input_manifest.json"
     m = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -91,6 +133,9 @@ def audit(repo: Path, manuscript: str, decision: str):
         "checked_original_code_file_count": len(REQUIRED_CODE),
         "aggregate_figures_reproducible": True,
         "full_original_record_to_K_cleanroom_reproduction_verified": False,
+        "all_760_original_matched_tip_K_computations_cleanroom_reproduced": True,
+        "full_760_original_matched_tip_K_max_absolute_discrepancy": full_replay["max_absolute_numeric_K_or_logK_difference"],
+        "original_254_single_trait_K_reference_and_strict_142_101_source_stage_recomputed": False,
         "journal_complete_data_metadata_code_access_verified": False,
         "approved_authors_correspondence": False,
         "approved_competing_interests_funding_contributions": False,

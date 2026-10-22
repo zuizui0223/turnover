@@ -94,7 +94,7 @@ def strip_front_matter(md):
     title,sep,remaining=md.partition("\n")
     must(bool(sep) and title.startswith("# "), "Original manuscript title absent")
     status=(
-      "**COAUTHOR SCIENTIFIC REVIEW DRAFT • 20 October 2026**\n\n"
+      "**COAUTHOR SCIENTIFIC REVIEW DRAFT • 22 October 2026**\n\n"
       "Exploratory, post-discovery analysis; no independent primary-source "
       "replication or verified evolutionary mechanism. Not submitted.\n\n")
     return title+"\n\n"+status+remaining.lstrip()
@@ -202,7 +202,7 @@ def main():
     (a.out_dir/"source_manifest.json").write_text(json.dumps(out,indent=2)+"\n")
     (a.out_dir/"README.txt").write_text(
         "AusTraits functional organ K — coauthor scientific review bundle\n"
-        "Generated 2026-10-20 from exact original source-output figures.\n\n"
+        "Generated 2026-10-22 from exact original source-output figures and verified full public-v7 760-K regression.\n\n"
         "CONTENTS: Main manuscript PDF/DOCX; supplemental tables PDF/DOCX; "
         "original 2 main + 1 supplementary figure PNG/SVG; source_manifest.json and source-only QA.\n\n"
         "IMPORTANT INFERENTIAL CORRECTION: The 64.47% / 65.46% organ-only "

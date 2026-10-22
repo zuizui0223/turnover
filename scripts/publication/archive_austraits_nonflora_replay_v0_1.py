@@ -19,7 +19,7 @@ def must(ok,why):
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
-def preserve(root,verdict,target,run_id):
+def preserve(root,verdict,target,run_id,aggregate_dir):
     must(run_id==EXPECTED_RUN,"The archived run is not the verified original full nonflora replay")
     m=json.loads(SOURCE_REF.read_text())
     must(m["status"]=="PASS_PERMANENT_AUSTRAITS_ORIGINAL_NONFLORA_SOURCE_K_REFERENCE"
@@ -91,6 +91,33 @@ def preserve(root,verdict,target,run_id):
     if dest.exists():must(dest.read_bytes()==verdict.read_bytes(),"Final source/tip verdict changed")
     else:shutil.copyfile(verdict,dest)
     hashes[dest.name]=sha(dest.read_bytes())
+    # Include independently recalculated original 5000-family bootstrap aggregate
+    # and original 3-stage contrast in the same immutable K provenance archive.
+    aggregates={
+       "broad_283_aggregate.json":
+         ("AUSTRAITS_K_FIVE_FLORA_EXCLUSION_ORGAN_SENSITIVITY_AGGREGATED_V0_1",283,233),
+       "strict_142_aggregate.json":
+         ("AUSTRAITS_K_JOINT_NONFLORA_SHARED_DATASET_SENSITIVITY_AGGREGATED_V0_1",142,101),
+       "recomputed_3stage_transition.json":
+         ("AUSTRAITS_K_NONFLORA_COHORT_TRANSITION_EXPLORATORY_VERIFIED",142,101)}
+    for name,(status,ns3,np) in aggregates.items():
+        src=aggregate_dir/name
+        must(src.is_file(),"Source K aggregate or bootstrap report missing "+name)
+        obj=json.loads(src.read_text())
+        must(obj["status"]==status,"Original aggregate stage calculation changed "+name)
+        if name=="recomputed_3stage_transition.json":
+            must(obj["axes"]["S3"]["n_pair_identities"]==ns3
+                 and obj["axes"]["prune_only"]["n_pair_identities"]==np,
+                 "Original transition pairs changed")
+        else:
+            must(obj["axes"]["S3"]["n_valid_real_tree_K_pairs"]==ns3
+                 and obj["axes"]["prune_only"]["n_valid_real_tree_K_pairs"]==np,
+                 "Original source-valid native K counts changed")
+        dest=target/name
+        if dest.exists():must(dest.read_bytes()==src.read_bytes(),
+                              "Previously archived bootstrap/stage source report differs")
+        else:shutil.copyfile(src,dest)
+        hashes[name]=sha(dest.read_bytes())
     report={"status":ARCHIVE_STATUS,"workflow_run_id":run_id,
             "source_verification_run_url":
                "https://github.com/zuizui0223/turnover/actions/runs/39723170670",
@@ -116,8 +143,9 @@ def main():
     for k in ("source-dir","verdict","out-dir"):
         p.add_argument("--"+k,type=Path,required=True)
     p.add_argument("--run-id",type=int,required=True)
+    p.add_argument("--aggregate-dir",type=Path,required=True)
     a=p.parse_args()
-    r=preserve(a.source_dir,a.verdict,a.out_dir,a.run_id)
+    r=preserve(a.source_dir,a.verdict,a.out_dir,a.run_id,a.aggregate_dir)
     print(json.dumps({"status":r["status"],
                       "files":r["n_preserved_files"],
                       "pairs":r["n_original_pair_fits_freshly_computed"],

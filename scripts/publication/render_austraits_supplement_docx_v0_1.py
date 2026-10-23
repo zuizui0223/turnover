@@ -92,7 +92,7 @@ def build(source,out,manuscript,brier_figure):
             raise ValueError("Source table changed: "+phrase)
     d=new_doc()
     d.add_heading("Supplementary Tables — organ-function K",level=1)
-    d.add_paragraph("Coauthor scientific review • 20 October 2026. "
+    d.add_paragraph("Coauthor scientific review • 23 October 2026. "
        "All values were reported in existing post-discovery AusTraits analyses. "
        "Source/provenance and sampling caveats are unchanged.")
     lines=md.splitlines()

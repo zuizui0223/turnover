@@ -1,0 +1,21 @@
+{
+  "axes": {
+    "S3": {
+      "cross": 17,
+      "hold": 0,
+      "pass": 36,
+      "wins": 13
+    },
+    "prune_only": {
+      "cross": 17,
+      "hold": 0,
+      "pass": 36,
+      "wins": 14
+    }
+  },
+  "batch": "B13",
+  "full_760_biological_independent_validation": false,
+  "max_absolute_numeric_K_or_logK_difference": 0.0,
+  "n_pair_ids": 36,
+  "status": "PASS_FROZEN_ORIGINAL_BATCH_K_NUMERIC_PARITY"
+}

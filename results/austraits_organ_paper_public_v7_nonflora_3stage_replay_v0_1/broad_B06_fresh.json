@@ -1,0 +1,48 @@
+{
+  "NOT_independent_primary_measurement_validation": true,
+  "n_original_K_blind_source_selected_pairs": 1,
+  "no_species_observation_IDs_or_raw_trait_measurements_persisted": true,
+  "pairs": [
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.09514143365748476,
+          "K_full_B": 0.1564524110161389,
+          "K_source_A": 0.09248349842602673,
+          "K_source_B": 0.1564524110161389,
+          "delta_full": -0.4973873209584574,
+          "delta_source": -0.525721647563917,
+          "delta_source_measurements": -0.02833432660545965,
+          "n_tips": 891,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.07762075727533582,
+          "K_full_B": 0.2258441959262656,
+          "K_source_A": 0.08362178270365152,
+          "K_source_B": 0.2258441959262656,
+          "delta_full": -1.068010480890012,
+          "delta_source": -0.9935413181642172,
+          "delta_source_measurements": 0.07446916272579474,
+          "n_tips": 340,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_initial_nonflora_positive_median_species": 891,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 891,
+      "pair_id": "Q001",
+      "system_A": "A0110",
+      "system_B": "A0113",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_dry_mass"
+    }
+  ],
+  "post_organ_and_760_K_outcome_source_robustness": true,
+  "remaining_AusTraits_IDs_not_independent_primary_measurements": true,
+  "status": "AUSTRAITS_K_FIVE_FLORA_EXCLUSION_PAIR_BATCH_COMPLETE",
+  "version": "v0.1"
+}

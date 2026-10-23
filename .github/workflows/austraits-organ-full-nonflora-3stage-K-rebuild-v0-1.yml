@@ -1,0 +1,177 @@
+name: AusTraits original 283 and 142 nonflora three-stage raw K replay v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-full-nonflora-3stage-K-rebuild-v0-1.yml
+      - scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare-28-original-source-only-batches:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - name: Restore exactly original K-blind source-qualified 283 and 142 pairs
+        run: |
+          python scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py \
+            --mode plan --batch-dir build/plan --output build/plan/plan.json
+          test "$(find build/plan -maxdepth 1 -name 'broad_B??.json' | wc -l)" -eq 16
+          test "$(find build/plan -maxdepth 1 -name 'strict_B??.json' | wc -l)" -eq 12
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-nonflora-283-142-original-cohort-v0-1
+          path: build/plan/
+          retention-days: 90
+          if-no-files-found: error
+
+  original-real-tree-K-all-nonflora-pairs:
+    needs: prepare-28-original-source-only-batches
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {arm: broad, batch: B01}
+          - {arm: broad, batch: B02}
+          - {arm: broad, batch: B03}
+          - {arm: broad, batch: B04}
+          - {arm: broad, batch: B05}
+          - {arm: broad, batch: B06}
+          - {arm: broad, batch: B07}
+          - {arm: broad, batch: B08}
+          - {arm: broad, batch: B09}
+          - {arm: broad, batch: B10}
+          - {arm: broad, batch: B11}
+          - {arm: broad, batch: B12}
+          - {arm: broad, batch: B13}
+          - {arm: broad, batch: B14}
+          - {arm: broad, batch: B15}
+          - {arm: broad, batch: B16}
+          - {arm: strict, batch: B01}
+          - {arm: strict, batch: B02}
+          - {arm: strict, batch: B03}
+          - {arm: strict, batch: B04}
+          - {arm: strict, batch: B05}
+          - {arm: strict, batch: B06}
+          - {arm: strict, batch: B07}
+          - {arm: strict, batch: B08}
+          - {arm: strict, batch: B09}
+          - {arm: strict, batch: B10}
+          - {arm: strict, batch: B11}
+          - {arm: strict, batch: B12}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Pin original V.PhyloMaker2 and parse both original R K estimators
+        run: |
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_k_same_dataset_organ_pairs_v0_1.R')"
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_k_five_flora_exclusion_pairs_v0_1.R')"
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-nonflora-283-142-original-cohort-v0-1
+          path: build/plan
+      - name: Retrieve SHA-verified original public AusTraits v7 and original unit config
+        run: |
+          mkdir -p build/source build/replay
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Recompute original five-flora or strict common source K on native S3/prune
+        env:
+          ARM: ${{ matrix.arm }}
+          BATCH: ${{ matrix.batch }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          PAIR="$(printf 'build/plan/%s_%s.json' "$ARM" "$BATCH")"
+          OUT="$(printf 'build/replay/%s_%s_fresh.json' "$ARM" "$BATCH")"
+          if [ "$ARM" = "strict" ]; then
+            python scripts/analysis/run_austraits_k_joint_nonflora_dataset_batch_v0_1.py \
+              --batch-json "$PAIR" \
+              --source-support results/austraits_organ_paper_original_nonflora_K_references_v0_1/source_support_excluding_five_floras.json \
+              --original-pair-support results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+              --parquet build/source/austraits.parquet --traits-yml build/source/traits.yml \
+              --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json \
+              --r-script scripts/analysis/fit_austraits_k_same_dataset_organ_pairs_v0_1.R \
+              --out "$OUT"
+          else
+            python scripts/analysis/run_austraits_k_five_flora_exclusion_batch_v0_1.py \
+              --batch-json "$PAIR" \
+              --nonflora-support results/austraits_organ_paper_original_nonflora_K_references_v0_1/source_support_excluding_five_floras.json \
+              --original-pair-support results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+              --parquet build/source/austraits.parquet --traits-yml build/source/traits.yml \
+              --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json \
+              --r-script scripts/analysis/fit_austraits_k_five_flora_exclusion_pairs_v0_1.R \
+              --out "$OUT"
+          fi
+      - name: Verify original per-pair native tip/source arm K numeric parity and holds
+        env:
+          ARM: ${{ matrix.arm }}
+          BATCH: ${{ matrix.batch }}
+        run: |
+          FRESH="$(printf 'build/replay/%s_%s_fresh.json' "$ARM" "$BATCH")"
+          QA="$(printf 'build/replay/%s_%s_audit.json' "$ARM" "$BATCH")"
+          python scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py \
+            --mode compare --arm "$ARM" --batch "$BATCH" \
+            --fresh "$FRESH" --output "$QA"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-nonflora-K-recomputed-${{ matrix.arm }}-${{ matrix.batch }}-v0-1
+          path: build/replay/*.json
+          retention-days: 90
+          if-no-files-found: error
+
+  independent-three-stage-source-and-tip-verdict:
+    needs: original-real-tree-K-all-nonflora-pairs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-nonflora-K-recomputed-*-v0-1
+          path: build/all
+          merge-multiple: true
+      - name: Recheck all original numerical K values and exact 110-121-120 / 82-83-81 stage directions
+        run: |
+          test "$(find build/all -maxdepth 1 -name 'broad_B??_fresh.json' | wc -l)" -eq 16
+          test "$(find build/all -maxdepth 1 -name 'strict_B??_fresh.json' | wc -l)" -eq 12
+          python scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py \
+            --mode combine --fresh-dir build/all --audit-dir build/all \
+            --output build/final/nonflora_K_three_stage_verdict.json
+          grep -q PASS_ALL_283_142_NONFLORA_K_AND_THREE_STAGE_TRANSITIONS_REPRODUCED \
+            build/final/nonflora_K_three_stage_verdict.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-nonflora-source-tip-283-142-full-replay-v0-1
+          path: build/final/nonflora_K_three_stage_verdict.json
+          retention-days: 90
+          if-no-files-found: error

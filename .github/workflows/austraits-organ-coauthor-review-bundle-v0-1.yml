@@ -18,6 +18,8 @@ on:
       - docs/AUSTRAITS_ORGAN_FAMILY_HETEROGENEITY_V0_1.md
       - scripts/qa/audit_austraits_organ_submission_gate_v0_1.py
       - results/austraits_organ_paper_public_v7_full_K_replay_v0_1/reproduction_archive_manifest.json
+      - results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_replay_archive_manifest.json
+      - docs/AUSTRAITS_ORGAN_NONFLORA_SOURCE_STAGE_REBUILD_V0_1.md
       - scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py
       - docs/AUSTRAITS_ORGAN_ALL_760_RAW_K_REPRODUCTION_V0_1.md
       - docs/AUSTRAITS_ORGAN_COAUTHOR_SUBMISSION_DECISION_V0_1.md
@@ -101,6 +103,16 @@ jobs:
             build/review_package/full_760_K_original_numeric_verdict.json
           grep -q '"all_760_original_matched_tip_K_computations_cleanroom_reproduced": true' \
             build/review_package/qa/submission/result.json
+          grep -q '"original_nonflora_283_142_source_K_cleanroom_reproduced": true' \
+            build/review_package/qa/submission/result.json
+          cp docs/AUSTRAITS_ORGAN_NONFLORA_SOURCE_STAGE_REBUILD_V0_1.md \
+            build/review_package/nonflora_K_reproducibility.md
+          cp results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_replay_archive_manifest.json \
+            build/review_package/nonflora_K_archive_manifest.json
+          cp results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_K_three_stage_verdict.json \
+            build/review_package/nonflora_K_original_numeric_verdict.json
+          cp results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/recomputed_3stage_transition.json \
+            build/review_package/nonflora_K_recomputed_3stage_aggregate.json
       - name: Compile paper/supplement source without changing biology
         shell: bash
         run: |
@@ -171,7 +183,7 @@ jobs:
           zip -q -r ../austraits_organ_K_coauthor_review_v0_1.zip \
             organ_K_coauthor_manuscript.docx organ_K_coauthor_manuscript.pdf \
             organ_K_supplementary_tables.docx organ_K_supplementary_tables.pdf \
-            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json figures/ qa/
+            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json nonflora_K_reproducibility.md nonflora_K_archive_manifest.json nonflora_K_original_numeric_verdict.json nonflora_K_recomputed_3stage_aggregate.json figures/ qa/
           test -s ../austraits_organ_K_coauthor_review_v0_1.zip
       - uses: actions/upload-artifact@v4
         with:

@@ -4,6 +4,8 @@ on:
     branches: [paper/austraits-organ-ecology-v0-2]
     paths:
       - data/austraits_nonflora_full_replay_archive_trigger_v0_1.json
+      - .github/workflows/austraits-organ-archive-nonflora-full-3stage-K-v0-1.yml
+      - scripts/publication/archive_austraits_nonflora_replay_v0_1.py
   workflow_dispatch:
 permissions:
   contents: write
@@ -40,8 +42,10 @@ jobs:
           test "$(find build/source_k -maxdepth 1 -name '*_audit.json' | wc -l)" -eq 28
       - name: Recheck every original K field and rebuild three-stage direction transitions
         run: |
+          mkdir -p build/recheck_audits
+          cp build/source_k/*_audit.json build/recheck_audits/
           python scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py \
-            --mode combine --fresh-dir build/source_k --audit-dir build/source_k \
+            --mode combine --fresh-dir build/source_k --audit-dir build/recheck_audits \
             --output build/reaggregated/nonflora_K_three_stage_verdict.json
           cmp -s build/reaggregated/nonflora_K_three_stage_verdict.json \
             build/final_source/nonflora_K_three_stage_verdict.json

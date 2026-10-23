@@ -123,7 +123,7 @@ def validate_nonflora_full_replay(repo: Path):
     need(sources["status"] == "PASS_PUBLIC_AUSTRAITS_V7_REBUILT_NONFLORA_283_142_K_BLIND_SUPPORT"
          and sources["original_source_only_support_sha256"] ==
          sources["reconstructed_source_only_support_sha256"]
-         and sources["strict_same_nonflora_dataset_K_blind_pairs"] == 142,
+         and sources["same_nonflora_DatasetID_supported_comparisons"] == 142,
          "Original K-blind source/taxon eligibility not reproduced from public v7")
     stages = {"S3": (142, [110, 121, 120], [23, 9]),
               "prune_only": (101, [82, 83, 81], [13, 12])}

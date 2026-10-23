@@ -1,6 +1,6 @@
 # AusTraits organ-K paper — durable reproducibility and source citation (v0.1)
 
-**Updated: 2026-10-21.** Scope: original AusTraits v7.0.0 `turnover` paper PR #38; descriptive, **post-discovery** source/organ-K results only. This file is not a new dataset, biological fit, source-trait search, or independent replication.
+**Updated: 2026-10-23.** Scope: original AusTraits v7.0.0 `turnover` paper PR #38; descriptive, **post-discovery** source/organ-K results only. This file is not a new dataset, biological fit, source-trait search, or independent replication.
 
 ## Exact primary dataset version and method citations
 
@@ -29,6 +29,14 @@ The original three figure-input aggregate JSON files came from GitHub Actions an
 | `joint_nonflora_shared_source_K.json` | 39006469805 | `fc9bc62297a16db916f21704203ab1859f65dce33303a8199cb49a6596819dbb` |
 
 These **aggregate** data contain family-level and original family×named-trait-pair K summaries, not new trait measurements or raw species-by-specimen records. Frozen statuses, exact file checksums, non-independence flags and original pair/tip counts are checked by `scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py`. The original external primary-source validation of the organ K hierarchy **remains untested**.
+
+## Full original 283/142 nonflora source-stage K reproduction (23 October 2026)
+
+[All 28 native-tree source-stage R/C++ K batches #39723170670 PASS](https://github.com/zuizui0223/turnover/actions/runs/39723170670) recovered the original **283 S3/233 prune broader nonflora** and **142 S3/101 prune strict shared-DatasetID** comparison outcomes directly from the public AusTraits v7.0.0 Parquet using the original exact source units and native tree builder. All original K values and source-specific log-K contrasts matched the frozen historical K outputs, with **maximum absolute numerical difference 0.0**. The original identity-matched **S3 110→121→120 (142)** and **prune 82→83→81 (101)** reproductive-higher source/taxon-stage directions were recovered, with 23/9 and 13/12 sign flips over the respective stages.
+
+[Permanent 60-file SHA256 source-stage archive #39877245159 PASS](https://github.com/zuizui0223/turnover/actions/runs/39877245159) independently regenerated every original pairwise source-K and original **5,000-family bootstrap** summary before committing fresh K results, QA reports, aggregate results and manifest under [nonflora K replay source archive](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1). [Complete K-blind source eligibility from public v7 #39723741575 PASS](https://github.com/zuizui0223/turnover/actions/runs/39723741575) was byte-identical to the original source-support report (SHA256 `2870909f97d492400d7a3f6978f94689e5a829ed719cd48340d0633c0f9c83d5`).
+
+This is **numerical reproducibility on the same original AusTraits data**, not independent primary-study evidence, causal ecology, selection/OU-rate inference or a prospective biological hypothesis. Stage 1→2 changes species/tips/tree normalization together; Stage 2→3 changes the observation-source values on strictly identical tips. The separate original 254 single-trait K reference fits were not rerun in these paired pipelines.
 
 ## Full original 760-pair matched-tip K numerical reproduction (22 October 2026)
 

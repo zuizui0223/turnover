@@ -40,6 +40,10 @@ def text_checks(manuscript: str, decision: str):
     need("post-discovery" in manuscript.casefold() and
          "non-nested hypothesis selection" in manuscript.casefold(),
          "Post-selection caveats missing")
+    need("283 broader nonflora and 142 strict" in manuscript and
+         "283/142 nonflora source-stage K" in decision and
+         "same AusTraits" in decision,
+         "Complete original nonflora source-stage K numerical evidence or inference limits missing")
     need("760 original matched-tip K comparisons" in manuscript and
          "760-pair K rerun" in decision and "same AusTraits" in decision,
          "Complete paired K technical reproduction and original-source limitations missing")
@@ -101,9 +105,64 @@ def validate_full_replay(repo: Path):
          "Final clean-source K evidence changed")
     return m
 
+def validate_nonflora_full_replay(repo: Path):
+    """Confirm exact full 283/142 source K and original bootstrap SHA256 evidence."""
+    base = repo / Path("results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1")
+    prior = repo / Path("results/austraits_organ_paper_original_nonflora_K_references_v0_1")
+    m = json.loads((base / "nonflora_replay_archive_manifest.json").read_text())
+    need(m["status"] == "PASS_DURABLE_ORIGINAL_283_142_SOURCE_STAGE_RAW_K_REPRODUCTION_ARCHIVE"
+         and m["workflow_run_id"] == 39723170670
+         and m["n_original_pair_fits_freshly_computed"] == 425
+         and m["n_original_real_tree_K_passes"] == {"S3": 425, "prune_only": 334}
+         and m["maximum_absolute_numeric_discrepancy"] == 0.0,
+         "Historical 283/142 original nonflora source-stage K replay not verified")
+    need(m["original_nonflora_reference_manifest_sha256"] ==
+         hashlib.sha256((prior / "original_nonflora_reference_manifest.json").read_bytes()).hexdigest(),
+         "Original source-restricted K reference archive is not byte-exact")
+    sources = json.loads((prior / "public_raw_nonflora_support_reproduction_v0_1.json").read_text())
+    need(sources["status"] == "PASS_PUBLIC_AUSTRAITS_V7_REBUILT_NONFLORA_283_142_K_BLIND_SUPPORT"
+         and sources["original_source_only_support_sha256"] ==
+         sources["reconstructed_source_only_support_sha256"]
+         and sources["strict_same_nonflora_dataset_K_blind_pairs"] == 142,
+         "Original K-blind source/taxon eligibility not reproduced from public v7")
+    stages = {"S3": (142, [110, 121, 120], [23, 9]),
+              "prune_only": (101, [82, 83, 81], [13, 12])}
+    for axis, (n, wins, flips) in stages.items():
+        v = m["three_stage_identical_pair_contrasts"][axis]
+        need(v["same_original_pair_identities"] == n
+             and v["reproductive_K_wins"] == wins
+             and v["source_tip_then_value_sign_flips"] == flips,
+             "Original same-identity three-stage K rank changes were altered")
+    expected = {f"{arm}_B{i:02d}_{suffix}.json"
+                for arm, n in (("broad", 16), ("strict", 12))
+                for i in range(1, n+1)
+                for suffix in ("fresh", "audit")}
+    expected.update(("nonflora_K_three_stage_verdict.json",
+                     "broad_283_aggregate.json", "strict_142_aggregate.json",
+                     "recomputed_3stage_transition.json"))
+    hashes = m["preserved_file_sha256"]
+    need(set(hashes) == expected and len(hashes) == m["n_preserved_files"] == 60,
+         "Complete source-stage 28 K, 28 audits, 3 aggregates and verdict missing")
+    for filename, digest in hashes.items():
+        file = base / filename
+        need(file.is_file() and hashlib.sha256(file.read_bytes()).hexdigest() == digest,
+             "Permanent clean-source nonflora K result SHA256 mismatch: " + filename)
+    final = json.loads((base / "nonflora_K_three_stage_verdict.json").read_text())
+    need(final["status"] == "PASS_ALL_283_142_NONFLORA_K_AND_THREE_STAGE_TRANSITIONS_REPRODUCED"
+         and final["maximum_absolute_source_K_or_logK_discrepancy"] == 0.0
+         and final["independent_original_measurement_replication"] is False
+         and final["new_evolutionary_process_parameter_tests"] == 0,
+         "Original nonflora source-stage numeric replay or noncausal scope changed")
+    need(m["underlying_original_study_independence_proven"] is False
+         and m["original_species_level_values_committed"] is False,
+         "Misrepresented original study independence or raw-source redistribution")
+    return m
+
+
 def audit(repo: Path, manuscript: str, decision: str):
     keys = text_checks(manuscript, decision)
     full_replay = validate_full_replay(repo)
+    nonflora_replay = validate_nonflora_full_replay(repo)
     source_dir = repo / SOURCE
     manifest_path = source_dir / "frozen_input_manifest.json"
     m = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -135,7 +194,10 @@ def audit(repo: Path, manuscript: str, decision: str):
         "full_original_record_to_K_cleanroom_reproduction_verified": False,
         "all_760_original_matched_tip_K_computations_cleanroom_reproduced": True,
         "full_760_original_matched_tip_K_max_absolute_discrepancy": full_replay["max_absolute_numeric_K_or_logK_difference"],
-        "original_254_single_trait_K_reference_and_strict_142_101_source_stage_recomputed": False,
+        "original_nonflora_283_142_source_K_cleanroom_reproduced": True,
+        "original_nonflora_K_max_absolute_numeric_discrepancy": nonflora_replay["maximum_absolute_numeric_discrepancy"],
+        "original_254_single_trait_K_reference_independently_recomputed": False,
+        "independent_primary_study_biological_replication": False,
         "journal_complete_data_metadata_code_access_verified": False,
         "approved_authors_correspondence": False,
         "approved_competing_interests_funding_contributions": False,

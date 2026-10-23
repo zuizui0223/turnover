@@ -1,3 +1,11 @@
+## 2026-10-23 — Complete original 283/142 nonflora and 142/101 source/tip-stage K reconstruction VERIFIED
+
+[Complete original 28-batch source-stage R/C++ K replay #39723170670 PASS](https://github.com/zuizui0223/turnover/actions/runs/39723170670) produced original broad **283/233 S3/prune** and strict **142/101 S3/prune** K successes, with maximum historical per-pair K/log-K numerical difference **0.0**. The original 142/101 identical-pair-ID K sign progression was reproduced exactly as **S3 110→121→120**, **prune 82→83→81**, with reversal counts **23/9** and **13/12** in consecutive steps.
+
+[Independent K/5,000-family-bootstrap reaggregation and durable archive #39877245159 PASS](https://github.com/zuizui0223/turnover/actions/runs/39877245159) preserved all **60** fresh derived K results, batch audits, aggregate and provenance files under `results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/`. This fully reproduces the article's second primary result as a **computation on the original public AusTraits compilation**, not an independent biological or causal test. Original 254 separate single-trait K reference fits and original-study citation/metadata approval remain outstanding. The PR is still Draft/unmerged/unsubmitted.
+
+---
+
 ## 2026-10-22 — Complete public AusTraits v7 original 760 matched-tip K recomputation VERIFIED
 
 [All 24 fresh numerical R/C++ K batches and independent final aggregation #39713644617 PASS](https://github.com/zuizui0223/turnover/actions/runs/39713644617): S3 **760 K PASS** (reproductive-higher **313/406**), native-prune **747 PASS / 13 HOLD** (reproductive-higher **314/397**). The **maximum absolute numeric K/log-K discrepancy was 0.0** against the exact original 24 pre-existing K batches. Each comparison reused the original common-species support, same native tree builder, exact public AusTraits v7.0.0 parquet (file SHA256), and unchanged K estimator. This is complete **computational reproduction of the original 760 matched-tip K comparisons**, not a new biological observation or an independent validation of organ-function constraints.

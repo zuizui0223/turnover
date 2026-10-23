@@ -1,0 +1,141 @@
+{
+  "maximum_absolute_numeric_discrepancy": 0.0,
+  "n_original_pair_fits_freshly_computed": 425,
+  "n_original_real_tree_K_passes": {
+    "S3": 425,
+    "prune_only": 334
+  },
+  "n_preserved_files": 60,
+  "new_K_effects_fitted_by_this_archiver": 0,
+  "original_AusTraits_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_nonflora_reference_manifest_sha256": "b951187dae9a9c8865b0369782ba3dfdbf9d0b2c58323c396d3fada17bfe8abe",
+  "original_species_level_values_committed": false,
+  "preserved_file_sha256": {
+    "broad_283_aggregate.json": "e046a726cf922543ec3302fd8f6f114778c40e9fc94d097c04e3d1216f904263",
+    "broad_B01_audit.json": "be7e0ca4c6ac48be4b51ea44c7facd17198a82a94d25cb37039ca5b08cfad4df",
+    "broad_B01_fresh.json": "b1cc009afa8830e1968844dd6ed1e739d700ab3276ac1af1419390dac8dfb3ce",
+    "broad_B02_audit.json": "549d98d46d4b306bc19a87165432c16bb3464cc517d7412387b6b1185e876fa6",
+    "broad_B02_fresh.json": "ee0ba0f8314241cd4673cf5640cfafdf5536b1117393a5181a67e8d93d745e9e",
+    "broad_B03_audit.json": "ab7a7777b332d514ed1955e44b8085f38edfcb9960e9f248de95141d7ab7a3af",
+    "broad_B03_fresh.json": "1fd7d5751b0549fb0ce168b084471366e938d5c482a40887979e5f32cb06edad",
+    "broad_B04_audit.json": "f38b90a598d028ebad949b7e3a105de7e8e29accc233982a8d7a1e3f8eea2e3d",
+    "broad_B04_fresh.json": "2d2a90958c4b2c526fde9cbbf07f3d3f5c19523bf22e104e0c7704bf07aaa6f9",
+    "broad_B05_audit.json": "f420fbe62a5b997021c1be496c1e588083362cc4c33603c343ec855e98653970",
+    "broad_B05_fresh.json": "1f2328124eee02547fe0efc5727c918e38e2faa4b48a12b69f27900b6a3cb391",
+    "broad_B06_audit.json": "9410f070d5cff40f06fd9d70aacfd26397f6f2d71ecfee068bdc02e233b589a2",
+    "broad_B06_fresh.json": "ac13c66126b7666e6212705f17ba08ebe56ddf2537f6efb5b39666e953f22b91",
+    "broad_B07_audit.json": "93e5669be4287d4fbdde5bfe28afb32b2ab5a6dee25dcec6c07814517f0863be",
+    "broad_B07_fresh.json": "8f31d481c0afdb4b7411303d505514d3c2d7ad6e49d1e5cc32b1af41503af290",
+    "broad_B08_audit.json": "f0c05527ad7542ec2db56563f1f76c08a2011bafa084bc2f41dba225c61d2b38",
+    "broad_B08_fresh.json": "c139137bd6121d32a7ec0618674700d0ff296745cf94c067db89c1aa53d1b359",
+    "broad_B09_audit.json": "c8e79525cd9faf92b2b46a590fc6ef0840fadea948af74ce98f0cf257ea7e09f",
+    "broad_B09_fresh.json": "09604b6451604128516651f360d919f08cc6a1233de8da29d4e6e61a1c1fcf72",
+    "broad_B10_audit.json": "666ce435d817f2fc006e67902283e71df5704c5c94390db358598cd4e25b0790",
+    "broad_B10_fresh.json": "3cbd50e09eeacd5092fb3a7d5664d6f11027d474c72348c861fcd4b74b98a1da",
+    "broad_B11_audit.json": "9b05955467dbc40ee0a51fb24c5d1baf7001eb1721f5e1b5be6e9647f3a3f5de",
+    "broad_B11_fresh.json": "14f798b74fbdccbfa93653b23debb5bfa4f59dce4c524f25bb28c126dc2ff0b1",
+    "broad_B12_audit.json": "2c4c504a5a2af659be3e270d19c919ec018a3af0918707b2288045deabbf01b3",
+    "broad_B12_fresh.json": "d4d3f8512e7ea3b8ebddee5105a87ca0c81794fb9d29968ca39d6fe6600ddc13",
+    "broad_B13_audit.json": "77ddf40fc3783c218c33bfd128ab51b8d81872a6f47b848a4dd070981d842ba7",
+    "broad_B13_fresh.json": "35d897718c614b8034e17737674f07cffe0d6d3a283d2615fc04766698efe0de",
+    "broad_B14_audit.json": "ccad79a6e65ed92d104883457f6c5358f6a1e276be1c67ed7988c07b3eed3145",
+    "broad_B14_fresh.json": "2250a2bb269b60235977d328889f074308f19c6af877afacbd9d01f27ad21f49",
+    "broad_B15_audit.json": "3e22537724b06ec1610fa6d999253a4eb02603cc58dddf7e9ef71f209b3ff774",
+    "broad_B15_fresh.json": "28f8e6cce082a85cc2c07ddc70cc3d4b3d5300606bd8ef10e98dd59570118c4a",
+    "broad_B16_audit.json": "616dfaa517def9ac8a8d320098ca08127e44586756332924edc9b7fa84e4bb0f",
+    "broad_B16_fresh.json": "4b6b60477173911c3bb62740eced9d4686ee286219acbf731b83d1a56d730b76",
+    "nonflora_K_three_stage_verdict.json": "b7c05520684b4d88304bfd1f81f9daf0c9b9528d4a48bdec814d1a189f6e3e1f",
+    "recomputed_3stage_transition.json": "5cba03348e4c2342db2e1df202c6036b6b265a829ac43e816388f9f84cc79397",
+    "strict_142_aggregate.json": "fc9bc62297a16db916f21704203ab1859f65dce33303a8199cb49a6596819dbb",
+    "strict_B01_audit.json": "d1436ffe45ee2fa1bddaa575995230ac792abe77e7daa0c2a6d9af3a8f87f8a5",
+    "strict_B01_fresh.json": "d3653abf1fc18e979c9c18c25aa8068fbcbc88ded7154e1518ed5a13a0c20d5b",
+    "strict_B02_audit.json": "43bde5946a88542f384388b2e9b205983b994cb3b34ce35676ba20450573313c",
+    "strict_B02_fresh.json": "2740028a8ab993237dd65f59b8cd0b1b2b0998b5a7c8be3ec60f31f6cdd9d4c4",
+    "strict_B03_audit.json": "2f1aa19d25395a9320ba4896638f4f4f11a4cf276fd4a2486e636a9146265c8a",
+    "strict_B03_fresh.json": "f952b1b676fbe91918d0a682c3cb8554091c9177170ca6fbe3b0e70566039bf1",
+    "strict_B04_audit.json": "2d6ce9ffa838588c4af3c81b09a4993e54397b65b9715926e7d45c6f5654c725",
+    "strict_B04_fresh.json": "7dabf554aa17ba33cfe192a513fc8c9f8c223475da1f9ff45f2ed82e63ed0d01",
+    "strict_B05_audit.json": "3b2d2655a35c6073e3c149d5faee0c9145f81f0ac73351356754d75a4ab0fef0",
+    "strict_B05_fresh.json": "85181d3ea2a16022e67d874bfac5c69f6059746ab739bf0cb1ac4a692967aa30",
+    "strict_B06_audit.json": "9b115a60b30cebd5111a724b546caa46f446f12c3d426d4f99453de1c475a8d5",
+    "strict_B06_fresh.json": "5cd118220cb851ee1bce82c19d66c49f0772679a2c7403bd1fdcbb73478d1ee9",
+    "strict_B07_audit.json": "6ca3b6bf9f361e5e9a93cb3768f8b86c12c2c234c0d475e11c360249e61009d6",
+    "strict_B07_fresh.json": "d6a06c8976d29e69e4f24228cfbaf8cfa3a4a80a3aa88887432d0bc60f1945aa",
+    "strict_B08_audit.json": "7c89b845d4c8efe8a9396e19cffbbdf2ee63c7ba6d091d6c201e072cb74e06aa",
+    "strict_B08_fresh.json": "1cf58822bc426d979a6fc53e413e3d4ada21b5a2da4e925da25601ee70fd9556",
+    "strict_B09_audit.json": "e242a6e0edea889fea2ba568907c5c4ffb3d75e321b1c215543a450d35c352b1",
+    "strict_B09_fresh.json": "bb1857927fbf81692cb590e0c4474c4b636a9ff2025eeeae19c9b0f3bba876b4",
+    "strict_B10_audit.json": "ce3291e247ef7bc16d9b383e0f7b63c0f6f4bc038757a36193715b4ef93d6c1e",
+    "strict_B10_fresh.json": "f1739de984bf87bf60503b8d913e7e38958a1709bec7f0994259a659b36604c1",
+    "strict_B11_audit.json": "b8a3b74979c6cc3a6cefe3cec07a670987565d9d06f9da6c4f0c6058746c54bd",
+    "strict_B11_fresh.json": "c9e11ef44e6093b4927111ecd6b04a975f0e17146486eaafbf6cd7a41fb4f927",
+    "strict_B12_audit.json": "393faaf0b0907fa933fdf8544e72476b0a96871456bc9ade6afc84666cf605c7",
+    "strict_B12_fresh.json": "9242079c9ee8388898f4ba13487a2091f66b641322aadfe578c81ca96e0bf216"
+  },
+  "source_arms": {
+    "broad": {
+      "axes": {
+        "S3": {
+          "all_nonflora_wins": 222,
+          "common_dataset_wins": 221,
+          "hold": 0,
+          "pass": 283
+        },
+        "prune_only": {
+          "all_nonflora_wins": 182,
+          "common_dataset_wins": 180,
+          "hold": 50,
+          "pass": 233
+        }
+      },
+      "n_qualified": 283
+    },
+    "strict": {
+      "axes": {
+        "S3": {
+          "all_nonflora_wins": 121,
+          "common_dataset_wins": 120,
+          "hold": 0,
+          "pass": 142
+        },
+        "prune_only": {
+          "all_nonflora_wins": 83,
+          "common_dataset_wins": 81,
+          "hold": 41,
+          "pass": 101
+        }
+      },
+      "n_qualified": 142
+    }
+  },
+  "source_verification_run_url": "https://github.com/zuizui0223/turnover/actions/runs/39723170670",
+  "status": "PASS_DURABLE_ORIGINAL_283_142_SOURCE_STAGE_RAW_K_REPRODUCTION_ARCHIVE",
+  "three_stage_identical_pair_contrasts": {
+    "S3": {
+      "reproductive_K_wins": [
+        110,
+        121,
+        120
+      ],
+      "same_original_pair_identities": 142,
+      "source_tip_then_value_sign_flips": [
+        23,
+        9
+      ]
+    },
+    "prune_only": {
+      "reproductive_K_wins": [
+        82,
+        83,
+        81
+      ],
+      "same_original_pair_identities": 101,
+      "source_tip_then_value_sign_flips": [
+        13,
+        12
+      ]
+    }
+  },
+  "underlying_original_study_independence_proven": false,
+  "workflow_run_id": 39723170670
+}

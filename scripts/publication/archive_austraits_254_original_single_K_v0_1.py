@@ -66,7 +66,11 @@ def archive(src: Path, dest: Path):
              int(c["n_input_species"])
              and int(old["n_species_prune"])==int(expected["n_species_prune"])==
              int(c["n_prune"]),
-             "Historical native S3 or prune K tip support differs")
+             "Historical native tip support mismatch for %s (%s/%s): "
+             "S3 old/CSV/core=%s/%s/%s; prune old/CSV/core=%s/%s/%s" % (
+              sid,old["family"],old["trait_name"],
+              old["n_species_S3"],expected["n_species_S3"],c["n_input_species"],
+              old["n_species_prune"],expected["n_species_prune"],c["n_prune"]))
         for field in K_FIELDS:
             a=float(old[field]); b=float(expected[field])
             need(math.isfinite(a) and math.isfinite(b),

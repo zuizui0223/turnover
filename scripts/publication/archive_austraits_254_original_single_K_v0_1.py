@@ -62,14 +62,17 @@ def archive(src: Path, dest: Path):
         need((old["family"],old["trait_name"]) in ci,
              "Historical K single-trait system not in fixed core")
         c = ci[(old["family"],old["trait_name"])]
+        # Original core includes taxa classed 'fail to bind' by V.PhyloMaker2.
+        # Native S3 K excludes them: S3 tip count = prune + bind, NOT n_input.
+        s3_core=int(c["n_prune"])+int(c["n_bind"])
         need(int(old["n_species_S3"])==int(expected["n_species_S3"])==
-             int(c["n_input_species"])
+             s3_core
              and int(old["n_species_prune"])==int(expected["n_species_prune"])==
-             int(c["n_prune"]),
+             int(c["n_prune"]) and int(c["n_input_species"])>=s3_core,
              "Historical native tip support mismatch for %s (%s/%s): "
-             "S3 old/CSV/core=%s/%s/%s; prune old/CSV/core=%s/%s/%s" % (
-              sid,old["family"],old["trait_name"],
-              old["n_species_S3"],expected["n_species_S3"],c["n_input_species"],
+             "S3 old/CSV/(prune+bind)/input=%s/%s/%s/%s; prune old/CSV/core=%s/%s/%s" % (
+              sid,old["family"],old["trait_name"],old["n_species_S3"],
+              expected["n_species_S3"],s3_core,c["n_input_species"],
               old["n_species_prune"],expected["n_species_prune"],c["n_prune"]))
         for field in K_FIELDS:
             a=float(old[field]); b=float(expected[field])

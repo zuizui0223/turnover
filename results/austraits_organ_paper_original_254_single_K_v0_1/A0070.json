@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0070",
+  "family": "Cucurbitaceae",
+  "trait_name": "fruit_width",
+  "n_species_S3": 37,
+  "n_species_prune": 34,
+  "S3_K": 0.4541,
+  "prune_K": 0.4176,
+  "S3_logK": -0.7895,
+  "prune_logK": -0.8732
+}

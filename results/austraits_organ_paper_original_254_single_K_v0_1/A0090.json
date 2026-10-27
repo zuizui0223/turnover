@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0090",
+  "family": "Elaeocarpaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 44,
+  "n_species_prune": 37,
+  "S3_K": 0.3634,
+  "prune_K": 0.2885,
+  "S3_logK": -1.0122,
+  "prune_logK": -1.243
+}

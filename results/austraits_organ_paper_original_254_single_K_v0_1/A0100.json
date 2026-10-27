@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0100",
+  "family": "Euphorbiaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 93,
+  "n_species_prune": 45,
+  "S3_K": 0.3678,
+  "prune_K": 0.317,
+  "S3_logK": -1.0003,
+  "prune_logK": -1.1489
+}

@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0215",
+  "family": "Rhamnaceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 189,
+  "n_species_prune": 53,
+  "S3_K": 0.8833,
+  "prune_K": 0.7951,
+  "S3_logK": -0.1241,
+  "prune_logK": -0.2293
+}

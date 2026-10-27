@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0219",
+  "family": "Rhamnaceae",
+  "trait_name": "seed_dry_mass",
+  "n_species_S3": 109,
+  "n_species_prune": 32,
+  "S3_K": 3.0481,
+  "prune_K": 1.733,
+  "S3_logK": 1.1145,
+  "prune_logK": 0.5499
+}

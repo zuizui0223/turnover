@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0087",
+  "family": "Elaeocarpaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 99,
+  "n_species_prune": 62,
+  "S3_K": 0.3283,
+  "prune_K": 0.2243,
+  "S3_logK": -1.1138,
+  "prune_logK": -1.4947
+}

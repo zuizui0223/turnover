@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0073",
+  "family": "Cucurbitaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 33,
+  "n_species_prune": 30,
+  "S3_K": 0.319,
+  "prune_K": 0.3176,
+  "S3_logK": -1.1424,
+  "prune_logK": -1.147
+}

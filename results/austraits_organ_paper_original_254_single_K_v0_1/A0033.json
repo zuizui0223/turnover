@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0033",
+  "family": "Asparagaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 164,
+  "n_species_prune": 43,
+  "S3_K": 0.0238,
+  "prune_K": 0.0079,
+  "S3_logK": -3.7373,
+  "prune_logK": -4.8423
+}

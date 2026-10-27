@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0154",
+  "family": "Malvaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 215,
+  "n_species_prune": 50,
+  "S3_K": 0.3543,
+  "prune_K": 0.263,
+  "S3_logK": -1.0376,
+  "prune_logK": -1.3355
+}

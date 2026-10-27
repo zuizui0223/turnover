@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0012",
+  "family": "Annonaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 45,
+  "n_species_prune": 35,
+  "S3_K": 0.2272,
+  "prune_K": 0.1629,
+  "S3_logK": -1.4817,
+  "prune_logK": -1.8147
+}

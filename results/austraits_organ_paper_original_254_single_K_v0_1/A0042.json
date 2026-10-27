@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0042",
+  "family": "Asteraceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 1224,
+  "n_species_prune": 542,
+  "S3_K": 0.0295,
+  "prune_K": 0.0204,
+  "S3_logK": -3.5233,
+  "prune_logK": -3.8918
+}

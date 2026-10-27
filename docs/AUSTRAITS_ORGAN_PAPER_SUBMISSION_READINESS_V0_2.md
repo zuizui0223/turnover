@@ -1,3 +1,13 @@
+## 2026-10-28 — Original 254 single-trait phytools K references permanently archived; full-source replay in progress
+
+**Completed:** [original R K archive #40540814335 PASS](https://github.com/zuizui0223/turnover/actions/runs/40540814335) froze **all 254 original K systems** (42 families, 13 named traits) as nonraw original JSON values, with per-file SHA256, before historical Actions artifacts expire on 7 November. Exact original K source and core cohorts remain pinned in \`results/austraits_organ_paper_original_254_single_K_v0_1/\`. An actual original-data cardinality diagnostic showed that final S3 tree-tip counts may differ from eligible source and crosswalk-count figures; the original K output's realized native-tree tip numbers, not crosswalk statuses, are authoritative for numerical regression.
+
+**Started, NOT yet fully verified:** [all-original-254 public-AusTraits v7 phytools K replay #40541276639](https://github.com/zuizui0223/turnover/actions/runs/40541276639) uses the unchanged R K estimator and pinned V.PhyloMaker2/native units in 16 original balanced batch jobs. At most recently verified status **K03, K05 and K07 numerical original-value comparisons passed, 0 failed**. Its final independent full-254 K aggregation has **not** yet passed. Do not mark the original 254 reference calculations as cleanly replicated until that final status is actually recorded. [Detailed reproduction and caveats](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORIGINAL_254_SINGLE_K_REPRODUCTION_V0_1.md).
+
+The paper's original **760 same-tip K** and **283/142 source-stage K** matched-pair analyses have already been fully computed with original-public-v7 numeric parity and permanently archived. This 254 technical replay does not add a new biological sample, undo original post-selection, or establish independent primary measurement confirmation. Journal original contributing-study credit, data/metadata access, author declarations/consent and submission approval are still outstanding. **PR #38 stays Draft/unmerged/unsubmitted.**
+
+---
+
 ## 2026-10-23 — Complete original 283/142 nonflora and 142/101 source/tip-stage K reconstruction VERIFIED
 
 [Complete original 28-batch source-stage R/C++ K replay #39723170670 PASS](https://github.com/zuizui0223/turnover/actions/runs/39723170670) produced original broad **283/233 S3/prune** and strict **142/101 S3/prune** K successes, with maximum historical per-pair K/log-K numerical difference **0.0**. The original 142/101 identical-pair-ID K sign progression was reproduced exactly as **S3 110→121→120**, **prune 82→83→81**, with reversal counts **23/9** and **13/12** in consecutive steps.

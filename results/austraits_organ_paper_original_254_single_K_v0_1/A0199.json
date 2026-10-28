@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0199",
+  "family": "Proteaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 378,
+  "n_species_prune": 150,
+  "S3_K": 0.0924,
+  "prune_K": 0.0459,
+  "S3_logK": -2.3816,
+  "prune_logK": -3.0817
+}

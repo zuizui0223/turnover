@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0035",
+  "family": "Asteraceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 951,
+  "n_species_prune": 469,
+  "S3_K": 0.0486,
+  "prune_K": 0.0622,
+  "S3_logK": -3.0233,
+  "prune_logK": -2.7774
+}

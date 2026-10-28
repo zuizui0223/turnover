@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0067",
+  "family": "Chenopodiaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 181,
+  "n_species_prune": 50,
+  "S3_K": 0.1532,
+  "prune_K": 0.1484,
+  "S3_logK": -1.8758,
+  "prune_logK": -1.9078
+}

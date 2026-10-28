@@ -1,0 +1,130 @@
+name: Permanently archive verified original AusTraits 283+142 nonflora K stages v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - data/austraits_nonflora_full_replay_archive_trigger_v0_1.json
+      - .github/workflows/austraits-organ-archive-nonflora-full-3stage-K-v0-1.yml
+      - scripts/publication/archive_austraits_nonflora_replay_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  persist-source-qualified-28-original-K-batches:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pandas pyyaml numpy
+      - name: Recover completed original real-tree nonflora 3-stage full K CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/source_k build/final_source build/reaggregated build/strict build/broad
+          gh run download 39723170670 -R "$GITHUB_REPOSITORY" \
+            -n austraits-original-nonflora-source-tip-283-142-full-replay-v0-1 \
+            -D build/final_source
+          test -s build/final_source/nonflora_K_three_stage_verdict.json
+          for i in $(seq -w 1 16); do
+            gh run download 39723170670 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-nonflora-K-recomputed-broad-B$i-v0-1" -D build/source_k
+          done
+          for i in $(seq -w 1 12); do
+            gh run download 39723170670 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-nonflora-K-recomputed-strict-B$i-v0-1" -D build/source_k
+          done
+          test "$(find build/source_k -maxdepth 1 -name '*_fresh.json' | wc -l)" -eq 28
+          test "$(find build/source_k -maxdepth 1 -name '*_audit.json' | wc -l)" -eq 28
+      - name: Recheck every original K field and rebuild three-stage direction transitions
+        run: |
+          mkdir -p build/recheck_audits
+          cp build/source_k/*_audit.json build/recheck_audits/
+          python scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py \
+            --mode combine --fresh-dir build/source_k --audit-dir build/recheck_audits \
+            --output build/reaggregated/nonflora_K_three_stage_verdict.json
+          cmp -s build/reaggregated/nonflora_K_three_stage_verdict.json \
+            build/final_source/nonflora_K_three_stage_verdict.json
+          for i in $(seq -w 1 16); do
+            src=$(printf 'build/source_k/broad_B%s_fresh.json' "$i")
+            dst=$(printf 'build/broad/B%s.json' "$i")
+            cp "$src" "$dst"
+          done
+          for i in $(seq -w 1 12); do
+            src=$(printf 'build/source_k/strict_B%s_fresh.json' "$i")
+            dst=$(printf 'build/strict/B%s.json' "$i")
+            cp "$src" "$dst"
+          done
+      - name: Recalculate 5000-family bootstrap and full original source-stage aggregated K results
+        run: |
+          python scripts/analysis/aggregate_austraits_k_five_flora_exclusion_v0_1.py \
+            --batch-dir build/broad \
+            --source-support results/austraits_organ_paper_original_nonflora_K_references_v0_1/source_support_excluding_five_floras.json \
+            --original-pair-support results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json \
+            --out build/reaggregated/broad_283_aggregate.json
+          python scripts/analysis/aggregate_austraits_k_joint_nonflora_dataset_v0_1.py \
+            --batch-dir build/strict \
+            --source-support results/austraits_organ_paper_original_nonflora_K_references_v0_1/source_support_excluding_five_floras.json \
+            --original-pair-support results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json \
+            --out build/reaggregated/strict_142_aggregate.json
+          python scripts/analysis/audit_austraits_k_nonflora_cohort_transition_v0_1.py \
+            --broad build/reaggregated/broad_283_aggregate.json \
+            --joint build/reaggregated/strict_142_aggregate.json \
+            --design data/austraits_k_nonflora_cohort_transition_v0_1.json \
+            --out build/reaggregated/recomputed_3stage_transition.json
+      - name: Exact original pair, source-tip transition, family-bootstrap numeric regression
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          old=Path('results/austraits_organ_paper_original_nonflora_K_references_v0_1')
+          pairs=[('broad_283_aggregate.json','five_flora_exclusion_organ_K.json'),
+                 ('strict_142_aggregate.json','joint_nonflora_shared_source_K.json'),
+                 ('recomputed_3stage_transition.json','nonflora_283_to_142_source_support_transition.json')]
+          def assert_eq(x,y,loc='root'):
+              if isinstance(x,dict):
+                  assert isinstance(y,dict) and set(x)==set(y),('keys',loc)
+                  for k in x:assert_eq(x[k],y[k],loc+'.'+k)
+              elif isinstance(x,list):
+                  assert isinstance(y,list) and len(x)==len(y),('list',loc)
+                  for i,(a,b) in enumerate(zip(x,y)):assert_eq(a,b,loc+'[%d]'%i)
+              elif isinstance(x,(int,float)) and not isinstance(x,bool):
+                  assert isinstance(y,(int,float)) and math.isclose(x,y,rel_tol=1e-7,abs_tol=2e-8),('number',loc,x,y)
+              else:assert x==y,('identity',loc,x,y)
+          for fresh,prior in pairs:
+              assert_eq(json.loads(Path('build/reaggregated',fresh).read_text()),
+                        json.loads(Path(old,prior).read_text()))
+              print('PASS_UNMODIFIED_ORIGINAL_SOURCE_K_AGGREGATE',fresh)
+          PY
+      - name: Pin SHA256 of all 56 matched native K and QA outputs plus full 3-stage bootstrap
+        run: |
+          python scripts/publication/archive_austraits_nonflora_replay_v0_1.py \
+            --source-dir build/source_k \
+            --verdict build/final_source/nonflora_K_three_stage_verdict.json \
+            --aggregate-dir build/reaggregated \
+            --out-dir results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1 \
+            --run-id 39723170670
+          test "$(find results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1 -maxdepth 1 -type f | wc -l)" -eq 61
+      - name: Commit original source-replayed derived K summaries and permanent SHA manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_NONFLORA_K_ARCHIVE_ALREADY_IDENTICAL
+          else
+            git commit -m "Permanently preserve exact original nonflora three-stage 283 and 142 K replay"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-nonflora-3stage-K-permanent-archive-manifest-v0-1
+          path: results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_replay_archive_manifest.json
+          retention-days: 90
+          if-no-files-found: error

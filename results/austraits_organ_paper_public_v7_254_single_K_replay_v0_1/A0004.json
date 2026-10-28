@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0004",
+  "family": "Amaranthaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 144,
+  "n_species_prune": 23,
+  "S3_K": 0.0931,
+  "prune_K": 0.2881,
+  "S3_logK": -2.3737,
+  "prune_logK": -1.2446
+}

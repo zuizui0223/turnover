@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0132",
+  "family": "Hydrocharitaceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 36,
+  "n_species_prune": 21,
+  "S3_K": 0.013,
+  "prune_K": 0.0063,
+  "S3_logK": -4.3436,
+  "prune_logK": -5.0694
+}

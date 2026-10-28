@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0139",
+  "family": "Lamiaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 254,
+  "n_species_prune": 102,
+  "S3_K": 0.356,
+  "prune_K": 0.315,
+  "S3_logK": -1.0327,
+  "prune_logK": -1.1552
+}

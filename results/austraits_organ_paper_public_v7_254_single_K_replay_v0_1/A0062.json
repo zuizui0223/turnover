@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0062",
+  "family": "Celastraceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 35,
+  "n_species_prune": 26,
+  "S3_K": 0.0428,
+  "prune_K": 0.0579,
+  "S3_logK": -3.1513,
+  "prune_logK": -2.8486
+}

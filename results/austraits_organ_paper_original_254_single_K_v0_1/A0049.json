@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0049",
+  "family": "Caryophyllaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 60,
+  "n_species_prune": 27,
+  "S3_K": 0.4622,
+  "prune_K": 0.4875,
+  "S3_logK": -0.7717,
+  "prune_logK": -0.7184
+}

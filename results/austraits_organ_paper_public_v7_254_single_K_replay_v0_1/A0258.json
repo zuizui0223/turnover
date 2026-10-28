@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0258",
+  "family": "Thymelaeaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 115,
+  "n_species_prune": 38,
+  "S3_K": 0.3336,
+  "prune_K": 0.0706,
+  "S3_logK": -1.0979,
+  "prune_logK": -2.6509
+}

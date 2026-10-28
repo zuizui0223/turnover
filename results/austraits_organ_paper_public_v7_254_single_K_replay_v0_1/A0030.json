@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0030",
+  "family": "Arecaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 30,
+  "n_species_prune": 28,
+  "S3_K": 0.1322,
+  "prune_K": 0.1519,
+  "S3_logK": -2.0233,
+  "prune_logK": -1.8843
+}

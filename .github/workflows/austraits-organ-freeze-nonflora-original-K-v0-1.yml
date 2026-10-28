@@ -1,0 +1,77 @@
+name: Preserve original AusTraits 283 and 142 nonflora K source references v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-freeze-nonflora-original-K-v0-1.yml
+      - scripts/publication/freeze_austraits_nonflora_original_source_K_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  preserve-original-source-restriction-matrices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve exact original K-blind nonflora source support and 283 broad K aggregate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/nonflora_support build/broad_summary build/original_broad build/original_strict
+          gh run download 38920414545 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-support-v0-1 -D build/nonflora_support
+          gh run download 38922133371 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-five-flora-exclusion-283-final-v0-1 -D build/broad_summary
+          test -s build/nonflora_support/source_support_excluding_five_floras.json
+          test -s build/broad_summary/five_flora_exclusion_organ_K.json
+      - name: Retrieve and validate all original 16 broader and 12 strict real-tree K batches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq -w 1 16); do
+            gh run download 38922133371 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-k-five-flora-excluded-B$i-v0-1" -D build/original_broad
+          done
+          for i in $(seq -w 1 12); do
+            gh run download 39006469805 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-k-joint-nonflora-source-B$i-v0-1" -D build/original_strict
+          done
+          test "$(find build/original_broad -maxdepth 1 -name 'B??.json' | wc -l)" -eq 16
+          test "$(find build/original_strict -maxdepth 1 -name 'B??.json' | wc -l)" -eq 12
+      - name: Original source, 283/142 batch and three-stage direction checks before archiving
+        run: |
+          python scripts/publication/freeze_austraits_nonflora_original_source_K_v0_1.py \
+            --support build/nonflora_support/source_support_excluding_five_floras.json \
+            --original-pair-support results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+            --design data/austraits_joint_nonflora_shared_dataset_K_design_v0_1.json \
+            --broad-dir build/original_broad \
+            --strict-dir build/original_strict \
+            --broad-summary build/broad_summary/five_flora_exclusion_organ_K.json \
+            --strict-summary results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/joint_nonflora_shared_source_K.json \
+            --transition results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/nonflora_283_to_142_source_support_transition.json \
+            --out-dir results/austraits_organ_paper_original_nonflora_K_references_v0_1
+          test "$(find results/austraits_organ_paper_original_nonflora_K_references_v0_1 -maxdepth 1 -type f | wc -l)" -eq 33
+      - name: Commit only original aggregate source support, results and exact SHA256 proofs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_original_nonflora_K_references_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_SOURCE_ARCHIVE_ALREADY_IDENTICAL
+          else
+            git commit -m "Preserve original 283/142 source-stage K batches and K-blind cohort support"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-nonflora-original-283-142-stage-K-archive-manifest-v0-1
+          path: results/austraits_organ_paper_original_nonflora_K_references_v0_1/original_nonflora_reference_manifest.json
+          retention-days: 90
+          if-no-files-found: error

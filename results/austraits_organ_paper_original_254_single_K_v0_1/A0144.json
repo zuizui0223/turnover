@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0144",
+  "family": "Lauraceae",
+  "trait_name": "fruit_width",
+  "n_species_S3": 133,
+  "n_species_prune": 29,
+  "S3_K": 0.151,
+  "prune_K": 0.0505,
+  "S3_logK": -1.8905,
+  "prune_logK": -2.9856
+}

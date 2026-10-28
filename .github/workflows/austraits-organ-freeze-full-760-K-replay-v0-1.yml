@@ -1,0 +1,74 @@
+name: Permanently archive verified public AusTraits full-760 K replay v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-freeze-full-760-K-replay-v0-1.yml
+      - scripts/publication/archive_austraits_organ_full_760_raw_K_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  preserve-successful-full-public-source-rerun:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve verified full-760 original run including all 24 K batches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/replayed_K build/historical_verdict build/rechecked
+          gh run download 39713644617 -R "$GITHUB_REPOSITORY" \
+            -n austraits-public-v7-all-760-recomputed-K-final-audit-v0-1 \
+            -D build/historical_verdict
+          test -s build/historical_verdict/all_760_native_K_regression.json
+          for i in $(seq -w 1 24); do
+            gh run download 39713644617 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-v7-original-K-full-B$i-v0-1" \
+              -D build/replayed_K
+          done
+          test "$(find build/replayed_K -maxdepth 1 -name 'B??_fresh.json' | wc -l)" -eq 24
+          test "$(find build/replayed_K -maxdepth 1 -name 'B??_audit.json' | wc -l)" -eq 24
+      - name: Pin original SHA256 outputs, full K source provenance and no raw measurements
+        run: |
+          python scripts/publication/archive_austraits_organ_full_760_raw_K_v0_1.py \
+            --input-dir build/replayed_K \
+            --original-verdict build/historical_verdict/all_760_native_K_regression.json \
+            --out-dir results/austraits_organ_paper_public_v7_full_K_replay_v0_1 \
+            --run-id 39713644617
+          test "$(find results/austraits_organ_paper_public_v7_full_K_replay_v0_1 -maxdepth 1 -type f | wc -l)" -eq 50
+      - name: Independently repeat all 760 numerical comparisons on downloaded original outputs
+        run: |
+          python scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py \
+            --mode summarize \
+            --fresh-dir build/replayed_K \
+            --audit-dir build/replayed_K \
+            --output build/rechecked/full_K_rechecked.json
+          cmp -s build/rechecked/full_K_rechecked.json \
+            build/historical_verdict/all_760_native_K_regression.json
+          grep -q PASS_ALL_760_RAW_SOURCE_K_RECOMPUTED_AND_MATCHED \
+            build/rechecked/full_K_rechecked.json
+      - name: Commit only original fully reproduced aggregate K outputs and proof
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_public_v7_full_K_replay_v0_1/
+          if git diff --cached --quiet; then
+            echo FULL_REPLAY_ARCHIVE_ALREADY_IDENTICAL
+          else
+            git commit -m "Permanently preserve clean-source full 760 native K numerical reproduction"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-full-760-raw-K-longterm-archive-integrity-v0-1
+          path: results/austraits_organ_paper_public_v7_full_K_replay_v0_1/reproduction_archive_manifest.json
+          retention-days: 90
+          if-no-files-found: error

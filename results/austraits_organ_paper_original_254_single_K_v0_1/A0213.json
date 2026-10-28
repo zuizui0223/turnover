@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0213",
+  "family": "Restionaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 121,
+  "n_species_prune": 53,
+  "S3_K": 0.1202,
+  "prune_K": 0.0856,
+  "S3_logK": -2.1188,
+  "prune_logK": -2.4578
+}

@@ -1,0 +1,23 @@
+{
+  "arm": "strict",
+  "axes": {
+    "S3": {
+      "all_nonflora_wins": 18,
+      "common_dataset_wins": 16,
+      "hold": 0,
+      "pass": 19
+    },
+    "prune_only": {
+      "all_nonflora_wins": 9,
+      "common_dataset_wins": 7,
+      "hold": 9,
+      "pass": 10
+    }
+  },
+  "batch": "B11",
+  "independent_primary_study_replication": false,
+  "max_absolute_K_or_logK_difference": 0.0,
+  "n_pairs": 19,
+  "new_biological_effects": 0,
+  "status": "PASS_ORIGINAL_NONFLORA_SOURCE_K_BATCH_NUMERIC_REGRESSION"
+}

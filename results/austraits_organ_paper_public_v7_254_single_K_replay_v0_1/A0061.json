@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0061",
+  "family": "Celastraceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 54,
+  "n_species_prune": 29,
+  "S3_K": 0.4535,
+  "prune_K": 0.2973,
+  "S3_logK": -0.7909,
+  "prune_logK": -1.213
+}

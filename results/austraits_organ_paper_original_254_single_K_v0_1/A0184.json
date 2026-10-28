@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0184",
+  "family": "Poaceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 1267,
+  "n_species_prune": 456,
+  "S3_K": 0.024,
+  "prune_K": 0.0164,
+  "S3_logK": -3.7315,
+  "prune_logK": -4.1119
+}

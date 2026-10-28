@@ -1,0 +1,13 @@
+{
+  "archive_byte_size": 1800889,
+  "archive_sha256": "0eb593f07003c55f3a1e2b66e66b64cdd115700d253f8a5a36ac7d3d74a0e1f0",
+  "journal_submitted": false,
+  "new_code_archive_DOI_registered": false,
+  "original_public_dataset_DOI": "10.5281/zenodo.15718081",
+  "original_source_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "raw_observation_measurements_bundled": false,
+  "repository_files_in_zip": 1037,
+  "source_commit_sha": "fe63f622edb8a8ec23b86673300e582140c8f7b7",
+  "status": "PASS_REVIEW_SNAPSHOT_ARCHIVE_NOT_PUBLISHED_OR_DEPOSITED",
+  "study_citation_author_approved": false
+}

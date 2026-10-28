@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0023",
+  "family": "Arecaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 59,
+  "n_species_prune": 50,
+  "S3_K": 0.1877,
+  "prune_K": 0.1885,
+  "S3_logK": -1.6729,
+  "prune_logK": -1.6686
+}

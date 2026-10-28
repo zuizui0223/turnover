@@ -1,0 +1,62 @@
+{
+  "NOT_independent_primary_measurement_validation": true,
+  "five_flora_source_exclusion_fixed": [
+    "ABRS_2023",
+    "NHNSW_2023",
+    "RBGV_2023",
+    "NTH_2023",
+    "SAH_2023"
+  ],
+  "joint_nonflora_and_identical_source_post_outcome_exploratory": true,
+  "n_original_K_blind_source_selected_pairs": 1,
+  "no_species_observation_IDs_or_raw_trait_measurements_persisted": true,
+  "not_independent_primary_measurement_validation": true,
+  "pairs": [
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1419812473157993,
+          "K_full_B": 0.1129681213177446,
+          "K_source_A": 0.1335410940883374,
+          "K_source_B": 0.1082663301344405,
+          "delta_full": 0.2285893210452252,
+          "delta_source": 0.2098150401091745,
+          "delta_source_measurements": -0.01877428093605071,
+          "n_tips": 1073,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.105271170106872,
+          "K_full_B": 0.1202431451307681,
+          "K_source_A": 0.09556722924173813,
+          "K_source_B": 0.1009604751916647,
+          "delta_full": -0.1329763087172293,
+          "delta_source": -0.05489913458092355,
+          "delta_source_measurements": 0.07807717413630577,
+          "n_tips": 382,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_lost_after_source_median": 0,
+      "n_same_source_positive_species": 1073,
+      "n_source_positive_dataset_common": 1073,
+      "pair_id": "Q001",
+      "system_A": "A0112",
+      "system_B": "A0116",
+      "trait_A": "plant_height",
+      "trait_B": "seed_length"
+    }
+  ],
+  "post_organ_and_760_K_outcome_source_robustness": true,
+  "same_AusTraits_dataset_id_not_same_specimen": true,
+  "source_arm_semantics": {
+    "full_A_B": "All remaining nonflora DatasetIDs for each retained native species, NOT the original all-AusTraits full-source state",
+    "same_matched_taxa_and_native_phylogeny_for_both_source_arms": true,
+    "source_A_B": "Only the remaining DatasetIDs with positive measurements of BOTH organs on each SAME species"
+  },
+  "status": "AUSTRAITS_K_JOINT_NONFLORA_SHARED_DATASET_BATCH_COMPLETE",
+  "version": "v0.1"
+}

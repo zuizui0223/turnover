@@ -1,0 +1,78 @@
+{
+  "file_count": 32,
+  "file_sha256": {
+    "broad_B01.json": "b1cc009afa8830e1968844dd6ed1e739d700ab3276ac1af1419390dac8dfb3ce",
+    "broad_B02.json": "ee0ba0f8314241cd4673cf5640cfafdf5536b1117393a5181a67e8d93d745e9e",
+    "broad_B03.json": "1fd7d5751b0549fb0ce168b084471366e938d5c482a40887979e5f32cb06edad",
+    "broad_B04.json": "2d2a90958c4b2c526fde9cbbf07f3d3f5c19523bf22e104e0c7704bf07aaa6f9",
+    "broad_B05.json": "1f2328124eee02547fe0efc5727c918e38e2faa4b48a12b69f27900b6a3cb391",
+    "broad_B06.json": "ac13c66126b7666e6212705f17ba08ebe56ddf2537f6efb5b39666e953f22b91",
+    "broad_B07.json": "8f31d481c0afdb4b7411303d505514d3c2d7ad6e49d1e5cc32b1af41503af290",
+    "broad_B08.json": "c139137bd6121d32a7ec0618674700d0ff296745cf94c067db89c1aa53d1b359",
+    "broad_B09.json": "09604b6451604128516651f360d919f08cc6a1233de8da29d4e6e61a1c1fcf72",
+    "broad_B10.json": "3cbd50e09eeacd5092fb3a7d5664d6f11027d474c72348c861fcd4b74b98a1da",
+    "broad_B11.json": "14f798b74fbdccbfa93653b23debb5bfa4f59dce4c524f25bb28c126dc2ff0b1",
+    "broad_B12.json": "d4d3f8512e7ea3b8ebddee5105a87ca0c81794fb9d29968ca39d6fe6600ddc13",
+    "broad_B13.json": "35d897718c614b8034e17737674f07cffe0d6d3a283d2615fc04766698efe0de",
+    "broad_B14.json": "2250a2bb269b60235977d328889f074308f19c6af877afacbd9d01f27ad21f49",
+    "broad_B15.json": "28f8e6cce082a85cc2c07ddc70cc3d4b3d5300606bd8ef10e98dd59570118c4a",
+    "broad_B16.json": "4b6b60477173911c3bb62740eced9d4686ee286219acbf731b83d1a56d730b76",
+    "five_flora_exclusion_organ_K.json": "e046a726cf922543ec3302fd8f6f114778c40e9fc94d097c04e3d1216f904263",
+    "joint_nonflora_shared_source_K.json": "fc9bc62297a16db916f21704203ab1859f65dce33303a8199cb49a6596819dbb",
+    "nonflora_283_to_142_source_support_transition.json": "5cba03348e4c2342db2e1df202c6036b6b265a829ac43e816388f9f84cc79397",
+    "source_support_excluding_five_floras.json": "2870909f97d492400d7a3f6978f94689e5a829ed719cd48340d0633c0f9c83d5",
+    "strict_B01.json": "d3653abf1fc18e979c9c18c25aa8068fbcbc88ded7154e1518ed5a13a0c20d5b",
+    "strict_B02.json": "2740028a8ab993237dd65f59b8cd0b1b2b0998b5a7c8be3ec60f31f6cdd9d4c4",
+    "strict_B03.json": "f952b1b676fbe91918d0a682c3cb8554091c9177170ca6fbe3b0e70566039bf1",
+    "strict_B04.json": "7dabf554aa17ba33cfe192a513fc8c9f8c223475da1f9ff45f2ed82e63ed0d01",
+    "strict_B05.json": "85181d3ea2a16022e67d874bfac5c69f6059746ab739bf0cb1ac4a692967aa30",
+    "strict_B06.json": "5cd118220cb851ee1bce82c19d66c49f0772679a2c7403bd1fdcbb73478d1ee9",
+    "strict_B07.json": "d6a06c8976d29e69e4f24228cfbaf8cfa3a4a80a3aa88887432d0bc60f1945aa",
+    "strict_B08.json": "1cf58822bc426d979a6fc53e413e3d4ada21b5a2da4e925da25601ee70fd9556",
+    "strict_B09.json": "bb1857927fbf81692cb590e0c4474c4b636a9ff2025eeeae19c9b0f3bba876b4",
+    "strict_B10.json": "f1739de984bf87bf60503b8d913e7e38958a1709bec7f0994259a659b36604c1",
+    "strict_B11.json": "c9e11ef44e6093b4927111ecd6b04a975f0e17146486eaafbf6cd7a41fb4f927",
+    "strict_B12.json": "9242079c9ee8388898f4ba13487a2091f66b641322aadfe578c81ca96e0bf216"
+  },
+  "historical_original_batch_counts": {
+    "broad": {
+      "batches": 16,
+      "native_pass": {
+        "S3": 283,
+        "prune_only": 233
+      },
+      "pairs": 283
+    },
+    "strict": {
+      "batches": 12,
+      "native_pass": {
+        "S3": 142,
+        "prune_only": 101
+      },
+      "pairs": 142
+    }
+  },
+  "independent_source_replication": false,
+  "new_K_estimation": false,
+  "note": "Retrospective original AusTraits source/tip cohort, not a new trait mechanism.",
+  "original_broad_K_run_id": 38922133371,
+  "original_public_v7_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_source_support_run_id": 38920414545,
+  "original_strict_K_run_id": 39006469805,
+  "original_three_stage_reproductive_wins": {
+    "S3": [
+      110,
+      121,
+      120
+    ],
+    "prune_only": [
+      82,
+      83,
+      81
+    ]
+  },
+  "original_transition_run_id": 39202352075,
+  "raw_original_species_measurements_archived": false,
+  "source_only_eligible_strict_pairs": 142,
+  "status": "PASS_PERMANENT_AUSTRAITS_ORIGINAL_NONFLORA_SOURCE_K_REFERENCE"
+}

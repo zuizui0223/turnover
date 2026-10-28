@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0109",
+  "family": "Fabaceae",
+  "trait_name": "leaf_mass_per_area",
+  "n_species_S3": 390,
+  "n_species_prune": 191,
+  "S3_K": 0.1572,
+  "prune_K": 0.2189,
+  "S3_logK": -1.8505,
+  "prune_logK": -1.519
+}

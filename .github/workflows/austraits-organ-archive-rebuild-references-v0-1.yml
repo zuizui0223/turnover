@@ -1,0 +1,58 @@
+name: Archive original AusTraits K rebuild references v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-archive-rebuild-references-v0-1.yml
+      - scripts/publication/freeze_austraits_organ_rebuild_references_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  original-aggregate-archive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve original short-lived aggregate artifacts before expiry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/core build/K build/support
+          gh run download 37561341286 -R "$GITHUB_REPOSITORY" -n austraits-exact-final-core-v0-6-5 -D build/core
+          gh run download 37725935020 -R "$GITHUB_REPOSITORY" -n austraits-blomberg-k-effects-v0-1 -D build/K
+          gh run download 38673955087 -R "$GITHUB_REPOSITORY" -n austraits-k-shared-taxon-pair-support-v0-1 -D build/support
+          test -s build/core/core/core_systems.csv
+          test -s build/K/effects.csv
+          test -s build/support/shared_taxon_pair_support.json
+      - name: Validate original graph and permanently freeze exact aggregate source bytes
+        run: |
+          python scripts/publication/freeze_austraits_organ_rebuild_references_v0_1.py \
+            --core build/core/core/core_systems.csv \
+            --effects build/K/effects.csv \
+            --support build/support/shared_taxon_pair_support.json \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --out-dir results/austraits_organ_paper_frozen_rebuild_inputs_v0_1
+      - name: Commit strictly aggregate-only K and source support snapshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/
+          if git diff --cached --quiet; then
+            echo ARCHIVE_ALREADY_IDENTICAL
+          else
+            git commit -m "Archive original AusTraits 254-system K and 760-pair support references"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-original-rebuild-reference-manifest-v0-1
+          path: results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/frozen_rebuild_manifest.json
+          retention-days: 90
+          if-no-files-found: error

@@ -7,6 +7,7 @@ No new K, statistics, source records or network queries. PASS means the
 from __future__ import annotations
 
 import argparse
+import csv
 import copy
 import hashlib
 import json
@@ -51,6 +52,11 @@ def text_checks(manuscript: str, decision: str):
          "254 original single-trait K" in decision and
          "same original AusTraits" in manuscript,
          "Full historical single-system 254 K evidence or original-data limit missing")
+    need("23,122 (73.6%)" in manuscript and
+         "44 DatasetIDs" in manuscript and "190 DatasetIDs" in manuscript and
+         "51 distinct citation keys" in manuscript and
+         "190 DatasetID" in decision and "original-study" in decision.lower(),
+         "Original source concentration/citation gaps or original-study limits missing")
     need("Data Accessibility Statement" in manuscript,
          "Candidate venue requires Data Accessibility Statement wording")
     need("not" in manuscript.casefold() and
@@ -208,11 +214,90 @@ def validate_original_254_single_K_replay(repo: Path):
     return m
 
 
+def validate_original_source_credit_audit(repo: Path):
+    """Verify real original-v7 DatasetID and BibTeX coverage without author approval."""
+    original = repo / Path("results/austraits_organ_paper_source_citation_inventory_v0_1")
+    compact = repo / Path("results/austraits_organ_paper_compact_source_credit_review_v0_1")
+    a = json.loads((original / "original_K_source_citation_audit_verdict.json").read_text())
+    need(a["status"] ==
+         "PASS_PUBLIC_V7_ORIGINAL_K_CONTRIBUTING_SOURCE_INVENTORY_WITH_HUMAN_ATTRIBUTION_GAPS"
+         and a["original_fixed_qualified_systems"] == 254
+         and a["original_matched_pair_identities"] == 760
+         and a["original_strict_source_pair_identities"] == 142
+         and a["no_raw_species_names_observation_ids_trait_values_exported"] is True
+         and a["no_new_K_or_biological_models_fitted"] is True
+         and a["citation_selection_currently_human_approved"] is False,
+         "Original v7 source attribution cohort or scientific caveat changed")
+    by_tier = a["exposure_by_original_K_analysis_tier"]
+    need(by_tier["original_254_systems"]["n_distinct_datasets"] == 190
+         and by_tier["original_760_matched_pairs"]["n_distinct_datasets"] == 190
+         and by_tier["strict_142_same_DatasetID"]["n_distinct_datasets"] == 44
+         and by_tier["strict_142_same_DatasetID"][
+             "n_original_deduplicated_measurement_rows_in_qualified_states"] == 31401,
+         "Original source DatasetID/row exposure no longer matches published audit")
+    for name, expected_sha in a["aggregate_inventory_files_sha256"].items():
+        p = original / name
+        need(p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest() == expected_sha,
+             "Original v7 source citation/record exposure was changed: " + name)
+    c = json.loads((compact / "original_source_citation_priority_verdict.json").read_text())
+    need(c["status"] == "PASS_COMPACT_DATASET_CITATION_REVIEW_INDEX_WITH_HUMAN_GATES"
+         and c["original_source_audit_sha256"] ==
+             hashlib.sha256((original / "original_K_source_citation_audit_verdict.json").read_bytes()).hexdigest()
+         and c["all_original_K_dataset_ids"] == 190
+         and c["source_DatasetIDs_in_strict_142_K"] == 44
+         and c["n_compact_dataset_credit_review_rows"] == 190
+         and c["original_citation_roles_review_rows"] == 299
+         and c["source_reference_BibTeX"]["n_source_bibtex_entries_exported"] == 247
+         and len(c["source_reference_BibTeX"]["unresolved_source_bibtex_keys"]) == 51
+         and c["missing_primary_citation_datasets"] == 0,
+         "Original public-v7 source bibliography review changed")
+    need(c["citation_selection_author_confirmed"] is False
+         and c["journal_citable_code_DOI_created"] is False
+         and c["journal_full_data_metadata_requirements_verified"] is False
+         and c["no_original_source_species_or_observation_ids_or_values_released"] is True
+         and c["no_new_evolutionary_process_or_K_fits"] is True,
+         "Original source citation review is not human approval or journal readiness")
+    for name, expected_sha in c["files_sha256"].items():
+        p = compact / name
+        need(p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest() == expected_sha,
+             "Source-credit BibTeX/index SHA256 changed: " + name)
+    with (compact / "dataset_priority_and_credit_gaps.csv").open(
+            newline="",encoding="utf-8") as fp:
+        rows = list(csv.DictReader(fp))
+    p0=[r for r in rows if r["review_priority"] == "P0_STRICT_142"]
+    need(len(rows) == 190 and len(p0) == 44,
+         "Manuscript strict source credit priority does not match original 142 cohort")
+    top=sorted(p0,key=lambda r:-int(r["n_source_rows_strict_142"]))[:5]
+    need([r["dataset_id"] for r in top] == [
+         "Kooyman_2011", "Maslin_2012", "Cooper_2013",
+         "GrassBase_2014", "Everingham_2020"]
+         and sum(int(r["n_source_rows_strict_142"]) for r in top) == 23122,
+         "Original public-v7 five-source concentration changed")
+    flags={}
+    for label in ("UNRESOLVED_BIBTEX_REFERENCE",
+                  "SECONDARY_OR_ORIGINAL_DATASET_CREDIT_NEEDED",
+                  "MULTIPLE_SOURCE_IDS"):
+        flags[label] = sum(label in r["source_attribution_review_flags"] for r in p0)
+    need(flags == {"UNRESOLVED_BIBTEX_REFERENCE":11,
+                   "SECONDARY_OR_ORIGINAL_DATASET_CREDIT_NEEDED":8,
+                   "MULTIPLE_SOURCE_IDS":4},
+         "Original strict 44 source-credit outstanding review cases changed")
+    return {"dataset_ids_in_original_760":190,
+            "dataset_ids_in_strict_142":44,
+            "strict_original_source_rows":31401,
+            "top_five_source_rows":23122,
+            "unresolved_original_BibTeX_keys":51,
+            "strict_dataset_flags":flags,
+            "human_approved_bibliography":False,
+            "journal_citable_code_DOI_created":False}
+
+
 def audit(repo: Path, manuscript: str, decision: str):
     keys = text_checks(manuscript, decision)
     full_replay = validate_full_replay(repo)
     nonflora_replay = validate_nonflora_full_replay(repo)
     singles = validate_original_254_single_K_replay(repo)
+    source_credit = validate_original_source_credit_audit(repo)
     source_dir = repo / SOURCE
     manifest_path = source_dir / "frozen_input_manifest.json"
     m = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -249,6 +334,12 @@ def audit(repo: Path, manuscript: str, decision: str):
         "original_nonflora_K_max_absolute_numeric_discrepancy": nonflora_replay["maximum_absolute_numeric_discrepancy"],
         "original_254_single_trait_K_reference_independently_recomputed": True,
         "original_254_single_trait_K_max_absolute_numeric_difference": singles["reported_max_abs_numeric_K_or_logK_discrepancy"],
+        "original_v7_contributing_source_attribution_inventory_verified": True,
+        "original_dataset_ids_in_matched_K": source_credit["dataset_ids_in_original_760"],
+        "original_dataset_ids_in_strict_142": source_credit["dataset_ids_in_strict_142"],
+        "unresolved_original_BibTeX_citation_keys": source_credit["unresolved_original_BibTeX_keys"],
+        "author_approved_original_source_bibliography": False,
+        "permanent_citable_analysis_code_DOI_created": False,
         "independent_primary_study_biological_replication": False,
         "journal_complete_data_metadata_code_access_verified": False,
         "approved_authors_correspondence": False,
@@ -273,6 +364,10 @@ def self_test(repo, manuscript, decision):
          and good["original_254_single_trait_K_reference_independently_recomputed"] is True
          and good["independent_primary_study_biological_replication"] is False,
          "Technical original K reproducibility confused with independent ecological evidence")
+    need(good["original_v7_contributing_source_attribution_inventory_verified"] is True
+         and good["author_approved_original_source_bibliography"] is False
+         and good["permanent_citable_analysis_code_DOI_created"] is False,
+         "Original-data citation audit incorrectly claims author approval or a code DOI")
     need(good["eligible_for_submission_claim"] is False,
          "Preflight accidentally became submission authorization")
     for wrong_manuscript, wrong_decision in [

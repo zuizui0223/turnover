@@ -55,7 +55,7 @@ def text_checks(manuscript: str, decision: str):
     need("23,122 (73.6%)" in manuscript and
          "44 DatasetIDs" in manuscript and "190 DatasetIDs" in manuscript and
          "51 distinct citation keys" in manuscript and
-         "190 DatasetID" in decision and "original-study" in decision.lower(),
+         "190 DatasetID" in decision and "original contributing-study" in decision.lower(),
          "Original source concentration/citation gaps or original-study limits missing")
     need("Data Accessibility Statement" in manuscript,
          "Candidate venue requires Data Accessibility Statement wording")

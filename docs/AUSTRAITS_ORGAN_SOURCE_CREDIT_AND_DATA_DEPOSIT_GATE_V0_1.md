@@ -59,6 +59,14 @@ Current concrete evidence:
 
 **Next human checkpoint:** coauthors should first review the top 44 strict-cohort DatasetIDs and 11 strict unresolved BibTeX mappings, confirm original study versus secondary compilation credits and acceptable source/data rights, and authorize a final data+code DOI deposit strategy. Do **not** create a Zenodo/Dryad record, claim editorial compliance, merge PR #38 or submit a manuscript on the basis of this automated citation-index alone.
 
+## Code snapshot candidate is now prepared, NOT deposited (28 October 2026)
+
+[Review-only code/derived data snapshot #40613783734 PASS](https://github.com/zuizui0223/turnover/actions/runs/40613783734) produced an independently SHA256-checked **1,037-file / 1,800,889-byte ZIP** from exact Git snapshot fe63f622edb8a8ec23b86673300e582140c8f7b7. Its ZIP SHA256 is 0eb593f07003c55f3a1e2b66e66b64cdd115700d253f8a5a36ac7d3d74a0e1f0. Exact per-file source checksums and the ZIP integrity verdict were permanently committed to results/austraits_organ_paper_code_snapshot_candidate_v0_1/, and the ZIP itself is available as a **time-limited GitHub Actions artifact**. No source-level AusTraits measurement records were redistributed.
+
+The [review-candidate scope and author approval checklist](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORGAN_CODE_SNAPSHOT_REVIEW_CANDIDATE_V0_1.md) state precisely that this is not an author-approved final release and **does not have a code DOI**. It references the existing public original AusTraits v7 data DOI/SHA, pinned source-native units, native V.PhyloMaker2 and prior full 254/760/283/142 original-data K numerical reproduction.
+
+**The concrete build-workflow gap is now closed, but the publication/DOI gate remains open.** Authors must approve bibliography/source study credit, a final immutable paper/code snapshot and appropriate versioned Zenodo or equivalent deposit licence, metadata, DOI and target-journal data+code policy. Do not create a code DOI or journal submission without explicit coauthor authorization. The current candidate commit is not automatically the latest paper PR HEAD.
+
 ## Interpretation preserved
 
 The organ K direction remains retrospective 313/406 S3 and 314/397 native prune on matched tips. The source/taxon change remains 110→121→120 S3 and 82→83→81 prune on the exact original 142/101 family×named-trait-pair identities. Source selection changes species/tree geometry jointly, while the final value substitution uses the same eligible species/tree. Neither data-source concentration nor a completed numerical reconstruction identifies evolutionary rates, developmental constraint, OU selection or causal mechanisms.

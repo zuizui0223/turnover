@@ -56,8 +56,12 @@ def archive(src:Path,verdict:Path,plan_dir:Path,dest:Path,run_id:int):
     seen={x.name for x in src.iterdir() if x.is_file()}
     need(seen==expected and len(seen)==270,
          "Single-K replay archive needs exactly 254 fresh K and 16 original batch QA files")
-    need(set(v["fresh_single_system_file_sha256"])==set(expected_original),
-         "Full verifier missing SHA digests for exactly the original 254 K records")
+    # Original archive SHA keys are A0001.json filenames; full R K replay
+    # SHA keys are A0001 system IDs. Canonicalize IDs, never change file SHA.
+    original_ids={Path(filename).stem for filename in expected_original}
+    need(len(original_ids)==254
+         and set(v["fresh_single_system_file_sha256"])==original_ids,
+         "Full verifier missing SHA digests for exactly the original 254 K systems")
     sums={"systems":0,"native_S3":0,"native_prune":0}
     hashes={}
     dest.mkdir(parents=True,exist_ok=True)

@@ -22,6 +22,10 @@ on:
       - results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/all_254_single_K_replay_archive_manifest.json
       - docs/AUSTRAITS_ORIGINAL_254_SINGLE_K_REPRODUCTION_V0_1.md
       - docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md
+      - docs/AUSTRAITS_ORGAN_CODE_SNAPSHOT_REVIEW_CANDIDATE_V0_1.md
+      - results/austraits_organ_paper_code_snapshot_candidate_v0_1/code_review_zip_integrity_verdict.json
+      - results/austraits_organ_paper_code_snapshot_candidate_v0_1/source_code_snapshot_sha256_manifest.json
+      - scripts/publication/build_austraits_organ_code_snapshot_candidate_v0_1.py
       - results/austraits_organ_paper_source_citation_inventory_v0_1/original_K_source_citation_audit_verdict.json
       - results/austraits_organ_paper_compact_source_credit_review_v0_1/original_source_citation_priority_verdict.json
       - scripts/qa/build_austraits_organ_source_credit_review_v0_1.py
@@ -121,6 +125,16 @@ jobs:
             build/review_package/qa/submission/result.json
           grep -q '"permanent_citable_analysis_code_DOI_created": false' \
             build/review_package/qa/submission/result.json
+          grep -q '"verified_code_snapshot_review_candidate_prepared": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"verified_code_snapshot_review_candidate_file_count": 1037' \
+            build/review_package/qa/submission/result.json
+          cp docs/AUSTRAITS_ORGAN_CODE_SNAPSHOT_REVIEW_CANDIDATE_V0_1.md \
+            build/review_package/code_snapshot_review_and_no_DOI_gate.md
+          cp results/austraits_organ_paper_code_snapshot_candidate_v0_1/code_review_zip_integrity_verdict.json \
+            build/review_package/code_snapshot_zip_sha256_verdict.json
+          cp results/austraits_organ_paper_code_snapshot_candidate_v0_1/source_code_snapshot_sha256_manifest.json \
+            build/review_package/code_snapshot_original_commit_and_file_hashes.json
           cp docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md \
             build/review_package/source_credit_and_data_DOI_gate.md
           cp results/austraits_organ_paper_compact_source_credit_review_v0_1/original_source_citation_priority_verdict.json \
@@ -223,7 +237,7 @@ jobs:
           zip -q -r ../austraits_organ_K_coauthor_review_v0_1.zip \
             organ_K_coauthor_manuscript.docx organ_K_coauthor_manuscript.pdf \
             organ_K_supplementary_tables.docx organ_K_supplementary_tables.pdf \
-            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json nonflora_K_reproducibility.md nonflora_K_archive_manifest.json nonflora_K_original_numeric_verdict.json nonflora_K_recomputed_3stage_aggregate.json original_254_single_K_reproducibility.md original_254_single_K_archive_manifest.json original_254_single_K_numeric_verdict.json source_credit_and_data_DOI_gate.md source_citation_priority_verdict.json source_credit_priority_datasets.csv source_credit_primary_secondary_candidates.csv source_original_v7_contributing_references.bib source_basis_of_value_audit.csv figures/ qa/
+            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json nonflora_K_reproducibility.md nonflora_K_archive_manifest.json nonflora_K_original_numeric_verdict.json nonflora_K_recomputed_3stage_aggregate.json original_254_single_K_reproducibility.md original_254_single_K_archive_manifest.json original_254_single_K_numeric_verdict.json source_credit_and_data_DOI_gate.md source_citation_priority_verdict.json source_credit_priority_datasets.csv source_credit_primary_secondary_candidates.csv source_original_v7_contributing_references.bib source_basis_of_value_audit.csv code_snapshot_review_and_no_DOI_gate.md code_snapshot_zip_sha256_verdict.json code_snapshot_original_commit_and_file_hashes.json figures/ qa/
           test -s ../austraits_organ_K_coauthor_review_v0_1.zip
       - uses: actions/upload-artifact@v4
         with:

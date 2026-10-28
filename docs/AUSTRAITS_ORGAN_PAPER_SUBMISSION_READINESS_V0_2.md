@@ -1,4 +1,14 @@
-## 2026-10-28 — Original 254 single-trait phytools K references permanently archived; full-source replay in progress
+## 2026-10-28 — All original 254 single-trait phytools K results now numerically reproduced and archived
+
+[All-254 public-source original phytools K rerun #40541276639 PASS](https://github.com/zuizui0223/turnover/actions/runs/40541276639): 16/16 original system batches and an independent final audit succeeded for **254 family-by-trait K systems across 42 families and 13 traits**. Every historical original S3/prune realized native-tree tip count and K/log-K estimate was reproduced: **maximum absolute difference 0.0** at original four-decimal storage precision.
+
+[Permanent recheck and complete derived SHA256 archive #40610003843 PASS](https://github.com/zuizui0223/turnover/actions/runs/40610003843) independently validated and committed all **254 original-v7 recomputed K JSONs, 16 numerical batch audits, final verifier and provenance manifest** to results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/. This removes the last original 254 K artifact expiration dependency and closes the full original K estimator computational reproduction sequence.
+
+The main paper's original **254 single-trait K, 760 matched-tip K and 283/142 nonflora source-restricted K** are now reproducible on the same public AusTraits v7.0.0 source. This remains exploratory, post-discovery and not an independent primary-study replication or causal/OU-rate inference. Real contributing-study credits, submission-level original metadata/data/code policy, author contributions/conflicts/funding, target journal/APC, and explicit approval remain pending. PR #38 is still Draft, unmerged and unsubmitted.
+
+---
+
+## Historical 2026-10-28 checkpoint — Original 254 K archive before the full rerun completed
 
 **Completed:** [original R K archive #40540814335 PASS](https://github.com/zuizui0223/turnover/actions/runs/40540814335) froze **all 254 original K systems** (42 families, 13 named traits) as nonraw original JSON values, with per-file SHA256, before historical Actions artifacts expire on 7 November. Exact original K source and core cohorts remain pinned in \`results/austraits_organ_paper_original_254_single_K_v0_1/\`. An actual original-data cardinality diagnostic showed that final S3 tree-tip counts may differ from eligible source and crosswalk-count figures; the original K output's realized native-tree tip numbers, not crosswalk statuses, are authoritative for numerical regression.
 

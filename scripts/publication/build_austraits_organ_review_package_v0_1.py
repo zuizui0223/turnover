@@ -94,7 +94,7 @@ def strip_front_matter(md):
     title,sep,remaining=md.partition("\n")
     must(bool(sep) and title.startswith("# "), "Original manuscript title absent")
     status=(
-      "**COAUTHOR SCIENTIFIC REVIEW DRAFT • 23 October 2026**\n\n"
+      "**COAUTHOR SCIENTIFIC REVIEW DRAFT • 28 October 2026**\n\n"
       "Exploratory, post-discovery analysis; no independent primary-source "
       "replication or verified evolutionary mechanism. Not submitted.\n\n")
     return title+"\n\n"+status+remaining.lstrip()
@@ -163,7 +163,7 @@ def build_review_sources(main_path, supp_path, media_dir, out_dir):
 
     # No bibliography fabrication, no author/title-page identity.
     supp="# Supplementary tables — coauthor review\n\n"
-    supp+="**AusTraits organ-K post-discovery analysis • 23 October 2026.** "
+    supp+="**AusTraits organ-K post-discovery analysis • 28 October 2026.** "
     supp+="The tables are reporting-only and share the main manuscript's evidence boundaries.\n\n"
     supp+=supp_path.read_text(encoding="utf-8")
     supp+="\n\n## Supplementary Figure S1. Conditional Brier scoring\n\n"
@@ -202,7 +202,7 @@ def main():
     (a.out_dir/"source_manifest.json").write_text(json.dumps(out,indent=2)+"\n")
     (a.out_dir/"README.txt").write_text(
         "AusTraits functional organ K — coauthor scientific review bundle\n"
-        "Generated 2026-10-23 from exact source-output figures and fully verified public-v7 760-K plus nonflora 283/142 source-stage K replays.\n\n"
+        "Generated 2026-10-28 from frozen figures and three verified public-v7 computational K replays: original 254 single-system, 760 matched-tip, and 283/142 nonflora source-stage.\n\n"
         "CONTENTS: Main manuscript PDF/DOCX; supplemental tables PDF/DOCX; "
         "original 2 main + 1 supplementary figure PNG/SVG; source_manifest.json and source-only QA.\n\n"
         "IMPORTANT INFERENTIAL CORRECTION: The 64.47% / 65.46% organ-only "

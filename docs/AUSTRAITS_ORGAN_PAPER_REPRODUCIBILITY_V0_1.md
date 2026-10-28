@@ -1,6 +1,14 @@
 # AusTraits organ-K paper — durable reproducibility and source citation (v0.1)
 
-**Updated: 2026-10-23.** Scope: original AusTraits v7.0.0 `turnover` paper PR #38; descriptive, **post-discovery** source/organ-K results only. This file is not a new dataset, biological fit, source-trait search, or independent replication.
+**Updated: 2026-10-28.** Scope: original AusTraits v7.0.0 `turnover` paper PR #38; descriptive, **post-discovery** source/organ-K results only. This file is not a new dataset, biological fit, source-trait search, or independent replication.
+
+## Original 254 single-trait phytools K clean-source replication (28 October 2026)
+
+[Full unchanged original R phytools K workflow #40541276639 PASS](https://github.com/zuizui0223/turnover/actions/runs/40541276639) reconstructed **all 254 single-trait K reference systems in 42 families and 13 traits** from the SHA256-pinned public AusTraits v7.0.0 source in **16/16 original batches** on both native S3 and prune phylogenies. All original per-system native-tree tip counts, K and log K values agreed with the SHA256-frozen historical R outputs: **maximum absolute discrepancy 0.0**, assessed at the original four-decimal saved precision.
+
+[Permanent 254-system replay archive #40610003843 PASS](https://github.com/zuizui0223/turnover/actions/runs/40610003843) independently rechecked and committed all **254 new K JSONs, 16 batch QA outputs, final numeric verdict and SHA256 manifest** to the [original public-v7 254 single-K directory](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1). The actual realized S3/prune native K tip counts were verified; source eligibility and V.PhyloMaker crosswalk counts can differ from final tree tip counts and were not falsely equated.
+
+**Full evidence boundary:** The original 254 single-trait K, 760 native matched-tip K, and 283 broader/142 strict nonflora source K with original 142/101 stage results and family bootstrap are now reproducible on the **same original public AusTraits v7 source**. These computations are not independent primary-study ecological replication, prospective organ-group selection or causal selection/evolutionary-rate evidence. Contributing-study attribution, complete journal data/metadata/code requirements, author declarations and explicit permission to submit remain unresolved.
 
 ## Exact primary dataset version and method citations
 

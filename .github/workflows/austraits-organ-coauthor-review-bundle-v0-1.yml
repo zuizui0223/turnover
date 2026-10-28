@@ -21,6 +21,10 @@ on:
       - results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_replay_archive_manifest.json
       - results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/all_254_single_K_replay_archive_manifest.json
       - docs/AUSTRAITS_ORIGINAL_254_SINGLE_K_REPRODUCTION_V0_1.md
+      - docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md
+      - results/austraits_organ_paper_source_citation_inventory_v0_1/original_K_source_citation_audit_verdict.json
+      - results/austraits_organ_paper_compact_source_credit_review_v0_1/original_source_citation_priority_verdict.json
+      - scripts/qa/build_austraits_organ_source_credit_review_v0_1.py
       - docs/AUSTRAITS_ORGAN_NONFLORA_SOURCE_STAGE_REBUILD_V0_1.md
       - scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py
       - docs/AUSTRAITS_ORGAN_ALL_760_RAW_K_REPRODUCTION_V0_1.md
@@ -111,6 +115,24 @@ jobs:
             build/review_package/qa/submission/result.json
           grep -q '"all_three_original_K_computational_pipelines_cleanruntime_reproduced": true' \
             build/review_package/qa/submission/result.json
+          grep -q '"original_v7_contributing_source_attribution_inventory_verified": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"author_approved_original_source_bibliography": false' \
+            build/review_package/qa/submission/result.json
+          grep -q '"permanent_citable_analysis_code_DOI_created": false' \
+            build/review_package/qa/submission/result.json
+          cp docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md \
+            build/review_package/source_credit_and_data_DOI_gate.md
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/original_source_citation_priority_verdict.json \
+            build/review_package/source_citation_priority_verdict.json
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/dataset_priority_and_credit_gaps.csv \
+            build/review_package/source_credit_priority_datasets.csv
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/cited_original_publication_candidates.csv \
+            build/review_package/source_credit_primary_secondary_candidates.csv
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/original_AusTraits_v7_contributing_citations.bib \
+            build/review_package/source_original_v7_contributing_references.bib
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/basis_of_value_review_summary.csv \
+            build/review_package/source_basis_of_value_audit.csv
           cp docs/AUSTRAITS_ORIGINAL_254_SINGLE_K_REPRODUCTION_V0_1.md \
             build/review_package/original_254_single_K_reproducibility.md
           cp results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/all_254_single_K_replay_archive_manifest.json \
@@ -189,7 +211,10 @@ jobs:
           for token in ('40541276639', '40610003843'):
               if token not in main:
                   raise AssertionError('Main PDF missing latest original 254 phytools K numerical source evidence '+token)
-          print('PDF_MATH_IDENTITY_FAMILY_AND_254_SINGLE_K_REPLAY_PASS: main/supplement proof text intact')
+          for token in ('23,122', '73.6%', '44 DatasetIDs'):
+              if token not in main:
+                  raise AssertionError('Main PDF source attribution concentration caveat missing '+token)
+          print('PDF_MATH_IDENTITY_FAMILY_254_K_AND_SOURCE_CITATION_AUDIT_PASS: proofs intact')
           PY
       - name: Create long-lived reviewer artifact with source fingerprint
         shell: bash
@@ -198,7 +223,7 @@ jobs:
           zip -q -r ../austraits_organ_K_coauthor_review_v0_1.zip \
             organ_K_coauthor_manuscript.docx organ_K_coauthor_manuscript.pdf \
             organ_K_supplementary_tables.docx organ_K_supplementary_tables.pdf \
-            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json nonflora_K_reproducibility.md nonflora_K_archive_manifest.json nonflora_K_original_numeric_verdict.json nonflora_K_recomputed_3stage_aggregate.json original_254_single_K_reproducibility.md original_254_single_K_archive_manifest.json original_254_single_K_numeric_verdict.json figures/ qa/
+            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json nonflora_K_reproducibility.md nonflora_K_archive_manifest.json nonflora_K_original_numeric_verdict.json nonflora_K_recomputed_3stage_aggregate.json original_254_single_K_reproducibility.md original_254_single_K_archive_manifest.json original_254_single_K_numeric_verdict.json source_credit_and_data_DOI_gate.md source_citation_priority_verdict.json source_credit_priority_datasets.csv source_credit_primary_secondary_candidates.csv source_original_v7_contributing_references.bib source_basis_of_value_audit.csv figures/ qa/
           test -s ../austraits_organ_K_coauthor_review_v0_1.zip
       - uses: actions/upload-artifact@v4
         with:

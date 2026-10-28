@@ -47,7 +47,7 @@ def text_checks(manuscript: str, decision: str):
     need("760 original matched-tip K comparisons" in manuscript and
          "760-pair K rerun" in decision and "same AusTraits" in decision,
          "Complete paired K technical reproduction and original-source limitations missing")
-    need("254 original single-trait K" in manuscript and
+    need("original 254 single-trait K" in manuscript and
          "254 original single-trait K" in decision and
          "same original AusTraits" in manuscript,
          "Full historical single-system 254 K evidence or original-data limit missing")

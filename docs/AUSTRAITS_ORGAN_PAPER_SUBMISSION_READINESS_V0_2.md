@@ -1,3 +1,13 @@
+## 2026-10-28 — Original v7 source credits exposed; 44 strict DatasetIDs prioritized for actual author checks
+
+[Fixed original 254/760/142 source-record eligibility and metadata audit #40612020973 PASS](https://github.com/zuizui0223/turnover/actions/runs/40612020973) found **190 contributing original DatasetIDs**, with **44** contributing to strict same-DatasetID source K. There were **31,401 original deduplicated measurement rows** in that strict analysis's surviving source records; **five DatasetIDs accounted for 23,122 (73.6%)**. This is original-data source composition, not phylogenetic or specimen-level independence evidence.
+
+[Compact coauthor source credit / original BibTeX review #40612516608 PASS](https://github.com/zuizui0223/turnover/actions/runs/40612516608) assembled 190 prioritized dataset entries, 299 citation-role keys/entries, 247 resolved original-v7 bibliography entries and **51 unresolved BibTeX keys**. **Eleven** strict DatasetIDs have at least one unresolved BibTeX-key mapping, **eight** have secondary/original-source review flags and **four** require multiple-source-ID tracing. These human credit tasks remain unapproved. [Full audit and Wiley source data/code gate memo](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md).
+
+The provisional journal requires source data, metadata and code for peer review and a citable code archive, while the original public v7 data already carry a DOI. The draft analysis repository has **no author-approved code DOI/archive** yet, and author study-citation/declaration/target-journal approval remains open. All original 254/760/283/142 K numeric replays remain completed; no biological effect, source-only selection rule or original phylogenetic tree has been altered. **PR #38 stays Draft, unmerged and unsubmitted.**
+
+---
+
 ## 2026-10-28 — All original 254 single-trait phytools K results now numerically reproduced and archived
 
 [All-254 public-source original phytools K rerun #40541276639 PASS](https://github.com/zuizui0223/turnover/actions/runs/40541276639): 16/16 original system batches and an independent final audit succeeded for **254 family-by-trait K systems across 42 families and 13 traits**. Every historical original S3/prune realized native-tree tip count and K/log-K estimate was reproduced: **maximum absolute difference 0.0** at original four-decimal storage precision.

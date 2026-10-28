@@ -47,6 +47,10 @@ def text_checks(manuscript: str, decision: str):
     need("760 original matched-tip K comparisons" in manuscript and
          "760-pair K rerun" in decision and "same AusTraits" in decision,
          "Complete paired K technical reproduction and original-source limitations missing")
+    need("254 original single-trait K" in manuscript and
+         "254 original single-trait K" in decision and
+         "same original AusTraits" in manuscript,
+         "Full historical single-system 254 K evidence or original-data limit missing")
     need("Data Accessibility Statement" in manuscript,
          "Candidate venue requires Data Accessibility Statement wording")
     need("not" in manuscript.casefold() and
@@ -159,10 +163,56 @@ def validate_nonflora_full_replay(repo: Path):
     return m
 
 
+def validate_original_254_single_K_replay(repo: Path):
+    """SHA256-check clean-runtime original 254 phytools K, not independent biology."""
+    root = repo / Path("results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1")
+    original = repo / Path("results/austraits_organ_paper_original_254_single_K_v0_1")
+    m = json.loads((root / "all_254_single_K_replay_archive_manifest.json").read_text())
+    original_bytes = (original / "original_single_K_archive_manifest.json").read_bytes()
+    need(m["status"] == "PASS_DURABLE_PUBLIC_V7_ORIGINAL_254_SINGLE_K_NUMERICAL_REPLAY"
+         and m["original_full_clean_source_R_K_workflow_run_id"] == 40541276639
+         and m["original_K_systems_recomputed"] == 254
+         and m["original_families"] == 42 and m["original_traits"] == 13
+         and m["original_historical_single_K_manifest_sha256"] ==
+             hashlib.sha256(original_bytes).hexdigest()
+         and m["reported_max_abs_numeric_K_or_logK_discrepancy"] == 0.0
+         and m["all_original_S3_prune_native_tips_reproduced"] is True
+         and m["independent_source_R_K_execution_complete"] is True,
+         "Original 254 single-trait K clean-source numerical verification absent")
+    need(m["source_species_measurement_rows_persisted"] is False
+         and m["independent_primary_measurement_validation"] is False
+         and m["new_biological_hypothesis_tests"] == 0
+         and m["explicit_author_submitting_approved"] is False,
+         "Source-K computation was mislabelled as independent biological confirmation")
+    prior = json.loads(original_bytes)
+    names = set(prior["historical_k_source_file_sha256"])
+    need(len(names) == 254, "Original per-system K source reference incomplete")
+    names.update(f"K{i:02d}_audit.json" for i in range(1,17))
+    names.add("all_254_original_single_trait_K_verdict.json")
+    hashes = m["all_K_and_QA_file_sha256"]
+    need(set(hashes) == names and m["n_source_K_replay_files"] == len(names) == 271,
+         "254 new K outputs, 16 QA and final R K verdict not all preserved")
+    for name, expected in hashes.items():
+        path = root / name
+        need(path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == expected,
+             "Historical 254 phytools K recomputation file SHA256 mismatch: " + name)
+    result = json.loads((root / "all_254_original_single_trait_K_verdict.json").read_text())
+    need(result["status"] == "PASS_PUBLIC_V7_ALL_254_ORIGINAL_PHYTOOLS_SINGLE_K_REBUILT"
+         and result["original_single_trait_system_count"] == 254
+         and result["original_families"] == 42 and result["original_named_traits"] == 13
+         and result["all_16_original_K_batches_recomputed_and_numerically_checked"] is True
+         and result["all_original_native_S3_prune_tip_counts_reproduced"] is True
+         and result["max_absolute_numeric_K_or_logK_discrepancy"] == 0.0
+         and result["independent_biological_original_study_replication"] is False,
+         "Final original single-trait 254 phytools K numerical result drift")
+    return m
+
+
 def audit(repo: Path, manuscript: str, decision: str):
     keys = text_checks(manuscript, decision)
     full_replay = validate_full_replay(repo)
     nonflora_replay = validate_nonflora_full_replay(repo)
+    singles = validate_original_254_single_K_replay(repo)
     source_dir = repo / SOURCE
     manifest_path = source_dir / "frozen_input_manifest.json"
     m = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -191,12 +241,14 @@ def audit(repo: Path, manuscript: str, decision: str):
         "original_source_runs_validated": sorted(runs),
         "checked_original_code_file_count": len(REQUIRED_CODE),
         "aggregate_figures_reproducible": True,
-        "full_original_record_to_K_cleanroom_reproduction_verified": False,
+        "full_original_record_to_K_cleanroom_reproduction_verified": True,
+        "all_three_original_K_computational_pipelines_cleanruntime_reproduced": True,
         "all_760_original_matched_tip_K_computations_cleanroom_reproduced": True,
         "full_760_original_matched_tip_K_max_absolute_discrepancy": full_replay["max_absolute_numeric_K_or_logK_difference"],
         "original_nonflora_283_142_source_K_cleanroom_reproduced": True,
         "original_nonflora_K_max_absolute_numeric_discrepancy": nonflora_replay["maximum_absolute_numeric_discrepancy"],
-        "original_254_single_trait_K_reference_independently_recomputed": False,
+        "original_254_single_trait_K_reference_independently_recomputed": True,
+        "original_254_single_trait_K_max_absolute_numeric_difference": singles["reported_max_abs_numeric_K_or_logK_discrepancy"],
         "independent_primary_study_biological_replication": False,
         "journal_complete_data_metadata_code_access_verified": False,
         "approved_authors_correspondence": False,
@@ -216,6 +268,11 @@ def audit(repo: Path, manuscript: str, decision: str):
 
 def self_test(repo, manuscript, decision):
     good = audit(repo, manuscript, decision)
+    need(good["full_original_record_to_K_cleanroom_reproduction_verified"] is True
+         and good["all_three_original_K_computational_pipelines_cleanruntime_reproduced"] is True
+         and good["original_254_single_trait_K_reference_independently_recomputed"] is True
+         and good["independent_primary_study_biological_replication"] is False,
+         "Technical original K reproducibility confused with independent ecological evidence")
     need(good["eligible_for_submission_claim"] is False,
          "Preflight accidentally became submission authorization")
     for wrong_manuscript, wrong_decision in [

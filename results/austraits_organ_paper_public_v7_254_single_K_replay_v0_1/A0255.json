@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0255",
+  "family": "Solanaceae",
+  "trait_name": "seed_length",
+  "n_species_S3": 204,
+  "n_species_prune": 150,
+  "S3_K": 0.2772,
+  "prune_K": 0.2479,
+  "S3_logK": -1.2831,
+  "prune_logK": -1.3948
+}

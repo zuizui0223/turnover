@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0101",
+  "family": "Euphorbiaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 252,
+  "n_species_prune": 90,
+  "S3_K": 0.3683,
+  "prune_K": 0.2068,
+  "S3_logK": -0.9989,
+  "prune_logK": -1.5759
+}

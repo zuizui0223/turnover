@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0010",
+  "family": "Annonaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 49,
+  "n_species_prune": 39,
+  "S3_K": 0.1205,
+  "prune_K": 0.0989,
+  "S3_logK": -2.1164,
+  "prune_logK": -2.3141
+}

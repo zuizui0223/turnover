@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0239",
+  "family": "Sapotaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 37,
+  "n_species_prune": 29,
+  "S3_K": 0.2245,
+  "prune_K": 0.2825,
+  "S3_logK": -1.4938,
+  "prune_logK": -1.2639
+}

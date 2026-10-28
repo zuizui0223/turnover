@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0169",
+  "family": "Orchidaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 812,
+  "n_species_prune": 103,
+  "S3_K": 0.0221,
+  "prune_K": 0.0051,
+  "S3_logK": -3.8109,
+  "prune_logK": -5.2723
+}

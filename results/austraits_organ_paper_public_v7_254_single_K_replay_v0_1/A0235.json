@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0235",
+  "family": "Rutaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 498,
+  "n_species_prune": 111,
+  "S3_K": 0.2374,
+  "prune_K": 0.0925,
+  "S3_logK": -1.438,
+  "prune_logK": -2.3804
+}

@@ -57,6 +57,9 @@ def text_checks(manuscript: str, decision: str):
          "51 distinct citation keys" in manuscript and
          "190 DatasetID" in decision and "original contributing-study" in decision.lower(),
          "Original source concentration/citation gaps or original-study limits missing")
+    need("1,037-file" in decision and "NOT a code DOI" in decision and
+         "source-credit" in decision,
+         "Code review ZIP or non-DOI/author source-credit limitation missing")
     need("Data Accessibility Statement" in manuscript,
          "Candidate venue requires Data Accessibility Statement wording")
     need("not" in manuscript.casefold() and
@@ -292,12 +295,69 @@ def validate_original_source_credit_audit(repo: Path):
             "journal_citable_code_DOI_created":False}
 
 
+def validate_analysis_code_snapshot_candidate(repo: Path):
+    """Read exact source-code/derived-results ZIP QA; never authorize DOI or submit."""
+    base=repo / Path("results/austraits_organ_paper_code_snapshot_candidate_v0_1")
+    m=json.loads((base/"source_code_snapshot_sha256_manifest.json").read_text())
+    j=json.loads((base/"code_review_zip_integrity_verdict.json").read_text())
+    need(m["status"]=="PASS_CODE_SNAPSHOT_CANDIDATE_ONLY_NOT_DEPOSITED"
+         and m["repository"]=="zuizui0223/turnover"
+         and m["snapshot_commit_sha"]=="fe63f622edb8a8ec23b86673300e582140c8f7b7"
+         and m["repository_files_included"]==1037
+         and len(m["included_versioned_repository_file_sha256"])==1037,
+         "Immutable original analysis-code review candidate source/commit was changed")
+    need(m["original_parquet_sha256"]==
+         "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99"
+         and m["original_compiled_metadata_zip_sha256"]==
+         "2995fb9e5eebf9271f9241b5a6c2e2cbb7b45e8eda5ce4db43c14c68f95e2f3f"
+         and m["raw_data_release_DOI"]=="10.5281/zenodo.15718081",
+         "Original v7 raw source DOI/SHA reference is not pinned to original")
+    need(m["no_original_raw_AusTraits_measurements_bundled"] is True
+         and m["original_254_760_and_283_142_K_computations_reproduced"] is True,
+         "Candidate original-K code source scope or raw-data exclusion changed")
+    for key in ("underlying_source_study_independent_validation",
+                "contributing_studies_citations_author_approved",
+                "permanent_code_archive_DOI_issued",
+                "all_journal_data_metadata_code_gates_met",
+                "coauthors_approved_submission"):
+        need(m[key] is False,
+             "Code candidate falsely states biological, author, DOI or journal approval: "+key)
+    hashes=m["included_versioned_repository_file_sha256"]
+    required=(
+        "scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py",
+        "scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py",
+        "scripts/qa/rebuild_austraits_nonflora_3stage_K_v0_1.py",
+        "docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md",
+        "results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/"
+          "all_254_original_single_trait_K_verdict.json",
+        "results/austraits_organ_paper_public_v7_full_K_replay_v0_1/"
+          "all_760_native_K_regression.json",
+        "results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/"
+          "nonflora_K_three_stage_verdict.json"
+    )
+    need(all(path in hashes for path in required),
+         "DOI candidate omitted a core original K source/reproduction reference")
+    need(j["status"]=="PASS_REVIEW_SNAPSHOT_ARCHIVE_NOT_PUBLISHED_OR_DEPOSITED"
+         and j["source_commit_sha"]==m["snapshot_commit_sha"]
+         and j["repository_files_in_zip"]==m["repository_files_included"]
+         and j["archive_sha256"]==
+             "0eb593f07003c55f3a1e2b66e66b64cdd115700d253f8a5a36ac7d3d74a0e1f0"
+         and j["archive_byte_size"]==1800889
+         and j["raw_observation_measurements_bundled"] is False
+         and j["journal_submitted"] is False
+         and j["new_code_archive_DOI_registered"] is False
+         and j["study_citation_author_approved"] is False,
+         "Original reviewer code ZIP SHA/provenance or no-DOI boundary changed")
+    return j
+
+
 def audit(repo: Path, manuscript: str, decision: str):
     keys = text_checks(manuscript, decision)
     full_replay = validate_full_replay(repo)
     nonflora_replay = validate_nonflora_full_replay(repo)
     singles = validate_original_254_single_K_replay(repo)
     source_credit = validate_original_source_credit_audit(repo)
+    code_candidate = validate_analysis_code_snapshot_candidate(repo)
     source_dir = repo / SOURCE
     manifest_path = source_dir / "frozen_input_manifest.json"
     m = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -339,6 +399,10 @@ def audit(repo: Path, manuscript: str, decision: str):
         "original_dataset_ids_in_strict_142": source_credit["dataset_ids_in_strict_142"],
         "unresolved_original_BibTeX_citation_keys": source_credit["unresolved_original_BibTeX_keys"],
         "author_approved_original_source_bibliography": False,
+        "verified_code_snapshot_review_candidate_prepared": True,
+        "verified_code_snapshot_review_candidate_file_count": code_candidate["repository_files_in_zip"],
+        "code_snapshot_candidate_SHA256": code_candidate["archive_sha256"],
+        "code_snapshot_candidate_original_Git_commit": code_candidate["source_commit_sha"],
         "permanent_citable_analysis_code_DOI_created": False,
         "independent_primary_study_biological_replication": False,
         "journal_complete_data_metadata_code_access_verified": False,
@@ -368,6 +432,10 @@ def self_test(repo, manuscript, decision):
          and good["author_approved_original_source_bibliography"] is False
          and good["permanent_citable_analysis_code_DOI_created"] is False,
          "Original-data citation audit incorrectly claims author approval or a code DOI")
+    need(good["verified_code_snapshot_review_candidate_prepared"] is True
+         and good["verified_code_snapshot_review_candidate_file_count"]==1037
+         and good["permanent_citable_analysis_code_DOI_created"] is False,
+         "Prepared code-review ZIP was mistaken for a published permanent DOI")
     need(good["eligible_for_submission_claim"] is False,
          "Preflight accidentally became submission authorization")
     for wrong_manuscript, wrong_decision in [

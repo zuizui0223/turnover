@@ -113,10 +113,17 @@ def main():
         if r["method_source_key_mismatch"]=="True":
             metadata_flags[ds]["flattened_vs_compiled_citation_key_mismatch"]+=1
         for role,kfield,cfield in ROLES:
-            key=good(r[kfield]);text=good(r[cfield])
-            if key:
-                roles[ds][role][key].add(r["tier"])
-                if text:refs[(ds,role)][key]=text
+            # In the official compiled v7 methods some citation-key cells are
+            # semicolon-separated lists (multiple original studies), not one
+            # BibTeX entry ID. Split ONLY these explicitly delimited keys;
+            # keep the original citation text as a composite quotation candidate.
+            keys=[k.strip() for k in good(r[kfield]).split(";") if k.strip()]
+            citation=good(r[cfield])
+            if keys:
+                for key in keys:
+                    roles[ds][role][key].add(r["tier"])
+                    if citation:refs[(ds,role)][key]=citation
+                if len(keys)>1:metadata_flags[ds]["multi_key_source_metadata"]+=1
             elif role=="primary":metadata_flags[ds]["missing_primary_source_key"]+=1
     primary_missing=sum(not roles[ds]["primary"] for ds in needs)
     used_keys={key for ds in needs for role in ("primary","secondary","original_dataset")

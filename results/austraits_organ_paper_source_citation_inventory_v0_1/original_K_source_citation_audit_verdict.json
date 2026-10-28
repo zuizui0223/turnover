@@ -1,0 +1,56 @@
+{
+  "aggregate_inventory_files_sha256": {
+    "original_K_basis_of_value_counts.csv": "1e6c1b02b199de5d294f2cf7a48161968e88548b57b66f07d307ad3f090d3a36",
+    "original_K_dataset_trait_source_exposure.csv": "dee3736cc8b016dcbcae9dd8c0a5452a800ea6d27db84fe600b037fda1d95158",
+    "original_K_used_dataset_citation_candidates.csv": "64f6284ecb536b84d0dc137552374803cbcd892f6ab2339dcb7b3ed224fb3ac5"
+  },
+  "citation_selection_currently_human_approved": false,
+  "compiled_citation_metadata": {
+    "methods_csv_sha256": "068412dfd77fdc28d61860139a731593641ea9b9d1eea110eae7f729b3379f4a",
+    "methods_member": "austraits-7.0.0/methods.csv",
+    "n_compiled_methods_rows": 3996,
+    "original_sources_bib_sha256": "51bdc63576a64722ff1b73e1ab17f0477b039896c1967d65ae93d9329f6b3fdf",
+    "sources_bib_member": "austraits-7.0.0/sources.bib"
+  },
+  "compiled_v7_metadata_zip_sha256": "2995fb9e5eebf9271f9241b5a6c2e2cbb7b45e8eda5ce4db43c14c68f95e2f3f",
+  "dataset_id_not_proof_of_independent_publication_or_specimen": true,
+  "exposure_by_original_K_analysis_tier": {
+    "original_254_systems": {
+      "dataset_by_trait_entries": 477,
+      "n_distinct_datasets": 190,
+      "n_original_deduplicated_measurement_rows_in_qualified_states": 228110
+    },
+    "original_760_matched_pairs": {
+      "dataset_by_trait_entries": 465,
+      "n_distinct_datasets": 190,
+      "n_original_deduplicated_measurement_rows_in_qualified_states": 222586
+    },
+    "strict_142_same_DatasetID": {
+      "dataset_by_trait_entries": 170,
+      "n_distinct_datasets": 44,
+      "n_original_deduplicated_measurement_rows_in_qualified_states": 31401
+    }
+  },
+  "independent_primary_study_validation": false,
+  "journal_data_metadata_code_submitted_or_archived_under_DOI": false,
+  "no_new_K_or_biological_models_fitted": true,
+  "no_raw_species_names_observation_ids_trait_values_exported": true,
+  "original_excluded_online_floras": [
+    "ABRS_2023",
+    "NHNSW_2023",
+    "RBGV_2023",
+    "NTH_2023",
+    "SAH_2023"
+  ],
+  "original_fixed_qualified_systems": 254,
+  "original_matched_pair_identities": 760,
+  "original_method_citation_candidate_rows": 21437,
+  "original_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_public_data_release": "AusTraits v7.0.0",
+  "original_strict_source_pair_identities": 142,
+  "source_attribution_review_flags": {
+    "nonempty_source_id_requires_original_record_source_review": 20415
+  },
+  "source_id_method_id_and_primary_secondary_original_keys_require_study_level_review": true,
+  "status": "PASS_PUBLIC_V7_ORIGINAL_K_CONTRIBUTING_SOURCE_INVENTORY_WITH_HUMAN_ATTRIBUTION_GAPS"
+}

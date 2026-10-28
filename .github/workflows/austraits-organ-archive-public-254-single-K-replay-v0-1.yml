@@ -4,6 +4,8 @@ on:
     branches: [paper/austraits-organ-ecology-v0-2]
     paths:
       - data/austraits_254_original_single_K_replay_completed_trigger_v0_1.json
+      - scripts/publication/archive_austraits_254_fresh_single_K_v0_1.py
+      - .github/workflows/austraits-organ-archive-public-254-single-K-replay-v0-1.yml
   workflow_dispatch:
 permissions:
   contents: write

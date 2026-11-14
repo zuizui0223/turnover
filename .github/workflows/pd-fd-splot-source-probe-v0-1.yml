@@ -4,16 +4,18 @@ on:
     branches: [analysis/pd-fd-biomass-source-gate-20261114]
     paths:
       - scripts/analysis/probe_splotopen_source_v0_1.py
+      - scripts/analysis/audit_splotopen_gift_coverage_v0_1.py
       - .github/workflows/pd-fd-splot-source-probe-v0-1.yml
   pull_request:
     paths:
       - scripts/analysis/probe_splotopen_source_v0_1.py
+      - scripts/analysis/audit_splotopen_gift_coverage_v0_1.py
       - .github/workflows/pd-fd-splot-source-probe-v0-1.yml
   workflow_dispatch:
 jobs:
   source-probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40
     permissions:
       contents: read
     steps:
@@ -54,11 +56,18 @@ jobs:
         run: |
           python3 scripts/analysis/probe_splotopen_source_v0_1.py \
             --archive /tmp/splotopen_public_mirror_5806.zip --out source_probe_summary.json
+      - name: Verify exact-name and public-trait coverage in GIFT 3.1 (source-only)
+        run: |
+          python3 -m py_compile scripts/analysis/audit_splotopen_gift_coverage_v0_1.py
+          python3 scripts/analysis/audit_splotopen_gift_coverage_v0_1.py \
+            --archive /tmp/splotopen_public_mirror_5806.zip --out source_gift_coverage_summary.json
       - name: Preserve only nonraw source gate summary
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pd-fd-splotopen-source-probe-v0-1
-          path: source_probe_summary.json
+          path: |
+            source_probe_summary.json
+            source_gift_coverage_summary.json
           if-no-files-found: ignore
           retention-days: 14

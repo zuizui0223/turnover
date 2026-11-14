@@ -1,0 +1,47 @@
+name: NEON plot-source manifest metadata probe across four fixed ecoregions
+on:
+  push:
+    branches: [analysis/neon-multisite-biomass-coverage-gate-20261114]
+    paths:
+      - .github/workflows/neon-four-sites-file-manifests-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/neon-four-sites-file-manifests-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release-file-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check files available for fixed four site-month controls without reading measured rows
+        run: |
+          python3 - <<'PY'
+          import urllib.request,json,hashlib
+          samples=[('ABBY','2024-07','D16'),('BART','2022-07','D01'),
+                   ('BLAN','2024-05','D02'),('CPER','2022-11','D10')]
+          products=['DP1.10023.001','DP1.10058.001']
+          for site,month,domain in samples:
+              for prod in products:
+                  url=f'https://data.neonscience.org/api/v0/data/{prod}/{site}/{month}?release=RELEASE-2026'
+                  req=urllib.request.Request(url,headers={'Accept':'application/json','User-Agent':'turnover-neon-Tier1-sentinel-only/0.1'})
+                  try:
+                      with urllib.request.urlopen(req,timeout=90) as res:
+                          raw=res.read(10_000_000)
+                      v=json.loads(raw).get('data',{})
+                      rows=v.get('files',[])
+                      selected=[r for r in rows if any(t in str(r.get('name','')).lower() for t in ('hbp_perbout','hbp_massdata','div_1m2data','div_10m2data'))]
+                      result={'site':site,'month':month,'domain':domain,'product':prod,
+                        'source_catalog_sha256':hashlib.sha256(raw).hexdigest(),
+                        'n_downloadable_files':len(rows),
+                        'target_table_file_names':[str(r.get('name')) for r in selected],
+                        'data_response_keys':sorted(v),
+                        'status':'RELEASE_FILE_MANIFEST_ACCESSIBLE'}
+                  except Exception as e:
+                      result={'site':site,'month':month,'domain':domain,'product':prod,
+                        'status':'RELEASE_FILE_MANIFEST_HOLD','error_class':type(e).__name__,
+                        'error_detail':str(e)[:180]}
+                  print('NEON_TIER1_SENTINEL_FILELIST',json.dumps(result,sort_keys=True))
+          PY

@@ -4,6 +4,9 @@ on:
     branches: [analysis/pd-fd-biomass-source-gate-20261114]
     paths:
       - .github/workflows/pd-fd-gift-family-field-probe-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/pd-fd-gift-family-field-probe-v0-1.yml
   workflow_dispatch:
 jobs:
   taxonomy-schema:

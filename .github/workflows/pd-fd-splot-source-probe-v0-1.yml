@@ -13,7 +13,7 @@ on:
 jobs:
   source-probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
@@ -22,14 +22,38 @@ jobs:
         run: |
           python3 -m py_compile scripts/analysis/probe_splotopen_source_v0_1.py
           python3 scripts/analysis/probe_splotopen_source_v0_1.py --self-test
-      - name: Download pinned public sPlotOpen source ZIP 3474 version 5047
+      - name: Checkout public source mirror at fixed archival commit (no LFS bulk pull)
+        uses: actions/checkout@v4
+        with:
+          repository: ezequielscott/sPlotOpen
+          ref: 1bfcad669ae1a7e6f0a419159dd3051e83bdd26b
+          path: public-splot-mirror
+          lfs: false
+          persist-credentials: false
+      - name: Fetch only composition, header and derived-CWM LFS objects
         run: |
-          curl --fail --show-error --silent --location --retry 1 --connect-timeout 30 --max-time 480 \
-            'https://idata.idiv.de/ddm/Data/DownloadZip/3474?version=5047' -o /tmp/splotopen_version5047.zip
-      - name: Verify real public archive identities and table schemas (no effects)
+          cd public-splot-mirror
+          git lfs version
+          git lfs pull --include='3474_76_Dataset/sPlotOpen_DT(2).txt,3474_76_Dataset/sPlotOpen_header(3).txt,3474_76_Dataset/sPlotOpen_CWM_CWV(2).txt'
+      - name: Construct throwaway source ZIP with exact public mirror bytes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile
+          root = Path('public-splot-mirror/3474_76_Dataset')
+          names = ['sPlotOpen_DT(2).txt','sPlotOpen_header(3).txt','sPlotOpen_CWM_CWV(2).txt']
+          for name in names:
+              p = root / name
+              if not p.exists() or p.stat().st_size < 100000:
+                  raise SystemExit(f'Not a resolved LFS data object: {p}')
+          with zipfile.ZipFile('/tmp/splotopen_public_mirror_5806.zip','w',compression=zipfile.ZIP_STORED) as z:
+              for name in names:
+                  z.write(root / name, arcname=name)
+          PY
+      - name: Verify genuine data schemas and plot IDs (no effects)
         run: |
           python3 scripts/analysis/probe_splotopen_source_v0_1.py \
-            --archive /tmp/splotopen_version5047.zip --out source_probe_summary.json
+            --archive /tmp/splotopen_public_mirror_5806.zip --out source_probe_summary.json
       - name: Preserve only nonraw source gate summary
         if: always()
         uses: actions/upload-artifact@v4

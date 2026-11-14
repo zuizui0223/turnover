@@ -49,6 +49,19 @@ The original strict subsets had unusually low retained phylogenetic branch lengt
 
 [Verified native-tree parity and context summary](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_tip_loss_null_context_v0_1).
 
+## After conditioning on observed GENUS loss, the original excess K-flip signal disappears
+
+The [full original 142/101 genus-stratified same-n K-null source-matrix plus independently corrected audit #43567784678 PASS](https://github.com/zuizui0223/turnover/actions/runs/43567784678) explicitly preserves the original stricter-source number of surviving native tips in **each original genus** while selecting random available species within those genera on the exact same original broad S3/prune tree and unchanged K trait values. Every one of the 12 original R matrix jobs succeeded; a separate SHA-type error in the original final reporting was fixed through independent reaggregation and permanent archiving, not falsely represented as overall original run success.
+
+| Axis | Actual stricter-source K flips | Random same TOTAL native-tip n only, mean | Random same **genus-specific native-tip counts**, mean | Genus-conditioned finite null upper-tail |
+| --- | ---: | ---: | ---: | ---: |
+| S3 | 23 | 14.8203 | **23.5703** | **0.6047** |
+| Native prune | 13 | 11.2344 | **13.2188** | **0.6822** |
+
+Across S3 142 and native prune 101 original pair identities, the actual source-surviving *total rank-flip count* is unexceptional once the **which-genera-and-how-many-tips-from-each-genus** selection is fixed. This is a stronger commonality than simply noting lost species or phylogenetic PD: the source-restricted observational sample is highly structured in terms of lineage identities. Yet a conditioned genus quota null neither proves that genera *causally* determine K nor identifies any unique physiological trait, pollinator, growth form, whole-plant biomass or reproductive investment mechanism. Original organ grouping and the new null remain exploratory/post-selected, two native trees and dependent pairs are not independent confirmations, and the source compilation is the same.
+
+[Full source-checked genus-quota conditional design/results](https://github.com/zuizui0223/turnover/blob/paper/austraits-organ-ecology-v0-2/docs/AUSTRAITS_ORIGINAL_GENUS_CONDITIONED_NULL_V0_1.md). [SHA256-fixed derived null data](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1).
+
 ### Plant stature is a prominent sampling-sensitive comparison, not measured biomass
 
 The [original full fixed-tree/native tip K parity and plant_height audit #43566078839 PASS](https://github.com/zuizui0223/turnover/actions/runs/43566078839) compared the *same fixed original 128 family-correlated random pruning draws* against the actual strict-source survivor subsets and separated the vegetative comparator being plant_height from other vegetative dimensions:
@@ -109,7 +122,7 @@ If the user or authors acquire an approved TRY export, the schema should preserv
 
 1. **Already passed:** 254/760/283/142 original public-v7 K numeric replay, and original 142/101 descriptive sign-flip group comparison; only original data.
 2. **Public GIFT linkage verified:** the exact original 15,305/13,436/3,625 species K populations are now joined to stable GIFT 3.1 public accepted names, with 90.5/92.2/94.0% exact match and 3,015 strict species having woodiness. No K refit, no source independence and no measured biomass output. Missing GIFT names remain missing; no hidden complete-case K reselection.
-3. **Equal-n source/tip randomization now completed (technical source-only):** 128 family-correlated draws yielded S3 23 observed reversals vs 14.82 random (upper tail 0.0310), prune 13 vs 11.23 (upper tail 0.3566), with Fabaceae-sensitive S3 family LOFO. Genus/branch topology, original baseline log-K margin, source-study independence and prospective replicate tests remain incomplete. No causal biomass allocation or life-history mechanism identified.
+3. **Equal-n AND observed-genus-quota randomization completed:** In S3, the original 23 actual flips exceed unrestricted equal-n mean 14.82 (finite upper-tail 0.0310) but agree with genus-quota mean 23.57 (upper-tail 0.6047); prune 13 actual vs unrestricted 11.23 and genus quota 13.22 (tails 0.3566 and 0.6822). This supports prioritizing which genera are systematically retained under original DatasetID availability. Direct branch/genus-specific source mechanism, independent data, biomass allocation, and prospective confirmation remain incomplete.
 4. **TRY-based direct biomass analysis remains external-input-dependent:** user account/IPG, correct source references, actual biomass and seed-production coverage and non-overlap constraints.
 5. **Original article inference must remain unchanged:** same compilation, retrospective organ grouping, dependent pairs/families and two non-independent trees. PR #38 stays Draft, unmerged and unsubmitted.
 

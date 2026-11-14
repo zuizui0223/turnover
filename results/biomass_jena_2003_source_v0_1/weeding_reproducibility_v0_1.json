@@ -1,0 +1,26 @@
+{
+  "status": "WEEDING_SENSITIVITY_REMOTE_LOCAL_AND_INDEPENDENT_REPLAY_PASS",
+  "source_cache_run": 43604642543,
+  "source_cache_artifact_id": 14117253081,
+  "source_cache_artifact_sha256": "9646b7dade486a2f3cde7a08d89124d03570841096d886834a1a894956a270a2",
+  "source_cache_digest_matches_github": true,
+  "verified_inputs": {
+    "biomass2003.tab": {"bytes": 235242, "sha256": "70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079"},
+    "plotinfo.txt": {"bytes": 3283, "sha256": "7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70"}
+  },
+  "local_tests_passed": 13,
+  "local_bootstrap_replicates": 4000,
+  "remote_local_max_absolute_difference": 0.0,
+  "remote_local_fields_checked": ["FG_beta", "HC3_se", "HC3_p_two_sided", "HC3_ci95", "paired_block_stratified_plot_bootstrap_ci95"],
+  "independent_check": {
+    "production_helpers_imported": false,
+    "method": "Independently parse original TSV and allocation with pandas; aggregate raw measurements before log1p; use statsmodels OLS HC3 for all six outcomes and four paired contrasts",
+    "n_models_and_contrasts": 10,
+    "n_paired_plots": 82,
+    "max_absolute_difference_in_coefficients_SE_p_or_CI": 8.215650382226158e-15,
+    "status": "PASS"
+  },
+  "raw_input_bytes_committed_to_git": false,
+  "raw_inputs_in_user_reproducibility_bundle": true,
+  "source_attribution": "Buchmann & Temperton (2015), PANGAEA 846317, CC BY 3.0; unchanged original public bytes"
+}

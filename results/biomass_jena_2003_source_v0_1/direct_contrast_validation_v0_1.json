@@ -1,0 +1,74 @@
+{
+  "status": "RETROSPECTIVE_DIRECT_CONTRAST_VALIDATION_COMPLETED",
+  "version": "v0.1",
+  "source_manifest": [
+    {"name":"predictors_raw.zip","sha256":"4af2ccca7b85b7a15b47ace87acfe0386feab79da51d3d5f67b3cf6034442e4b","bytes":836744,"source":"https://download.pangaea.de/dataset/923591/files/predictors_raw.zip"},
+    {"name":"biomass02_12.zip","sha256":"aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe330cefe245ee1e875db","bytes":255363,"source":"https://download.pangaea.de/dataset/923591/files/biomass02_12.zip"},
+    {"name":"plotinfo.txt","sha256":"7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70","bytes":3283,"source":"https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt"},
+    {"name":"biomass2003.tab","sha256":"70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079","bytes":235242,"source":"https://doi.org/10.1594/PANGAEA.846317"}
+  ],
+  "longitudinal": {
+    "n_plots":78,
+    "train_cells":774,
+    "test_cells":767,
+    "original_SSE_reproduced":[828.3085900803652,824.4758853475678,803.6540715981432,804.5931741927853],
+    "conditional_paired_plot_bootstrap": {
+      "replicates":2000,
+      "seed":20261114,
+      "intervals": {
+        "FD_vs_M0":{"estimate":0.004627145943790767,"ci95_percentile":[-0.015808703758691055,0.021783343860326463]},
+        "FI_vs_M0":{"estimate":0.029764895327030194,"ci95_percentile":[-0.02941929774563553,0.08339412958437199]},
+        "FD_FI_vs_M0":{"estimate":0.028631135993988588,"ci95_percentile":[-0.031047058111613825,0.08504064222548631]},
+        "FI_minus_FD":{"estimate":0.025137749383239358,"ci95_percentile":[-0.03721417554256529,0.08198344468549973]},
+        "FD_added_to_FI":{"estimate":-0.0011685408284869414,"ci95_percentile":[-0.01832681465167983,0.013690541173544908]}
+      }
+    },
+    "same_plot_train_test_refit_bootstrap": {
+      "replicates":2000,
+      "failed_rank":0,
+      "seed":20261115,
+      "stratification":"original field block; same plot multiplicity in train and test",
+      "intervals": {
+        "FD_vs_M0":{"estimate":0.004627145943790767,"ci95_percentile":[-0.026144593912714637,0.03754243372411105]},
+        "FI_vs_M0":{"estimate":0.029764895327030194,"ci95_percentile":[-0.013311601502564451,0.09572873338294338]},
+        "FD_FI_vs_M0":{"estimate":0.028631135993988588,"ci95_percentile":[-0.029651383665852443,0.10688834252874384]},
+        "FI_minus_FD":{"estimate":0.025137749383239358,"ci95_percentile":[-0.023293046009352877,0.08870512662443962]},
+        "FD_added_to_FI":{"estimate":-0.0011685408284869414,"ci95_percentile":[-0.030504574497758934,0.028728440551701]}
+      }
+    },
+    "OLS_scaling_note":"Intercept and full-rank OLS make fixed training-affine scaling equivalent to recomputing scaling in each resample.",
+    "uncertainty_scope":"Conditions on these observed years and one site; not independent year or site replication."
+  },
+  "seasonal": {
+    "n_paired_plots":82,
+    "response":"log1p(August g/m2)-log1p(May g/m2)",
+    "original_May_FG_beta":0.1678907779139565,
+    "original_August_FG_beta":0.0016810095627726451,
+    "August_minus_May_FG_beta":-0.16620976835118395,
+    "HC3_SE":0.09744385477645093,
+    "HC3_p_two_sided":0.08806436018973739,
+    "HC3_ci95":[-0.3571962142277791,0.024776677525411184],
+    "block_stratified_paired_bootstrap_ci95":[-0.36703928552598253,0.009487623715830867],
+    "bootstrap_replicates":2000,
+    "bootstrap_seed":20261116,
+    "source_caveat":"Original official plot means include subsample 4 with special careful weeding; original estimand is unchanged."
+  },
+  "interpretation_boundary":[
+    "Post-result validation, not preregistered confirmation.",
+    "No change to original four-trait models, years, cohorts or original published result files.",
+    "A confidence interval including zero is not evidence of zero or equivalence.",
+    "Repeated plots in one experiment; imputed concurrent cover-based traits; no causal or phylogenetic-memory test."
+  ],
+  "versions":{"python":"3.12.16","numpy":"2.3.4","pandas":"2.2.3","scipy":"1.16.3","statsmodels":"0.14.5"},
+  "verification":{
+    "workflow_run":"https://github.com/zuizui0223/turnover/actions/runs/43600592223",
+    "job_id":132464269915,
+    "head_sha":"92030fa42b81713f21fc806ba3902389b00414cf",
+    "unit_tests_passed":8,
+    "artifact_id":14116213160,
+    "artifact_zip_sha256":"d69c1ba5acf9d73dbfc16e29e0c78634d8f3a1970a289fc861bafed93007de70",
+    "downloaded_artifact_digest_verified":true,
+    "previous_fixed_model_audit":"results/biomass_jena_2003_source_v0_1/fd_fi_paired_uncertainty_v1.json",
+    "previous_fixed_model_audit_numerically_reproduced":true
+  }
+}

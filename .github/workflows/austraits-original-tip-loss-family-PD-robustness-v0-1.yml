@@ -1,0 +1,83 @@
+name: Original AusTraits 142/101 matched-n tip loss family and PD sensitivity v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-original-tip-loss-family-PD-robustness-v0-1.yml
+      - scripts/analysis/audit_austraits_original_tip_loss_family_robustness_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit-original-frozen-null-family-LOFO:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Recombine exactly original frozen 128 rank draws without new K fitting
+        run: |
+          python scripts/analysis/audit_austraits_original_tip_loss_family_robustness_v0_1.py \
+            --out-dir results/austraits_organ_paper_original_tip_loss_family_PD_robustness_v0_1
+      - name: Check full original 142/101 counts, family LOFO ranges and no new trait values
+        run: |
+          python - <<'PY'
+          import csv,json,hashlib
+          from pathlib import Path
+          base=Path('results/austraits_organ_paper_original_tip_loss_family_PD_robustness_v0_1')
+          z=json.loads((base/'original_K_null_family_PD_sensitivity_verdict.json').read_text())
+          assert z['status']=='PASS_ORIGINAL_142_101_TIP_LOSS_NULL_FAMILY_AND_PHYLOGENETIC_PD_SENSITIVITY_ONLY'
+          assert z['family_by_native_axis_review_rows']==48
+          assert z['number_original_K_phylogenetic_fits']==0
+          assert z['no_source_species_names_or_raw_original_trait_values_exported'] is True
+          assert z['original_128_family_correlated_rank_draws_not_recomputed'] is True
+          assert z['no_new_plant_biomass_allocation_or_causal_selection_measured'] is True
+          assert z['axes']['S3']['original_pair_contexts']==142
+          assert z['axes']['prune_only']['original_pair_contexts']==101
+          assert z['axes']['S3']['actual_source_qualified_fixed_broad_tree_flips']==23
+          assert z['axes']['prune_only']['actual_source_qualified_fixed_broad_tree_flips']==13
+          assert z['axes']['S3']['family_shared_rank_random_draws']==128
+          assert z['axes']['prune_only']['family_shared_rank_random_draws']==128
+          path=base/'original_K_null_leave_one_family_out_and_PD.csv'
+          assert hashlib.sha256(path.read_bytes()).hexdigest()==z['family_review_csv_sha256']
+          with path.open(newline='') as f:
+              rows=list(csv.DictReader(f))
+          assert len(rows)==48
+          assert not set(rows[0])&{'species','binomial','observation_id','value','genus'}
+          print('PASS_ORIGINAL_142_101_K_NULL_FAMILY_DELETION_AND_PHYLOGENETIC_DIVERSITY_SENSITIVITY')
+          print('SUMMARY',json.dumps({axis:{
+             'lofo_p_median':z['axes'][axis]['leave_one_family_out_exploratory_upper_tail_p_median'],
+             'lofo_p_max':z['axes'][axis]['leave_one_family_out_exploratory_upper_tail_p_max'],
+             'n_LOFO_p_lte_05':z['axes'][axis]['n_family_deletions_with_p_le_0_05'],
+             'actual_PD_below_null_025':z['axes'][axis]['n_pair_contexts_with_PD_below_2_5pct_null'],
+             'PD_below_null_in_flips':z['axes'][axis]['among_actual_flipped_pairs_PD_below_2_5pct']}
+             for axis in ('S3','prune_only')},sort_keys=True))
+          PY
+      - name: Archive only original source-K null family and PD summaries with safe concurrent rebase
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_original_tip_loss_family_PD_robustness_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_K_NULL_FAMILY_PD_ALREADY_IDENTICAL
+          else
+            git commit -m "Preserve original 128-draw size-matched K null family deletion and PD sensitivity audit"
+            for i in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo ORIGINAL_NULL_FAMILY_PD_PERSISTED
+                exit 0
+              fi
+            done
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-142-101-null-family-and-PD-robustness-v0-1
+          path: results/austraits_organ_paper_original_tip_loss_family_PD_robustness_v0_1/
+          retention-days: 90
+          if-no-files-found: error

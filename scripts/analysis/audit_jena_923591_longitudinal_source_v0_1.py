@@ -11,7 +11,7 @@ from collections import Counter,defaultdict
 
 PINNED={
  "predictors_raw.zip":"4af2ccca7b85b7a15b47ace87acfe0386feab79da51d3d5f67b3cf6034442e4b",
- "biomass02_12.zip":"aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe245ee1e875db",
+ "biomass02_12.zip":"aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe330cefe245ee1e875db",
  "traits.st.zip":"5ae74c473ff2e36861f137f4fc8a28740725a90dda9e265350fd45bcb38996c5",
 }
 PLOT_HASH="7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70"

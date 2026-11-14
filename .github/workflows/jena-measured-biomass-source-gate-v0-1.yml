@@ -1,0 +1,47 @@
+name: Jena 2003 measured dry-biomass source gate v0.1
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - .github/workflows/jena-measured-biomass-source-gate-v0-1.yml
+      - scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py
+  pull_request:
+    paths:
+      - .github/workflows/jena-measured-biomass-source-gate-v0-1.yml
+      - scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate source reader independent of the raw data
+        run: |
+          python3 -m py_compile scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py
+          python3 scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py --self-test
+      - name: Acquire Jena 2003 from original published PANGAEA DOI
+        run: |
+          set -euo pipefail
+          URL='https://doi.pangaea.de/10.1594/PANGAEA.846317?format=textfile'
+          curl --fail --location --show-error --silent --retry 1 --connect-timeout 20 --max-time 180 \
+            -H 'Accept: text/tab-separated-values' -H 'User-Agent: turnover-source-gate/0.1 (research)' \
+            "$URL" -o /tmp/pangaea_846317_original.tab
+          test $(stat -c%s /tmp/pangaea_846317_original.tab) -gt 5000
+          sha256sum /tmp/pangaea_846317_original.tab
+          file /tmp/pangaea_846317_original.tab
+      - name: Audit original source rows and measured-biomass column (no effects)
+        run: |
+          python3 scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py \
+            --source /tmp/pangaea_846317_original.tab \
+            --out results/biomass_jena_2003_source_v0_1/schema_audit.json
+      - name: Upload only nonraw source coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-2003-direct-dry-biomass-source-schema-v0-1
+          path: results/biomass_jena_2003_source_v0_1/schema_audit.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -43,14 +43,16 @@ testk<-function(tr,states,repA) {
   val<-lapply(states,function(v) {
     x<-unname(v[tr$tip.label])
     if(length(x)!=n||any(!is.finite(x)))stop("Missing original log trait on sampled tree")
-    if(length(unique(x))<2L)stop("Zero source K trait variance")
     x
   })
+  if(any(vapply(val,function(x)length(unique(x))<2L,logical(1))))
+    return(list(status="HOLD_RANDOM_ZERO_TRAIT_VARIANCE",
+                n_tips=n,PD=sum(len)))
   k<-vapply(val,function(x)
     fast_k_real_tree_cpp(e,len,n,internalPost,root,trace,x),numeric(1))
   if(any(k<=0)||any(!is.finite(k)))stop("Nonpositive original source K")
   delta<-if(repA)log(k[[1]])-log(k[[2]]) else log(k[[2]])-log(k[[1]])
-  list(delta=unname(delta),K_A=unname(k[[1]]),K_B=unname(k[[2]]),
+  list(status="PASS",delta=unname(delta),K_A=unname(k[[1]]),K_B=unname(k[[2]]),
        n_tips=n,PD=sum(len))
 }
 run_context<-function(entry) {
@@ -97,7 +99,7 @@ run_context<-function(entry) {
     if(!setequal(tree$tip.label,intersect(sp$tip,tree$tip.label)))
       stop("Original broad native tree contained non-source species")
     base<-testk(tree,states,reps)
-    if(base$n_tips!=as.integer(ref$broad_native_tips)||
+    if(base$status!="PASS"||base$n_tips!=as.integer(ref$broad_native_tips)||
        abs(base$delta-as.numeric(ref$broad_delta))>2e-8)
       stop(sprintf("Original source-v7 native K baseline failed %s %s %s: fresh %.12g original %.12g",
             entry$family,entry$trait_A,ax,base$delta,as.numeric(ref$broad_delta)))
@@ -107,6 +109,8 @@ run_context<-function(entry) {
       stop("Actual original strict native K survivor cohort changed")
     pruned<-if(k==base$n_tips)tree else ape::keep.tip(tree,survives)
     actual<-testk(pruned,states,reps)
+    if(actual$status!="PASS")
+      stop("Original real strict-source survivor subset has undefined K")
     observed[[ax]]<-list(
        status="PASS",
        tree=tree,states=states,repA=reps,
@@ -149,36 +153,81 @@ null_shift<-lapply(contexts,function(ctx)lapply(ctx$axes,function(x)
   if(x$status=="PASS")numeric(draws) else NULL))
 null_pd<-lapply(contexts,function(ctx)lapply(ctx$axes,function(x)
   if(x$status=="PASS")numeric(draws) else NULL))
+# A random equal-n pruning may occasionally erase all variation of one
+# original trait, so Blomberg K becomes mathematically UNDEFINED. The
+# original 142/101 source-qualified comparisons have valid K by definition.
+# Reject the WHOLE candidate priority for that family/replicate and sample
+# again, preserving correlations across the family's trait pairs and trees.
+# Record all rejections so the conditional-valid-K null is transparent.
+max_attempts<-256L
+family_candidate_rejections<-setNames(integer(length(fams)),fams)
+family_candidate_attempts<-setNames(integer(length(fams)),fams)
 for(r in seq_len(draws)){
   for(fam in fams){
     chars<-utf8ToInt(fam)
-    family_seed<-seed+r*10000L+sum(chars*seq_along(chars))*7L
-    set.seed(family_seed)
-    u<-unique_tips[[fam]]
-    random_rank<-setNames(runif(length(u)),u)
-    for(i in seq_along(contexts)){
-      ctx<-contexts[[i]]
-      if(as.character(ctx$input$family)!=fam)next
-      for(ax in axes){
-        a<-ctx$axes[[ax]]
-        if(a$status!="PASS")next
-        native<-a$native_tips
-        if(a$n_actual_strict_tips==a$n_baseline_tips){
-          k<-a$baseline_logK_contrast
-          pd<-1
-        }else{
-          ordered<-native[order(random_rank[native],native)]
-          keep<-ordered[seq_len(a$n_actual_strict_tips)]
-          sub<-ape::keep.tip(a$tree,keep)
-          x<-testk(sub,a$states,a$repA)
-          k<-x$delta
-          pd<-x$PD/a$baseline_total_native_PD
+    accepted<-FALSE
+    for(attempt in seq_len(max_attempts)){
+      family_candidate_attempts[[fam]]<-family_candidate_attempts[[fam]]+1L
+      family_seed<-seed+r*10000L+sum(chars*seq_along(chars))*7L+
+                   attempt*99991L
+      set.seed(family_seed)
+      u<-unique_tips[[fam]]
+      random_rank<-setNames(runif(length(u)),u)
+      trial<-vector("list",length(contexts))
+      invalid<-FALSE
+      for(i in seq_along(contexts)){
+        ctx<-contexts[[i]]
+        if(as.character(ctx$input$family)!=fam)next
+        trial[[i]]<-list()
+        for(ax in axes){
+          a<-ctx$axes[[ax]]
+          if(a$status!="PASS")next
+          native<-a$native_tips
+          if(a$n_actual_strict_tips==a$n_baseline_tips){
+            k<-a$baseline_logK_contrast
+            pd<-1
+          }else{
+            ordered<-native[order(random_rank[native],native)]
+            keep<-ordered[seq_len(a$n_actual_strict_tips)]
+            sub<-ape::keep.tip(a$tree,keep)
+            z<-testk(sub,a$states,a$repA)
+            if(z$status=="HOLD_RANDOM_ZERO_TRAIT_VARIANCE"){
+              invalid<-TRUE
+              break
+            }
+            if(z$status!="PASS")stop("Unexpected invalid original K null draw status")
+            k<-z$delta
+            pd<-z$PD/a$baseline_total_native_PD
+          }
+          trial[[i]][[ax]]<-list(
+            flip=as.integer((k>0)!=(a$baseline_logK_contrast>0)),
+            shift=k-a$baseline_logK_contrast,pd=pd)
         }
-        null_flip[[i]][[ax]][[r]]<-as.integer((k>0)!=(a$baseline_logK_contrast>0))
-        null_shift[[i]][[ax]][[r]]<-k-a$baseline_logK_contrast
-        null_pd[[i]][[ax]][[r]]<-pd
+        if(invalid)break
       }
+      if(invalid){
+        family_candidate_rejections[[fam]]<-family_candidate_rejections[[fam]]+1L
+        next
+      }
+      for(i in seq_along(contexts)){
+        if(as.character(contexts[[i]]$input$family)!=fam)next
+        for(ax in axes){
+          a<-contexts[[i]]$axes[[ax]]
+          if(a$status!="PASS")next
+          z<-trial[[i]][[ax]]
+          if(is.null(z)||any(!is.finite(unlist(z))))
+            stop("Accepted K-valid family-priority draw incomplete")
+          null_flip[[i]][[ax]][[r]]<-z$flip
+          null_shift[[i]][[ax]][[r]]<-z$shift
+          null_pd[[i]][[ax]][[r]]<-z$pd
+        }
+      }
+      accepted<-TRUE
+      break
     }
+    if(!accepted)stop(sprintf(
+      "No K-valid equal-n null sample after %d family-level draws for family %s replicate %d",
+      max_attempts,fam,r))
   }
 }
 summ<-function(x)if(length(x))list(
@@ -241,6 +290,12 @@ out<-list(version="v0.1",status="PASS_ORIGINAL_142_TIP_LOSS_FROZEN_BROAD_TREE_NU
    null_replicates=draws,null_seed=seed,
    same_family_random_rank_shared_across_original_trait_pairs=TRUE,
    family_batches_are_disjoint=TRUE,
+   null_inference_conditioned_on_phylogenetic_K_estimable_in_every_family_pair=TRUE,
+   n_total_candidate_family_priorities_evaluated=sum(family_candidate_attempts),
+   n_rejected_family_priorities_due_to_undefined_K=sum(family_candidate_rejections),
+   rejected_K_undefined_draws_by_family=as.list(family_candidate_rejections),
+   n_candidates_evaluated_by_family=as.list(family_candidate_attempts),
+   no_per_pair_independent_resampling_after_K_variance_hold=TRUE,
    fixed_broad_tree_all_trait_values_and_taxon_numbers_source_checked=TRUE,
    no_evolutionary_rate_or_K_selection_hypothesis_confirmed=TRUE,
    pairs=out_pairs)

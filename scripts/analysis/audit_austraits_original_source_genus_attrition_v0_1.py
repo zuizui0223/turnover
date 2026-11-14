@@ -39,7 +39,9 @@ def med(z):
 def original_pairs():
     m=json.loads((ROOT/"original_genus_tip_loss_archive_manifest.json").read_text())
     need(m["status"]=="PASS_DURABLE_ORIGINAL_142_101_GENUS_QUOTA_FIXED_TREE_K_NULL_REPLAY_V0_1"
-         and m["n_nonraw_derived_files"]==38 and m["original_complete_genus_K_null_run_id"]==43566577755
+         and m["n_nonraw_derived_files"]==38 and m["original_source_genus_K_null_matrix_run_id"]==43566577755
+         and m["corrected_independent_full_K_aggregation_recovery_CI_run_id"]==43567784678
+         and m["original_source_matrix_12_of_12_jobs_success"] is True
          and m["original_parquet_sha256"]==SRC_SHA,
          "Permanent original v7 genus conditional K null proof absent")
     for name,sha in m["derived_files_sha256"].items():

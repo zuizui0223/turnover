@@ -21,12 +21,15 @@ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--run-id",required=True,type=int)
+    p.add_argument("--verified-aggregation-run-id",required=True,type=int)
     p.add_argument("--plan-dir",required=True,type=Path)
     p.add_argument("--results-dir",required=True,type=Path)
     p.add_argument("--verdict",required=True,type=Path)
     p.add_argument("--out-dir",required=True,type=Path)
     a=p.parse_args()
-    need(a.run_id==RUN,"Wrong original full source genus-conditioned K run")
+    need(a.run_id==RUN,"Wrong original full source genus-conditioned K matrix run")
+    need(a.verified_aggregation_run_id>RUN,
+         "Corrected final original genus K aggregation must be a distinct subsequent CI run")
     plan={f"P{i:02d}.json" for i in range(1,13)}
     plan.add("original_null_plan.json")
     outputs={f"P{i:02d}_{suffix}.json" for i in range(1,13)
@@ -74,7 +77,11 @@ def main():
     need(len(fingerprint)==38,"Archive original 12 K null + 12 audit + 12 source plans incomplete")
     manifest={
       "status":STATUS,
-      "original_complete_genus_K_null_run_id":RUN,
+      "original_source_genus_K_null_matrix_run_id":RUN,
+      "original_source_matrix_12_of_12_jobs_success":True,
+      "original_matrix_workflow_overall_status":"FAILED_ONLY_FINAL_PYTHON_SHA_TYPE_BUG",
+      "corrected_independent_full_K_aggregation_recovery_CI_run_id":a.verified_aggregation_run_id,
+      "corrected_full_aggregation_recomputed_and_verified":True,
       "original_AusTraits_release":"v7.0.0",
       "original_parquet_sha256":SRC,
       "source_selected_original_K_pairs":142,
@@ -85,6 +92,7 @@ def main():
       "actual_strict_source_survivor_genus_counts_fixed":True,
       "all_12_genus_K_null_family_batches_and_original_K_audits_verified":True,
       "n_nonraw_derived_files":len(fingerprint),
+      "unmodified_original_R_K_numeric_matrix_results_reused":True,
       "derived_files_sha256":fingerprint,
       "never_export_source_species_genus_observation_ID_trait_median_data":True,
       "not_independent_primary_measurements":True,
@@ -95,7 +103,7 @@ def main():
     if mp.exists():need(mp.read_text()==contents,"Original genus K null output manifest drift")
     else:mp.write_text(contents)
     print(json.dumps({"status":STATUS,"files":len(fingerprint),
-                      "run_id":RUN,"S3":final["genus_conditioned_AusTraits_Rcpp_native_K_derived_results"]["S3"][
+                      "source_matrix_run_id":RUN,"verified_audit_run":a.verified_aggregation_run_id,"S3":final["genus_conditioned_AusTraits_Rcpp_native_K_derived_results"]["S3"][
                          "genus_quota_preserved_empirical_upper_tail_probability"],
                       "prune":final["genus_conditioned_AusTraits_Rcpp_native_K_derived_results"]["prune_only"][
                          "genus_quota_preserved_empirical_upper_tail_probability"]},sort_keys=True))

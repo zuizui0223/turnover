@@ -251,6 +251,8 @@ def audit(archive,core,accepted,genus,traits,gift_summary,name_only):
                     seen_binomial.add(s)
                     if s in name_only:
                         seen_name_only.add(s)
+                    if s in accepted:
+                        seen_exact.add(s)
                     if s in name_only and s not in accepted:
                         name_matches_missing_family.add(s)
                 if w is None or w<=0:
@@ -263,7 +265,6 @@ def audit(archive,core,accepted,genus,traits,gift_summary,name_only):
                 known=accepted.get(s)
                 if known:
                     work,fam=known
-                    seen_exact.add(s)
                     plot_exact_cover[p]+=w
                     exact_positive+=1
                     family_exact_species[fam].add(s)

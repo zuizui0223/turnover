@@ -24,7 +24,20 @@ Family clustering is substantial: S3 taxon/tree flips include Fabaceae (5), Prot
 
 Across the **101 original pair identities valid in both S3 and native-prune**, 13 S3 and 13 prune comparisons reversed their organ-K rank during the taxon/tree stage, and **8 of those comparisons reversed under BOTH tree treatments**. These eight same-pair common changes occurred in Proteaceae (4), Fabaceae (2), Poaceae (1), and Elaeocarpaceae (1), and five involved plant_height as the vegetative comparator. The trees share original underlying phylogenetic information, so this is not eight independent evolutionary validations. It is an exact paired-axis descriptive reproducibility feature.
 
-**Stronger next mechanistic audit:** Keep the broad-stage trait states and tree construction rule fixed, sample the same number of species as the actual strict-source retained subset many times *without looking at the K outcome*, and compare random matched-n changes with the actual observed K change; repeat stratified by genus/branch and quantify phylogenetic dispersion of the retained/lost lineages. Those tests have not yet been run and are post-discovery even when performed. Number of tips alone cannot be equated with lineage-specific pruning.
+**Mechanistic follow-up after completed equal-n null:** The broad native tree and source-state fixed, matched-n family-correlated random survival test above has now passed. Unresolved tests are genus/branch placement and joint life-history/missingness stratification; the current same-data randomized result remains retrospective and no mechanism or biomass-causal result has been established.
+
+## Completed equal-n random tip-pruning and family robustness result (14 November 2026)
+
+[Fixed source-native tree null #43564505854 PASS](https://github.com/zuizui0223/turnover/actions/runs/43564505854) re-fit only the **already fixed original K estimand under conditional randomization** (not a new independent biological dataset). On the **same original broad phylogeny and broad nonflora trait values**, the actual strict-source survivors and 128 equal-n family-wide randomized survivor priority draws gave:
+
+- **S3, 142 pairs:** 23 actual original strict-survivor sign flips vs 14.82 mean in 128 family-correlated random draws; empirical one-sided upper-tail proportion **0.0310**.
+- **Native prune, 101 pairs:** 13 actual flips vs 11.23 expected at random; upper-tail **0.3566**.
+- Every actual strict-survivor sign decision on the original BROAD tree agreed with the corresponding *rebuilt* strict native K tree sign in the original 142/101 pair cohort. The numeric K magnitudes/PD need not be identical.
+- [Permanent null archive #43565522112 PASS](https://github.com/zuizui0223/turnover/actions/runs/43565522112) contains 128-draw results and SHA256 proof. Four of 3,076 candidate whole-family random-rank draws were rejected because K is undefined on constant-trait subsets; the published null conditions on K being estimable.
+
+[Original K-family deletion and phylogenetic diversity audit #43565935858 PASS](https://github.com/zuizui0223/turnover/actions/runs/43565935858) reused the EXACT original 128 draws, without changing species/tip K values or estimating a new biological effect. In S3 the descriptive upper-tail probability remains ≤0.05 after 21/24 single-family omissions, but removing **Fabaceae gives 0.1163**, Elaeocarpaceae 0.0698 and Celastraceae 0.0620. Native prune has **0/18** omissions with an upper-tail ≤0.05. Actual strict survivors had *less retained native branch-length/PD than the same-n random 2.5th percentile* in **36 S3** and **21 prune** pair contexts, but only **6/23 S3 flips** and **5/13 prune flips** coincided with those unusually low-PD cases.
+
+**Interpretation:** Under this specific conditional fixed-tree same-n null, S3 source-selected species composition sometimes carries more K sign-change information than random taxon number loss. This is not a cross-tree-universal, family-independent or preregistered finding; shared source/publication structure, trait state variance and tree geometry may still be involved. Retained phylogenetic PD does not by itself explain which original pairs reverse. Further mechanism claims, especially about reproductive allocation or biomass, require independent measurements of appropriate quantities or targeted source-/lineage-controlled tests.
 
 ## 2. Where whole-plant biomass enters (and where it does NOT)
 
@@ -73,7 +86,7 @@ If the user or authors acquire an approved TRY export, the schema should preserv
 
 1. **Already passed:** 254/760/283/142 original public-v7 K numeric replay, and original 142/101 descriptive sign-flip group comparison; only original data.
 2. **Public GIFT linkage verified:** the exact original 15,305/13,436/3,625 species K populations are now joined to stable GIFT 3.1 public accepted names, with 90.5/92.2/94.0% exact match and 3,015 strict species having woodiness. No K refit, no source independence and no measured biomass output. Missing GIFT names remain missing; no hidden complete-case K reselection.
-3. **Mechanism discrimination remains open:** equal-n random tip pruning, genus/branch position, original baseline log-K margin and family-block uncertainty; source and numerical artifacts do not determine a unique cause.
+3. **Equal-n source/tip randomization now completed (technical source-only):** 128 family-correlated draws yielded S3 23 observed reversals vs 14.82 random (upper tail 0.0310), prune 13 vs 11.23 (upper tail 0.3566), with Fabaceae-sensitive S3 family LOFO. Genus/branch topology, original baseline log-K margin, source-study independence and prospective replicate tests remain incomplete. No causal biomass allocation or life-history mechanism identified.
 4. **TRY-based direct biomass analysis remains external-input-dependent:** user account/IPG, correct source references, actual biomass and seed-production coverage and non-overlap constraints.
 5. **Original article inference must remain unchanged:** same compilation, retrospective organ grouping, dependent pairs/families and two non-independent trees. PR #38 stays Draft, unmerged and unsubmitted.
 

@@ -5,6 +5,10 @@ on:
     paths:
       - scripts/analysis/pd_fd_source_gate_v0_1.py
       - .github/workflows/pd-fd-source-gate-selftest-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/pd_fd_source_gate_v0_1.py
+      - .github/workflows/pd-fd-source-gate-selftest-v0-1.yml
   workflow_dispatch:
 jobs:
   test:

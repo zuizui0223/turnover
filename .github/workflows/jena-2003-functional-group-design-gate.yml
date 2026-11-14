@@ -1,0 +1,50 @@
+name: Jena 2003 original 60-species functional-group design source gate
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - scripts/analysis/audit_jena_2003_group_design_v0_1.py
+      - .github/workflows/jena-2003-functional-group-design-gate.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_jena_2003_group_design_v0_1.py
+      - .github/workflows/jena-2003-functional-group-design-gate.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  group-structural-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate independent source-matrix structure tests
+        run: |
+          python3 -m py_compile scripts/analysis/audit_jena_2003_group_design_v0_1.py
+          python3 scripts/analysis/audit_jena_2003_group_design_v0_1.py --self-test
+      - name: Download and hash-pin original Jena 2003 and plot allocation
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 1 --connect-timeout 15 --max-time 90 \
+            -H 'Accept: text/tab-separated-values' \
+            -H 'User-Agent: turnover-jena-source-gate/0.1' \
+            'https://doi.org/10.1594/PANGAEA.846317' -o /tmp/jena_2003_source.tab
+          curl -fsSL --retry 1 --connect-timeout 15 --max-time 90 \
+            'https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt' \
+            -o /tmp/jena_2002_plots.txt
+          echo '70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079  /tmp/jena_2003_source.tab' | sha256sum -c -
+          echo '7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70  /tmp/jena_2002_plots.txt' | sha256sum -c -
+      - name: Compare source-native sowing pattern and independent plot design (no values)
+        run: |
+          python3 scripts/analysis/audit_jena_2003_group_design_v0_1.py \
+            --source /tmp/jena_2003_source.tab \
+            --plotinfo /tmp/jena_2002_plots.txt \
+            --out results/biomass_jena_2003_source_v0_1/tier1_group_design.json
+      - name: Preserve only QA manifest (no raw source or biomass values)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-2003-tier1-sowing-group-qa
+          path: results/biomass_jena_2003_source_v0_1/tier1_group_design.json
+          retention-days: 30
+          if-no-files-found: ignore

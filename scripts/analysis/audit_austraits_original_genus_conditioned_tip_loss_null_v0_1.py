@@ -21,10 +21,14 @@ BATCHES=12
 def need(ok,msg):
     if not ok:raise AssertionError(msg)
 
-def sha(path):
+def sha(path_or_bytes):
+    """Digest exact binary bytes, or stream a Path, without confusing the two."""
+    if isinstance(path_or_bytes, bytes):
+        return hashlib.sha256(path_or_bytes).hexdigest()
     h=hashlib.sha256()
-    with path.open("rb") as f:
-        for z in iter(lambda:f.read(1024*1024),b""):h.update(z)
+    with Path(path_or_bytes).open("rb") as f:
+        for z in iter(lambda:f.read(1024*1024),b""):
+            h.update(z)
     return h.hexdigest()
 
 def read(path):return json.loads(path.read_text())

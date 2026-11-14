@@ -22,14 +22,37 @@ jobs:
         run: |
           python3 -m py_compile scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py
           python3 scripts/analysis/probe_jena_2003_direct_biomass_v0_1.py --self-test
-      - name: Acquire Jena 2003 from original published PANGAEA DOI
+      - name: Acquire Jena 2003 using official DOI negotiation, then exact DOI textfile
         run: |
           set -euo pipefail
-          URL='https://doi.pangaea.de/10.1594/PANGAEA.846317?format=textfile'
-          curl --fail --location --show-error --silent --retry 1 --connect-timeout 20 --max-time 180 \
-            -H 'Accept: text/tab-separated-values' -H 'User-Agent: turnover-source-gate/0.1 (research)' \
-            "$URL" -o /tmp/pangaea_846317_original.tab
-          test $(stat -c%s /tmp/pangaea_846317_original.tab) -gt 5000
+          python3 - <<'PY'
+          import subprocess
+          urls=[
+            ("doi_content_negotiation","https://doi.org/10.1594/PANGAEA.846317"),
+            ("pangaea_textfile","https://doi.pangaea.de/10.1594/PANGAEA.846317?format=textfile")
+          ]
+          for label,url in urls:
+              dest="/tmp/pangaea_846317_original.tab"
+              headers="/tmp/pangaea_846317_headers.txt"
+              p=subprocess.run(["curl","--location","--silent","--show-error","--connect-timeout","15",
+                                "--max-time","90","--retry","0","-H","Accept: text/tab-separated-values",
+                                "-H","User-Agent: turnover-source-gate/0.1 (research)",
+                                "--dump-header",headers,"--output",dest,"--write-out","%{http_code}",url],
+                               capture_output=True,text=True)
+              code=p.stdout.strip()
+              import os
+              size=os.path.getsize(dest) if os.path.exists(dest) else 0
+              print("SOURCE_ACCESS",label,"HTTP",code,"bytes",size,"curl_rc",p.returncode)
+              if code=="200" and size>5000:
+                  print("ORIGINAL_PANGAEA_TABULAR_FILE_FETCHED",label)
+                  break
+              if os.path.exists(dest):
+                  with open(dest,"rb") as f:
+                      small=f.read(110).decode("utf-8",errors="replace").replace("\n"," ")
+                  print("NON_DATA_RESPONSE_START",repr(small[:110]))
+          else:
+              raise SystemExit("PANGAEA_SOURCE_ACCESS_HOLD_BOTH_DOCUMENTED_ROUTES_FAILED")
+          PY
           sha256sum /tmp/pangaea_846317_original.tab
           file /tmp/pangaea_846317_original.tab
       - name: Audit original source rows and measured-biomass column (no effects)

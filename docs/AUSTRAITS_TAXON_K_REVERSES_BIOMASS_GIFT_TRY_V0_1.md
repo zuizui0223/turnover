@@ -49,6 +49,19 @@ The original strict subsets had unusually low retained phylogenetic branch lengt
 
 [Verified native-tree parity and context summary](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_tip_loss_null_context_v0_1).
 
+### Plant stature is a prominent sampling-sensitive comparison, not measured biomass
+
+The [original full fixed-tree/native tip K parity and plant_height audit #43566078839 PASS](https://github.com/zuizui0223/turnover/actions/runs/43566078839) compared the *same fixed original 128 family-correlated random pruning draws* against the actual strict-source survivor subsets and separated the vegetative comparator being plant_height from other vegetative dimensions:
+
+| Original axis | Plant-height compared pairs | Actual height-pair K flips | Matched-n random mean height flips | Other vegetative pairs: actual vs matched-n random mean |
+| --- | ---: | ---: | ---: | ---: |
+| S3 | 57 | 13 | 6.4219 | 10/85 vs 8.3984 |
+| Native prune | 42 | 7 | 3.7266 | 6/59 vs 7.5078 |
+
+Most of the original S3 observed-minus-matched-n-random flip excess is associated with the *plant_height* comparator (**13−6.4219 ≈ +6.58 of total 23−14.8203 ≈ +8.18**). These comparisons are original family×trait-pair rows with overlapping species/families, not independent tests. The comparison was defined after the original reproductive K pattern was observed; do not treat it as a predeclared subgroup-effect p-value.
+
+This **supports prioritizing plant stature, growth form, lineage composition and source-specific height measurement availability** as explanatory contexts. Height is a coarse size proxy; it does NOT quantify whole-plant dry biomass, leaf/stem/root allocation or reproductive carbon allocation. A direct biomass mechanism remains unverified. The source audit found 3,015/3,625 exact strict species with GIFT woodiness metadata and 2,363/3,625 with GIFT maximum height, but these data have not independently validated a biomass mechanism.
+
 ## 2. Where whole-plant biomass enters (and where it does NOT)
 
 The original 12 named organ traits are length, area, leaf mass/area, height, fruit/seed dimensions and **seed_dry_mass**. None is a complete measured aboveground biomass, belowground biomass, individual reproductive biomass or allocation-rate dataset. **Plant height is a size proxy, not total biomass**. **Mass of one seed is not total reproductive allocation** without seed production and other reproductive tissue mass.

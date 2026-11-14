@@ -61,7 +61,14 @@ jobs:
           assert z['no_original_species_names_record_ids_or_trait_values_exported'] is True
           print('PASS_GIFT_ORIGINAL_AUSTRAITS_SPECIES_GROWTHFORM_COVERAGE_ONLY')
           PY
-      - name: Commit only source-free aggregate name-match coverage and growth-form context
+      - name: Preserve computed public GIFT coverage before any branch push
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-gift-3-1-growthform-woodiness-name-match-coverage-v0-1
+          path: results/austraits_organ_paper_gift_original_K_linkage_v0_1/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit only aggregate name-match coverage; rebase if paper edits landed concurrently
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -70,11 +77,14 @@ jobs:
             echo ORIGINAL_GIFT_LINKAGE_COVERAGE_ALREADY_IDENTICAL
           else
             git commit -m "Measure GIFT 3.1 accepted-species growth-form coverage for original AusTraits K without new K fits"
-            git push origin "HEAD:$GITHUB_REF_NAME"
+            for attempt in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo ORIGINAL_GIFT_LINKAGE_COVERAGE_PERSISTED
+                exit 0
+              fi
+            done
+            echo "Concurrent paper branch changes prevented Git push after three safe rebases"
+            exit 1
           fi
-      - uses: actions/upload-artifact@v4
-        with:
-          name: austraits-original-gift-3-1-growthform-woodiness-name-match-coverage-v0-1
-          path: results/austraits_organ_paper_gift_original_K_linkage_v0_1/
-          retention-days: 90
-          if-no-files-found: error

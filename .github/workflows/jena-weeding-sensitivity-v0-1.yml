@@ -41,3 +41,17 @@ jobs:
           path: results/jena_weeding_sensitivity_v0_1/
           if-no-files-found: error
           retention-days: 60
+      - name: Attribute unchanged public input bytes for reproducibility
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/jena_2003_weeding_sources/SOURCE_ATTRIBUTION.txt')
+          p.write_text('Buchmann, Nina; Temperton, Vicky M (2015). Aboveground community and species-specific plant biomass from the Jena Experiment (Main Experiment, year 2003). PANGAEA. https://doi.org/10.1594/PANGAEA.846317\nLicense: Creative Commons Attribution 3.0 Unported (CC BY 3.0), https://creativecommons.org/licenses/by/3.0/\nbiomass2003.tab is unchanged publisher TSV content, renamed only for the analysis interface.\nplotinfo.txt is the unchanged original ancillary plot allocation file from https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt\nNo raw input file is committed to the repository. This short-lived artifact prevents loss of verified source bytes when the analysis environment cannot access the publisher.\n',encoding='utf-8')
+          PY
+      - name: Retain public source inputs separately without committing them
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-2003-verified-public-source-inputs-v0-1
+          path: /tmp/jena_2003_weeding_sources/
+          if-no-files-found: error
+          retention-days: 14

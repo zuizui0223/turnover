@@ -1,0 +1,9 @@
+# Retrospective response-source sensitivity
+
+Triggered by the completed original-unit audit: 4,340 exact sample-key finite values agree within 0.005 g/m², but six sample keys disagree in missingness and 2007 summer uses original replicate labels 1,2,3 versus compilation 2,3,4. The unmatched 82 labels are not automatically the same measurements; original and compiled plot medians differ beyond 0.051 g/m² for 57 of 164 2007 plot-season keys (maximum 245.033 g/m²). This is a published-source discrepancy, not proof that either dataset is erroneous.
+
+Before calculating sensitivity fits, retain the original FD/FI predictors, original sowing covariates, four models, source hashes and year split. Compare two target sources on identical common rows: (a) published compiled target.biomass median; (b) official annual source median for 2003–2010. Nonfinite source medians are excluded jointly in both worlds; no replacement with zero.
+
+Report two fixed scopes: full 2003–2012 panel with 2011–2012 explicitly left as compiled (partial-source replacement, not full validation), and fully original-year-covered 2003–2010 panel (train 2003–2007, test 2008–2010). Do not call the latter a new independent holdout; these data have been inspected previously.
+
+For each scope, refit the same four OLS models and score the same test cells. Summarize FD, FI and combined gains versus planned diversity + season + linear year + block baseline. Paired within-block plot bootstrap, 2,000 draws, seed 20261118: use identical plot multiplicities across both source worlds, all models and training/test dates. Report source-specific intervals and source-induced gain changes. Do not select a better source/model by its p-value. Preserve original numerical files and distinguish data-source robustness from ecological mechanism or spatial validation.

@@ -114,7 +114,7 @@ def management_analysis(d,info):
 def annual_reconcile(root,info):
     comp=csv_zip(root/'biomass02_12.zip');comp=comp[comp.plotcode.isin(info.index)].copy()
     comp['season']=comp.month.map({'May':'spring','Jun':'spring','Aug':'summer','Sept':'summer'})
-    comp=comp.rename(columns={'plotcode':'plot','subsample':'rep','target.biomass':'mass'})
+    comp=comp[['plotcode','year','season','subsample','target.biomass']].rename(columns={'plotcode':'plot','subsample':'rep','target.biomass':'mass'})
     comp.rep=pd.to_numeric(comp.rep,errors='raise').astype(int).astype(str);comp.mass=clean_mass(comp.mass)
     reports=[];official2003=None
     for year,doi in ANNUAL.items():

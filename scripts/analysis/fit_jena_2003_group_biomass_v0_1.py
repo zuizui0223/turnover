@@ -185,7 +185,7 @@ def analyse(rows,blocks):
       ]}
 def synthetic_test():
     # Deterministic design-check logic only, not a synthetic biological result.
-    demo=[{"plot":str(i),"block":"B"+str(i%4),"richness":2**(i%4),
+    demo=[{"plot":str(i),"block":"B"+str(i%4),"richness":2**(i%5),
            "fg":1+(i%3),"legumes":int(i%2==0),"may":float(i+1),"aug":float(i+2)}
           for i in range(24)]
     x,n=Xmatrix(demo,["B0","B1","B2","B3"])

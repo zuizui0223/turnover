@@ -1,0 +1,24 @@
+name: PD–FD source gate v0.1 self-test
+on:
+  push:
+    branches: [analysis/pd-fd-biomass-source-gate-20261114]
+    paths:
+      - scripts/analysis/pd_fd_source_gate_v0_1.py
+      - .github/workflows/pd-fd-source-gate-selftest-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/pd_fd_source_gate_v0_1.py
+      - .github/workflows/pd-fd-source-gate-selftest-v0-1.yml
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source-gate script syntax
+        run: python3 -m py_compile scripts/analysis/pd_fd_source_gate_v0_1.py
+      - name: Check fail-closed internal fixture
+        run: python3 scripts/analysis/pd_fd_source_gate_v0_1.py --self-test

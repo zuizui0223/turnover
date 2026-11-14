@@ -1,0 +1,71 @@
+name: PD–FD family sampling and GIFT source eligibility v0.1
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_splotopen_gift_family_eligibility_v0_1.py
+      - .github/workflows/pd-fd-family-eligibility-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source-only audit syntax and fixture
+        run: |
+          python3 -m py_compile scripts/analysis/audit_splotopen_gift_family_eligibility_v0_1.py
+          python3 scripts/analysis/audit_splotopen_gift_family_eligibility_v0_1.py --self-test
+      - name: Fetch archived outcome-blind BIEN final crossed core (201 systems)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/frozen-memory
+          gh run download 37086693588 -R "$GITHUB_REPOSITORY" -n trait-memory-informativeness-v0-5 -D build/frozen-memory
+          test -s build/frozen-memory/trait_memory_crossed_core_v0_6/core_systems.csv
+          python3 - <<'PY'
+          import csv
+          p='build/frozen-memory/trait_memory_crossed_core_v0_6/core_systems.csv'
+          r=list(csv.DictReader(open(p,encoding='utf-8')))
+          assert len(r)==201 and len({x['family'] for x in r})==45 and len({x['trait_name'] for x in r})==12
+          print('FROZEN_BIEN_CORE_PASS',len(r),len({x['family'] for x in r}),len({x['trait_name'] for x in r}))
+          PY
+      - name: Get pinned public sPlotOpen source mirror (no data deposited)
+        uses: actions/checkout@v4
+        with:
+          repository: ezequielscott/sPlotOpen
+          ref: 1bfcad669ae1a7e6f0a419159dd3051e83bdd26b
+          path: public-splot-mirror
+          lfs: false
+          persist-credentials: false
+      - name: Download only public mirror composition and header Git LFS records
+        run: |
+          cd public-splot-mirror
+          git lfs pull --include='3474_76_Dataset/sPlotOpen_DT(2).txt,3474_76_Dataset/sPlotOpen_header(3).txt'
+      - name: Prepare local-only ZIP of exactly two source-native tables
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile,ZIP_STORED
+          root=Path('public-splot-mirror/3474_76_Dataset')
+          names=['sPlotOpen_DT(2).txt','sPlotOpen_header(3).txt']
+          assert all((root/n).stat().st_size>100000 for n in names)
+          with ZipFile('/tmp/splot_family_eligibility_source_5806.zip','w',compression=ZIP_STORED) as z:
+              for n in names:z.write(root/n,arcname=n)
+          PY
+      - name: Audit GIFT v3.1 genus-family taxonomy and full 95,104 plots
+        run: |
+          python3 scripts/analysis/audit_splotopen_gift_family_eligibility_v0_1.py \
+            --archive /tmp/splot_family_eligibility_source_5806.zip \
+            --core build/frozen-memory/trait_memory_crossed_core_v0_6/core_systems.csv \
+            --out results/pd_fd_source_gate_v0_1/family_eligibility_v0_1.json
+      - name: Preserve nonraw source-gate report only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pd-fd-family-eligibility-gift3-1-v0-1
+          path: results/pd_fd_source_gate_v0_1/family_eligibility_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

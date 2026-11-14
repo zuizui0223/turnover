@@ -1,0 +1,84 @@
+{
+  "version": "v0.2",
+  "audit_date": "2026-11-14",
+  "study": "Independent community PD–FD / prospective biomass extension",
+  "status": "PRE_OUTCOME_HOLD_TWO_PRIMARY_SOURCE_GATES",
+  "verified_source_file": "results/pd_fd_source_gate_v0_1/family_eligibility_v0_1.json",
+  "verified_actions_run": "https://github.com/zuizui0223/turnover/actions/runs/43573623711",
+  "original_audit_sha256": "ef8704d786efe9fdebcac72b953f23a13f0730b854694f8b058f749a75d9344f",
+  "corrected_audit_sha256": "5828755cf8930d11009868792f1dbfa534cb0f08f92c2bf47ae24aaa62eac273",
+  "grades": {
+    "exact_species_name_gate": {
+      "required_fraction": 0.9,
+      "observed_fraction": 0.876693051890941,
+      "pass": false,
+      "n_species": 39795,
+      "n_exact": 34888,
+      "needed_more_exact": 928
+    },
+    "core_family_support_gate": {
+      "required_families": 12,
+      "observed_families": 10,
+      "pass": false,
+      "n_outcome_blind_BIEN_systems": 201,
+      "n_BIEN_maximum_whole_plant_height_families": 10
+    },
+    "conditional_plot_family_height_cells": {
+      "required": 500,
+      "observed": 24099,
+      "pass": true,
+      "qualification": "structural-only; source independence/tree native tips unresolved"
+    },
+    "source_dataset_count": {
+      "required": 5,
+      "observed": 96,
+      "pass": true,
+      "qualification": "dataset labels, not independent original measurement publications"
+    },
+    "independent_trait_sources": {
+      "pass": false,
+      "reason": "GIFT may reuse TRY, BIEN, AusTraits; no original-publication-level nonoverlap audit"
+    },
+    "phylogeny_nativetips": {
+      "pass": false,
+      "reason": "Exact plot-family traits have not been joined to source-native valid phylogenies"
+    },
+    "plot_level_measured_biomass": {
+      "pass": false,
+      "reason": "No matched directly measured above-/belowground dry biomass outcome"
+    }
+  },
+  "confirmed_population": {
+    "splot_plots": 95104,
+    "composition_rows": 1943306,
+    "binomial_species": 39795,
+    "gift_exact_names": 34888,
+    "unmatched_species": 4907,
+    "unmatched_species_with_known_genus": 4474,
+    "unmatched_species_with_unresolved_genus": 431,
+    "family_resolved_exact_names": 34888,
+    "exact_names_without_family": 0,
+    "height_candidate_families_20_plots": 65,
+    "height_candidate_plot_family_cells_20_plot_floor": 36839,
+    "height_BIEN_core_families_20_plots": 10,
+    "height_BIEN_core_plot_family_cells_20_plot_floor": 24099,
+    "BIEN_overlap_datasets": 96,
+    "key_family_counts": {
+      "Poaceae": 8611,
+      "Asteraceae": 5841,
+      "Fabaceae": 3829,
+      "Cyperaceae": 2377,
+      "Ericaceae": 1559
+    },
+    "top_three_family_cell_fraction": 0.7585791941574339,
+    "tropical_year_round_rain_plot_mean_exact_cover": 0.739,
+    "temperate_midlatitude_plot_mean_exact_cover": 0.925
+  },
+  "audit_fixes": {
+    "prior_11_species_discrepancy": "Previously counted only positive-cover family-resolved species: the 11 difference was from coverage filtering, not missing family assignment. Now all 34,888 original exact names have a family.",
+    "GIFT_trait_ambiguous_value_counter": "A metadata-only implementation bug iterated over string ID keys, not sets of values. Each trait has as many unambiguous IDs as original rows, so zero ambiguous values; corrected audited JSON retains original checksum and verification.",
+    "effect_change": "none; no FD/MPD/biomass regression or effect was ever opened"
+  },
+  "interpretation": "The fixed 201-system BIEN x GIFT max-height x sPlotOpen cohort is structurally large but not independent enough at the family level; most 24,099 candidate cells come from 10 families, top three ~75.9%. The original strict source gates must not be lowered based on this support outcome.",
+  "next_allowed": "Retain as source-support HOLD; independently obtain source-qualified height/other trait and biomass datasets under a separately frozen source design, and establish native phylogeny coverage before any new biological effect."
+}

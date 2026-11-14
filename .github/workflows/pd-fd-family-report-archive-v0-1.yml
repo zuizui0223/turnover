@@ -1,0 +1,68 @@
+name: Archive audited PD–FD family source-only data (no new outcomes)
+on:
+  push:
+    branches: [analysis/pd-fd-biomass-source-gate-20261114]
+    paths:
+      - .github/workflows/pd-fd-family-report-archive-v0-1.yml
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve exact completed nonraw family audit artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/pd-fd-reviewed
+          gh run download 43573623711 -R "$GITHUB_REPOSITORY" \
+            -n pd-fd-family-eligibility-gift3-1-v0-1 -D /tmp/pd-fd-reviewed
+          test -s /tmp/pd-fd-reviewed/family_eligibility_v0_1.json
+      - name: Validate checksums and correct metadata-only ambiguous-count defect
+        run: |
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path('/tmp/pd-fd-reviewed/family_eligibility_v0_1.json')
+          raw=p.read_bytes()
+          original_sha=hashlib.sha256(raw).hexdigest()
+          assert original_sha=='ef8704d786efe9fdebcac72b953f23a13f0730b854694f8b058f749a75d9344f',original_sha
+          d=json.loads(raw)
+          assert d['status']=='PRE_OUTCOME_HOLD_EXACT_NAME_90PCT_NOT_PASSED'
+          assert (d['splot_unique_plots'],d['splot_composition_rows'])==(95104,1943306)
+          assert (d['splot_binomial_species'],d['splot_exact_gift_species'])==(39795,34888)
+          assert d['height_BIEN_maxheight_families_at_least_20_plots']==10
+          assert d['height_BIEN_maxheight_plot_family_cells_after_floor']==24099
+          assert d['BIEN_core']['n_family_trait_pairs']==201
+          assert d['exact_name_but_unresolved_family_species']==0
+          for label,v in d['GIFT_source']['traits'].items():
+              if v['source_rows'] != v['unambiguous_values']:
+                  raise ValueError(f'Cannot correct ambiguous trait metadata without source rows: {label}')
+              v['ambiguous_value_ids_excluded']=0
+          d['postrun_metadata_correction']={
+            'reason':'The original script mistakenly iterated over string work_ID keys, not sets of trait values, when counting ambiguous IDs; result field was incorrect.',
+            'resolution':'For all three GIFT traits, source_rows == unambiguous_values, so ambiguous IDs are 0. This correction does not modify species matches, plot eligibility, family lists, or biological outcomes.',
+            'original_report_sha256':original_sha,
+            'original_actions_run':'https://github.com/zuizui0223/turnover/actions/runs/43573623711'
+          }
+          dest=Path('results/pd_fd_source_gate_v0_1/family_eligibility_v0_1.json')
+          dest.parent.mkdir(parents=True,exist_ok=True)
+          dest.write_text(json.dumps(d,sort_keys=True,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          corrected_sha=hashlib.sha256(dest.read_bytes()).hexdigest()
+          assert corrected_sha=='5828755cf8930d11009868792f1dbfa534cb0f08f92c2bf47ae24aaa62eac273',corrected_sha
+          print('PASS_FAMILY_COVERAGE_ARCHIVE',original_sha,corrected_sha)
+          PY
+      - name: Persist complete nonraw family-level counts in draft branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/pd_fd_source_gate_v0_1/family_eligibility_v0_1.json
+          if git diff --cached --quiet; then
+            echo 'FAMILY_COVERAGE_ALREADY_ARCHIVED'
+          else
+            git commit -m 'Archive verified family-level source coverage (no effects) [skip ci]'
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi

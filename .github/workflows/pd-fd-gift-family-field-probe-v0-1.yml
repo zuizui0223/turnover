@@ -26,4 +26,11 @@ jobs:
           assert isinstance(d,list) and len(d)>0
           keys=sorted(set().union(*(x.keys() for x in d)))
           print(json.dumps({"n_probe_rows":len(d),"field_names":keys,"candidate_taxonomy_fields":{k:{"n_nonempty":sum(bool(str(row.get(k) or "").strip()) for row in d),"n_distinct":len({str(row.get(k)) for row in d if row.get(k) is not None})} for k in keys if any(z in k.lower() for z in ("fam","gen","accepted","work_"))}},sort_keys=True))
+          url2="https://gift.uni-goettingen.de/api/extended/index3.1.php?query=taxonomy"
+          r2=urllib.request.Request(url2,headers={"User-Agent":"turnover-PD-FD-source-schema-probe/0.1","Accept":"application/json"})
+          with urllib.request.urlopen(r2,timeout=100) as response:
+              tax=json.load(response)
+          assert isinstance(tax,list) and len(tax)>500
+          from collections import Counter
+          print("TAXONOMY_SCHEMA",json.dumps({"rows":len(tax),"fields":sorted(tax[0].keys()),"levels":dict(Counter(str(x.get("taxon_lvl")) for x in tax)),"null_lft":sum(x.get("lft") is None for x in tax),"null_rgt":sum(x.get("rgt") is None for x in tax),"nonempty_taxon_ID":sum(bool(x.get("taxon_ID")) for x in tax)},sort_keys=True))
           PY

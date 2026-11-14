@@ -1,0 +1,95 @@
+name: Original AusTraits 142/101 source genus loss versus within-genus attrition v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-original-source-genus-attrition-v0-1.yml
+      - scripts/analysis/audit_austraits_original_source_genus_attrition_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  original-source-genus-vs-species-loss:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml
+      - name: Fetch SHA256-identical original AusTraits v7 raw measurements only inside this runtime
+        run: |
+          mkdir -p build/original
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/original/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/original/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 \
+            -o build/original/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Rebuild exact 142/101 original source-filtered K species groups then count fully lost genera
+        run: |
+          python scripts/analysis/audit_austraits_original_source_genus_attrition_v0_1.py \
+            --parquet build/original/austraits.parquet \
+            --traits-yml build/original/traits.yml \
+            --out-dir results/austraits_organ_paper_original_source_genus_attrition_v0_1
+      - name: Independently check fixed original K, source-group overlap and no species or genus IDs in results
+        run: |
+          python - <<'PY'
+          import json,csv,hashlib
+          from pathlib import Path
+          root=Path('results/austraits_organ_paper_original_source_genus_attrition_v0_1')
+          m=json.loads((root/'original_source_genus_attrition_verdict.json').read_text())
+          assert m['status']=='PASS_ORIGINAL_142_101_GENUS_LOSS_VS_WITHIN_GENUS_SOURCE_ATTRITION_DESCRIPTION'
+          assert m['n_original_native_pair_level_rows']==243
+          assert m['original_reconstruction_from_same_fixed_254_760_142_K_qualification'] is True
+          assert m['source_species_and_genus_names_or_raw_trait_values_exported'] is False
+          assert m['new_plant_evolutionary_trait_K_fits']==0
+          assert m['new_evolutionary_biomass_or_selection_effect_tests']==0
+          assert m['genus_quota_randomization_conditions_on_observed_strict_genus_survival'] is True
+          for tree,n,flips in (('S3',142,23),('prune_only',101,13)):
+              x=m['native_tree_axes'][tree]
+              assert x['n_original_pair_identities']==n
+              assert x['n_actual_original_K_sign_reversals']==flips
+              assert 0<=x['flipped_pairs_with_entire_genus_lost']<=flips
+              assert x['flipped_pairs_with_entire_genus_lost']+x['flipped_pairs_with_no_genus_lost']==flips
+          path=root/'original_142_101_source_genus_attrition_pairs_without_taxon_names.csv'
+          assert hashlib.sha256(path.read_bytes()).hexdigest()==m['original_genus_attrition_aggregate_csv_SHA256']
+          with path.open(newline='') as f:
+              rows=list(csv.DictReader(f))
+          assert len(rows)==243 and not set(rows[0]) & {
+              'species','genus','binomial','observation_id','value','dataset_id'}
+          for x in rows:
+              assert int(x['n_species_lost_with_entire_genus'])+int(x['n_species_lost_within_retained_genera'])==int(x['n_broad_source_species'])-int(x['n_strict_source_species'])
+              assert int(x['n_broad_source_genera'])-int(x['n_strict_source_genera'])==int(x['n_wholly_lost_genera'])
+          print('PASS_ORIGINAL_142_101_SOURCE_GENUS_ATTRITION_NO_RAW_TAXON_IDS')
+          print('GENUS_ATTRITION',json.dumps(m['native_tree_axes'],sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-142-101-source-genus-loss-diagnostic-v0-1
+          path: results/austraits_organ_paper_original_source_genus_attrition_v0_1/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit source-free genus attrition summaries with concurrency safe rebase
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_original_source_genus_attrition_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_SOURCE_GENUS_ATTRITION_UNCHANGED
+          else
+            git commit -m "Preserve original K source-only genus loss and within-genus attrition description"
+            for attempt in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo ORIGINAL_SOURCE_GENUS_ATTRITION_PERSISTED
+                exit 0
+              fi
+            done
+            exit 1
+          fi

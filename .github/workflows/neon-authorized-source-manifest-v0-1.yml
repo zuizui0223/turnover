@@ -49,8 +49,11 @@ jobs:
                   if any(term in basename.lower() for term in
                      ('hbp_perbout','hbp_massdata','div_1m2data','div_10m2data')):
                     entries.append({'name':basename,'size':f.get('size')})
-                item.update({'status':'AUTHORIZED_SOURCE_FILE_CATALOG',
+                required=('hbp_perbout','hbp_massdata') if prod=='DP1.10023.001' else ('div_1m2data',)
+                missing=[term for term in required if not any(term in x['name'].lower() for x in entries)]
+                item.update({'status':'AUTHORIZED_SOURCE_FILE_CATALOG' if not missing else 'SOURCE_TABLES_MISSING_HOLD',
                              'http_code':code,'n_files':len(files),
+                             'required_tables_missing':missing,
                              'selected_table_manifest':entries,
                              'metadata_sha256':hashlib.sha256(raw).hexdigest()})
               except urllib.error.HTTPError as e:

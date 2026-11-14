@@ -7,7 +7,7 @@ Primary macroecological NEON RELEASE-2026 DP1.10023.001 × DP1.10058.001 is AUTH
 PANGAEA [923591](https://doi.org/10.1594/PANGAEA.923591) public attachment hashes from verified GitHub Actions run 43576995999:
 - traits.st.zip SHA256 5ae74c473ff2e36861f137f4fc8a28740725a90dda9e265350fd45bcb38996c5
 - predictors_raw.zip SHA256 4af2ccca7b85b7a15b47ace87acfe0386feab79da51d3d5f67b3cf6034442e4b
-- biomass02_12.zip SHA256 aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe245ee1e875db
+- biomass02_12.zip SHA256 aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe330cefe245ee1e875db
 - CoverMain-JenaExp2003-2015all.zip SHA256 40a4a88bbf324cf1a5e8a16086f73aa5c847b7bd17380708f835f3a1a9056490
 - Plot information original DOI 846317 ancillary file hash 7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70
 Always cite original sources. PANGAEA warns that dataset 923591 lacked the normal final author approval. Previous 2020 original research already studied 41 traits and 42 ecosystem functions; 2023 published Matters Arising disputes the inference, emphasizing mechanistic trait selection.

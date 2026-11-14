@@ -1,0 +1,38 @@
+{
+  "version": "v0.1",
+  "recorded": "2026-11-14",
+  "tier": "source availability",
+  "status": "TIER0_JENA_SOURCE_DATA_SCHEMA_PASS",
+  "source": "PANGAEA DOI 10.1594/PANGAEA.846317",
+  "sha256_source_raw": "70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079",
+  "source_file_bytes": 235242,
+  "download_method": "https://doi.org/10.1594/PANGAEA.846317 with Accept: text/tab-separated-values",
+  "failure_other_method": "https://doi.pangaea.de/10.1594/PANGAEA.846317?format=textfile returned HTTP 400",
+  "number_source_rows": 820,
+  "number_columns": 84,
+  "n_unique_plots": 82,
+  "n_columns_species_biomass": 60,
+  "months": {
+    "May": 410,
+    "August": 410
+  },
+  "response": "Sown plant biom dw [g/m**2]",
+  "plots_with_valid_dry_mass": 82,
+  "missing_response_sentinel_count": 0,
+  "source_git_run": "https://github.com/zuizui0223/turnover/actions/runs/43575755477",
+  "independent_population": "Original randomized Jena single-site field experiment, not international macroecological replication",
+  "next_holds": [
+    "Verify Repl coding and distinguish subsamples from provided plot means",
+    "Retrieve independent original sown species/functional-group assignment by plot",
+    "Validate original plot block and pretreatment richness and functional group labels",
+    "Verify independent source for quantitative trait values and validate crosswalk"
+  ],
+  "not_estimated": [
+    "PD",
+    "FD",
+    "biomass~FD effect",
+    "K/rho portability",
+    "p-value"
+  ],
+  "original_splot_gift_bien_main_still_HOLD": true
+}

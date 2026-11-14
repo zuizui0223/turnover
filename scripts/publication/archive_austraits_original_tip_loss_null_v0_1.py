@@ -31,6 +31,12 @@ def go(plan,outcomes,original_final,dest,run):
          "All 12 original null K result and 12 independent audit files required")
     res=json.loads(original_final.read_text())
     need(res["status"]==STATUS_FULL and res["n_null_draws"]==DRAW_COUNT
+         and res["null_distribution_conditioned_on_K_estimable_across_each_original_family"] is True
+         and res["no_independent_per_pair_redraws_that_break_family_dependence"] is True
+         and res["n_original_family_clusters"]==24
+         and res["n_total_candidate_family_rank_draws"] >= 24*DRAW_COUNT
+         and res["n_rejected_candidate_family_rank_draws_due_to_undefined_K"]==
+             res["n_total_candidate_family_rank_draws"]-24*DRAW_COUNT
          and res["null_seed"]==SEED and res["number_original_family_trait_pairs"]==142
          and res["original_prune_supported_pair_ids"]==101
          and res["original_source_parquet_SHA256"]==SOURCE_SHA

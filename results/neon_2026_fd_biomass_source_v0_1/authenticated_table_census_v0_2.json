@@ -1,0 +1,37 @@
+{
+  "version": "v0.2",
+  "status": "AUTHENTICATION_RESOLVED_ALL_47_SITE_TABLE_CENSUS_COMPLETE",
+  "release": "RELEASE-2026",
+  "credential_execution_repository": "zuizui0223/neon",
+  "credential_value_read_by_assistant_or_copied": false,
+  "new_user_token_configuration_required": false,
+  "eight_fixed_metadata_requests_http200": 8,
+  "four_site_sentinel_note": "ABBY 2024-07 and CPER 2022-11 lacked the hbp_massdata table despite catalog availability. BART and BLAN had all required tables. Authentication succeeded for all eight requests.",
+  "catalog_sites": 47,
+  "catalog_site_months": 424,
+  "sites_with_all_three_tables_in_at_least_one_month": 47,
+  "domains_with_all_three_tables": 20,
+  "site_months_with_perbout_massdata_and_species_cover": 397,
+  "site_months_missing_mass_table": 27,
+  "required_tables": ["hbp_perbout", "hbp_massdata", "div_1m2Data"],
+  "example_schema_verification": {
+    "site": "ABBY",
+    "month": "2016-08",
+    "div_1m2Data_rows": 489,
+    "hbp_massdata_rows": 63,
+    "hbp_perbout_rows": 10,
+    "observed_fields": ["sampleID", "plotID", "collectDate", "endDate", "dryMass", "clipArea", "percentCover", "heightPlantSpecies", "heightPlantOver300cm"]
+  },
+  "plot_date_join_status_at_this_checkpoint": "NOT_YET_EVALUATED",
+  "ecological_effects_estimated": false,
+  "main_201_system_BIEN_and_organ_K_results_unchanged": true,
+  "verification": {
+    "credential_probe_run": "https://github.com/zuizui0223/neon/actions/runs/43594203030",
+    "full_census_run": "https://github.com/zuizui0223/neon/actions/runs/43594647592",
+    "full_census_artifact_id": 14112994682,
+    "full_census_artifact_sha256": "a898536d898cb702e73b42dffaedce68fac7c92e9811e7118ea0ce2663f09cf2",
+    "artifact_download_and_digest_verified": true,
+    "bridge_draft_PR": "https://github.com/zuizui0223/neon/pull/25"
+  },
+  "interpretation": "The earlier missing-token block applied to turnover, not to the user's already credentialed neon repository. Reusing the secret in its existing runner resolves access without copying it or merging a workflow into main. Actual table presence, not API product availability, reduces the 424 candidate months to 397. No biological FD-biomass effect is implied."
+}

@@ -1,0 +1,36 @@
+name: Jena biomass unit and subsample-management validation v0.1
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_jena_units_management_v0_1.py
+      - scripts/qa/test_jena_units_management_v0_1.py
+      - .github/workflows/jena-units-management-validation-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install fixed statistical dependencies
+        run: python -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 statsmodels==0.14.5
+      - name: Run ten synthetic unit and paired-comparison tests
+        run: python -m unittest discover -s scripts/qa -p test_jena_units_management_v0_1.py -v
+      - name: Reconcile original year records and run fixed management sensitivities
+        run: |
+          python scripts/analysis/audit_jena_units_management_v0_1.py \
+            --source-dir /tmp/jena-unit-management-source \
+            --out results/biomass_jena_2003_source_v0_1/units_management_validation_v0_1.json
+      - name: Preserve nonraw result only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-units-management-validation-v0-1
+          path: results/biomass_jena_2003_source_v0_1/units_management_validation_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 60

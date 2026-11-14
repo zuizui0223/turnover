@@ -196,9 +196,9 @@ def categories(map_species,tdata,original,strict,broad,flip):
            "original_matched_family_trait_pairs":len(pairs),
            "original_K_sign_reversals":len(reversed_pairs),
            "pair_weighted_exact_name_exposure_counts":dict(totals),
-           "median_fraction_lost_species_with_exact_GIFT_match_reversed":
+           "median_n_lost_species_with_exact_GIFT_match_reversed":
              med("n_lost_exact_GIFT_name_matches",reversed_pairs),
-           "median_fraction_lost_species_with_exact_GIFT_match_not_reversed":
+           "median_n_lost_species_with_exact_GIFT_match_not_reversed":
              med("n_lost_exact_GIFT_name_matches",other),
            "median_GIFT_classified_woody_fraction_lost_reversed":
              med("fraction_woody_lost_if_classified",reversed_pairs),

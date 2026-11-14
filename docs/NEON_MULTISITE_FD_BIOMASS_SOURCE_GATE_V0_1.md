@@ -21,3 +21,10 @@ Does independently measured plot-level plant trait FD improve hold-out-**site** 
 - Current macro Jena 2003 sentinel is positive for May FG richness but null for August, and predictive gain only +0.8%; no cross-site effect established.
 - NEON historic Cover substrate is species-per-1m², harvest is groups-per-0.2m² strip. Plot-level co-location is necessary but not sufficient to infer small-area direct causality.
 - Site-matched data must contain actual **trait FD** to be a biological follow-up; not just availability of both products.
+
+## Tier 1 access diagnosis — 2026-11-14
+
+- Eight predeclared unauthenticated `/api/v0/data/{product}/{site}/{YYYY-MM}?release=RELEASE-2026` probes returned HTTP 403 [run #43577609259](https://github.com/zuizui0223/turnover/actions/runs/43577609259). This does **not** mean no plot data exist.
+- Official [NEON-utilities-python `auth_check`](https://github.com/NEONScience/NEON-utilities-python/blob/main/src/neonutilities/helper_mods/api_helpers.py) explicitly states that an API token has been required for data download **since June 2026**. The official request header is `X-API-TOKEN`. Catalog product and site metadata endpoints are separately accessible without it.
+- An optional **manual-only** workflow is now ready at `.github/workflows/neon-authorized-source-manifest-v0-1.yml`. It reads `secrets.NEON_API_TOKEN` from GitHub Actions Secrets, checks four fixed cross-domain source file lists, never prints the token/temporary download URLs, and does not open measured records.
+- Do not hard-code a token in workflow, Git branch, chat, issue, logs or artifact. No credential is available to this session; the full Tier 1 sample crosswalk therefore stays AUTH HOLD. If the user configures a NEON account token as a GitHub repository Actions secret and explicitly runs the manual action, only authorized source metadata are opened. Only then can a separate plot/date crosswalk begin, retaining the ≥12-site/4-domain/100-plot-cell/≤30-day gates and NEON 2026 release pin.

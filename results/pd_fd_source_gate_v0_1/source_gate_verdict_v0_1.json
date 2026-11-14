@@ -15,7 +15,7 @@
   "plots_with_three_or_more_congeneric_species": 21639,
   "notes": [
     "High cover-weighted match does not override the prespecified species-level exact match gate",
-    "Possible path is a predeclared, auditable synonym resolution pass; no lowering of thresholds or outcome-based exclusions",
+    "Synonym mapping can be audited as a separately labeled extension, but does NOT count as additional exact-binomial matches or retroactively satisfy the frozen 90% exact-match gate",
     "No family-level eligibility, tree-native-tip availability or independent height source lineage audit is established",
     "Biomass/FD effects not estimated"
   ],

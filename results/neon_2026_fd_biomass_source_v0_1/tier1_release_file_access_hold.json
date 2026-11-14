@@ -1,7 +1,7 @@
 {
   "version": "v0.1",
   "date": "2026-11-14",
-  "status": "TIER1_NEON_RELEASE2026_SOURCE_ACCESS_HOLD_ALL_EIGHT_FIXED_SENTINELS_HTTP403",
+  "status": "TIER1_NEON_RELEASE2026_AUTH_REQUIRED_AS_OF_JUNE_2026_NO_TOKEN",
   "tier0_catalog": "TIER0_NEON_SHARED_RELEASE_SITE_MONTH_CATALOG_PASS 47 sites 20 domains 424 site×month possibilities",
   "audited_run": "https://github.com/zuizui0223/turnover/actions/runs/43577609259",
   "selection_rule": "Fixed four source-available site-months with four distinct ecoregion domains selected from source-only Tier0 metadata before any row opened",
@@ -83,5 +83,9 @@
   "plot_IDs_compared": false,
   "biomass_vs_FD_effect_estimated": false,
   "interpretation": "All four fixed site-month metadata GETs returned 403 for both NEON products. This is access-control or routing failure, NOT evidence of missing ecological observations; confirm official access requirements before any source switch.",
-  "next_allowed": "Seek authorized NEON RELEASE-2026 per-month download through official portal/API credentials without sharing tokens in chat; commit only nonraw plot metadata overlap counts after actual access."
+  "next_allowed": "A user with a NEON account can configure NEON_API_TOKEN in GitHub Actions repository secrets; run a manually triggered authenticated source metadata QA that never prints token. Still do not calculate FD or biomass effects until exact plot/date co-location thresholds pass.",
+  "cause": "Official NEONScience NEON-utilities-python auth_check states 'As of June 2026, NEON requires an API token for data download.'",
+  "official_auth_contract": "https://github.com/NEONScience/NEON-utilities-python/blob/main/src/neonutilities/helper_mods/api_helpers.py",
+  "authentication_header": "X-API-TOKEN",
+  "identification": "The previous 8 HTTP 403 errors are consistent with missing API token, not missing observed data"
 }

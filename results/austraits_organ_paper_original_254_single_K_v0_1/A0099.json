@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0099",
+  "family": "Euphorbiaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 216,
+  "n_species_prune": 92,
+  "S3_K": 0.3016,
+  "prune_K": 0.1686,
+  "S3_logK": -1.1988,
+  "prune_logK": -1.7803
+}

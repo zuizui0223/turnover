@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0052",
+  "family": "Casuarinaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 65,
+  "n_species_prune": 58,
+  "S3_K": 0.0544,
+  "prune_K": 0.0471,
+  "S3_logK": -2.9115,
+  "prune_logK": -3.0548
+}

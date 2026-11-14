@@ -1,0 +1,79 @@
+name: Reaggregate 12 PASS original 142/101 genus-count K null batches without refitting R v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-original-genus-null-reaggregate-frozen-12-v0-1.yml
+      - scripts/analysis/audit_austraits_original_genus_conditioned_tip_loss_null_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  independent-original-142-101-genus-null-final-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml
+      - name: Confirm original run's full 12 native-K family batches passed, including the original source-only K audits
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo ORIGINAL_RUN_43566577755_AGGREGATE_FAILED_ONLY_ON_SHA_PATH_BYTES_CONTRACT
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/43566577755/jobs?per_page=100" \
+            --jq '.jobs|map(select(.name|startswith("original-fixed-tree-family-correlated-random-pruning (P")))|length' \
+            | grep -x 12
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/43566577755/jobs?per_page=100" \
+            --jq '.jobs|map(select(.name|startswith("original-fixed-tree-family-correlated-random-pruning (P")))|map(select(.conclusion=="success"))|length' \
+            | grep -x 12
+      - name: Recover original exact unchanged source-only plan and all 12 successful genus R K null results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/null_plan build/null_outputs build/null_final
+          gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+            -n austraits-fixed-original-142-101-genus-quota-K-workload-v0-1 \
+            -D build/null_plan
+          for i in $(seq -w 1 12); do
+            gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-original-142-101-genus-quota-tip-null-P$i-v0-1" \
+              -D build/null_outputs
+          done
+          test "$(find build/null_plan -maxdepth 1 -name 'P??.json' | wc -l)" -eq 12
+          test "$(find build/null_outputs -maxdepth 1 -name 'P??_genus_null.json' | wc -l)" -eq 12
+          test "$(find build/null_outputs -maxdepth 1 -name 'P??_audit.json' | wc -l)" -eq 12
+      - name: Independently recheck original 142/101 system and native K numeric parity and genus-quota/null tail without R rerun
+        run: |
+          python -m py_compile scripts/analysis/audit_austraits_original_genus_conditioned_tip_loss_null_v0_1.py
+          python scripts/analysis/audit_austraits_original_genus_conditioned_tip_loss_null_v0_1.py \
+            --plan-dir build/null_plan --results-dir build/null_outputs \
+            --output build/null_final/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          m=json.loads(Path("build/null_final/original_142_101_genus_conditioned_tip_loss_null_verdict.json").read_text())
+          assert m['status']=='PASS_ORIGINAL_142_101_GENUS_QUOTA_CONDITIONAL_SIZE_MATCHED_K_NULL'
+          assert m['original_pair_identities']==142 and m['original_native_prune_supported_pair_identities']==101
+          assert m['number_frozen_family_batches']==12 and m['number_family_correlated_replicates']==128
+          assert m['genus_quota_actual_strict_survivors_fixed_for_each_original_pair'] is True
+          assert m['original_source_species_names_or_raw_trait_measurements_exported'] is False
+          assert m['conditional_descriptive_not_preregistered_multiple_hypothesis_test'] is True
+          for axis,n,flips in [('S3',142,23),('prune_only',101,13)]:
+              x=m['genus_conditioned_AusTraits_Rcpp_native_K_derived_results'][axis]
+              assert x['n_same_original_K_pair_identities']==n
+              assert x['source_survivor_fixed_broad_tree_flips']==flips
+              assert x['original_source_phylogeny_broad_tree_kept_fixed_and_original_K_unchanged'] is True
+              assert 0<=x['genus_quota_preserved_empirical_upper_tail_probability']<=1
+              print(axis,json.dumps(x,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-genus-count-original-142-101-full-12-batch-reaggregated-K-null-v0-1
+          path: |
+            build/null_final/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+          retention-days: 90
+          if-no-files-found: error

@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0015",
+  "family": "Apiaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 127,
+  "n_species_prune": 53,
+  "S3_K": 0.232,
+  "prune_K": 0.172,
+  "S3_logK": -1.4608,
+  "prune_logK": -1.7604
+}

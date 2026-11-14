@@ -1,0 +1,19 @@
+{
+  "status": "ORIGINAL_254_PHYTOOLS_K_COMPLETE_TECHNICAL_REGRESSION_PASS",
+  "full_original_public_v7_raw_to_single_K_run_id": 40541276639,
+  "original_historical_single_K_run_id": 37725935020,
+  "reference_archive_ci_run_id": 40540814335,
+  "source_dataset": "AusTraits v7.0.0",
+  "original_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_K_systems": 254,
+  "original_plant_families": 42,
+  "original_named_traits": 13,
+  "original_batch_comparison_jobs_passed": 16,
+  "original_final_independent_aggregation": "PASS_PUBLIC_V7_ALL_254_ORIGINAL_PHYTOOLS_SINGLE_K_REBUILT",
+  "reported_max_absolute_K_or_logK_difference": 0,
+  "numeric_original_stored_K_precision": "four decimals",
+  "historical_actual_S3_prune_tree_tip_counts_matched": true,
+  "raw_species_or_original_observation_values_committed": false,
+  "independent_biological_replication": false,
+  "stage_purpose": "Only trigger durable post-PASS numerical K archival, not a new evolutionary hypothesis or journal submission"
+}

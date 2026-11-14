@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0211",
+  "family": "Restionaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 121,
+  "n_species_prune": 52,
+  "S3_K": 0.2457,
+  "prune_K": 0.1638,
+  "S3_logK": -1.4036,
+  "prune_logK": -1.8092
+}

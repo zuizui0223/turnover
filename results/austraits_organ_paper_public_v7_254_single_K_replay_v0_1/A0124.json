@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0124",
+  "family": "Haemodoraceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 86,
+  "n_species_prune": 72,
+  "S3_K": 0.0513,
+  "prune_K": 0.044,
+  "S3_logK": -2.9693,
+  "prune_logK": -3.1225
+}

@@ -1,0 +1,110 @@
+name: Build original AusTraits organ-K code snapshot for coauthor review (NO DOI) v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-code-snapshot-review-candidate-v0-1.yml
+      - scripts/publication/build_austraits_organ_code_snapshot_candidate_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  create-doi-ready-but-not-deposited-source-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build pinned original-only analysis code and derived K evidence ZIP
+        env:
+          SNAPSHOT_COMMIT: ${{ github.sha }}
+        run: |
+          python scripts/publication/build_austraits_organ_code_snapshot_candidate_v0_1.py \
+            --repo . \
+            --output build/code_package/austraits_organ_K_analysis_code_REVIEW_ONLY_NO_DOI_v0_1.zip \
+            --manifest build/code_package/source_code_snapshot_sha256_manifest.json \
+            --commit-sha "$SNAPSHOT_COMMIT"
+      - name: Independently verify every ZIP entry, original release SHA, and blocked approval state
+        env:
+          SNAPSHOT_COMMIT: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,zipfile
+          from pathlib import Path
+          home=Path('build/code_package')
+          archive=home/'austraits_organ_K_analysis_code_REVIEW_ONLY_NO_DOI_v0_1.zip'
+          manifest=home/'source_code_snapshot_sha256_manifest.json'
+          j=json.loads(manifest.read_text())
+          assert j['status']=='PASS_CODE_SNAPSHOT_CANDIDATE_ONLY_NOT_DEPOSITED'
+          assert j['snapshot_commit_sha']==os.environ['SNAPSHOT_COMMIT']
+          assert j['repository_files_included']==len(j['included_versioned_repository_file_sha256'])
+          assert 500 <= j['repository_files_included'] <= 2000
+          assert j['original_254_760_and_283_142_K_computations_reproduced'] is True
+          assert j['original_parquet_sha256']=='5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99'
+          assert j['original_compiled_metadata_zip_sha256']=='2995fb9e5eebf9271f9241b5a6c2e2cbb7b45e8eda5ce4db43c14c68f95e2f3f'
+          for flag in ('underlying_source_study_independent_validation',
+                       'contributing_studies_citations_author_approved',
+                       'permanent_code_archive_DOI_issued',
+                       'all_journal_data_metadata_code_gates_met',
+                       'coauthors_approved_submission'):
+              assert j[flag] is False, flag
+          assert j['no_original_raw_AusTraits_measurements_bundled'] is True
+          files=j['included_versioned_repository_file_sha256']
+          with zipfile.ZipFile(archive) as z:
+              names=set(z.namelist())
+              assert len(names)==len(files)+2
+              assert names==set(files)|{'README_REVIEW_CANDIDATE_NOT_DEPOSITED.md',
+                                        'SOURCE_CODE_SNAPSHOT_SHA256_MANIFEST.json'}
+              for path,sha in files.items():
+                  data=z.read(path)
+                  assert hashlib.sha256(data).hexdigest()==sha,path
+                  assert not path.endswith(('.parquet','.rds','.zip','.xlsx'))
+                  assert not path.startswith(('build/','data/raw/'))
+              assert z.read('SOURCE_CODE_SNAPSHOT_SHA256_MANIFEST.json')==manifest.read_bytes()
+              readme=z.read('README_REVIEW_CANDIDATE_NOT_DEPOSITED.md').decode()
+              assert 'NOT deposited under a DOI' in readme
+              assert '10.5281/zenodo.15718081' in readme
+          summary={
+            'status':'PASS_REVIEW_SNAPSHOT_ARCHIVE_NOT_PUBLISHED_OR_DEPOSITED',
+            'source_commit_sha':j['snapshot_commit_sha'],
+            'archive_sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),
+            'archive_byte_size':archive.stat().st_size,
+            'repository_files_in_zip':len(files),
+            'original_public_dataset_DOI':'10.5281/zenodo.15718081',
+            'original_source_parquet_sha256':j['original_parquet_sha256'],
+            'raw_observation_measurements_bundled':False,
+            'journal_submitted':False,
+            'new_code_archive_DOI_registered':False,
+            'study_citation_author_approved':False}
+          (home/'code_review_zip_integrity_verdict.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(summary,sort_keys=True))
+          PY
+      - name: Commit only manifest/provenance without pushing an unapproved DOI or large ZIP
+        run: |
+          mkdir -p results/austraits_organ_paper_code_snapshot_candidate_v0_1
+          cp build/code_package/source_code_snapshot_sha256_manifest.json \
+            results/austraits_organ_paper_code_snapshot_candidate_v0_1/
+          cp build/code_package/code_review_zip_integrity_verdict.json \
+            results/austraits_organ_paper_code_snapshot_candidate_v0_1/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_code_snapshot_candidate_v0_1/
+          if git diff --cached --quiet; then
+            echo REVIEW_SNAPSHOT_SHA_MANIFEST_UNCHANGED
+          else
+            git commit -m "Preserve review-only code snapshot SHA; no DOI or publication authorization"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-K-code-and-derived-inputs-REVIEW-ONLY-NO-DOI-v0-1
+          path: |
+            build/code_package/austraits_organ_K_analysis_code_REVIEW_ONLY_NO_DOI_v0_1.zip
+            build/code_package/source_code_snapshot_sha256_manifest.json
+            build/code_package/code_review_zip_integrity_verdict.json
+          retention-days: 90
+          if-no-files-found: error

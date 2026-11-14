@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0214",
+  "family": "Rhamnaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 99,
+  "n_species_prune": 37,
+  "S3_K": 2.8558,
+  "prune_K": 3.4482,
+  "S3_logK": 1.0493,
+  "prune_logK": 1.2378
+}

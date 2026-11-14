@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0171",
+  "family": "Phyllanthaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 82,
+  "n_species_prune": 29,
+  "S3_K": 0.3932,
+  "prune_K": 0.3222,
+  "S3_logK": -0.9334,
+  "prune_logK": -1.1325
+}

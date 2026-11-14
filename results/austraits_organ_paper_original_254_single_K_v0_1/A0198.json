@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0198",
+  "family": "Proteaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 955,
+  "n_species_prune": 328,
+  "S3_K": 0.0995,
+  "prune_K": 0.0332,
+  "S3_logK": -2.308,
+  "prune_logK": -3.4042
+}

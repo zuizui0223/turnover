@@ -1,0 +1,144 @@
+name: AusTraits public v7 original 254 phytools single-trait K clean replay v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-full-254-original-single-K-rebuild-v0-1.yml
+      - scripts/qa/rebuild_austraits_original_254_single_K_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  plan-original-254-blind-systems:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify historical 254 K records and restore original sixteen workloads
+        run: |
+          python scripts/qa/rebuild_austraits_original_254_single_K_v0_1.py \
+            --mode prepare --plan-dir build/batches \
+            --output build/batches/original_254_K_plan_verdict.json
+          test "$(find build/batches -maxdepth 1 -name 'K??.json' | wc -l)" -eq 16
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-254-K-source-blind-workload-plan-v0-1
+          path: build/batches/
+          retention-days: 90
+          if-no-files-found: error
+
+  original-254-phytools-K-in-sixteen-batches:
+    needs: plan-original-254-blind-systems
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        batch: [K01,K02,K03,K04,K05,K06,K07,K08,
+                K09,K10,K11,K12,K13,K14,K15,K16]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::phytools
+      - name: Pin original native V.PhyloMaker2 and unchanged phytools::phylosig estimator
+        run: |
+          Rscript -e "parse(file='scripts/analysis/run_austraits_blomberg_k_system_v0_1.R')"
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-original-254-K-source-blind-workload-plan-v0-1
+          path: build/batches
+      - name: Fetch exact public original AusTraits v7 raw measurements and source-native trait units
+        run: |
+          mkdir -p build/source build/fresh_single_K build/audit
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Refit each original positive log trait and phytools K using original S3/prune trees
+        env:
+          BATCH_NAME: ${{ matrix.batch }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_blomberg_k_batch_v0_1.py \
+            --batch-json "build/batches/$BATCH_NAME.json" \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --out-dir build/fresh_single_K \
+            --r-script scripts/analysis/run_austraits_blomberg_k_system_v0_1.R
+      - name: Verify every source species count, native tree tip count, and original K/log-K numeric value
+        env:
+          BATCH_NAME: ${{ matrix.batch }}
+        run: |
+          python scripts/qa/rebuild_austraits_original_254_single_K_v0_1.py \
+            --mode compare \
+            --batch "$BATCH_NAME" \
+            --batch-plan "build/batches/$BATCH_NAME.json" \
+            --fresh-dir build/fresh_single_K \
+            --output "build/audit/$BATCH_NAME"_audit.json
+          mkdir -p build/flat_results
+          cp build/fresh_single_K/A????.json build/flat_results/
+          cp build/audit/K??_audit.json build/flat_results/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-public-v7-original-254-phytools-K-${{ matrix.batch }}-v0-1
+          path: build/flat_results/*.json
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate-original-254-phytools-K:
+    needs: original-254-phytools-K-in-sixteen-batches
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-original-254-K-source-blind-workload-plan-v0-1
+          path: build/original_plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-public-v7-original-254-phytools-K-K*-v0-1
+          path: build/recomputed
+          merge-multiple: true
+      - name: Independently recompare original 254 phytools native S3/prune K to original preserved system outputs
+        run: |
+          test "$(find build/recomputed -maxdepth 1 -name 'A????.json' | wc -l)" -eq 254
+          test "$(find build/recomputed -maxdepth 1 -name 'K??_audit.json' | wc -l)" -eq 16
+          python scripts/qa/rebuild_austraits_original_254_single_K_v0_1.py \
+            --mode summarize \
+            --plan-dir build/original_plan \
+            --fresh-dir build/recomputed \
+            --audit-dir build/recomputed \
+            --output build/final/all_254_original_single_trait_K_verdict.json
+          grep -q PASS_PUBLIC_V7_ALL_254_ORIGINAL_PHYTOOLS_SINGLE_K_REBUILT \
+            build/final/all_254_original_single_trait_K_verdict.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-public-v7-full-254-single-phytools-K-final-replay-v0-1
+          path: build/final/all_254_original_single_trait_K_verdict.json
+          retention-days: 90
+          if-no-files-found: error

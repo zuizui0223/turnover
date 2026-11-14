@@ -1,0 +1,26 @@
+{
+  "full_raw_to_K_reproduction_already_verified": false,
+  "full_source_core_systems": 259,
+  "independent_primary_source_replication": false,
+  "matched_supported_pairs": 760,
+  "named_pair_types": 66,
+  "new_K_or_phylogeny_models_fitted": 0,
+  "note": "Original aggregate core/K/support snapshots; public Parquet/units and pinned tree are external dependencies.",
+  "original_families": 42,
+  "original_source_workflow_runs": {
+    "core_systems.csv": 37561341286,
+    "original_K_effects.csv": 37725935020,
+    "shared_taxon_pair_support.json": 38673955087
+  },
+  "original_systems": 254,
+  "original_traits": 13,
+  "raw_species_or_measurement_values_included": false,
+  "source_byte_sha256": {
+    "core_systems.csv": "26e8bdc315660456e0794940349aa8728d003b3611f2d67ce21f48a984d23d0c",
+    "original_K_effects.csv": "2d82239fa821ff4fc78d51d1936ffcf0b8ff78cce83db230f4f68d7b5e4323ac",
+    "shared_taxon_pair_support.json": "269cb80630c875bafa1a7c05dedcaa9efea75b904e8075c5414565bb2fb71b3c"
+  },
+  "source_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "source_release": "AusTraits v7.0.0",
+  "status": "PASS_FROZEN_ORIGINAL_AGGREGATE_REBUILD_REFERENCES_V0_1"
+}

@@ -1,0 +1,10 @@
+{
+  "all_original_system_ids_and_native_tree_tip_counts_same": true,
+  "batch": "K16",
+  "external_original_study_replication": false,
+  "max_absolute_K_or_logK_difference": 0.0,
+  "n_original_K_systems": 28,
+  "new_biological_effect_tests": 0,
+  "numeric_comparison_at_source_stored_precision_4_decimals": true,
+  "status": "PASS_ORIGINAL_254_SINGLE_TRAIT_K_BATCH_NUMERICAL_REGRESSION"
+}

@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0043",
+  "family": "Asteraceae",
+  "trait_name": "seed_dry_mass",
+  "n_species_S3": 653,
+  "n_species_prune": 318,
+  "S3_K": 0.0444,
+  "prune_K": 0.0785,
+  "S3_logK": -3.1137,
+  "prune_logK": -2.5453
+}

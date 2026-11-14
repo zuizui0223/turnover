@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0088",
+  "family": "Elaeocarpaceae",
+  "trait_name": "seed_dry_mass",
+  "n_species_S3": 34,
+  "n_species_prune": 25,
+  "S3_K": 0.3006,
+  "prune_K": 0.3684,
+  "S3_logK": -1.202,
+  "prune_logK": -0.9986
+}

@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0131",
+  "family": "Haloragaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 93,
+  "n_species_prune": 61,
+  "S3_K": 0.3644,
+  "prune_K": 0.2635,
+  "S3_logK": -1.0094,
+  "prune_logK": -1.3338
+}

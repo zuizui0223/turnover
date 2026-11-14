@@ -1,0 +1,140 @@
+name: AusTraits public v7 full original 760 matched K reconstruction v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-full-760-raw-k-rebuild-v0-1.yml
+      - scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-original-source-only-batches:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore 24 original workloads without K-sign filtering
+        run: |
+          python scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py \
+            --mode prepare \
+            --batch-dir build/original-batches \
+            --output build/original-batches/plan.json
+          test "$(find build/original-batches -maxdepth 1 -name 'B??.json' | wc -l)" -eq 24
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-760-source-only-batch-plan-v0-1
+          path: build/original-batches/
+          retention-days: 90
+          if-no-files-found: error
+
+  recompute-24-batches-from-public-v7:
+    needs: prepare-original-source-only-batches
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        batch: [B01, B02, B03, B04, B05, B06, B07, B08,
+                B09, B10, B11, B12, B13, B14, B15, B16,
+                B17, B18, B19, B20, B21, B22, B23, B24]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas duckdb pyyaml numpy
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Install exact original V.PhyloMaker2 at pinned commit
+        run: |
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R')"
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-original-760-source-only-batch-plan-v0-1
+          path: build/batch_inputs
+      - name: Retrieve publicly released source-native AusTraits v7 and original units
+        run: |
+          mkdir -p build/source build/full_out
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Execute unchanged R and C++ estimator on original same species/trees
+        env:
+          OPENBLAS_NUM_THREADS: "1"
+        run: |
+          python scripts/analysis/run_austraits_k_shared_taxon_pairs_batch_v0_1.py \
+            --batch-json build/batch_inputs/${{ matrix.batch }}.json \
+            --support results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --observed-K results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/original_K_effects.csv \
+            --design data/austraits_k_shared_taxa_cross_trait_design_v0_1.json \
+            --r-script scripts/analysis/fit_austraits_k_shared_taxon_pairs_v0_1.R \
+            --out build/full_out/${{ matrix.batch }}_fresh.json
+      - name: Verify every K, sign, source and native-tip identity versus frozen original
+        run: |
+          python scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py \
+            --mode compare \
+            --batch ${{ matrix.batch }} \
+            --fresh build/full_out/${{ matrix.batch }}_fresh.json \
+            --output build/full_out/${{ matrix.batch }}_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-v7-original-K-full-${{ matrix.batch }}-v0-1
+          path: build/full_out/${{ matrix.batch }}_*.json
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate-all-760-numerical-regression:
+    needs: recompute-24-batches-from-public-v7
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-v7-original-K-full-B*-v0-1
+          path: build/final_inputs
+          merge-multiple: true
+      - name: Check complete original 760/747 tree K values and 313/406, 314/397 signs
+        run: |
+          test "$(find build/final_inputs -maxdepth 1 -name 'B??_fresh.json' | wc -l)" -eq 24
+          test "$(find build/final_inputs -maxdepth 1 -name 'B??_audit.json' | wc -l)" -eq 24
+          python scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py \
+            --mode summarize \
+            --fresh-dir build/final_inputs \
+            --audit-dir build/final_inputs \
+            --output build/final_report/all_760_native_K_regression.json
+          grep -q PASS_ALL_760_RAW_SOURCE_K_RECOMPUTED_AND_MATCHED \
+            build/final_report/all_760_native_K_regression.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-public-v7-all-760-recomputed-K-final-audit-v0-1
+          path: build/final_report/all_760_native_K_regression.json
+          retention-days: 90
+          if-no-files-found: error

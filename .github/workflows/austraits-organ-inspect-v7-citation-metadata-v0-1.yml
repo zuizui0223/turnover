@@ -1,0 +1,61 @@
+name: Inspect pinned public AusTraits v7 source citation metadata schema v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-inspect-v7-citation-metadata-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-compiled-public-v7-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install duckdb
+      - name: Download exact original v7 compiled metadata and analyzed Parquet
+        run: |
+          mkdir -p build/v7
+          curl -L --fail --retry 3 --retry-delay 10 \
+            -o build/v7/compiled.zip \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0.zip
+          echo "2995fb9e5eebf9271f9241b5a6c2e2cbb7b45e8eda5ce4db43c14c68f95e2f3f  build/v7/compiled.zip" | sha256sum -c -
+          curl -L --fail --retry 3 --retry-delay 10 \
+            -o build/v7/flattened.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/v7/flattened.parquet" | sha256sum -c -
+      - name: Discover exact release citation, source and method tables; no raw measurements uploaded
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile,csv,io,json
+          import duckdb
+          zp=Path('build/v7/compiled.zip')
+          with zipfile.ZipFile(zp) as f:
+              names=f.namelist()
+              print('PUBLIC_V7_ZIP_MEMBER_COUNT',len(names))
+              print('PUBLIC_V7_CITATION_FILE_NAMES',json.dumps([n for n in names
+                  if any(k in n.lower() for k in ('method','source','citation','reference','metadata'))
+                  and not n.endswith('/')][:70]))
+              print('PUBLIC_V7_ZIP_TOP_MEMBER_NAMES',json.dumps(names[:35]))
+              for n in names:
+                  if n.lower().endswith('methods.csv'):
+                      lines=io.TextIOWrapper(f.open(n),encoding='utf-8-sig',newline='')
+                      r=csv.DictReader(lines)
+                      print('PUBLIC_V7_METHOD_COLUMNS',json.dumps(r.fieldnames))
+                      for x in list(r)[:2]:
+                          print('PUBLIC_V7_METHOD_CITATION_SAMPLE',json.dumps({k:v for k,v in x.items()
+                              if any(z in k.lower() for z in ('source','citation','reference'))
+                              or k in ('dataset_id','trait_name','method_id')},
+                              ensure_ascii=False)[:1500])
+          c=duckdb.connect()
+          desc=c.execute("DESCRIBE SELECT * FROM read_parquet(?)",
+                         ['build/v7/flattened.parquet']).fetchall()
+          print('PUBLIC_V7_FLATTENED_COLUMNS',json.dumps([(x[0],x[1]) for x in desc]))
+          safe=[k for k in ('dataset_id','source_id','method_id','value_type','basis_of_value','trait_name','family','binomial','observation_id') if k in [x[0] for x in desc]]
+          print('PUBLIC_V7_PROVENANCE_COLUMNS',json.dumps(safe))
+          PY

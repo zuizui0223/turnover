@@ -1,0 +1,33 @@
+{
+  "status": "ORIGINAL_NONFLORA_ALL_28_R_K_AND_3STAGE_AGGREGATION_VERIFIED",
+  "original_replay_run_id": 39723170670,
+  "original_source_support_rebuild_run_id": 39723741575,
+  "original_source_K_archive_run_id": 39722381639,
+  "strict_source_selected_pairs": 142,
+  "broad_nonflora_pairs": 283,
+  "expected_passes": {
+    "S3": {
+      "broad": 283,
+      "strict": 142
+    },
+    "prune_only": {
+      "broad": 233,
+      "strict": 101
+    }
+  },
+  "expected_three_stage_reproductive_wins": {
+    "S3": [
+      110,
+      121,
+      120
+    ],
+    "prune_only": [
+      82,
+      83,
+      81
+    ]
+  },
+  "previous_result_status": "PASS_ALL_283_142_NONFLORA_K_AND_THREE_STAGE_TRANSITIONS_REPRODUCED",
+  "purpose": "Archive immutable original source-restricted K reproduction; do not infer independent biological confirmation",
+  "do_not_publish_raw_species_measurements": true
+}

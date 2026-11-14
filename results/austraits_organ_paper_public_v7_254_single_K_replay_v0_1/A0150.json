@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0150",
+  "family": "Loranthaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 72,
+  "n_species_prune": 26,
+  "S3_K": 0.2056,
+  "prune_K": 0.1794,
+  "S3_logK": -1.582,
+  "prune_logK": -1.718
+}

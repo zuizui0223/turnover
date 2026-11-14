@@ -1,0 +1,56 @@
+name: Preserve original 254 AusTraits single-trait Blomberg K before expiry
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-archive-original-254-single-K-v0-1.yml
+      - scripts/publication/archive_austraits_254_original_single_K_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  preserve-original-254-system-K:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch all sixteen original R phytools K batch artifacts before 7 November expiry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/original_254_single_K
+          for i in $(seq -w 1 16); do
+            gh run download 37725935020 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-blomberg-k-K$i" \
+              -D build/original_254_single_K
+          done
+          test "$(find build/original_254_single_K -maxdepth 1 -name 'A????.json' | wc -l)" -eq 254
+      - name: Check 254 historical K system IDs and exact S3/prune source/core reference matches
+        run: |
+          python scripts/publication/archive_austraits_254_original_single_K_v0_1.py \
+            --source build/original_254_single_K \
+            --out-dir results/austraits_organ_paper_original_254_single_K_v0_1
+          test "$(find results/austraits_organ_paper_original_254_single_K_v0_1 -maxdepth 1 -type f | wc -l)" -eq 255
+      - name: Permanently commit original nonraw per-trait phylogenetic K outputs and SHA256 fingerprints
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_original_254_single_K_v0_1/
+          if git diff --cached --quiet; then
+            echo HISTORICAL_254_SINGLE_K_ARCHIVE_ALREADY_IDENTICAL
+          else
+            git commit -m "Permanently archive all original 254 single-trait K system results"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-254-single-K-preserved-SHA256-proof-v0-1
+          path: results/austraits_organ_paper_original_254_single_K_v0_1/original_single_K_archive_manifest.json
+          retention-days: 90
+          if-no-files-found: error

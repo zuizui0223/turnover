@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0026",
+  "family": "Arecaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 39,
+  "n_species_prune": 33,
+  "S3_K": 0.4401,
+  "prune_K": 0.5261,
+  "S3_logK": -0.8208,
+  "prune_logK": -0.6423
+}

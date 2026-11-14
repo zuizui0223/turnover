@@ -1,0 +1,26 @@
+{
+  "status": "PASS_IMMUTABLE_AGGREGATE_PAPER_INPUTS",
+  "created_by": "scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py",
+  "published_in": "zuizui0223/turnover paper/austraits-organ-ecology-v0-2",
+  "original_source_workflow_runs": {
+    "reproductive_vegetative_lofo.json": 38686389859,
+    "nonflora_283_to_142_source_support_transition.json": 39202352075,
+    "joint_nonflora_shared_source_K.json": 39006469805
+  },
+  "original_GitHub_artifact_names": {
+    "reproductive_vegetative_lofo.json": "austraits-k-reproductive-vegetative-lofo-v0-1",
+    "nonflora_283_to_142_source_support_transition.json": "austraits-k-283-to-142-cohort-transition-v0-1",
+    "joint_nonflora_shared_source_K.json": "austraits-k-joint-nonflora-shared-dataset-142-final-v0-1"
+  },
+  "file_sha256": {
+    "reproductive_vegetative_lofo.json": "7648ff07a734b96686629d9d158c215670bccbcdec7c6cf385aae9a11a76cfa1",
+    "nonflora_283_to_142_source_support_transition.json": "5cba03348e4c2342db2e1df202c6036b6b265a829ac43e816388f9f84cc79397",
+    "joint_nonflora_shared_source_K.json": "fc9bc62297a16db916f21704203ab1859f65dce33303a8199cb49a6596819dbb"
+  },
+  "no_new_biological_effects": true,
+  "raw_measurements_included": false,
+  "original_hypothesis_post_discovery": true,
+  "independent_primary_data_replication": false,
+  "raw_release": "AusTraits v7.0.0, Zenodo DOI 10.5281/zenodo.15718081, CC BY with source attribution",
+  "note": "Versioned aggregate-only outputs, for durable figure regeneration after GitHub Actions artifact expiry. Biological/OU/trait results unmodified."
+}

@@ -1,0 +1,233 @@
+{
+  "after_original_reproductive_K_organ_results": true,
+  "axes": {
+    "S3": {
+      "n_frozen_shared_dataset_family_trait_pair_identities": 142,
+      "n_pair_identities": 142,
+      "n_plant_families": 24,
+      "original_broad_nonflora_pair_weighted_fraction": 0.7809187279151943,
+      "original_broad_nonflora_reproductive_K_higher": 221,
+      "original_broad_nonflora_valid_pairs": 283,
+      "paired_steps": {
+        "broad_nonflora_tips_TO_same_dataset_eligible_tips_all_nonflora": {
+          "equal_family_mean_change_in_reproductive_higher_rate": 0.11341540404040405,
+          "family_bootstrap_equal_family_rate_change_CI95": [
+            0.0048579545454545455,
+            0.22674479166666653
+          ],
+          "family_bootstrap_pair_weighted_rate_change_CI95": [
+            -0.014500805152979064,
+            0.1864406779661017
+          ],
+          "fraction_pairwise_K_sign_reversals": 0.1619718309859155,
+          "mean_signed_delta_logK": 0.07883345335567599,
+          "median_absolute_delta_logK": 0.1963991080175307,
+          "median_signed_delta_logK": 0.006027143078496389,
+          "n_pairwise_K_sign_reversals": 23,
+          "n_reproductive_to_vegetative_switch": 6,
+          "n_vegetative_to_reproductive_switch": 17,
+          "pair_weighted_change_in_reproductive_higher_rate": 0.07746478873239436
+        },
+        "broad_nonflora_tips_TO_same_dataset_eligible_tips_identical_dataset_medians": {
+          "equal_family_mean_change_in_reproductive_higher_rate": 0.10195707070707072,
+          "family_bootstrap_equal_family_rate_change_CI95": [
+            -0.007070707070707068,
+            0.21377998737373716
+          ],
+          "family_bootstrap_pair_weighted_rate_change_CI95": [
+            -0.039222136222910216,
+            0.19481787743506476
+          ],
+          "fraction_pairwise_K_sign_reversals": 0.18309859154929578,
+          "mean_signed_delta_logK": 0.0379942875489384,
+          "median_absolute_delta_logK": 0.23751199876841356,
+          "median_signed_delta_logK": 0.001586056582519424,
+          "n_pairwise_K_sign_reversals": 26,
+          "n_reproductive_to_vegetative_switch": 8,
+          "n_vegetative_to_reproductive_switch": 18,
+          "pair_weighted_change_in_reproductive_higher_rate": 0.07042253521126761
+        },
+        "same_dataset_eligible_tips_all_nonflora_TO_same_dataset_eligible_tips_identical_dataset_medians": {
+          "equal_family_mean_change_in_reproductive_higher_rate": -0.011458333333333333,
+          "family_bootstrap_equal_family_rate_change_CI95": [
+            -0.06701388888888889,
+            0.03263888888888889
+          ],
+          "family_bootstrap_pair_weighted_rate_change_CI95": [
+            -0.041379310344827586,
+            0.03076923076923077
+          ],
+          "fraction_pairwise_K_sign_reversals": 0.06338028169014084,
+          "mean_signed_delta_logK": -0.040839165806737555,
+          "median_absolute_delta_logK": 0.0757873718541342,
+          "median_signed_delta_logK": -0.01469625206277296,
+          "n_pairwise_K_sign_reversals": 9,
+          "n_reproductive_to_vegetative_switch": 5,
+          "n_vegetative_to_reproductive_switch": 4,
+          "pair_weighted_change_in_reproductive_higher_rate": -0.007042253521126761
+        }
+      },
+      "research_population_warning": "Original 283/233 and strict 142/101 sets differ in family\u00d7trait pairs. Rates must be compared in matched 142/101 identities before discussing tip restriction versus source medians.",
+      "stage_rates": {
+        "broad_nonflora_tips": {
+          "equal_family_mean_fraction": 0.7199179292929294,
+          "family_bootstrap_equal_family_CI95": [
+            0.5942116477272726,
+            0.8361608270202014
+          ],
+          "family_bootstrap_pair_weighted_CI95": [
+            0.6575244618395303,
+            0.8711722173531988
+          ],
+          "n_reproductive_K_higher": 110,
+          "pair_weighted_fraction": 0.7746478873239436
+        },
+        "same_dataset_eligible_tips_all_nonflora": {
+          "equal_family_mean_fraction": 0.8333333333333334,
+          "family_bootstrap_equal_family_CI95": [
+            0.7534722222222222,
+            0.90625
+          ],
+          "family_bootstrap_pair_weighted_CI95": [
+            0.770486264953478,
+            0.925932140193885
+          ],
+          "n_reproductive_K_higher": 121,
+          "pair_weighted_fraction": 0.852112676056338
+        },
+        "same_dataset_eligible_tips_identical_dataset_medians": {
+          "equal_family_mean_fraction": 0.821875,
+          "family_bootstrap_equal_family_CI95": [
+            0.7114583333333334,
+            0.9138888888888888
+          ],
+          "family_bootstrap_pair_weighted_CI95": [
+            0.7583240445859872,
+            0.9242495711835333
+          ],
+          "n_reproductive_K_higher": 120,
+          "pair_weighted_fraction": 0.8450704225352113
+        }
+      }
+    },
+    "prune_only": {
+      "n_frozen_shared_dataset_family_trait_pair_identities": 101,
+      "n_pair_identities": 101,
+      "n_plant_families": 18,
+      "original_broad_nonflora_pair_weighted_fraction": 0.7725321888412017,
+      "original_broad_nonflora_reproductive_K_higher": 180,
+      "original_broad_nonflora_valid_pairs": 233,
+      "paired_steps": {
+        "broad_nonflora_tips_TO_same_dataset_eligible_tips_all_nonflora": {
+          "equal_family_mean_change_in_reproductive_higher_rate": 0.011700336700336704,
+          "family_bootstrap_equal_family_rate_change_CI95": [
+            -0.04524410774410774,
+            0.07247474747474748
+          ],
+          "family_bootstrap_pair_weighted_rate_change_CI95": [
+            -0.08911333097595474,
+            0.11827956989247312
+          ],
+          "fraction_pairwise_K_sign_reversals": 0.12871287128712872,
+          "mean_signed_delta_logK": 0.09242040994387976,
+          "median_absolute_delta_logK": 0.25128819829858184,
+          "median_signed_delta_logK": 0.010233382910192018,
+          "n_pairwise_K_sign_reversals": 13,
+          "n_reproductive_to_vegetative_switch": 6,
+          "n_vegetative_to_reproductive_switch": 7,
+          "pair_weighted_change_in_reproductive_higher_rate": 0.009900990099009901
+        },
+        "broad_nonflora_tips_TO_same_dataset_eligible_tips_identical_dataset_medians": {
+          "equal_family_mean_change_in_reproductive_higher_rate": -0.0037097162097162093,
+          "family_bootstrap_equal_family_rate_change_CI95": [
+            -0.07792207792207792,
+            0.07453703703703704
+          ],
+          "family_bootstrap_pair_weighted_rate_change_CI95": [
+            -0.11579652255639097,
+            0.11268173557473868
+          ],
+          "fraction_pairwise_K_sign_reversals": 0.1485148514851485,
+          "mean_signed_delta_logK": 0.09165348630832569,
+          "median_absolute_delta_logK": 0.28207253156745615,
+          "median_signed_delta_logK": 0.030977988957388763,
+          "n_pairwise_K_sign_reversals": 15,
+          "n_reproductive_to_vegetative_switch": 8,
+          "n_vegetative_to_reproductive_switch": 7,
+          "pair_weighted_change_in_reproductive_higher_rate": -0.009900990099009901
+        },
+        "same_dataset_eligible_tips_all_nonflora_TO_same_dataset_eligible_tips_identical_dataset_medians": {
+          "equal_family_mean_change_in_reproductive_higher_rate": -0.01541005291005291,
+          "family_bootstrap_equal_family_rate_change_CI95": [
+            -0.07235449735449735,
+            0.03796296296296296
+          ],
+          "family_bootstrap_pair_weighted_rate_change_CI95": [
+            -0.09166857798165137,
+            0.042105263157894736
+          ],
+          "fraction_pairwise_K_sign_reversals": 0.1188118811881188,
+          "mean_signed_delta_logK": -0.0007669236355540805,
+          "median_absolute_delta_logK": 0.09480917693432866,
+          "median_signed_delta_logK": -0.003265867431879288,
+          "n_pairwise_K_sign_reversals": 12,
+          "n_reproductive_to_vegetative_switch": 7,
+          "n_vegetative_to_reproductive_switch": 5,
+          "pair_weighted_change_in_reproductive_higher_rate": -0.019801980198019802
+        }
+      },
+      "research_population_warning": "Original 283/233 and strict 142/101 sets differ in family\u00d7trait pairs. Rates must be compared in matched 142/101 identities before discussing tip restriction versus source medians.",
+      "stage_rates": {
+        "broad_nonflora_tips": {
+          "equal_family_mean_fraction": 0.7026455026455026,
+          "family_bootstrap_equal_family_CI95": [
+            0.5342328042328043,
+            0.8513888888888889
+          ],
+          "family_bootstrap_pair_weighted_CI95": [
+            0.7102803738317757,
+            0.9019661125319692
+          ],
+          "n_reproductive_K_higher": 82,
+          "pair_weighted_fraction": 0.8118811881188119
+        },
+        "same_dataset_eligible_tips_all_nonflora": {
+          "equal_family_mean_fraction": 0.7143458393458393,
+          "family_bootstrap_equal_family_CI95": [
+            0.5495896464646464,
+            0.8578643578643578
+          ],
+          "family_bootstrap_pair_weighted_CI95": [
+            0.7472461273666093,
+            0.892569362455726
+          ],
+          "n_reproductive_K_higher": 83,
+          "pair_weighted_fraction": 0.8217821782178217
+        },
+        "same_dataset_eligible_tips_identical_dataset_medians": {
+          "equal_family_mean_fraction": 0.6989357864357865,
+          "family_bootstrap_equal_family_CI95": [
+            0.5306107202982202,
+            0.8500459956709956
+          ],
+          "family_bootstrap_pair_weighted_CI95": [
+            0.6956418219461697,
+            0.8933404255319147
+          ],
+          "n_reproductive_K_higher": 81,
+          "pair_weighted_fraction": 0.801980198019802
+        }
+      }
+    }
+  },
+  "not_new_evolutionary_process_hypothesis_or_independent_external_validation": true,
+  "scientific_boundary": "Stage I vs II changes taxa/tip support and geometry; stage II vs III is the identical-tip measurement-source contrast. Neither isolates an evolutionary constraint nor validates source independence. Reproductive/vegetative organ classes and these diagnostics were selected after the original AusTraits outcomes.",
+  "source_and_K_blind_eligibility_not_changed": true,
+  "source_qualification_does_not_prove_primary_independence": true,
+  "source_runs": {
+    "full_nonflora": 38922133371,
+    "strict_nonflora_same_dataset": 39006469805
+  },
+  "status": "AUSTRAITS_K_NONFLORA_COHORT_TRANSITION_EXPLORATORY_VERIFIED",
+  "version": "v0.1"
+}

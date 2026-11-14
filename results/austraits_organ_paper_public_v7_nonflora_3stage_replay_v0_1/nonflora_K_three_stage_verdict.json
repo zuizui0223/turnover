@@ -1,0 +1,73 @@
+{
+  "broad_nonflora_K_recomputed_from_public_source": true,
+  "independent_original_measurement_replication": false,
+  "maximum_absolute_source_K_or_logK_discrepancy": 0.0,
+  "new_evolutionary_process_parameter_tests": 0,
+  "original_postdiscovery_organ_grouping": true,
+  "original_public_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "source_arms": {
+    "broad": {
+      "axes": {
+        "S3": {
+          "all_nonflora_wins": 222,
+          "common_dataset_wins": 221,
+          "hold": 0,
+          "pass": 283
+        },
+        "prune_only": {
+          "all_nonflora_wins": 182,
+          "common_dataset_wins": 180,
+          "hold": 50,
+          "pass": 233
+        }
+      },
+      "n_qualified": 283
+    },
+    "strict": {
+      "axes": {
+        "S3": {
+          "all_nonflora_wins": 121,
+          "common_dataset_wins": 120,
+          "hold": 0,
+          "pass": 142
+        },
+        "prune_only": {
+          "all_nonflora_wins": 83,
+          "common_dataset_wins": 81,
+          "hold": 41,
+          "pass": 101
+        }
+      },
+      "n_qualified": 142
+    }
+  },
+  "source_release": "AusTraits v7.0.0",
+  "status": "PASS_ALL_283_142_NONFLORA_K_AND_THREE_STAGE_TRANSITIONS_REPRODUCED",
+  "strict_nonflora_K_recomputed_from_public_source": true,
+  "three_stage_identical_pair_contrasts": {
+    "S3": {
+      "reproductive_K_wins": [
+        110,
+        121,
+        120
+      ],
+      "same_original_pair_identities": 142,
+      "source_tip_then_value_sign_flips": [
+        23,
+        9
+      ]
+    },
+    "prune_only": {
+      "reproductive_K_wins": [
+        82,
+        83,
+        81
+      ],
+      "same_original_pair_identities": 101,
+      "source_tip_then_value_sign_flips": [
+        13,
+        12
+      ]
+    }
+  }
+}

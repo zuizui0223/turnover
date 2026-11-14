@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0121",
+  "family": "Goodeniaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 390,
+  "n_species_prune": 115,
+  "S3_K": 0.0396,
+  "prune_K": 0.0105,
+  "S3_logK": -3.2284,
+  "prune_logK": -4.5593
+}

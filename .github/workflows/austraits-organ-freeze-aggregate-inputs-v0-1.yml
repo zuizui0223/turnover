@@ -1,0 +1,61 @@
+name: Archive frozen organ-K aggregate figure inputs in paper branch v0.1
+
+on:
+  push:
+    branches:
+      - paper/austraits-organ-ecology-v0-2
+    paths:
+      - scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py
+      - .github/workflows/austraits-organ-freeze-aggregate-inputs-v0-1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  archive_original_aggregate_outputs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: paper/austraits-organ-ecology-v0-2
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download only the three ORIGINAL completed aggregate output artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mkdir -p build/src_lofo build/src_transition build/src_joint build/archive_candidates
+          gh run download 38686389859 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-reproductive-vegetative-lofo-v0-1 -D build/src_lofo
+          gh run download 39202352075 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-283-to-142-cohort-transition-v0-1 -D build/src_transition
+          gh run download 39006469805 -R "$GITHUB_REPOSITORY" \
+            -n austraits-k-joint-nonflora-shared-dataset-142-final-v0-1 -D build/src_joint
+          cp build/src_lofo/reproductive_vegetative_lofo.json build/archive_candidates/
+          cp build/src_transition/nonflora_283_to_142_source_support_transition.json build/archive_candidates/
+          cp build/src_joint/joint_nonflora_shared_source_K.json build/archive_candidates/
+      - name: Verify exact original source SHA256, names, observational limits and families
+        shell: bash
+        run: |
+          python scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py \
+            --inputs build/archive_candidates \
+            --output results/austraits_organ_paper_frozen_aggregate_inputs_v0_1
+          test "$(find results/austraits_organ_paper_frozen_aggregate_inputs_v0_1 -name '*.json' | wc -l)" -eq 4
+      - name: Commit only approved aggregate-only source outputs to the PAPER branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/
+          if git diff --cached --quiet; then
+            echo "Frozen aggregate inputs already committed at the verified SHA256"
+          else
+            git commit -m "Archive immutable already-observed organ-K paper aggregate inputs with source SHA256"
+            git push origin HEAD:refs/heads/paper/austraits-organ-ecology-v0-2
+          fi

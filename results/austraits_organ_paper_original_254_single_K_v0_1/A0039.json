@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0039",
+  "family": "Asteraceae",
+  "trait_name": "leaf_mass_per_area",
+  "n_species_S3": 201,
+  "n_species_prune": 110,
+  "S3_K": 0.0115,
+  "prune_K": 0.0079,
+  "S3_logK": -4.4628,
+  "prune_logK": -4.8394
+}

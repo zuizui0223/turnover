@@ -1,0 +1,39 @@
+{
+  "biological_boundary": "Same-tip K comparison within AusTraits; no selection/OU parameter inference, no TRY independent replication",
+  "n_family_trait_pairs": 1,
+  "no_species_names_or_raw_values_persisted": true,
+  "pairs": [
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.04959651347554003,
+          "K_B": 0.09724836973148224,
+          "delta_original_logK": -0.8059290691705581,
+          "delta_shared_logK": -0.6733476802431153,
+          "delta_support_shift": 0.1325813889274428,
+          "n_tips": 2089,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.01724688211100991,
+          "K_B": 0.08307760372107235,
+          "delta_original_logK": -1.575343701091124,
+          "delta_shared_logK": -1.572143775609204,
+          "delta_support_shift": 0.003199925481920385,
+          "n_tips": 606,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_shared_species": 2089,
+      "pair_id": "P001",
+      "system_A": "A0108",
+      "system_B": "A0112",
+      "trait_A": "leaf_length",
+      "trait_B": "plant_height"
+    }
+  ],
+  "post_original_K_outcome_exploratory": true,
+  "status": "AUSTRAITS_K_SHARED_TAXON_PAIR_BATCH_REESTIMATED",
+  "version": "v0.1"
+}

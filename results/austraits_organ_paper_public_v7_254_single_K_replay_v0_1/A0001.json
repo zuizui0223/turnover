@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0001",
+  "family": "Aizoaceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 64,
+  "n_species_prune": 21,
+  "S3_K": 0.2353,
+  "prune_K": 0.0977,
+  "S3_logK": -1.4471,
+  "prune_logK": -2.3258
+}

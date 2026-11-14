@@ -1,0 +1,334 @@
+{
+  "version": "v0.1",
+  "status": "PASS_ORIGINAL_142_TIP_LOSS_FROZEN_BROAD_TREE_NULL_BATCH",
+  "original_K_source_release": "AusTraits v7.0.0",
+  "source_native_units_and_original_tree_pinned": true,
+  "source_eligible_original_pair_ids_fixed_K_blind": true,
+  "no_original_species_names_or_measurement_values_persisted": true,
+  "original_organs_and_null_design_post_discovery": true,
+  "null_replicates": 128,
+  "null_seed": 20261114,
+  "same_family_random_rank_shared_across_original_trait_pairs": true,
+  "family_batches_are_disjoint": true,
+  "null_inference_conditioned_on_phylogenetic_K_estimable_in_every_family_pair": true,
+  "n_total_candidate_family_priorities_evaluated": 128,
+  "n_rejected_family_priorities_due_to_undefined_K": 0,
+  "rejected_K_undefined_draws_by_family": {
+    "Asteraceae": 0
+  },
+  "n_candidates_evaluated_by_family": {
+    "Asteraceae": 128
+  },
+  "no_per_pair_independent_resampling_after_K_variance_hold": true,
+  "null_preserves_original_strict_survivor_count_within_each_genus": true,
+  "original_family_tips_and_broad_tree_fixed_and_only_within_genus_identity_random": true,
+  "genus_strata_extracted_from_same_original_public_v7_source_without_new_measurements": true,
+  "fixed_broad_tree_all_trait_values_and_taxon_numbers_source_checked": true,
+  "no_evolutionary_rate_or_K_selection_hypothesis_confirmed": true,
+  "pairs": [
+    {
+      "null_pair_id": "P04_Q001",
+      "family": "Asteraceae",
+      "trait_A": "fruit_length",
+      "trait_B": "plant_height",
+      "original_broad_source_species": 43,
+      "original_strict_surviving_source_species": 41,
+      "axes": {
+        "S3": {
+          "status": "PASS",
+          "n_baseline_tips": 43,
+          "n_actual_strict_tips": 41,
+          "baseline_logK_contrast": 0.8606050952351864,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": 0.6955770786221165,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.1650280166130699,
+          "historical_stage2_rebuilt_logK_contrast": 0.6955770786221165,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": 0,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.9852252015833421,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.9852252015833421,
+            "median": 0.9852252015833421,
+            "q025": 0.9852252015833421,
+            "q975": 0.9852252015833421
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 1,
+          "null_K_sign_flip_probability": 0,
+          "random_signed_delta_change": {
+            "mean": -0.1650280166130699,
+            "median": -0.1650280166130699,
+            "q025": -0.1650280166130699,
+            "q975": -0.1650280166130699
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.1650280166130699,
+            "median": 0.1650280166130699,
+            "q025": 0.1650280166130699,
+            "q975": 0.1650280166130699
+          },
+          "null_flip_bits": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "prune_only": {
+          "status": "PASS",
+          "n_baseline_tips": 28,
+          "n_actual_strict_tips": 26,
+          "baseline_logK_contrast": 0.9816861926543491,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": 0.728189645872381,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.2534965467819681,
+          "historical_stage2_rebuilt_logK_contrast": 0.7281896458723809,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": -1.110223024625157e-16,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.9717021662405776,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.9717021662405776,
+            "median": 0.9717021662405776,
+            "q025": 0.9717021662405776,
+            "q975": 0.9717021662405776
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 1,
+          "null_K_sign_flip_probability": 0,
+          "random_signed_delta_change": {
+            "mean": -0.2534965467819681,
+            "median": -0.2534965467819681,
+            "q025": -0.2534965467819681,
+            "q975": -0.2534965467819681
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.2534965467819681,
+            "median": 0.2534965467819681,
+            "q025": 0.2534965467819681,
+            "q975": 0.2534965467819681
+          },
+          "null_flip_bits": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    },
+    {
+      "null_pair_id": "P04_Q002",
+      "family": "Asteraceae",
+      "trait_A": "leaf_area",
+      "trait_B": "seed_dry_mass",
+      "original_broad_source_species": 215,
+      "original_strict_surviving_source_species": 147,
+      "axes": {
+        "S3": {
+          "status": "PASS",
+          "n_baseline_tips": 215,
+          "n_actual_strict_tips": 147,
+          "baseline_logK_contrast": -0.8221543216325302,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": -1.104068963504003,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.2819146418714724,
+          "historical_stage2_rebuilt_logK_contrast": -1.104068963504003,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": -4.440892098500626e-16,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.85540136254579,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.8560161875432847,
+            "median": 0.8562523023969858,
+            "q025": 0.8469186495614797,
+            "q975": 0.8634389206105902
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 0.5116279069767442,
+          "null_K_sign_flip_probability": 0.3828125,
+          "random_signed_delta_change": {
+            "mean": 0.370797459149592,
+            "median": -0.02532175972315076,
+            "q025": -0.3988302731820497,
+            "q975": 1.438875079956544
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.5812531452908976,
+            "median": 0.2872451037896255,
+            "q025": 0.01222058665524139,
+            "q975": 1.438875079956544
+          },
+          "null_flip_bits": "10000100000100010100001001111010001101010000010001000100000100000011101000001011010000101100010110011010100100101010011011101011"
+        },
+        "prune_only": {
+          "status": "PASS",
+          "n_baseline_tips": 123,
+          "n_actual_strict_tips": 87,
+          "baseline_logK_contrast": -0.9268559227058262,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": -1.231916558878391,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.305060636172565,
+          "historical_stage2_rebuilt_logK_contrast": -1.231916558878391,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": 2.220446049250313e-16,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.8678530230625605,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.8693941089223105,
+            "median": 0.8700554397615872,
+            "q025": 0.8589802931674391,
+            "q975": 0.8763383102235456
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 0.4418604651162791,
+          "null_K_sign_flip_probability": 0.265625,
+          "random_signed_delta_change": {
+            "mean": 0.2311570005607328,
+            "median": -0.1451491389111441,
+            "q025": -0.5122453927946058,
+            "q975": 1.628578908309351
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.5466532235311173,
+            "median": 0.272671127305,
+            "q025": 0.02165432666453704,
+            "q975": 1.628578908309351
+          },
+          "null_flip_bits": "00000100000100010100001001001010001000010000010000000100000100000011001000001011010000100000000110011010100000101010010000101010"
+        }
+      }
+    },
+    {
+      "null_pair_id": "P04_Q003",
+      "family": "Asteraceae",
+      "trait_A": "leaf_mass_per_area",
+      "trait_B": "seed_dry_mass",
+      "original_broad_source_species": 189,
+      "original_strict_surviving_source_species": 88,
+      "axes": {
+        "S3": {
+          "status": "PASS",
+          "n_baseline_tips": 189,
+          "n_actual_strict_tips": 88,
+          "baseline_logK_contrast": 0.6989753979246958,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": 0.7379193196866307,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": 0.03894392176193495,
+          "historical_stage2_rebuilt_logK_contrast": 0.7379193196866307,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": 0,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.5918206247153199,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.592487999717149,
+            "median": 0.5928533956281943,
+            "q025": 0.5882007997393488,
+            "q975": 0.5943824654557094
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 0.8682170542635659,
+          "null_K_sign_flip_probability": 0,
+          "random_signed_delta_change": {
+            "mean": 0.1307214209982132,
+            "median": 0.1442794027700768,
+            "q025": -0.20218106861902,
+            "q975": 0.4811907040829726
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.1823270745449902,
+            "median": 0.159089328188236,
+            "q025": 0.01192603506135548,
+            "q975": 0.4811907040829726
+          },
+          "null_flip_bits": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "prune_only": {
+          "status": "PASS",
+          "n_baseline_tips": 104,
+          "n_actual_strict_tips": 53,
+          "baseline_logK_contrast": 1.250677293102253,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": 0.7596660720296268,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.491011221072626,
+          "historical_stage2_rebuilt_logK_contrast": 0.7596660720296268,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": 0,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.7911299284298546,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.7914385356036849,
+            "median": 0.7914121480757856,
+            "q025": 0.7833530967706965,
+            "q975": 0.796463857271588
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 0.2093023255813954,
+          "null_K_sign_flip_probability": 0,
+          "random_signed_delta_change": {
+            "mean": -0.3045584923977062,
+            "median": -0.3470529222368346,
+            "q025": -0.670894736669951,
+            "q975": 0.1245666727539549
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.3215222187430558,
+            "median": 0.3470529222368346,
+            "q025": 0.01542283634212982,
+            "q975": 0.670894736669951
+          },
+          "null_flip_bits": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    },
+    {
+      "null_pair_id": "P04_Q004",
+      "family": "Asteraceae",
+      "trait_A": "plant_height",
+      "trait_B": "seed_dry_mass",
+      "original_broad_source_species": 464,
+      "original_strict_surviving_source_species": 166,
+      "axes": {
+        "S3": {
+          "status": "PASS",
+          "n_baseline_tips": 464,
+          "n_actual_strict_tips": 166,
+          "baseline_logK_contrast": 0.7623285020012394,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": 0.3511063372265255,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.4112221647747138,
+          "historical_stage2_rebuilt_logK_contrast": 0.351106339108251,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": 1.881725497643316e-09,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.4800719715678902,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.48151507674882,
+            "median": 0.4815475776103164,
+            "q025": 0.4767276835666241,
+            "q975": 0.4859201191521384
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 0.7364341085271318,
+          "null_K_sign_flip_probability": 0,
+          "random_signed_delta_change": {
+            "mean": 0.459128834976326,
+            "median": 0.7997935009774786,
+            "q025": -0.5017260138242334,
+            "q975": 1.249307417654568
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.7437535973004075,
+            "median": 0.7997935009774786,
+            "q025": 0.1696128015292668,
+            "q975": 1.249307417654568
+          },
+          "null_flip_bits": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "prune_only": {
+          "status": "PASS",
+          "n_baseline_tips": 243,
+          "n_actual_strict_tips": 98,
+          "baseline_logK_contrast": 1.519258401918977,
+          "actual_strict_survivors_logK_on_fixed_broad_tree": 0.636052174825704,
+          "actual_strict_survivor_flip_on_fixed_broad_tree": 0,
+          "actual_strict_survivor_signed_shift": -0.8832062270932735,
+          "historical_stage2_rebuilt_logK_contrast": 0.636052174825704,
+          "historical_rebuilt_tree_minus_actual_fixed_tree": 0,
+          "actual_survivor_PD_fraction_of_broad_tree": 0.6316796329776785,
+          "random_tree_PD_fraction_of_broad_tree": {
+            "mean": 0.6330513225650642,
+            "median": 0.6329931338697996,
+            "q025": 0.6259756733603519,
+            "q975": 0.6382502633967785
+          },
+          "empirical_null_tail_prob_abs_delta_shift": 0.3643410852713178,
+          "null_K_sign_flip_probability": 0,
+          "random_signed_delta_change": {
+            "mean": 0.1682069002750895,
+            "median": 0.6492213068688188,
+            "q025": -0.9494139074261954,
+            "q975": 1.130448216649353
+          },
+          "random_absolute_delta_change": {
+            "mean": 0.8350819767538983,
+            "median": 0.8440411136473722,
+            "q025": 0.5092641430929987,
+            "q975": 1.130448216649353
+          },
+          "null_flip_bits": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    }
+  ]
+}

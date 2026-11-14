@@ -1,0 +1,54 @@
+name: AusTraits public v7 original nonflora 283/142 K-blind source support proof v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-verify-nonflora-source-support-v0-1.yml
+      - scripts/qa/audit_austraits_nonflora_source_support_regression_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recompute-all-original-nonflora-K-blind-eligibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install pandas duckdb pyyaml
+      - name: Download original public v7 source Parquet and pinned native units
+        run: |
+          mkdir -p build/source build/nonflora
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Rebuild original source eligibility in all 760 family-trait K-blind pairs
+        run: |
+          python scripts/source/audit_austraits_k_exclude_five_floras_support_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --observed-K results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/original_K_effects.csv \
+            --core results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/core_systems.csv \
+            --traits-yml build/source/traits.yml \
+            --original-pairs results/austraits_organ_paper_frozen_rebuild_inputs_v0_1/shared_taxon_pair_support.json \
+            --original-source-design data/austraits_k_cross_trait_shared_dataset_support_v0_1.json \
+            --design data/austraits_k_exclude_five_electronic_floras_support_v0_1.json \
+            --out build/nonflora/recomputed_nonflora_K_blind_support.json
+      - name: Check all species/source support counts and exact 283/142 cohort identities
+        run: |
+          python scripts/qa/audit_austraits_nonflora_source_support_regression_v0_1.py \
+            --original results/austraits_organ_paper_original_nonflora_K_references_v0_1/source_support_excluding_five_floras.json \
+            --fresh build/nonflora/recomputed_nonflora_K_blind_support.json \
+            --output build/nonflora/source_support_regression_verdict.json \
+            --self-test
+          grep -q PASS_PUBLIC_AUSTRAITS_V7_REBUILT_NONFLORA_283_142_K_BLIND_SUPPORT \
+            build/nonflora/source_support_regression_verdict.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-283-142-source-blind-public-v7-reproduction-v0-1
+          path: build/nonflora/source_support_regression_verdict.json
+          retention-days: 90
+          if-no-files-found: error

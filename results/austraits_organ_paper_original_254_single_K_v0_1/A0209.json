@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0209",
+  "family": "Ranunculaceae",
+  "trait_name": "petiole_length",
+  "n_species_S3": 53,
+  "n_species_prune": 28,
+  "S3_K": 0.0547,
+  "prune_K": 0.0224,
+  "S3_logK": -2.9058,
+  "prune_logK": -3.7969
+}

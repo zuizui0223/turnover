@@ -1,0 +1,7 @@
+analysis_tier,basis_of_value,metadata_labeled_source_rows,fraction_of_all_basis_labeled_rows,distinct_original_record_rows_in_tier,metadata_row_count_minus_dedup_source_rows
+original_254_systems,measurement,228826,0.99680692,228110,1449
+original_254_systems,expert_score,733,0.00319308,228110,1449
+original_760_matched_pairs,measurement,223296,0.9967726,222586,1433
+original_760_matched_pairs,expert_score,723,0.0032274,222586,1433
+strict_142_same_DatasetID,measurement,32164,0.99345194,31401,975
+strict_142_same_DatasetID,expert_score,212,0.00654806,31401,975

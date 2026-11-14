@@ -1,0 +1,247 @@
+name: AusTraits organ-K coauthor review DOCX/PDF bundle v0.1
+
+on:
+  push:
+    branches:
+      - paper/austraits-organ-ecology-v0-2
+    paths:
+      - scripts/publication/build_austraits_organ_review_package_v0_1.py
+      - scripts/publication/fix_austraits_review_docx_layout_v0_1.py
+      - scripts/publication/render_austraits_supplement_docx_v0_1.py
+      - docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md
+      - docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md
+      - data/austraits_organ_paper_claim_registry_v0_2.json
+      - scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py
+      - scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py
+      - scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py
+      - scripts/qa/audit_austraits_organ_family_heterogeneity_v0_1.py
+      - docs/AUSTRAITS_ORGAN_FAMILY_HETEROGENEITY_V0_1.md
+      - scripts/qa/audit_austraits_organ_submission_gate_v0_1.py
+      - results/austraits_organ_paper_public_v7_full_K_replay_v0_1/reproduction_archive_manifest.json
+      - results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_replay_archive_manifest.json
+      - results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/all_254_single_K_replay_archive_manifest.json
+      - docs/AUSTRAITS_ORIGINAL_254_SINGLE_K_REPRODUCTION_V0_1.md
+      - docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md
+      - docs/AUSTRAITS_ORGAN_CODE_SNAPSHOT_REVIEW_CANDIDATE_V0_1.md
+      - results/austraits_organ_paper_code_snapshot_candidate_v0_1/code_review_zip_integrity_verdict.json
+      - results/austraits_organ_paper_code_snapshot_candidate_v0_1/source_code_snapshot_sha256_manifest.json
+      - scripts/publication/build_austraits_organ_code_snapshot_candidate_v0_1.py
+      - results/austraits_organ_paper_source_citation_inventory_v0_1/original_K_source_citation_audit_verdict.json
+      - results/austraits_organ_paper_compact_source_credit_review_v0_1/original_source_citation_priority_verdict.json
+      - scripts/qa/build_austraits_organ_source_credit_review_v0_1.py
+      - docs/AUSTRAITS_ORGAN_NONFLORA_SOURCE_STAGE_REBUILD_V0_1.md
+      - scripts/qa/rebuild_austraits_organ_all_760_K_v0_1.py
+      - docs/AUSTRAITS_ORGAN_ALL_760_RAW_K_REPRODUCTION_V0_1.md
+      - docs/AUSTRAITS_ORGAN_COAUTHOR_SUBMISSION_DECISION_V0_1.md
+      - scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py
+      - results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/**
+      - .github/workflows/austraits-organ-coauthor-review-bundle-v0-1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  coauthor-review-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install document compilers and reference-style formatter
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq pandoc libreoffice-writer fonts-liberation poppler-utils >/dev/null
+          python -m pip install --disable-pip-version-check python-docx==1.2.0 numpy matplotlib
+      - name: Validate frozen aggregate SHA256 and regenerate figures without network source dependencies
+        shell: bash
+        run: |
+          mkdir -p build/review_package/figures build/review_package/qa
+          python scripts/publication/freeze_austraits_organ_aggregate_archives_v0_1.py \
+            --inputs results/austraits_organ_paper_frozen_aggregate_inputs_v0_1
+          python scripts/analysis/render_austraits_organ_k_paper_figures_v0_2.py \
+            --module results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/reproductive_vegetative_lofo.json \
+            --transition results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/nonflora_283_to_142_source_support_transition.json \
+            --joint results/austraits_organ_paper_frozen_aggregate_inputs_v0_1/joint_nonflora_shared_source_K.json \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --out-dir build/review_package/figures
+          test -s build/review_package/figures/figure1_common_tips_family_organK.png
+          test -s build/review_package/figures/figure2_family_holdout_Brier.png
+          test -s build/review_package/figures/figure3_taxon_vs_source_stages.png
+          test -s build/review_package/figures/figure_manifest.json
+      - name: Rebuild original reporting-only mathematical and manuscript QA from frozen counts
+        shell: bash
+        run: |
+          mkdir -p build/review_package/qa/identity build/review_package/qa/claims
+          python scripts/qa/audit_austraits_organ_lofo_accuracy_identity_v0_1.py \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --output build/review_package/qa/identity/result.json \
+            --self-test
+          python scripts/qa/validate_austraits_k_organ_paper_claims_v0_2.py \
+            --claims data/austraits_organ_paper_claim_registry_v0_2.json \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --supplementary docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --output build/review_package/qa/claims/result.json \
+            --self-test
+          python scripts/qa/audit_austraits_organ_family_heterogeneity_v0_1.py \
+            --self-test \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --supplementary docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --output build/review_package/qa/family/result.json
+          test "$(find build/review_package/qa -name result.json -type f | wc -l)" -eq 3
+          grep -q 'PASS_HARD_ACCURACY_IS_ALGEBRAIC_REEXPRESSION' build/review_package/qa/identity/result.json
+          grep -q 'PASS_FROZEN_FAMILY_COUNTS_IN_COAUTHOR_TEXT' build/review_package/qa/family/result.json
+      - name: Check provisional journal preflight and preserve honest unsatisfied gates
+        shell: bash
+        run: |
+          python scripts/qa/audit_austraits_organ_submission_gate_v0_1.py \
+            --self-test \
+            --output build/review_package/qa/submission/result.json
+          grep -q 'PASS_EDITORIAL_PREFLIGHT_WITH_HUMAN_SUBMISSION_BLOCKERS' build/review_package/qa/submission/result.json
+          grep -q '"eligible_for_submission_claim": false' build/review_package/qa/submission/result.json
+          cp docs/AUSTRAITS_ORGAN_COAUTHOR_SUBMISSION_DECISION_V0_1.md \
+            build/review_package/coauthor_submission_gate.md
+          cp docs/AUSTRAITS_ORGAN_ALL_760_RAW_K_REPRODUCTION_V0_1.md \
+            build/review_package/full_760_K_reproducibility.md
+          cp results/austraits_organ_paper_public_v7_full_K_replay_v0_1/reproduction_archive_manifest.json \
+            build/review_package/full_760_K_archive_manifest.json
+          cp results/austraits_organ_paper_public_v7_full_K_replay_v0_1/all_760_native_K_regression.json \
+            build/review_package/full_760_K_original_numeric_verdict.json
+          grep -q '"all_760_original_matched_tip_K_computations_cleanroom_reproduced": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"original_nonflora_283_142_source_K_cleanroom_reproduced": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"original_254_single_trait_K_reference_independently_recomputed": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"all_three_original_K_computational_pipelines_cleanruntime_reproduced": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"original_v7_contributing_source_attribution_inventory_verified": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"author_approved_original_source_bibliography": false' \
+            build/review_package/qa/submission/result.json
+          grep -q '"permanent_citable_analysis_code_DOI_created": false' \
+            build/review_package/qa/submission/result.json
+          grep -q '"verified_code_snapshot_review_candidate_prepared": true' \
+            build/review_package/qa/submission/result.json
+          grep -q '"verified_code_snapshot_review_candidate_file_count": 1037' \
+            build/review_package/qa/submission/result.json
+          cp docs/AUSTRAITS_ORGAN_CODE_SNAPSHOT_REVIEW_CANDIDATE_V0_1.md \
+            build/review_package/code_snapshot_review_and_no_DOI_gate.md
+          cp results/austraits_organ_paper_code_snapshot_candidate_v0_1/code_review_zip_integrity_verdict.json \
+            build/review_package/code_snapshot_zip_sha256_verdict.json
+          cp results/austraits_organ_paper_code_snapshot_candidate_v0_1/source_code_snapshot_sha256_manifest.json \
+            build/review_package/code_snapshot_original_commit_and_file_hashes.json
+          cp docs/AUSTRAITS_ORGAN_SOURCE_CREDIT_AND_DATA_DEPOSIT_GATE_V0_1.md \
+            build/review_package/source_credit_and_data_DOI_gate.md
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/original_source_citation_priority_verdict.json \
+            build/review_package/source_citation_priority_verdict.json
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/dataset_priority_and_credit_gaps.csv \
+            build/review_package/source_credit_priority_datasets.csv
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/cited_original_publication_candidates.csv \
+            build/review_package/source_credit_primary_secondary_candidates.csv
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/original_AusTraits_v7_contributing_citations.bib \
+            build/review_package/source_original_v7_contributing_references.bib
+          cp results/austraits_organ_paper_compact_source_credit_review_v0_1/basis_of_value_review_summary.csv \
+            build/review_package/source_basis_of_value_audit.csv
+          cp docs/AUSTRAITS_ORIGINAL_254_SINGLE_K_REPRODUCTION_V0_1.md \
+            build/review_package/original_254_single_K_reproducibility.md
+          cp results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/all_254_single_K_replay_archive_manifest.json \
+            build/review_package/original_254_single_K_archive_manifest.json
+          cp results/austraits_organ_paper_public_v7_254_single_K_replay_v0_1/all_254_original_single_trait_K_verdict.json \
+            build/review_package/original_254_single_K_numeric_verdict.json
+          cp docs/AUSTRAITS_ORGAN_NONFLORA_SOURCE_STAGE_REBUILD_V0_1.md \
+            build/review_package/nonflora_K_reproducibility.md
+          cp results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_replay_archive_manifest.json \
+            build/review_package/nonflora_K_archive_manifest.json
+          cp results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/nonflora_K_three_stage_verdict.json \
+            build/review_package/nonflora_K_original_numeric_verdict.json
+          cp results/austraits_organ_paper_public_v7_nonflora_3stage_replay_v0_1/recomputed_3stage_transition.json \
+            build/review_package/nonflora_K_recomputed_3stage_aggregate.json
+      - name: Compile paper/supplement source without changing biology
+        shell: bash
+        run: |
+          python scripts/publication/build_austraits_organ_review_package_v0_1.py \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --supplementary docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --figures build/review_package/figures \
+            --out-dir build/review_package
+          pandoc build/review_package/manuscript_review.md \
+            --from markdown --to docx --standalone \
+            --reference-doc build/review_package/reference_manuscript.docx \
+            --resource-path build/review_package \
+            --output build/review_package/organ_K_coauthor_manuscript.docx
+          python scripts/publication/render_austraits_supplement_docx_v0_1.py \
+            --markdown docs/AUSTRAITS_ORGAN_K_SUPPLEMENTARY_TABLES_V0_2.md \
+            --manuscript docs/AUSTRAITS_K_ORGAN_ECOLOGY_MANUSCRIPT_V0_2.md \
+            --brier-figure build/review_package/figures/figure2_family_holdout_Brier.png \
+            --output build/review_package/organ_K_supplementary_tables.docx
+      - name: Fix figure page breaks and landscape supplementary table widths
+        run: |
+          python scripts/publication/fix_austraits_review_docx_layout_v0_1.py \
+            --manuscript build/review_package/organ_K_coauthor_manuscript.docx \
+            --supplement build/review_package/organ_K_supplementary_tables.docx
+      - name: Generate static PDF proofs from editable DOCX
+        shell: bash
+        run: |
+          profile="file:///tmp/lo_organk_${GITHUB_RUN_ID}"
+          libreoffice -env:UserInstallation="$profile" --headless \
+            --convert-to pdf --outdir build/review_package \
+            build/review_package/organ_K_coauthor_manuscript.docx \
+            build/review_package/organ_K_supplementary_tables.docx
+          test -s build/review_package/organ_K_coauthor_manuscript.pdf
+          test -s build/review_package/organ_K_supplementary_tables.pdf
+          test -s build/review_package/organ_K_coauthor_manuscript.docx
+          test -s build/review_package/organ_K_supplementary_tables.docx
+      - name: Verify math survived PDF conversion despite word-wrap
+        shell: bash
+        run: |
+          pdftotext -layout build/review_package/organ_K_coauthor_manuscript.pdf \
+            build/review_package/pdf_text_for_qa.txt
+          pdftotext -layout build/review_package/organ_K_supplementary_tables.pdf \
+            build/review_package/supp_text_for_qa.txt
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          main = ' '.join(Path('build/review_package/pdf_text_for_qa.txt').read_text().split())
+          supp = ' '.join(Path('build/review_package/supp_text_for_qa.txt').read_text().split())
+          gate = main.partition('Consequently, the full-cohort')[2].partition('The coefficients')[0]
+          if not gate:
+              raise AssertionError('Main PDF lost Methods accuracy-identity location')
+          for token in ('313', '314', '0.5', '354', '350', '760', '747',
+                        '490/760', '489/747', '64.47%', '65.46%'):
+              if token not in gate:
+                  raise AssertionError('Main PDF Methods mathematical identity missing '+token)
+          for token in ('490/760', '489/747', '64.47%', '65.46%'):
+              if token not in supp:
+                  raise AssertionError('Supplement PDF accuracy identity missing '+token)
+          for label, pdf_text in [('main', main), ('supplement', supp)]:
+              for token in ('27/34', '30/34', 'Casuarinaceae', 'Rubiaceae'):
+                  if token not in pdf_text:
+                      raise AssertionError(label+' PDF lost source-verified family audit token '+token)
+          for token in ('40541276639', '40610003843'):
+              if token not in main:
+                  raise AssertionError('Main PDF missing latest original 254 phytools K numerical source evidence '+token)
+          for token in ('23,122', '73.6%', '44 DatasetIDs'):
+              if token not in main:
+                  raise AssertionError('Main PDF source attribution concentration caveat missing '+token)
+          print('PDF_MATH_IDENTITY_FAMILY_254_K_AND_SOURCE_CITATION_AUDIT_PASS: proofs intact')
+          PY
+      - name: Create long-lived reviewer artifact with source fingerprint
+        shell: bash
+        run: |
+          cd build/review_package
+          zip -q -r ../austraits_organ_K_coauthor_review_v0_1.zip \
+            organ_K_coauthor_manuscript.docx organ_K_coauthor_manuscript.pdf \
+            organ_K_supplementary_tables.docx organ_K_supplementary_tables.pdf \
+            README.txt source_manifest.json coauthor_submission_gate.md full_760_K_reproducibility.md full_760_K_archive_manifest.json full_760_K_original_numeric_verdict.json nonflora_K_reproducibility.md nonflora_K_archive_manifest.json nonflora_K_original_numeric_verdict.json nonflora_K_recomputed_3stage_aggregate.json original_254_single_K_reproducibility.md original_254_single_K_archive_manifest.json original_254_single_K_numeric_verdict.json source_credit_and_data_DOI_gate.md source_citation_priority_verdict.json source_credit_priority_datasets.csv source_credit_primary_secondary_candidates.csv source_original_v7_contributing_references.bib source_basis_of_value_audit.csv code_snapshot_review_and_no_DOI_gate.md code_snapshot_zip_sha256_verdict.json code_snapshot_original_commit_and_file_hashes.json figures/ qa/
+          test -s ../austraits_organ_K_coauthor_review_v0_1.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-K-coauthor-review-v0-1
+          path: build/austraits_organ_K_coauthor_review_v0_1.zip
+          retention-days: 90
+          if-no-files-found: error

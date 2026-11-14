@@ -1,0 +1,1015 @@
+{
+  "NOT_independent_primary_measurement_validation": true,
+  "n_original_K_blind_source_selected_pairs": 28,
+  "no_species_observation_IDs_or_raw_trait_measurements_persisted": true,
+  "pairs": [
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1938431174005383,
+          "K_full_B": 0.2479678856611313,
+          "K_source_A": 0.1891104953985676,
+          "K_source_B": 0.2479328605645478,
+          "delta_full": -0.2462500857604357,
+          "delta_source": -0.2708265100151637,
+          "delta_source_measurements": -0.02457642425472795,
+          "n_tips": 480,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.148032052442025,
+          "K_full_B": 0.2482378359956132,
+          "K_source_A": 0.1396449192081919,
+          "K_source_B": 0.2317069906071013,
+          "delta_full": -0.5169584818438488,
+          "delta_source": -0.5063706925210452,
+          "delta_source_measurements": 0.01058778932280369,
+          "n_tips": 168,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_initial_nonflora_positive_median_species": 480,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 480,
+      "pair_id": "Q001",
+      "system_A": "A0112",
+      "system_B": "A0117",
+      "trait_A": "plant_height",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.4891024124173194,
+          "K_full_B": 0.5618372256066704,
+          "K_source_A": 0.4820831526966629,
+          "K_source_B": 0.5539164472865508,
+          "delta_full": -0.138640273896551,
+          "delta_source": -0.1388972430613273,
+          "delta_source_measurements": -0.000256969164776355,
+          "n_tips": 283,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.6203633460882593,
+          "K_full_B": 0.3404987190700693,
+          "K_source_A": 0.5967576177842816,
+          "K_source_B": 0.3183619359628625,
+          "delta_full": 0.5998939847876406,
+          "delta_source": 0.6283221316223213,
+          "delta_source_measurements": 0.02842814683468076,
+          "n_tips": 62,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_initial_nonflora_positive_median_species": 283,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 283,
+      "pair_id": "Q002",
+      "system_A": "A0106",
+      "system_B": "A0112",
+      "trait_A": "fruit_width",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.6136904665002736,
+          "K_full_B": 0.5188599807437203,
+          "K_source_A": 0.6662649189829007,
+          "K_source_B": 0.4960370169834526,
+          "delta_full": 0.1678566146657748,
+          "delta_source": 0.295036812743794,
+          "delta_source_measurements": 0.1271801980780191,
+          "n_tips": 265,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.4893465611483287,
+          "K_full_B": 0.1636872687075736,
+          "K_source_A": 0.5343414892797831,
+          "K_source_B": 0.1846124276731408,
+          "delta_full": 1.095113243205676,
+          "delta_source": 1.062776485629216,
+          "delta_source_measurements": -0.03233675757645971,
+          "n_tips": 52,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_initial_nonflora_positive_median_species": 265,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 265,
+      "pair_id": "Q003",
+      "system_A": "A0106",
+      "system_B": "A0110",
+      "trait_A": "fruit_width",
+      "trait_B": "leaf_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.4440555844997514,
+          "K_full_B": 1.071827933638127,
+          "K_source_A": 0.436390754484707,
+          "K_source_B": 1.109314480638448,
+          "delta_full": -0.8811710741704392,
+          "delta_source": -0.9329594506510275,
+          "delta_source_measurements": -0.05178837648058832,
+          "n_tips": 190,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.1387464478239063,
+          "K_full_B": 0.9056157035976796,
+          "K_source_A": 0.1304444588269133,
+          "K_source_B": 0.9041597922156663,
+          "delta_full": -1.875966896814032,
+          "delta_source": -1.936058572763011,
+          "delta_source_measurements": -0.06009167594897846,
+          "n_tips": 97,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Proteaceae",
+      "n_initial_nonflora_positive_median_species": 190,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 190,
+      "pair_id": "Q004",
+      "system_A": "A0194",
+      "system_B": "A0200",
+      "trait_A": "fruit_width",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1246820830621461,
+          "K_full_B": 0.3105925672135299,
+          "K_source_A": 0.1246820830621461,
+          "K_source_B": 0.3142020917213738,
+          "delta_full": -0.9127148179872848,
+          "delta_source": -0.9242692210647387,
+          "delta_source_measurements": -0.01155440307745392,
+          "n_tips": 171,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.1828116967786391,
+          "K_full_B": 0.4720495307556384,
+          "K_source_A": 0.1828116967786391,
+          "K_source_B": 0.5001188025441087,
+          "delta_full": -0.9486272743945231,
+          "delta_source": -1.006389031559763,
+          "delta_source_measurements": -0.05776175716523968,
+          "n_tips": 93,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_initial_nonflora_positive_median_species": 171,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 171,
+      "pair_id": "Q005",
+      "system_A": "A0109",
+      "system_B": "A0117",
+      "trait_A": "leaf_mass_per_area",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1223211462296916,
+          "K_full_B": 0.2437480048995379,
+          "K_source_A": 0.123209193467254,
+          "K_source_B": 0.2433875692478877,
+          "delta_full": -0.6894849924936863,
+          "delta_source": -0.6807714373442717,
+          "delta_source_measurements": 0.008713555149414631,
+          "n_tips": 133,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.07073993206756525,
+          "K_full_B": 0.2381497980032125,
+          "K_source_A": 0.07369010007831704,
+          "K_source_B": 0.239559885367524,
+          "delta_full": -1.213889655589702,
+          "delta_source": -1.178934966006548,
+          "delta_source_measurements": 0.03495468958315429,
+          "n_tips": 53,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Rutaceae",
+      "n_initial_nonflora_positive_median_species": 133,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 133,
+      "pair_id": "Q006",
+      "system_A": "A0235",
+      "system_B": "A0238",
+      "trait_A": "plant_height",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.179064026631203,
+          "K_full_B": 0.3067155089540955,
+          "K_source_A": 0.1713191267727255,
+          "K_source_B": 0.3067155089540955,
+          "delta_full": -0.5381772044598876,
+          "delta_source": -0.5823925813414166,
+          "delta_source_measurements": -0.04421537688152899,
+          "n_tips": 127,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.06962737064781617,
+          "K_full_B": 0.2255275486733432,
+          "K_source_A": 0.06979202377491012,
+          "K_source_B": 0.2255275486733432,
+          "delta_full": -1.175284572077299,
+          "delta_source": -1.172922587873806,
+          "delta_source_measurements": 0.002361984203492984,
+          "n_tips": 34,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Rutaceae",
+      "n_initial_nonflora_positive_median_species": 127,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 127,
+      "pair_id": "Q007",
+      "system_A": "A0235",
+      "system_B": "A0236",
+      "trait_A": "plant_height",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.3485259626386809,
+          "K_full_B": 0.7875986295389187,
+          "K_source_A": 0.3313592555662744,
+          "K_source_B": 0.7875986295389187,
+          "delta_full": -0.815275881044797,
+          "delta_source": -0.8657854556726797,
+          "delta_source_measurements": -0.05050957462788275,
+          "n_tips": 112,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.3976329544293928,
+          "K_full_B": 1.04059158080498,
+          "K_source_A": 0.3783724658798219,
+          "K_source_B": 1.04059158080498,
+          "delta_full": -0.9620153033898587,
+          "delta_source": -1.011665588169321,
+          "delta_source_measurements": -0.04965028477946254,
+          "n_tips": 22,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Cyperaceae",
+      "n_initial_nonflora_positive_median_species": 112,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 112,
+      "pair_id": "Q008",
+      "system_A": "A0079",
+      "system_B": "A0081",
+      "trait_A": "plant_height",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1799384568011757,
+          "K_full_B": 0.9125913078090058,
+          "K_source_A": 0.1739172344147495,
+          "K_source_B": 0.8907405368945448,
+          "delta_full": -1.623673258036311,
+          "delta_source": -1.633473658912014,
+          "delta_source_measurements": -0.009800400875703108,
+          "n_tips": 102,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "n_tips": 18,
+          "status": "HOLD_FEWER_THAN_20_NATIVE_TREE_TIPS"
+        }
+      },
+      "family": "Malvaceae",
+      "n_initial_nonflora_positive_median_species": 102,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 102,
+      "pair_id": "Q009",
+      "system_A": "A0153",
+      "system_B": "A0156",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.04295180722889545,
+          "K_full_B": 0.1976599683582859,
+          "K_source_A": 0.06579526714371857,
+          "K_source_B": 0.1976599683582859,
+          "delta_full": -1.526469497815173,
+          "delta_source": -1.100000315029178,
+          "delta_source_measurements": 0.4264691827859952,
+          "n_tips": 96,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.04177457829297853,
+          "K_full_B": 0.0660931207677222,
+          "K_source_A": 0.06810585577675263,
+          "K_source_B": 0.0660931207677222,
+          "delta_full": -0.4587766886278271,
+          "delta_source": 0.02999852903382161,
+          "delta_source_measurements": 0.4887752176616487,
+          "n_tips": 51,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Asteraceae",
+      "n_initial_nonflora_positive_median_species": 96,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 96,
+      "pair_id": "Q010",
+      "system_A": "A0040",
+      "system_B": "A0045",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.08554099078478106,
+          "K_full_B": 0.3820184121741846,
+          "K_source_A": 0.1596870156299239,
+          "K_source_B": 0.3872108906727768,
+          "delta_full": -1.496473121414914,
+          "delta_source": -0.8857537345882599,
+          "delta_source_measurements": 0.6107193868266542,
+          "n_tips": 94,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.04413387128068628,
+          "K_full_B": 0.2085612419741525,
+          "K_source_A": 0.1058964347113609,
+          "K_source_B": 0.2039639028531695,
+          "delta_full": -1.553005180704482,
+          "delta_source": -0.6554814459078542,
+          "delta_source_measurements": 0.8975237347966281,
+          "n_tips": 47,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Euphorbiaceae",
+      "n_initial_nonflora_positive_median_species": 94,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 94,
+      "pair_id": "Q011",
+      "system_A": "A0099",
+      "system_B": "A0103",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.6442852417964421,
+          "K_full_B": 0.1191546306977376,
+          "K_source_A": 0.5539919518936656,
+          "K_source_B": 0.09679437009451766,
+          "delta_full": 1.687719482860376,
+          "delta_source": 1.744561326963451,
+          "delta_source_measurements": 0.05684184410307447,
+          "n_tips": 79,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.3998724605378042,
+          "K_full_B": 0.1062322983612972,
+          "K_source_A": 0.3282224928025848,
+          "K_source_B": 0.0838745455628094,
+          "delta_full": 1.325517457343237,
+          "delta_source": 1.364369532888301,
+          "delta_source_measurements": 0.03885207554506476,
+          "n_tips": 41,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Euphorbiaceae",
+      "n_initial_nonflora_positive_median_species": 79,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 79,
+      "pair_id": "Q012",
+      "system_A": "A0096",
+      "system_B": "A0101",
+      "trait_A": "fruit_length",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.4229624326866503,
+          "K_full_B": 0.3019992095957791,
+          "K_source_A": 0.4272852379195216,
+          "K_source_B": 0.3905776836274698,
+          "delta_full": 0.3368589633478837,
+          "delta_source": 0.08982491146813154,
+          "delta_source_measurements": -0.2470340518797521,
+          "n_tips": 69,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.2242914443409048,
+          "K_full_B": 0.2538847914402195,
+          "K_source_A": 0.2290152527492785,
+          "K_source_B": 0.3603992370705415,
+          "delta_full": -0.1239342901368918,
+          "delta_source": -0.4534238016073417,
+          "delta_source_measurements": -0.3294895114704499,
+          "n_tips": 24,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Rutaceae",
+      "n_initial_nonflora_positive_median_species": 69,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 69,
+      "pair_id": "Q013",
+      "system_A": "A0230",
+      "system_B": "A0233",
+      "trait_A": "fruit_width",
+      "trait_B": "leaf_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.4496423028847565,
+          "K_full_B": 2.0191460319901,
+          "K_source_A": 0.4496423028847565,
+          "K_source_B": 1.143751658727731,
+          "delta_full": -1.501977560368551,
+          "delta_source": -0.9336166826429759,
+          "delta_source_measurements": 0.5683608777255751,
+          "n_tips": 62,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.2294528061529966,
+          "K_full_B": 1.216178021450799,
+          "K_source_A": 0.2294528061529966,
+          "K_source_B": 0.8970511774405923,
+          "delta_full": -1.667771080353501,
+          "delta_source": -1.36341554375747,
+          "delta_source_measurements": 0.3043555365960315,
+          "n_tips": 21,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Rutaceae",
+      "n_initial_nonflora_positive_median_species": 62,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 62,
+      "pair_id": "Q014",
+      "system_A": "A0231",
+      "system_B": "A0237",
+      "trait_A": "leaf_area",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.4421573030586927,
+          "K_full_B": 0.2558226820603153,
+          "K_source_A": 0.3937255792510594,
+          "K_source_B": 0.252382660043171,
+          "delta_full": 0.5471811517511154,
+          "delta_source": 0.4447077392640835,
+          "delta_source_measurements": -0.1024734124870319,
+          "n_tips": 57,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.4174063585037857,
+          "K_full_B": 0.2370532090647235,
+          "K_source_A": 0.3701802432189399,
+          "K_source_B": 0.2306130860758702,
+          "delta_full": 0.5657756013670572,
+          "delta_source": 0.4732486766884209,
+          "delta_source_measurements": -0.09252692467863632,
+          "n_tips": 36,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Apiaceae",
+      "n_initial_nonflora_positive_median_species": 57,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 57,
+      "pair_id": "Q015",
+      "system_A": "A0013",
+      "system_B": "A0014",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.4268920451366719,
+          "K_full_B": 0.1601720803201233,
+          "K_source_A": 0.3810437611886525,
+          "K_source_B": 0.153906668182167,
+          "delta_full": 0.9802824202731893,
+          "delta_source": 0.9065678593683251,
+          "delta_source_measurements": -0.07371456090486428,
+          "n_tips": 57,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.4306510496944778,
+          "K_full_B": 0.1467534973613562,
+          "K_source_A": 0.3827183061681919,
+          "K_source_B": 0.1528165195148329,
+          "delta_full": 1.076543842168752,
+          "delta_source": 0.9180612426427015,
+          "delta_source_measurements": -0.1584825995260506,
+          "n_tips": 35,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Apiaceae",
+      "n_initial_nonflora_positive_median_species": 57,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 57,
+      "pair_id": "Q016",
+      "system_A": "A0013",
+      "system_B": "A0015",
+      "trait_A": "fruit_length",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.2796590889907227,
+          "K_full_B": 0.3042481333990732,
+          "K_source_A": 0.2587754601396532,
+          "K_source_B": 0.2909641452687458,
+          "delta_full": -0.08427227471226484,
+          "delta_source": -0.117239311031428,
+          "delta_source_measurements": -0.0329670363191632,
+          "n_tips": 47,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.2768020767102038,
+          "K_full_B": 0.386052542844135,
+          "K_source_A": 0.2635743324269442,
+          "K_source_B": 0.3719983629354972,
+          "delta_full": -0.3326707552778866,
+          "delta_source": -0.3445540288558105,
+          "delta_source_measurements": -0.01188327357792396,
+          "n_tips": 21,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Goodeniaceae",
+      "n_initial_nonflora_positive_median_species": 47,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 47,
+      "pair_id": "Q017",
+      "system_A": "A0120",
+      "system_B": "A0123",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.2337025131895904,
+          "K_full_B": 0.2463762918298482,
+          "K_source_A": 0.2291067452500176,
+          "K_source_B": 0.2113883275001813,
+          "delta_full": -0.05281101340656336,
+          "delta_source": 0.08049117472855727,
+          "delta_source_measurements": 0.1333021881351206,
+          "n_tips": 46,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.2466496580441475,
+          "K_full_B": 0.1712065706667984,
+          "K_source_A": 0.2369021945914623,
+          "K_source_B": 0.1446093250574917,
+          "delta_full": 0.3650980982433798,
+          "delta_source": 0.4936115786238076,
+          "delta_source_measurements": 0.1285134803804278,
+          "n_tips": 32,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Solanaceae",
+      "n_initial_nonflora_positive_median_species": 46,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 46,
+      "pair_id": "Q018",
+      "system_A": "A0253",
+      "system_B": "A0256",
+      "trait_A": "plant_height",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.2180552579321132,
+          "K_full_B": 0.3237932565135467,
+          "K_source_A": 0.2204724646369724,
+          "K_source_B": 0.3054664400817684,
+          "delta_full": -0.3953567075191693,
+          "delta_source": -0.3260671099852956,
+          "delta_source_measurements": 0.06928959753387365,
+          "n_tips": 40,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "n_tips": 17,
+          "status": "HOLD_FEWER_THAN_20_NATIVE_TREE_TIPS"
+        }
+      },
+      "family": "Goodeniaceae",
+      "n_initial_nonflora_positive_median_species": 40,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 40,
+      "pair_id": "Q019",
+      "system_A": "A0119",
+      "system_B": "A0123",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.02632257795653037,
+          "K_full_B": 10.607352908634525,
+          "K_source_A": 0.03109267834205587,
+          "K_source_B": 10.607352908634525,
+          "delta_full": -5.99887566191045,
+          "delta_source": -5.832330341863987,
+          "delta_source_measurements": 0.1665453200464633,
+          "n_tips": 40,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.01964516641728775,
+          "K_full_B": 8.837724465611384,
+          "K_source_A": 0.02147822809348918,
+          "K_source_B": 8.837724465611384,
+          "delta_full": -6.108953384899559,
+          "delta_source": -6.019744933856827,
+          "delta_source_measurements": 0.08920845104273223,
+          "n_tips": 30,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Moraceae",
+      "n_initial_nonflora_positive_median_species": 40,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 40,
+      "pair_id": "Q020",
+      "system_A": "A0162",
+      "system_B": "A0165",
+      "trait_A": "plant_height",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1652343324671377,
+          "K_full_B": 0.02869477718191442,
+          "K_source_A": 0.1026633871080856,
+          "K_source_B": 0.0290225288858943,
+          "delta_full": 1.750649536664469,
+          "delta_source": 1.26338316352017,
+          "delta_source_measurements": -0.4872663731442988,
+          "n_tips": 34,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.1419261129026874,
+          "K_full_B": 0.01984934771879552,
+          "K_source_A": 0.08111687340996969,
+          "K_source_B": 0.02026299381370765,
+          "delta_full": 1.967135444431342,
+          "delta_source": 1.387094738740351,
+          "delta_source_measurements": -0.5800407056909909,
+          "n_tips": 27,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Annonaceae",
+      "n_initial_nonflora_positive_median_species": 34,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 34,
+      "pair_id": "Q021",
+      "system_A": "A0008",
+      "system_B": "A0011",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.161849119704099,
+          "K_full_B": 0.1981597269533281,
+          "K_source_A": 0.1005372115566371,
+          "K_source_B": 0.2037755449382668,
+          "delta_full": -0.2024088658739505,
+          "delta_source": -0.7064911949790758,
+          "delta_source_measurements": -0.5040823291051253,
+          "n_tips": 33,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.1376924991905327,
+          "K_full_B": 0.1245623510538777,
+          "K_source_A": 0.07856397532463195,
+          "K_source_B": 0.1348477651684718,
+          "delta_full": 0.1002165299233475,
+          "delta_source": -0.5402332115595865,
+          "delta_source_measurements": -0.640449741482934,
+          "n_tips": 26,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Annonaceae",
+      "n_initial_nonflora_positive_median_species": 33,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 33,
+      "pair_id": "Q022",
+      "system_A": "A0008",
+      "system_B": "A0012",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.1435934341180987,
+          "K_full_B": 0.339928222261646,
+          "K_source_A": 0.1238420085317081,
+          "K_source_B": 0.3819391963309196,
+          "delta_full": -0.8617485521707777,
+          "delta_source": -1.126254795555108,
+          "delta_source_measurements": -0.2645062433843304,
+          "n_tips": 33,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.2442883673409125,
+          "K_full_B": 0.3632736391254883,
+          "K_source_A": 0.2043049223096214,
+          "K_source_B": 0.4504497400378937,
+          "delta_full": -0.3968070162298278,
+          "delta_source": -0.7906329109104376,
+          "delta_source_measurements": -0.3938258946806098,
+          "n_tips": 25,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Sapotaceae",
+      "n_initial_nonflora_positive_median_species": 33,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 33,
+      "pair_id": "Q023",
+      "system_A": "A0243",
+      "system_B": "A0246",
+      "trait_A": "plant_height",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.28995470557125,
+          "K_full_B": 0.07729683308277543,
+          "K_source_A": 0.2431993510669803,
+          "K_source_B": 0.1710171204392879,
+          "delta_full": 1.322071737517454,
+          "delta_source": 0.3521178107593046,
+          "delta_source_measurements": -0.969953926758149,
+          "n_tips": 32,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.1961556356929998,
+          "K_full_B": 0.06400055535397736,
+          "K_source_A": 0.1652779328883515,
+          "K_source_B": 0.1188514215457394,
+          "delta_full": 1.120016643062183,
+          "delta_source": 0.3297543439933919,
+          "delta_source_measurements": -0.7902622990687911,
+          "n_tips": 22,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Solanaceae",
+      "n_initial_nonflora_positive_median_species": 32,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 32,
+      "pair_id": "Q024",
+      "system_A": "A0249",
+      "system_B": "A0250",
+      "trait_A": "fruit_width",
+      "trait_B": "leaf_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.3706676055799137,
+          "K_full_B": 0.2616042193065339,
+          "K_source_A": 0.3653069165657198,
+          "K_source_B": 0.2728329029268408,
+          "delta_full": 0.3484729708779636,
+          "delta_source": 0.2918783369567928,
+          "delta_source_measurements": -0.05659463392117081,
+          "n_tips": 30,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.3719128283605914,
+          "K_full_B": 0.3440412458866584,
+          "K_source_A": 0.3512147475770487,
+          "K_source_B": 0.3857278577256295,
+          "delta_full": 0.07789794342984935,
+          "delta_source": -0.09373423617283871,
+          "delta_source_measurements": -0.1716321796026881,
+          "n_tips": 24,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Sapotaceae",
+      "n_initial_nonflora_positive_median_species": 30,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 30,
+      "pair_id": "Q025",
+      "system_A": "A0240",
+      "system_B": "A0242",
+      "trait_A": "fruit_width",
+      "trait_B": "leaf_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.9354658462327816,
+          "K_full_B": 1.036964895194045,
+          "K_source_A": 0.6757989924416213,
+          "K_source_B": 1.114190201859185,
+          "delta_full": -0.1030087189069235,
+          "delta_source": -0.4999874603012957,
+          "delta_source_measurements": -0.3969787413943723,
+          "n_tips": 28,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "n_tips": 15,
+          "status": "HOLD_FEWER_THAN_20_NATIVE_TREE_TIPS"
+        }
+      },
+      "family": "Asparagaceae",
+      "n_initial_nonflora_positive_median_species": 28,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 28,
+      "pair_id": "Q026",
+      "system_A": "A0031",
+      "system_B": "A0032",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.834871479446939,
+          "K_full_B": 0.3905201236145998,
+          "K_source_A": 0.8408959308113194,
+          "K_source_B": 0.3905201236145998,
+          "delta_full": 0.7597982952785497,
+          "delta_source": 0.76698840684376,
+          "delta_source_measurements": 0.007190111565210322,
+          "n_tips": 24,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_full_A": 0.5239493601979278,
+          "K_full_B": 0.3260820537674146,
+          "K_source_A": 0.5297927919950843,
+          "K_source_B": 0.3260820537674146,
+          "delta_full": 0.4742459904384039,
+          "delta_source": 0.4853369232331655,
+          "delta_source_measurements": 0.01109093279476159,
+          "n_tips": 21,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        }
+      },
+      "family": "Elaeocarpaceae",
+      "n_initial_nonflora_positive_median_species": 24,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 24,
+      "pair_id": "Q027",
+      "system_A": "A0086",
+      "system_B": "A0088",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_full_A": 0.6403393781688368,
+          "K_full_B": 1.358149079882202,
+          "K_source_A": 0.6403393781688368,
+          "K_source_B": 1.36547114889478,
+          "delta_full": -0.751879766898892,
+          "delta_source": -0.7572564978945171,
+          "delta_source_measurements": -0.005376730995625079,
+          "n_tips": 20,
+          "original_full_and_common_source_are_on_identical_tips": true,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "n_tips": 3,
+          "status": "HOLD_FEWER_THAN_20_NATIVE_TREE_TIPS"
+        }
+      },
+      "family": "Ericaceae",
+      "n_initial_nonflora_positive_median_species": 20,
+      "n_lost_after_source_median": 0,
+      "n_nonflora_positive_species": 20,
+      "pair_id": "Q028",
+      "system_A": "A0091",
+      "system_B": "A0093",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_width"
+    }
+  ],
+  "post_organ_and_760_K_outcome_source_robustness": true,
+  "remaining_AusTraits_IDs_not_independent_primary_measurements": true,
+  "status": "AUSTRAITS_K_FIVE_FLORA_EXCLUSION_PAIR_BATCH_COMPLETE",
+  "version": "v0.1"
+}

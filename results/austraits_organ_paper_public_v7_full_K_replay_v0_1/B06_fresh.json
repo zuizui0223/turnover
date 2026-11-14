@@ -1,0 +1,991 @@
+{
+  "biological_boundary": "Same-tip K comparison within AusTraits; no selection/OU parameter inference, no TRY independent replication",
+  "n_family_trait_pairs": 34,
+  "no_species_names_or_raw_values_persisted": true,
+  "pairs": [
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.327577168463321,
+          "K_B": 0.0922444476718154,
+          "delta_original_logK": 1.013339682557455,
+          "delta_shared_logK": 1.267281562944939,
+          "delta_support_shift": 0.253941880387484,
+          "n_tips": 1789,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1103657877895779,
+          "K_B": 0.08259837255631201,
+          "delta_original_logK": 0.3713642142609865,
+          "delta_shared_logK": 0.2898102149810819,
+          "delta_support_shift": -0.08155399927990459,
+          "n_tips": 590,
+          "status": "PASS"
+        }
+      },
+      "family": "Fabaceae",
+      "n_shared_species": 1789,
+      "pair_id": "P001",
+      "system_A": "A0105",
+      "system_B": "A0112",
+      "trait_A": "fruit_length",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2782541710007896,
+          "K_B": 0.1498451321635132,
+          "delta_original_logK": 0.9873734495359402,
+          "delta_shared_logK": 0.6189326716558843,
+          "delta_support_shift": -0.3684407778800559,
+          "n_tips": 367,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.0848408273582275,
+          "K_B": 0.06275412202724572,
+          "delta_original_logK": 0.9358512577286491,
+          "delta_shared_logK": 0.3015526161001674,
+          "delta_support_shift": -0.6342986416284817,
+          "n_tips": 197,
+          "status": "PASS"
+        }
+      },
+      "family": "Proteaceae",
+      "n_shared_species": 367,
+      "pair_id": "P002",
+      "system_A": "A0193",
+      "system_B": "A0194",
+      "trait_A": "fruit_length",
+      "trait_B": "fruit_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1383496487158297,
+          "K_B": 0.1609259601847562,
+          "delta_original_logK": -0.1201048384175412,
+          "delta_shared_logK": -0.151160217448866,
+          "delta_support_shift": -0.03105537903132483,
+          "n_tips": 317,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1841341744030626,
+          "K_B": 0.2619533219641385,
+          "delta_original_logK": -0.4005004234787619,
+          "delta_shared_logK": -0.3525016268686305,
+          "delta_support_shift": 0.0479987966101314,
+          "n_tips": 60,
+          "status": "PASS"
+        }
+      },
+      "family": "Malvaceae",
+      "n_shared_species": 317,
+      "pair_id": "P003",
+      "system_A": "A0152",
+      "system_B": "A0153",
+      "trait_A": "leaf_length",
+      "trait_B": "leaf_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.05980010941695115,
+          "K_B": 0.0887659881843313,
+          "delta_original_logK": -0.3969586770303644,
+          "delta_shared_logK": -0.3949960700167541,
+          "delta_support_shift": 0.001962607013610285,
+          "n_tips": 285,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.03814589979163217,
+          "K_B": 0.05444638069615877,
+          "delta_original_logK": 0.181317036367949,
+          "delta_shared_logK": -0.3557981009615077,
+          "delta_support_shift": -0.5371151373294567,
+          "n_tips": 161,
+          "status": "PASS"
+        }
+      },
+      "family": "Proteaceae",
+      "n_shared_species": 285,
+      "pair_id": "P004",
+      "system_A": "A0197",
+      "system_B": "A0198",
+      "trait_A": "leaf_mass_per_area",
+      "trait_B": "leaf_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2864479803435039,
+          "K_B": 0.3254635746817126,
+          "delta_original_logK": 0.9074527429003096,
+          "delta_shared_logK": -0.1276935994595647,
+          "delta_support_shift": -1.035146342359874,
+          "n_tips": 247,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.4675730545123463,
+          "K_B": 0.5319346922280745,
+          "delta_original_logK": -0.4791737234312554,
+          "delta_shared_logK": -0.1289651199793616,
+          "delta_support_shift": 0.3502086034518939,
+          "n_tips": 83,
+          "status": "PASS"
+        }
+      },
+      "family": "Poaceae",
+      "n_shared_species": 247,
+      "pair_id": "P005",
+      "system_A": "A0188",
+      "system_B": "A0190",
+      "trait_A": "seed_dry_mass",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.09686733094147204,
+          "K_B": 0.5454069549338106,
+          "delta_original_logK": -1.312991541988731,
+          "delta_shared_logK": -1.728189902252656,
+          "delta_support_shift": -0.4151983602639246,
+          "n_tips": 220,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.03769361980295068,
+          "K_B": 0.3738269397131211,
+          "delta_original_logK": -1.741959827097288,
+          "delta_shared_logK": -2.294302118147157,
+          "delta_support_shift": -0.5523422910498692,
+          "n_tips": 42,
+          "status": "PASS"
+        }
+      },
+      "family": "Rubiaceae",
+      "n_shared_species": 220,
+      "pair_id": "P006",
+      "system_A": "A0226",
+      "system_B": "A0228",
+      "trait_A": "leaf_length",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1999341237636306,
+          "K_B": 0.2772216984085912,
+          "delta_original_logK": -0.1643030512912764,
+          "delta_shared_logK": -0.3268296102312331,
+          "delta_support_shift": -0.1625265589399567,
+          "n_tips": 203,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1860005614784885,
+          "K_B": 0.2475828134153902,
+          "delta_original_logK": -0.1479844404502,
+          "delta_shared_logK": -0.2859954332907098,
+          "delta_support_shift": -0.1380109928405098,
+          "n_tips": 149,
+          "status": "PASS"
+        }
+      },
+      "family": "Solanaceae",
+      "n_shared_species": 203,
+      "pair_id": "P007",
+      "system_A": "A0250",
+      "system_B": "A0255",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.5482667579723199,
+          "K_B": 0.8265445871661062,
+          "delta_original_logK": -0.3716498135217911,
+          "delta_shared_logK": -0.4104919096425905,
+          "delta_support_shift": -0.03884209612079942,
+          "n_tips": 193,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.4448774026823666,
+          "K_B": 0.7199472575610087,
+          "delta_original_logK": -0.4166058811391737,
+          "delta_shared_logK": -0.4813792113203836,
+          "delta_support_shift": -0.0647733301812099,
+          "n_tips": 48,
+          "status": "PASS"
+        }
+      },
+      "family": "Cyperaceae",
+      "n_shared_species": 193,
+      "pair_id": "P008",
+      "system_A": "A0077",
+      "system_B": "A0080",
+      "trait_A": "fruit_width",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.07499740486211573,
+          "K_B": 0.192792495649197,
+          "delta_original_logK": -0.3760299311300757,
+          "delta_shared_logK": -0.944160947338387,
+          "delta_support_shift": -0.5681310162083113,
+          "n_tips": 180,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.060776810384699,
+          "K_B": 0.1815773104937705,
+          "delta_original_logK": -0.6190392084062233,
+          "delta_shared_logK": -1.094473208075208,
+          "delta_support_shift": -0.4754339996689847,
+          "n_tips": 131,
+          "status": "PASS"
+        }
+      },
+      "family": "Solanaceae",
+      "n_shared_species": 180,
+      "pair_id": "P009",
+      "system_A": "A0251",
+      "system_B": "A0252",
+      "trait_A": "leaf_width",
+      "trait_B": "petiole_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.3061906374638512,
+          "K_B": 0.03852075591329814,
+          "delta_original_logK": 0.01507566240544689,
+          "delta_shared_logK": 2.07301069556264,
+          "delta_support_shift": 2.057935033157193,
+          "n_tips": 171,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1614376113611413,
+          "K_B": 0.01439420230186488,
+          "delta_original_logK": 0.08004270767353638,
+          "delta_shared_logK": 2.4172932530819,
+          "delta_support_shift": 2.337250545408363,
+          "n_tips": 39,
+          "status": "PASS"
+        }
+      },
+      "family": "Asparagaceae",
+      "n_shared_species": 171,
+      "pair_id": "P010",
+      "system_A": "A0032",
+      "system_B": "A0034",
+      "trait_A": "leaf_length",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1336445130022043,
+          "K_B": 0.1846960524549361,
+          "delta_original_logK": 0.2450756557958296,
+          "delta_shared_logK": -0.3235281274726167,
+          "delta_support_shift": -0.5686037832684463,
+          "n_tips": 155,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.08302154990553454,
+          "K_B": 0.176610506072972,
+          "delta_original_logK": -0.6657482063718307,
+          "delta_shared_logK": -0.7548465656745682,
+          "delta_support_shift": -0.08909835930273746,
+          "n_tips": 61,
+          "status": "PASS"
+        }
+      },
+      "family": "Rutaceae",
+      "n_shared_species": 155,
+      "pair_id": "P011",
+      "system_A": "A0235",
+      "system_B": "A0238",
+      "trait_A": "plant_height",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.09962864170702389,
+          "K_B": 0.08427955276189937,
+          "delta_original_logK": -0.6628248125399518,
+          "delta_shared_logK": 0.1673104082431998,
+          "delta_support_shift": 0.8301352207831516,
+          "n_tips": 149,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.164152648567668,
+          "K_B": 0.1715971448023039,
+          "delta_original_logK": -0.3854977225942962,
+          "delta_shared_logK": -0.04435276937160082,
+          "delta_support_shift": 0.3411449532226953,
+          "n_tips": 81,
+          "status": "PASS"
+        }
+      },
+      "family": "Poaceae",
+      "n_shared_species": 149,
+      "pair_id": "P012",
+      "system_A": "A0183",
+      "system_B": "A0185",
+      "trait_A": "leaf_area",
+      "trait_B": "leaf_mass_per_area"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.7727352156320504,
+          "K_B": 0.5702767459821418,
+          "delta_original_logK": 0.2434061004317885,
+          "delta_shared_logK": 0.3038146864112814,
+          "delta_support_shift": 0.06040858597949289,
+          "n_tips": 138,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.5674066385017592,
+          "K_B": 0.4646614228744943,
+          "delta_original_logK": 0.09357320207766062,
+          "delta_shared_logK": 0.1997672046417959,
+          "delta_support_shift": 0.1061940025641352,
+          "n_tips": 72,
+          "status": "PASS"
+        }
+      },
+      "family": "Euphorbiaceae",
+      "n_shared_species": 138,
+      "pair_id": "P013",
+      "system_A": "A0096",
+      "system_B": "A0097",
+      "trait_A": "fruit_length",
+      "trait_B": "fruit_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1287202356495595,
+          "K_B": 0.0498390178323429,
+          "delta_original_logK": 1.137009327008688,
+          "delta_shared_logK": 0.948843165525509,
+          "delta_support_shift": -0.1881661614831791,
+          "n_tips": 134,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.06670105099969954,
+          "K_B": 0.03176797289920022,
+          "delta_original_logK": 0.9521191471292947,
+          "delta_shared_logK": 0.7417620691706426,
+          "delta_support_shift": -0.2103570779586521,
+          "n_tips": 53,
+          "status": "PASS"
+        }
+      },
+      "family": "Goodeniaceae",
+      "n_shared_species": 134,
+      "pair_id": "P014",
+      "system_A": "A0119",
+      "system_B": "A0122",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1117676256614954,
+          "K_B": 0.1806490962265467,
+          "delta_original_logK": -0.241256659721268,
+          "delta_shared_logK": -0.480134509586748,
+          "delta_support_shift": -0.23887784986548,
+          "n_tips": 119,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.0559961420869205,
+          "K_B": 0.04279748559621271,
+          "delta_original_logK": 0.1654352336935632,
+          "delta_shared_logK": 0.2688034439470481,
+          "delta_support_shift": 0.103368210253485,
+          "n_tips": 27,
+          "status": "PASS"
+        }
+      },
+      "family": "Lauraceae",
+      "n_shared_species": 119,
+      "pair_id": "P015",
+      "system_A": "A0144",
+      "system_B": "A0148",
+      "trait_A": "fruit_width",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.05235715269097495,
+          "K_B": 0.04947891854742515,
+          "delta_original_logK": -0.01431151439325618,
+          "delta_shared_logK": 0.05654186916572623,
+          "delta_support_shift": 0.07085338355898241,
+          "n_tips": 106,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.261729418465744,
+          "K_B": 0.4440231934263441,
+          "delta_original_logK": -0.6303206503587216,
+          "delta_shared_logK": -0.5285655823588773,
+          "delta_support_shift": 0.1017550679998444,
+          "n_tips": 37,
+          "status": "PASS"
+        }
+      },
+      "family": "Apocynaceae",
+      "n_shared_species": 106,
+      "pair_id": "P016",
+      "system_A": "A0018",
+      "system_B": "A0020",
+      "trait_A": "leaf_width",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.5285787695594046,
+          "K_B": 0.737407072885525,
+          "delta_original_logK": -0.46388164167713,
+          "delta_shared_logK": -0.3329482395716714,
+          "delta_support_shift": 0.1309334021054586,
+          "n_tips": 104,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.6464779982984904,
+          "K_B": 0.7005877915922001,
+          "delta_original_logK": -0.2208826834790642,
+          "delta_shared_logK": -0.08038051935334173,
+          "delta_support_shift": 0.1405021641257225,
+          "n_tips": 39,
+          "status": "PASS"
+        }
+      },
+      "family": "Phyllanthaceae",
+      "n_shared_species": 104,
+      "pair_id": "P017",
+      "system_A": "A0174",
+      "system_B": "A0175",
+      "trait_A": "leaf_width",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.4391219567438275,
+          "K_B": 3.943637131454101,
+          "delta_original_logK": -1.638936022970624,
+          "delta_shared_logK": -2.195081525991498,
+          "delta_support_shift": -0.5561455030208746,
+          "n_tips": 92,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.2915725174574942,
+          "K_B": 2.106750786206977,
+          "delta_original_logK": -1.578473927581544,
+          "delta_shared_logK": -1.977613379546491,
+          "delta_support_shift": -0.3991394519649472,
+          "n_tips": 29,
+          "status": "PASS"
+        }
+      },
+      "family": "Rhamnaceae",
+      "n_shared_species": 92,
+      "pair_id": "P018",
+      "system_A": "A0216",
+      "system_B": "A0219",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1318262551374652,
+          "K_B": 0.3339690347381066,
+          "delta_original_logK": -1.819158443416169,
+          "delta_shared_logK": -0.9295634717026553,
+          "delta_support_shift": 0.8895949717135141,
+          "n_tips": 86,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1392462811697306,
+          "K_B": 0.3199909957081222,
+          "delta_original_logK": -2.554809853609097,
+          "delta_shared_logK": -0.8320486846769541,
+          "delta_support_shift": 1.722761168932143,
+          "n_tips": 52,
+          "status": "PASS"
+        }
+      },
+      "family": "Asteraceae",
+      "n_shared_species": 86,
+      "pair_id": "P019",
+      "system_A": "A0036",
+      "system_B": "A0043",
+      "trait_A": "fruit_width",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.7122827423064965,
+          "K_B": 0.3372386567696672,
+          "delta_original_logK": 0.7129338143814623,
+          "delta_shared_logK": 0.7476840825292865,
+          "delta_support_shift": 0.03475026814782423,
+          "n_tips": 82,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.5953685210820409,
+          "K_B": 0.2606125744469011,
+          "delta_original_logK": 0.5339628225106785,
+          "delta_shared_logK": 0.8261456615491044,
+          "delta_support_shift": 0.2921828390384259,
+          "n_tips": 39,
+          "status": "PASS"
+        }
+      },
+      "family": "Euphorbiaceae",
+      "n_shared_species": 82,
+      "pair_id": "P020",
+      "system_A": "A0096",
+      "system_B": "A0100",
+      "trait_A": "fruit_length",
+      "trait_B": "petiole_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2426631609717414,
+          "K_B": 0.00602418243626353,
+          "delta_original_logK": 3.110938893685194,
+          "delta_shared_logK": 3.695892537935884,
+          "delta_support_shift": 0.5849536442506897,
+          "n_tips": 70,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.4943811347067359,
+          "K_B": 0.002302148214828498,
+          "delta_original_logK": 5.004585283602983,
+          "delta_shared_logK": 5.369464053990153,
+          "delta_support_shift": 0.3648787703871692,
+          "n_tips": 22,
+          "status": "PASS"
+        }
+      },
+      "family": "Orchidaceae",
+      "n_shared_species": 70,
+      "pair_id": "P021",
+      "system_A": "A0166",
+      "system_B": "A0170",
+      "trait_A": "leaf_area",
+      "trait_B": "seed_dry_mass"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.402136553608772,
+          "K_B": 0.5027100459940718,
+          "delta_original_logK": 1.928345213680607,
+          "delta_shared_logK": -0.2232218380401022,
+          "delta_support_shift": -2.151567051720709,
+          "n_tips": 66,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1748739906979263,
+          "K_B": 0.4737750445419685,
+          "delta_original_logK": 1.421744811838235,
+          "delta_shared_logK": -0.996666958061871,
+          "delta_support_shift": -2.418411769900106,
+          "n_tips": 22,
+          "status": "PASS"
+        }
+      },
+      "family": "Rutaceae",
+      "n_shared_species": 66,
+      "pair_id": "P022",
+      "system_A": "A0230",
+      "system_B": "A0234",
+      "trait_A": "fruit_width",
+      "trait_B": "petiole_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2908476487004316,
+          "K_B": 0.3627939002852155,
+          "delta_original_logK": 0.3257035658671907,
+          "delta_shared_logK": -0.2210353191246335,
+          "delta_support_shift": -0.5467388849918242,
+          "n_tips": 60,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.2518409735889093,
+          "K_B": 0.3062136797514833,
+          "delta_original_logK": 0.2530010975098294,
+          "delta_shared_logK": -0.195485326971778,
+          "delta_support_shift": -0.4484864244816074,
+          "n_tips": 46,
+          "status": "PASS"
+        }
+      },
+      "family": "Solanaceae",
+      "n_shared_species": 60,
+      "pair_id": "P023",
+      "system_A": "A0248",
+      "system_B": "A0256",
+      "trait_A": "fruit_length",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2529116731174583,
+          "K_B": 0.5441465944585079,
+          "delta_original_logK": -0.5115975265445725,
+          "delta_shared_logK": -0.7661783760028074,
+          "delta_support_shift": -0.2545808494582349,
+          "n_tips": 58,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.134034581642225,
+          "K_B": 0.2483855919529208,
+          "delta_original_logK": -0.7322961345369912,
+          "delta_shared_logK": -0.6168845063539439,
+          "delta_support_shift": 0.1154116281830473,
+          "n_tips": 42,
+          "status": "PASS"
+        }
+      },
+      "family": "Elaeocarpaceae",
+      "n_shared_species": 58,
+      "pair_id": "P024",
+      "system_A": "A0082",
+      "system_B": "A0084",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.270122662725488,
+          "K_B": 0.4059441142986118,
+          "delta_original_logK": -0.4381887809691672,
+          "delta_shared_logK": -0.4073393383931933,
+          "delta_support_shift": 0.030849442575974,
+          "n_tips": 52,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.4269722873478493,
+          "K_B": 0.2955299814702047,
+          "delta_original_logK": 0.3817530662885056,
+          "delta_shared_logK": 0.3679488184622881,
+          "delta_support_shift": -0.01380424782621748,
+          "n_tips": 28,
+          "status": "PASS"
+        }
+      },
+      "family": "Celastraceae",
+      "n_shared_species": 52,
+      "pair_id": "P025",
+      "system_A": "A0058",
+      "system_B": "A0061",
+      "trait_A": "fruit_length",
+      "trait_B": "leaf_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1908901927962164,
+          "K_B": 0.07289841675607736,
+          "delta_original_logK": 0.8602012652231115,
+          "delta_shared_logK": 0.9626314351430996,
+          "delta_support_shift": 0.1024301699199881,
+          "n_tips": 47,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.1723852832050113,
+          "K_B": 0.0716620644494425,
+          "delta_original_logK": 0.8073488070448007,
+          "delta_shared_logK": 0.877770469932754,
+          "delta_support_shift": 0.07042166288795326,
+          "n_tips": 39,
+          "status": "PASS"
+        }
+      },
+      "family": "Arecaceae",
+      "n_shared_species": 47,
+      "pair_id": "P026",
+      "system_A": "A0024",
+      "system_B": "A0029",
+      "trait_A": "fruit_width",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.0246578649771199,
+          "K_B": 5.480123270111518,
+          "delta_original_logK": -5.245037032832362,
+          "delta_shared_logK": -5.403786958628075,
+          "delta_support_shift": -0.1587499257957132,
+          "n_tips": 44,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.01767462366899494,
+          "K_B": 5.533772705454785,
+          "delta_original_logK": -5.39576217333199,
+          "delta_shared_logK": -5.746495167280187,
+          "delta_support_shift": -0.3507329939481973,
+          "n_tips": 34,
+          "status": "PASS"
+        }
+      },
+      "family": "Moraceae",
+      "n_shared_species": 44,
+      "pair_id": "P027",
+      "system_A": "A0159",
+      "system_B": "A0164",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_length"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.1044643403950066,
+          "K_B": 0.373145038200546,
+          "delta_original_logK": -0.4240515017375853,
+          "delta_shared_logK": -1.273121413494934,
+          "delta_support_shift": -0.8490699117573489,
+          "n_tips": 41,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.05809912879164095,
+          "K_B": 0.3843445774944697,
+          "delta_original_logK": -1.455037513539494,
+          "delta_shared_logK": -1.889388818681471,
+          "delta_support_shift": -0.434351305141977,
+          "n_tips": 26,
+          "status": "PASS"
+        }
+      },
+      "family": "Celastraceae",
+      "n_shared_species": 41,
+      "pair_id": "P028",
+      "system_A": "A0060",
+      "system_B": "A0065",
+      "trait_A": "leaf_length",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.4070561425531205,
+          "K_B": 0.2137829363330702,
+          "delta_original_logK": 0.4787133882302841,
+          "delta_shared_logK": 0.6439899342659303,
+          "delta_support_shift": 0.1652765460356462,
+          "n_tips": 39,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.3528902527243153,
+          "K_B": 0.1561529463701178,
+          "delta_original_logK": 0.6517879023793769,
+          "delta_shared_logK": 0.8153211574003849,
+          "delta_support_shift": 0.163533255021008,
+          "n_tips": 32,
+          "status": "PASS"
+        }
+      },
+      "family": "Annonaceae",
+      "n_shared_species": 39,
+      "pair_id": "P029",
+      "system_A": "A0006",
+      "system_B": "A0012",
+      "trait_A": "fruit_length",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2245270373765373,
+          "K_B": 0.1310631733428713,
+          "delta_original_logK": 0.5341086882910924,
+          "delta_shared_logK": 0.5383166874595142,
+          "delta_support_shift": 0.00420799916842185,
+          "n_tips": 37,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.2825497023976567,
+          "K_B": 0.2123783083813296,
+          "delta_original_logK": 0.2852072612187118,
+          "delta_shared_logK": 0.2854853149144803,
+          "delta_support_shift": 0.0002780536957684987,
+          "n_tips": 29,
+          "status": "PASS"
+        }
+      },
+      "family": "Sapotaceae",
+      "n_shared_species": 37,
+      "pair_id": "P030",
+      "system_A": "A0239",
+      "system_B": "A0243",
+      "trait_A": "fruit_length",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.2530427913296734,
+          "K_B": 0.3483873361695593,
+          "delta_original_logK": -0.3451782214430366,
+          "delta_shared_logK": -0.3197562856641929,
+          "delta_support_shift": 0.02542193577884366,
+          "n_tips": 34,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.3271951516888208,
+          "K_B": 0.3683051213197004,
+          "delta_original_logK": -0.1152746447950292,
+          "delta_shared_logK": -0.1183549416062682,
+          "delta_support_shift": -0.003080296811239003,
+          "n_tips": 26,
+          "status": "PASS"
+        }
+      },
+      "family": "Sapotaceae",
+      "n_shared_species": 34,
+      "pair_id": "P031",
+      "system_A": "A0242",
+      "system_B": "A0246",
+      "trait_A": "leaf_width",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.3875220698288987,
+          "K_B": 0.1385411708416333,
+          "delta_original_logK": 1.079948829902185,
+          "delta_shared_logK": 1.028605257720574,
+          "delta_support_shift": -0.05134357218161134,
+          "n_tips": 33,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.3618497195461389,
+          "K_B": 0.2337612894711537,
+          "delta_original_logK": 0.5326202835934111,
+          "delta_shared_logK": 0.4369285220509376,
+          "delta_support_shift": -0.0956917615424735,
+          "n_tips": 26,
+          "status": "PASS"
+        }
+      },
+      "family": "Sapotaceae",
+      "n_shared_species": 33,
+      "pair_id": "P032",
+      "system_A": "A0240",
+      "system_B": "A0243",
+      "trait_A": "fruit_width",
+      "trait_B": "plant_height"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.04236555964730592,
+          "K_B": 0.04410791598084322,
+          "delta_original_logK": 0.9122007466226298,
+          "delta_shared_logK": -0.04030350734719113,
+          "delta_support_shift": -0.952504253969821,
+          "n_tips": 28,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "K_A": 0.04236555964730592,
+          "K_B": 0.04410791598084322,
+          "delta_original_logK": 0.9867639885315409,
+          "delta_shared_logK": -0.04030350734719113,
+          "delta_support_shift": -1.027067495878732,
+          "n_tips": 28,
+          "status": "PASS"
+        }
+      },
+      "family": "Casuarinaceae",
+      "n_shared_species": 28,
+      "pair_id": "P033",
+      "system_A": "A0054",
+      "system_B": "A0057",
+      "trait_A": "seed_dry_mass",
+      "trait_B": "seed_width"
+    },
+    {
+      "axes": {
+        "S3": {
+          "K_A": 0.4765205425499078,
+          "K_B": 0.5164337020649895,
+          "delta_original_logK": -0.9424979747024516,
+          "delta_shared_logK": -0.08043608683307457,
+          "delta_support_shift": 0.862061887869377,
+          "n_tips": 20,
+          "status": "PASS"
+        },
+        "prune_only": {
+          "n_tips": 0,
+          "status": "HOLD_TREE_MISSING"
+        }
+      },
+      "family": "Elaeocarpaceae",
+      "n_shared_species": 20,
+      "pair_id": "P034",
+      "system_A": "A0085",
+      "system_B": "A0090",
+      "trait_A": "leaf_mass_per_area",
+      "trait_B": "seed_width"
+    }
+  ],
+  "post_original_K_outcome_exploratory": true,
+  "status": "AUSTRAITS_K_SHARED_TAXON_PAIR_BATCH_REESTIMATED",
+  "version": "v0.1"
+}

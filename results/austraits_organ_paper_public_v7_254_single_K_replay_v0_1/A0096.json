@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0096",
+  "family": "Euphorbiaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 188,
+  "n_species_prune": 79,
+  "S3_K": 0.7503,
+  "prune_K": 0.5407,
+  "S3_logK": -0.2873,
+  "prune_logK": -0.6149
+}

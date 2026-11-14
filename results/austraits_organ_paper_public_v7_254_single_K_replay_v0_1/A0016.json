@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0016",
+  "family": "Apocynaceae",
+  "trait_name": "fruit_length",
+  "n_species_S3": 175,
+  "n_species_prune": 48,
+  "S3_K": 0.253,
+  "prune_K": 0.7524,
+  "S3_logK": -1.3743,
+  "prune_logK": -0.2844
+}

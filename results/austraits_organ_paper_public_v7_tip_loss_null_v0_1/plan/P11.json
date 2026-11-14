@@ -1,0 +1,352 @@
+[
+  {
+    "family": "Malvaceae",
+    "null_pair_id": "P11_Q001",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": -0.2128538272061533,
+        "broad_native_tips": 83,
+        "status": "PASS",
+        "strict_original_native_tips": 83,
+        "strict_original_rebuilt_delta": -0.2128538272061533
+      },
+      "prune_only": {
+        "broad_delta": -0.3886044777271055,
+        "broad_native_tips": 22,
+        "status": "PASS",
+        "strict_original_native_tips": 22,
+        "strict_original_rebuilt_delta": -0.3886044777271055
+      }
+    },
+    "original_all_positive_species": 207,
+    "original_broad_nonflora_species": 83,
+    "original_strict_source_species": 83,
+    "system_A": "A0151",
+    "system_B": "A0155",
+    "trait_A": "fruit_width",
+    "trait_B": "plant_height"
+  },
+  {
+    "family": "Malvaceae",
+    "null_pair_id": "P11_Q002",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 1.682426954416673,
+        "broad_native_tips": 101,
+        "status": "PASS",
+        "strict_original_native_tips": 86,
+        "strict_original_rebuilt_delta": 1.84226717304136
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 160,
+    "original_broad_nonflora_species": 101,
+    "original_strict_source_species": 86,
+    "system_A": "A0152",
+    "system_B": "A0156",
+    "trait_A": "leaf_length",
+    "trait_B": "seed_width"
+  },
+  {
+    "family": "Malvaceae",
+    "null_pair_id": "P11_Q003",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 1.633473658912014,
+        "broad_native_tips": 102,
+        "status": "PASS",
+        "strict_original_native_tips": 86,
+        "strict_original_rebuilt_delta": 2.094349317691616
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 159,
+    "original_broad_nonflora_species": 102,
+    "original_strict_source_species": 86,
+    "system_A": "A0153",
+    "system_B": "A0156",
+    "trait_A": "leaf_width",
+    "trait_B": "seed_width"
+  },
+  {
+    "family": "Malvaceae",
+    "null_pair_id": "P11_Q004",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 0.6796115580257012,
+        "broad_native_tips": 112,
+        "status": "PASS",
+        "strict_original_native_tips": 76,
+        "strict_original_rebuilt_delta": 0.8134681507066703
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 159,
+    "original_broad_nonflora_species": 112,
+    "original_strict_source_species": 76,
+    "system_A": "A0155",
+    "system_B": "A0156",
+    "trait_A": "plant_height",
+    "trait_B": "seed_width"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q005",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 0.03061929626653681,
+        "broad_native_tips": 36,
+        "status": "PASS",
+        "strict_original_native_tips": 34,
+        "strict_original_rebuilt_delta": 0.4642753145395204
+      },
+      "prune_only": {
+        "broad_delta": 0.3784431944806741,
+        "broad_native_tips": 31,
+        "status": "PASS",
+        "strict_original_native_tips": 29,
+        "strict_original_rebuilt_delta": 1.353717933763553
+      }
+    },
+    "original_all_positive_species": 45,
+    "original_broad_nonflora_species": 36,
+    "original_strict_source_species": 34,
+    "system_A": "A0157",
+    "system_B": "A0162",
+    "trait_A": "fruit_length",
+    "trait_B": "plant_height"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q006",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 1.049758010688417,
+        "broad_native_tips": 35,
+        "status": "PASS",
+        "strict_original_native_tips": 33,
+        "strict_original_rebuilt_delta": 1.373071176647247
+      },
+      "prune_only": {
+        "broad_delta": 1.328988796632573,
+        "broad_native_tips": 30,
+        "status": "PASS",
+        "strict_original_native_tips": 28,
+        "strict_original_rebuilt_delta": 2.344562639121938
+      }
+    },
+    "original_all_positive_species": 42,
+    "original_broad_nonflora_species": 35,
+    "original_strict_source_species": 33,
+    "system_A": "A0158",
+    "system_B": "A0162",
+    "trait_A": "fruit_width",
+    "trait_B": "plant_height"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q007",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 6.571810578518011,
+        "broad_native_tips": 41,
+        "status": "PASS",
+        "strict_original_native_tips": 37,
+        "strict_original_rebuilt_delta": 6.3295387496352
+      },
+      "prune_only": {
+        "broad_delta": 6.646203462848822,
+        "broad_native_tips": 31,
+        "status": "PASS",
+        "strict_original_native_tips": 28,
+        "strict_original_rebuilt_delta": 6.392003371654951
+      }
+    },
+    "original_all_positive_species": 44,
+    "original_broad_nonflora_species": 41,
+    "original_strict_source_species": 37,
+    "system_A": "A0159",
+    "system_B": "A0164",
+    "trait_A": "leaf_length",
+    "trait_B": "seed_length"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q008",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 6.395870987665987,
+        "broad_native_tips": 40,
+        "status": "PASS",
+        "strict_original_native_tips": 37,
+        "strict_original_rebuilt_delta": 6.32354103965578
+      },
+      "prune_only": {
+        "broad_delta": 6.25623493490795,
+        "broad_native_tips": 30,
+        "status": "PASS",
+        "strict_original_native_tips": 28,
+        "strict_original_rebuilt_delta": 6.20472739764517
+      }
+    },
+    "original_all_positive_species": 42,
+    "original_broad_nonflora_species": 40,
+    "original_strict_source_species": 37,
+    "system_A": "A0159",
+    "system_B": "A0165",
+    "trait_A": "leaf_length",
+    "trait_B": "seed_width"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q009",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 6.284617531618458,
+        "broad_native_tips": 40,
+        "status": "PASS",
+        "strict_original_native_tips": 36,
+        "strict_original_rebuilt_delta": 6.014259634145938
+      },
+      "prune_only": {
+        "broad_delta": 6.685307378849769,
+        "broad_native_tips": 30,
+        "status": "PASS",
+        "strict_original_native_tips": 26,
+        "strict_original_rebuilt_delta": 6.392960416349075
+      }
+    },
+    "original_all_positive_species": 44,
+    "original_broad_nonflora_species": 40,
+    "original_strict_source_species": 36,
+    "system_A": "A0160",
+    "system_B": "A0164",
+    "trait_A": "leaf_width",
+    "trait_B": "seed_length"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q010",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 6.082344250627989,
+        "broad_native_tips": 39,
+        "status": "PASS",
+        "strict_original_native_tips": 36,
+        "strict_original_rebuilt_delta": 6.008433324025785
+      },
+      "prune_only": {
+        "broad_delta": 6.281125345183579,
+        "broad_native_tips": 29,
+        "status": "PASS",
+        "strict_original_native_tips": 26,
+        "strict_original_rebuilt_delta": 6.207653725947141
+      }
+    },
+    "original_all_positive_species": 42,
+    "original_broad_nonflora_species": 39,
+    "original_strict_source_species": 36,
+    "system_A": "A0160",
+    "system_B": "A0165",
+    "trait_A": "leaf_width",
+    "trait_B": "seed_width"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q011",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 5.834771493823947,
+        "broad_native_tips": 42,
+        "status": "PASS",
+        "strict_original_native_tips": 25,
+        "strict_original_rebuilt_delta": 5.376182274291468
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 43,
+    "original_broad_nonflora_species": 42,
+    "original_strict_source_species": 25,
+    "system_A": "A0162",
+    "system_B": "A0164",
+    "trait_A": "plant_height",
+    "trait_B": "seed_length"
+  },
+  {
+    "family": "Moraceae",
+    "null_pair_id": "P11_Q012",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 5.832330341863987,
+        "broad_native_tips": 40,
+        "status": "PASS",
+        "strict_original_native_tips": 23,
+        "strict_original_rebuilt_delta": 5.454671756654175
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 41,
+    "original_broad_nonflora_species": 40,
+    "original_strict_source_species": 23,
+    "system_A": "A0162",
+    "system_B": "A0165",
+    "trait_A": "plant_height",
+    "trait_B": "seed_width"
+  },
+  {
+    "family": "Rhamnaceae",
+    "null_pair_id": "P11_Q013",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 1.107527573095066,
+        "broad_native_tips": 37,
+        "status": "PASS",
+        "strict_original_native_tips": 24,
+        "strict_original_rebuilt_delta": 0.7530403658761677
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 88,
+    "original_broad_nonflora_species": 37,
+    "original_strict_source_species": 24,
+    "system_A": "A0215",
+    "system_B": "A0220",
+    "trait_A": "leaf_length",
+    "trait_B": "seed_length"
+  },
+  {
+    "family": "Rhamnaceae",
+    "null_pair_id": "P11_Q014",
+    "original_K_axes": {
+      "S3": {
+        "broad_delta": 1.043217604601575,
+        "broad_native_tips": 37,
+        "status": "PASS",
+        "strict_original_native_tips": 24,
+        "strict_original_rebuilt_delta": 0.876288219448135
+      },
+      "prune_only": {
+        "status": "HOLD_ORIGINAL_NATIVE_PRUNE"
+      }
+    },
+    "original_all_positive_species": 88,
+    "original_broad_nonflora_species": 37,
+    "original_strict_source_species": 24,
+    "system_A": "A0216",
+    "system_B": "A0220",
+    "trait_A": "leaf_width",
+    "trait_B": "seed_length"
+  }
+]

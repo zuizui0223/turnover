@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0117",
+  "family": "Fabaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 789,
+  "n_species_prune": 270,
+  "S3_K": 0.2352,
+  "prune_K": 0.2577,
+  "S3_logK": -1.4473,
+  "prune_logK": -1.3558
+}

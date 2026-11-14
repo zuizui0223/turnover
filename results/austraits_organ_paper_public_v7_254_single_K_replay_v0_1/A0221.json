@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0221",
+  "family": "Rosaceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 94,
+  "n_species_prune": 56,
+  "S3_K": 0.1752,
+  "prune_K": 0.1315,
+  "S3_logK": -1.7419,
+  "prune_logK": -2.0289
+}

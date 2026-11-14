@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0093",
+  "family": "Ericaceae",
+  "trait_name": "leaf_width",
+  "n_species_S3": 302,
+  "n_species_prune": 57,
+  "S3_K": 0.1198,
+  "prune_K": 0.5516,
+  "S3_logK": -2.1223,
+  "prune_logK": -0.5949
+}

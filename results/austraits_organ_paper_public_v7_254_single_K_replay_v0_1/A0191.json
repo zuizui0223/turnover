@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0191",
+  "family": "Poaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 139,
+  "n_species_prune": 46,
+  "S3_K": 0.0974,
+  "prune_K": 0.3553,
+  "S3_logK": -2.3294,
+  "prune_logK": -1.0347
+}

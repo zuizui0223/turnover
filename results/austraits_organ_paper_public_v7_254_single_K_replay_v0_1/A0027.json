@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0027",
+  "family": "Arecaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 62,
+  "n_species_prune": 52,
+  "S3_K": 0.0465,
+  "prune_K": 0.0346,
+  "S3_logK": -3.0692,
+  "prune_logK": -3.3647
+}

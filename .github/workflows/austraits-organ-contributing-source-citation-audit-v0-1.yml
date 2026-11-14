@@ -1,0 +1,90 @@
+name: Audit original AusTraits v7 organ K contributing study citations without new data v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-contributing-source-citation-audit-v0-1.yml
+      - scripts/qa/audit_austraits_organ_contributing_sources_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  source-and-citation-gaps-from-original-v7:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install only source audit packages
+        run: pip install duckdb pyyaml
+      - name: Recover exact original compiled v7 metadata and original source traits
+        run: |
+          mkdir -p build/v7
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/v7/austraits.zip \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0.zip
+          echo "2995fb9e5eebf9271f9241b5a6c2e2cbb7b45e8eda5ce4db43c14c68f95e2f3f  build/v7/austraits.zip" | sha256sum -c -
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/v7/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/v7/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 \
+            -o build/v7/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Reconstruct exact original 254, 760, and 142 source-eligible record exposure
+        run: |
+          python -m py_compile scripts/qa/audit_austraits_organ_contributing_sources_v0_1.py
+          python scripts/qa/audit_austraits_organ_contributing_sources_v0_1.py \
+            --parquet build/v7/austraits.parquet \
+            --compiled-zip build/v7/austraits.zip \
+            --traits-yml build/v7/traits.yml \
+            --out-dir results/austraits_organ_paper_source_citation_inventory_v0_1
+      - name: Require exact source-only original population and no raw-observation export
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,csv,hashlib
+          root=Path('results/austraits_organ_paper_source_citation_inventory_v0_1')
+          m=json.loads((root/'original_K_source_citation_audit_verdict.json').read_text())
+          assert m['status']=='PASS_PUBLIC_V7_ORIGINAL_K_CONTRIBUTING_SOURCE_INVENTORY_WITH_HUMAN_ATTRIBUTION_GAPS'
+          assert (m['original_fixed_qualified_systems'],
+                  m['original_matched_pair_identities'],
+                  m['original_strict_source_pair_identities'])==(254,760,142)
+          assert m['no_raw_species_names_observation_ids_trait_values_exported'] is True
+          assert m['no_new_K_or_biological_models_fitted'] is True
+          assert m['citation_selection_currently_human_approved'] is False
+          assert m['independent_primary_study_validation'] is False
+          assert m['journal_data_metadata_code_submitted_or_archived_under_DOI'] is False
+          assert len(m['aggregate_inventory_files_sha256'])==3
+          for name,sha in m['aggregate_inventory_files_sha256'].items():
+              f=root/name
+              assert hashlib.sha256(f.read_bytes()).hexdigest()==sha
+              with f.open(encoding='utf-8') as h:
+                  header=csv.DictReader(h).fieldnames
+              assert not set(header)&{'binomial','species','genus','observation_id','trait_value','value'}
+          print('PASS_PUBLIC_V7_ANALYSIS_SOURCE_PROVENANCE_AGGREGATE_ONLY')
+          print('SOURCE_CITATION_COVERAGE_AND_UNRESOLVED_FLAGS',
+                json.dumps({'tiers':m['exposure_by_original_K_analysis_tier'],
+                            'flags':m['source_attribution_review_flags']},sort_keys=True))
+          PY
+      - name: Permanently commit only already-public citation metadata and aggregate counts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_source_citation_inventory_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_SOURCE_ATTRIBUTION_INVENTORY_ALREADY_IDENTICAL
+          else
+            git commit -m "Audit original AusTraits organ K DatasetID and primary/secondary citation coverage"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-organ-original-v7-source-attribution-and-citation-review-v0-1
+          path: results/austraits_organ_paper_source_citation_inventory_v0_1/
+          retention-days: 90
+          if-no-files-found: error

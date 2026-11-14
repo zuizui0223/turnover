@@ -1,0 +1,90 @@
+name: AusTraits original K public GIFT 3.1 growth-form/woodiness linkage coverage v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-gift-growthform-original-K-overlap-v0-1.yml
+      - scripts/analysis/audit_austraits_gift_growthform_linkage_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  public-GIFT-3-1-original-source-K-coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Download exact original AusTraits public v7 source and unit dictionary
+        run: |
+          mkdir -p build/source
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Join original source-eligible AusTraits species to accepted GIFT 3.1 names and traits
+        run: |
+          python scripts/analysis/audit_austraits_gift_growthform_linkage_v0_1.py \
+            --parquet build/source/austraits.parquet \
+            --traits-yml build/source/traits.yml \
+            --flip-csv results/austraits_organ_paper_nonflora_flip_commonalities_v0_1/original_nonflora_pairwise_flip_context_no_species_names.csv \
+            --out results/austraits_organ_paper_gift_original_K_linkage_v0_1/gift_exact_name_growthform_linkage_verdict.json
+      - name: Check original 254/760/142 populations and correct caution gates
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/austraits_organ_paper_gift_original_K_linkage_v0_1/gift_exact_name_growthform_linkage_verdict.json')
+          z=json.loads(p.read_text())
+          assert z['status']=='PASS_PUBLIC_GIFT_3_1_AUSTRAITS_ORIGINAL_K_EXACT_NAME_MATCH_COVERAGE_ONLY'
+          assert z['original_K_254_family_trait_systems']==254
+          assert z['original_K_760_matched_pair_ids']==760
+          assert z['original_K_strict_142_same_source_pair_ids']==142
+          assert z['GIFT_version']=='3.1'
+          assert z['original_public_AusTraits_v7_parquet_sha256']=='5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99'
+          assert z['GIFT_taxonomy_download']['gift_species_rows']>100000
+          assert set(z['GIFT_public_trait_coverage'])=={'growth_form','woodiness','plant_height_max'}
+          assert z['GIFT_woodiness_pair_context']['S3']['original_matched_family_trait_pairs']==142
+          assert z['GIFT_woodiness_pair_context']['prune_only']['original_matched_family_trait_pairs']==101
+          assert z['GIFT_woodiness_pair_context']['S3']['original_K_sign_reversals']==23
+          assert z['GIFT_woodiness_pair_context']['prune_only']['original_K_sign_reversals']==13
+          assert z['GIFT_traits_not_used_to_refit_original_K'] is True
+          assert z['no_plant_total_biomass_allometry_or_allocation_measured'] is True
+          assert z['GIFT_may_reuse_TRY_AusTraits_underlying_trait_studies'] is True
+          assert z['TRY_v7_raw_data_not_downloaded_or_joined'] is True
+          assert z['no_original_species_names_record_ids_or_trait_values_exported'] is True
+          print('PASS_GIFT_ORIGINAL_AUSTRAITS_SPECIES_GROWTHFORM_COVERAGE_ONLY')
+          PY
+      - name: Preserve computed public GIFT coverage before any branch push
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-gift-3-1-growthform-woodiness-name-match-coverage-v0-1
+          path: results/austraits_organ_paper_gift_original_K_linkage_v0_1/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit only aggregate name-match coverage; rebase if paper edits landed concurrently
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_gift_original_K_linkage_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_GIFT_LINKAGE_COVERAGE_ALREADY_IDENTICAL
+          else
+            git commit -m "Measure GIFT 3.1 accepted-species growth-form coverage for original AusTraits K without new K fits"
+            for attempt in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo ORIGINAL_GIFT_LINKAGE_COVERAGE_PERSISTED
+                exit 0
+              fi
+            done
+            echo "Concurrent paper branch changes prevented Git push after three safe rebases"
+            exit 1
+          fi

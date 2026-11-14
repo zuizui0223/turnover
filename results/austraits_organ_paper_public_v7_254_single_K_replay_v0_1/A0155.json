@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0155",
+  "family": "Malvaceae",
+  "trait_name": "plant_height",
+  "n_species_S3": 568,
+  "n_species_prune": 74,
+  "S3_K": 0.2151,
+  "prune_K": 0.1819,
+  "S3_logK": -1.5367,
+  "prune_logK": -1.7041
+}

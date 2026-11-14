@@ -1,0 +1,142 @@
+name: AusTraits original 142/101 fixed-broad-tree equal-n random tip loss K null v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-original-nonflora-tip-loss-null-v0-1.yml
+      - scripts/analysis/run_austraits_original_nonflora_tip_loss_null_v0_1.py
+      - scripts/analysis/fit_austraits_original_nonflora_tip_loss_null_v0_1.R
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  plan-original-fixed-142-101-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Restore exactly 142 original K-blind strict pair identities, 101 prune with source-only balanced family work
+        run: |
+          python scripts/analysis/run_austraits_original_nonflora_tip_loss_null_v0_1.py \
+            --mode plan --plan-dir build/null_plan \
+            --out build/null_plan/original_null_plan.json
+          test "$(find build/null_plan -maxdepth 1 -name 'P??.json' | wc -l)" -eq 12
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-fixed-original-142-101-n-matched-tip-loss-null-workload-v0-1
+          path: build/null_plan/
+          retention-days: 90
+          if-no-files-found: error
+
+  original-fixed-tree-family-correlated-random-pruning:
+    needs: plan-original-fixed-142-101-null
+    runs-on: ubuntu-24.04
+    timeout-minutes: 220
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        batch: [P01,P02,P03,P04,P05,P06,P07,P08,P09,P10,P11,P12]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: r-lib/actions/setup-r@v2
+        with: {use-public-rspm: true}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::Rcpp
+            any::jsonlite
+            any::phytools
+      - name: Parse new null implementation and pin the exact original V.PhyloMaker2 S3/native-prune tree
+        run: |
+          Rscript -e "parse(file='scripts/analysis/fit_austraits_original_nonflora_tip_loss_null_v0_1.R')"
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          R CMD INSTALL build/V.PhyloMaker2
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-fixed-original-142-101-n-matched-tip-loss-null-workload-v0-1
+          path: build/null_plan
+      - name: Recover exact original public AusTraits v7.0.0 source and unit version
+        run: |
+          mkdir -p build/source build/ephemeral_species build/null_output
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/source/austraits.parquet \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0-flattened.parquet
+          echo "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99  build/source/austraits.parquet" | sha256sum -c -
+          curl -L --fail --retry 3 -o build/source/traits.yml \
+            https://raw.githubusercontent.com/traitecoevo/austraits.build/7fbf6c8169a7eaf9a184e48c171cb63f2b1e2b8c/config/traits.yml
+      - name: Restore ephemeral original broad nonflora species states and strict source-matched survival
+        env:
+          BATCH: ${{ matrix.batch }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/analysis/run_austraits_original_nonflora_tip_loss_null_v0_1.py \
+            --mode prepare --batch "build/null_plan/$BATCH.json" \
+            --parquet build/source/austraits.parquet --traits-yml build/source/traits.yml \
+            --states-dir build/ephemeral_species \
+            --out "build/ephemeral_species/$BATCH"_source_manifest.json
+      - name: Compare 128 equal-n family-correlated random broad-tree K prunings with actual source survivors
+        env:
+          BATCH: ${{ matrix.batch }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          Rscript scripts/analysis/fit_austraits_original_nonflora_tip_loss_null_v0_1.R \
+            --manifest "build/ephemeral_species/$BATCH"_source_manifest.json \
+            --out "build/null_output/$BATCH"_null.json \
+            --draws 128 --seed 20261114
+          python scripts/analysis/run_austraits_original_nonflora_tip_loss_null_v0_1.py \
+            --mode audit --batch "build/null_plan/$BATCH.json" \
+            --input "build/null_output/$BATCH"_null.json \
+            --out "build/null_output/$BATCH"_audit.json
+          test "$(find build/null_output -maxdepth 1 -name '*.json' | wc -l)" -eq 2
+      - name: Export only original K-derived aggregate null comparisons; never species identities or trait measurements
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-142-101-family-tip-loss-null-${{ matrix.batch }}-v0-1
+          path: build/null_output/*.json
+          retention-days: 90
+          if-no-files-found: error
+
+  independent-original-null-final-verdict:
+    needs: original-fixed-tree-family-correlated-random-pruning
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - uses: actions/download-artifact@v4
+        with:
+          name: austraits-fixed-original-142-101-n-matched-tip-loss-null-workload-v0-1
+          path: build/null_plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: austraits-original-142-101-family-tip-loss-null-P*-v0-1
+          path: build/null_outputs
+          merge-multiple: true
+      - name: Validate every original source K identity, native 142/101 K baseline and shared family RNG
+        run: |
+          test "$(find build/null_outputs -maxdepth 1 -name 'P??_null.json' | wc -l)" -eq 12
+          test "$(find build/null_outputs -maxdepth 1 -name 'P??_audit.json' | wc -l)" -eq 12
+          python scripts/analysis/run_austraits_original_nonflora_tip_loss_null_v0_1.py \
+            --mode combine --results-dir build/null_outputs --plan-dir build/null_plan \
+            --out build/null_final/original_142_101_fixed_tree_tip_loss_null_verdict.json
+          grep -q PASS_ORIGINAL_142_101_BROAD_TREE_FIXED_SIZE_MATCHED_TIP_LOSS_NULL \
+            build/null_final/original_142_101_fixed_tree_tip_loss_null_verdict.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-full-142-101-fixed-tree-random-tip-loss-null-verdict-v0-1
+          path: build/null_final/original_142_101_fixed_tree_tip_loss_null_verdict.json
+          retention-days: 90
+          if-no-files-found: error

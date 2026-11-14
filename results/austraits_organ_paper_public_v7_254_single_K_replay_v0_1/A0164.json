@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0164",
+  "family": "Moraceae",
+  "trait_name": "seed_length",
+  "n_species_S3": 44,
+  "n_species_prune": 34,
+  "S3_K": 5.4801,
+  "prune_K": 5.5338,
+  "S3_logK": 1.7011,
+  "prune_logK": 1.7109
+}

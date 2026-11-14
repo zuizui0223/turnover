@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0177",
+  "family": "Phyllanthaceae",
+  "trait_name": "seed_width",
+  "n_species_S3": 63,
+  "n_species_prune": 23,
+  "S3_K": 0.3903,
+  "prune_K": 0.9058,
+  "S3_logK": -0.9408,
+  "prune_logK": -0.099
+}

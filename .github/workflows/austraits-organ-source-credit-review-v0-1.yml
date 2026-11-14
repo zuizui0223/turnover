@@ -1,0 +1,85 @@
+name: Build concise source-credit/BibTeX review for original AusTraits organ K v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-organ-source-credit-review-v0-1.yml
+      - scripts/qa/build_austraits_organ_source_credit_review_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  dataset-priority-bibtex-and-basis-of-value-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Load public citation bibliography parser
+        run: pip install bibtexparser==1.4.3
+      - name: Recover only the same version-pinned publicly compiled v7 bibliography
+        run: |
+          mkdir -p build/compiled
+          curl -L --fail --retry 4 --retry-delay 10 \
+            -o build/compiled/austraits-v7.zip \
+            https://github.com/traitecoevo/austraits.build/releases/download/v7.0.0/austraits-7.0.0.zip
+          echo "2995fb9e5eebf9271f9241b5a6c2e2cbb7b45e8eda5ce4db43c14c68f95e2f3f  build/compiled/austraits-v7.zip" | sha256sum -c -
+      - name: Build compact 190/44 DatasetID citation-index and original-data basis review
+        run: |
+          python scripts/qa/build_austraits_organ_source_credit_review_v0_1.py \
+            --source-audit-dir results/austraits_organ_paper_source_citation_inventory_v0_1 \
+            --compiled-zip build/compiled/austraits-v7.zip \
+            --out-dir results/austraits_organ_paper_compact_source_credit_review_v0_1
+      - name: Fail closed if source count, original SHA or user-review boundaries change
+        run: |
+          python - <<'PY'
+          import json,csv,hashlib
+          from pathlib import Path
+          root=Path('results/austraits_organ_paper_compact_source_credit_review_v0_1')
+          x=json.loads((root/'original_source_citation_priority_verdict.json').read_text())
+          assert x['status']=='PASS_COMPACT_DATASET_CITATION_REVIEW_INDEX_WITH_HUMAN_GATES'
+          assert x['all_original_K_dataset_ids']==190
+          assert x['source_DatasetIDs_in_strict_142_K']==44
+          assert x['source_DatasetIDs_in_original_matched_760_K']==190
+          assert x['n_compact_dataset_credit_review_rows']==190
+          assert x['no_original_source_species_or_observation_ids_or_values_released'] is True
+          assert x['citation_selection_author_confirmed'] is False
+          assert x['journal_full_data_metadata_requirements_verified'] is False
+          assert x['journal_citable_code_DOI_created'] is False
+          assert len(x['files_sha256'])==4
+          for f,s in x['files_sha256'].items():
+              assert hashlib.sha256((root/f).read_bytes()).hexdigest()==s
+          with (root/'dataset_priority_and_credit_gaps.csv').open(newline='') as f:
+              records=list(csv.DictReader(f))
+          assert len(records)==190
+          assert sum(z['review_priority']=='P0_STRICT_142' for z in records)==44
+          for f in root.glob('*.csv'):
+              with f.open(newline='') as fh:
+                  columns=csv.DictReader(fh).fieldnames
+              assert not set(columns)&{'species','genus','binomial','observation_id','trait_value','value'}
+          print('PASS_ORIGINAL_190_DATASET_44_STRICT_CITATION_REVIEW')
+          print('ORIGINAL_CITATION_FLAGS',json.dumps(x['dataset_credit_flag_count_by_kind'],sort_keys=True))
+          print('ORIGINAL_BASIS_COUNTS',json.dumps(x['source_basis_of_value_summary'],sort_keys=True))
+          print('ORIGINAL_BIBTEX_UNRESOLVED',json.dumps(x['source_reference_BibTeX']['unresolved_source_bibtex_keys'][:20]))
+          PY
+      - name: Permanently commit version-pinned coauthor citation-review artifacts, no raw traits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_compact_source_credit_review_v0_1/
+          if git diff --cached --quiet; then
+            echo SOURCE_CREDIT_CITATION_REVIEW_ALREADY_IDENTICAL
+          else
+            git commit -m "Create coauthor-focused original AusTraits DatasetID citation and method source review"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-organ-K-190-44-source-credit-bibtex-review-v0-1
+          path: results/austraits_organ_paper_compact_source_credit_review_v0_1/
+          retention-days: 90
+          if-no-files-found: error

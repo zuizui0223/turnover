@@ -1,0 +1,87 @@
+name: Archive completed original 142/101 genus-quota fixed-tree K tip-loss null v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - data/austraits_original_142_101_genus_tip_loss_null_archive_trigger_v0_1.json
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  confirm-and-preserve-only-successful-native-tip-pruning-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Verify frozen full 12-batch source run was actually successful, not just triggered
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          STATUS="$(gh run view 43566577755 -R "$GITHUB_REPOSITORY" --json conclusion --jq '.conclusion')"
+          test "$STATUS" = success
+      - name: Fetch all 12 independent original fixed-tree null results and original source-only plans
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/plan build/rawresults build/final build/recheck
+          gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+            -n austraits-fixed-original-142-101-genus-quota-K-workload-v0-1 \
+            -D build/plan
+          gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+            -n austraits-original-full-142-101-genus-quota-K-null-verdict-v0-1 \
+            -D build/final
+          for i in $(seq -w 1 12); do
+            gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-original-142-101-genus-quota-tip-null-P$i-v0-1" \
+              -D build/rawresults
+          done
+          test "$(find build/plan -maxdepth 1 -name 'P??.json' | wc -l)" -eq 12
+          test "$(find build/rawresults -maxdepth 1 -name 'P??_genus_null.json' | wc -l)" -eq 12
+          test "$(find build/rawresults -maxdepth 1 -name 'P??_audit.json' | wc -l)" -eq 12
+      - name: Rerun all 12 original per-batch K null audits and independent full 142/101 aggregate
+        run: |
+          python scripts/analysis/audit_austraits_original_genus_conditioned_tip_loss_null_v0_1.py \
+            --results-dir build/rawresults --plan-dir build/plan \
+            --output build/recheck/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+          cmp -s build/recheck/original_142_101_genus_conditioned_tip_loss_null_verdict.json \
+            build/final/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+      - name: Pin SHA256 for source-only plan, all 12 native randomized K batches, QA and final verdict
+        run: |
+          python scripts/publication/archive_austraits_original_genus_conditioned_null_v0_1.py \
+            --plan-dir build/plan --results-dir build/rawresults \
+            --verdict build/final/original_142_101_genus_conditioned_tip_loss_null_verdict.json \
+            --out-dir results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1 \
+            --run-id 43566577755
+          test "$(find results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1 -type f | wc -l)" -eq 39
+      - name: Commit only derived original-source K null results and SHA256 with safe concurrent branch update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_K_TIP_LOSS_NULL_ARCHIVED_IDENTICALLY
+          else
+            git commit -m "Preserve 142/101 original-data fixed-tree equal-n pruning null and independent audit SHA"
+            for i in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo ORIGINAL_K_TIP_LOSS_NULL_PERSISTED
+                exit 0
+              fi
+            done
+            echo "Source K null archive could not be pushed after safe rebase retries"
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-142-101-genus-quota-K-pruning-null-longterm-SHA256-v0-1
+          path: results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1/original_genus_tip_loss_archive_manifest.json
+          retention-days: 90
+          if-no-files-found: error

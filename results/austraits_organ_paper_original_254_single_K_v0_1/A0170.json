@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0170",
+  "family": "Orchidaceae",
+  "trait_name": "seed_dry_mass",
+  "n_species_S3": 152,
+  "n_species_prune": 41,
+  "S3_K": 0.0095,
+  "prune_K": 0.0021,
+  "S3_logK": -4.6595,
+  "prune_logK": -6.1574
+}

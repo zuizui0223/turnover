@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0135",
+  "family": "Iridaceae",
+  "trait_name": "leaf_length",
+  "n_species_S3": 97,
+  "n_species_prune": 41,
+  "S3_K": 0.3341,
+  "prune_K": 0.3095,
+  "S3_logK": -1.0965,
+  "prune_logK": -1.1727
+}

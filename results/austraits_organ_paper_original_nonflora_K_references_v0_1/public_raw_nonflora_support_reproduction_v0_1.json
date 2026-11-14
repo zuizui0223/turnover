@@ -1,0 +1,16 @@
+{
+  "status": "PASS_PUBLIC_AUSTRAITS_V7_REBUILT_NONFLORA_283_142_K_BLIND_SUPPORT",
+  "verification_run_id": 39723741575,
+  "original_public_data_release": "AusTraits v7.0.0",
+  "original_public_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_source_only_support_sha256": "2870909f97d492400d7a3f6978f94689e5a829ed719cd48340d0633c0f9c83d5",
+  "reconstructed_source_only_support_sha256": "2870909f97d492400d7a3f6978f94689e5a829ed719cd48340d0633c0f9c83d5",
+  "all_source_only_counts_species_dataset_eligibility_exactly_equal": true,
+  "original_K_blind_cross_trait_qualified_comparisons": 760,
+  "nonflora_exclusion_supported_comparisons": 283,
+  "same_nonflora_DatasetID_supported_comparisons": 142,
+  "raw_species_records_exported": false,
+  "new_K_estimates_computed": false,
+  "independent_primary_study_replication": false,
+  "technical_scope": "Identical K-blind source eligibility; no evolutionary process or validation claim"
+}

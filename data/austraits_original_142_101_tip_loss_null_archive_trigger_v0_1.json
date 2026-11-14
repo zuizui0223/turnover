@@ -1,0 +1,27 @@
+{
+  "status": "PASS_COMPLETE_ORIGINAL_142_101_FIXED_BROAD_TREE_TIP_LOSS_K_NULL_AND_INDEPENDENT_AGGREGATION",
+  "raw_source_run_id": 43564505854,
+  "original_data": "AusTraits v7.0.0",
+  "raw_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_fixed_source_pairs_S3": 142,
+  "original_fixed_source_pairs_prune": 101,
+  "original_families": 24,
+  "family_correlated_random_priority_draws_per_family": 128,
+  "null_design": "Actual strict source-qualified survivors versus equal-number random samples pruned from unchanged original broad nonflora phylogenetic tree and original source medians; sampled K only when defined, whole-family candidate redraws accounted for",
+  "verified_S3": {
+    "actual_flip_count_on_fixed_tree": 23,
+    "random_mean_flip_count": 14.8203125,
+    "empirical_upper_tail": 0.031007751937984496
+  },
+  "verified_prune": {
+    "actual_flip_count_on_fixed_tree": 13,
+    "random_mean_flip_count": 11.234375,
+    "empirical_upper_tail": 0.35658914728682173
+  },
+  "coauthor_claim_status": "POST_DISCOVERY_EXPLORATORY_ONLY",
+  "original_K_source_or_organ_grouping_modified": false,
+  "causal_lineage_identity_or_biomass_effect_identified": false,
+  "independent_biological_replication": false,
+  "original_raw_species_trait_measurements_exported": false,
+  "archive_only_after_full_14_14_job_pass": true
+}

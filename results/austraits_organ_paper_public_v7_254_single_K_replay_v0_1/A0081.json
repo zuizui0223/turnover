@@ -1,0 +1,13 @@
+{
+  "version": "v0.1",
+  "status": "AUSTRAITS_BLOMBERG_K_SYSTEM_ESTIMATED",
+  "system_id": "A0081",
+  "family": "Cyperaceae",
+  "trait_name": "seed_length",
+  "n_species_S3": 163,
+  "n_species_prune": 31,
+  "S3_K": 0.6471,
+  "prune_K": 0.6826,
+  "S3_logK": -0.4352,
+  "prune_logK": -0.3818
+}

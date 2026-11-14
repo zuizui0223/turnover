@@ -1,0 +1,43 @@
+name: Jena 2024 41-trait and 2003-2012 archive attachment source gate
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - .github/workflows/jena-923591-trait-source-probe.yml
+  pull_request:
+    paths:
+      - .github/workflows/jena-923591-trait-source-probe.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch metadata catalog only from 923591 with PANGAEA tabular negotiation
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          import hashlib,csv,io,json,re
+          url='https://doi.org/10.1594/PANGAEA.923591'
+          req=Request(url,headers={'Accept':'text/tab-separated-values','User-Agent':'turnover-Jena-923591-source-catalog/0.1'})
+          with urlopen(req,timeout=110) as r:
+              source=r.read(12_000_000)
+              typ=r.headers.get('Content-Type','')
+              real=r.url
+          s=source.decode('utf-8-sig',errors='replace')
+          assert 'PANGAEA.923591' in s or 'PANGAEA 923591' in s
+          assert '</html>' not in s[:2000].lower()
+          all_lines=s.splitlines()
+          candidates=[x for x in all_lines if any(ext in x.lower() for ext in ['.zip','.csv','.rdata','.xlsx','.tsv','.txt','.rds'])]
+          print("JENA923591_SOURCE_CATALOG",json.dumps({
+           'url_requested':url,'returned_url':real,'content_type':typ,
+           'bytes':len(source),'sha256':hashlib.sha256(source).hexdigest(),
+           'lines':len(all_lines),'attachment_indicator_lines':len(candidates),
+           'source_data_ending_lines':candidates[-40:],
+           'non_comment_tail':all_lines[-12:],
+           'has_41_trait_phrase':'41' in s and 'trait' in s.lower(),
+           'is_HTML':s.lstrip().lower().startswith('<!doctype html') or s.lstrip().lower().startswith('<html')},ensure_ascii=False))
+          PY

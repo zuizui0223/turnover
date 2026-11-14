@@ -1,0 +1,122 @@
+{
+  "biomass_keys_with_duplicate_subsample_rows": 1760,
+  "distinct_biomass_plot_year_month_combinations": 1848,
+  "distinct_plot_year_season_predictor_combinations": 1619,
+  "expected_field_coverage": {
+    "SeedsTCW": {
+      "predictor_fraction": 1,
+      "predictor_nonmissing": 1619,
+      "trait_column_in_original": true,
+      "trait_table_species_nonmissing": 58
+    },
+    "h1": {
+      "predictor_fraction": 1,
+      "predictor_nonmissing": 1619,
+      "trait_column_in_original": true,
+      "trait_table_species_nonmissing": 57
+    },
+    "leafN": {
+      "predictor_fraction": 1,
+      "predictor_nonmissing": 1619,
+      "trait_column_in_original": true,
+      "trait_table_species_nonmissing": 59
+    },
+    "sla": {
+      "predictor_fraction": 1,
+      "predictor_nonmissing": 1619,
+      "trait_column_in_original": true,
+      "trait_table_species_nonmissing": 59
+    }
+  },
+  "files": [
+    {
+      "csv_columns": 87,
+      "csv_rows": 1619,
+      "name": "predictors_raw.zip",
+      "sha256": "4af2ccca7b85b7a15b47ace87acfe0386feab79da51d3d5f67b3cf6034442e4b",
+      "zip_csv_name": "predictors_raw.csv"
+    },
+    {
+      "csv_columns": 144,
+      "csv_rows": 5544,
+      "name": "biomass02_12.zip",
+      "sha256": "aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe330cefe245ee1e875db",
+      "zip_csv_name": "biomass02_12.csv"
+    },
+    {
+      "csv_columns": 45,
+      "csv_rows": 59,
+      "name": "traits.st.zip",
+      "sha256": "5ae74c473ff2e36861f137f4fc8a28740725a90dda9e265350fd45bcb38996c5",
+      "zip_csv_name": "traits.st.csv"
+    }
+  ],
+  "hard_nonclaims": [
+    "No independent site replication",
+    "PANGAEA traits overlap published analyses; not novel independent data",
+    "FD predictors may reflect same-year realized composition; not ex-ante forecast",
+    "File-header matches and monthly availability do not prove valid same-plot measured join",
+    "No observed biomass numerical values exported, no effect or R² estimated"
+  ],
+  "key_candidate_mode_support": {
+    "biomass": {
+      "exact_plotcode_overlap": 82,
+      "field": "plotcode",
+      "n_unique_keys": 88,
+      "plot_local_field_overlap": 0,
+      "plot_number_field_overlap": 0
+    },
+    "predictors": {
+      "exact_plotcode_overlap": 78,
+      "field": "plot",
+      "n_unique_keys": 78,
+      "plot_local_field_overlap": 0,
+      "plot_number_field_overlap": 0
+    }
+  },
+  "n_original_plots": 82,
+  "n_trait_species_rows": 59,
+  "plot_original_info_sha256": "7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70",
+  "predictor_keys_with_duplicate_rows": 0,
+  "season_year_month_and_replicate_counts": {
+    "biomass_finite_response_rows": 5432,
+    "biomass_month_Aug": 2728,
+    "biomass_month_Jun": 352,
+    "biomass_month_May": 2376,
+    "biomass_month_Sept": 88,
+    "biomass_subsample_1": 1760,
+    "biomass_subsample_2": 1760,
+    "biomass_subsample_3": 1232,
+    "biomass_subsample_4": 792,
+    "biomass_year_2002": 88,
+    "biomass_year_2003": 704,
+    "biomass_year_2004": 704,
+    "biomass_year_2005": 616,
+    "biomass_year_2006": 704,
+    "biomass_year_2007": 616,
+    "biomass_year_2008": 528,
+    "biomass_year_2009": 528,
+    "biomass_year_2010": 352,
+    "biomass_year_2011": 352,
+    "biomass_year_2012": 352,
+    "predictor_season_spring": 772,
+    "predictor_season_summer": 847,
+    "predictor_year_2002": 78,
+    "predictor_year_2003": 156,
+    "predictor_year_2004": 156,
+    "predictor_year_2005": 154,
+    "predictor_year_2006": 153,
+    "predictor_year_2007": 155,
+    "predictor_year_2008": 156,
+    "predictor_year_2009": 155,
+    "predictor_year_2010": 155,
+    "predictor_year_2011": 150,
+    "predictor_year_2012": 151
+  },
+  "source": "PANGAEA.923591 source attachments 2024; excludes full/raw model outcomes",
+  "status": "SOURCE_ONLY_CROSSWALK_PROFILE",
+  "status_inference": "NO_BIOMASS_FD_EFFECT_OPENED",
+  "source_workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43578404157",
+  "source_verified": true,
+  "meaning": "Structural support and missingness only; not an FD~biomass outcome"
+}

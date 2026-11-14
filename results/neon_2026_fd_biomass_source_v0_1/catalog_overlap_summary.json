@@ -1,0 +1,64 @@
+{
+  "ecoregion_domains": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "D16",
+    "D17",
+    "D18",
+    "D19",
+    "D20"
+  ],
+  "frozen_thresholds": {
+    "min_domains": 4,
+    "min_shared_site_months": 24,
+    "min_sites": 12
+  },
+  "hard_nonclaims": [
+    "No exact plotID/subplotID match has been verified",
+    "An overlapping calendar month does not guarantee the same sampling date or position",
+    "Herbaceous clip mass is by group, plant diversity data is by species in different microsites",
+    "Releases are common but sampling suspended for some 2026 plots",
+    "No direct species-level biomass and no independent trait source has been verified"
+  ],
+  "n_distinct_ecoregion_domains": 20,
+  "n_distinct_site_codes": 47,
+  "n_shared_site_months": 424,
+  "products": {
+    "herbaceous_measured_mass": {
+      "n_available_sites": 47,
+      "n_site_months": 933,
+      "product_id": "DP1.10023.001",
+      "sha256_json": "e0bae7ac9c5ac774c70e6a1425df82c46e452051831c40dfa1d54aa2c9c12638",
+      "source_release": "RELEASE-2026"
+    },
+    "plant_species_cover": {
+      "n_available_sites": 47,
+      "n_site_months": 1093,
+      "product_id": "DP1.10058.001",
+      "sha256_json": "623e78f46fc8fad3622275555954caea8f10e1dc582c67de34940d927b68fb41",
+      "source_release": "RELEASE-2026"
+    }
+  },
+  "release": "RELEASE-2026",
+  "scope": "availability catalog only, not observed samples, not actual plot-level join, no trait FD or biomass effects",
+  "site_catalog_rows": 81,
+  "site_catalog_sha256": "4fa3d60870c4aa49910a5ae288a830d452c47cf993de4e9c42e9ef6b6b83016e",
+  "status": "TIER0_NEON_SHARED_RELEASE_SITE_MONTH_CATALOG_PASS",
+  "version": "v0.1",
+  "verified_workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43577435812",
+  "source_artifact_id": 14107505761,
+  "source_artifact_detail": "Site x month information retained in Actions artifact, no ecological values"
+}

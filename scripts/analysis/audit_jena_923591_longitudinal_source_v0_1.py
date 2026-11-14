@@ -45,7 +45,7 @@ def plot_map(path):
     if len(rows)!=82:raise ValueError("Original plot info not 82")
     lookup={}
     for r in rows:
-        for key in ("number","plotcode","plot"):
+        for key in ("number","plotcode"):
             candidate=(key,str(r[key]).strip())
             if candidate in lookup and lookup[candidate]!=r["plotcode"]:
                 raise ValueError("Ambiguous plot alias: "+str(candidate))

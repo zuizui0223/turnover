@@ -20,7 +20,9 @@ def get(path):
     for attempt in range(3):
         try:
             with urllib.request.urlopen(req,timeout=100) as res:
-                data=res.read(8_000_000)
+                data=res.read(80_000_001)
+            if len(data)>80_000_000:
+                raise ValueError('NEON site-only metadata response exceeds safe 80MB size limit')
             root=json.loads(data)
             if not isinstance(root,dict) or not isinstance(root.get("data"),(dict,list)):
                 raise ValueError("Unexpected NEON JSON data field")

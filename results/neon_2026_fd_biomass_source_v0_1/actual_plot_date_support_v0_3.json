@@ -1,0 +1,64 @@
+{
+  "version": "v0.3",
+  "status": "AUTH_RESOLVED_OBSERVED_PLOT_DATE_SUPPORT_VERIFIED_QC_PENDING",
+  "release": "RELEASE-2026",
+  "matching_rule": "Same plotID, unique nearest species-cover endDate within 30 calendar days of harvest collectDate, same release; ties excluded. Multiple strips collapsed to plot-harvest-date events.",
+  "catalog_sites": 47,
+  "catalog_site_months": 424,
+  "site_months_with_all_three_required_tables": 397,
+  "source_files_expected": 1191,
+  "source_files_verified": 1191,
+  "source_file_failures": [],
+  "source_rows": {
+    "hbp_perbout": 12180,
+    "hbp_massdata": 52534,
+    "div_1m2Data": 447986,
+    "total": 512700
+  },
+  "sample_ids_with_valid_date_positive_area_and_mass": 8624,
+  "matched_strip_samples": 859,
+  "matched_plot_harvest_dates": 750,
+  "matched_sites": 47,
+  "matched_domains": 20,
+  "unique_matched_plots": 438,
+  "matched_events_with_at_least_three_species": 735,
+  "stricter_at_least_five_distinct_plots_per_site": {
+    "sites": 29,
+    "domains": 18,
+    "unique_plots": 388,
+    "plot_harvest_date_events": 662,
+    "events_with_at_least_three_species": 647
+  },
+  "harvest_cover_absolute_day_gap": {
+    "sample_level_median": 8,
+    "maximum": 30,
+    "sample_level_n": 859
+  },
+  "frozen_structural_12site_4domain_100event_thresholds_met": true,
+  "source_quality_cautions": {
+    "ambiguous_perbout_sample_ids": 0,
+    "sample_ids_nonunique_dry_mass_within_sample_herbgroup_excluded": 2249,
+    "invalid_or_missing_mass_or_herbgroup_rows": 8,
+    "perbout_rows_missing_ids_dates_or_positive_area": 1275,
+    "interpretation_of_mass_nonuniqueness": "Quarantined conservatively; not yet determined whether valid repeated weighing/subsamples or data conflicts. Do not call these proven source errors.",
+    "units_confirmed_from_variable_metadata": false,
+    "sampling_flags_exclosure_management_final_filters_applied": false,
+    "full_quality_qualified_trait_FD_coverage_estimated": false
+  },
+  "measured_field_candidates_for_next_stage": ["heightPlantSpecies", "heightPlantOver300cm", "percentCover", "dryMass", "clipArea"],
+  "eligible_for_ecological_analysis": false,
+  "ecological_FD_biomass_effect_estimated": false,
+  "credential_reconfiguration_required": false,
+  "credential_value_exported_or_copied": false,
+  "raw_records_exported": false,
+  "scientific_scope": "Actual measured-record source availability and plot/date compatibility, not a biological positive effect. Cover quadrats and clipping strips are different microsites within a plot.",
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/neon/actions/runs/43595184518",
+    "head_sha": "55e9509cce4d6f852c21f39296578170349fed65",
+    "artifact_id": 14113927447,
+    "artifact_zip_sha256": "f689b731f6df5924784b81aaf297f62ac4314a214b85b5e4f451ec9c2f949b9d",
+    "download_digest_verified": true,
+    "site_event_totals_and_day_gap_totals_independently_reconciled": true,
+    "source_code": "zuizui0223/neon:analysis/turnover_herb_plot_date_qa_v1.py"
+  }
+}

@@ -4,10 +4,12 @@ on:
     branches: [analysis/biomass-jena-measured-source-20261114]
     paths:
       - scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py
+      - scripts/analysis/audit_jena_923591_longitudinal_join_v0_1.py
       - .github/workflows/jena-923591-longitudinal-source-qa-v0-1.yml
   pull_request:
     paths:
       - scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py
+      - scripts/analysis/audit_jena_923591_longitudinal_join_v0_1.py
       - .github/workflows/jena-923591-longitudinal-source-qa-v0-1.yml
   workflow_dispatch:
 permissions:
@@ -57,11 +59,22 @@ jobs:
             --traits /tmp/jena_longitudinal_source/traits.st.zip \
             --plotinfo /tmp/jena_longitudinal_source/JenaOriginalPlotInfo.txt \
             --out results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_source_qa_v0_1.json
+      - name: Inspect cross-source join, seasonal mapping and zero-only campaigns (still no effects)
+        run: |
+          python3 -m py_compile scripts/analysis/audit_jena_923591_longitudinal_join_v0_1.py
+          python3 scripts/analysis/audit_jena_923591_longitudinal_join_v0_1.py --self-test
+          python3 scripts/analysis/audit_jena_923591_longitudinal_join_v0_1.py \
+            --predictors /tmp/jena_longitudinal_source/predictors_raw.zip \
+            --biomass /tmp/jena_longitudinal_source/biomass02_12.zip \
+            --plotinfo /tmp/jena_longitudinal_source/JenaOriginalPlotInfo.txt \
+            --out results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_join_qa_v0_1.json
       - name: Upload nonraw keys and coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jena-longitudinal-source-only-fd-biomass-qa-v0-1
-          path: results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_source_qa_v0_1.json
+          path: |
+            results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_source_qa_v0_1.json
+            results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_join_qa_v0_1.json
           if-no-files-found: ignore
           retention-days: 30

@@ -1,0 +1,3363 @@
+{
+  "BIEN_core": {
+    "families": 45,
+    "maximum_whole_plant_height_families": 10,
+    "n_family_trait_pairs": 201,
+    "traits": 12
+  },
+  "BIEN_core_provenance": "GitHub artifact trait-memory-informativeness-v0-5; run 37086693588",
+  "GIFT_source": {
+    "gift_species_records": 372046,
+    "species_without_family": 2,
+    "taxonomy": {
+      "families": 657,
+      "genera_without_family": 2,
+      "taxon_rows": 21192,
+      "valid_genus_family_assignments": 20429
+    },
+    "traits": {
+      "growth_form": {
+        "ambiguous_value_ids_excluded": 0,
+        "source_rows": 177054,
+        "trait_ID": "1.2.1",
+        "unambiguous_values": 177054,
+        "usable_values": 177054,
+        "validity": "present categorical (not numerical FD)"
+      },
+      "plant_height_max": {
+        "ambiguous_value_ids_excluded": 0,
+        "source_rows": 70231,
+        "trait_ID": "1.6.2",
+        "unambiguous_values": 70231,
+        "usable_values": 70231,
+        "validity": "finite positive numeric"
+      },
+      "woodiness": {
+        "ambiguous_value_ids_excluded": 0,
+        "source_rows": 218242,
+        "trait_ID": "1.1.1",
+        "unambiguous_values": 218242,
+        "usable_values": 218242,
+        "validity": "present categorical (not numerical FD)"
+      }
+    },
+    "unique_accepted_name_only": 366002,
+    "unique_accepted_species_family": 366000,
+    "unique_genus_family": 16555
+  },
+  "GIFT_version": "3.1",
+  "exact_name_but_unresolved_family_species": 0,
+  "families": [
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 8611,
+      "eligible_height_plot_cells_pre_family_floor": 8611,
+      "exact_GIFT_species_in_sPlotOpen": 2189,
+      "family": "Poaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 442
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 5841,
+      "eligible_height_plot_cells_pre_family_floor": 5841,
+      "exact_GIFT_species_in_sPlotOpen": 3232,
+      "family": "Asteraceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 493
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 3829,
+      "eligible_height_plot_cells_pre_family_floor": 3829,
+      "exact_GIFT_species_in_sPlotOpen": 2946,
+      "family": "Fabaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 350
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2698,
+      "exact_GIFT_species_in_sPlotOpen": 677,
+      "family": "Rosaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 158
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 2377,
+      "eligible_height_plot_cells_pre_family_floor": 2377,
+      "exact_GIFT_species_in_sPlotOpen": 1107,
+      "family": "Cyperaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 105
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 1559,
+      "eligible_height_plot_cells_pre_family_floor": 1559,
+      "exact_GIFT_species_in_sPlotOpen": 367,
+      "family": "Ericaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 56
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1168,
+      "exact_GIFT_species_in_sPlotOpen": 751,
+      "family": "Lamiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 87
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1116,
+      "exact_GIFT_species_in_sPlotOpen": 517,
+      "family": "Ranunculaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 65
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 771,
+      "exact_GIFT_species_in_sPlotOpen": 914,
+      "family": "Myrtaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 81
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 748,
+      "eligible_height_plot_cells_pre_family_floor": 748,
+      "exact_GIFT_species_in_sPlotOpen": 540,
+      "family": "Apiaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 84
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 703,
+      "exact_GIFT_species_in_sPlotOpen": 586,
+      "family": "Caryophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 96
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 625,
+      "exact_GIFT_species_in_sPlotOpen": 385,
+      "family": "Plantaginaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 24
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 538,
+      "eligible_height_plot_cells_pre_family_floor": 538,
+      "exact_GIFT_species_in_sPlotOpen": 1027,
+      "family": "Rubiaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 111
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 490,
+      "exact_GIFT_species_in_sPlotOpen": 514,
+      "family": "Malvaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 54
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 450,
+      "exact_GIFT_species_in_sPlotOpen": 438,
+      "family": "Lauraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 49
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 380,
+      "eligible_height_plot_cells_pre_family_floor": 380,
+      "exact_GIFT_species_in_sPlotOpen": 428,
+      "family": "Amaranthaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 77
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 326,
+      "exact_GIFT_species_in_sPlotOpen": 182,
+      "family": "Caprifoliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 49
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 320,
+      "exact_GIFT_species_in_sPlotOpen": 288,
+      "family": "Campanulaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 291,
+      "exact_GIFT_species_in_sPlotOpen": 581,
+      "family": "Brassicaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 73
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 290,
+      "exact_GIFT_species_in_sPlotOpen": 271,
+      "family": "Salicaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 36
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 270,
+      "exact_GIFT_species_in_sPlotOpen": 185,
+      "family": "Juncaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 247,
+      "exact_GIFT_species_in_sPlotOpen": 491,
+      "family": "Orchidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 51
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 186,
+      "exact_GIFT_species_in_sPlotOpen": 162,
+      "family": "Amaryllidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 185,
+      "exact_GIFT_species_in_sPlotOpen": 305,
+      "family": "Orobanchaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 44
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 175,
+      "eligible_height_plot_cells_pre_family_floor": 175,
+      "exact_GIFT_species_in_sPlotOpen": 639,
+      "family": "Euphorbiaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 29
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 171,
+      "exact_GIFT_species_in_sPlotOpen": 254,
+      "family": "Polygonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 45
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 168,
+      "exact_GIFT_species_in_sPlotOpen": 191,
+      "family": "Meliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 18
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 164,
+      "exact_GIFT_species_in_sPlotOpen": 154,
+      "family": "Dryopteridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 38
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 155,
+      "exact_GIFT_species_in_sPlotOpen": 406,
+      "family": "Sapindaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 33
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 151,
+      "exact_GIFT_species_in_sPlotOpen": 111,
+      "family": "Pinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 148,
+      "exact_GIFT_species_in_sPlotOpen": 310,
+      "family": "Asparagaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 19
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 133,
+      "exact_GIFT_species_in_sPlotOpen": 279,
+      "family": "Moraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 20
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 132,
+      "exact_GIFT_species_in_sPlotOpen": 277,
+      "family": "Primulaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 22
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 122,
+      "exact_GIFT_species_in_sPlotOpen": 128,
+      "family": "Saxifragaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 23
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 87,
+      "exact_GIFT_species_in_sPlotOpen": 223,
+      "family": "Gentianaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 16
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 82,
+      "exact_GIFT_species_in_sPlotOpen": 163,
+      "family": "Violaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 18
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 77,
+      "exact_GIFT_species_in_sPlotOpen": 252,
+      "family": "Annonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 48
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 64,
+      "exact_GIFT_species_in_sPlotOpen": 121,
+      "family": "Asphodelaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 57,
+      "exact_GIFT_species_in_sPlotOpen": 155,
+      "family": "Aizoaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 39
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 55,
+      "exact_GIFT_species_in_sPlotOpen": 166,
+      "family": "Crassulaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 17
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 54,
+      "exact_GIFT_species_in_sPlotOpen": 209,
+      "family": "Phyllanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 16
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 53,
+      "exact_GIFT_species_in_sPlotOpen": 199,
+      "family": "Arecaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 13
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 51,
+      "exact_GIFT_species_in_sPlotOpen": 93,
+      "family": "Combretaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 21
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 49,
+      "exact_GIFT_species_in_sPlotOpen": 54,
+      "family": "Betulaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 48,
+      "exact_GIFT_species_in_sPlotOpen": 13,
+      "family": "Equisetaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 47,
+      "exact_GIFT_species_in_sPlotOpen": 94,
+      "family": "Aquifoliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 45,
+      "exact_GIFT_species_in_sPlotOpen": 183,
+      "family": "Fagaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 28
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 44,
+      "exact_GIFT_species_in_sPlotOpen": 357,
+      "family": "Boraginaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 81
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 44,
+      "exact_GIFT_species_in_sPlotOpen": 107,
+      "family": "Oleaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 42,
+      "exact_GIFT_species_in_sPlotOpen": 65,
+      "family": "Aspleniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 16
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 41,
+      "eligible_height_plot_cells_pre_family_floor": 41,
+      "exact_GIFT_species_in_sPlotOpen": 236,
+      "family": "Proteaceae",
+      "in_frozen_BIEN_maxheight_core": true,
+      "unmatched_binomials_assigned_from_unique_genus": 16
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 38,
+      "exact_GIFT_species_in_sPlotOpen": 195,
+      "family": "Convolvulaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 20
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 32,
+      "exact_GIFT_species_in_sPlotOpen": 262,
+      "family": "Rutaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 35
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 30,
+      "exact_GIFT_species_in_sPlotOpen": 197,
+      "family": "Iridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 29,
+      "exact_GIFT_species_in_sPlotOpen": 51,
+      "family": "Cyatheaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 16
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 29,
+      "exact_GIFT_species_in_sPlotOpen": 234,
+      "family": "Solanaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 26
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 28,
+      "exact_GIFT_species_in_sPlotOpen": 143,
+      "family": "Geraniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 6
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 24,
+      "exact_GIFT_species_in_sPlotOpen": 286,
+      "family": "Melastomataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 104
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 24,
+      "exact_GIFT_species_in_sPlotOpen": 202,
+      "family": "Sapotaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 30
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 23,
+      "exact_GIFT_species_in_sPlotOpen": 435,
+      "family": "Apocynaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 59
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 21,
+      "exact_GIFT_species_in_sPlotOpen": 65,
+      "family": "Adoxaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 21,
+      "exact_GIFT_species_in_sPlotOpen": 145,
+      "family": "Burseraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 12
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 21,
+      "exact_GIFT_species_in_sPlotOpen": 107,
+      "family": "Ebenaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 7
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 21,
+      "exact_GIFT_species_in_sPlotOpen": 115,
+      "family": "Onagraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 14
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 20,
+      "exact_GIFT_species_in_sPlotOpen": 175,
+      "family": "Scrophulariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 19,
+      "exact_GIFT_species_in_sPlotOpen": 134,
+      "family": "Clusiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 19,
+      "exact_GIFT_species_in_sPlotOpen": 14,
+      "family": "Cystopteridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 18,
+      "exact_GIFT_species_in_sPlotOpen": 224,
+      "family": "Acanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 28
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 16,
+      "exact_GIFT_species_in_sPlotOpen": 88,
+      "family": "Lecythidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 15,
+      "exact_GIFT_species_in_sPlotOpen": 96,
+      "family": "Goodeniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 10
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 14,
+      "exact_GIFT_species_in_sPlotOpen": 97,
+      "family": "Myristicaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 13,
+      "exact_GIFT_species_in_sPlotOpen": 53,
+      "family": "Cistaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 12
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 13,
+      "exact_GIFT_species_in_sPlotOpen": 66,
+      "family": "Lycopodiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 12
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 12,
+      "exact_GIFT_species_in_sPlotOpen": 165,
+      "family": "Anacardiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 31
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 12,
+      "exact_GIFT_species_in_sPlotOpen": 66,
+      "family": "Chrysobalanaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 33
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 12,
+      "exact_GIFT_species_in_sPlotOpen": 54,
+      "family": "Oxalidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 12,
+      "exact_GIFT_species_in_sPlotOpen": 45,
+      "family": "Smilacaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 12,
+      "exact_GIFT_species_in_sPlotOpen": 161,
+      "family": "Urticaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 12
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 11,
+      "exact_GIFT_species_in_sPlotOpen": 60,
+      "family": "Restionaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 10,
+      "exact_GIFT_species_in_sPlotOpen": 195,
+      "family": "Celastraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 29
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 9,
+      "exact_GIFT_species_in_sPlotOpen": 55,
+      "family": "Linaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 9,
+      "exact_GIFT_species_in_sPlotOpen": 29,
+      "family": "Potamogetonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 8,
+      "exact_GIFT_species_in_sPlotOpen": 82,
+      "family": "Santalaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 7,
+      "exact_GIFT_species_in_sPlotOpen": 27,
+      "family": "Droseraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 6,
+      "exact_GIFT_species_in_sPlotOpen": 53,
+      "family": "Lentibulariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 5,
+      "exact_GIFT_species_in_sPlotOpen": 19,
+      "family": "Hydrocharitaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 5,
+      "exact_GIFT_species_in_sPlotOpen": 42,
+      "family": "Monimiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 4,
+      "exact_GIFT_species_in_sPlotOpen": 207,
+      "family": "Bignoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 4,
+      "exact_GIFT_species_in_sPlotOpen": 83,
+      "family": "Commelinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 4,
+      "exact_GIFT_species_in_sPlotOpen": 107,
+      "family": "Piperaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 4,
+      "exact_GIFT_species_in_sPlotOpen": 138,
+      "family": "Polygalaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 18
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 56,
+      "family": "Capparaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 20
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 92,
+      "family": "Cucurbitaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 10
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 78,
+      "family": "Dilleniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 140,
+      "family": "Hypericaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 6
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 92,
+      "family": "Liliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 44,
+      "family": "Melanthiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 50,
+      "family": "Nyctaginaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 3,
+      "exact_GIFT_species_in_sPlotOpen": 17,
+      "family": "Typhaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 67,
+      "family": "Cactaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 11
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 91,
+      "family": "Elaeocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 46,
+      "family": "Lythraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 16,
+      "family": "Molluginaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 41,
+      "family": "Pittosporaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 34,
+      "family": "Portulacaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 37,
+      "family": "Putranjivaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 153,
+      "family": "Rhamnaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 23
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 91,
+      "family": "Thymelaeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 2,
+      "exact_GIFT_species_in_sPlotOpen": 66,
+      "family": "Verbenaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 13
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 27,
+      "family": "Alismataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 165,
+      "family": "Araceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 6
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 21,
+      "family": "Clethraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 74,
+      "family": "Cunoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 52,
+      "family": "Cupressaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 32,
+      "family": "Hydrangeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 9,
+      "family": "Limeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 43,
+      "family": "Ochnaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 36,
+      "family": "Olacaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 79,
+      "family": "Papaveraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 47,
+      "family": "Passifloraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 1,
+      "exact_GIFT_species_in_sPlotOpen": 20,
+      "family": "Rhizophoraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 24,
+      "family": "Achariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Achatocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Acoraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 22,
+      "family": "Actinidiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Aextoxicaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Alseuosmiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 23,
+      "family": "Alstroemeriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Altingiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Alzateaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Amborellaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Anacampserotaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Ancistrocladaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Anemiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Anisophylleaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Aphanopetalaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Aphloiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Aponogetonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 169,
+      "family": "Araliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 34
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Araucariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Argophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 49,
+      "family": "Aristolochiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Asteliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Atherospermataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 43,
+      "family": "Athyriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 19
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Balanopaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Balanophoraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 17,
+      "family": "Balsaminaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Barbeyaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Basellaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Bataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 14,
+      "family": "Begoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 55,
+      "family": "Berberidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 11
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Berberidopsidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Biebersteiniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Bixaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Blandfordiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 38,
+      "family": "Blechnaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Boryaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 58,
+      "family": "Bromeliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Brunelliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Bruniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Burmanniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Butomaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Buxaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Byblidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Cabombaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 23,
+      "family": "Calceolariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 19,
+      "family": "Calophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Calycanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Calyceraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Canellaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 34,
+      "family": "Cannabaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Cannaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 19,
+      "family": "Cardiopteridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Caricaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Caryocaraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 26,
+      "family": "Casuarinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Centroplacaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Ceratophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 22,
+      "family": "Chloranthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Cibotiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Circaeasteraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 29,
+      "family": "Cleomaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 37,
+      "family": "Colchicaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Columelliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 33,
+      "family": "Connaraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Coriariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 31,
+      "family": "Cornaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Corynocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Costaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Crossosomataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Crypteroniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Ctenolophonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Culcitaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 0,
+      "family": "Cycadaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Cyclanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Cynomoriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Cyrillaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Cytinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 0,
+      "family": "Daltoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Daphniphyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Datiscaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Davalliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 32,
+      "family": "Dennstaedtiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Diapensiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 38,
+      "family": "Dichapetalaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Dicksoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Didiereaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Didymochlaenaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Dioncophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 31,
+      "family": "Dioscoreaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Dipentodontaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Diplaziopsidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Dipteridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 52,
+      "family": "Dipterocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 6
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Doryanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 15,
+      "family": "Elaeagnaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Elatinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 23,
+      "family": "Ephedraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 36,
+      "family": "Eriocaulaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 33,
+      "family": "Erythroxylaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 11,
+      "family": "Escalloniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Eupomatiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Flagellariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Fouquieriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Francoaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Frankeniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Garryaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Gelsemiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 31,
+      "family": "Gesneriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Ginkgoaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Gisekiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 15,
+      "family": "Gleicheniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Gnetaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Goupiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Griseliniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 50,
+      "family": "Grossulariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Gunneraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Gyrostemonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 11,
+      "family": "Haemodoraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 36,
+      "family": "Haloragaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 13,
+      "family": "Hamamelidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 15,
+      "family": "Heliconiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Helwingiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Hernandiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Himantandraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Huaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 16,
+      "family": "Humiriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Hydroleaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 23,
+      "family": "Hymenophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 16
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Hypodematiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 16,
+      "family": "Hypoxidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 20,
+      "family": "Icacinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Irvingiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 13,
+      "family": "Isoetaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Iteaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Ixioliriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Ixonanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 30,
+      "family": "Juglandaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Juncaginaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Kirkiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Koeberliniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Krameriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Lacistemataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Lardizabalaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Lepidobotryaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Linderniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 7
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 14,
+      "family": "Lindsaeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Loasaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 78,
+      "family": "Loganiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 8
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Lomariopsidaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Lophiocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 66,
+      "family": "Loranthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Lygodiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Macarthuriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 31,
+      "family": "Magnoliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 85,
+      "family": "Malpighiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Marantaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Marattiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 13,
+      "family": "Marcgraviaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Marsileaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Martyniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Maundiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Mayacaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Mazaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 71,
+      "family": "Menispermaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 16,
+      "family": "Menyanthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Metteniusaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Mitrastemonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 17,
+      "family": "Montiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Montiniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Musaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Myodocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Myricaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 9
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 0,
+      "family": "Myrothamnaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 10,
+      "family": "Nartheciaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Nelumbonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Nepenthaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Neuradaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Nitrariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 16,
+      "family": "Nothofagaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 16,
+      "family": "Nymphaeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Nyssaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Oleandraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Oncothecaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Onocleaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 28,
+      "family": "Ophioglossaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 5
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 9,
+      "family": "Opiliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Osmundaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 11,
+      "family": "Paeoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Pandaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 25,
+      "family": "Pandanaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Paracryphiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Paulowniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 13,
+      "family": "Pedaliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Penaeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Pennantiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 32,
+      "family": "Pentaphylacaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Penthoraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Peraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Peridiscaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Petermanniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 9,
+      "family": "Petiveriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Phellinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Philesiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Philydraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Phrymaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 7
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Phyllonomaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Physenaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Phytolaccaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Picramniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 27,
+      "family": "Picrodendraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Plagiogyriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 3,
+      "family": "Platanaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 169,
+      "family": "Plumbaginaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 7
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 33,
+      "family": "Podocarpaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Podostemaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 45,
+      "family": "Polemoniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 7
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 77,
+      "family": "Polypodiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 47
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Pontederiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 90,
+      "family": "Pteridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 60
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Quillajaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 23,
+      "family": "Resedaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Ripogonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Rousseaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Ruppiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 37,
+      "family": "Sabiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Salvadoraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Salviniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Sarcobataceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Sarraceniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Saururaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Scheuchzeriaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 11,
+      "family": "Schisandraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Schizaeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Schlegeliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Schoepfiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 33,
+      "family": "Selaginellaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 17,
+      "family": "Simaroubaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Simmondsiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 25,
+      "family": "Siparunaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Sphenocleaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Stachyuraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 5,
+      "family": "Staphyleaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 4,
+      "family": "Stemonaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 14,
+      "family": "Stemonuraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 6,
+      "family": "Stilbaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 27,
+      "family": "Stylidiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 20,
+      "family": "Styracaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 4
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Surianaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 48,
+      "family": "Symplocaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 3
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 7,
+      "family": "Talinaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 20,
+      "family": "Tamaricaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Tapisciaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 8,
+      "family": "Taxaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Tecophilaeaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 20,
+      "family": "Tectariaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Tetrachondraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Tetramelaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Tetrameristaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 19,
+      "family": "Theaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 17,
+      "family": "Thelypteridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 31
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 9,
+      "family": "Tofieldiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Trimeniaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Trochodendraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Tropaeolaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 21,
+      "family": "Ulmaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 1,
+      "family": "Vahliaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Velloziaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 86,
+      "family": "Vitaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 11
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 12,
+      "family": "Vochysiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 18,
+      "family": "Winteraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 2
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 9,
+      "family": "Woodsiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 25,
+      "family": "Xyridaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 14,
+      "family": "Zamiaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 21,
+      "family": "Zingiberaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 1
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 2,
+      "family": "Zosteraceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 0
+    },
+    {
+      "eligible_height_plot_cells_if_in_frozen_BIEN_maxheight_core": 0,
+      "eligible_height_plot_cells_pre_family_floor": 0,
+      "exact_GIFT_species_in_sPlotOpen": 45,
+      "family": "Zygophyllaceae",
+      "in_frozen_BIEN_maxheight_core": false,
+      "unmatched_binomials_assigned_from_unique_genus": 38
+    }
+  ],
+  "frozen_exact_90pct_pass": false,
+  "hard_nonclaims": [
+    "The family known-cover denominator includes genus-assigned unmatched species but excludes unresolved genera, so it is conditional, not full unbiased completeness.",
+    "Exact GIFT name matching (34,888) and exact-name family resolution (potentially fewer) are separate source-gate measurements.",
+    "Height max traits in GIFT may reuse TRY/BIEN/AusTraits studies; independence and measurement units have not been audited.",
+    "Woodiness and growth form are categorical, not the quantitative height FD outcome.",
+    "The BIEN maximum whole plant height row is not assumed measurement-identical to GIFT plant_height_max.",
+    "Matching family labels does not yield any phylogenetic tips, patristic MPD, Rao Q, biomass or positive scientific association.",
+    "The frozen 90% exact binomial gate is NOT reset after the observed 87.7% match."
+  ],
+  "height_BIEN_maxheight_datasets_after_floor": 96,
+  "height_BIEN_maxheight_families_at_least_20_plots": 10,
+  "height_BIEN_maxheight_plot_family_cells_after_floor": 24099,
+  "height_candidate_failure_reasons": {
+    "below_80pct_family_known_cover": 13844,
+    "effective_species_below_2_5": 28628,
+    "less_than_three_height_species": 518551,
+    "missing_plot_metadata": 183590
+  },
+  "height_candidate_families_pre_family_floor": 121,
+  "height_candidate_plot_family_cells_pre_family_floor": 37168,
+  "height_candidates_matching_BIEN_maxheight_family_trait": 24099,
+  "height_families_with_at_least_20_plots": 65,
+  "height_plot_family_cells_after_family_floor": 36839,
+  "height_quality_gates": {
+    "effective_species_floor": 2.5,
+    "family_known_cover_fraction": 0.8,
+    "min_distinct_species": 3,
+    "min_plots_per_family": 20,
+    "primary_min_cells": 500,
+    "primary_min_families": 12,
+    "primary_min_source_datasets": 5
+  },
+  "height_source_datasets_after_family_floor": 100,
+  "plot_biome_exact_cover": {
+    "Alpine": {
+      "mean_exact_species_cover_fraction": 0.8697131084314144,
+      "mean_unknown_family_cover_fraction": 0.026674232513760512,
+      "plots": 5623,
+      "plots_exact_cover_at_least_80pct": 4468
+    },
+    "Boreal zone": {
+      "mean_exact_species_cover_fraction": 0.9266815177286861,
+      "mean_unknown_family_cover_fraction": 0.016997683525792725,
+      "plots": 5831,
+      "plots_exact_cover_at_least_80pct": 5226
+    },
+    "Dry midlatitudes": {
+      "mean_exact_species_cover_fraction": 0.8667920703407462,
+      "mean_unknown_family_cover_fraction": 0.07480913629463812,
+      "plots": 7267,
+      "plots_exact_cover_at_least_80pct": 5622
+    },
+    "Dry tropics and subtropics": {
+      "mean_exact_species_cover_fraction": 0.8546041786785145,
+      "mean_unknown_family_cover_fraction": 0.06605161252899928,
+      "plots": 10157,
+      "plots_exact_cover_at_least_80pct": 7701
+    },
+    "Polar and subpolar zone": {
+      "mean_exact_species_cover_fraction": 0.9182531047111834,
+      "mean_unknown_family_cover_fraction": 0.028831706852534826,
+      "plots": 2276,
+      "plots_exact_cover_at_least_80pct": 2020
+    },
+    "Subtropics with winter rain": {
+      "mean_exact_species_cover_fraction": 0.9115074104763733,
+      "mean_unknown_family_cover_fraction": 0.016810637313606415,
+      "plots": 7491,
+      "plots_exact_cover_at_least_80pct": 6614
+    },
+    "Subtropics with year-round rain": {
+      "mean_exact_species_cover_fraction": 0.8939925582666949,
+      "mean_unknown_family_cover_fraction": 0.0339473219323491,
+      "plots": 10210,
+      "plots_exact_cover_at_least_80pct": 8518
+    },
+    "Temperate midlatitudes": {
+      "mean_exact_species_cover_fraction": 0.9250729686345286,
+      "mean_unknown_family_cover_fraction": 0.02817416339178695,
+      "plots": 34024,
+      "plots_exact_cover_at_least_80pct": 30383
+    },
+    "Tropics with summer rain": {
+      "mean_exact_species_cover_fraction": 0.8262341720433566,
+      "mean_unknown_family_cover_fraction": 0.10121460818939597,
+      "plots": 7050,
+      "plots_exact_cover_at_least_80pct": 4863
+    },
+    "Tropics with year-round rain": {
+      "mean_exact_species_cover_fraction": 0.7388873369499416,
+      "mean_unknown_family_cover_fraction": 0.16133651156724288,
+      "plots": 5170,
+      "plots_exact_cover_at_least_80pct": 2434
+    }
+  },
+  "positive_binomial_composition_rows": 1848330,
+  "positive_exact_gift_composition_rows": 1701443,
+  "postrun_metadata_correction": {
+    "original_actions_run": "https://github.com/zuizui0223/turnover/actions/runs/43573623711",
+    "original_report_sha256": "ef8704d786efe9fdebcac72b953f23a13f0730b854694f8b058f749a75d9344f",
+    "reason": "The original script mistakenly iterated over string work_ID keys, not sets of trait values, when counting ambiguous IDs; result field was incorrect.",
+    "resolution": "For all three GIFT traits, source_rows == unambiguous_values, so ambiguous IDs are 0. This correction does not modify species matches, plot eligibility, family lists, or biological outcomes."
+  },
+  "rows_with_unresolved_plot_id": 0,
+  "scope": "Source-only: counts, metadata and fixed-core overlaps; NO FD, MPD or biomass outcomes",
+  "splot_binomial_species": 39795,
+  "splot_composition_rows": 1943306,
+  "splot_exact_fraction": 0.876693051890941,
+  "splot_exact_gift_species": 34888,
+  "splot_exact_name_with_resolved_family_species": 34888,
+  "splot_mirror_commit": "1bfcad669ae1a7e6f0a419159dd3051e83bdd26b",
+  "splot_unique_plots": 95104,
+  "status": "PRE_OUTCOME_HOLD_EXACT_NAME_90PCT_NOT_PASSED",
+  "unmatched_binomial_species": 4907,
+  "unmatched_but_recognized_genus_species": 4474,
+  "unmatched_unassigned_genus_species": 431,
+  "unmatched_with_known_genus_percentage": 0.9117587120440187,
+  "version": "v0.1"
+}

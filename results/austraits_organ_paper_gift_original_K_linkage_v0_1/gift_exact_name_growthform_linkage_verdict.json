@@ -1,0 +1,129 @@
+{
+  "GIFT_API": "https://gift.uni-goettingen.de/api/extended/index3.1.php",
+  "GIFT_accepted_names_only_exact_match_coverage": {
+    "original_254_single_K": {
+      "fraction_GIFT_growth_form_available_of_original_species": 0.7453119895459,
+      "fraction_GIFT_plant_height_max_available_of_original_species": 0.6522704998366546,
+      "fraction_GIFT_woodiness_available_of_original_species": 0.7788957856909506,
+      "fraction_exact_GIFT_species_match": 0.9048023521724926,
+      "n_GIFT_growth_form_available_exact_species": 11407,
+      "n_GIFT_plant_height_max_available_exact_species": 9983,
+      "n_GIFT_woodiness_available_exact_species": 11921,
+      "n_exact_GIFT_species_matches": 13848,
+      "n_original_unique_species": 15305
+    },
+    "original_760_matched_K": {
+      "fraction_GIFT_growth_form_available_of_original_species": 0.7535724918130396,
+      "fraction_GIFT_plant_height_max_available_of_original_species": 0.6574129205120571,
+      "fraction_GIFT_woodiness_available_of_original_species": 0.791827924977672,
+      "fraction_exact_GIFT_species_match": 0.9217028877642155,
+      "n_GIFT_growth_form_available_exact_species": 10125,
+      "n_GIFT_plant_height_max_available_exact_species": 8833,
+      "n_GIFT_woodiness_available_exact_species": 10639,
+      "n_exact_GIFT_species_matches": 12384,
+      "n_original_unique_species": 13436
+    },
+    "strict_142_same_DatasetID": {
+      "fraction_GIFT_growth_form_available_of_original_species": 0.7566896551724138,
+      "fraction_GIFT_plant_height_max_available_of_original_species": 0.6518620689655172,
+      "fraction_GIFT_woodiness_available_of_original_species": 0.8317241379310345,
+      "fraction_exact_GIFT_species_match": 0.9404137931034483,
+      "n_GIFT_growth_form_available_exact_species": 2743,
+      "n_GIFT_plant_height_max_available_exact_species": 2363,
+      "n_GIFT_woodiness_available_exact_species": 3015,
+      "n_exact_GIFT_species_matches": 3409,
+      "n_original_unique_species": 3625
+    }
+  },
+  "GIFT_may_reuse_TRY_AusTraits_underlying_trait_studies": true,
+  "GIFT_public_trait_coverage": {
+    "growth_form": {
+      "GIFT_trait_name": "Growth_form_1",
+      "bias_deriv_excluded": true,
+      "bias_ref_excluded": true,
+      "gift_trait_ID": "1.2.1",
+      "records_fetched": 177054,
+      "work_IDs_with_conflicting_values": 0,
+      "work_IDs_with_one_unambiguous_value": 177054
+    },
+    "plant_height_max": {
+      "GIFT_trait_name": "Plant_height_max",
+      "bias_deriv_excluded": true,
+      "bias_ref_excluded": true,
+      "gift_trait_ID": "1.6.2",
+      "records_fetched": 70231,
+      "work_IDs_with_conflicting_values": 0,
+      "work_IDs_with_one_unambiguous_value": 70231
+    },
+    "woodiness": {
+      "GIFT_trait_name": "Woodiness_1",
+      "bias_deriv_excluded": true,
+      "bias_ref_excluded": true,
+      "gift_trait_ID": "1.1.1",
+      "records_fetched": 218242,
+      "work_IDs_with_conflicting_values": 0,
+      "work_IDs_with_one_unambiguous_value": 218242
+    }
+  },
+  "GIFT_taxonomy_download": {
+    "ambiguous_original_exact_name_matches": 0,
+    "gift_species_rows": 372046,
+    "no_synonym_matching_performed": true,
+    "original_unique_species_exact_matched": 13848,
+    "unique_standardized_gift_names": 372046
+  },
+  "GIFT_traits_not_used_to_refit_original_K": true,
+  "GIFT_version": "3.1",
+  "GIFT_woodiness_pair_context": {
+    "S3": {
+      "median_GIFT_classified_woody_fraction_lost_not_reversed": 0.9285714285714286,
+      "median_GIFT_classified_woody_fraction_lost_reversed": 0.9390243902439024,
+      "median_GIFT_classified_woody_fraction_retained_not_reversed": 0.9636363636363636,
+      "median_GIFT_classified_woody_fraction_retained_reversed": 1.0,
+      "median_n_lost_species_with_exact_GIFT_match_not_reversed": 7,
+      "median_n_lost_species_with_exact_GIFT_match_reversed": 31,
+      "n_reversed_pairs_with_known_woody_both_lost_and_retained": 23,
+      "not_independent_pair_level_biological_replicates": true,
+      "original_K_sign_reversals": 23,
+      "original_matched_family_trait_pairs": 142,
+      "pair_weighted_exact_name_exposure_counts": {
+        "lost_GIFT_exact_matched_pair_weighted": 7709,
+        "lost_original_pair_weighted_species": 8036,
+        "retained_GIFT_exact_matched_pair_weighted": 13296,
+        "retained_original_pair_weighted_species": 14095
+      },
+      "woodiness_raw_trait_labels_need_manual_semantic_check": true
+    },
+    "prune_only": {
+      "median_GIFT_classified_woody_fraction_lost_not_reversed": 1.0,
+      "median_GIFT_classified_woody_fraction_lost_reversed": 0.9274106175514626,
+      "median_GIFT_classified_woody_fraction_retained_not_reversed": 0.9820701782011915,
+      "median_GIFT_classified_woody_fraction_retained_reversed": 0.9715639810426541,
+      "median_n_lost_species_with_exact_GIFT_match_not_reversed": 4.0,
+      "median_n_lost_species_with_exact_GIFT_match_reversed": 155,
+      "n_reversed_pairs_with_known_woody_both_lost_and_retained": 13,
+      "not_independent_pair_level_biological_replicates": true,
+      "original_K_sign_reversals": 13,
+      "original_matched_family_trait_pairs": 101,
+      "pair_weighted_exact_name_exposure_counts": {
+        "lost_GIFT_exact_matched_pair_weighted": 6241,
+        "lost_original_pair_weighted_species": 6482,
+        "retained_GIFT_exact_matched_pair_weighted": 11349,
+        "retained_original_pair_weighted_species": 11950
+      },
+      "woodiness_raw_trait_labels_need_manual_semantic_check": true
+    }
+  },
+  "TRY_v7_raw_data_not_downloaded_or_joined": true,
+  "external_taxonomy_synonym_resolution_not_yet_applied": true,
+  "growth_form_woodiness_and_height_are_context_not_measured_biomass": true,
+  "no_independence_or_causal_recruitment_inferred": true,
+  "no_original_species_names_record_ids_or_trait_values_exported": true,
+  "no_plant_total_biomass_allometry_or_allocation_measured": true,
+  "original_K_254_family_trait_systems": 254,
+  "original_K_760_matched_pair_ids": 760,
+  "original_K_strict_142_same_source_pair_ids": 142,
+  "original_organ_grouping_retrospective": true,
+  "original_public_AusTraits_v7_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "status": "PASS_PUBLIC_GIFT_3_1_AUSTRAITS_ORIGINAL_K_EXACT_NAME_MATCH_COVERAGE_ONLY"
+}

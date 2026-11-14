@@ -1,6 +1,23 @@
 # Genus-count-conditioned original source-selected K rank reversal test
 
-**2026-11-14 — source-fixed, non-independent, post-K-discovery sensitivity. The new genus-conditioned 12-batch results require complete CI and independent verification before being interpreted.**
+**2026-11-14 — all 12 original source K genus-quota batches SUCCESS, corrected independent final audit and permanent SHA256 archive PASS. This is a post-selected same-AusTraits descriptive sensitivity, not independent biological validation.**
+
+## Verified result: original genus quota explains the S3 excess under this conditional null
+
+[Original 12/12 genus-quota native R K batches #43566577755](https://github.com/zuizui0223/turnover/actions/runs/43566577755) completed all source/native-tree reconstructions and K calculations, but its overall first workflow failed **ONLY during the final Python SHA256 reporter** due to passing source bytes to a file-path hashing function. This was repaired without rerunning or modifying original R outcomes; [independent full 142/101 reaggregation and permanent SHA256 archive #43567784678 PASS](https://github.com/zuizui0223/turnover/actions/runs/43567784678) retrieved all 12 original successful R result batches, independently checked all original source K/tip identities and genus-quota flags against the original SHA256-frozen equal-n source run, and committed the 12 source-only plans, 12 R outputs, 12 numeric audits, corrected global 128-draw result and manifest.
+
+| Native original K tree | Observed fixed-broad-tree source survivor K flips | Unstratified equal-n random flips, mean (128 draws) | **Exact observed genus quota + random species within genus**, mean (128 draws) | Genus-quota random draw upper-tail probability of observed or larger |
+| --- | ---: | ---: | ---: | ---: |
+| S3, 142 pairs | **23** | 14.8203 | **23.5703** | **0.6047** |
+| Native prune, 101 pairs | **13** | 11.2344 | **13.2188** | **0.6822** |
+
+Unstratified equal-n random total sign-flip count: S3 observed upper-tail **0.0310**, prune **0.3566**. Genus-count-conditioned random total sign-flip range: **19–31 S3**, **8–17 prune**, with medians **23 and 13**, respectively. None of the genus-conditioned 128×24 family candidate draws produced undefined K, and all **3,072 attempted family priorities were accepted**; in the earlier unstratified null 4/3,076 family candidates were rejected for mathematically undefined constant-trait K. The comparison of different conditional sample spaces is exploratory and Monte Carlo-limited.
+
+**Source context interpretation:** For the original 142/101 K pair populations, enforcing the *realized set of surviving genera and each genus's original strict-source native tip count* is enough for within-genus random survivors to generate about as many K rank reversals as the real strict-source surviving species. Thus the previous **S3 observed-vs-unrestricted same-n excess is no longer unusual after conditioning on genus composition**. This supports investigating **which genera/phylogenetic components are absent from the strict source compilation** rather than inferring intrinsically unusual within-genus plant life histories or independent selection on plant organs. It does NOT show that genus composition is the unique causal driver, or that woody/herbaceous growth form, stature or any real biomass investment caused the source-availability pattern. The stricter genotype/source filter already selects the genus quotas; fixing them in the null conditions on that selection mechanism.
+
+All original 254, 760, 283/142 source-stage K values and original 110→121→120 / 82→83→81 original family×trait-pair signs remain unchanged. S3 and prune and overlapping pairs within families remain nonindependent; the original reproductive category was post-selected. The 128 Monte Carlo tails are **not preregistered population-level evolutionary p-values**, and post hoc multiple mechanism searches cannot make them confirmatory.
+
+**Permanent derived-only source results:** [full genus quota original-v7 K null archive and SHA256 manifest](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1). No original species/genus names, observations, raw trait medians or external GIFT/TRY records were redistributed. Original source R workflow failure and corrected independent audit success are explicitly differentiated in the archive manifest; neither a missing source R batch nor a fabricated successful original workflow is claimed.
 
 ## Existing original-data finding
 

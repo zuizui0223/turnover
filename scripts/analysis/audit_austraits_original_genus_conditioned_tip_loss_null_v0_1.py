@@ -145,8 +145,8 @@ def run(plan_dir,genus_dir,outfile):
     result={
       "status":STATUS,
       "original_public_v7_source_parquet_sha256":"5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
-      "original_unstratified_full_128_null_SHA256":sha((OLD/"original_142_101_fixed_tree_tip_loss_null_verdict.json").read_bytes()),
-      "original_unstratified_archive_manifest_SHA256":sha((OLD/"original_tip_loss_null_archive_manifest.json").read_bytes()),
+      "original_unstratified_full_128_null_SHA256":sha(OLD/"original_142_101_fixed_tree_tip_loss_null_verdict.json"),
+      "original_unstratified_archive_manifest_SHA256":sha(OLD/"original_tip_loss_null_archive_manifest.json"),
       "genus_conditioned_AusTraits_Rcpp_native_K_derived_results":axes,
       "original_pair_identities":142,
       "original_native_prune_supported_pair_identities":101,

@@ -46,7 +46,7 @@ jobs:
                                   head=fp.read(10_000).decode("utf-8-sig",errors="replace")
                               lines=head.splitlines()
                               if lines:
-                                  delim="\\t" if "\\t" in lines[0] else ","
+                                  delim="\t" if "\t" in lines[0] else ","
                                   entry["first_row_columns"]=next(csv.reader([lines[0]],delimiter=delim))
                                   entry["preview_only_header"]=True
                           result["zip_entries"].append(entry)

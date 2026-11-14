@@ -1,0 +1,100 @@
+name: Audit and archive passed genus-K matrices after SHA-type-only final QA fix v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-original-genus-tip-loss-audit-recovery-and-archive-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  recover-genus-null-from-12-successful-source-K-matrix-jobs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install duckdb pyyaml
+      - name: Verify original source had exactly twelve successful genus R K jobs and ONLY independent final Python audit failed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/recovery build/plan build/results build/final
+          gh run view 43566577755 -R "$GITHUB_REPOSITORY" --json jobs,conclusion \
+            > build/recovery/source_run_jobs.json
+          python - <<'PY'
+          import json
+          m=json.load(open('build/recovery/source_run_jobs.json'))
+          assert m['conclusion']=='failure', 'Original failed final SHA-type check must not be misrepresented as success'
+          jobs=m['jobs']
+          matrix=[x for x in jobs if 'original-fixed-tree-family-correlated-random-pruning' in x['name']]
+          assert len(matrix)==12, 'Source original 12 genus R jobs incomplete'
+          assert all(x['conclusion']=='success' for x in matrix),'Original genus source R K computation failure'
+          assert sum(x['conclusion']=='success' and x['name']=='plan-original-fixed-142-101-null' for x in jobs)==1
+          finals=[x for x in jobs if x['name']=='independent-original-null-final-verdict']
+          assert len(finals)==1 and finals[0]['conclusion']=='failure'
+          print('PASS_12_ORIGINAL_GENUS_SOURCE_R_K_JOBS_ALL_SUCCESS_ONLY_PYTHON_FINAL_AUDITOR_FAILED')
+          PY
+      - name: Download exactly unchanged twelve original source R genus K batch artifacts and source-only original plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+            -n austraits-fixed-original-142-101-genus-quota-K-workload-v0-1 \
+            -D build/plan
+          for i in $(seq -w 1 12); do
+            gh run download 43566577755 -R "$GITHUB_REPOSITORY" \
+              -n "austraits-original-142-101-genus-quota-tip-null-P$i-v0-1" \
+              -D build/results
+          done
+          test "$(find build/plan -maxdepth 1 -name 'P??.json' | wc -l)" -eq 12
+          test "$(find build/results -maxdepth 1 -name 'P??_genus_null.json' | wc -l)" -eq 12
+          test "$(find build/results -maxdepth 1 -name 'P??_audit.json' | wc -l)" -eq 12
+      - name: Independently recheck source genus quotas, all 142/101 native K values and 128 R randomized draws
+        run: |
+          python scripts/analysis/audit_austraits_original_genus_conditioned_tip_loss_null_v0_1.py \
+            --plan-dir build/plan --results-dir build/results \
+            --output build/final/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+          grep -q PASS_ORIGINAL_142_101_GENUS_QUOTA_CONDITIONAL_SIZE_MATCHED_K_NULL \
+            build/final/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+      - name: Build SHA256 durable genus quota K null archive, correctly stating failed source workflow only at previous Python auditor
+        run: |
+          python scripts/publication/archive_austraits_original_genus_conditioned_null_v0_1.py \
+            --run-id 43566577755 --verified-aggregation-run-id "$GITHUB_RUN_ID" \
+            --plan-dir build/plan --results-dir build/results \
+            --verdict build/final/original_142_101_genus_conditioned_tip_loss_null_verdict.json \
+            --out-dir results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1
+          test "$(find results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1 -type f | wc -l)" -eq 39
+      - name: Upload the corrected independently verified global genus-conditioned original K result, even if a concurrent push changes branch
+        uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-142-101-genus-conditioned-K-null-SHA256-PASS-v0-1
+          path: |
+            results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1/original_142_101_genus_conditioned_tip_loss_null_verdict.json
+            results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1/original_genus_tip_loss_archive_manifest.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit only original-derived 12/12 genus R K outputs and corrected independent final SHA256 audit, safely rebasing
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_public_v7_genus_quota_tip_loss_null_v0_1/
+          if git diff --cached --quiet; then
+            echo GENUS_CONDITIONED_ORIGINAL_K_NULL_ALREADY_IDENTICAL
+          else
+            git commit -m "Preserve corrected original 12-batch genus quota K null and 128-draw family aggregate QA"
+            for attempt in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo VERIFIED_GENUS_K_NULL_ARCHIVED
+                exit 0
+              fi
+            done
+            echo "Concurrent paper changes prevented safe archive push"
+            exit 1
+          fi

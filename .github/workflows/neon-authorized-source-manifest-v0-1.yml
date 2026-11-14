@@ -1,0 +1,83 @@
+name: NEON RELEASE-2026 authorized four-domain source manifest preflight
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  authenticated-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      NEON_API_TOKEN: ${{ secrets.NEON_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check configured token without printing secret
+        run: |
+          if [ -z "$NEON_API_TOKEN" ]; then
+            echo "SOURCE_ACCESS_HOLD: Configure NEON_API_TOKEN in GitHub Actions secrets; NEON requires token as of June 2026."
+            exit 2
+          fi
+      - name: Authenticated NEON RELEASE-2026 monthly-file metadata only
+        run: |
+          python3 - <<'PY'
+          import os,urllib.request,urllib.error,hashlib,json
+          from urllib.parse import urlsplit
+          token=os.environ.get('NEON_API_TOKEN')
+          if not token:raise SystemExit("MISSING_NEON_API_TOKEN")
+          fixed=[('ABBY','2024-07','D16'),('BART','2022-07','D01'),
+                 ('BLAN','2024-05','D02'),('CPER','2022-11','D10')]
+          products=('DP1.10023.001','DP1.10058.001')
+          results=[]
+          for site,month,domain in fixed:
+            for prod in products:
+              url=f'https://data.neonscience.org/api/v0/data/{prod}/{site}/{month}?release=RELEASE-2026'
+              req=urllib.request.Request(url,headers={'X-API-TOKEN':token,
+                         'Accept':'application/json','User-Agent':'turnover-neon-authed-qa/0.1'})
+              item={'site':site,'month':month,'domain':domain,'product':prod}
+              try:
+                with urllib.request.urlopen(req,timeout=75) as r:
+                  raw=r.read(12_000_001)
+                  code=r.status
+                if len(raw)>12_000_000:raise ValueError('API metadata over safe size limit')
+                root=json.loads(raw)
+                files=root.get('data',{}).get('files',[])
+                if not isinstance(files,list):raise ValueError('unexpected data.files type')
+                entries=[]
+                for f in files:
+                  nm=f.get('name') or ''
+                  basename=nm.split('/')[-1]
+                  if any(term in basename.lower() for term in
+                     ('hbp_perbout','hbp_massdata','div_1m2data','div_10m2data')):
+                    entries.append({'name':basename,'size':f.get('size')})
+                item.update({'status':'AUTHORIZED_SOURCE_FILE_CATALOG',
+                             'http_code':code,'n_files':len(files),
+                             'selected_table_manifest':entries,
+                             'metadata_sha256':hashlib.sha256(raw).hexdigest()})
+              except urllib.error.HTTPError as e:
+                item.update({'status':'AUTH_OR_SOURCE_HOLD','http_code':e.code})
+              except (ValueError,TimeoutError,urllib.error.URLError) as e:
+                item.update({'status':'FORMAT_OR_TRANSPORT_HOLD','error_class':type(e).__name__})
+              results.append(item)
+              print('NEON_AUTH_SOURCE_FILE_MANIFEST',json.dumps(item,sort_keys=True))
+          if not all(r['status']=='AUTHORIZED_SOURCE_FILE_CATALOG' for r in results):
+            raise SystemExit('SOURCE_HOLD_NOT_ALL_EIGHT_AUTHORIZED')
+          from pathlib import Path
+          out=Path('results/neon_2026_fd_biomass_source_v0_1/authenticated_four_domain_manifest_v0_1.json')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps({
+            'status':'NEON_TIER1_AUTH_SOURCE_MANIFEST_ACCESS_PASS',
+            'release':'RELEASE-2026','source':'official NEON /data endpoint',
+            'no_observed_rows_downloaded':True,
+            'token_or_expiring_urls_saved':False,
+            'plot_ID_join_not_run':True,
+            'sites':results
+          },indent=2,sort_keys=True)+'\n')
+          PY
+      - name: Save source-only metadata without token or live download URLs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-release2026-authorized-four-domain-manifests-v0-1
+          path: results/neon_2026_fd_biomass_source_v0_1/authenticated_four_domain_manifest_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 7

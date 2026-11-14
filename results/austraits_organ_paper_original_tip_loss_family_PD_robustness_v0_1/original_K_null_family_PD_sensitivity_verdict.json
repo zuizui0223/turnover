@@ -1,0 +1,323 @@
+{
+  "all_family_PDs_are_original_broad_native_tree_length_fractions": true,
+  "axes": {
+    "S3": {
+      "actual_source_qualified_fixed_broad_tree_flips": 23,
+      "among_actual_flipped_pairs_PD_below_2_5pct": 6,
+      "among_actual_nonflipped_pairs_PD_below_2_5pct": 30,
+      "empirical_upper_tail_p_full_original_24family_context": 0.031007751937984496,
+      "families_where_removal_most_weakens_full_tail": [
+        {
+          "LOFO_upper_tail_p": 0.11627906976744186,
+          "actual_flips": 5,
+          "excess": 3.6328125,
+          "family": "Fabaceae",
+          "n_pairs": 15,
+          "random_mean": 1.3671875
+        },
+        {
+          "LOFO_upper_tail_p": 0.06976744186046512,
+          "actual_flips": 3,
+          "excess": 2.28125,
+          "family": "Elaeocarpaceae",
+          "n_pairs": 8,
+          "random_mean": 0.71875
+        },
+        {
+          "LOFO_upper_tail_p": 0.06201550387596899,
+          "actual_flips": 3,
+          "excess": 2.078125,
+          "family": "Celastraceae",
+          "n_pairs": 5,
+          "random_mean": 0.921875
+        },
+        {
+          "LOFO_upper_tail_p": 0.046511627906976744,
+          "actual_flips": 2,
+          "excess": 1.5390625,
+          "family": "Arecaceae",
+          "n_pairs": 3,
+          "random_mean": 0.4609375
+        },
+        {
+          "LOFO_upper_tail_p": 0.03875968992248062,
+          "actual_flips": 2,
+          "excess": 1.7421875,
+          "family": "Rubiaceae",
+          "n_pairs": 4,
+          "random_mean": 0.2578125
+        },
+        {
+          "LOFO_upper_tail_p": 0.031007751937984496,
+          "actual_flips": 1,
+          "excess": 0.7421875,
+          "family": "Apiaceae",
+          "n_pairs": 2,
+          "random_mean": 0.2578125
+        },
+        {
+          "LOFO_upper_tail_p": 0.031007751937984496,
+          "actual_flips": 0,
+          "excess": -0.046875,
+          "family": "Apocynaceae",
+          "n_pairs": 6,
+          "random_mean": 0.046875
+        },
+        {
+          "LOFO_upper_tail_p": 0.031007751937984496,
+          "actual_flips": 0,
+          "excess": -0.140625,
+          "family": "Asparagaceae",
+          "n_pairs": 2,
+          "random_mean": 0.140625
+        }
+      ],
+      "family_LOFO_is_posthoc_sensitivity_not_selection_adjusted_inference": true,
+      "family_shared_rank_random_draws": 128,
+      "leave_one_family_out_exploratory_upper_tail_p_max": 0.11627906976744186,
+      "leave_one_family_out_exploratory_upper_tail_p_median": 0.031007751937984496,
+      "leave_one_family_out_exploratory_upper_tail_p_min": 0.007751937984496124,
+      "median_actual_PD_fraction_over_random_mean_all": 0.9911026130386116,
+      "n_families_with_native_supported_pairs": 24,
+      "n_family_deletions_with_p_gt_0_1": 1,
+      "n_family_deletions_with_p_le_0_05": 21,
+      "n_family_deletions_with_p_le_0_1": 23,
+      "n_pair_contexts_with_PD_above_97_5pct_null": 4,
+      "n_pair_contexts_with_PD_below_2_5pct_null": 36,
+      "original_pair_contexts": 142,
+      "random_same_n_K_flips_mean": 14.8203125,
+      "top_families_excess_flips_over_random": [
+        {
+          "LOFO_upper_tail_p": 0.11627906976744186,
+          "actual_flips": 5,
+          "excess": 3.6328125,
+          "family": "Fabaceae",
+          "n_pairs": 15,
+          "random_mean": 1.3671875
+        },
+        {
+          "LOFO_upper_tail_p": 0.06976744186046512,
+          "actual_flips": 3,
+          "excess": 2.28125,
+          "family": "Elaeocarpaceae",
+          "n_pairs": 8,
+          "random_mean": 0.71875
+        },
+        {
+          "LOFO_upper_tail_p": 0.06201550387596899,
+          "actual_flips": 3,
+          "excess": 2.078125,
+          "family": "Celastraceae",
+          "n_pairs": 5,
+          "random_mean": 0.921875
+        },
+        {
+          "LOFO_upper_tail_p": 0.03875968992248062,
+          "actual_flips": 2,
+          "excess": 1.7421875,
+          "family": "Rubiaceae",
+          "n_pairs": 4,
+          "random_mean": 0.2578125
+        },
+        {
+          "LOFO_upper_tail_p": 0.046511627906976744,
+          "actual_flips": 2,
+          "excess": 1.5390625,
+          "family": "Arecaceae",
+          "n_pairs": 3,
+          "random_mean": 0.4609375
+        },
+        {
+          "LOFO_upper_tail_p": 0.031007751937984496,
+          "actual_flips": 4,
+          "excess": 0.9375,
+          "family": "Proteaceae",
+          "n_pairs": 11,
+          "random_mean": 3.0625
+        },
+        {
+          "LOFO_upper_tail_p": 0.031007751937984496,
+          "actual_flips": 1,
+          "excess": 0.7421875,
+          "family": "Apiaceae",
+          "n_pairs": 2,
+          "random_mean": 0.2578125
+        },
+        {
+          "LOFO_upper_tail_p": 0.031007751937984496,
+          "actual_flips": 1,
+          "excess": 0.5078125,
+          "family": "Orchidaceae",
+          "n_pairs": 2,
+          "random_mean": 0.4921875
+        }
+      ]
+    },
+    "prune_only": {
+      "actual_source_qualified_fixed_broad_tree_flips": 13,
+      "among_actual_flipped_pairs_PD_below_2_5pct": 5,
+      "among_actual_nonflipped_pairs_PD_below_2_5pct": 16,
+      "empirical_upper_tail_p_full_original_24family_context": 0.35658914728682173,
+      "families_where_removal_most_weakens_full_tail": [
+        {
+          "LOFO_upper_tail_p": 0.6046511627906976,
+          "actual_flips": 4,
+          "excess": 2.03125,
+          "family": "Poaceae",
+          "n_pairs": 12,
+          "random_mean": 1.96875
+        },
+        {
+          "LOFO_upper_tail_p": 0.5348837209302325,
+          "actual_flips": 4,
+          "excess": 1.4921875,
+          "family": "Proteaceae",
+          "n_pairs": 10,
+          "random_mean": 2.5078125
+        },
+        {
+          "LOFO_upper_tail_p": 0.5116279069767442,
+          "actual_flips": 3,
+          "excess": 1.375,
+          "family": "Fabaceae",
+          "n_pairs": 11,
+          "random_mean": 1.625
+        },
+        {
+          "LOFO_upper_tail_p": 0.4496124031007752,
+          "actual_flips": 1,
+          "excess": 0.8515625,
+          "family": "Elaeocarpaceae",
+          "n_pairs": 8,
+          "random_mean": 0.1484375
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": -0.0859375,
+          "family": "Annonaceae",
+          "n_pairs": 4,
+          "random_mean": 0.0859375
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": -0.0234375,
+          "family": "Apiaceae",
+          "n_pairs": 1,
+          "random_mean": 0.0234375
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": -0.03125,
+          "family": "Apocynaceae",
+          "n_pairs": 4,
+          "random_mean": 0.03125
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": 0.0,
+          "family": "Malvaceae",
+          "n_pairs": 1,
+          "random_mean": 0.0
+        }
+      ],
+      "family_LOFO_is_posthoc_sensitivity_not_selection_adjusted_inference": true,
+      "family_shared_rank_random_draws": 128,
+      "leave_one_family_out_exploratory_upper_tail_p_max": 0.6046511627906976,
+      "leave_one_family_out_exploratory_upper_tail_p_median": 0.35658914728682173,
+      "leave_one_family_out_exploratory_upper_tail_p_min": 0.20930232558139536,
+      "median_actual_PD_fraction_over_random_mean_all": 0.9837419128609436,
+      "n_families_with_native_supported_pairs": 18,
+      "n_family_deletions_with_p_gt_0_1": 18,
+      "n_family_deletions_with_p_le_0_05": 0,
+      "n_family_deletions_with_p_le_0_1": 0,
+      "n_pair_contexts_with_PD_above_97_5pct_null": 5,
+      "n_pair_contexts_with_PD_below_2_5pct_null": 21,
+      "original_pair_contexts": 101,
+      "random_same_n_K_flips_mean": 11.234375,
+      "top_families_excess_flips_over_random": [
+        {
+          "LOFO_upper_tail_p": 0.6046511627906976,
+          "actual_flips": 4,
+          "excess": 2.03125,
+          "family": "Poaceae",
+          "n_pairs": 12,
+          "random_mean": 1.96875
+        },
+        {
+          "LOFO_upper_tail_p": 0.5348837209302325,
+          "actual_flips": 4,
+          "excess": 1.4921875,
+          "family": "Proteaceae",
+          "n_pairs": 10,
+          "random_mean": 2.5078125
+        },
+        {
+          "LOFO_upper_tail_p": 0.5116279069767442,
+          "actual_flips": 3,
+          "excess": 1.375,
+          "family": "Fabaceae",
+          "n_pairs": 11,
+          "random_mean": 1.625
+        },
+        {
+          "LOFO_upper_tail_p": 0.4496124031007752,
+          "actual_flips": 1,
+          "excess": 0.8515625,
+          "family": "Elaeocarpaceae",
+          "n_pairs": 8,
+          "random_mean": 0.1484375
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": 0.0,
+          "family": "Malvaceae",
+          "n_pairs": 1,
+          "random_mean": 0.0
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": 0.0,
+          "family": "Rubiaceae",
+          "n_pairs": 1,
+          "random_mean": 0.0
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": 0.0,
+          "family": "Rutaceae",
+          "n_pairs": 7,
+          "random_mean": 0.0
+        },
+        {
+          "LOFO_upper_tail_p": 0.35658914728682173,
+          "actual_flips": 0,
+          "excess": -0.015625,
+          "family": "Orchidaceae",
+          "n_pairs": 1,
+          "random_mean": 0.015625
+        }
+      ]
+    }
+  },
+  "comparison_preserves_source_qualified_original_fixed_K_pair_population": true,
+  "family_by_native_axis_review_rows": 48,
+  "family_review_csv_sha256": "46365c17ea997253bd9b80718d53614943572b678cfaa14919bfc1e97b00c12f",
+  "multiple_interdependent_pair_and_tree_treatments_not_independent_validation": true,
+  "no_new_plant_biomass_allocation_or_causal_selection_measured": true,
+  "no_source_species_names_or_raw_original_trait_values_exported": true,
+  "number_new_original_trait_observations": 0,
+  "number_original_K_phylogenetic_fits": 0,
+  "original_128_family_correlated_rank_draws_not_recomputed": true,
+  "original_archive_manifest_sha256": "7d38862b219ad3b26da8f100cf5c6143eec29cb888e17fb331ed73c5c373c333",
+  "original_full_null_verdict_sha256": "dddd8ff60b19e2df3a9329329678fefef41c098b335fec5af36466a8d3cd2a1b",
+  "original_post_selected_organ_categories_not_covered_by_family_LOFO": true,
+  "original_run": 43564505854,
+  "status": "PASS_ORIGINAL_142_101_TIP_LOSS_NULL_FAMILY_AND_PHYLOGENETIC_PD_SENSITIVITY_ONLY"
+}

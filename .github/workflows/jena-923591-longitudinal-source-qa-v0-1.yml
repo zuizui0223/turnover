@@ -1,0 +1,67 @@
+name: Jena 923591 longitudinal 41-trait source keys and missingness QA
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py
+      - .github/workflows/jena-923591-longitudinal-source-qa-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py
+      - .github/workflows/jena-923591-longitudinal-source-qa-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source-only QA script and no-effect fixture
+        run: |
+          python3 -m py_compile scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py
+          python3 scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py --self-test
+      - name: Fetch original PANGAEA 2024 ZIPs and independent plot information
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/jena_longitudinal_source
+          python3 - <<'PY'
+          from pathlib import Path
+          import urllib.request,urllib.parse,hashlib
+          d=Path('/tmp/jena_longitudinal_source')
+          files={
+            'predictors_raw.zip':'4af2ccca7b85b7a15b47ace87acfe0386feab79da51d3d5f67b3cf6034442e4b',
+            'biomass02_12.zip':'aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe245ee1e875db',
+            'traits.st.zip':'5ae74c473ff2e36861f137f4fc8a28740725a90dda9e265350fd45bcb38996c5'}
+          for name,digest in files.items():
+            url='https://download.pangaea.de/dataset/923591/files/'+urllib.parse.quote(name)
+            req=urllib.request.Request(url,headers={'User-Agent':'turnover-Jena-decade-source-QA/0.1'})
+            with urllib.request.urlopen(req,timeout=80) as res:
+              raw=res.read(10_000_000)
+            assert len(raw)<10_000_000 and hashlib.sha256(raw).hexdigest()==digest, name
+            (d/name).write_bytes(raw)
+            print('SOURCE_CHECKSUM_PASS',name,len(raw),digest)
+          url='https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt'
+          req=urllib.request.Request(url,headers={'User-Agent':'turnover-Jena-decade-source-QA/0.1'})
+          with urllib.request.urlopen(req,timeout=80) as r:
+            raw=r.read(500000)
+          assert hashlib.sha256(raw).hexdigest()=='7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70'
+          (d/'JenaOriginalPlotInfo.txt').write_bytes(raw)
+          PY
+      - name: Inspect join keys, years, seasons and predeclared FD trait coverage (no effect)
+        run: |
+          python3 scripts/analysis/audit_jena_923591_longitudinal_source_v0_1.py \
+            --predictors /tmp/jena_longitudinal_source/predictors_raw.zip \
+            --biomass /tmp/jena_longitudinal_source/biomass02_12.zip \
+            --traits /tmp/jena_longitudinal_source/traits.st.zip \
+            --plotinfo /tmp/jena_longitudinal_source/JenaOriginalPlotInfo.txt \
+            --out results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_source_qa_v0_1.json
+      - name: Upload nonraw keys and coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-longitudinal-source-only-fd-biomass-qa-v0-1
+          path: results/biomass_jena_2003_source_v0_1/longitudinal_fd_biomass_source_qa_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

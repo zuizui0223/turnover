@@ -1,0 +1,87 @@
+{
+  "version": "v0.1",
+  "date": "2026-11-14",
+  "status": "TIER1_NEON_RELEASE2026_SOURCE_ACCESS_HOLD_ALL_EIGHT_FIXED_SENTINELS_HTTP403",
+  "tier0_catalog": "TIER0_NEON_SHARED_RELEASE_SITE_MONTH_CATALOG_PASS 47 sites 20 domains 424 site×month possibilities",
+  "audited_run": "https://github.com/zuizui0223/turnover/actions/runs/43577609259",
+  "selection_rule": "Fixed four source-available site-months with four distinct ecoregion domains selected from source-only Tier0 metadata before any row opened",
+  "sentinels": [
+    {
+      "domain": "D16",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2024-07",
+      "product": "DP1.10023.001",
+      "site": "ABBY",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D16",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2024-07",
+      "product": "DP1.10058.001",
+      "site": "ABBY",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D01",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2022-07",
+      "product": "DP1.10023.001",
+      "site": "BART",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D01",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2022-07",
+      "product": "DP1.10058.001",
+      "site": "BART",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D02",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2024-05",
+      "product": "DP1.10023.001",
+      "site": "BLAN",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D02",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2024-05",
+      "product": "DP1.10058.001",
+      "site": "BLAN",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D10",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2022-11",
+      "product": "DP1.10023.001",
+      "site": "CPER",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    },
+    {
+      "domain": "D10",
+      "error_class": "HTTPError",
+      "error_detail": "HTTP Error 403: Forbidden",
+      "month": "2022-11",
+      "product": "DP1.10058.001",
+      "site": "CPER",
+      "status": "RELEASE_FILE_MANIFEST_HOLD"
+    }
+  ],
+  "records_downloaded": false,
+  "plot_IDs_compared": false,
+  "biomass_vs_FD_effect_estimated": false,
+  "interpretation": "All four fixed site-month metadata GETs returned 403 for both NEON products. This is access-control or routing failure, NOT evidence of missing ecological observations; confirm official access requirements before any source switch.",
+  "next_allowed": "Seek authorized NEON RELEASE-2026 per-month download through official portal/API credentials without sharing tokens in chat; commit only nonraw plot metadata overlap counts after actual access."
+}

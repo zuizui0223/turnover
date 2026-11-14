@@ -160,7 +160,7 @@ def gift_maps():
         trait_meta[name] = {
             "trait_ID":trait_id, "source_rows":n, "unambiguous_values":len(simple),
             "usable_values":len(accepted_trait),
-            "ambiguous_value_ids_excluded":sum(len(v)>1 for v in values),
+            "ambiguous_value_ids_excluded":sum(len(v)>1 for v in values.values()),
             "validity":"finite positive numeric" if name=="plant_height_max"
                        else "present categorical (not numerical FD)"
         }
@@ -423,7 +423,9 @@ def self_test():
     assert binomial("GenX sp.") is None
     assert finite_number("3.5")==3.5
     assert finite_number("NaN") is None
-    return {"status":"SELF_TEST_PASS","checks":5}
+    synthetic_value_sets={"1234":{"height"}}
+    assert sum(len(v)>1 for v in synthetic_value_sets.values())==0
+    return {"status":"SELF_TEST_PASS","checks":6}
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)

@@ -1,6 +1,33 @@
 # Why does same-DatasetID restriction reverse the original reproductive/vegetative Blomberg K ordering?
 
-**14 November 2026 — original 142/101 paired-source K null test, within the same original public AusTraits v7.0.0 compilation. Original K results and focal paper hypothesis remain unchanged.**
+**14 November 2026 — all 12 original matched-tip K-null batches, independent 142/101 reaggregation, permanent SHA256 archive and whole-family sensitivity audit completed. Exploratory result within the SAME AusTraits v7; original core paper K results unchanged.**
+
+## Verified fixed-tree equal-n null result and family sensitivity (14 November 2026)
+
+[Corrected full 12-batch R/native K null #43564505854 PASS](https://github.com/zuizui0223/turnover/actions/runs/43564505854) and [independent archival #43565522112 PASS](https://github.com/zuizui0223/turnover/actions/runs/43565522112) reproduced all **142 S3 and 101 prune** original source-selected K pairs, original native tree/tip values and 128 seeded same-n family-correlated random-priority draws. Original source broad-to-strict pair K sign reversals remained **23 S3 / 13 prune**; the *actual strict survivor subsets on the FIXED original broad trees* also reversed the exact same 23/13 original pair identities. **All 142/101 original pair-level direction decisions matched historical tree-rebuilt Stage 2 signs**, despite the native K magnitude potentially changing with tree reconstruction.
+
+| Original fixed broad tree | S3 (142) | Native prune (101) |
+| --- | ---: | ---: |
+| Actual source-selected same-n survivor K sign reversals | **23** | **13** |
+| 128 equal-n family-correlated random-draw **mean** K sign reversals | **14.8203** | **11.2344** |
+| Null median reversed comparisons | 15 | 11 |
+| Random-draw total count minimum–maximum | 5–25 | 4–19 |
+| One-sided empirical upper-tail probability of the actual 23/13 count | **0.0310** | **0.3566** |
+
+The 128 random family-wide priorities were conditioned on valid K for both traits: **4 of 3,076 attempted family-level random rank draws** were rejected when a random subset gave zero trait variance, and regenerated at the family level (not independently by trait pair). This conditioning prevents an undefined K from being silently recorded as a biological non-flip. These are **finite Monte Carlo descriptive tail areas**, not preregistered p-values or a new independent ecological validation. Only S3 shows unusual original source-survivor flip counts relative to this particular null; the native prune outcome is compatible with same-n random attrition. **Neither axis demonstrates a universal effect of nonrandom source loss.**
+
+[Family-level leave-one-out and source-survivor phylogenetic diversity (PD) robustness audit #43565935858 PASS](https://github.com/zuizui0223/turnover/actions/runs/43565935858) reconstructed all original 128 shared-family null draws from the permanent SHA256 archive, adding NO new K estimates, original species, traits or nonfrozen source subsets:
+
+- **S3:** 21/24 leave-one-family-out descriptive upper-tail probabilities remain ≤0.05. Deleting Fabaceae removes five actual flips vs 1.367 expected from matched-n random ranks and weakens the exploratory tail to **0.1163**. Removing Elaeocarpaceae or Celastraceae yields **0.0698** or **0.0620**. The S3 signal therefore involves multiple plant families but remains **sensitive to the contribution of particular taxa/families**. It is not a fully family-robust universal comparison.
+- **Native prune:** none of 18 leave-one-family-out subsets has a descriptive upper-tail probability ≤0.05. Removing Poaceae, Proteaceae or Fabaceae gives 0.6047, 0.5349, or 0.5116.
+- **Phylogenetic diversity:** actual source-selected subset branch-length fraction lies **below the matched-size random 2.5th percentile in 36/142 S3 and 21/101 prune original pair contexts** (above the 97.5th percentile in four/five). But only **6 of 23 S3 flips** and **5 of 13 prune flips** fall in those low-PD groups. Branch-length loss is nonrandom in many source-subsets without directly explaining K rank inversions. The pairs/families and two native trees overlap and are NOT independent phylogenetic replicates.
+- In the original 142/101 cohorts, median actual survivor PD relative to random expected PD was **0.9911 S3** and **0.9837 prune**; most deviations are modest but some extreme original source filters target phylogenetically concentrated survivors.
+
+**What has been distinguished:** Simply deleting the same number of source-eligible original tips can readily produce K flips, but the S3 source-selected survivor identities produce more flips than this conditional equal-n randomization would typically yield. This discrepancy is source-/family-/tree-context dependent. It **does not isolate which clades, woody/annual life histories, plant height/biomass, trait-state heterogeneity, source measurement error, evolutionary rates or selection** produce the outcome. Those require explicit lineage/location/life-form contrasts or prospective independent measurements. The original reproductive organ categories were chosen post hoc, and 128 simulations give limited p-value resolution.
+
+Permanent source-only evidence and exact scripts:
+- [Original 142/101 fixed-tree null SHA256 archive](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_public_v7_tip_loss_null_v0_1)
+- [Original family leave-one-out/PD SHA256 audit](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_original_tip_loss_family_PD_robustness_v0_1)
 
 ## Completed observational evidence BEFORE this new null
 
@@ -41,4 +68,4 @@ Primary diagnostics per native axis:
 
 [Original public GIFT 3.1 exact-name and woodiness/height coverage #43562257361 PASS](https://github.com/zuizui0223/turnover/actions/runs/43562257361) had 13,848/15,305 (90.5%) names matched in original 254 species, 12,384/13,436 (92.2%) in original 760, 3,409/3,625 (94.0%) in strict 142. The conditional null should first identify whether actually retained species are unusual relative to equal-n random pruning. Only then link *original species identity* to woodiness, growth form, height, branch/genus placement or independently measured biomass, under source overlap and rights checks. GIFT height and single-seed dry mass are **not** whole plant biomass or reproductive biomass allocation. TRY v7 row retrieval/independent-study claims require actual applicable access, permission, provenance and citation checks; no restricted TRY source rows were used here.
 
-**Current execution status is to be read from GitHub Actions, not inferred from a launched workflow.** A separate archive workflow is staged, but may only be triggered if all original 12 K-null batches and final 142/101 aggregate finish PASS. Draft PR #38 remains unmerged and not submitted.
+**Status:** Corrected full null, independent 142/101 final aggregation, permanent archive and original-family/PD sensitivity audit are all completed PASS as linked above. The failed original run #43563549840 was superseded by corrected #43564505854 after conditional zero-variance handling. This follow-up is exploratory and does not alter the paper's original observation or authorize peer-reviewed submission. Draft PR #38 remains unmerged and unsubmitted.

@@ -1,0 +1,62 @@
+{
+  "axes": {
+    "S3": {
+      "actual_strict_survivors_on_fixed_broad_tree_K_flips": 23,
+      "empirical_lower_tail_p_actual_fixed_tree_flips": 0.9922480620155039,
+      "empirical_upper_tail_p_actual_fixed_tree_flips": 0.031007751937984496,
+      "family_correlated_null_sampling_same_species_priorities_within_family": true,
+      "mean_family_correlated_random_taxon_loss_K_flips": 14.8203125,
+      "median_family_correlated_random_K_flips": 15.0,
+      "median_null_flip_probability_of_historically_reversed_pairs": 0.2578125,
+      "null_draws": 128,
+      "original_frozen_strict_K_pairs": 142,
+      "original_historical_broad_to_strict_tree_rebuilt_K_flips": 23,
+      "original_same_source_phenotype_values_and_broad_tree_kept_fixed": true,
+      "range_random_K_flip_counts": [
+        5,
+        25
+      ],
+      "stage2_rebuilt_tree_not_equated_to_broad_tree_pruning": true,
+      "sum_individual_pair_null_flip_probability": 14.8203125
+    },
+    "prune_only": {
+      "actual_strict_survivors_on_fixed_broad_tree_K_flips": 13,
+      "empirical_lower_tail_p_actual_fixed_tree_flips": 0.7674418604651163,
+      "empirical_upper_tail_p_actual_fixed_tree_flips": 0.35658914728682173,
+      "family_correlated_null_sampling_same_species_priorities_within_family": true,
+      "mean_family_correlated_random_taxon_loss_K_flips": 11.234375,
+      "median_family_correlated_random_K_flips": 11.0,
+      "median_null_flip_probability_of_historically_reversed_pairs": 0.25,
+      "null_draws": 128,
+      "original_frozen_strict_K_pairs": 101,
+      "original_historical_broad_to_strict_tree_rebuilt_K_flips": 13,
+      "original_same_source_phenotype_values_and_broad_tree_kept_fixed": true,
+      "range_random_K_flip_counts": [
+        4,
+        19
+      ],
+      "stage2_rebuilt_tree_not_equated_to_broad_tree_pruning": true,
+      "sum_individual_pair_null_flip_probability": 11.234375
+    }
+  },
+  "family_clustered_random_priority_across_overlapping_original_pairs": true,
+  "n_null_draws": 128,
+  "n_original_family_clusters": 24,
+  "n_original_fixed_batches": 12,
+  "n_rejected_candidate_family_rank_draws_due_to_undefined_K": 4,
+  "n_total_candidate_family_rank_draws": 3076,
+  "no_K_source_data_or_GIFT_or_TRY_raw_trait_measurements_exported": true,
+  "no_independent_per_pair_redraws_that_break_family_dependence": true,
+  "not_a_plant_biomass_or_natural_selection_causal_test": true,
+  "null_distribution_conditioned_on_K_estimable_across_each_original_family": true,
+  "null_null_sampling_contingent_on_original_broad_phylogenetic_tree": true,
+  "null_seed": 20261114,
+  "number_original_family_trait_pairs": 142,
+  "original_K_original_native_phylogeny_reconstructed_from_public_v7": true,
+  "original_post_K_organ_grouping_and_selection_bias_unchanged": true,
+  "original_prune_supported_pair_ids": 101,
+  "original_source_parquet_SHA256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "public_source_release": "AusTraits v7.0.0",
+  "randomization_tests_conditional_on_fixed_taxa_numbers_not_independent_empirical_validation": true,
+  "status": "PASS_ORIGINAL_142_101_BROAD_TREE_FIXED_SIZE_MATCHED_TIP_LOSS_NULL"
+}

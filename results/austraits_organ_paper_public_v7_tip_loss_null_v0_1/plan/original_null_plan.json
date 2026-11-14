@@ -1,0 +1,111 @@
+{
+  "all_family_pairs_in_one_batch": true,
+  "batch_profiles": {
+    "P01": {
+      "family_labels": [
+        "Fabaceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 15
+    },
+    "P02": {
+      "family_labels": [
+        "Poaceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 12
+    },
+    "P03": {
+      "family_labels": [
+        "Proteaceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 11
+    },
+    "P04": {
+      "family_labels": [
+        "Asteraceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 4
+    },
+    "P05": {
+      "family_labels": [
+        "Rutaceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 9
+    },
+    "P06": {
+      "family_labels": [
+        "Apocynaceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 6
+    },
+    "P07": {
+      "family_labels": [
+        "Euphorbiaceae"
+      ],
+      "n_families": 1,
+      "n_original_pairs": 8
+    },
+    "P08": {
+      "family_labels": [
+        "Rubiaceae",
+        "Lauraceae",
+        "Annonaceae"
+      ],
+      "n_families": 3,
+      "n_original_pairs": 10
+    },
+    "P09": {
+      "family_labels": [
+        "Cyperaceae",
+        "Sapotaceae",
+        "Arecaceae",
+        "Cucurbitaceae"
+      ],
+      "n_families": 4,
+      "n_original_pairs": 18
+    },
+    "P10": {
+      "family_labels": [
+        "Phyllanthaceae",
+        "Orchidaceae",
+        "Celastraceae"
+      ],
+      "n_families": 3,
+      "n_original_pairs": 15
+    },
+    "P11": {
+      "family_labels": [
+        "Malvaceae",
+        "Moraceae",
+        "Rhamnaceae"
+      ],
+      "n_families": 3,
+      "n_original_pairs": 14
+    },
+    "P12": {
+      "family_labels": [
+        "Solanaceae",
+        "Elaeocarpaceae",
+        "Apiaceae",
+        "Asparagaceae"
+      ],
+      "n_families": 4,
+      "n_original_pairs": 20
+    }
+  },
+  "families": 24,
+  "no_original_data_downloaded_for_plan": true,
+  "null_draws_per_family_replicate": 128,
+  "number_of_batches": 12,
+  "original_prune_native_supported_pairs": 101,
+  "original_qualified_pairs": 142,
+  "shared_family_species_priority_seed": 20261114,
+  "source": "original public AusTraits v7 142-pair K-blind source cohort",
+  "source_K_outcomes_not_used_to_select_pairs": true,
+  "status": "PASS_K_BLIND_ORIGINAL_142_PAIRS_TIP_LOSS_NULL_FIXED_BATCHES"
+}

@@ -34,3 +34,11 @@ Only after the primary source gate: independently measured plot-level abovegroun
 
 ## Next allowed operations
 Execute the source-geometry preflight in `scripts/analysis/pd_fd_source_gate_v0_1.py` on source-native data after provenance-preserving normalization; make a one-page coverage report. Only a PASS authorizes real FD calculation and time/space/family transport testing. Keep the present frozen papers unchanged.
+
+## Verified source audit checkpoint — 14 November 2026
+
+- Original official iDiv ZIP `3474?version=5047`: HTTP 500 twice from Actions; the failure was transport, not an ecological gate. No attempt to silently call that file verified.
+- Alternative version explicitly pinned: public Git LFS mirror `ezequielscott/sPlotOpen` commit `1bfcad669ae1a7e6f0a419159dd3051e83bdd26b` (manifest dataset version 5806). The mirror is **not** asserted identical to the failed official v5047 archive.
+- Successful source-only [GitHub Actions #43571467971](https://github.com/zuizui0223/turnover/actions/runs/43571467971): original sPlotOpen composition has **1,943,306 rows** and **95,104 unique plot IDs**. The header and gap-filled CWM/CWV each contain **95,104 rows**. Composition fields: `PlotObservationID, Species, Original_species, Original_abundance, Abundance_scale, Relative_cover`. Header provides `Dataset, Biome, Releve_area, Latitude, Longitude, is_forest, PlotObservationID`, enabling appropriate quality controls.
+- SHA256 of **temporary three-file mirror packaging**, not the official ZIP: `f593719ea187a660fdc1d2c41e5516445cb8581655d84f4b1b2c028eeb4778a6`. Inspect exact member metadata in `results/pd_fd_source_gate_v0_1/splotopen_mirror_schema_probe.json`. No underlying raw public rows committed.
+- **This is an actual source-table availability PASS, not a functional-diversity or biomass finding.** The plot×family×trait eligibility gate still requires an accepted-name/family crosswalk, original trait-source audit and valid native phylogenetic tips.

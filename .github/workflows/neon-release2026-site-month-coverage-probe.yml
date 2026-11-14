@@ -1,0 +1,48 @@
+name: NEON RELEASE-2026 herb biomass and species cover site-month support probe
+on:
+  push:
+    branches: [analysis/neon-multisite-biomass-coverage-gate-20261114]
+    paths:
+      - .github/workflows/neon-release2026-site-month-coverage-probe.yml
+  pull_request:
+    paths:
+      - .github/workflows/neon-release2026-site-month-coverage-probe.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin NEON public released product site-time metadata without site observations
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.parse,urllib.error,json,hashlib
+          products=["DP1.10023.001","DP1.10058.001"]
+          reports={}
+          for prod in products:
+              url="https://data.neonscience.org/api/v0/products/"+prod+"?release=RELEASE-2026"
+              req=urllib.request.Request(url,headers={"Accept":"application/json","User-Agent":"turnover-NEON-source-preflight/0.1"})
+              with urllib.request.urlopen(req,timeout=80) as response:
+                  raw=response.read(12_000_000)
+                  code=response.status
+              data=json.loads(raw)
+              body=data.get("data",data)
+              def schematic(x):
+                  if isinstance(x,dict):
+                      return {k:(len(v) if isinstance(v,(list,dict)) else str(v)[:90]) for k,v in x.items()}
+                  if isinstance(x,list):
+                      return {"n":len(x),"first_keys":list(x[0])[:30] if x and isinstance(x[0],dict) else []}
+                  return {"type":type(x).__name__}
+              summary={"product":prod,"http_status":code,"bytes":len(raw),
+                       "sha256":hashlib.sha256(raw).hexdigest(),
+                       "root_keys":list(data) if isinstance(data,dict) else [],
+                       "data_summary":schematic(body),
+                       "site_first_example": (body.get("siteCodes",[None])[0] if isinstance(body,dict) and body.get("siteCodes") else None),
+                       "site_details_example": (list(body.get("siteAvailability",[])[0].keys()) if isinstance(body,dict) and body.get("siteAvailability") else None)}
+              print("NEON_RELEASE2026_SOURCE_PRODUCT",json.dumps(summary,ensure_ascii=False,sort_keys=True))
+              reports[prod]=summary
+          assert set(reports)==set(products)
+          PY

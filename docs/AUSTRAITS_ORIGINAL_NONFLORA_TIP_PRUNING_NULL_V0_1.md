@@ -29,6 +29,26 @@ Permanent source-only evidence and exact scripts:
 - [Original 142/101 fixed-tree null SHA256 archive](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_public_v7_tip_loss_null_v0_1)
 - [Original family leave-one-out/PD SHA256 audit](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_original_tip_loss_family_PD_robustness_v0_1)
 
+## Native tree reconstruction is numerically equivalent to broad-tree pruning for the original source survivors
+
+[Independent original K native-tree parity, PD and plant-stature audit #43566078839 PASS](https://github.com/zuizui0223/turnover/actions/runs/43566078839), committed at [original derived audit results](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_tip_loss_null_context_v0_1), checked all 142 S3 and 101 native-prune original K comparisons against the original 128-draw archive and exact source SHA256.
+
+**A key technical identification:** On precisely the original strict-source survivor taxa, the historically regenerated narrower V.PhyloMaker2 tree K and K computed by taking the original BROAD tree then pruning it to the very same native tips are numerically equivalent, not merely directionally the same:
+
+| Original source-native K treatment | S3 (n=142) | Native prune (n=101) |
+| --- | ---: | ---: |
+| Original regenerated strict tree vs original broad-tree pruned to same actual survivor tips: sign disagreements | **0** | **0** |
+| Maximum absolute original reproductive-minus-vegetative log K contrast difference between those two tree procedures | **4.02 × 10⁻⁹** | **5.00 × 10⁻¹⁶** |
+| Median absolute log K contrast difference | **0** | **0** |
+| Original source-qualification survivors with retained branch length below random equal-n PD 2.5th percentile | **36/142** | **21/101** |
+| Of the original K sign-flipping pairs, number in those low-PD subsets | **6/23** | **5/13** |
+
+**Interpretation:** This directly removes an important ambiguity in THIS original experiment: there is no detectable *extra* K ranking change from regenerating the strict native trees beyond simply pruning the original broad native trees to the strict survivor tip set. Nonetheless, pruning any tree necessarily changes its retained lineage/branch covariance and Blomberg K normalization, so species *identity* and its phylogenetic placement cannot be separated just by showing those tree constructions agree.
+
+Original plant_height as vegetative comparator: S3 **13 observed flips among 57 pairs** versus **6.421875 expected** across the original 128 family-correlated equal-n draws; prune **7 among 42** versus **3.7265625 expected**. Other vegetative comparison contexts: S3 **10 observed / 8.3984375 expected** (85 pairs), prune **6 observed / 7.5078125 expected** (59 pairs). These size/stature observations are post hoc, correlated and not corrected for multiple trait/family comparisons. **Plant height is not total plant biomass** and neither this audit nor GIFT/TRY linkage directly quantifies reproductive allocation.
+
+**Subgroup interpretation is deliberately conservative:** Only 6 of the 23 S3 original flips had actual survivor PD below the pair-specific random 2.5th percentile, so low PD is a recurring feature of source restriction but cannot itself account for most of the rank inversions by a simple low-PD threshold. The original S3 whole-family LOFO upper-tail 0.1163 after dropping Fabaceae means the suggestive original full-cohort upper-tail 0.0310 is not a universal family-robust directional discovery. No independent data source or mechanistic evolutionary selection test was added.
+
 ## Completed observational evidence BEFORE this new null
 
 The original 142 S3 / 101 native-prune fixed family×named trait pair identities have original broad/strict K rankings fully numerically reproduced from the same AusTraits v7.0.0 Parquet, native units and pinned Rcpp/phytools K. Source-only restriction changed original broader nonflora source species/tips/native geometry together:

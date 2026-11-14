@@ -1,0 +1,243 @@
+{
+  "GIFT_woodiness_does_not_equal_direct_biomass": true,
+  "archive_CI_run": 43565522112,
+  "family_candidates_rejected_for_undefined_K": 4,
+  "family_candidates_tested_for_valid_K": 3076,
+  "human_journal_submission_approval_given": false,
+  "new_phylogenetic_K_fits_in_this_summary": 0,
+  "null_draws_family_correlated": 128,
+  "original_plant_traits_and_broad_native_tree_fixed": true,
+  "original_source_sha256": "7d38862b219ad3b26da8f100cf5c6143eec29cb888e17fb331ed73c5c373c333",
+  "phylogenetic_axes": {
+    "S3": {
+      "max_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK": 4.019216071071696e-09,
+      "median_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK": 0.0,
+      "n_actual_fixed_broad_tree_strict_survivor_K_flips": 23,
+      "n_actual_flip_pairs_with_PD_below_random_2point5percent": 6,
+      "n_actual_flip_pairs_with_per_pair_source_shift_tail_prob_0point05_or_smaller": 9,
+      "n_actual_retained_phylogenetic_branch_length_above_random_97point5percent": 4,
+      "n_actual_retained_phylogenetic_branch_length_below_random_2point5percent": 36,
+      "n_original_historical_stage1_to_stage2_K_flips": 23,
+      "n_original_strict_rebuilt_tree_vs_fixed_broad_pruned_tree_sign_disagreements": 0,
+      "n_per_pair_source_shift_tail_prob_0point05_or_smaller": 20,
+      "original_eligible_family_trait_pair_ids": 142,
+      "original_family_clusters": 24,
+      "original_source_sensitivity_and_family_trait_pair_reuse_posthoc": true,
+      "other_vegetative_trait_context": {
+        "actual_flip_count": 10,
+        "expected_equal_n_random_flip_count": 8.3984375,
+        "n_original_pairs": 85
+      },
+      "plant_height_context": {
+        "actual_flip_count": 13,
+        "expected_equal_n_random_flip_count": 6.421875,
+        "n_original_pairs": 57
+      },
+      "top_family_excess_flips_over_size_matched_null": [
+        {
+          "actual_fixed_tree_flips": 5,
+          "excess_vs_size_matched_random": 3.6328125,
+          "expected_random_equal_n_flips": 1.3671875,
+          "family": "Fabaceae",
+          "n_original_pairs": 15
+        },
+        {
+          "actual_fixed_tree_flips": 3,
+          "excess_vs_size_matched_random": 2.28125,
+          "expected_random_equal_n_flips": 0.71875,
+          "family": "Elaeocarpaceae",
+          "n_original_pairs": 8
+        },
+        {
+          "actual_fixed_tree_flips": 3,
+          "excess_vs_size_matched_random": 2.078125,
+          "expected_random_equal_n_flips": 0.921875,
+          "family": "Celastraceae",
+          "n_original_pairs": 5
+        },
+        {
+          "actual_fixed_tree_flips": 2,
+          "excess_vs_size_matched_random": 1.7421875,
+          "expected_random_equal_n_flips": 0.2578125,
+          "family": "Rubiaceae",
+          "n_original_pairs": 4
+        },
+        {
+          "actual_fixed_tree_flips": 2,
+          "excess_vs_size_matched_random": 1.5390625,
+          "expected_random_equal_n_flips": 0.4609375,
+          "family": "Arecaceae",
+          "n_original_pairs": 3
+        },
+        {
+          "actual_fixed_tree_flips": 4,
+          "excess_vs_size_matched_random": 0.9375,
+          "expected_random_equal_n_flips": 3.0625,
+          "family": "Proteaceae",
+          "n_original_pairs": 11
+        },
+        {
+          "actual_fixed_tree_flips": 1,
+          "excess_vs_size_matched_random": 0.7421875,
+          "expected_random_equal_n_flips": 0.2578125,
+          "family": "Apiaceae",
+          "n_original_pairs": 2
+        },
+        {
+          "actual_fixed_tree_flips": 1,
+          "excess_vs_size_matched_random": 0.5078125,
+          "expected_random_equal_n_flips": 0.4921875,
+          "family": "Orchidaceae",
+          "n_original_pairs": 2
+        },
+        {
+          "actual_fixed_tree_flips": 1,
+          "excess_vs_size_matched_random": 0.4375,
+          "expected_random_equal_n_flips": 0.5625,
+          "family": "Lauraceae",
+          "n_original_pairs": 2
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": 0.0,
+          "expected_random_equal_n_flips": 0.0,
+          "family": "Cucurbitaceae",
+          "n_original_pairs": 2
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": 0.0,
+          "expected_random_equal_n_flips": 0.0,
+          "family": "Malvaceae",
+          "n_original_pairs": 4
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": 0.0,
+          "expected_random_equal_n_flips": 0.0,
+          "family": "Rhamnaceae",
+          "n_original_pairs": 2
+        }
+      ]
+    },
+    "prune_only": {
+      "max_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK": 4.996003610813204e-16,
+      "median_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK": 0.0,
+      "n_actual_fixed_broad_tree_strict_survivor_K_flips": 13,
+      "n_actual_flip_pairs_with_PD_below_random_2point5percent": 5,
+      "n_actual_flip_pairs_with_per_pair_source_shift_tail_prob_0point05_or_smaller": 2,
+      "n_actual_retained_phylogenetic_branch_length_above_random_97point5percent": 5,
+      "n_actual_retained_phylogenetic_branch_length_below_random_2point5percent": 21,
+      "n_original_historical_stage1_to_stage2_K_flips": 13,
+      "n_original_strict_rebuilt_tree_vs_fixed_broad_pruned_tree_sign_disagreements": 0,
+      "n_per_pair_source_shift_tail_prob_0point05_or_smaller": 11,
+      "original_eligible_family_trait_pair_ids": 101,
+      "original_family_clusters": 18,
+      "original_source_sensitivity_and_family_trait_pair_reuse_posthoc": true,
+      "other_vegetative_trait_context": {
+        "actual_flip_count": 6,
+        "expected_equal_n_random_flip_count": 7.5078125,
+        "n_original_pairs": 59
+      },
+      "plant_height_context": {
+        "actual_flip_count": 7,
+        "expected_equal_n_random_flip_count": 3.7265625,
+        "n_original_pairs": 42
+      },
+      "top_family_excess_flips_over_size_matched_null": [
+        {
+          "actual_fixed_tree_flips": 4,
+          "excess_vs_size_matched_random": 2.03125,
+          "expected_random_equal_n_flips": 1.96875,
+          "family": "Poaceae",
+          "n_original_pairs": 12
+        },
+        {
+          "actual_fixed_tree_flips": 4,
+          "excess_vs_size_matched_random": 1.4921875,
+          "expected_random_equal_n_flips": 2.5078125,
+          "family": "Proteaceae",
+          "n_original_pairs": 10
+        },
+        {
+          "actual_fixed_tree_flips": 3,
+          "excess_vs_size_matched_random": 1.375,
+          "expected_random_equal_n_flips": 1.625,
+          "family": "Fabaceae",
+          "n_original_pairs": 11
+        },
+        {
+          "actual_fixed_tree_flips": 1,
+          "excess_vs_size_matched_random": 0.8515625,
+          "expected_random_equal_n_flips": 0.1484375,
+          "family": "Elaeocarpaceae",
+          "n_original_pairs": 8
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": 0.0,
+          "expected_random_equal_n_flips": 0.0,
+          "family": "Rutaceae",
+          "n_original_pairs": 7
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": 0.0,
+          "expected_random_equal_n_flips": 0.0,
+          "family": "Rubiaceae",
+          "n_original_pairs": 1
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": 0.0,
+          "expected_random_equal_n_flips": 0.0,
+          "family": "Malvaceae",
+          "n_original_pairs": 1
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": -0.015625,
+          "expected_random_equal_n_flips": 0.015625,
+          "family": "Orchidaceae",
+          "n_original_pairs": 1
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": -0.0234375,
+          "expected_random_equal_n_flips": 0.0234375,
+          "family": "Apiaceae",
+          "n_original_pairs": 1
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": -0.03125,
+          "expected_random_equal_n_flips": 0.03125,
+          "family": "Apocynaceae",
+          "n_original_pairs": 4
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": -0.0625,
+          "expected_random_equal_n_flips": 0.0625,
+          "family": "Moraceae",
+          "n_original_pairs": 6
+        },
+        {
+          "actual_fixed_tree_flips": 0,
+          "excess_vs_size_matched_random": -0.0859375,
+          "expected_random_equal_n_flips": 0.0859375,
+          "family": "Annonaceae",
+          "n_original_pairs": 4
+        }
+      ]
+    }
+  },
+  "posthoc_multiple_testing_correction_not_performed": true,
+  "posthoc_subgroup_plant_height_not_preregistered": true,
+  "raw_species_trait_measurements_dataset_rows_exported": false,
+  "real_phylogenetic_original_data_repeated_not_new_independent_biology": true,
+  "source_original_142_101_K_null_CI_run": 43564505854,
+  "source_survivors_clustering_PD_outside_null_only_descriptive": true,
+  "status": "PASS_SOURCE_FIXED_142_101_TIP_LOSS_NULL_PD_STATURE_AND_TREE_REBUILD_DESCRIPTION",
+  "two_trees_and_repeated_trait_pairs_not_independent": true
+}

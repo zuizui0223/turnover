@@ -97,7 +97,7 @@ def gift_lookup():
         for row in paged("traits", max_rows=500000,
                          traitid=id_, biasref=0, biasderiv=0):
             work_id = str(row.get("work_ID") or "")
-            val = str(row.get("trait_value") or "").strip()
+            val = str(row.get("trait_value") if row.get("trait_value") is not None else "").strip()
             if work_id and val:
                 by_id[work_id].add(val)
             nrows += 1

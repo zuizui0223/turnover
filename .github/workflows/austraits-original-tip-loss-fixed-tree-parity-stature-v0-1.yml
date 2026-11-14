@@ -1,0 +1,89 @@
+name: Original AusTraits 142/101 fixed K tree parity and plant stature descriptive audit v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-original-tip-loss-fixed-tree-parity-stature-v0-1.yml
+      - scripts/analysis/audit_austraits_original_tip_loss_mechanism_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  original-fixed-K-parity-and-stature-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Independently calculate original rebuilt tree versus broad-pruned K, and PD/height contexts
+        run: |
+          python scripts/analysis/audit_austraits_original_tip_loss_mechanism_v0_1.py \
+            --out results/austraits_organ_paper_tip_loss_null_context_v0_1/original_tip_loss_mechanism_context_verdict.json
+      - name: Verify original 142/101 K source, exact native-tree sign parity and noncausal status
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          p=Path('results/austraits_organ_paper_tip_loss_null_context_v0_1/original_tip_loss_mechanism_context_verdict.json')
+          m=json.loads(p.read_text())
+          assert m['status']=='PASS_SOURCE_FIXED_142_101_TIP_LOSS_NULL_PD_STATURE_AND_TREE_REBUILD_DESCRIPTION'
+          assert m['source_original_142_101_K_null_CI_run']==43564505854
+          assert m['archive_CI_run']==43565522112
+          assert m['null_draws_family_correlated']==128
+          assert m['family_candidates_tested_for_valid_K']==3076
+          assert m['family_candidates_rejected_for_undefined_K']==4
+          for axis,n,expected_flips,pd_low,height_n,height_flip in (
+              ('S3',142,23,36,57,13),('prune_only',101,13,21,42,7)):
+              x=m['phylogenetic_axes'][axis]
+              assert x['original_eligible_family_trait_pair_ids']==n
+              assert x['n_actual_fixed_broad_tree_strict_survivor_K_flips']==expected_flips
+              assert x['n_original_historical_stage1_to_stage2_K_flips']==expected_flips
+              assert x['n_original_strict_rebuilt_tree_vs_fixed_broad_pruned_tree_sign_disagreements']==0
+              assert math.isfinite(x['max_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK'])
+              assert x['max_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK']<1e-7
+              assert x['n_actual_retained_phylogenetic_branch_length_below_random_2point5percent']==pd_low
+              assert x['plant_height_context']['n_original_pairs']==height_n
+              assert x['plant_height_context']['actual_flip_count']==height_flip
+          assert m['source_survivors_clustering_PD_outside_null_only_descriptive'] is True
+          assert m['posthoc_subgroup_plant_height_not_preregistered'] is True
+          assert m['posthoc_multiple_testing_correction_not_performed'] is True
+          assert m['two_trees_and_repeated_trait_pairs_not_independent'] is True
+          assert m['new_phylogenetic_K_fits_in_this_summary']==0
+          assert m['raw_species_trait_measurements_dataset_rows_exported'] is False
+          assert m['human_journal_submission_approval_given'] is False
+          print('PASS_ORIGINAL_TIP_LOSS_FIXED_TREE_STRICT_TREE_K_PARITY_WITH_PD_STATURE_CAVEATS')
+          print(json.dumps({ax:{'n':z['original_eligible_family_trait_pair_ids'],
+            'original_stage2_tree_vs_broad_pruned_max_abs_logK':
+               z['max_abs_original_stage2_strict_rebuilt_minus_broad_prune_logK'],
+            'PD_low':z['n_actual_retained_phylogenetic_branch_length_below_random_2point5percent'],
+            'height':z['plant_height_context']}
+            for ax,z in m['phylogenetic_axes'].items()},sort_keys=True))
+          PY
+      - name: Commit only original-derived audit JSON with safe concurrent branch update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_tip_loss_null_context_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_TIP_K_PARITY_PD_STATURE_CONTEXT_ALREADY_MATCHED
+          else
+            git commit -m "Preserve original K fixed broad/pruned tree parity and descriptive PD/stature null context"
+            for attempt in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo ORIGINAL_TIP_K_PARITY_CONTEXT_PERSISTED
+                exit 0
+              fi
+            done
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-K-fixed-native-tree-parity-PD-stature-v0-1
+          path: results/austraits_organ_paper_tip_loss_null_context_v0_1/
+          retention-days: 90
+          if-no-files-found: error

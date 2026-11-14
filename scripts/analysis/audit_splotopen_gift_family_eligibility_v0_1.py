@@ -107,6 +107,7 @@ def gift_maps():
     if len(taxonomy) != EXPECTED["gift_taxonomy"]:
         raise ValueError("GIFT 3.1 taxonomy count differs from frozen snapshot")
     genus_family, tax_summary = family_index(taxonomy)
+    raw_accepted_ids = defaultdict(set)
     accepted_ids = defaultdict(set)
     accepted_families = defaultdict(set)
     genus_families = defaultdict(set)
@@ -118,6 +119,8 @@ def gift_maps():
         genus = normal(row.get("work_genus"))
         work_id = str(row.get("work_ID") or "")
         genus_id = str(row.get("genus_ID") or "")
+        if species and work_id:
+            raw_accepted_ids[species].add(work_id)
         family = genus_family.get(genus_id)
         if not family:
             species_missing_family += 1
@@ -133,6 +136,7 @@ def gift_maps():
                 for s,ids in accepted_ids.items()
                 if len(ids)==1 and len(accepted_families[s])==1}
     genus = {g:next(iter(fs)) for g,fs in genus_families.items() if len(fs)==1}
+    name_only = {s for s,ids in raw_accepted_ids.items() if len(ids)==1}
     data = {}
     trait_meta = {}
     for name, trait_id in TRAITS.items():
@@ -164,8 +168,9 @@ def gift_maps():
                                    "gift_species_records":species_n,
                                    "species_without_family":species_missing_family,
                                    "unique_accepted_species_family":len(accepted),
+                                   "unique_accepted_name_only":len(name_only),
                                    "unique_genus_family":len(genus),
-                                   "traits":trait_meta}
+                                   "traits":trait_meta}, name_only
 
 def read_core(path):
     with open(path, newline="", encoding="utf-8-sig") as f:
@@ -208,12 +213,14 @@ def read_species(z):
                          errors="replace",newline="")
     return raw,csv.DictReader(raw,delimiter="\t")
 
-def audit(archive,core,accepted,genus,traits,gift_summary):
+def audit(archive,core,accepted,genus,traits,gift_summary,name_only):
     with zipfile.ZipFile(archive) as z:
         plot_meta=read_plots(z)
         handle,records=read_species(z)
         seen_binomial=set()
+        seen_name_only=set()
         seen_exact=set()
+        name_matches_missing_family=set()
         unmatched_with_genus=set()
         unmatched_unknown_genus=set()
         family_exact_species=defaultdict(set)
@@ -242,6 +249,10 @@ def audit(archive,core,accepted,genus,traits,gift_summary):
                 s=binomial(row.get("Species"))
                 if s:
                     seen_binomial.add(s)
+                    if s in name_only:
+                        seen_name_only.add(s)
+                    if s in name_only and s not in accepted:
+                        name_matches_missing_family.add(s)
                 if w is None or w<=0:
                     continue
                 plot_cover[p]+=w
@@ -260,10 +271,12 @@ def audit(archive,core,accepted,genus,traits,gift_summary):
                     fam=genus.get(s.split()[0])
                     work=None
                     if fam:
-                        unmatched_with_genus.add(s)
-                        family_unmatched_species[fam].add(s)
+                        if s not in name_only:
+                            unmatched_with_genus.add(s)
+                            family_unmatched_species[fam].add(s)
                     else:
-                        unmatched_unknown_genus.add(s)
+                        if s not in name_only:
+                            unmatched_unknown_genus.add(s)
                         plot_unknown_family_cover[p]+=w
                         continue
                 key=(p,fam)
@@ -280,9 +293,9 @@ def audit(archive,core,accepted,genus,traits,gift_summary):
             handle.close()
     if n_rows!=EXPECTED["splot_rows"] or len(seen_binomial)!=EXPECTED["splot_binomials"]:
         raise ValueError("Source DT identity unexpectedly changed")
-    if len(seen_exact)!=EXPECTED["splot_exact"]:
-        raise ValueError(f"Exact name identity differs from first GIFT 3.1 audit: {len(seen_exact)}")
-    if len(seen_binomial)-len(seen_exact)!=4907:
+    if len(seen_name_only)!=EXPECTED["splot_exact"]:
+        raise ValueError(f"Exact name-only identity differs from first GIFT 3.1 audit: {len(seen_name_only)}")
+    if len(seen_binomial)-len(seen_name_only)!=4907:
         raise ValueError("Frozen unmatched binomial count changed")
     for p,total in plot_cover.items():
         biome = plot_meta[p][1] or "(unlabelled)"
@@ -339,10 +352,12 @@ def audit(archive,core,accepted,genus,traits,gift_summary):
         "splot_unique_plots":len(plot_meta),
         "splot_composition_rows":n_rows,
         "splot_binomial_species":len(seen_binomial),
-        "splot_exact_gift_species":len(seen_exact),
-        "splot_exact_fraction":len(seen_exact)/len(seen_binomial),
-        "frozen_exact_90pct_pass":len(seen_exact)/len(seen_binomial)>=0.9,
-        "unmatched_binomial_species":len(seen_binomial-seen_exact),
+        "splot_exact_gift_species":len(seen_name_only),
+        "splot_exact_name_with_resolved_family_species":len(seen_exact),
+        "exact_name_but_unresolved_family_species":len(name_matches_missing_family),
+        "splot_exact_fraction":len(seen_name_only)/len(seen_binomial),
+        "frozen_exact_90pct_pass":len(seen_name_only)/len(seen_binomial)>=0.9,
+        "unmatched_binomial_species":len(seen_binomial-seen_name_only),
         "unmatched_but_recognized_genus_species":len(unmatched_with_genus),
         "unmatched_unassigned_genus_species":len(unmatched_unknown_genus),
         "unmatched_with_known_genus_percentage":
@@ -377,6 +392,7 @@ def audit(archive,core,accepted,genus,traits,gift_summary):
         "families":fam_report,
         "hard_nonclaims":[
             "The family known-cover denominator includes genus-assigned unmatched species but excludes unresolved genera, so it is conditional, not full unbiased completeness.",
+            "Exact GIFT name matching (34,888) and exact-name family resolution (potentially fewer) are separate source-gate measurements.",
             "Height max traits in GIFT may reuse TRY/BIEN/AusTraits studies; independence and measurement units have not been audited.",
             "Woodiness and growth form are categorical, not the quantitative height FD outcome.",
             "The BIEN maximum whole plant height row is not assumed measurement-identical to GIFT plant_height_max.",
@@ -421,8 +437,8 @@ def main():
     if not all((a.archive,a.core,a.out)):
         p.error("--archive --core --out are required")
     core,_=read_core(a.core)
-    accepted,genus,traits,gift_summary=gift_maps()
-    report=audit(a.archive,core,accepted,genus,traits,gift_summary)
+    accepted,genus,traits,gift_summary,name_only=gift_maps()
+    report=audit(a.archive,core,accepted,genus,traits,gift_summary,name_only)
     dst=Path(a.out)
     dst.parent.mkdir(parents=True,exist_ok=True)
     dst.write_text(json.dumps(report,indent=2,sort_keys=True)+"\n",encoding="utf-8")

@@ -1,0 +1,452 @@
+{
+  "axes": {
+    "S3": {
+      "absolute_original_log_K_margin": {
+        "all": {
+          "maximum": 6.571810578518011,
+          "median": 0.6438572002013233,
+          "minimum": 0.00487415276429104,
+          "n": 142
+        },
+        "not_reversed": {
+          "maximum": 6.571810578518011,
+          "median": 0.6989753979246958,
+          "minimum": 0.01370986940316081,
+          "n": 119
+        },
+        "reversed": {
+          "maximum": 3.695892537935884,
+          "median": 0.2994953871414709,
+          "minimum": 0.00487415276429104,
+          "n": 23
+        }
+      },
+      "all_pairs_median_abs_same_tips_source_value_change": 0.0757873718541342,
+      "all_pairs_median_abs_taxon_tree_change": 0.1963991080175307,
+      "by_vegetative_trait": {
+        "leaf_area": {
+          "measurement_reversals": 1,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 1
+        },
+        "leaf_length": {
+          "measurement_reversals": 2,
+          "pairs": 36,
+          "taxon_plus_tree_reversals": 3
+        },
+        "leaf_mass_per_area": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "leaf_width": {
+          "measurement_reversals": 4,
+          "pairs": 37,
+          "taxon_plus_tree_reversals": 6
+        },
+        "plant_height": {
+          "measurement_reversals": 2,
+          "pairs": 57,
+          "taxon_plus_tree_reversals": 13
+        }
+      },
+      "family_reversal_counts": {
+        "Annonaceae": {
+          "measurement_reversals": 1,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Apiaceae": {
+          "measurement_reversals": 0,
+          "pairs": 2,
+          "taxon_plus_tree_reversals": 1
+        },
+        "Apocynaceae": {
+          "measurement_reversals": 0,
+          "pairs": 6,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Arecaceae": {
+          "measurement_reversals": 0,
+          "pairs": 3,
+          "taxon_plus_tree_reversals": 2
+        },
+        "Asparagaceae": {
+          "measurement_reversals": 0,
+          "pairs": 2,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Asteraceae": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Celastraceae": {
+          "measurement_reversals": 0,
+          "pairs": 5,
+          "taxon_plus_tree_reversals": 3
+        },
+        "Cucurbitaceae": {
+          "measurement_reversals": 0,
+          "pairs": 2,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Cyperaceae": {
+          "measurement_reversals": 0,
+          "pairs": 5,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Elaeocarpaceae": {
+          "measurement_reversals": 1,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 3
+        },
+        "Euphorbiaceae": {
+          "measurement_reversals": 0,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Fabaceae": {
+          "measurement_reversals": 1,
+          "pairs": 15,
+          "taxon_plus_tree_reversals": 5
+        },
+        "Lauraceae": {
+          "measurement_reversals": 0,
+          "pairs": 2,
+          "taxon_plus_tree_reversals": 1
+        },
+        "Malvaceae": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Moraceae": {
+          "measurement_reversals": 0,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Orchidaceae": {
+          "measurement_reversals": 1,
+          "pairs": 2,
+          "taxon_plus_tree_reversals": 1
+        },
+        "Phyllanthaceae": {
+          "measurement_reversals": 1,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Poaceae": {
+          "measurement_reversals": 3,
+          "pairs": 12,
+          "taxon_plus_tree_reversals": 1
+        },
+        "Proteaceae": {
+          "measurement_reversals": 0,
+          "pairs": 11,
+          "taxon_plus_tree_reversals": 4
+        },
+        "Rhamnaceae": {
+          "measurement_reversals": 0,
+          "pairs": 2,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Rubiaceae": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 2
+        },
+        "Rutaceae": {
+          "measurement_reversals": 0,
+          "pairs": 9,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Sapotaceae": {
+          "measurement_reversals": 0,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Solanaceae": {
+          "measurement_reversals": 1,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 0
+        }
+      },
+      "measurement_reversal_direction": {
+        "reproductive_higher_to_vegetative_higher": 5,
+        "vegetative_higher_to_reproductive_higher": 4
+      },
+      "n_families_with_one_or_more_taxon_plus_tree_reversals": 10,
+      "n_original_contributing_families": 24,
+      "n_original_identical_K_pair_ids": 142,
+      "n_same_tips_measurement_source_K_sign_reversals": 9,
+      "n_taxon_plus_tree_K_sign_reversals": 23,
+      "original_reproductive_wins_three_stages": [
+        110,
+        121,
+        120
+      ],
+      "retained_native_K_tree_tips_fraction": {
+        "all": {
+          "maximum": 1.0,
+          "median": 0.8662531017369728,
+          "minimum": 0.045454545454545456,
+          "n": 142
+        },
+        "not_reversed": {
+          "maximum": 1.0,
+          "median": 0.9,
+          "minimum": 0.045454545454545456,
+          "n": 119
+        },
+        "reversed": {
+          "maximum": 0.95,
+          "median": 0.8,
+          "minimum": 0.09990662931839403,
+          "n": 23
+        }
+      },
+      "retained_source_species_fraction": {
+        "all": {
+          "maximum": 1.0,
+          "median": 0.8662531017369728,
+          "minimum": 0.045454545454545456,
+          "n": 142
+        },
+        "not_reversed": {
+          "maximum": 1.0,
+          "median": 0.9,
+          "minimum": 0.045454545454545456,
+          "n": 119
+        },
+        "reversed": {
+          "maximum": 0.95,
+          "median": 0.8,
+          "minimum": 0.09990662931839403,
+          "n": 23
+        }
+      },
+      "taxon_tree_reversal_direction": {
+        "reproductive_higher_to_vegetative_higher": 6,
+        "vegetative_higher_to_reproductive_higher": 17
+      }
+    },
+    "prune_only": {
+      "absolute_original_log_K_margin": {
+        "all": {
+          "maximum": 6.685307378849769,
+          "median": 0.6681101594395693,
+          "minimum": 0.01900534172010349,
+          "n": 101
+        },
+        "not_reversed": {
+          "maximum": 6.685307378849769,
+          "median": 0.6921412347517277,
+          "minimum": 0.04147422155397429,
+          "n": 88
+        },
+        "reversed": {
+          "maximum": 1.936058572763011,
+          "median": 0.2284190520302691,
+          "minimum": 0.01900534172010349,
+          "n": 13
+        }
+      },
+      "all_pairs_median_abs_same_tips_source_value_change": 0.09480917693432866,
+      "all_pairs_median_abs_taxon_tree_change": 0.25128819829858184,
+      "by_vegetative_trait": {
+        "leaf_area": {
+          "measurement_reversals": 0,
+          "pairs": 5,
+          "taxon_plus_tree_reversals": 0
+        },
+        "leaf_length": {
+          "measurement_reversals": 3,
+          "pairs": 26,
+          "taxon_plus_tree_reversals": 1
+        },
+        "leaf_mass_per_area": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "leaf_width": {
+          "measurement_reversals": 4,
+          "pairs": 24,
+          "taxon_plus_tree_reversals": 5
+        },
+        "plant_height": {
+          "measurement_reversals": 5,
+          "pairs": 42,
+          "taxon_plus_tree_reversals": 7
+        }
+      },
+      "family_reversal_counts": {
+        "Annonaceae": {
+          "measurement_reversals": 1,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Apiaceae": {
+          "measurement_reversals": 0,
+          "pairs": 1,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Apocynaceae": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Arecaceae": {
+          "measurement_reversals": 0,
+          "pairs": 3,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Asteraceae": {
+          "measurement_reversals": 0,
+          "pairs": 4,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Elaeocarpaceae": {
+          "measurement_reversals": 1,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 1
+        },
+        "Euphorbiaceae": {
+          "measurement_reversals": 0,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Fabaceae": {
+          "measurement_reversals": 2,
+          "pairs": 11,
+          "taxon_plus_tree_reversals": 3
+        },
+        "Malvaceae": {
+          "measurement_reversals": 0,
+          "pairs": 1,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Moraceae": {
+          "measurement_reversals": 0,
+          "pairs": 6,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Orchidaceae": {
+          "measurement_reversals": 0,
+          "pairs": 1,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Phyllanthaceae": {
+          "measurement_reversals": 1,
+          "pairs": 5,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Poaceae": {
+          "measurement_reversals": 3,
+          "pairs": 12,
+          "taxon_plus_tree_reversals": 4
+        },
+        "Proteaceae": {
+          "measurement_reversals": 0,
+          "pairs": 10,
+          "taxon_plus_tree_reversals": 4
+        },
+        "Rubiaceae": {
+          "measurement_reversals": 0,
+          "pairs": 1,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Rutaceae": {
+          "measurement_reversals": 0,
+          "pairs": 7,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Sapotaceae": {
+          "measurement_reversals": 2,
+          "pairs": 7,
+          "taxon_plus_tree_reversals": 0
+        },
+        "Solanaceae": {
+          "measurement_reversals": 2,
+          "pairs": 8,
+          "taxon_plus_tree_reversals": 1
+        }
+      },
+      "measurement_reversal_direction": {
+        "reproductive_higher_to_vegetative_higher": 7,
+        "vegetative_higher_to_reproductive_higher": 5
+      },
+      "n_families_with_one_or_more_taxon_plus_tree_reversals": 5,
+      "n_original_contributing_families": 18,
+      "n_original_identical_K_pair_ids": 101,
+      "n_same_tips_measurement_source_K_sign_reversals": 12,
+      "n_taxon_plus_tree_K_sign_reversals": 13,
+      "original_reproductive_wins_three_stages": [
+        82,
+        83,
+        81
+      ],
+      "retained_native_K_tree_tips_fraction": {
+        "all": {
+          "maximum": 1.0,
+          "median": 0.896551724137931,
+          "minimum": 0.17297297297297298,
+          "n": 101
+        },
+        "not_reversed": {
+          "maximum": 1.0,
+          "median": 0.9056603773584906,
+          "minimum": 0.1853932584269663,
+          "n": 88
+        },
+        "reversed": {
+          "maximum": 0.9215189873417722,
+          "median": 0.4838709677419355,
+          "minimum": 0.17297297297297298,
+          "n": 13
+        }
+      },
+      "retained_source_species_fraction": {
+        "all": {
+          "maximum": 1.0,
+          "median": 0.9007633587786259,
+          "minimum": 0.09990662931839403,
+          "n": 101
+        },
+        "not_reversed": {
+          "maximum": 1.0,
+          "median": 0.9069767441860465,
+          "minimum": 0.17312072892938496,
+          "n": 88
+        },
+        "reversed": {
+          "maximum": 0.9240953221535746,
+          "median": 0.3263157894736842,
+          "minimum": 0.09990662931839403,
+          "n": 13
+        }
+      },
+      "taxon_tree_reversal_direction": {
+        "reproductive_higher_to_vegetative_higher": 6,
+        "vegetative_higher_to_reproductive_higher": 7
+      }
+    }
+  },
+  "baseline_K_margin_related_flip_is_descriptive_and_tautology_risk": true,
+  "future_mechanistic_test": "Fixed broad tree and trait states; compare actual strict survivor subset to equal-n random tip subsets, controlling baseline K margin and shared family; record source-lineage and growth form.",
+  "n_axis_specific_pair_level_context_rows": 243,
+  "n_new_external_datasets_joined": 0,
+  "n_new_phylogenetic_K_fits": 0,
+  "not_independent_biological_family_trait_replicates": true,
+  "organ_grouping_originally_selected_after_K_outcomes": true,
+  "original_source_broad_sha256": "e046a726cf922543ec3302fd8f6f114778c40e9fc94d097c04e3d1216f904263",
+  "original_source_strict_sha256": "fc9bc62297a16db916f21704203ab1859f65dce33303a8199cb49a6596819dbb",
+  "output_csv_sha256": "600a4de97b10947792fff72957d0649d8886b7f41829e0321bd7f81f0e64e6d3",
+  "post_hoc_descriptive_not_hypothesis_confirming": true,
+  "retention_does_not_isolate_loss_of_sample_size_from_lineage_identity": true,
+  "same_source_DatasetID_does_not_prove_independent_primary_specimens": true,
+  "source": "exact original SHA256-pinned AusTraits v7 nonflora K raw-source replays",
+  "species_names_or_original_measurements_exported": false,
+  "status": "PASS_POSTHOC_ORIGINAL_142_101_TAXON_FLIP_DESCRIPTIVE_COMMONALITIES"
+}

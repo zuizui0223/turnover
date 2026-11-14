@@ -1,0 +1,74 @@
+name: AusTraits original 142/101 K taxon-loss flip commonalities v0.1
+on:
+  push:
+    branches: [paper/austraits-organ-ecology-v0-2]
+    paths:
+      - .github/workflows/austraits-nonflora-flip-commonalities-v0-1.yml
+      - scripts/analysis/summarize_austraits_nonflora_flip_commonalities_v0_1.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  original-nonflora-source-tip-flip-context:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Summarize 142 S3 and 101 prune original source-tip sign transitions
+        run: |
+          python scripts/analysis/summarize_austraits_nonflora_flip_commonalities_v0_1.py \
+            --out-dir results/austraits_organ_paper_nonflora_flip_commonalities_v0_1
+      - name: Verify exact frozen K stage support and QA boundaries
+        run: |
+          python - <<'PY'
+          import csv,hashlib,json
+          from pathlib import Path
+          root=Path('results/austraits_organ_paper_nonflora_flip_commonalities_v0_1')
+          result=json.loads((root/'original_nonflora_flip_context_verdict.json').read_text())
+          assert result['status']=='PASS_POSTHOC_ORIGINAL_142_101_TAXON_FLIP_DESCRIPTIVE_COMMONALITIES'
+          assert result['n_axis_specific_pair_level_context_rows']==243
+          assert result['axes']['S3']['original_reproductive_wins_three_stages']==[110,121,120]
+          assert result['axes']['prune_only']['original_reproductive_wins_three_stages']==[82,83,81]
+          assert result['axes']['S3']['n_taxon_plus_tree_K_sign_reversals']==23
+          assert result['axes']['prune_only']['n_taxon_plus_tree_K_sign_reversals']==13
+          assert result['axes']['S3']['n_same_tips_measurement_source_K_sign_reversals']==9
+          assert result['axes']['prune_only']['n_same_tips_measurement_source_K_sign_reversals']==12
+          assert result['n_new_phylogenetic_K_fits']==0
+          assert result['n_new_external_datasets_joined']==0
+          assert result['post_hoc_descriptive_not_hypothesis_confirming'] is True
+          assert result['species_names_or_original_measurements_exported'] is False
+          fp=root/'original_nonflora_pairwise_flip_context_no_species_names.csv'
+          assert hashlib.sha256(fp.read_bytes()).hexdigest()==result['output_csv_sha256']
+          with fp.open(newline='') as f:
+              x=list(csv.DictReader(f))
+          assert len(x)==243
+          assert not set(x[0])&{'species','genus','binomial','observation_id','value'}
+          for ax in ['S3','prune_only']:
+              z=result['axes'][ax]
+              assert z['n_families_with_one_or_more_taxon_plus_tree_reversals']>=2
+              assert z['retained_source_species_fraction']['reversed']['median']<z['retained_source_species_fraction']['not_reversed']['median']
+              assert z['absolute_original_log_K_margin']['reversed']['median']<z['absolute_original_log_K_margin']['not_reversed']['median']
+          print('PASS_ORIGINAL_142_101_TAXON_RETENTION_AND_MARGIN_COMMONALITIES')
+          PY
+      - name: Commit derived descriptive pair-stage geometry, no new phenotypes or K fits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/austraits_organ_paper_nonflora_flip_commonalities_v0_1/
+          if git diff --cached --quiet; then
+            echo ORIGINAL_K_FLIP_DESCRIPTIVE_RESULT_UNCHANGED
+          else
+            git commit -m "Preserve frozen AusTraits 142/101 flip geometry and sample retention commonalities"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: austraits-original-142-101-flip-context-descriptive-v0-1
+          path: results/austraits_organ_paper_nonflora_flip_commonalities_v0_1/
+          retention-days: 90
+          if-no-files-found: error

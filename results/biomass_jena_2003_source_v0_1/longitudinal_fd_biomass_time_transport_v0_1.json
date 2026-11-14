@@ -1,0 +1,156 @@
+{
+  "complete_case_exclusions": {},
+  "hard_nonclaims": [
+    "Functional diversity is the original authors' source-derived/imputed Rao FD, not new independent measurements",
+    "Same plots appear in train and test; this is time-transfer, not independent site/family transport",
+    "Concurrent annual cover-derived FD uses contemporaneous community information and is not ex-ante prediction",
+    "No p-values inferred from individual plot×year rows as independent clusters",
+    "No evidence about evolutionary phylogenetic-memory rhos or islands",
+    "Original 2020 and 2023 literature already debated long-term trait predictability"
+  ],
+  "holdout_gains_relative_to_planned_diversity_baseline": {
+    "M1_FD": 0.004627145943790545,
+    "M2_FI": 0.029764895327029084,
+    "M3_FD_FI": 0.028631135993987034
+  },
+  "models": {
+    "M0": {
+      "coefficients": {
+        "block_B2": -0.09876562015098796,
+        "block_B3": 0.2040313639651053,
+        "block_B4": -0.21615476966836844,
+        "intercept": 5.11605989008446,
+        "log2_sown_species": 0.20572480011648647,
+        "sown_functional_groups": 0.11939192546417611,
+        "summer_indicator": -0.8973795043862787,
+        "year_since_2003": -0.07766207160442593
+      },
+      "n_coefficients": 8,
+      "rmse": 1.039198235528418,
+      "sse": 828.3085900803643,
+      "test_rows": 767,
+      "train_rows": 774
+    },
+    "M1_FD": {
+      "coefficients": {
+        "FD_SeedsTCW": -0.03362516934866518,
+        "FD_h1": -0.056942627616393286,
+        "FD_leafN": 0.028514229850628424,
+        "FD_sla": 0.13619785409060567,
+        "block_B2": -0.04945466676976819,
+        "block_B3": 0.23008370645701295,
+        "block_B4": -0.1692798464010019,
+        "intercept": 5.179073247279336,
+        "log2_sown_species": 0.15186728237372962,
+        "sown_functional_groups": 0.127867682050817,
+        "summer_indicator": -0.892082978251829,
+        "year_since_2003": -0.08128650246876097
+      },
+      "n_coefficients": 12,
+      "rmse": 1.0367911869084658,
+      "sse": 824.4758853475671,
+      "test_rows": 767,
+      "train_rows": 774
+    },
+    "M2_FI": {
+      "coefficients": {
+        "FI_SeedsTCW": 0.022809802287862127,
+        "FI_h1": -0.14863107540092435,
+        "FI_leafN": -0.17349598984135828,
+        "FI_sla": 0.1054464887699095,
+        "block_B2": -0.0544948906904321,
+        "block_B3": 0.2134726217798639,
+        "block_B4": -0.15768322408729246,
+        "intercept": 5.092457110700549,
+        "log2_sown_species": 0.21862331599869672,
+        "sown_functional_groups": 0.1179328013723834,
+        "summer_indicator": -0.9058782503643128,
+        "year_since_2003": -0.08863771208941817
+      },
+      "n_coefficients": 12,
+      "rmse": 1.0236155923157868,
+      "sse": 803.6540715981432,
+      "test_rows": 767,
+      "train_rows": 774
+    },
+    "M3_FD_FI": {
+      "coefficients": {
+        "FD_SeedsTCW": -0.028928346479321777,
+        "FD_h1": 0.016763212335831196,
+        "FD_leafN": 0.09130106775443977,
+        "FD_sla": 0.05922451225112139,
+        "FI_SeedsTCW": 0.03234065258099967,
+        "FI_h1": -0.14134232624621507,
+        "FI_leafN": -0.18714467004980037,
+        "FI_sla": 0.10131396137158749,
+        "block_B2": -0.04376150884360618,
+        "block_B3": 0.24419508790873928,
+        "block_B4": -0.11416473592323519,
+        "intercept": 5.207899338866688,
+        "log2_sown_species": 0.13882127067335948,
+        "sown_functional_groups": 0.1304160405349467,
+        "summer_indicator": -0.8985234411863224,
+        "year_since_2003": -0.0930570413608697
+      },
+      "n_coefficients": 16,
+      "rmse": 1.0242134860071341,
+      "sse": 804.5931741927857,
+      "test_rows": 767,
+      "train_rows": 774
+    }
+  },
+  "n_original_blocks": 4,
+  "plot_bootstrap": {
+    "gain_FD_percentile_CI95": [
+      -0.01580870375869039,
+      0.02178334386032681
+    ],
+    "number_plot_bootstrap_samples": 2000,
+    "sample_unit": "original plot ID, all holdout dates of a plot resampled together",
+    "seed": 20261114,
+    "valid_replicates": 2000
+  },
+  "primary_FD_gain": 0.004627145943790545,
+  "primary_positive_predictive_gain_CI_excludes_zero": false,
+  "research_scope": "retrospective one-experiment temporal transfer, not novel independent site validation",
+  "seasonal_holdout_FD_gains_descriptive": {
+    "spring": {
+      "M1_FD_vs_M0_test_SSE_gain": 0.01024420251360958,
+      "n_test_plot_year_seasons": 384
+    },
+    "summer": {
+      "M1_FD_vs_M0_test_SSE_gain": -0.0016795636887219079,
+      "n_test_plot_year_seasons": 383
+    }
+  },
+  "source": "PANGAEA 923591; original authors' imputed cover-based Rao FD, processed harvested biomass",
+  "sowing_information": "Original Jena plot information, treatment assignment not inferred from biomass",
+  "status": "JENA_LONGITUDINAL_RETROSPECTIVE_FD_TRANSPORT_ESTIMATED",
+  "target_scale": "log1p(median original author-processed target.biomass per plot×year×season), physical units unverified",
+  "test_independent_plot_ids": 78,
+  "test_observations": 767,
+  "test_years": [
+    2008,
+    2009,
+    2010,
+    2011,
+    2012
+  ],
+  "train_independent_plot_ids": 78,
+  "train_observations": 774,
+  "train_years": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007
+  ],
+  "version": "v0.1",
+  "verification": {
+    "job_id": 132400104900,
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43579207987",
+    "pinned_source_run": "https://github.com/zuizui0223/turnover/actions/runs/43578800298",
+    "original_sources_identical": true,
+    "model_pre_frozen_in": "docs/JENA_923591_LONGITUDINAL_FD_BIOMASS_PREDICTION_CONTRACT_V0_1.md"
+  }
+}

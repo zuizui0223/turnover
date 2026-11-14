@@ -40,6 +40,21 @@ The intended comparison is (a) actual K sign flips, (b) unrestricted same-n acro
 - If no genus contains alternative available broad-tree species under observed strict quota, that pair is deterministic under genus-conditioned draws; report this structural limit rather than inventing variation.
 - The original S3/prune results may differ in either null. No multiplicity/post-selection corrected p-value, biological independent replication or biomass allocation claim follows from any null outcome.
 
+## Observed genus attrition from the actual original measurement records (verified 14 November 2026)
+
+The full public AusTraits v7.0.0 record-selection/missingness analysis is now also reconstructed **without exporting original genus or species names, original trait values or DatasetIDs**: [original genus-loss versus within-genus selection CI #43568302693 — PASS](https://github.com/zuizui0223/turnover/actions/runs/43568302693). [Aggregated source-specific genus-loss counts](https://github.com/zuizui0223/turnover/tree/paper/austraits-organ-ecology-v0-2/results/austraits_organ_paper_original_source_genus_attrition_v0_1) are saved for exactly the original **142 S3 + 101 prune** K pair/tree observations, anchored to the permanently SHA256-verified genus-quota K-null reference.
+
+| Original same family×trait pair population | S3 original K reversed (23) | S3 K stable (119) | Prune reversed (13) | Prune stable (88) |
+| --- | ---: | ---: | ---: | ---: |
+| Median fraction of original broad-source genera retained | **0.786** | **0.846** | **0.553** | **0.877** |
+| Median number of entire source genera lost | **4** | **2** | **19** | **1.5** |
+| Median fraction of lost original source species from COMPLETELY LOST genera | **0.633** | **0.333** | **0.388** | **0.328** |
+| Original K pair cases with at least one genus entirely lost | **23/23** | **98/119** | **13/13** | **70/88** |
+
+This confirms actual original same-DatasetID source qualification loses **entire genus presences**, not merely a random number of species scattered within unchanged genus memberships. However, genus disappearance also occurs in **98/119 stable S3** and **70/88 stable prune** pair comparisons. The **identity and original trait/branch composition of lost genera**, rather than the binary fact of any genus loss, must therefore matter to the conditional K estimator. The genus-quota randomization captures this original genus-level source structure by design; it does NOT identify why different source datasets cover those genera or demonstrate evolutionary selection, source-independent trait biology, woody/grass dominance or biomass allocation.
+
+The comparison is descriptive and was motivated after the original K outcome was known. Dependence among family×trait pairs and within-shared native trees prevents interpreting the 243 tree-specific rows as independent evolutionary events. No extra K was fitted for this genus attrition tally; the original public-v7 species/group qualification, including the five excluded flora DatasetIDs and exact source-record median filters, was reproduced unaltered.
+
 ## Data management and next evidence
 
 The original source Parquet checksum is 5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99. All raw species/genus names, states, source datasets and observation IDs remain inside ephemeral GitHub Actions jobs and are **never** committed by either null; all persistent files are derived K summaries and SHA256 audits. The independent recovery and permanent archival workflow has now completed PASS ([#43567784678](https://github.com/zuizui0223/turnover/actions/runs/43567784678)) after verifying the original 12 successful R K matrix jobs. The initial source run's **overall** status was failure only in its final Python reporting, and the manifest documents both statuses honestly.

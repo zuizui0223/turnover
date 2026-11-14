@@ -1,0 +1,8 @@
+{
+  "batch": "P01",
+  "n_cases": 15,
+  "native_tips_and_original_broad_K_pinned": true,
+  "null_draws_per_original_pair": 128,
+  "original_biological_conclusions_unchanged": true,
+  "status": "PASS_ORIGINAL_TAXON_LOSS_K_BATCH_REGRESSION"
+}

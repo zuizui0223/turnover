@@ -1,0 +1,131 @@
+{
+  "conditional_descriptive_not_preregistered_multiple_hypothesis_test": true,
+  "genus_conditioned_AusTraits_Rcpp_native_K_derived_results": {
+    "S3": {
+      "genus_conditioned_leave_one_family_out_highest_tail_families": [
+        {
+          "family": "Celastraceae",
+          "n_original_actual_flips": 3,
+          "n_original_pairs": 5,
+          "upper_tail_leave_one_family_out": 0.8372093023255814
+        },
+        {
+          "family": "Fabaceae",
+          "n_original_actual_flips": 5,
+          "n_original_pairs": 15,
+          "upper_tail_leave_one_family_out": 0.7751937984496124
+        },
+        {
+          "family": "Orchidaceae",
+          "n_original_actual_flips": 1,
+          "n_original_pairs": 2,
+          "upper_tail_leave_one_family_out": 0.7674418604651163
+        },
+        {
+          "family": "Apiaceae",
+          "n_original_actual_flips": 1,
+          "n_original_pairs": 2,
+          "upper_tail_leave_one_family_out": 0.751937984496124
+        },
+        {
+          "family": "Rubiaceae",
+          "n_original_actual_flips": 2,
+          "n_original_pairs": 4,
+          "upper_tail_leave_one_family_out": 0.6124031007751938
+        },
+        {
+          "family": "Apocynaceae",
+          "n_original_actual_flips": 0,
+          "n_original_pairs": 6,
+          "upper_tail_leave_one_family_out": 0.6046511627906976
+        }
+      ],
+      "genus_conditioned_leave_one_family_out_p_le_0_05": 0,
+      "genus_conditioned_leave_one_family_out_upper_tail_max": 0.8372093023255814,
+      "genus_quota_preserved_empirical_upper_tail_probability": 0.6046511627906976,
+      "genus_quota_preserved_random_null_mean_K_flips": 23.5703125,
+      "genus_quota_preserved_random_null_median_K_flips": 23.0,
+      "genus_quota_preserved_random_total_K_flips_max": 31,
+      "genus_quota_preserved_random_total_K_flips_min": 19,
+      "genus_quota_preserved_vs_original_unstratified_random_mean_difference": 8.75,
+      "n_original_families": 24,
+      "n_same_original_K_pair_identities": 142,
+      "original_source_phylogeny_broad_tree_kept_fixed_and_original_K_unchanged": true,
+      "source_survivor_fixed_broad_tree_flips": 23,
+      "unstratified_equal_n_original_random_mean_K_flips": 14.8203125,
+      "unstratified_equal_n_original_upper_tail_probability": 0.031007751937984496
+    },
+    "prune_only": {
+      "genus_conditioned_leave_one_family_out_highest_tail_families": [
+        {
+          "family": "Fabaceae",
+          "n_original_actual_flips": 3,
+          "n_original_pairs": 11,
+          "upper_tail_leave_one_family_out": 0.8604651162790697
+        },
+        {
+          "family": "Poaceae",
+          "n_original_actual_flips": 4,
+          "n_original_pairs": 12,
+          "upper_tail_leave_one_family_out": 0.7364341085271318
+        },
+        {
+          "family": "Rutaceae",
+          "n_original_actual_flips": 0,
+          "n_original_pairs": 7,
+          "upper_tail_leave_one_family_out": 0.6821705426356589
+        },
+        {
+          "family": "Apocynaceae",
+          "n_original_actual_flips": 0,
+          "n_original_pairs": 4,
+          "upper_tail_leave_one_family_out": 0.6821705426356589
+        },
+        {
+          "family": "Euphorbiaceae",
+          "n_original_actual_flips": 0,
+          "n_original_pairs": 8,
+          "upper_tail_leave_one_family_out": 0.6821705426356589
+        },
+        {
+          "family": "Rubiaceae",
+          "n_original_actual_flips": 0,
+          "n_original_pairs": 1,
+          "upper_tail_leave_one_family_out": 0.6821705426356589
+        }
+      ],
+      "genus_conditioned_leave_one_family_out_p_le_0_05": 0,
+      "genus_conditioned_leave_one_family_out_upper_tail_max": 0.8604651162790697,
+      "genus_quota_preserved_empirical_upper_tail_probability": 0.6821705426356589,
+      "genus_quota_preserved_random_null_mean_K_flips": 13.21875,
+      "genus_quota_preserved_random_null_median_K_flips": 13.0,
+      "genus_quota_preserved_random_total_K_flips_max": 17,
+      "genus_quota_preserved_random_total_K_flips_min": 8,
+      "genus_quota_preserved_vs_original_unstratified_random_mean_difference": 1.984375,
+      "n_original_families": 18,
+      "n_same_original_K_pair_identities": 101,
+      "original_source_phylogeny_broad_tree_kept_fixed_and_original_K_unchanged": true,
+      "source_survivor_fixed_broad_tree_flips": 13,
+      "unstratified_equal_n_original_random_mean_K_flips": 11.234375,
+      "unstratified_equal_n_original_upper_tail_probability": 0.35658914728682173
+    }
+  },
+  "genus_quota_actual_strict_survivors_fixed_for_each_original_pair": true,
+  "genus_quota_conditioning_cannot_identify_mechanistic_causality": true,
+  "no_external_GIFT_or_TRY_original_measurement_rows_joined": true,
+  "number_attempted_family_priorities": 3072,
+  "number_family_correlated_replicates": 128,
+  "number_frozen_family_batches": 12,
+  "number_rejected_original_family_priorities_for_undefined_K": 0,
+  "original_broad_tree_and_original_phenotype_values_fixed": true,
+  "original_family_wide_random_rank_seed": 20261114,
+  "original_native_prune_supported_pair_identities": 101,
+  "original_organ_classification_post_selected": true,
+  "original_pair_identities": 142,
+  "original_public_v7_source_parquet_sha256": "5825d326c8236f5c86e9793d152d6ac5f83c1287a14255b6cf2b77ae2e804c99",
+  "original_source_species_names_or_raw_trait_measurements_exported": false,
+  "original_unstratified_archive_manifest_SHA256": "7d38862b219ad3b26da8f100cf5c6143eec29cb888e17fb331ed73c5c373c333",
+  "original_unstratified_full_128_null_SHA256": "dddd8ff60b19e2df3a9329329678fefef41c098b335fec5af36466a8d3cd2a1b",
+  "same_trait_pair_and_family_dependence_not_separate_biological_replicates": true,
+  "status": "PASS_ORIGINAL_142_101_GENUS_QUOTA_CONDITIONAL_SIZE_MATCHED_K_NULL"
+}

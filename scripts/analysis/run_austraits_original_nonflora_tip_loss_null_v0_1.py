@@ -200,6 +200,17 @@ def validate(batch,result):
          and data["null_replicates"]==DRAW_COUNT
          and data["same_family_random_rank_shared_across_original_trait_pairs"] is True,
          "Original 142-pair family-structured fixed-tree null output malformed")
+    families={z["family"] for z in cases}
+    accepted_draws=DRAW_COUNT*len(families)
+    need(data["null_inference_conditioned_on_phylogenetic_K_estimable_in_every_family_pair"] is True
+         and data["no_per_pair_independent_resampling_after_K_variance_hold"] is True
+         and data["n_total_candidate_family_priorities_evaluated"]>=accepted_draws
+         and data["n_rejected_family_priorities_due_to_undefined_K"]==
+             data["n_total_candidate_family_priorities_evaluated"]-accepted_draws
+         and set(data["rejected_K_undefined_draws_by_family"])==families
+         and sum(data["rejected_K_undefined_draws_by_family"].values())==
+             data["n_rejected_family_priorities_due_to_undefined_K"],
+         "Family-priority K validity conditioning and null rejection accounting incomplete")
     ref={x["null_pair_id"]:x for x in cases}
     for z in data["pairs"]:
         p=ref[z["null_pair_id"]]
@@ -235,6 +246,7 @@ def combine(input_dir,plan_dir,out):
     need(plan["status"]==STATUS_PLAN and plan["original_qualified_pairs"]==142,
          "Unverified null source-only plan")
     pairs=[]; audits=[]
+    rejected_total=0; attempts_total=0
     for k in range(1,NUM_BATCH+1):
         tag=f"P{k:02d}"
         p=input_dir/(tag+"_null.json")
@@ -243,10 +255,15 @@ def combine(input_dir,plan_dir,out):
         chk=validate(plan_dir/(tag+".json"),p)
         old=json.loads(qa.read_text())
         need(chk==old,"Null per-batch deterministic QA changed "+tag)
-        pairs.extend(json.loads(p.read_text())["pairs"])
+        item=json.loads(p.read_text())
+        pairs.extend(item["pairs"])
+        rejected_total+=item["n_rejected_family_priorities_due_to_undefined_K"]
+        attempts_total+=item["n_total_candidate_family_priorities_evaluated"]
         audits.append(tag)
     need(len(pairs)==142 and len(set((x["family"],x["trait_A"],x["trait_B"]) for x in pairs))==142,
          "Original full 142 native K pair identities missing from null")
+    need(attempts_total==24*DRAW_COUNT+rejected_total,
+         "Full 24-family K-valid random-priority accounting did not match 128 draws")
     axes={};source_only={}
     for ax in AXES:
         data=[z for z in pairs if z["axes"][ax]["status"]=="PASS"]
@@ -288,6 +305,11 @@ def combine(input_dir,plan_dir,out):
       "public_source_release":"AusTraits v7.0.0","original_source_parquet_SHA256":SOURCE_SHA,
       "n_null_draws":DRAW_COUNT,"null_seed":SEED,"n_original_fixed_batches":NUM_BATCH,
       "family_clustered_random_priority_across_overlapping_original_pairs":True,
+      "null_distribution_conditioned_on_K_estimable_across_each_original_family":True,
+      "n_original_family_clusters":24,
+      "n_total_candidate_family_rank_draws":attempts_total,
+      "n_rejected_candidate_family_rank_draws_due_to_undefined_K":rejected_total,
+      "no_independent_per_pair_redraws_that_break_family_dependence":True,
       "randomization_tests_conditional_on_fixed_taxa_numbers_not_independent_empirical_validation":True,
       "original_post_K_organ_grouping_and_selection_bias_unchanged":True,
       "no_K_source_data_or_GIFT_or_TRY_raw_trait_measurements_exported":True,

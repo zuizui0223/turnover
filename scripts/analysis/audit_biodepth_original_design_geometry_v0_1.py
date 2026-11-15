@@ -38,11 +38,18 @@ def integer(v,label):
     if not s.lstrip("-").isdigit():
         raise ValueError(f"Noninteger source design {label}: {s[:30]}")
     return int(s)
+def indicator(v,label):
+    """The original Figshare 2005 Design.txt uses literal Yes/No fields."""
+    text=str(v).strip().casefold()
+    if text in ("yes","1"):return 1
+    if text in ("no","0"):return 0
+    raise ValueError(f"Unrecognized binary original group presence {label}: {text[:40]}")
 def key(r):
     return tuple(str(r[c]).strip() for c in KEY_FIELDS)
 def main(design_path,shoots_path):
     D,md=get_table(design_path,"Design.txt")
     S,ms=get_table(shoots_path,"Shoots.txt")
+    assert indicator("Yes","grasses")==1 and indicator("No","legumes")==0
     if len(D)!=480 or len(S)!=1440:
         raise ValueError("BIODEPTH original expected 480/1440 source rows changed")
     by={}
@@ -54,7 +61,7 @@ def main(design_path,shoots_path):
         if not all(k):raise ValueError("Empty site/plot")
         richness=integer(row["species.richness"],"species.richness")
         fr=integer(row["functional.richness"],"functional.richness")
-        flags={g:integer(row[g],g) for g in group_values}
+        flags={g:indicator(row[g],g) for g in group_values}
         if any(v not in (0,1) for v in flags.values()):
             raise ValueError("Original functional-group flag not binary")
         if richness<1 or richness>32 or fr not in (1,2,3) or sum(flags.values())!=fr:
@@ -111,7 +118,7 @@ def main(design_path,shoots_path):
                                     "n_distinct_FG_counts":nFG,
                                     "n_plots_in_within_richness_FG_variation":len(block) if nFG>1 else 0})
             for r in block:
-                guild_vectors.add(tuple(integer(r[g],g) for g in group_values))
+                guild_vectors.add(tuple(indicator(r[g],g) for g in group_values))
         is_eligible=len(rs)>=20 and len(eligible_plots)>=20
         eligible[site]={"n_original_plots":len(rs),
                         "n_plots_within_richness_FG_support":len(eligible_plots),

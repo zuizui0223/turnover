@@ -1,0 +1,93 @@
+name: BIODEPTH 8-site original 2005 consortium data source catalog v0.1
+on:
+  push:
+    branches: [analysis/biodepth-8site-source-first-20261115]
+    paths: [.github/workflows/biodepth-source-catalog-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/biodepth-source-catalog-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  catalog-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Search original BIODEPTH Figshare 3565170 and ESA archived files, metadata only
+        run: |
+          python3 - <<'PY'
+          from urllib.request import urlopen,Request
+          from urllib.error import HTTPError,URLError
+          import hashlib,json,re,xml.etree.ElementTree as ET
+          from pathlib import Path
+          sources=[
+           ("figshare_article","https://api.figshare.com/v2/articles/3565170"),
+           ("figshare_files","https://api.figshare.com/v2/articles/3565170/files"),
+           ("figshare_collection","https://api.figshare.com/v2/collections/3309093"),
+           ("figshare_collection_articles","https://api.figshare.com/v2/collections/3309093/articles?page_size=100"),
+           ("wiley_figshare_page","https://wiley.figshare.com/articles/dataset/Supplement_1_Data_from_the_BIODEPTH_project_15_ecosystem-process_variables_measured_at_eight_different_European_grassland_field_sites_over_three_years_together_with_metadata_and_a_table_with_site_information_/3565170"),
+           ("esa_biodepth_2010","https://esapubs.org/archive/ecol/E091/155/suppl-1.php"),
+           ("esa_biodepth_2005","https://esapubs.org/archive/mono/M075/001/suppl-1.php")]
+          report={}
+          for label,url in sources:
+            row={"url":url,"source":"BIODEPTH original published 2005 supplementary"} 
+            try:
+              req=Request(url,headers={"User-Agent":"turnover-BIODEPTH-source-catalog/0.1",
+                                      "Accept":"application/json,text/html,*/*"})
+              with urlopen(req,timeout=38) as res:
+                raw=res.read(8_000_001)
+                typ=res.headers.get("Content-Type","")
+                code=res.status
+              if len(raw)>8_000_000:raise ValueError("metadata exceeds 8MB safety bound")
+              row.update({"status":"SOURCE_REACHED","http_code":code,"bytes":len(raw),
+                          "sha256":hashlib.sha256(raw).hexdigest(),
+                          "content_type":typ})
+              if "json" in typ or raw[:1] in (b"{",b"["):
+                meta=json.loads(raw)
+                if isinstance(meta,dict):
+                  row["root_keys"]=list(meta)[:80]
+                  row["id"]=meta.get("id")
+                  row["doi"]=meta.get("doi")
+                  row["title"]=str(meta.get("title",""))[:210]
+                  row["license"]=str(meta.get("license",""))[:300]
+                  row["files"]=[{k:x.get(k) for k in ("id","name","size","download_url","supplied_md5","is_link_only")}
+                                for x in meta.get("files",[]) if isinstance(x,dict)][:40]
+                  if meta.get("articles"): row["collection_article_count"]=len(meta["articles"])
+                elif isinstance(meta,list):
+                  row["entries"]=len(meta)
+                  row["items"]=[{k:x.get(k) for k in ("id","title","doi","size","name","download_url")}
+                       for x in meta[:50] if isinstance(x,dict)]
+              else:
+                s=raw.decode("utf-8",errors="replace")
+                row["external_source_file_hrefs"]=[url0 for url0 in
+                  re.findall(r'href\s*=\s*["\x27]([^"\x27]+)["\x27]',s,re.I)
+                  if any(ext in url0.lower() for ext in (".csv",".zip",".txt",".dat",".xls",".xlsx",".rdata",".rda"))][:80]
+                row["observed_source_title_snippet"]=s[:210].replace("\n"," ")
+                row["potential_biodepth_mentions"]=s.lower().count("biodepth")
+            except Exception as e:
+              row["status"]="SOURCE_HOLD"
+              row["error_type"]=type(e).__name__
+              row["error_summary"]=str(e)[:180]
+            report[label]=row
+            print("BIODEPTH_SOURCE_CATALOG",label,json.dumps(row,ensure_ascii=False,sort_keys=True))
+          out={"version":"v0.1","outcome_opened":False,
+               "study":"BIODEPTH original eight-site consortium, 2005, DOI 10.1890/03-4101",
+               "figshare_doi":"10.6084/m9.figshare.3565170",
+               "source_records":report,
+               "qualification":"Source identity/metadata only; plot/year/experiment and biomass/FG columns not yet verified",
+               "original_global_BIEN_source_gate_unchanged":True}
+          path=Path("results/biodepth_8site_source_v0_1/source_catalog_v0_1.json")
+          path.parent.mkdir(parents=True,exist_ok=True)
+          path.write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
+          if not any(x["status"]=="SOURCE_REACHED" for x in report.values()):
+              raise SystemExit("SOURCE_HOLD: none of original metadata pages accessible")
+          PY
+      - name: Retain only original source catalog and checksums, not data rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-consortium-source-catalog-v0-1
+          path: results/biodepth_8site_source_v0_1/source_catalog_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

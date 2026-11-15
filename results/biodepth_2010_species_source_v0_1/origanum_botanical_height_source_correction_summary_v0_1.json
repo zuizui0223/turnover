@@ -1,0 +1,134 @@
+{
+  "version": "v0.1",
+  "status": "POSTRESULT_BIODEPTH_ORIGANUM_GIFT_HEIGHT_SOURCE_SENSITIVITY_VERIFIED",
+  "scientific_boundary": "Exploratory correction after observing original failed Sheffield holdout; no independent ecological positive confirmation.",
+  "original_BIODEPTH_source": "Hector et al. 2010 original species/year and Community biomass, 174 source-qualified original plots/521 plot-years, 7 original sites",
+  "original_source_traits": "GIFT3.1 aggregate maxheight Plant_height_max metres: Origanum vulgare=13m from raw GIFT 1997 reference_ID 263; alternate independent botanical descriptions 0.7/0.9/1.0m",
+  "predeclared_correction_contract": "docs/BIODEPTH_ORIGANUM_SOURCE_HEIGHT_REPAIR_SENSITIVITY_V0_1.md",
+  "source_QA": "docs/BIODEPTH_GIFT_ORIGANUM_13M_SOURCE_ANOMALY_V0_1.md",
+  "source_original_model_remains_immutable": true,
+  "n_original_plots": 174,
+  "n_source_2010_Community_plot_years": 521,
+  "n_original_sites": 7,
+  "comparison": {
+    "Kew_0_90m": {
+      "FD_CI95": [
+        -0.10923099283551194,
+        0.18286004882552367
+      ],
+      "FD_site_equal_gain": 0.03829987271271277,
+      "Sheffield_gain": -0.27047664240747116,
+      "Sheffield_mpd_ood": {
+        "n_source_original_test_plots": 20,
+        "source_test_max_abs_z": 1.9064265768567918,
+        "source_test_mean_logheight_MPD": 0.39101059144096995,
+        "source_test_minmax_logheight_MPD": [
+          0.34452331964630306,
+          0.5449428121422708
+        ],
+        "source_test_plots_abs_z_gt3": 0,
+        "source_test_plots_outside_train_range": 0,
+        "source_train_mean_logheight_MPD": 0.3233780200740168,
+        "source_train_minmax_logheight_MPD": [
+          0.07024034377188419,
+          0.7716177245764086
+        ]
+      },
+      "m": 0.9,
+      "positive_sites": 4
+    },
+    "Pladias_0_70m": {
+      "FD_CI95": [
+        -0.11091702249027922,
+        0.1823906240182029
+      ],
+      "FD_site_equal_gain": 0.03892705275891263,
+      "Sheffield_gain": -0.290427750771715,
+      "Sheffield_mpd_ood": {
+        "n_source_original_test_plots": 20,
+        "source_test_max_abs_z": 1.9064265768567918,
+        "source_test_mean_logheight_MPD": 0.4043922687909923,
+        "source_test_minmax_logheight_MPD": [
+          0.34452331964630306,
+          0.5449428121422708
+        ],
+        "source_test_plots_abs_z_gt3": 0,
+        "source_test_plots_outside_train_range": 0,
+        "source_train_mean_logheight_MPD": 0.3233780200740168,
+        "source_train_minmax_logheight_MPD": [
+          0.07024034377188419,
+          0.7716177245764086
+        ]
+      },
+      "m": 0.7,
+      "positive_sites": 4
+    },
+    "RHS_1_00m": {
+      "FD_CI95": [
+        -0.11017941053007992,
+        0.18293060451982748
+      ],
+      "FD_site_equal_gain": 0.03787593845354547,
+      "Sheffield_gain": -0.2685350302310814,
+      "Sheffield_mpd_ood": {
+        "n_source_original_test_plots": 20,
+        "source_test_max_abs_z": 1.9064265768567918,
+        "source_test_mean_logheight_MPD": 0.386791609753373,
+        "source_test_minmax_logheight_MPD": [
+          0.3340851683256343,
+          0.5449428121422708
+        ],
+        "source_test_plots_abs_z_gt3": 0,
+        "source_test_plots_outside_train_range": 0,
+        "source_train_mean_logheight_MPD": 0.3233780200740168,
+        "source_train_minmax_logheight_MPD": [
+          0.07024034377188419,
+          0.7716177245764086
+        ]
+      },
+      "m": 1,
+      "positive_sites": 4
+    },
+    "original_GIFT_13m": {
+      "FD_CI95": [
+        -3.861104514635686,
+        0.13094468464305034
+      ],
+      "FD_site_equal_gain": -1.230853879990266,
+      "Sheffield_gain": -9.08476823071313,
+      "Sheffield_mpd_ood": {
+        "n_source_original_test_plots": 20,
+        "source_test_max_abs_z": 10.711555540456933,
+        "source_test_mean_logheight_MPD": 0.7041261463935344,
+        "source_test_minmax_logheight_MPD": [
+          0.34452331964630306,
+          1.5682744167460896
+        ],
+        "source_test_plots_abs_z_gt3": 10,
+        "source_test_plots_outside_train_range": 6,
+        "source_train_mean_logheight_MPD": 0.3233780200740168,
+        "source_train_minmax_logheight_MPD": [
+          0.07024034377188419,
+          0.7716177245764086
+        ]
+      },
+      "m": 13,
+      "positive_sites": 5
+    }
+  },
+  "full_original_run_artifact": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43724949088",
+    "job_id": 132844752394,
+    "artifact_id": 14165668294,
+    "artifact_digest": "sha256:25944ace5357b5579c598a90f16f25d971d5d8b1e3456056c598576f04916d65",
+    "artifact_name": "biodepth-2010-heightFD-origanum-GIFT13m-Kew09-Pladias07-RHS1-source-sensitivity",
+    "contains_full_per_site_models": true
+  },
+  "hard_nonclaims": [
+    "Corrected positive site-average FD gain of +3.8% has site-bootstrap CI crossing zero and only 4/7 site improvements; not a confirmed ecological positive effect.",
+    "Original source GIFT 13m model yielded −123.1% source-site average gain and remained unchanged.",
+    "GIFT bibliography for source ref263 records 13m, original 1997 printed page is not independently examined.",
+    "One species maximum-height outlier is a concrete failure mode in this historical source; not proof that all GIFT data are defective.",
+    "Original sPlotOpen GIFT BIEN 201 family×trait program, original BIODEPTH six high-support-site program and NEON source access remain HOLD."
+  ]
+}

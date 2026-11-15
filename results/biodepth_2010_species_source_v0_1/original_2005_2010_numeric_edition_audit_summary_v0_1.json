@@ -1,0 +1,330 @@
+{
+  "hard_nonclaims": [
+    "Original 2010 internal hierarchy already additive; this audit compares two data editions",
+    "Absolute precision differences are not necessarily distinct biological measurements",
+    "A small median discrepancy cannot guarantee a source-compatible result in the presence of large outliers",
+    "Original independent 6-site within-one-richness gate remains HOLD",
+    "No causal guild, N-fixation, FD, biomass prediction or trait-memory result"
+  ],
+  "n_numeric_matched_plot_years": 1415,
+  "n_original_2010_hierarchy_rows": 9816,
+  "n_original_2010_other_species_and_group_rows": 8376,
+  "n_unique_original_plot_years": 1440,
+  "no_FD_biomass_effect_fitted": true,
+  "raw_source_files_independently_sha_checked": true,
+  "source_compatibility": "Numeric edition audit only; no equivalence decision until large differences are traced.",
+  "source_edition_difference": {
+    "max_abs_diff": 1170.4,
+    "median_abs_diff": 0.125,
+    "median_signed_2010_minus_2005": 0,
+    "n": 1415,
+    "n_2005_positive": 1381,
+    "n_2005_zero_2010_positive": 0,
+    "n_2010_greater_by_gt1": 186,
+    "n_2010_lower_by_gt1": 497,
+    "n_2010_positive": 1360,
+    "n_2010_zero_2005_positive": 21,
+    "n_absolute_difference_gt_100gm2": 346,
+    "n_absolute_difference_gt_50gm2": 455,
+    "n_large_difference_gt_10gm2": 638,
+    "n_relative_difference_gt_1pct": 686,
+    "n_zero_both": 34,
+    "number_cumulative_abs_tolerance": {
+      "1": 732,
+      "2": 738,
+      "5": 754,
+      "10": 777,
+      "50": 960,
+      "100": 1069,
+      "500": 1384,
+      "1000": 1409,
+      "0.01": 318,
+      "0.05": 588,
+      "0.1": 695,
+      "0.25": 724,
+      "0.5": 726,
+      "1e-05": 243
+    },
+    "number_cumulative_rel_tolerance": {
+      "0.0001": 403,
+      "0.001": 668,
+      "0.01": 729,
+      "0.05": 813,
+      "0.1": 891,
+      "1.0": 1415
+    },
+    "number_disjoint_abs_deviation_bins": {
+      "<=0.01": 75,
+      "<=0.05": 270,
+      "<=0.1": 107,
+      "<=0.25": 29,
+      "<=0.5": 2,
+      "<=1": 6,
+      "<=10": 23,
+      "<=100": 109,
+      "<=1000": 25,
+      "<=1e-05": 243,
+      "<=2": 6,
+      "<=5": 16,
+      "<=50": 183,
+      "<=500": 315,
+      ">1000": 6
+    },
+    "p90_abs_diff": 279.30000000000007,
+    "p95_abs_diff": 385.01499999999993,
+    "p99_abs_diff": 601.4969999999994
+  },
+  "source_original_2005": "Spehn et al. 2005 original Shoots.txt DOI 10.6084/m9.figshare.3565170.v1",
+  "source_original_2010": "Hector et al. 2010 original mixed Species/Group/Community Biomass.txt E091-155-S1",
+  "status": "SOURCE_EDITION_NUMERIC_DIFFERENCE_DISTRIBUTION_AUDITED",
+  "version": "v0.1",
+  "warning": "A positive or negative source version difference is not an ecological guild effect; no individual responses exported or modified.",
+  "source_site_year_QA": {
+    "Germany|1": {
+      "median_abs_diff": 70.10000000000002,
+      "n": 60,
+      "n_absolute_difference_gt_100gm2": 21,
+      "n_absolute_difference_gt_50gm2": 35,
+      "n_both_numeric": 60,
+      "n_expected_plot_years": 60,
+      "n_relative_difference_gt_1pct": 57,
+      "p99_abs_diff": 337.90799999999984
+    },
+    "Germany|2": {
+      "median_abs_diff": 63.70000000000006,
+      "n": 60,
+      "n_absolute_difference_gt_100gm2": 21,
+      "n_absolute_difference_gt_50gm2": 35,
+      "n_both_numeric": 60,
+      "n_expected_plot_years": 60,
+      "n_relative_difference_gt_1pct": 56,
+      "p99_abs_diff": 336.34049999999996
+    },
+    "Germany|3": {
+      "median_abs_diff": 26.575000000000045,
+      "n": 60,
+      "n_absolute_difference_gt_100gm2": 1,
+      "n_absolute_difference_gt_50gm2": 9,
+      "n_both_numeric": 60,
+      "n_expected_plot_years": 60,
+      "n_relative_difference_gt_1pct": 60,
+      "p99_abs_diff": 98.31549999999991
+    },
+    "Greece|1": {
+      "median_abs_diff": 0.019999999999986362,
+      "n": 52,
+      "n_absolute_difference_gt_100gm2": 8,
+      "n_absolute_difference_gt_50gm2": 12,
+      "n_both_numeric": 52,
+      "n_expected_plot_years": 52,
+      "n_relative_difference_gt_1pct": 21,
+      "p99_abs_diff": 222.91764000000012
+    },
+    "Greece|2": {
+      "median_abs_diff": 0.03699999999997772,
+      "n": 51,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 51,
+      "n_expected_plot_years": 52,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0.1810000000000116
+    },
+    "Greece|3": {
+      "median_abs_diff": 0.02949999999998454,
+      "n": 52,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 52,
+      "n_expected_plot_years": 52,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0.14347000000003135
+    },
+    "Ireland|1": {
+      "median_abs_diff": 127.19999999999999,
+      "n": 66,
+      "n_absolute_difference_gt_100gm2": 40,
+      "n_absolute_difference_gt_50gm2": 54,
+      "n_both_numeric": 66,
+      "n_expected_plot_years": 70,
+      "n_relative_difference_gt_1pct": 65,
+      "p99_abs_diff": 826.1599999999971
+    },
+    "Ireland|2": {
+      "median_abs_diff": 246.79999999999998,
+      "n": 66,
+      "n_absolute_difference_gt_100gm2": 60,
+      "n_absolute_difference_gt_50gm2": 62,
+      "n_both_numeric": 66,
+      "n_expected_plot_years": 70,
+      "n_relative_difference_gt_1pct": 66,
+      "p99_abs_diff": 509.04999999999944
+    },
+    "Ireland|3": {
+      "median_abs_diff": 293.20000000000005,
+      "n": 70,
+      "n_absolute_difference_gt_100gm2": 65,
+      "n_absolute_difference_gt_50gm2": 67,
+      "n_both_numeric": 70,
+      "n_expected_plot_years": 70,
+      "n_relative_difference_gt_1pct": 70,
+      "p99_abs_diff": 608.1660000000002
+    },
+    "Portugal|1": {
+      "median_abs_diff": 0.04989999999999384,
+      "n": 56,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 56,
+      "n_expected_plot_years": 56,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0.17235499999999335
+    },
+    "Portugal|2": {
+      "median_abs_diff": 0.03000000000002956,
+      "n": 53,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 53,
+      "n_expected_plot_years": 56,
+      "n_relative_difference_gt_1pct": 2,
+      "p99_abs_diff": 0.09431600000000791
+    },
+    "Portugal|3": {
+      "median_abs_diff": 0.02400000000000091,
+      "n": 49,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 49,
+      "n_expected_plot_years": 56,
+      "n_relative_difference_gt_1pct": 1,
+      "p99_abs_diff": 0.08565999999999943
+    },
+    "Sheffield|1": {
+      "median_abs_diff": 0,
+      "n": 54,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 54,
+      "n_expected_plot_years": 54,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0
+    },
+    "Sheffield|2": {
+      "median_abs_diff": 0,
+      "n": 54,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 54,
+      "n_expected_plot_years": 54,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0
+    },
+    "Sheffield|3": {
+      "median_abs_diff": 0,
+      "n": 54,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 54,
+      "n_expected_plot_years": 54,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0
+    },
+    "Silwood|1": {
+      "median_abs_diff": 0.029999999999972715,
+      "n": 66,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 66,
+      "n_expected_plot_years": 66,
+      "n_relative_difference_gt_1pct": 2,
+      "p99_abs_diff": 19.37999999999999
+    },
+    "Silwood|2": {
+      "median_abs_diff": 0.05000000000000568,
+      "n": 66,
+      "n_absolute_difference_gt_100gm2": 2,
+      "n_absolute_difference_gt_50gm2": 6,
+      "n_both_numeric": 66,
+      "n_expected_plot_years": 66,
+      "n_relative_difference_gt_1pct": 13,
+      "p99_abs_diff": 116.81574999999981
+    },
+    "Silwood|3": {
+      "median_abs_diff": 0.03999999999996362,
+      "n": 66,
+      "n_absolute_difference_gt_100gm2": 0,
+      "n_absolute_difference_gt_50gm2": 0,
+      "n_both_numeric": 66,
+      "n_expected_plot_years": 66,
+      "n_relative_difference_gt_1pct": 0,
+      "p99_abs_diff": 0.14804999999996066
+    },
+    "Sweden|1": {
+      "median_abs_diff": 0.030000000000001137,
+      "n": 58,
+      "n_absolute_difference_gt_100gm2": 4,
+      "n_absolute_difference_gt_50gm2": 7,
+      "n_both_numeric": 58,
+      "n_expected_plot_years": 58,
+      "n_relative_difference_gt_1pct": 27,
+      "p99_abs_diff": 137.26299999999998
+    },
+    "Sweden|2": {
+      "median_abs_diff": 0.03999999999996362,
+      "n": 58,
+      "n_absolute_difference_gt_100gm2": 10,
+      "n_absolute_difference_gt_50gm2": 10,
+      "n_both_numeric": 58,
+      "n_expected_plot_years": 58,
+      "n_relative_difference_gt_1pct": 11,
+      "p99_abs_diff": 484.9624
+    },
+    "Sweden|3": {
+      "median_abs_diff": 20.412499999999966,
+      "n": 58,
+      "n_absolute_difference_gt_100gm2": 5,
+      "n_absolute_difference_gt_50gm2": 14,
+      "n_both_numeric": 58,
+      "n_expected_plot_years": 58,
+      "n_relative_difference_gt_1pct": 54,
+      "p99_abs_diff": 166.73825
+    },
+    "Switzerland|1": {
+      "median_abs_diff": 263.55,
+      "n": 64,
+      "n_absolute_difference_gt_100gm2": 50,
+      "n_absolute_difference_gt_50gm2": 55,
+      "n_both_numeric": 64,
+      "n_expected_plot_years": 64,
+      "n_relative_difference_gt_1pct": 63,
+      "p99_abs_diff": 1086.9529999999997
+    },
+    "Switzerland|2": {
+      "median_abs_diff": 101.7955,
+      "n": 62,
+      "n_absolute_difference_gt_100gm2": 31,
+      "n_absolute_difference_gt_50gm2": 45,
+      "n_both_numeric": 62,
+      "n_expected_plot_years": 64,
+      "n_relative_difference_gt_1pct": 60,
+      "p99_abs_diff": 560.07398
+    },
+    "Switzerland|3": {
+      "median_abs_diff": 89.88200000000005,
+      "n": 60,
+      "n_absolute_difference_gt_100gm2": 28,
+      "n_absolute_difference_gt_50gm2": 44,
+      "n_both_numeric": 60,
+      "n_expected_plot_years": 64,
+      "n_relative_difference_gt_1pct": 58,
+      "p99_abs_diff": 390.96625999999986
+    }
+  },
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43715363831",
+    "job_id": 132815615423
+  },
+  "original_2010_hierarchy_coherent": true,
+  "raw_original_plot_level_values_not_committed": true
+}

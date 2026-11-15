@@ -1,0 +1,74 @@
+name: BIODEPTH source-only exact planted species crosswalk key probe
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths: [.github/workflows/biodepth-2010-species-crosswalk-key-probe.yml]
+  pull_request:
+    paths: [.github/workflows/biodepth-2010-species-crosswalk-key-probe.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-identifiers-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pure Python original RData parser
+        run: python -m pip install -q rdata pandas numpy
+      - name: Probe original 2005 versus 2010 versus R data keys without reading species biomass values
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          import hashlib,io,csv,collections,json
+          import numpy as np
+          import rdata
+          src={
+            "design":("https://ndownloader.figshare.com/files/5640240","a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a"),
+            "speciesbiom":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt","ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"),
+            "codes":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt","02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b"),
+            "names":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesNames.txt","141d49aa35ac3684c716b1e47e79341f0c3953829028348db0c34f85c259e2af"),
+            "package":("https://raw.githubusercontent.com/jebyrnes/multifunc/main/data/all_biodepth.rda","86f650ca88dd0e91e044744e5c082290d87562044d3022fab05e7a64ab623290")
+          }
+          tables={}
+          for label,(url,expected) in src.items():
+              req=Request(url,headers={"User-Agent":"turnover-BIODEPTH-crosswalk-keys-v0.1"})
+              with urlopen(req,timeout=90) as f:raw=f.read(2_000_001)
+              if hashlib.sha256(raw).hexdigest()!=expected:raise ValueError("Unexpected original source SHA "+label)
+              if label=="package":
+                  obj=rdata.conversion.convert(rdata.parser.parse_data(raw))["all_biodepth"]
+                  tables[label]=obj
+                  fields=["location","site","NewBlock","block","plot","Composition","mixture","Diversity","levSR","FR","FGC","grasses","herbs","legumes"]
+                  shown=obj[fields].head(4).to_dict(orient="records")
+                  speciescols=list(obj.columns)[25:]
+                  nonzero=(obj[speciescols].fillna(0)>0).sum(axis=1)
+                  unique=list(map(str,obj[speciescols].dtypes.unique()))
+                  record={"rows":len(obj),"species_columns":len(speciescols),"first_5_species_columns":speciescols[:5],
+                          "last_5_species_columns":speciescols[-5:],
+                          "first_four_original_treatment_row_fields":shown,
+                          "planted_species_indicator_dtypes":unique,
+                          "n_species_indicator_row_sum_equals_Diversity":int((nonzero==obj["Diversity"]).sum()),
+                          "n_unique_package_plots":int(obj["plot"].nunique()),
+                          "sum_nonzero_plant_incidence":int(nonzero.sum()),
+                          "planted_per_plot_minmax":[int(nonzero.min()),int(nonzero.max())]}
+              else:
+                  rows=list(csv.DictReader(io.StringIO(raw.decode("utf-8-sig")),delimiter="\t"))
+                  tables[label]=rows
+                  use={
+                    "design":["plot","location","block","composition","species.richness","functional.richness","grasses","legumes","forbs"],
+                    "speciesbiom":["plot","site","location","block","year","sr","fr","species","funct","mix","fgc"],
+                    "codes":["speciescode","genus","species"],
+                    "names":["abbrevation","genus","species"]}[label]
+                  record={"rows":len(rows),"headers":list(rows[0]),"source_keys_preview":[{k:r.get(k) for k in use} for r in rows[:4]],
+                          "n_unique_plot_ids":len({r["plot"] for r in rows}) if "plot" in rows[0] else None}
+              print("BIODEPTH_SPECIES_KEY_PROBE",label,json.dumps(record,ensure_ascii=False,default=str))
+          codes={r["speciescode"] for r in tables["codes"]}
+          sourcecode={r["species"] for r in tables["speciesbiom"]}
+          print("BIODEPTH_SPECIES_CODE_JOIN",json.dumps({"species_source_codes":len(sourcecode),
+               "source_dictionary_codes":len(codes),
+               "source_codes_not_in_dictionary":sorted(sourcecode-codes)[:20],
+               "dictionary_codes_not_observed":len(codes-sourcecode)},sort_keys=True))
+          PY

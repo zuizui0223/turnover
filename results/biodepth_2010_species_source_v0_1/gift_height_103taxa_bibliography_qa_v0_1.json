@@ -1,0 +1,133 @@
+{
+  "GIFT_bibliography_content_sha256": "148855c3c03a9c957178fc22ace4765d2968f9e9e0cdb3d83f8a2c6256e9b35e",
+  "GIFT_bibliography_source_rows": 949,
+  "GIFT_bibliography_unique_ref_IDs": 760,
+  "GIFT_metadata_trait_id": "1.6.2",
+  "GIFT_original_height_aggregated_rows": 70231,
+  "GIFT_original_max_height_extremes": {
+    "above_10m": 1
+  },
+  "GIFT_original_species_rows": 372046,
+  "GIFT_original_target_species_height_and_reference_fingerprint_sha256": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "GIFT_record_coefficient_variation_summary": {
+    "median": 0.273,
+    "n_finite": 85,
+    "p90": 0.446
+  },
+  "GIFT_ref_IDs_repeated_with_same_bibliography": {
+    "10193": 188,
+    "10715": 1
+  },
+  "GIFT_source_n_number_distribution": {
+    "1": 3,
+    "2": 3,
+    "3": 4,
+    "4": 5,
+    "5": 12,
+    "6": 5,
+    "7": 7,
+    "8": 9,
+    "9plus": 40
+  },
+  "GIFT_target_aggregated_duplicate_workids_count": 0,
+  "all_height_eligible_original_plots": 174,
+  "all_height_eligible_original_sites": 7,
+  "bibliography_eligible_original_plots": 174,
+  "bibliography_eligible_original_sites": 7,
+  "hard_nonclaims": [
+    "Citation traceability not independent biological measurement of site height",
+    "Other TRY/BIEN trait-source overlap may remain",
+    "Source GIFT max species height aggregated from source maxima",
+    "No within-site real measured height, FD or biomass association estimated",
+    "Greece has no eligible plots in the prior 174-plot cohort",
+    "Original BIODEPTH exact-richness high-support gate remains HOLD",
+    "Original sPlotOpen GIFT BIEN family-by-trait rho source gate remains HOLD"
+  ],
+  "height_unit": "m",
+  "no_biological_association_opened": true,
+  "original_BIODEPTH_species_roster": {
+    "n_orig_plant_occurrences": 1934,
+    "n_original_ecotypes": 186,
+    "n_original_plots": 480,
+    "n_original_sown_plant_species_names": 103,
+    "source_rows_each_year": {
+      "1": 1934,
+      "2": 1934,
+      "3": 1934
+    }
+  },
+  "original_species_named": 103,
+  "original_species_with_explicit_original_BIODEPTH_citations": 0,
+  "original_species_with_full_references_and_no_explicit_original_BIODEPTH": 88,
+  "original_species_with_missing_or_invalid_reference_ids": 0,
+  "original_species_with_positive_aggregated_max_height": 88,
+  "original_species_with_possible_other_trait_database_overlap": 2,
+  "original_taxa_exact_accepted_names": 93,
+  "retrieval_utc": "2026-11-15T14:10:01.093869+00:00",
+  "source_gate_thresholds": {
+    "min_original_height_species_citations_traceable_and_no_explicit_BIODEPTH": 70,
+    "min_original_plots_3_spp_and_80pct_coverage": 80,
+    "min_sites_with_at_least_8_eligible_plots": 4
+  },
+  "status": "GIFT_HEIGHT_REFERENCE_PROVENANCE_PASS",
+  "version": "v0.1",
+  "site_coverage_bibliography_qualified": {
+    "Germany": {
+      "height_matched_taxa_unique": 27,
+      "original_plots": 60,
+      "provenance_eligible_plots": 26,
+      "sown_taxa_unique": 31
+    },
+    "Greece": {
+      "height_matched_taxa_unique": 14,
+      "original_plots": 52,
+      "provenance_eligible_plots": 0,
+      "sown_taxa_unique": 23
+    },
+    "Ireland": {
+      "height_matched_taxa_unique": 11,
+      "original_plots": 70,
+      "provenance_eligible_plots": 32,
+      "sown_taxa_unique": 12
+    },
+    "Portugal": {
+      "height_matched_taxa_unique": 13,
+      "original_plots": 56,
+      "provenance_eligible_plots": 14,
+      "sown_taxa_unique": 14
+    },
+    "Sheffield": {
+      "height_matched_taxa_unique": 12,
+      "original_plots": 54,
+      "provenance_eligible_plots": 20,
+      "sown_taxa_unique": 12
+    },
+    "Silwood": {
+      "height_matched_taxa_unique": 33,
+      "original_plots": 66,
+      "provenance_eligible_plots": 32,
+      "sown_taxa_unique": 34
+    },
+    "Sweden": {
+      "height_matched_taxa_unique": 12,
+      "original_plots": 58,
+      "provenance_eligible_plots": 22,
+      "sown_taxa_unique": 12
+    },
+    "Switzerland": {
+      "height_matched_taxa_unique": 46,
+      "original_plots": 64,
+      "provenance_eligible_plots": 28,
+      "sown_taxa_unique": 48
+    }
+  },
+  "verification": {
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43722625239",
+    "job": 132837676649,
+    "artifact_id": 14165455855,
+    "digest": "sha256:5ff1051a72aaaa7a1c73b8893f798d8499c006f40f32431d8f107284066cdf5d"
+  },
+  "original_reference_ids_have_same_citation_for_any_duplicates": true,
+  "bibliography_references_full_list_in_workflow_artifact_not_this_summary": true,
+  "trait_value_rows_not_in_repository": true
+}

@@ -1,0 +1,151 @@
+{
+  "hard_nonclaims": [
+    "This is a source consistency audit, not a biological effect or production estimate",
+    "The mixed source has duplicate Species, Group and Community hierarchy; they MUST NOT be added together",
+    "Missing original species/plant-group measurements are not zero",
+    "Annual net productivity and clipped standing biomass cannot be equated without author methods",
+    "Do not reconcile numeric disagreement by selecting convenient communities",
+    "No quantitative functional diversity RaoQ, phylogenetic memory rho or biomass prediction tested",
+    "Original high-support six-site source gate remains HOLD"
+  ],
+  "internal_source_geometry": {
+    "2010_group_complete_groups": {
+      "n_complete_groups": 1434,
+      "n_expected_keys": 1440,
+      "n_groups": 1440,
+      "n_incomplete_groups": 6
+    },
+    "2010_group_functor_counts": {
+      "f": 810,
+      "g": 1074,
+      "l": 690
+    },
+    "2010_hierarchical_group_rows": 2574,
+    "2010_mixed_species_complete_groups": {
+      "n_complete_groups": 1423,
+      "n_expected_keys": 1440,
+      "n_groups": 1440,
+      "n_incomplete_groups": 17
+    },
+    "2010_species_complete_groups": {
+      "n_complete_groups": 1423,
+      "n_expected_keys": 1440,
+      "n_groups": 1440,
+      "n_incomplete_groups": 17
+    },
+    "2010_species_source_vs_hierarchy_row_count": 5802,
+    "counts_by_original_level": {
+      "community": 1440,
+      "group": 2574,
+      "species": 5802
+    },
+    "n_2010_Community_unique_plot_years": 1440,
+    "n_2010_species_rows_exactly_equal_in_two_files_including_NA": 5802,
+    "numeric_community_values": 1434
+  },
+  "n_distinct_original_plots": 480,
+  "n_original_plot_years": 1440,
+  "numeric_equality_tolerance": 0.00001,
+  "numeric_reconciliation_pairs": {
+    "2010_Community_vs_2005_Shoots": {
+      "max_abs_difference": 1170.4,
+      "median_abs_difference": 0.125,
+      "median_positive_ratio_B_over_A": 0.9999926165637734,
+      "n_exact_equal_1e-5": 243,
+      "n_numeric_B_gt_A": 465,
+      "n_numeric_B_lt_A": 707,
+      "n_numeric_comparable": 1415,
+      "n_positive_ratio_pairs": 1360,
+      "n_unequal_1e-5": 1172,
+      "same_source_keys": 1440,
+      "source_A_keys": 1440,
+      "source_B_keys": 1440
+    },
+    "2010_group_sum_vs_2010_Community": {
+      "max_abs_difference": 2.2737367544323206e-13,
+      "median_abs_difference": 0,
+      "median_positive_ratio_B_over_A": 1,
+      "n_exact_equal_1e-5": 1434,
+      "n_numeric_B_gt_A": 0,
+      "n_numeric_B_lt_A": 0,
+      "n_numeric_comparable": 1434,
+      "n_positive_ratio_pairs": 1369,
+      "n_unequal_1e-5": 0,
+      "same_source_keys": 1434,
+      "source_A_keys": 1434,
+      "source_B_keys": 1440
+    },
+    "2010_species_sum_vs_2005_Shoots": {
+      "max_abs_difference": 1170.4,
+      "median_abs_difference": 0.1152074999999968,
+      "median_positive_ratio_B_over_A": 0.9999930565681394,
+      "n_exact_equal_1e-5": 243,
+      "n_numeric_B_gt_A": 460,
+      "n_numeric_B_lt_A": 701,
+      "n_numeric_comparable": 1404,
+      "n_positive_ratio_pairs": 1349,
+      "n_unequal_1e-5": 1161,
+      "same_source_keys": 1423,
+      "source_A_keys": 1440,
+      "source_B_keys": 1423
+    },
+    "2010_species_sum_vs_2010_Community": {
+      "max_abs_difference": 2.2737367544323206e-13,
+      "median_abs_difference": 0,
+      "median_positive_ratio_B_over_A": 1,
+      "n_exact_equal_1e-5": 1423,
+      "n_numeric_B_gt_A": 0,
+      "n_numeric_B_lt_A": 0,
+      "n_numeric_comparable": 1423,
+      "n_positive_ratio_pairs": 1358,
+      "n_unequal_1e-5": 0,
+      "same_source_keys": 1423,
+      "source_A_keys": 1423,
+      "source_B_keys": 1440
+    },
+    "2010_species_sum_vs_2010_group_sum": {
+      "max_abs_difference": 2.2737367544323206e-13,
+      "median_abs_difference": 0,
+      "median_positive_ratio_B_over_A": 1,
+      "n_exact_equal_1e-5": 1423,
+      "n_numeric_B_gt_A": 0,
+      "n_numeric_B_lt_A": 0,
+      "n_numeric_comparable": 1423,
+      "n_positive_ratio_pairs": 1358,
+      "n_unequal_1e-5": 0,
+      "same_source_keys": 1423,
+      "source_A_keys": 1423,
+      "source_B_keys": 1434
+    },
+    "2010_species_sum_vs_2010_hierarchical_species_sum": {
+      "max_abs_difference": 0,
+      "median_abs_difference": 0,
+      "median_positive_ratio_B_over_A": 1,
+      "n_exact_equal_1e-5": 1423,
+      "n_numeric_B_gt_A": 0,
+      "n_numeric_B_lt_A": 0,
+      "n_numeric_comparable": 1423,
+      "n_positive_ratio_pairs": 1358,
+      "n_unequal_1e-5": 0,
+      "same_source_keys": 1423,
+      "source_A_keys": 1423,
+      "source_B_keys": 1423
+    }
+  },
+  "original_study": "BIODEPTH original 2005 Spehn vs original 2010 Hector, same 480 experimental plots",
+  "outcome_values_or_trait_effects_exported": false,
+  "source_sha256": {
+    "mixed2010": "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886",
+    "shoots2005": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135",
+    "species2010": "ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"
+  },
+  "status": "WITHIN_2010_SOURCE_CONSISTENT_BUT_2005_RESPONSE_INCOMPATIBLE",
+  "version": "v0.1",
+  "source_sites_years_exist_in_artifact": true,
+  "verified_GitHub_Actions": {
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43715145821",
+    "job_id": 132814945025
+  },
+  "qualification": "INTERNAL_2010_BIOMASS_HIERARCHY_QA_PASS_CROSS_2005_STRICT_NUMERIC_EQUIVALENCE_HOLD",
+  "source_meaning": "Within 2010 exact additive, 2005 vs 2010 differences may be rounding for most, but large outliers exist. A 1e-5 absolute equality criterion does not prove different biological responses."
+}

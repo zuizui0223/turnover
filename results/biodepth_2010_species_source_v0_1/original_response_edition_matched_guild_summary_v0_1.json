@@ -1,0 +1,133 @@
+{
+  "eight_site_equal_source_effect_means": {
+    "bootstrap_seed": 20261115,
+    "common_cohort_2005": 0.17147354565109502,
+    "common_cohort_2010": 0.2756585927321018,
+    "common_cohort_2010_minus_2005": 0.10418504708100675,
+    "n_sites_source_guild_sign_changes": 0,
+    "site_cluster_bootstrap_10000_edition_difference_ci95": [
+      0.0030448252343970084,
+      0.23312280267224425
+    ]
+  },
+  "hard_nonclaims": [
+    "Two numerical source editions are NOT independent experimental repeats",
+    "The common plot×year cohort controls sample selection but not processing/method differences between original editions",
+    "This is post-result exploratory measured-response harmonization, not a confirmatory legume effect",
+    "It does not identify which source edition is ecologically correct or causal",
+    "No actual FD or phylogenetic-memory rho tested",
+    "Original six-site single-richness-20plot primary gate remains HOLD"
+  ],
+  "n_exact_preselected_matched_plots": 110,
+  "n_original_matched_plot_years_before_two_source_missingness": 330,
+  "n_original_matched_plot_years_both_source_numeric": 327,
+  "n_original_matched_strata": 35,
+  "n_original_plots_study": 480,
+  "n_original_sites": 8,
+  "n_original_source_comparable_strata": 35,
+  "n_original_source_comparable_stratum_years": 105,
+  "old_2005_original_110_plot_whole_327_source_year_mean_not_common_cohort": 0.17147354565109507,
+  "source_versions": {
+    "Original_2005_Figshare_Shoots_SHA256": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135",
+    "Original_2005_design_SHA256": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "Original_2010_Hector_mixed_Community_SHA256": "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886"
+  },
+  "status": "ORIGINAL_BIODEPTH_RESPONSE_EDITION_MATCHED_GUILD_SENSITIVITY_COMPLETED",
+  "version": "v0.1",
+  "site_results": [
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": 0.552019272221691,
+      "common_cohort_2010_log1p_guild_substitution_D": 0.6249723041862124,
+      "edition_difference_D_2010_minus_D_2005": 0.07295303196452141,
+      "n_common_source_comparable_strata": 6,
+      "n_common_source_stratum_years": 18,
+      "n_missing_2005_or_2010_original_plot_year_rows": 0,
+      "site": "Germany",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 18
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": -0.8327173725338246,
+      "common_cohort_2010_log1p_guild_substitution_D": -0.33494799189472924,
+      "edition_difference_D_2010_minus_D_2005": 0.49776938063909537,
+      "n_common_source_comparable_strata": 4,
+      "n_common_source_stratum_years": 12,
+      "n_missing_2005_or_2010_original_plot_year_rows": 0,
+      "site": "Greece",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 14
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": 0.202010584695319,
+      "common_cohort_2010_log1p_guild_substitution_D": 0.3917302802908767,
+      "edition_difference_D_2010_minus_D_2005": 0.1897196955955577,
+      "n_common_source_comparable_strata": 4,
+      "n_common_source_stratum_years": 12,
+      "n_missing_2005_or_2010_original_plot_year_rows": 2,
+      "site": "Ireland",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 16
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": -1.6639502194192244,
+      "common_cohort_2010_log1p_guild_substitution_D": -1.664427339495454,
+      "edition_difference_D_2010_minus_D_2005": -0.0004771200762296868,
+      "n_common_source_comparable_strata": 1,
+      "n_common_source_stratum_years": 3,
+      "n_missing_2005_or_2010_original_plot_year_rows": 1,
+      "site": "Portugal",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 6
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": 0.15608247102702766,
+      "common_cohort_2010_log1p_guild_substitution_D": 0.15608247102702766,
+      "edition_difference_D_2010_minus_D_2005": 0,
+      "n_common_source_comparable_strata": 2,
+      "n_common_source_stratum_years": 6,
+      "n_missing_2005_or_2010_original_plot_year_rows": 0,
+      "site": "Sheffield",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 8
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": 0.13493086010192393,
+      "common_cohort_2010_log1p_guild_substitution_D": 0.13873859099374647,
+      "edition_difference_D_2010_minus_D_2005": 0.0038077308918225417,
+      "n_common_source_comparable_strata": 8,
+      "n_common_source_stratum_years": 24,
+      "n_missing_2005_or_2010_original_plot_year_rows": 0,
+      "site": "Silwood",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 20
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": 2.223093694782824,
+      "common_cohort_2010_log1p_guild_substitution_D": 2.1438186689139016,
+      "edition_difference_D_2010_minus_D_2005": -0.07927502586892254,
+      "n_common_source_comparable_strata": 4,
+      "n_common_source_stratum_years": 12,
+      "n_missing_2005_or_2010_original_plot_year_rows": 0,
+      "site": "Sweden",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 8
+    },
+    {
+      "common_cohort_2005_log1p_guild_substitution_D": 0.6003190743330235,
+      "common_cohort_2010_log1p_guild_substitution_D": 0.7493017578352327,
+      "edition_difference_D_2010_minus_D_2005": 0.14898268350220922,
+      "n_common_source_comparable_strata": 6,
+      "n_common_source_stratum_years": 18,
+      "n_missing_2005_or_2010_original_plot_year_rows": 0,
+      "site": "Switzerland",
+      "source_guild_contrast_sign_changed": false,
+      "source_selected_original_plots": 20
+    }
+  ],
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43715879761",
+    "job_id": 132817188282,
+    "raw_biomass_rows_excluded_from_repo": true
+  },
+  "same_site_repeated_plots_not_independent_studies": true
+}

@@ -1,0 +1,141 @@
+{
+  "status": "GIFT_ORIGANUM_MAXHEIGHT_SOURCE_ANOMALY_AUDITED",
+  "version": "v0.1",
+  "original_species": "Origanum vulgare",
+  "original_GIFT_work_ID": "31210",
+  "original_GIFT_aggregate_max_height_m": 13,
+  "original_GIFT_n_source_records": 14,
+  "original_GIFT_coeff_var": 2.102,
+  "original_GIFT_bibliography_refs": [
+    {
+      "ref_ID": "10224",
+      "source_records": 1,
+      "reference_title": "Артемов (2012) Определитель растений Катунского биосферного заповедника. Russian Academy of Sciences, БАРНАУЛ, 320p."
+    },
+    {
+      "ref_ID": "10247",
+      "source_records": 1,
+      "reference_title": "Schaefer, Hardy, Silva, Barraclough & Savolainen (2011) Testing Darwin's naturalization hypothesis in the Azores. Ecology Letters 14, 389-96."
+    },
+    {
+      "ref_ID": "263",
+      "source_records": 1,
+      "reference_title": "Schönfelder & Schönfelder (1997) Die Kosmos-Kanarenflora. Franckh-Kosmos, Stuttgart, 319 Sp."
+    },
+    {
+      "ref_ID": "10302",
+      "source_records": 1,
+      "reference_title": "Fischer, Adler & Oswald (2008) Exkursionsflora für Österreich, Liechtenstein und Südtirol. Oberöstereichisches Landesmuseum, Linz, Austria, 1392 S.p."
+    },
+    {
+      "ref_ID": "10315",
+      "source_records": 1,
+      "reference_title": "Tamis, van der Meijden, Runhaar, Bekker, Ozinga, Odé & Hoste (2004) Standard List of the Flora of the Netherlands 2003. Gorteria 30, 101-195."
+    },
+    {
+      "ref_ID": "10320",
+      "source_records": 1,
+      "reference_title": "Royal Botanic Gardens and Domain Trust (2017) PlantNET - The NSW Plant Information Network System. Available at: http://plantnet.rbgsyd.nsw.gov.au, last accessed  16/09/2016."
+    },
+    {
+      "ref_ID": "10328",
+      "source_records": 1,
+      "reference_title": "Landcare Research New Zealand (NA) Ecological Traits of New Zealand Flora. Available at: https://ecotraits.landcareresearch.co.nz/, last accessed  Nov/2018."
+    },
+    {
+      "ref_ID": "10342",
+      "source_records": 1,
+      "reference_title": "Muer, Sauerbier & Cabrera Calixto (2016) Die Farn- und Blütenpflanzen der Kanarischen Inseln. Margraf Publishers, Weikersheim, 1310p."
+    },
+    {
+      "ref_ID": "10651",
+      "source_records": 1,
+      "reference_title": "Komarov, Shishkin & Bobrov (1933-1964) Flora of the U.S.S.R. Israel Program for Scientific Translations, Springfield, US."
+    }
+  ],
+  "source_references_raw_original_six": [
+    {
+      "ref_ID": "10224",
+      "records": [
+        {
+          "trait_value_m": "0.7",
+          "derived": 0,
+          "ref_ID": 10224
+        }
+      ]
+    },
+    {
+      "ref_ID": "10247",
+      "records": [
+        {
+          "trait_value_m": "0.6",
+          "derived": 0,
+          "ref_ID": 10247
+        }
+      ]
+    },
+    {
+      "ref_ID": "263",
+      "records": [
+        {
+          "trait_value_m": "13",
+          "derived": 0,
+          "ref_ID": 263
+        }
+      ]
+    },
+    {
+      "ref_ID": "10302",
+      "records": [
+        {
+          "trait_value_m": "0.6",
+          "derived": 0,
+          "ref_ID": 10302
+        },
+        {
+          "trait_value_m": "0.6",
+          "derived": 0,
+          "ref_ID": 10302
+        },
+        {
+          "trait_value_m": "0.6",
+          "derived": 0,
+          "ref_ID": 10302
+        }
+      ]
+    },
+    {
+      "ref_ID": "10315",
+      "records": [
+        {
+          "trait_value_m": "0.6",
+          "derived": 0,
+          "ref_ID": 10315
+        }
+      ]
+    },
+    {
+      "ref_ID": "10320",
+      "records": [
+        {
+          "trait_value_m": "0.5",
+          "derived": 0,
+          "ref_ID": 10320
+        }
+      ]
+    }
+  ],
+  "raw_reference_1997_13m_ref_ID": 263,
+  "external_Kew_upper_height_m": 0.9,
+  "external_Kew_citation": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:453395-1/general-information",
+  "external_RHS_upper_height_m": 1,
+  "external_Pladias_upper_height_m": 0.7,
+  "verified": {
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43724523438",
+    "job_id": 132843470398,
+    "artifact_id": 14165628693,
+    "digest": "sha256:70e74dafc27865b136c96241bbf415702cf04a715d5ddae108f158aff0ef8d02"
+  },
+  "warning": "GIFT raw source reference attributed to 1997 flora returned 13m, but original book content has not been inspected; do not assert source book directly printed 13m. Source GIFT max may reflect unit/transcription error, not demonstrated correction.",
+  "no_original_2010_biomass_effects_in_this_source_audit": true
+}

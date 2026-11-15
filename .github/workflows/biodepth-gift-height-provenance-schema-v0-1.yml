@@ -1,0 +1,82 @@
+name: BIODEPTH GIFT 3.1 trait source bibliographic provenance schema
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - .github/workflows/biodepth-gift-height-provenance-schema-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/biodepth-gift-height-provenance-schema-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  provenance-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect GIFT original API traits and raw-reference schemas without trait values or effects
+        run: |
+          python3 - <<'PY'
+          from urllib.request import urlopen,Request
+          from urllib.parse import urlencode
+          import json,hashlib
+          from pathlib import Path
+          root="https://gift.uni-goettingen.de/api/extended/index3.1.php"
+          requests=[
+            ("meta",{"query":"traits_meta","startat":0,"limit":3}),
+            ("aggregate_height",{"query":"traits","traitid":"1.6.2","biasref":0,"biasderiv":0,"startat":0,"limit":3}),
+            ("raw_height",{"query":"traits_raw","traitid":"1.6.2","deriv":0,"biasderiv":0,"startat":0,"limit":3}),
+            ("references",{"query":"references","startat":0,"limit":3}),
+            ("versions",{"query":"versions","startat":0,"limit":3}),
+          ]
+          out={"version":"v0.1","status":"GIFT_ORIGINAL_SCHEMA_ONLY","source_api":root,"queries":{}}
+          for name,kw in requests:
+            uri=root+"?"+urlencode(kw)
+            item={"query":name,"args":kw}
+            try:
+              with urlopen(Request(uri,headers={"Accept":"application/json","User-Agent":"turnover-GIFT31-raw-trait-source-ref-audit/0.1"}),timeout=100) as res:
+                raw=res.read(8_000_001)
+                status=res.status
+              if len(raw)>8_000_000:raise ValueError("source above schema QA cap, do not assume endpoint supports limit")
+              data=json.loads(raw)
+              item.update({"http_status":status,"bytes":len(raw),"sha256":hashlib.sha256(raw).hexdigest(),
+                           "root_type":type(data).__name__,"source_rows":len(data) if isinstance(data,list) else None,
+                           "schema_first_row_keys":list(data[0]) if isinstance(data,list) and data and isinstance(data[0],dict) else
+                              list(data)[:40] if isinstance(data,dict) else [],
+                           "source_records_have_ref_id":bool(isinstance(data,list) and data and isinstance(data[0],dict) and
+                                                        ("ref_ID" in data[0] or "references" in data[0])),
+                           "status":"SOURCE_SCHEMA_REACHED"})
+              if name=="aggregate_height" and isinstance(data,list) and data:
+                a=data[0]
+                item["references_field_type"]=type(a.get("references")).__name__
+                item["reference_id_count_first_record"]=len(str(a.get("references") or "").split(","))
+                item["n_field_present"]="n" in a
+                item["cv_field_present"]="cv" in a
+              if name=="raw_height" and isinstance(data,list) and data:
+                a=data[0]
+                item["is_raw_record_with_ref_ID"]=bool(a.get("ref_ID"))
+                item["has_derived_bias_fields"]=sorted(set(a)&{"derived","bias_deriv","bias_ref"})
+              if name=="meta" and isinstance(data,list):
+                selected=[r for r in data if isinstance(r,dict) and ("1.6.2" in (str(r.get("Lvl3"))+str(r.get("Trait2"))))]
+                item["height_metadata"]=selected[:2]
+            except Exception as e:
+              item["status"]="SOURCE_SCHEMA_HOLD"
+              item["error_class"]=type(e).__name__
+              item["error_summary"]=str(e)[:230]
+            out["queries"][name]=item
+            print("GIFT_PROVENANCE_SCHEMA",name,json.dumps(item,sort_keys=True))
+          Path("results/biodepth_2010_species_source_v0_1").mkdir(parents=True,exist_ok=True)
+          Path("results/biodepth_2010_species_source_v0_1/gift_height_provenance_schema_v0_1.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          if out["queries"]["aggregate_height"]["status"]!="SOURCE_SCHEMA_REACHED":
+            raise SystemExit("SOURCE_SCHEMA_HOLD_AGGREGATE_HEIGHT")
+          PY
+      - name: Keep schema-only source audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift31-biodepth-height-source-reference-schema-v0-1
+          path: results/biodepth_2010_species_source_v0_1/gift_height_provenance_schema_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

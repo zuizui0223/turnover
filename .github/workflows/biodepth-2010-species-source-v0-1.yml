@@ -1,0 +1,137 @@
+name: BIODEPTH original 2010 species-name source and 2015 package audit
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - .github/workflows/biodepth-2010-species-source-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/biodepth-2010-species-source-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-species-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install RData structure reader for provenance only
+        run: python -m pip install -q rdata
+      - name: Probe original 2010 tabular species files, original-site taxonomy and 2015 sown-species repackaging
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.error,hashlib,csv,io,collections,json
+          from pathlib import Path
+          base="https://esapubs.org/archive/ecol/E091/155/"
+          originals=["BiodepthSpeciesBiomass.txt","BiodepthSpeciesCodes.txt",
+                     "BiodepthSpeciesNames.txt","BiodepthBiomass.txt",
+                     "BiodepthStability.zip"]
+          result={"version":"v0.1",
+              "scope":"STRUCTURAL_ORIGINAL_SOURCE_ONLY_NO_SPECIES_BIOMASS_EFFECT",
+              "source_2010":"Hector et al. 2010 Ecology 91 2213-2220, Ecological Archives E091-155-S1",
+              "url_2010":base+"suppl-1.htm",
+              "same_original_480_BIODEPTH_2005_plots":True,
+              "original_2010_files":{},"secondary_r_package":{}}
+          valid_orig=0
+          for name in originals:
+              item={"source_url":base+name}
+              try:
+                  req=urllib.request.Request(base+name,headers={
+                      "User-Agent":"turnover-biodepth-2010-source-audit/0.1",
+                      "Accept":"text/plain,text/tab-separated-values,application/zip,*/*"})
+                  with urllib.request.urlopen(req,timeout=60) as resp:
+                      body=resp.read(5_000_001)
+                      item["http_status"]=resp.status
+                      item["content_type"]=resp.headers.get("Content-Type")
+                  if len(body)>5_000_000:raise ValueError("source exceeds 5MB")
+                  if body[:128].strip().lower().startswith((b"<!doctype",b"<html")):
+                      raise ValueError("HTML landing response not species table")
+                  item.update({"status":"SOURCE_REACHED","bytes":len(body),
+                               "sha256":hashlib.sha256(body).hexdigest()})
+                  valid_orig+=1
+                  if name.endswith(".txt"):
+                      reader=csv.DictReader(io.StringIO(body.decode("utf-8-sig",errors="replace")),delimiter="\t")
+                      rows=list(reader)
+                      fields=list(reader.fieldnames or [])
+                      item.update({"number_rows":len(rows),"number_columns":len(fields),
+                                   "field_names":fields[:90],
+                                   "missing_field_counts":{f:sum(not str(r.get(f) or "").strip() for r in rows)
+                                                          for f in fields[:25]}})
+                      for term in ("year","site","location","plot","species","speciescode","genus","biomass","funct","mix","fgc"):
+                          f=next((x for x in fields if x.casefold()==term),None)
+                          if f:
+                              values=[str(r.get(f) or "").strip() for r in rows]
+                              item["distinct_"+term]=len(set(values))
+                              item["missing_"+term]=sum(not x for x in values)
+                      item["key_fields_present"]=[f for f in ("site","plot","year","species","speciescode") if f in fields]
+                      if name=="BiodepthSpeciesBiomass.txt":
+                          item["n_exact_species_plot_year_rows"]=len({(r.get("plot"),r.get("year"),r.get("species")) for r in rows})
+                      if name in ("BiodepthSpeciesCodes.txt","BiodepthSpeciesNames.txt"):
+                          item["blank_taxon_names"]=sum(not str(r.get("genus") or "").strip() or not str(r.get("species") or "").strip() for r in rows)
+                  else:
+                      item["is_zip"]=body[:4]==b"PK\x03\x04"
+              except Exception as e:
+                  item.update({"status":"SOURCE_ACCESS_OR_FORMAT_HOLD",
+                               "error_class":type(e).__name__,
+                               "error_detail":str(e)[:200]})
+              result["original_2010_files"][name]=item
+              print("BIODEPTH_2010_ORIGINAL_CATALOG",name,json.dumps(item,sort_keys=True))
+          # Distinct source product, republished BIODEPTH via R multifunc.
+          item={"source_repo":"https://github.com/jebyrnes/multifunc",
+                "source_blob_sha1":"65e9feee8ff1c52ee397b0842899574fef56510a",
+                "source_file":"data/all_biodepth.rda",
+                "source_relation":"REPACKAGING_OF_BIODEPTH_NOT_INDEPENDENT_STUDY"}
+          try:
+              url="https://raw.githubusercontent.com/jebyrnes/multifunc/main/data/all_biodepth.rda"
+              req=urllib.request.Request(url,headers={"User-Agent":"turnover-biodepth-2010-source-audit/0.1"})
+              with urllib.request.urlopen(req,timeout=60) as resp: b=resp.read(1_000_001)
+              if len(b)>1_000_000:raise ValueError("Rdata source unexpectedly large")
+              git_blob=hashlib.sha1(b"blob "+str(len(b)).encode()+b"\x00"+b).hexdigest()
+              if git_blob!="65e9feee8ff1c52ee397b0842899574fef56510a":
+                  raise ValueError("repackaged RData GitHub blob hash changed")
+              item.update({"status":"SECONDARY_ORIGINAL_DATA_REPACKAGING_VERIFIED",
+                           "bytes":len(b),"sha256":hashlib.sha256(b).hexdigest()})
+              try:
+                  import rdata
+                  parsed=rdata.parser.parse_data(b)
+                  converted=rdata.conversion.convert(parsed)
+                  item["rda_object_names"]=list(converted)[:20]
+                  for key,obj in converted.items():
+                      if hasattr(obj,"shape") and hasattr(obj,"columns"):
+                          cols=list(map(str,obj.columns))
+                          item["rda_dataframe"]={"name":key,"rows":obj.shape[0],
+                                                "columns":obj.shape[1],
+                                                "first_30_names":cols[:30],
+                                                "last_15_names":cols[-15:],
+                                                "n_species_columns_after_25":max(len(cols)-25,0),
+                                                "some_site_names":list(map(str,obj["location"].unique()))[:12] if "location" in cols else None}
+              except Exception as e:
+                  item["RData_structure_error"]={"type":type(e).__name__,"message":str(e)[:260]}
+          except Exception as e:
+              item.update({"status":"SECONDARY_SOURCE_HOLD",
+                           "error_class":type(e).__name__,
+                           "error_detail":str(e)[:250]})
+          result["secondary_r_package"]=item
+          print("BIODEPTH_REPACKAGED_SPECIES_MATRIX",json.dumps(item,ensure_ascii=False,sort_keys=True))
+          result["original_2010_accessible_count"]=valid_orig
+          result["status"]=("ORIGINAL_2010_SPECIES_SOURCE_ACCESSIBLE" if valid_orig>=3
+              else "SECONDARY_SOURCE_ACCESSIBLE_ONLY" if item["status"].startswith("SECONDARY_ORIGINAL")
+              else "SOURCE_ACCESS_HOLD")
+          out=Path("results/biodepth_2010_species_source_v0_1/source_catalog_v0_1.json")
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(result,indent=2,ensure_ascii=False)+"\n")
+          print("BIODEPTH_SPECIES_SOURCE_STATUS",result["status"])
+          if result["status"]=="SOURCE_ACCESS_HOLD":raise SystemExit(2)
+          PY
+      - name: Upload structural audit only, no copyrighted original species data or plant biomass rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-2010-species-original-and-repackaging-source-v0-1
+          path: results/biodepth_2010_species_source_v0_1/source_catalog_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

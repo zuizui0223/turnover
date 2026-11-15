@@ -1,0 +1,77 @@
+{
+  "hard_nonclaims": [
+    "The same eight site treatment effects were already observed before moderator selection",
+    "Soil pH and total N are eight original site-level summaries, not plot-matched lab measures",
+    "Latitude is posthoc geography and proxy for weather, species pool and site history",
+    "The original sites used different soil sampling depths and harvest schedules",
+    "No causal nitrogen fixation, trait FD or family phylogenetic memory rho tested",
+    "Original ≥6 sites with 20 same-richness plots gate remains HOLD"
+  ],
+  "n_original_sites": 8,
+  "source_metadata": "Spehn et al. 2005 original Figshare sup-1.htm Table S1",
+  "source_sha256": "20694c14d6b6eccf016294eeae2058479b12c830272a6175a62d32714703c116",
+  "status": "BIODEPTH_POSTRESULT_EIGHT_SITE_SOIL_CONTEXT_AUDIT_VERIFIED",
+  "tests": {
+    "latitude_posthoc_only": {
+      "Pearson_exact_permutation_40320_p": 0.005580357142857143,
+      "Pearson_leave_one_site_out_minmax": [
+        0.8347045621489493,
+        0.9525208322672462
+      ],
+      "Pearson_p_normal_theory": 0.0011289582569170911,
+      "Pearson_r": 0.9217421869240583,
+      "Spearman_p": 0.11952980613879259,
+      "Spearman_rho": 0.5952380952380953,
+      "TheilSen_95CI": [
+        -0.07529433954338904,
+        0.1747605423008352
+      ],
+      "TheilSen_slope": 0.12201646456431155,
+      "axis": "latitude_posthoc_only",
+      "n_original_sites": 8
+    },
+    "soil_pH": {
+      "Holm_two_soil_axes_exploratory_p": 1,
+      "Pearson_exact_permutation_40320_p": 0.9588293650793651,
+      "Pearson_leave_one_site_out_minmax": [
+        -0.4833674449019301,
+        0.315994779495336
+      ],
+      "Pearson_p_normal_theory": 0.9591251066623088,
+      "Pearson_r": -0.02180685546653319,
+      "Spearman_p": 0.7558326362593347,
+      "Spearman_rho": 0.13173888881045848,
+      "TheilSen_95CI": [
+        -0.7382182941984988,
+        1.704591916646858
+      ],
+      "TheilSen_slope": 0.03018737631958277,
+      "axis": "soil_pH",
+      "n_original_sites": 8
+    },
+    "soil_total_N_percent": {
+      "Holm_two_soil_axes_exploratory_p": 1,
+      "Pearson_exact_permutation_40320_p": 0.6179315476190477,
+      "Pearson_leave_one_site_out_minmax": [
+        -0.07557420567314702,
+        0.5143294788464511
+      ],
+      "Pearson_p_normal_theory": 0.6154087456427049,
+      "Pearson_r": 0.21132242292030923,
+      "Spearman_p": 0.530922861565801,
+      "Spearman_rho": 0.261904761904762,
+      "TheilSen_95CI": [
+        -8.98908948691684,
+        8.566100378672134
+      ],
+      "TheilSen_slope": 0.8405943643474221,
+      "axis": "soil_total_N_percent",
+      "n_original_sites": 8
+    }
+  },
+  "version": "v0.1",
+  "verified_action": "https://github.com/zuizui0223/turnover/actions/runs/43713245138",
+  "verified_job_id": 132809200336,
+  "dependent_site_contrast_from_prior_result": "results/biodepth_8site_source_v0_1/matched_legume_vs_forb_replay_v0_1.json",
+  "reanalysis_post_outcome_no_causal_evidence": true
+}

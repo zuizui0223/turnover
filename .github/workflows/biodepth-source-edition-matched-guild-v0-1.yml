@@ -1,0 +1,65 @@
+name: BIODEPTH 2005 versus 2010 original-source matched guild response sensitivity
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/compare_biodepth_original_source_edition_guild_contrasts_v0_1.py
+      - .github/workflows/biodepth-source-edition-matched-guild-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/compare_biodepth_original_source_edition_guild_contrasts_v0_1.py
+      - .github/workflows/biodepth-source-edition-matched-guild-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-edition-replication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source-only paired site bootstrap numerical dependency
+        run: python -m pip install -q numpy==2.3.4
+      - name: Check source-edition effects code independent of real responses
+        run: |
+          python -m py_compile scripts/analysis/compare_biodepth_original_source_edition_guild_contrasts_v0_1.py
+          python scripts/analysis/compare_biodepth_original_source_edition_guild_contrasts_v0_1.py --self-test
+      - name: Original 2005 and 2010 published data, checksums and numeric source response
+        run: |
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          folder=Path("/tmp/biodepth-original-response-editions");folder.mkdir(parents=True,exist_ok=True)
+          files={
+            "Design2005.txt":("https://ndownloader.figshare.com/files/5640240",
+              "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a"),
+            "Shoots2005.txt":("https://ndownloader.figshare.com/files/5640249",
+              "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"),
+            "Community2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthBiomass.txt",
+              "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886")}
+          for name,(url,sha) in files.items():
+            req=urllib.request.Request(url,headers={"User-Agent":"turnover-BIODEPTH-matched-edition-response/0.1"})
+            with urllib.request.urlopen(req,timeout=90) as res:raw=res.read(2_000_001)
+            if len(raw)>2_000_000 or hashlib.sha256(raw).hexdigest()!=sha:
+                raise ValueError("Original source SHA changed for "+name)
+            (folder/name).write_bytes(raw)
+            print("BIODEPTH_ORIGINAL_BYTE_PASS",name,len(raw),sha)
+          PY
+      - name: Refit fixed 110-plot matched guild contrast on same source-complete cases from both editions
+        run: |
+          python scripts/analysis/compare_biodepth_original_source_edition_guild_contrasts_v0_1.py \
+            --design /tmp/biodepth-original-response-editions/Design2005.txt \
+            --shoots /tmp/biodepth-original-response-editions/Shoots2005.txt \
+            --mixed /tmp/biodepth-original-response-editions/Community2010.txt \
+            --out results/biodepth_2010_species_source_v0_1/original_response_edition_matched_guild_v0_1.json
+      - name: Upload only site-level contrasts, source hashes, population support and eight-site confidence intervals
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-2005-vs-2010-matched-guild-response-v0-1
+          path: results/biodepth_2010_species_source_v0_1/original_response_edition_matched_guild_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

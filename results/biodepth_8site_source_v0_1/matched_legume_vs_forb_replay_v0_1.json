@@ -1,0 +1,263 @@
+{
+  "equal_site_summary": {
+    "between_site_sd": 1.1286878181039457,
+    "bootstrap_ci95": [
+      -0.5483165023631258,
+      0.9183743892614635
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_site_draws": 10000,
+    "mean_log_difference": 0.17147354565109504,
+    "median_log_difference": 0.1790465278611733,
+    "n_sites": 8,
+    "positive_sites": 6
+  },
+  "hard_nonclaims": [
+    "Original strict high-support gate is HOLD; this is separately declared retrospective exploration",
+    "Difference is association with original sown guild/species mixtures; no pure legume or N-fixation causality",
+    "Same site/year/plot repeated; only 8 geographic sites, not a worldwide random sample",
+    "Source field biomass is not homogeneous annual NPP across original site harvest schedules",
+    "No cross-site average distinguishable from zero at site-resampled 95% interval",
+    "No quantified continuous trait FD, BIEN rho or family-level evolutionary memory tested"
+  ],
+  "leave_one_site_out_descriptive": {
+    "Germany": 0.1171098704267242,
+    "Greece": 0.3149293911060836,
+    "Ireland": 0.16711111150192018,
+    "Portugal": 0.43367694066114065,
+    "Sheffield": 0.1736722705973904,
+    "Silwood": 0.17669392930097663,
+    "Sweden": -0.1216150470820091,
+    "Switzerland": 0.11020989869653386
+  },
+  "origin": "Source-original BIODEPTH eight sites; original 2005 study already reported guild effects",
+  "original_primary_source_gate": "HOLD: only one of eight sites passes fixed >=20 plots in single richness",
+  "source_doi": "https://doi.org/10.6084/m9.figshare.3565170.v1",
+  "source_selected_population": {
+    "grass_two_guild_plots": 114,
+    "matched_original_plots": 110,
+    "matched_strata": 35,
+    "n_independent_geographic_sites": 8,
+    "observed_numeric_plot_year_rows": 327,
+    "observed_paired_stratum_year_contrasts": 105,
+    "original_480_plots": 480,
+    "original_matched_plot_year_rows": 330
+  },
+  "source_sha256": {
+    "Design.txt": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "Shoots.txt": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"
+  },
+  "status": "SOURCE_PINNED_EIGHT_SITE_GUILD_REPLACEMENT_REPLAY_PASS",
+  "version": "v0.1",
+  "year_sensitivity_descriptive": {
+    "1": {
+      "equal_site_mean_log_difference": 0.046180795297172894,
+      "positive_sites": 5
+    },
+    "2": {
+      "equal_site_mean_log_difference": 0.4304153463703536,
+      "positive_sites": 6
+    },
+    "3": {
+      "equal_site_mean_log_difference": 0.0378244952857586,
+      "positive_sites": 5
+    }
+  },
+  "site_results": [
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.0661480148688204,
+        "legume_companion_beta": 0.5336207193966533,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          0.38108312357360685,
+          0.6861583152196998
+        ],
+        "t_clusters_minus1_p_two_sided": 0.00004111912150544302
+      },
+      "matched_stratum_equal_weight_mean_log_difference": 0.552019272221691,
+      "n_matched_original_plots": 18,
+      "n_observed_stratum_year_contrasts": 18,
+      "n_original_matched_strata": 6,
+      "n_planted_composition_clusters": 9,
+      "n_valid_plot_year_rows": 54,
+      "site": "Germany",
+      "site_year_mean_log_difference": {
+        "1": -0.17792004344369206,
+        "2": 0.8835849453920884,
+        "3": 0.9503929147166765
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.5442076580833826,
+        "legume_companion_beta": -0.8589114414908896,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          -2.190539609538968,
+          0.47271672655718855
+        ],
+        "t_clusters_minus1_p_two_sided": 0.16557845666845836
+      },
+      "matched_stratum_equal_weight_mean_log_difference": -0.8327173725338246,
+      "n_matched_original_plots": 14,
+      "n_observed_stratum_year_contrasts": 12,
+      "n_original_matched_strata": 4,
+      "n_planted_composition_clusters": 7,
+      "n_valid_plot_year_rows": 42,
+      "site": "Greece",
+      "site_year_mean_log_difference": {
+        "1": -2.501779453129454,
+        "2": 0.04655072211553124,
+        "3": -0.042923386587550905
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.15268015872362342,
+        "legume_companion_beta": 0.20883552248562548,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          -0.15219568356929009,
+          0.569866728540541
+        ],
+        "t_clusters_minus1_p_two_sided": 0.2136656583516517
+      },
+      "matched_stratum_equal_weight_mean_log_difference": 0.202010584695319,
+      "n_matched_original_plots": 16,
+      "n_observed_stratum_year_contrasts": 12,
+      "n_original_matched_strata": 4,
+      "n_planted_composition_clusters": 8,
+      "n_valid_plot_year_rows": 46,
+      "site": "Ireland",
+      "site_year_mean_log_difference": {
+        "1": 0.1599527794275848,
+        "2": 0.20468271279498618,
+        "3": 0.24139626186338603
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "reason": "Less than four original planted-composition clusters or deficient design rank",
+        "status": "SOURCE_OR_DESIGN_HOLD"
+      },
+      "matched_stratum_equal_weight_mean_log_difference": -1.6639502194192242,
+      "n_matched_original_plots": 6,
+      "n_observed_stratum_year_contrasts": 3,
+      "n_original_matched_strata": 1,
+      "n_planted_composition_clusters": 3,
+      "n_valid_plot_year_rows": 17,
+      "site": "Portugal",
+      "site_year_mean_log_difference": {
+        "1": -0.3418542104608804,
+        "2": -1.3186423673136787,
+        "3": -3.3313540804831137
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.1525842267729971,
+        "legume_companion_beta": 0.156082471027025,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          -0.32950863771135575,
+          0.6416735797654057
+        ],
+        "t_clusters_minus1_p_two_sided": 0.3816303790267376
+      },
+      "matched_stratum_equal_weight_mean_log_difference": 0.15608247102702766,
+      "n_matched_original_plots": 8,
+      "n_observed_stratum_year_contrasts": 6,
+      "n_original_matched_strata": 2,
+      "n_planted_composition_clusters": 4,
+      "n_valid_plot_year_rows": 24,
+      "site": "Sheffield",
+      "site_year_mean_log_difference": {
+        "1": 0.48795683113748245,
+        "2": 0.08316204236972347,
+        "3": -0.10287146042612294
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.1203960145656109,
+        "legume_companion_beta": 0.15072806221349921,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          -0.12162664451518396,
+          0.4230827689421824
+        ],
+        "t_clusters_minus1_p_two_sided": 0.24215035499880386
+      },
+      "matched_stratum_equal_weight_mean_log_difference": 0.13493086010192393,
+      "n_matched_original_plots": 20,
+      "n_observed_stratum_year_contrasts": 24,
+      "n_original_matched_strata": 8,
+      "n_planted_composition_clusters": 10,
+      "n_valid_plot_year_rows": 60,
+      "site": "Silwood",
+      "site_year_mean_log_difference": {
+        "1": 0.14930868588185964,
+        "2": -0.07559116157018364,
+        "3": 0.3310750559940958
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.6916125870566776,
+        "legume_companion_beta": 2.223093694782822,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          0.02207377241620767,
+          4.424113617149436
+        ],
+        "t_clusters_minus1_p_two_sided": 0.048793520441903736
+      },
+      "matched_stratum_equal_weight_mean_log_difference": 2.223093694782824,
+      "n_matched_original_plots": 8,
+      "n_observed_stratum_year_contrasts": 12,
+      "n_original_matched_strata": 4,
+      "n_planted_composition_clusters": 4,
+      "n_valid_plot_year_rows": 24,
+      "site": "Sweden",
+      "site_year_mean_log_difference": {
+        "1": 2.421036776999327,
+        "2": 2.661171858590504,
+        "3": 1.587072448758641
+      }
+    },
+    {
+      "fixed_strata_composition_cluster_model": {
+        "cluster_SE": 0.136827674070736,
+        "legume_companion_beta": 0.6231008595189802,
+        "status": "ESTIMABLE",
+        "t_cluster_ci95": [
+          0.3135751565431986,
+          0.9326265624947618
+        ],
+        "t_clusters_minus1_p_two_sided": 0.0013782125939402314
+      },
+      "matched_stratum_equal_weight_mean_log_difference": 0.6003190743330235,
+      "n_matched_original_plots": 20,
+      "n_observed_stratum_year_contrasts": 18,
+      "n_original_matched_strata": 6,
+      "n_planted_composition_clusters": 10,
+      "n_valid_plot_year_rows": 60,
+      "site": "Switzerland",
+      "site_year_mean_log_difference": {
+        "1": 0.17274499596515525,
+        "2": 0.9584040185838579,
+        "3": 0.6698082084500571
+      }
+    }
+  ],
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43696996338",
+    "job_id": 132759666907,
+    "artifact_id": 14154573229,
+    "artifact_digest": "sha256:6e372d5b759cd25d1e66c68dd6fb303a894953ee0c4102ceecb34e4264650d2a",
+    "original_figshare_sha_verified": true,
+    "independent_manual_source_replay": true
+  },
+  "individual_original_observation_rows_excluded_from_repository": true
+}

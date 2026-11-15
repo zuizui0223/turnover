@@ -1,0 +1,80 @@
+{
+  "version": "v0.1",
+  "status": "INDEPENDENT_SOURCE_REPLAY_AND_POSTRESULT_INFLUENCE_DIAGNOSTIC_PASS",
+  "source_doi": "10.6084/m9.figshare.3565170.v1",
+  "original_source_sha256": {
+    "design": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "shoots": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"
+  },
+  "n_original_plots": 110,
+  "n_matched_site_richness_block_strata": 35,
+  "n_valid_plot_year_records": 327,
+  "n_missing_rows_not_imputed": 3,
+  "n_valid_stratum_year_contrasts": 105,
+  "original_primary_site_qualification": "HOLD: only 1/8 sites passes >=20 plots within one exact planted richness and multiple FG count treatments",
+  "equal_site_mean_log_difference": 0.17147354565109502,
+  "site_bootstrap_10000_CI95": [
+    -0.5483165023631258,
+    0.9183743892614635
+  ],
+  "equal_stratum_mean_log_difference": 0.3717496945873081,
+  "positive_site_estimates": 6,
+  "negative_site_estimates": 2,
+  "site_year_equal_site_means": [
+    0.046180795297172866,
+    0.4304153463703536,
+    0.03782449528575854
+  ],
+  "site_year_positive_counts": [
+    5,
+    6,
+    5
+  ],
+  "influence_excluding_exactly_one_site": [
+    {
+      "site": "Germany",
+      "mean_without_site": 0.11710987042672417
+    },
+    {
+      "site": "Greece",
+      "mean_without_site": 0.31492939110608353
+    },
+    {
+      "site": "Ireland",
+      "mean_without_site": 0.16711111150192018
+    },
+    {
+      "site": "Portugal",
+      "mean_without_site": 0.43367694066114065
+    },
+    {
+      "site": "Sheffield",
+      "mean_without_site": 0.17367227059739035
+    },
+    {
+      "site": "Silwood",
+      "mean_without_site": 0.1766939293009766
+    },
+    {
+      "site": "Sweden",
+      "mean_without_site": -0.12161504708200914
+    },
+    {
+      "site": "Switzerland",
+      "mean_without_site": 0.11020989869653382
+    }
+  ],
+  "original_source_zero_observations_in_matched_population": {
+    "Greece": 9,
+    "Portugal": 1
+  },
+  "verification": {
+    "independent_raw_csv_dictreader_source_replay": true,
+    "site_estimate_agreement_less_than": 1e-12,
+    "original_source_SHA256_verified": true,
+    "original_site_equal_ci_reproduced": true,
+    "github_actions_replay": "https://github.com/zuizui0223/turnover/actions/runs/43696996338",
+    "reproducibility_archive_SHA256": "4a5987954179580063ff757236fa3590cdc9079d9d4c472eb6fb09700725ea4a"
+  },
+  "boundary": "All leave-one-site-out and year comparisons are post-result descriptive sensitivity only, not p-value selection. No comparable annual NPP, causal legume/N fixation, quantitative trait FD or phylogenetic memory inference."
+}

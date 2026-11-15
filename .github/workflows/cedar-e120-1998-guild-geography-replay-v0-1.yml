@@ -1,0 +1,115 @@
+name: Cedar 1998 source-locked guild permutations by row and zone
+on:
+  push:
+    branches: [analysis/cedar-e120-independent-biomass-fg-source-20261115]
+    paths: [.github/workflows/cedar-e120-1998-guild-geography-replay-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/cedar-e120-1998-guild-geography-replay-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source reader and compatible fixed statistical stack
+        run: python -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 statsmodels==0.14.5 xlrd==2.0.1
+      - name: Source pin and recompute location-conditioned Cedar guild-vector nulls
+        run: |
+          python3 - <<'PY'
+          import urllib.request,hashlib,json
+          from collections import defaultdict
+          from pathlib import Path
+          import xlrd,numpy as np,pandas as pd,statsmodels.api as sm
+          url="https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data/DataBonus-Student.xls"
+          req=urllib.request.Request(url,headers={"User-Agent":"turnover-Cedar-geo-guild-replay/0.1"})
+          with urllib.request.urlopen(req,timeout=90) as resp:raw=resp.read(2000000)
+          if hashlib.sha256(raw).hexdigest()!="a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476":
+              raise ValueError("Original public ESA source changed")
+          sh=xlrd.open_workbook(file_contents=raw).sheet_by_index(0)
+          df=pd.DataFrame([[sh.cell_value(i,j) for j in range(10)] for i in range(6,174)],
+               columns=[str(sh.cell_value(5,j)) for j in range(10)]).apply(pd.to_numeric)
+          if len(df)!=168 or df.Plot.nunique()!=168:raise ValueError("Original E120 plot count changed")
+          df=df[df.NumSp.isin([2,4,8])].reset_index(drop=True)
+          if len(df)!=94 or int(df.Woody.sum())!=39:raise ValueError("Original richness-supported plot cohort changed")
+          guild=["C3","C4","Forb","Legume"]
+          df["FG4"]=df[guild].sum(axis=1)
+          if (df.FG4+df.Woody>df.NumSp).any():raise ValueError("Planted richness does not cover guilds")
+          df["fieldrow"]=((df.Plot.astype(int)-1)//19+1).astype(int)
+          df["zone"]=np.select([df.fieldrow<=4,df.fieldrow<=9,df.fieldrow<=13],
+                                [1,2,3],default=4).astype(int)
+          y=np.log1p(df["AbvBio 1998"].to_numpy(dtype=float))
+          if not np.isfinite(y).all():raise ValueError("Invalid 1998 aboveground mass")
+          def matrices(loc):
+              cols=[np.ones(len(df)),(df.NumSp==4).astype(float).to_numpy(),
+                 (df.NumSp==8).astype(float).to_numpy(),df.Woody.to_numpy(dtype=float)]
+              levels=sorted(df[loc].unique())
+              cols.extend([(df[loc]==level).astype(float).to_numpy() for level in levels[1:]])
+              common=np.column_stack(cols)
+              count=np.column_stack([common,df.FG4.to_numpy(dtype=float)])
+              full=np.column_stack([common,df[guild].to_numpy(dtype=float)])
+              if np.linalg.matrix_rank(count)!=count.shape[1] or np.linalg.matrix_rank(full)!=full.shape[1]:
+                  raise ValueError("Original location-conditioned design not full rank")
+              return count,full
+          def calc(loc,seed,expected_wc,expected_p,expected_var):
+              count,full=matrices(loc)
+              model=sm.OLS(y,full).fit(cov_type='HC3')
+              R=np.zeros((3,full.shape[1]))
+              for j in range(3):R[j,-4+j]=1;R[j,-1]=-1
+              w=float(model.wald_test(R,scalar=True).pvalue)
+              strata=defaultdict(list)
+              for i,row in df.iterrows():
+                  strata[(int(row.NumSp),int(row.Woody),int(row.FG4),int(row[loc]))].append(i)
+              variable=[ix for ix in strata.values()
+                        if len({tuple(df.loc[k,guild]) for k in ix})>1]
+              nvar=sum(len(ix) for ix in variable)
+              if nvar!=expected_var:raise ValueError("Conditional source treatment support changed")
+              bc=np.linalg.lstsq(count,y,rcond=None)[0]
+              ssec=float(np.sum((y-count@bc)**2))
+              bi=np.linalg.lstsq(full,y,rcond=None)[0]
+              gain=ssec-float(np.sum((y-full@bi)**2))
+              rng=np.random.default_rng(seed);base=df[guild].to_numpy(dtype=float)
+              more=0
+              for _ in range(9999):
+                  perm=base.copy()
+                  for indices in variable:
+                      a=np.asarray(indices)
+                      perm[a]=base[a][rng.permutation(len(a))]
+                  xp=full.copy();xp[:,-4:]=perm
+                  beta=np.linalg.lstsq(xp,y,rcond=None)[0]
+                  change=ssec-float(np.sum((y-xp@beta)**2))
+                  if change+1e-10>=gain:more+=1
+              p=(more+1)/10000
+              if abs(w-expected_wc)>1e-9 or abs(p-expected_p)>0.0000001:
+                  raise ValueError("Cedar source-conditioned original effects not reproducible")
+              return {"n_field_conditioned_source_strata":len(strata),
+                  "n_variable_strata":len(variable),"n_source_plot_guild_vectors_exchangeable":nvar,
+                  "identity_HC3_p":w,"conditional_9999_vector_permutation_p":p,
+                  "observed_nested_SSE_delta":gain,"seed":seed}
+          zone=calc("zone",20261115,0.000001175626791863206,0.0004,60)
+          row=calc("fieldrow",20261116,0.00002580127818934763,0.007,33)
+          result={"status":"PINNED_CEDAR_GUILD_GEOGRAPHIC_CONDITIONING_REPLAY_PASS",
+              "source_sha256":"a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476",
+              "n_original_plots":168,"n_1998_exact_richness_supported":94,
+              "four_zone":zone,"eighteen_fieldrows":row,
+              "nonclaims":["Post-outcome exploratory; no confirmation beyond Cedar E120 site",
+                           "Planted guild category and species identity cannot be disentangled",
+                           "No original EDI source measured-unit or seed-composition audit"]}
+          dst=Path("results/cedar_e120_source_v0_1/1998_guild_geo_replay_ci_v0_1.json")
+          dst.parent.mkdir(parents=True,exist_ok=True)
+          dst.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
+          print("CEDAR_GUILD_GEO_CI_PASS",json.dumps(result,sort_keys=True))
+          PY
+      - name: Save nonraw geo-source replay only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cedar-1998-guild-geo-identity-replay-v0-1
+          path: results/cedar_e120_source_v0_1/1998_guild_geo_replay_ci_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

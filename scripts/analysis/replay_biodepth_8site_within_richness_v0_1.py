@@ -97,7 +97,7 @@ def independent_replay():
         guild_formula="log_biomass ~ C(richness)+C(year)"+block+" + grasses+legumes+forbs"
         gm=smf.ols(guild_formula,data=g).fit(cov_type="cluster",
                  cov_kwds={"groups":g.composition,"use_correction":True})
-        full_rank=np.linalg.matrix_rank(gm.model.exog)==gm.model.exog.shape[1]
+        full_rank=bool(np.linalg.matrix_rank(gm.model.exog)==gm.model.exog.shape[1])
         guild_p=float(gm.wald_test("grasses=forbs,legumes=forbs",scalar=True).pvalue) if full_rank else None
         identity_count+=int(full_rank)
         cv={}

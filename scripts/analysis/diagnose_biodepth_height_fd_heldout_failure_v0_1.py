@@ -11,7 +11,7 @@ from pathlib import Path
 from collections import Counter,defaultdict
 import numpy as np
 from audit_biodepth_gift_height_references_v0_1 import run as provenance
-from audit_biodepth_103_taxa_gift_height_v0_1 import source
+from audit_biodepth_103_taxa_gift_height_v0_1 import source,geometry
 from fit_biodepth_2010_sown_height_fd_biomass_v0_1 import baseline,composition
 
 MODEL_EPS=1e-6
@@ -33,6 +33,7 @@ def core(a):
     bysite={r["heldout_site"]:r for r in main["primary"]["site_holdout_records"]}
     if set(bysite)!=set(sites_counts):
         raise ValueError("Site roster changed since original heldout experiment")
+    _,original_planted_roster,_=geometry(s_rows,c_rows)
     too_tall={n:v for n,v in height.items() if v>10}
     if len(too_tall)!=1:
         raise ValueError("Previous source one species max-height above 10m flag changed")
@@ -75,9 +76,10 @@ def core(a):
         positive=np.array(sorted((max(0,x) for x in deltas.values()),reverse=True))
         excess=float(positive.sum())
         negative=sum(v<0 for v in deltas.values())
-        tall_count=sum(any(n in height and n in {x for x in too_tall} for n in r["plot"] if False)
-                       for r in []) # Explicitly no accession of response-derived tall-plant weights.
-        tall_species_source_plots=[(n,sum(n in original_roster for original_roster in [])) for n in ()]
+        original_test_plots={r["plot"] for r in sitep}
+        tall_plots=sum(any(n in too_tall for n in planted)
+            for (site,p),planted in original_planted_roster.items()
+            if site==held and p in original_test_plots)
         row={
             "site":held,"n_original_test_plots":len(sitep),"n_heldout_plot_years":len(test),
             "n_orig_train_plots":len(trainp),
@@ -100,7 +102,7 @@ def core(a):
             "n_test_plots_FD_model_worse_than_M1":sum(x>0 for x in deltas.values()),
             "top1_test_plot_share_of_positive_added_SSE":float(positive[0]/excess) if excess>0 else None,
             "top3_test_plots_share_of_positive_added_SSE":float(positive[:3].sum()/excess) if excess>0 else None,
-            "source_original_2005_planted_GIFT_height_above_10m_species_count":len(too_tall),
+            "source_original_sown_eligible_plots_with_above10m_maxheight_species":tall_plots,
         }
         results.append(row)
     return {

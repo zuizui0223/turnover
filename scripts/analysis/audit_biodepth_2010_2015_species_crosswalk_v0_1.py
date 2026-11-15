@@ -207,7 +207,7 @@ def audit(inputs):
       "secondary_R_abbrev_aliases_unresolved":aliases_R_not_in_2010,
       "n_2010_species_years_name_compatible_incidence_verified":n_exact_rda_incidence_checks,
       "n_2010_species_years_of_unresolved_secondary_R_names":sum(source_alias_recorded.values()),
-      "source_name_resolution_policy":"103 original 2010 names authoritative; 7 secondary R package names are excluded from direct name-based joins until taxonomic or exact planted-plot fingerprint audits."
+      "source_name_resolution_policy":"103 original 2010 names authoritative; 7 secondary R package names are excluded from direct name-based joins until taxonomic or exact planted-plot fingerprint audits.",
       "n_original_site_nested_compositions":len(composition_native_signature),
       "n_R_plots_with_nonidentical_original_2005_composition_number_by_site":dict(composition_original_vs_repack),
       "n_original_composition_labels_with_multiple_repack_aliases":sum(len(v)>1 for v in composition_label_map.values()),

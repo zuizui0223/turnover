@@ -1,0 +1,117 @@
+name: Cedar E120 1998 independent replay: guild count vs guild identity
+on:
+  push:
+    branches: [analysis/cedar-e120-independent-biomass-fg-source-20261115]
+    paths:
+      - .github/workflows/cedar-e120-1998-guild-effect-replay-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/cedar-e120-1998-guild-effect-replay-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install fixed direct effect reconstruction dependencies
+        run: python3 -m pip install -q numpy==2.3.4 statsmodels==0.14.5 xlrd==2.0.1
+      - name: Verify original educational source and replay exact 1998 outcome coefficients
+        run: |
+          python3 - <<'PY'
+          import hashlib,urllib.request,json,math
+          from collections import defaultdict
+          from pathlib import Path
+          import numpy as np,statsmodels.api as sm,xlrd
+          url='https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data/DataBonus-Student.xls'
+          req=urllib.request.Request(url,headers={'User-Agent':'turnover-cedar-1998-source-replay/0.1'})
+          with urllib.request.urlopen(req,timeout=90) as res:raw=res.read(1000000)
+          if hashlib.sha256(raw).hexdigest()!='a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476':
+            raise ValueError('Original 2004 ESA source bytes changed')
+          sh=xlrd.open_workbook(file_contents=raw).sheet_by_index(0)
+          if sh.nrows!=174 or sh.ncols!=10:raise ValueError('Original 168-plot study changed')
+          if [sh.cell_value(5,j) for j in range(10)] != ['Plot','NumSp','AbvBio 1996','AbvBio 1997','AbvBio 1998','C3','C4','Forb','Legume','Woody']:
+            raise ValueError('Original E120 field semantics changed')
+          rows=np.array([[float(sh.cell_value(i,j)) for j in range(10)] for i in range(6,174)])
+          if len({int(q) for q in rows[:,0]})!=168 or int(rows[:,9].sum())!=77:raise ValueError('Unique ID or woody treatment identity changed')
+          r=rows[np.isin(rows[:,1],[2,4,8])]
+          if len(r)!=94 or int(r[:,9].sum())!=39:raise ValueError('Pre-fixed richness-supported population differs')
+          n=len(r);y=np.log1p(r[:,4]);rich=r[:,1];woody=r[:,9];g=r[:,5:9];fg=g.sum(axis=1)
+          if np.any(fg+woody>rich) or np.any(r[:,4]<0):raise ValueError('Invalid treatment or measured biomass')
+          x0=np.column_stack([np.ones(n),(rich==4).astype(float),(rich==8).astype(float),woody])
+          x1=np.column_stack([x0,fg])
+          x2=np.column_stack([x0,g])
+          model0=sm.OLS(y,x0).fit(cov_type='HC3')
+          model1=sm.OLS(y,x1).fit(cov_type='HC3')
+          model2=sm.OLS(y,x2).fit(cov_type='HC3')
+          R=np.zeros((3,8))
+          for j in range(3):R[j,4+j]=1;R[j,7]=-1
+          p_equal=float(model2.wald_test(R,scalar=True).pvalue)
+          fieldrow=((r[:,0].astype(int)-1)//19+1)
+          zone=np.select([fieldrow<=4,fieldrow<=9,fieldrow<=13],[1,2,3],default=4)
+          spatial=np.column_stack([x2]+[(fieldrow==k).astype(float) for k in range(2,19)])
+          if np.linalg.matrix_rank(spatial)!=spatial.shape[1]:raise ValueError('Spatial guild model rank deficient')
+          spatial_p=float(sm.OLS(y,spatial).fit(cov_type='HC3').wald_test(
+              np.column_stack([R,np.zeros((3,17))]),scalar=True).pvalue)
+          # One held-out field zone each; no original response used for model selection.
+          cv={}
+          for key,x in [('baseline',x0),('guild_count',x1),('guild_identity',x2)]:
+            pred=np.full(n,np.nan)
+            for z in (1,2,3,4):
+              a=zone!=z;b=~a
+              if np.linalg.matrix_rank(x[a])!=x.shape[1]:raise ValueError('Heldout design rank failure')
+              pred[b]=x[b]@np.linalg.lstsq(x[a],y[a],rcond=None)[0]
+            cv[key]=float(((y-pred)**2).sum())
+          # Conditional whole-vector guild shuffle preserves each plot's 4-group count.
+          groups=defaultdict(list)
+          for i,rr in enumerate(r):
+            groups[(int(rich[i]),int(woody[i]),int(fg[i]))].append(i)
+          obs=float(np.sum((y-x1@np.linalg.lstsq(x1,y,rcond=None)[0])**2)-
+                    np.sum((y-x2@np.linalg.lstsq(x2,y,rcond=None)[0])**2))
+          rand=np.random.default_rng(20261121)
+          extreme=0
+          for _ in range(9999):
+            shuffled=g.copy()
+            for ids in groups.values():
+              if len(ids)>1:
+                idx=np.array(ids)
+                shuffled[idx]=shuffled[idx][rand.permutation(len(idx))]
+            xp=np.column_stack([x0,shuffled])
+            beta=np.linalg.lstsq(xp,y,rcond=None)[0]
+            improve=float(np.sum((y-x1@np.linalg.lstsq(x1,y,rcond=None)[0])**2)-
+                          np.sum((y-xp@beta)**2))
+            if improve+1e-10>=obs:extreme+=1
+          perm_p=(extreme+1)/10000
+          if abs(float(model1.params[-1])-0.0830142460692296)>1e-9:raise ValueError('Cannot reproduce frozen count beta')
+          if abs(p_equal-7.630860370298895e-7)>1e-8:raise ValueError('Cannot reproduce frozen group identity Wald p')
+          if abs(cv['guild_identity']-32.433282131792026)>1e-7:raise ValueError('Cannot reproduce heldout guild SSE')
+          report={
+            'status':'SOURCE_VERIFIED_INDEPENDENT_CEDAR_1998_EFFECT_REPLAY_PASS',
+            'source_SHA256':hashlib.sha256(raw).hexdigest(),
+            'n_original':168,'n_1998_richness_supported':94,'n_woody_supported':39,
+            'count_model_HC3':{'beta':float(model1.params[-1]),'p':float(model1.pvalues[-1]),'CI95':[float(x) for x in model1.conf_int()[-1]]},
+            'guild_identity_equal_four_effects_HC3_p':p_equal,
+            'guild_identity_with_fieldrow_fixed_effects_HC3_p':spatial_p,
+            'count_vs_baseline_spatial_cv_gain':1-cv['guild_count']/cv['baseline'],
+            'guild_vs_baseline_spatial_cv_gain':1-cv['guild_identity']/cv['baseline'],
+            'guild_conditional_permutation_9999_p':perm_p,'source_study':'ESA TIEE 2004 republication of Cedar Creek E120',
+            'not_an_independent_globally_generalized_or_causal_effect':True,
+          }
+          out=Path('results/cedar_e120_source_v0_1/1998_guild_replay_ci_v0_1.json')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          print('CEDAR_1998_GUILD_REPLAY',json.dumps(report,sort_keys=True))
+          PY
+      - name: Upload only results without source workbook
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cedar-e120-1998-guild-effect-replay-qa-v0-1
+          path: results/cedar_e120_source_v0_1/1998_guild_replay_ci_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

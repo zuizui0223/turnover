@@ -1,0 +1,39 @@
+name: BIODEPTH source table S1 site soil N pH versus original eight guild contrasts
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/audit_biodepth_8site_soil_moderators_v0_1.py
+      - .github/workflows/biodepth-eight-site-soil-original-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_biodepth_8site_soil_moderators_v0_1.py
+      - .github/workflows/biodepth-eight-site-soil-original-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source-parsing scientific dependencies
+        run: python -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 beautifulsoup4
+      - name: Inspect original DOI Table S1 from Figshare and previously frozen eight-site matched response
+        run: |
+          python -m py_compile scripts/analysis/audit_biodepth_8site_soil_moderators_v0_1.py
+          python scripts/analysis/audit_biodepth_8site_soil_moderators_v0_1.py \
+            --matched results/biodepth_8site_source_v0_1/matched_legume_vs_forb_replay_v0_1.json \
+            --out results/biodepth_2010_species_source_v0_1/eight_site_soil_context_v0_1.json
+      - name: Preserve site-only and source-metadata analysis, not biological raw rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-eight-site-original-soil-context-v0-1
+          path: results/biodepth_2010_species_source_v0_1/eight_site_soil_context_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

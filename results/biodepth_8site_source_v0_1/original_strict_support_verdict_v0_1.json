@@ -1,0 +1,132 @@
+{
+  "version": "v0.1",
+  "date": "2026-11-15",
+  "study": "BIODEPTH Spehn et al. (2005) 8-site source original Figshare DOI 10.6084/m9.figshare.3565170.v1",
+  "status": "PRE_OUTCOME_HOLD_ORIGINAL_SIX_SITES_WITH_ONE_20PLOT_EXACT_RICHNESS_STRATUM",
+  "source_provenance": {
+    "design": {
+      "filename": "Design.txt",
+      "file_id": 5640240,
+      "md5": "29e7d05f45b8613d9bead9337da7d3cc",
+      "sha256": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+      "rows": 480
+    },
+    "shoots": {
+      "filename": "Shoots.txt",
+      "file_id": 5640249,
+      "md5": "76824bf9ce195e84aa17ae4cd6c1a336",
+      "sha256": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135",
+      "rows": 1440
+    },
+    "dictionary": {
+      "filename": "suppl-1.htm",
+      "file_id": 5640234,
+      "md5": "dfd5f16d87015b87a879d349c5402db3",
+      "sha256": "20694c14d6b6eccf016294eeae2058479b12c830272a6175a62d32714703c116"
+    },
+    "figshare_license": "CC0-1.0",
+    "original_figshare_url": "https://doi.org/10.6084/m9.figshare.3565170.v1"
+  },
+  "population": {
+    "n_sites": 8,
+    "n_unique_design_plots": 480,
+    "n_unique_compositions_across_study": 200,
+    "n_original_plot_year_rows": 1440,
+    "years_in_source": [
+      1,
+      2,
+      3
+    ],
+    "n_nonmissing_numeric_shoots_biomass": 1419,
+    "n_missing": 21,
+    "n_observed_zero": 34,
+    "n_negative": 0,
+    "fg_richness_levels": [
+      1,
+      2,
+      3
+    ],
+    "all_seven_nonempty_sown_guild_presence_vectors_present": true,
+    "grass_present_plots": 358,
+    "grass_absent_plots": 122,
+    "source_site_crosswalk_numeric_shoots_to_text_design": {
+      "1": "Germany",
+      "2": "Portugal",
+      "3": "Switzerland",
+      "4": "Greece",
+      "5": "Ireland",
+      "6": "Sweden",
+      "7": "Sheffield",
+      "8": "Silwood"
+    },
+    "group_flags_native": "Yes/No"
+  },
+  "site_source_support": [
+    {
+      "site": "Germany",
+      "n_plots": 60,
+      "n_aggregated_supported": 34,
+      "max_n_single_richness_with_fg_variation": 14
+    },
+    {
+      "site": "Greece",
+      "n_plots": 52,
+      "n_aggregated_supported": 22,
+      "max_n_single_richness_with_fg_variation": 12
+    },
+    {
+      "site": "Ireland",
+      "n_plots": 70,
+      "n_aggregated_supported": 46,
+      "max_n_single_richness_with_fg_variation": 20
+    },
+    {
+      "site": "Portugal",
+      "n_plots": 56,
+      "n_aggregated_supported": 10,
+      "max_n_single_richness_with_fg_variation": 10
+    },
+    {
+      "site": "Sheffield",
+      "n_plots": 54,
+      "n_aggregated_supported": 10,
+      "max_n_single_richness_with_fg_variation": 10
+    },
+    {
+      "site": "Silwood",
+      "n_plots": 66,
+      "n_aggregated_supported": 44,
+      "max_n_single_richness_with_fg_variation": 12
+    },
+    {
+      "site": "Sweden",
+      "n_plots": 58,
+      "n_aggregated_supported": 24,
+      "max_n_single_richness_with_fg_variation": 12
+    },
+    {
+      "site": "Switzerland",
+      "n_plots": 64,
+      "n_aggregated_supported": 40,
+      "max_n_single_richness_with_fg_variation": 16
+    }
+  ],
+  "gate": {
+    "threshold_sites": 6,
+    "threshold_single_richness_with_at_least_20_plots_and_at_least_2_fg_count_levels": true,
+    "observed_eligible_sites": 1,
+    "observed_aggregate_supported_plots_not_gate": 230,
+    "previously_incorrect_site_count_from_aggregating_across_richness": 6,
+    "pass": false,
+    "explanation": "Summing across distinct planted-richness strata cannot satisfy the originally frozen single-richness≥20 support requirement; do not reinterpret 6/8 as pass."
+  },
+  "source_metadata_conflict": "2005 supplementary HTML paragraph mentions grasses as generally included; original tabular Design.txt explicitly contains 122 grass-absent plots. Source-native table controls and must be reported.",
+  "response_definition": "Shoots.txt biomass numeric; published methods report standing aboveground crop harvested at 5cm once at some sites and twice at others, dried at 80°C. Do not treat without site-specific harvest protocol as homogeneous annual NPP.",
+  "permitted_next": "A separately labeled post-source geometry exploratory site-level analysis using original 480 source plots and plot×year response, with explicit low-precision site-level estimates; original six-site high-support programme remains HOLD.",
+  "not_opened": [
+    "biomass-by-FG effects",
+    "cross-site meta slopes",
+    "guild composition coefficients",
+    "FD/phylogenetic memory"
+  ]
+}

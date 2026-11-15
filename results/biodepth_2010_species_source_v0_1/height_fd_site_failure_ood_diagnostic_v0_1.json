@@ -1,0 +1,271 @@
+{
+  "hard_nonclaims": [
+    "Sheffield selected for diagnosis after its huge heldout loss; not new confirmatory site test",
+    "Predictor feature extrapolation and regression collinearity are statistical failure modes, not biodiversity ecology mechanisms",
+    "No heldout-site/plot selection changed the original negative global site-equal result",
+    "No causal light competition, maximum-height selection or trait phylogenetic memory established",
+    "Original GIFT height source maxima have nonzero cross-reference CV and may have height-record biases",
+    "2010/2005 original source biomass editions are not numerically interchangeable",
+    "Original global BIODEPTH, sPlotOpen BIEN and NEON gates remain HOLD"
+  ],
+  "original_height_max_above_10m_taxon_names_source_only": [
+    "origanum vulgare"
+  ],
+  "original_heldout_result_reproduced_all_sites": true,
+  "original_plot_count": 174,
+  "original_site_count": 7,
+  "plot_year_rows": 521,
+  "site_failure_diagnostics": [
+    {
+      "M1_source_SSE": 53.2617269406289,
+      "M2_source_SSE": 40.64947908006127,
+      "heldout_original_SSE_gain_FD_over_M1": 0.2367975765154322,
+      "n_heldout_plot_years": 78,
+      "n_orig_train_plots": 148,
+      "n_original_test_plots": 26,
+      "n_test_plots_FD_model_better_than_M1": 19,
+      "n_test_plots_FD_model_worse_than_M1": 7,
+      "n_test_plots_mpd_abs_z_gt3": 0,
+      "n_test_plots_mpd_outside_training_observed_range": 0,
+      "site": "Germany",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 0,
+      "test_mpd_max_abs_z": 1.08668166730868,
+      "test_mpd_z_mean": -0.38690046654000226,
+      "test_source_FD_mpd_mean": 0.2957184319788429,
+      "test_source_FD_mpd_minmax": [
+        0.14384103622589042,
+        0.514224072040613
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.4234935278917319,
+      "top3_test_plots_share_of_positive_added_SSE": 0.9070043613341654,
+      "train_M2_FD_conditional_R_squared": 0.31806605544221234,
+      "train_M2_FD_conditional_VIF": 1.4664176904237667,
+      "train_M2_standardized_FD_beta": -0.1738512693010828,
+      "train_original_M1_design_condition_number": 137.28177348548763,
+      "train_original_M2_design_condition_number": 137.89419401240775,
+      "train_source_FD_mpd_mean": 0.3796895864041849,
+      "train_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        1.5682744167460896
+      ],
+      "train_source_FD_mpd_sd": 0.21703554709117948
+    },
+    {
+      "M1_source_SSE": 238.62286072325207,
+      "M2_source_SSE": 232.47273081321862,
+      "heldout_original_SSE_gain_FD_over_M1": 0.0257734313107838,
+      "n_heldout_plot_years": 95,
+      "n_orig_train_plots": 142,
+      "n_original_test_plots": 32,
+      "n_test_plots_FD_model_better_than_M1": 20,
+      "n_test_plots_FD_model_worse_than_M1": 12,
+      "n_test_plots_mpd_abs_z_gt3": 0,
+      "n_test_plots_mpd_outside_training_observed_range": 2,
+      "site": "Ireland",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 0,
+      "test_mpd_max_abs_z": 1.4791077039181748,
+      "test_mpd_z_mean": -0.5928626093433718,
+      "test_source_FD_mpd_mean": 0.26229383959845626,
+      "test_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        0.4236489301936019
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.3432466825568496,
+      "top3_test_plots_share_of_positive_added_SSE": 0.6957769333193722,
+      "train_M2_FD_conditional_R_squared": 0.23719380385863365,
+      "train_M2_FD_conditional_VIF": 1.3109489737478166,
+      "train_M2_standardized_FD_beta": -0.22263262406102166,
+      "train_original_M1_design_condition_number": 165.19188988462622,
+      "train_original_M2_design_condition_number": 165.25502066603514,
+      "train_source_FD_mpd_mean": 0.39076996585999063,
+      "train_source_FD_mpd_minmax": [
+        0.10033534773107561,
+        1.5682744167460896
+      ],
+      "train_source_FD_mpd_sd": 0.21670472085232162
+    },
+    {
+      "M1_source_SSE": 167.1737809431965,
+      "M2_source_SSE": 151.2071437224628,
+      "heldout_original_SSE_gain_FD_over_M1": 0.09550921879405816,
+      "n_heldout_plot_years": 42,
+      "n_orig_train_plots": 160,
+      "n_original_test_plots": 14,
+      "n_test_plots_FD_model_better_than_M1": 12,
+      "n_test_plots_FD_model_worse_than_M1": 2,
+      "n_test_plots_mpd_abs_z_gt3": 0,
+      "n_test_plots_mpd_outside_training_observed_range": 0,
+      "site": "Portugal",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 0,
+      "test_mpd_max_abs_z": 2.006050528802606,
+      "test_mpd_z_mean": 0.624733725553955,
+      "test_source_FD_mpd_mean": 0.48594778042759695,
+      "test_source_FD_mpd_minmax": [
+        0.3025793326408952,
+        0.7716177245764086
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.6196823436897939,
+      "top3_test_plots_share_of_positive_added_SSE": 1,
+      "train_M2_FD_conditional_R_squared": 0.3971107294985148,
+      "train_M2_FD_conditional_VIF": 1.6586793776711215,
+      "train_M2_standardized_FD_beta": -0.11556649634261483,
+      "train_original_M1_design_condition_number": 142.24213722467533,
+      "train_original_M2_design_condition_number": 142.2866534620667,
+      "train_source_FD_mpd_mean": 0.3567466818330182,
+      "train_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        1.5682744167460896
+      ],
+      "train_source_FD_mpd_sd": 0.2068098668436948
+    },
+    {
+      "M1_source_SSE": 45.4728793123962,
+      "M2_source_SSE": 458.5834486487038,
+      "heldout_original_SSE_gain_FD_over_M1": -9.084768230713092,
+      "n_heldout_plot_years": 60,
+      "n_orig_train_plots": 154,
+      "n_original_test_plots": 20,
+      "n_test_plots_FD_model_better_than_M1": 2,
+      "n_test_plots_FD_model_worse_than_M1": 18,
+      "n_test_plots_mpd_abs_z_gt3": 10,
+      "n_test_plots_mpd_outside_training_observed_range": 6,
+      "site": "Sheffield",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 10,
+      "test_mpd_max_abs_z": 10.711555540456933,
+      "test_mpd_z_mean": 3.276099692230652,
+      "test_source_FD_mpd_mean": 0.7041261463935344,
+      "test_source_FD_mpd_minmax": [
+        0.34452331964630306,
+        1.5682744167460896
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.26091775692282193,
+      "top3_test_plots_share_of_positive_added_SSE": 0.6152413897566081,
+      "train_M2_FD_conditional_R_squared": 0.25572643828029906,
+      "train_M2_FD_conditional_VIF": 1.3435919955149604,
+      "train_M2_standardized_FD_beta": -0.5069687978116011,
+      "train_original_M1_design_condition_number": 143.24916774812598,
+      "train_original_M2_design_condition_number": 143.27141685043335,
+      "train_source_FD_mpd_mean": 0.3233780200740168,
+      "train_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        0.7716177245764086
+      ],
+      "train_source_FD_mpd_sd": 0.1162199450836221
+    },
+    {
+      "M1_source_SSE": 29.461864001153785,
+      "M2_source_SSE": 27.829726187550037,
+      "heldout_original_SSE_gain_FD_over_M1": 0.05539832148908941,
+      "n_heldout_plot_years": 96,
+      "n_orig_train_plots": 142,
+      "n_original_test_plots": 32,
+      "n_test_plots_FD_model_better_than_M1": 21,
+      "n_test_plots_FD_model_worse_than_M1": 11,
+      "n_test_plots_mpd_abs_z_gt3": 0,
+      "n_test_plots_mpd_outside_training_observed_range": 0,
+      "site": "Silwood",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 0,
+      "test_mpd_max_abs_z": 1.2692475550178466,
+      "test_mpd_z_mean": -0.2837217023702244,
+      "test_source_FD_mpd_mean": 0.3163831278150483,
+      "test_source_FD_mpd_minmax": [
+        0.10033534773107561,
+        0.543282969898076
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.2846184943692056,
+      "top3_test_plots_share_of_positive_added_SSE": 0.8074976309605,
+      "train_M2_FD_conditional_R_squared": 0.29414785813558675,
+      "train_M2_FD_conditional_VIF": 1.4167273012144368,
+      "train_M2_standardized_FD_beta": -0.25838208893343817,
+      "train_original_M1_design_condition_number": 141.32992442771638,
+      "train_original_M2_design_condition_number": 141.6314611970335,
+      "train_source_FD_mpd_mean": 0.3785808304872375,
+      "train_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        1.5682744167460896
+      ],
+      "train_source_FD_mpd_sd": 0.2192208144551041
+    },
+    {
+      "M1_source_SSE": 320.3235782946764,
+      "M2_source_SSE": 340.94675698950834,
+      "heldout_original_SSE_gain_FD_over_M1": -0.06438233115596637,
+      "n_heldout_plot_years": 66,
+      "n_orig_train_plots": 152,
+      "n_original_test_plots": 22,
+      "n_test_plots_FD_model_better_than_M1": 6,
+      "n_test_plots_FD_model_worse_than_M1": 16,
+      "n_test_plots_mpd_abs_z_gt3": 0,
+      "n_test_plots_mpd_outside_training_observed_range": 0,
+      "site": "Sweden",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 0,
+      "test_mpd_max_abs_z": 0.6324046024589118,
+      "test_mpd_z_mean": 0.03156382342641588,
+      "test_source_FD_mpd_mean": 0.3731547325211618,
+      "test_source_FD_mpd_minmax": [
+        0.23311948018640796,
+        0.5041739130327042
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.1902039770807396,
+      "top3_test_plots_share_of_positive_added_SSE": 0.45755933365480633,
+      "train_M2_FD_conditional_R_squared": 0.32369140905519256,
+      "train_M2_FD_conditional_VIF": 1.4786149597818854,
+      "train_M2_standardized_FD_beta": -0.32981997433130883,
+      "train_original_M1_design_condition_number": 146.9746011378045,
+      "train_original_M2_design_condition_number": 147.372679478983,
+      "train_source_FD_mpd_mean": 0.36627193357765603,
+      "train_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        1.5682744167460896
+      ],
+      "train_source_FD_mpd_sd": 0.21805973409880086
+    },
+    {
+      "M1_source_SSE": 43.443820047838756,
+      "M2_source_SSE": 38.24381835748865,
+      "heldout_original_SSE_gain_FD_over_M1": 0.11969485382786438,
+      "n_heldout_plot_years": 84,
+      "n_orig_train_plots": 146,
+      "n_original_test_plots": 28,
+      "n_test_plots_FD_model_better_than_M1": 22,
+      "n_test_plots_FD_model_worse_than_M1": 6,
+      "n_test_plots_mpd_abs_z_gt3": 0,
+      "n_test_plots_mpd_outside_training_observed_range": 0,
+      "site": "Switzerland",
+      "source_original_sown_eligible_plots_with_above10m_maxheight_species": 0,
+      "test_mpd_max_abs_z": 1.0039428882617958,
+      "test_mpd_z_mean": -0.33138919284764395,
+      "test_source_FD_mpd_mean": 0.30647142361659313,
+      "test_source_FD_mpd_minmax": [
+        0.15972606619327792,
+        0.47056590763435696
+      ],
+      "top1_test_plot_share_of_positive_added_SSE": 0.3840756109937652,
+      "top3_test_plots_share_of_positive_added_SSE": 0.885788898331546,
+      "train_M2_FD_conditional_R_squared": 0.2680893106970945,
+      "train_M2_FD_conditional_VIF": 1.3662869180834496,
+      "train_M2_standardized_FD_beta": -0.2373889407370584,
+      "train_original_M1_design_condition_number": 230.6769009807543,
+      "train_original_M2_design_condition_number": 231.5584435369529,
+      "train_source_FD_mpd_mean": 0.37877765861647034,
+      "train_source_FD_mpd_minmax": [
+        0.07024034377188419,
+        1.5682744167460896
+      ],
+      "train_source_FD_mpd_sd": 0.21819128855273173
+    }
+  ],
+  "source_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "source_ref_fingerprint": "148855c3c03a9c957178fc22ace4765d2968f9e9e0cdb3d83f8a2c6256e9b35e",
+  "source_roster": "Original 2010 BIODEPTH species and Community source; GIFT 3.1 original accepted maxheight",
+  "status": "BIODEPTH_ORIGINAL_7SITE_FD_FAILURE_MODEL_AND_PREDICTOR_GEOMETRY_AUDITED",
+  "version": "v0.1",
+  "verified": {
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43723796776",
+    "job_id": 132841224470,
+    "artifact_id": 14165892287,
+    "artifact_digest": "sha256:7e22a5cccb83086c74f16fd35a7c1a19f26f802e5dbd3374674fcfbeb9612bb3"
+  },
+  "external_size_reference": "Kew Plants of the World Online Origanum vulgare general information 20–90cm, https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:453395-1/general-information",
+  "interpretation": "Original heldout failure is consistent with source-anomalous Origanum vulgare max-height (GIFT >10m) in Sheffield, creating covariate extrapolation; causal data error unproven until inspecting exact GIFT ref measurements."
+}

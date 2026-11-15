@@ -1,0 +1,57 @@
+name: BIODEPTH 8-site original structural guild-biomass eligibility v0.1
+on:
+  push:
+    branches: [analysis/biodepth-8site-source-first-20261115]
+    paths:
+      - scripts/analysis/audit_biodepth_original_design_geometry_v0_1.py
+      - .github/workflows/biodepth-design-support-gate-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_biodepth_original_design_geometry_v0_1.py
+      - .github/workflows/biodepth-design-support-gate-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-eligibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate source schema script
+        run: python3 -m py_compile scripts/analysis/audit_biodepth_original_design_geometry_v0_1.py
+      - name: Re-fetch byte-pinned original PAST consortium Figshare design/biomass tables
+        run: |
+          python3 - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          d=Path('/tmp/biodepth_2005_original_source');d.mkdir(parents=True,exist_ok=True)
+          files={
+            'Design.txt':(5640240,'29e7d05f45b8613d9bead9337da7d3cc',
+                            'a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a'),
+            'Shoots.txt':(5640249,'76824bf9ce195e84aa17ae4cd6c1a336',
+                            'cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135'),
+          }
+          for name,(fid,md,sha) in files.items():
+            url=f'https://ndownloader.figshare.com/files/{fid}'
+            req=urllib.request.Request(url,headers={'User-Agent':'turnover-BIODEPTH-2005-original-source-eligibility/0.1'})
+            with urllib.request.urlopen(req,timeout=85) as res:raw=res.read(1000000)
+            if hashlib.md5(raw).hexdigest()!=md or hashlib.sha256(raw).hexdigest()!=sha:
+                raise ValueError('Original BIODEPTH Figshare published source checksum mismatch: '+name)
+            (d/name).write_bytes(raw)
+            print('BIODEPTH_ORIGINAL_SOURCE_SHA256_PASS',name,len(raw),sha)
+          PY
+      - name: Audit source-native design/site/year/within-richness FG treatment support only
+        run: |
+          python3 scripts/analysis/audit_biodepth_original_design_geometry_v0_1.py \
+            --design /tmp/biodepth_2005_original_source/Design.txt \
+            --shoots /tmp/biodepth_2005_original_source/Shoots.txt \
+            --out results/biodepth_8site_source_v0_1/design_eligibility_v0_1.json
+      - name: Preserve nonraw site/plot/FG support ledger
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-eight-site-source-support-v0-1
+          path: results/biodepth_8site_source_v0_1/design_eligibility_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

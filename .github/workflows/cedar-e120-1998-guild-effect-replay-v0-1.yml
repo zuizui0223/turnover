@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install fixed direct effect reconstruction dependencies
-        run: python3 -m pip install -q numpy==2.3.4 statsmodels==0.14.5 xlrd==2.0.1
+        run: python3 -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 statsmodels==0.14.5 xlrd==2.0.1
       - name: Verify original educational source and replay exact 1998 outcome coefficients
         run: |
           python3 - <<'PY'

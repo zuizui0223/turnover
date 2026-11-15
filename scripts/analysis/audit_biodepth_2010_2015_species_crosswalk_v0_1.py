@@ -54,7 +54,7 @@ def audit(inputs):
         p=str(row["plot"])
         source=byD[p]
         if row["location"]!=source["location"] or int(row["Diversity"])!=int(source["species.richness"]) or int(row["FR"])!=int(source["functional.richness"]) or int(row["Composition"])!=int(source["composition"]):
-            raise ValueError("R repackaging design vs original 2005 treatment changed: "+p)
+            raise ValueError("R repackaging design mismatch "+p+" values "+repr({"R_location":str(row["location"]),"D_location":source["location"],"R_diversity":int(row["Diversity"]),"D_diversity":int(source["species.richness"]),"R_FR":int(row["FR"]),"D_FR":int(source["functional.richness"]),"R_Composition":int(row["Composition"]),"D_composition":int(source["composition"])}))
         if int(row["site"])!=int(row["plot"][1:2]):
             # Plot B1P..., site should match numeric site ID 1..8
             raise ValueError("R row site-number inconsistent with encoded original plot ID")

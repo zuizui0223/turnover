@@ -91,7 +91,7 @@ def audit(inputs):
         raise ValueError("2010 taxonomy coding no longer yields 103 unique species abbreviations")
     short_names={r["abbrevation"].upper()+"1":r for r in names}
     if len(short_names)!=103 or set(short_names)!=set(speciescols):
-        raise ValueError("103 Linnaean binomial abbreviations do not match 103 R species incidence columns")
+        raise ValueError("Species name abbreviation source mismatch: "+repr({"n_names":len(short_names),"n_R_cols":len(speciescols),"names_not_R":sorted(set(short_names)-set(speciescols))[:40],"R_not_names":sorted(set(speciescols)-set(short_names))[:40],"codes_not_R":sorted({plain_code(k) for k in bycode}-set(speciescols))[:40],"R_not_codes":sorted(set(speciescols)-{plain_code(k) for k in bycode})[:40]}))
     mismatch_name=[]
     for code,info in bycode.items():
         k=plain_code(code)

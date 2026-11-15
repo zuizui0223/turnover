@@ -90,8 +90,17 @@ def audit(inputs):
     if len(bycode)!=186 or len({plain_code(k) for k in bycode})!=103:
         raise ValueError("2010 taxonomy coding no longer yields 103 unique species abbreviations")
     short_names={r["abbrevation"].upper()+"1":r for r in names}
-    if len(short_names)!=103 or set(short_names)!=set(speciescols):
-        raise ValueError("Species name abbreviation source mismatch: "+repr({"n_names":len(short_names),"n_R_cols":len(speciescols),"names_not_R":sorted(set(short_names)-set(speciescols))[:40],"R_not_names":sorted(set(speciescols)-set(short_names))[:40],"codes_not_R":sorted({plain_code(k) for k in bycode}-set(speciescols))[:40],"R_not_codes":sorted(set(speciescols)-{plain_code(k) for k in bycode})[:40]}))
+    original_taxon_cols={plain_code(k) for k in bycode}
+    repack_taxon_cols=set(map(str,speciescols))
+    if len(short_names)!=103 or set(short_names)!=original_taxon_cols:
+        raise ValueError("Original 2010 186 ecotype code abbreviations contradict original 103-taxon Linnaean name dictionary")
+    aliases_2010_not_in_R=sorted(original_taxon_cols-repack_taxon_cols)
+    aliases_R_not_in_2010=sorted(repack_taxon_cols-original_taxon_cols)
+    if len(aliases_2010_not_in_R)!=7 or len(aliases_R_not_in_2010)!=7:
+        raise ValueError("Exactly seven source name-code variants expected; no forced alias substitution")
+    original_R_common=original_taxon_cols & repack_taxon_cols
+    if len(original_R_common)!=96:
+        raise ValueError("Expected 96/103 exact species-label overlap, keep the seven as unresolved source aliases")
     mismatch_name=[]
     for code,info in bycode.items():
         k=plain_code(code)
@@ -105,6 +114,8 @@ def audit(inputs):
     byplotyearbiom=defaultdict(float)
     invalidbiom=Counter()
     site_coded=Counter()
+    n_exact_rda_incidence_checks=0
+    source_alias_recorded=Counter()
     source_2010_mix_by_plot=defaultdict(set)
     source_2010_mix_disagreement=Counter()
     for r in species:
@@ -128,8 +139,14 @@ def audit(inputs):
         if k in orig_keys:duplicate+=1
         orig_keys.add(k)
         abbrev=plain_code(code)
-        if (plot,abbrev) not in planted:source_missing["not_sown_in_original_R_plants"]+=1
-        if abbrev not in speciescols:source_missing["ecotype_abbrev_not_in_R_species_columns"]+=1
+        if abbrev in original_R_common:
+            if (plot,abbrev) not in planted:
+                source_missing["published_2010_species_not_sown_in_R_matched_taxon"]+=1
+            n_exact_rda_incidence_checks+=1
+        else:
+            # Original 2010 has authoritative sown names; seven secondary R
+            # columns use different labels; do not invent a taxonomic alias map.
+            source_alias_recorded[abbrev]+=1
         info=bycode[code]
         taxon_unique.add((info["genus"],info["species"]))
         byplotyear[(plot,year)].add(abbrev)
@@ -177,13 +194,20 @@ def audit(inputs):
             n_mismatch+=1
             gaps.append(abs(d))
     result={
-      "version":"v0.1","status":"BIODEPTH_2010_SPECIES_KEY_BRIDGE_PASS" if not mismatch_name else "BIODEPTH_2010_TAXON_NAME_CONFLICT_HOLD",
+      "version":"v0.1","status":"BIODEPTH_2010_ORIGINAL_SPECIES_BRIDGE_PASS_SEVEN_SECONDARY_NAME_ALIASES_UNRESOLVED" if not mismatch_name else "BIODEPTH_2010_ORIGINAL_TAXON_DICTIONARIES_CONFLICT_HOLD",
       "source_hashes":SHA,"same_original_experiment":True,
       "n_original_2005_plots":480,"n_R_plots_exact_treatment_crosswalk":same,
       "n_R_guild_flags_exactly_match_original":guilds,
       "n_R_sown_species_columns":len(speciescols),
       "n_R_unique_species_plot_incidence":len(planted),
       "n_original_2010_ecotype_codes":len(bycode),
+      "n_original_2010_taxa_exact_name_overlap_with_R":len(original_R_common),
+      "n_original_2010_species_codes_not_named_identically_in_R":len(aliases_2010_not_in_R),
+      "original_2010_abbrev_aliases_unresolved":aliases_2010_not_in_R,
+      "secondary_R_abbrev_aliases_unresolved":aliases_R_not_in_2010,
+      "n_2010_species_years_name_compatible_incidence_verified":n_exact_rda_incidence_checks,
+      "n_2010_species_years_of_unresolved_secondary_R_names":sum(source_alias_recorded.values()),
+      "source_name_resolution_policy":"103 original 2010 names authoritative; 7 secondary R package names are excluded from direct name-based joins until taxonomic or exact planted-plot fingerprint audits."
       "n_original_site_nested_compositions":len(composition_native_signature),
       "n_R_plots_with_nonidentical_original_2005_composition_number_by_site":dict(composition_original_vs_repack),
       "n_original_composition_labels_with_multiple_repack_aliases":sum(len(v)>1 for v in composition_label_map.values()),
@@ -208,7 +232,7 @@ def audit(inputs):
                                      "min_orig_sites":6,"min_years":2,
                                      "min_named_ecotypes":100},
       "raw_species_data_not_committed":True,
-      "species_sown_or_realized_interpretation":"Binary R presence cols are original SOWN incidence; 2010 source reports planted species biomass every year including real zeros.",
+      "species_sown_or_realized_interpretation":"Binary R presence cols are original SOWN incidence; 2010 original source reports all planted species every year, including legitimate real zeros. Seven secondary R taxon column names require separate reconciliation.",
       "no_traits_or_phylo_effects_opened":True,
       "hard_nonclaims":["2010 and 2005 are the same experiments, not independent sites",
                         "Plot-level sown species incidence is not realized flower/functional trait abundance",
@@ -235,4 +259,4 @@ if __name__=="__main__":
         out=Path(a.out);out.parent.mkdir(parents=True,exist_ok=True)
         out.write_text(json.dumps(r,indent=2,sort_keys=True)+"\n")
         print("BIODEPTH_SPECIES_FULL_KEY_QA",json.dumps(r,sort_keys=True))
-        if r["status"]!="BIODEPTH_2010_SPECIES_KEY_BRIDGE_PASS":raise SystemExit(2)
+        if r["status"]!="BIODEPTH_2010_ORIGINAL_SPECIES_BRIDGE_PASS_SEVEN_SECONDARY_NAME_ALIASES_UNRESOLVED":raise SystemExit(2)

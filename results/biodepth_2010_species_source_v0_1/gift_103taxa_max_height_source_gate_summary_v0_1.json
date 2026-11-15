@@ -1,0 +1,167 @@
+{
+  "GIFT_accepted_species_source_records": 372046,
+  "GIFT_original_trait_source_rows": 70231,
+  "GIFT_source_queried_at_UTC": "2026-11-15T12:57:47.465823+00:00",
+  "GIFT_trait_ID": "1.6.2",
+  "GIFT_v3_1_versioned_API": "https://gift.uni-goettingen.de/api/extended/index3.1.php",
+  "biology": "No functional diversity, biomass association, phylogenetic rho, site environmental moderation or quantitative trait effects calculated.",
+  "hard_nonclaims": [
+    "GIFT v3.1 source is live and only versioned, not content-immutable",
+    "Accepted-name exact match excludes synonyms and unresolved original ecotype taxa",
+    "Multiple legitimate height measurements conservatively excluded for lower bound",
+    "External GIFT trait data source/work provenance and units are not independently audited",
+    "One-axis height coverage is not multi-axis plant functional diversity",
+    "Source 2010 species roster is SOWN plant community, not observed biomass-weighted realized composition",
+    "Original 6-site BIODEPTH main support gate remains HOLD; BIEN/sPlotOpen original source gate remains HOLD"
+  ],
+  "n_GIFT_workIDs_with_multiple_different_positive_height_values": 0,
+  "n_exact_accepted_GIFT_taxa_with_unique_work_ID": 93,
+  "n_original_plots_height_eligible": 174,
+  "n_original_taxa": 103,
+  "n_original_taxa_ambiguous_GIFT_work_ID": 0,
+  "n_original_taxa_any_positive_max_height_even_multisource": 88,
+  "n_original_taxa_unambiguous_finite_positive_max_height": 88,
+  "n_original_taxa_without_exact_unique_GIFT_match": 10,
+  "n_original_taxa_without_valid_unambiguous_GIFT_height": 15,
+  "n_sites_with_8plus_height_eligible_plots": 7,
+  "original_biodepth_species_source": {
+    "n_orig_plant_occurrences": 1934,
+    "n_original_ecotypes": 186,
+    "n_original_plots": 480,
+    "n_original_sown_plant_species_names": 103,
+    "source_rows_each_year": {
+      "1": 1934,
+      "2": 1934,
+      "3": 1934
+    }
+  },
+  "source_eligibility_frozen_thresholds": {
+    "min_exact_GIFT_accepted_names": 80,
+    "min_original_height_eligible_plots_total": 60,
+    "min_original_taxa_with_unambiguous_max_height": 55,
+    "min_sites_with_8_height_eligible_plots": 4,
+    "per_plot_min_fraction_sown_trait_covered": 0.8,
+    "per_plot_min_original_sown_trait_species": 3
+  },
+  "status": "BIODEPTH_GIFT_HEIGHT_SOURCE_FEASIBILITY_PASS",
+  "version": "v0.1",
+  "site_coverage": {
+    "Germany": {
+      "n_original_plots": 60,
+      "n_original_plots_3plus_covered_species_atleast80pct": 26,
+      "n_species_exact_GIFT_accepted_name": 28,
+      "n_species_unambiguous_GIFT_height": 27,
+      "n_unique_original_sown_species": 31,
+      "planted_richness_plot_distribution": {
+        "1": 20,
+        "2": 14,
+        "4": 10,
+        "8": 10,
+        "16": 6
+      }
+    },
+    "Greece": {
+      "n_original_plots": 52,
+      "n_original_plots_3plus_covered_species_atleast80pct": 0,
+      "n_species_exact_GIFT_accepted_name": 18,
+      "n_species_unambiguous_GIFT_height": 14,
+      "n_unique_original_sown_species": 23,
+      "planted_richness_plot_distribution": {
+        "1": 14,
+        "2": 12,
+        "4": 10,
+        "8": 8,
+        "18": 8
+      }
+    },
+    "Ireland": {
+      "n_original_plots": 70,
+      "n_original_plots_3plus_covered_species_atleast80pct": 32,
+      "n_species_exact_GIFT_accepted_name": 12,
+      "n_species_unambiguous_GIFT_height": 11,
+      "n_unique_original_sown_species": 12,
+      "planted_richness_plot_distribution": {
+        "1": 20,
+        "2": 16,
+        "3": 4,
+        "4": 20,
+        "8": 10
+      }
+    },
+    "Portugal": {
+      "n_original_plots": 56,
+      "n_original_plots_3plus_covered_species_atleast80pct": 14,
+      "n_species_exact_GIFT_accepted_name": 13,
+      "n_species_unambiguous_GIFT_height": 13,
+      "n_unique_original_sown_species": 14,
+      "planted_richness_plot_distribution": {
+        "1": 28,
+        "2": 10,
+        "4": 10,
+        "8": 4,
+        "14": 4
+      }
+    },
+    "Sheffield": {
+      "n_original_plots": 54,
+      "n_original_plots_3plus_covered_species_atleast80pct": 20,
+      "n_species_exact_GIFT_accepted_name": 12,
+      "n_species_unambiguous_GIFT_height": 12,
+      "n_unique_original_sown_species": 12,
+      "planted_richness_plot_distribution": {
+        "1": 24,
+        "2": 10,
+        "4": 8,
+        "8": 8,
+        "12": 4
+      }
+    },
+    "Silwood": {
+      "n_original_plots": 66,
+      "n_original_plots_3plus_covered_species_atleast80pct": 32,
+      "n_species_exact_GIFT_accepted_name": 34,
+      "n_species_unambiguous_GIFT_height": 33,
+      "n_unique_original_sown_species": 34,
+      "planted_richness_plot_distribution": {
+        "1": 22,
+        "2": 12,
+        "4": 12,
+        "8": 10,
+        "11": 10
+      }
+    },
+    "Sweden": {
+      "n_original_plots": 58,
+      "n_original_plots_3plus_covered_species_atleast80pct": 22,
+      "n_species_exact_GIFT_accepted_name": 12,
+      "n_species_unambiguous_GIFT_height": 12,
+      "n_unique_original_sown_species": 12,
+      "planted_richness_plot_distribution": {
+        "1": 24,
+        "2": 12,
+        "4": 12,
+        "8": 6,
+        "12": 4
+      }
+    },
+    "Switzerland": {
+      "n_original_plots": 64,
+      "n_original_plots_3plus_covered_species_atleast80pct": 28,
+      "n_species_exact_GIFT_accepted_name": 47,
+      "n_species_unambiguous_GIFT_height": 46,
+      "n_unique_original_sown_species": 48,
+      "planted_richness_plot_distribution": {
+        "1": 20,
+        "2": 14,
+        "4": 16,
+        "8": 10,
+        "32": 4
+      }
+    }
+  },
+  "verified_GitHub_Actions": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43716315298",
+    "job_id": 132818512041
+  },
+  "additional_gate": "Trait measurement units and original literature provenance must be audited before height FD / biomass regression, despite source geometry PASS."
+}

@@ -1,0 +1,49 @@
+{
+  "design": "grass+legume versus grass+nonlegume forb, exact site×sown species richness×original field block, unchanged two planned guilds",
+  "equal_site_mean": 0.171473545651095,
+  "independent_geographic_sites": 8,
+  "n_matched_stratum_by_year_differences": 105,
+  "n_original_experiment_plots": 480,
+  "n_original_matched_strata": 35,
+  "n_original_plot_year_rows": 1440,
+  "n_raw_eligible_grass_two_guild_plots": 114,
+  "n_source_matched_plots": 110,
+  "n_valid_matched_plot_year_rows": 327,
+  "no_causal_N_fixation_or_generalized_biomass_FD_claim": true,
+  "novelty": "Retrospective internal BIODEPTH support-conditioned diagnostic; original Spehn et al. 2005 had analyzed legume diversity-functioning",
+  "original_mainline_six_site_20plot_single_richness_gate": "HOLD_ONE_OF_EIGHT",
+  "original_site_estimands_log1p_biomass_legume_minus_forb": {
+    "Germany": 0.552019272221691,
+    "Greece": -0.8327173725338246,
+    "Ireland": 0.202010584695319,
+    "Portugal": -1.6639502194192246,
+    "Sheffield": 0.15608247102702766,
+    "Silwood": 0.13493086010192393,
+    "Sweden": 2.223093694782824,
+    "Switzerland": 0.6003190743330235
+  },
+  "positive_site_count": 6,
+  "resample_original_site_bootstrap_seed": 20261116,
+  "resample_site_10000_CI95": [
+    -0.548316502363126,
+    0.9183743892614635
+  ],
+  "source_hashes": {
+    "Design.txt": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "Shoots.txt": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"
+  },
+  "status": "PINNED_ORIGINAL_BIODEPTH_MATCHED_GUILD_REPLAY_PASS",
+  "version": "v0.1",
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43696766996",
+    "job_id": 132758937576,
+    "artifact_id": 14155275309,
+    "artifact_digest": "sha256:dd764ea3cc5a680a8319f141cf780815d92d2be3ad185b924c44fb5e78b2c2d9",
+    "raw_biomass_rows_not_committed": true,
+    "independent_local_validation": {
+      "status": "PASS",
+      "method": "No production code import; stdlib csv DictReader, independent grouping and sum, separate numpy bootstrap",
+      "max_site_effect_abs_disagreement": 4.440892098500626e-16
+    }
+  }
+}

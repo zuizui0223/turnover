@@ -50,11 +50,19 @@ def audit(inputs):
     speciescols=list(R.columns)[25:]
     if len(speciescols)!=103:raise ValueError("R repackaging no longer has 103 seeded taxon columns")
     planted=set()
+    composition_original_vs_repack=Counter()
+    composition_native_signature=defaultdict(set)
+    composition_label_map=defaultdict(set)
+    repack_comp_by_plot={}
     for _,row in R.iterrows():
         p=str(row["plot"])
         source=byD[p]
-        if row["location"]!=source["location"] or int(row["Diversity"])!=int(source["species.richness"]) or int(row["FR"])!=int(source["functional.richness"]) or int(row["Composition"])!=int(source["composition"]):
-            raise ValueError("R repackaging design mismatch "+p+" values "+repr({"R_location":str(row["location"]),"D_location":source["location"],"R_diversity":int(row["Diversity"]),"D_diversity":int(source["species.richness"]),"R_FR":int(row["FR"]),"D_FR":int(source["functional.richness"]),"R_Composition":int(row["Composition"]),"D_composition":int(source["composition"])}))
+        if row["location"]!=source["location"] or int(row["Diversity"])!=int(source["species.richness"]) or int(row["FR"])!=int(source["functional.richness"]):
+            raise ValueError("Original design treatment genuinely mismatched vs repackaging "+p+" values "+repr({"R_location":str(row["location"]),"D_location":source["location"],"R_diversity":int(row["Diversity"]),"D_diversity":int(source["species.richness"]),"R_FR":int(row["FR"]),"D_FR":int(source["functional.richness"])}))
+        if int(row["Composition"])!=int(source["composition"]):
+            composition_original_vs_repack[source["location"]]+=1
+        composition_label_map[(source["location"],source["composition"])].add(int(row["Composition"]))
+        repack_comp_by_plot[p]=int(row["Composition"])
         if int(row["site"])!=int(row["plot"][1:2]):
             # Plot B1P..., site should match numeric site ID 1..8
             raise ValueError("R row site-number inconsistent with encoded original plot ID")
@@ -70,10 +78,13 @@ def audit(inputs):
             if int(v)==1:
                 planted.add((p,sp))
                 active.append(sp)
+        composition_native_signature[(source["location"],source["composition"])].add(tuple(sorted(active)))
         if len(active)!=int(source["species.richness"]):
             raise ValueError("Sown species column sum does not equal original richness "+p)
         same+=1
     if len(planted)!=1934:raise ValueError("Unexpected 1934 original plot-species planted incidence pairs")
+    if len(composition_native_signature)!=235 or any(len(v)>1 for v in composition_native_signature.values()):
+        raise ValueError("Original 2005 site×composition labels fail to identify a unique sown species combination in 2015 RData")
     # Original 2010 ecotypes and original 2015 package column abbreviations
     bycode={r["speciescode"]:r for r in codes}
     if len(bycode)!=186 or len({plain_code(k) for k in bycode})!=103:
@@ -94,6 +105,8 @@ def audit(inputs):
     byplotyearbiom=defaultdict(float)
     invalidbiom=Counter()
     site_coded=Counter()
+    source_2010_mix_by_plot=defaultdict(set)
+    source_2010_mix_disagreement=Counter()
     for r in species:
         code=r["species"].strip()
         plot=r["plot"].strip()
@@ -102,8 +115,13 @@ def audit(inputs):
             raise ValueError("2010 species/ecotype or year unknown")
         if plot not in byD:source_missing["plot"]+=1;continue
         original=byD[plot]
-        if r["site"].strip()!=original["location"] or int(r["sr"])!=int(original["species.richness"]) or int(r["fr"])!=int(original["functional.richness"]) or int(r["mix"])!=int(original["composition"]):
+        if r["site"].strip()!=original["location"] or int(r["sr"])!=int(original["species.richness"]) or int(r["fr"])!=int(original["functional.richness"]):
             source_missing["design_treatment_mismatch"]+=1
+        source_2010_mix_by_plot[plot].add(r["mix"].strip())
+        if int(r["mix"])!=int(original["composition"]):
+            source_2010_mix_disagreement["2010_v_2005"]+=1
+        if int(r["mix"])!=repack_comp_by_plot[plot]:
+            source_2010_mix_disagreement["2010_v_2015_repackaging"]+=1
         if int(r["location"])!=int(plot[1]):
             source_missing["numeric_site_mismatch"]+=1
         k=(plot,year,code)
@@ -130,6 +148,8 @@ def audit(inputs):
         site_coded[code[1]]+=1
     if duplicate or source_missing:
         raise ValueError("2010 source has duplicated plant plot years or broken source provenance: "+repr((duplicate,dict(source_missing))))
+    if any(len(v)!=1 for v in source_2010_mix_by_plot.values()):
+        raise ValueError("2010 source composition label varies within a site plot across species or years")
     if len(orig_keys)!=5802 or len(byplotyear)!=1440 or len(taxon_unique)!=103:
         raise ValueError("2010 source keys not exactly 1934 planted species x 3 source years")
     from_year=Counter(k[1] for k in orig_keys)
@@ -164,6 +184,11 @@ def audit(inputs):
       "n_R_sown_species_columns":len(speciescols),
       "n_R_unique_species_plot_incidence":len(planted),
       "n_original_2010_ecotype_codes":len(bycode),
+      "n_original_site_nested_compositions":len(composition_native_signature),
+      "n_R_plots_with_nonidentical_original_2005_composition_number_by_site":dict(composition_original_vs_repack),
+      "n_original_composition_labels_with_multiple_repack_aliases":sum(len(v)>1 for v in composition_label_map.values()),
+      "n_2010_mix_number_disagreement_with_other_source":dict(source_2010_mix_disagreement),
+      "composition_join_policy":"Join by globally unique original plot key and true planted 103-species signature; numeric composition labels may be differently coded across 2005/2010/repackaging and must not be equated.");
       "n_original_2010_species_binomial_pairs":len(taxon_unique),
       "n_original_2010_species_taxa_code_to_names_conflicts":len(mismatch_name),
       "unresolved_name_code_examples":mismatch_name[:10],

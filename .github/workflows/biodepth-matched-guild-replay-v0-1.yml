@@ -1,0 +1,41 @@
+name: BIODEPTH matched eight-site grass-legume versus grass-forb source replay
+on:
+  push:
+    branches: [analysis/biodepth-8site-source-first-20261115]
+    paths:
+      - scripts/analysis/replay_biodepth_matched_legume_forb_v0_1.py
+      - .github/workflows/biodepth-matched-guild-replay-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/replay_biodepth_matched_legume_forb_v0_1.py
+      - .github/workflows/biodepth-matched-guild-replay-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned scientific computing dependencies
+        run: python -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 statsmodels==0.14.5
+      - name: Verify isolated matched-stratum estimator without real outcomes
+        run: |
+          python -m py_compile scripts/analysis/replay_biodepth_matched_legume_forb_v0_1.py
+          python scripts/analysis/replay_biodepth_matched_legume_forb_v0_1.py --self-test
+      - name: Fetch original DOI 2005 source, verify SHA and replay matched site effects
+        run: |
+          python scripts/analysis/replay_biodepth_matched_legume_forb_v0_1.py \
+            --out results/biodepth_8site_source_v0_1/matched_legume_vs_forb_replay_v0_1.json
+      - name: Upload only coefficients, QA, source hashes and uncertainty (no raw rows)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-eight-site-matched-guild-v0-1
+          path: results/biodepth_8site_source_v0_1/matched_legume_vs_forb_replay_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 60

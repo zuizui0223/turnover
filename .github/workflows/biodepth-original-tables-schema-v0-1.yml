@@ -1,0 +1,87 @@
+name: BIODEPTH original Design and Shoots source schema gate
+on:
+  push:
+    branches: [analysis/biodepth-8site-source-first-20261115]
+    paths: [.github/workflows/biodepth-original-tables-schema-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/biodepth-original-tables-schema-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download original Figshare raw Design, Shoots and source dictionary, verify original MD5 and report schema only
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.error,hashlib,csv,collections,json,re,io
+          from pathlib import Path
+          origin="https://doi.org/10.6084/m9.figshare.3565170"
+          entries=[
+            ("Design.txt",5640240,"29e7d05f45b8613d9bead9337da7d3cc"),
+            ("Shoots.txt",5640249,"76824bf9ce195e84aa17ae4cd6c1a336"),
+            ("suppl-1.htm",5640234,"dfd5f16d87015b87a879d349c5402db3")]
+          out={}
+          for name,fid,digest in entries:
+              record={"file_name":name,"file_id":fid,"published_MD5":digest}
+              b=None;errors=[]
+              for url in (f"https://ndownloader.figshare.com/files/{fid}",
+                          f"https://figshare.com/ndownloader/files/{fid}",
+                          f"https://api.figshare.com/v2/file/download/{fid}"):
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":"turnover-original-BIODEPTH-source-qa/0.1"})
+                      with urllib.request.urlopen(req,timeout=55) as resp:b=resp.read(3_000_000)
+                      if hashlib.md5(b).hexdigest()!=digest:
+                          raise ValueError("Source MD5 does not match published Figshare manifest")
+                      record.update({"source_download":url,"status":"SOURCE_BYTES_VERIFIED",
+                                     "bytes":len(b),"source_sha256":hashlib.sha256(b).hexdigest()})
+                      break
+                  except Exception as e:
+                      errors.append(f"{type(e).__name__}:{str(e)[:100]}")
+                      b=None
+              if b is None:
+                  record.update({"status":"SOURCE_FETCH_HOLD","errors":errors})
+              else:
+                  text=b.decode("utf-8-sig",errors="replace")
+                  lines=text.splitlines()
+                  record["source_lines"]=len(lines)
+                  if name=="suppl-1.htm":
+                      record["mentions_design"]=text.lower().count("design.txt")
+                      record["mentions_shoots"]=text.lower().count("shoots.txt")
+                      for key in ("biomass","g m","g/m","shoots.txt","design.txt","functional group"):
+                          pats=[m.start() for m in re.finditer(re.escape(key),text,re.I)]
+                          record["dictionary_key_"+key.replace(" ","_").replace("/","_")]={"n_hits":len(pats),
+                             "context_first":re.sub("<[^>]+>"," ",text[max(pats[0]-160,0):pats[0]+290]).strip()[:390] if pats else ""}
+                  else:
+                      nonempty=[line for line in lines if line.strip()]
+                      record["first_nonempty_line"]=nonempty[0][:1000] if nonempty else ""
+                      record["first_three_nonempty_line_lengths"]=[len(x) for x in nonempty[:3]]
+                      record["first_five_fieldwidth_tab"]=[len(x.split("\t")) for x in nonempty[:5]]
+                      record["first_five_fieldwidth_comma"]=[len(x.split(",")) for x in nonempty[:5]]
+                      record["tabular_field_count_distribution"]=dict(collections.Counter(len(x.split("\t")) for x in nonempty))
+                      record["comma_field_count_distribution"]=dict(collections.Counter(len(x.split(",")) for x in nonempty))
+                      record["first_8_source_column_names"]=(nonempty[0].split("\t") if "\t" in nonempty[0] else nonempty[0].split(","))[:80]
+                      # No source outcome values exported or model fitted. Source preview excludes data values.
+              out[name]=record
+              print("BIODEPTH_RAW_SCHEMA",name,json.dumps(record,ensure_ascii=False,sort_keys=True))
+          payload={"version":"v0.1","doi":origin,"raw_response_values_exported":False,
+                   "outcome_model_opened":False,"source_original_figshare_files":out,
+                   "status":"ORIGINAL_SOURCE_BYTE_SCHEMA_AUDITED" if all(x["status"]=="SOURCE_BYTES_VERIFIED" for x in out.values()) else "ORIGINAL_SOURCE_BYTES_HOLD",
+                   "study_n_independent_communities_UNVERIFIED":True}
+          path=Path("results/biodepth_8site_source_v0_1/raw_design_shoots_schema.json")
+          path.parent.mkdir(parents=True,exist_ok=True)
+          path.write_text(json.dumps(payload,indent=2,ensure_ascii=False)+"\n")
+          if payload["status"]!="ORIGINAL_SOURCE_BYTE_SCHEMA_AUDITED":
+              raise SystemExit(2)
+          PY
+      - name: Save source-only identifiers, column names and checksums
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-design-shoots-schema-v0-1
+          path: results/biodepth_8site_source_v0_1/raw_design_shoots_schema.json
+          if-no-files-found: ignore
+          retention-days: 30

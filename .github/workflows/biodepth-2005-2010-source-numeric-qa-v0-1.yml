@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 9
     steps:
       - uses: actions/checkout@v4
+      - name: Install pinned numerical dependency
+        run: python3 -m pip install --disable-pip-version-check -q numpy==2.3.4
       - name: Validate source-only numerical tolerance and missingness fixture
         run: |
           python3 -m py_compile scripts/analysis/audit_biodepth_2005_2010_response_rounding_v0_1.py

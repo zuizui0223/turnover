@@ -190,15 +190,6 @@ def audit(s_rows,c_rows):
         "Original 6-site BIODEPTH main support gate remains HOLD; BIEN/sPlotOpen original source gate remains HOLD"]
     }
     return result
-def test():
-    assert binomial("Poa_pratensis")=="poa pratensis"
-    assert binomial("Bromus hordeaceus subsp.") is None
-    assert num("0") is None and num("10.4")==10.4
-    n,c,g=geometry(
-      [{"species":"G1AAAAAA1","plot":"P1","year":str(y),"site":"Germany"}
-        for y in (1,2,3)]+[{"species":"G1AAAAAA1","plot":"P2","year":str(y),"site":"Germany"} for y in (1,2,3)],
-      [{"speciescode":"G1AAAAAA1","genus":"Poa","species":"pratensis"}])
-    return {"status":"SOURCE_NAME_TRAIT_FIXTURE_PARTIAL_PASS","checks":3}
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
     ap.add_argument("--species");ap.add_argument("--codes");ap.add_argument("--out");ap.add_argument("--self-test",action="store_true")

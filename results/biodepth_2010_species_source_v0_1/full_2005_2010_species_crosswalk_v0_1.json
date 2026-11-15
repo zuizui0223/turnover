@@ -1,0 +1,102 @@
+{
+  "composition_join_policy": "Join by globally unique original plot key and true planted 103-species signature; numeric composition labels may be differently coded across 2005/2010/repackaging and must not be equated.",
+  "hard_nonclaims": [
+    "2010 and 2005 are the same experiments, not independent sites",
+    "Plot-level sown species incidence is not realized flower/functional trait abundance",
+    "Known original 6-site high-coverage eligibility remains HOLD",
+    "No historical BIEN evolutionary rho relation or global FD-biomass association tested"
+  ],
+  "n_2010_mix_number_disagreement_with_other_source": {
+    "2010_v_2015_repackaging": 5010
+  },
+  "n_2010_species_years_name_compatible_incidence_verified": 5580,
+  "n_2010_species_years_of_unresolved_secondary_R_names": 222,
+  "n_R_guild_flags_exactly_match_original": 480,
+  "n_R_plots_exact_treatment_crosswalk": 480,
+  "n_R_plots_with_nonidentical_original_2005_composition_number_by_site": {
+    "Greece": 52,
+    "Ireland": 70,
+    "Portugal": 56,
+    "Sheffield": 54,
+    "Silwood": 66,
+    "Sweden": 58,
+    "Switzerland": 64
+  },
+  "n_R_sown_species_columns": 103,
+  "n_R_unique_species_plot_incidence": 1934,
+  "n_original_2005_plots": 480,
+  "n_original_2010_ecotype_codes": 186,
+  "n_original_2010_species_binomial_pairs": 103,
+  "n_original_2010_species_codes_not_named_identically_in_R": 7,
+  "n_original_2010_species_per_year": {
+    "1": 1934,
+    "2": 1934,
+    "3": 1934
+  },
+  "n_original_2010_species_taxa_code_to_names_conflicts": 0,
+  "n_original_2010_taxa_exact_name_overlap_with_R": 96,
+  "n_original_composition_labels_with_multiple_repack_aliases": 0,
+  "n_original_site_nested_compositions": 235,
+  "n_original_species_plot_years": 1440,
+  "n_site_number_encoded_source_codes": 8,
+  "n_sown_species_codes_observed_for_all_three_years": 5802,
+  "n_species_biomass_missing_invalid_and_zero": {
+    "nonnumeric": 71,
+    "valid_positive": 4467,
+    "valid_zero": 1264
+  },
+  "no_traits_or_phylo_effects_opened": true,
+  "original_2005_vs_2010_species_sum_biomass_QA": {
+    "absolute_difference_max_if_any": 1170.4,
+    "n_agree_tolerance_1e-5": 243,
+    "n_comparable_source_plot_years": 1415,
+    "n_different": 1172,
+    "warning": "Source-definitions could differ; no force matching or selecting on biomass."
+  },
+  "original_2010_abbrev_aliases_unresolved": [
+    "CONFLO1",
+    "LEUVUL1",
+    "MALSYL1",
+    "PICECH1",
+    "PILOFF1",
+    "PSOBIT1",
+    "TETPUR1"
+  ],
+  "predeclared_tier0_thresholds": {
+    "min_named_ecotypes": 100,
+    "min_orig_sites": 6,
+    "min_original_plots_with_species": 350,
+    "min_years": 2
+  },
+  "raw_species_data_not_committed": true,
+  "same_original_experiment": true,
+  "secondary_R_abbrev_aliases_unresolved": [
+    "BITBIT1",
+    "CHRLEU1",
+    "CONALB1",
+    "HELECH1",
+    "HIEPIL1",
+    "LOTTET1",
+    "MALSIL1"
+  ],
+  "source_hashes": {
+    "design": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "shoots": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135",
+    "sown_matrix_RDA": "86f650ca88dd0e91e044744e5c082290d87562044d3022fab05e7a64ab623290",
+    "species_biomass": "ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816",
+    "species_codes": "02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b",
+    "species_names": "141d49aa35ac3684c716b1e47e79341f0c3953829028348db0c34f85c259e2af"
+  },
+  "source_name_resolution_policy": "103 original 2010 names authoritative; 7 secondary R package names are excluded from direct name-based joins until taxonomic or exact planted-plot fingerprint audits.",
+  "species_sown_or_realized_interpretation": "Binary R presence cols are original SOWN incidence; 2010 original source reports all planted species every year, including legitimate real zeros. Seven secondary R taxon column names require separate reconciliation.",
+  "status": "BIODEPTH_2010_ORIGINAL_SPECIES_BRIDGE_PASS_SEVEN_SECONDARY_NAME_ALIASES_UNRESOLVED",
+  "unresolved_name_code_examples": [],
+  "version": "v0.1",
+  "verification": {
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43714413569",
+    "job_id": 132812725054,
+    "artifact_id": 14162140369,
+    "digest": "sha256:480ca9816de6894b5701ddfa7c7a0911f91d534f10990b9064a32742c3fa0456"
+  },
+  "biological_biomass_source_compatibility": "HOLD because 1172/1415 original 2005 plot-years differ numerically from summed 2010 species data"
+}

@@ -1,0 +1,151 @@
+{
+  "schema": "jena_2003_fg_richness_support_sensitivity_v0.1",
+  "date": "2026-11-15",
+  "status": "RETROSPECTIVE_POST_RESULT_SENSITIVITY_COMPLETE",
+  "original_source_sha256": {
+    "pangaea846317": "70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079",
+    "plot_information": "7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70"
+  },
+  "original_support": {
+    "n_plots": 82,
+    "within_exact_richness_support": 62,
+    "richness_fg_counts": {
+      "1": {
+        "1": 16
+      },
+      "2": {
+        "1": 8,
+        "2": 8
+      },
+      "4": {
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4
+      },
+      "8": {
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4
+      },
+      "16": {
+        "1": 2,
+        "2": 4,
+        "3": 4,
+        "4": 4
+      },
+      "60": {
+        "4": 4
+      }
+    }
+  },
+  "response": "log1p(May 2003 official Repl=mean sown-species harvested aboveground standing dry mass [g/m²])",
+  "model_comparison": {
+    "historical_n82": {
+      "beta": 0.16789077791395518,
+      "HC3_p": 0.04390515186865013,
+      "HC3_CI95": [
+        0.004585238616314935,
+        0.3311963172116001
+      ]
+    },
+    "categorical_richness_n82": {
+      "beta": 0.12749571793794023,
+      "HC3_p": 0.15097382389010652,
+      "HC3_CI95": [
+        -0.04650816484569853,
+        0.301499600721579
+      ]
+    },
+    "categorical_richness_supported_n62": {
+      "beta": 0.12867149790905166,
+      "HC3_p": 0.16762750597445952,
+      "HC3_CI95": [
+        -0.05409354149611756,
+        0.31143653731422216
+      ]
+    },
+    "saturated_16_richness_by_block_cells_n62": {
+      "beta": 0.11930654864848433,
+      "HC3_p": 0.29284082425141733,
+      "HC3_CI95": [
+        -0.10299053870043676,
+        0.3416036359974054
+      ]
+    }
+  },
+  "bootstrap_supported_n62": {
+    "blocks": 4,
+    "seed": 20261119,
+    "draws": 4000,
+    "valid": 4000,
+    "HC3_complement": "percentile block-stratified plot bootstrap",
+    "beta_CI95": [
+      -0.029344721111736048,
+      0.34216379391868784
+    ]
+  },
+  "exchangeability_permutation": {
+    "within_block_by_exact_richness": {
+      "draws": 9999,
+      "p_two_sided": 0.417,
+      "seed": 20261120
+    },
+    "independent_fg_label_shuffle": {
+      "draws": 4999,
+      "p_two_sided": 0.4212,
+      "seed": 20261121
+    },
+    "saturated_16_cells": {
+      "draws": 9999,
+      "p_two_sided": 0.4633,
+      "seed": 20261120
+    },
+    "caveat": "conditional-exchangeability approximation; FG count not randomly isolated from group and species identities"
+  },
+  "supported_secondary": {
+    "August_sown_n62": {
+      "beta": -0.0162,
+      "p_approx": 0.8475
+    },
+    "May_combined_sown_nonsown_n62": {
+      "beta": 0.1168,
+      "p_approx": 0.2051
+    },
+    "August_combined_n62": {
+      "beta": -0.0269,
+      "p_approx": 0.7534
+    },
+    "May_raw_sown_g_m2_n62": {
+      "beta": 37.084710227274854,
+      "HC3_p": 0.14798175110038342,
+      "HC3_CI95": [
+        -13.157107337517765,
+        87.32652779206748
+      ]
+    }
+  },
+  "leave_one_richness_out_betas": {
+    "2": 0.14315405039345125,
+    "4": 0.17007219566309256,
+    "8": 0.032999075366899944,
+    "16": 0.15460765913708174
+  },
+  "reproduction": {
+    "local_pytest": "14 passed",
+    "formula_replay_models": 8,
+    "maximum_abs_coefficient_p_or_CI_discrepancy": 5.684341886080802e-14,
+    "independent_label_shuffle_matches_permutation_approximately": true,
+    "original_May_slope_reproduced": true,
+    "code_and_original_public_source_local_package": "turnover_jena_within_richness_results_20261115.zip"
+  },
+  "interpretation": "Positive point direction remains, but nominal significance of earlier May FG coefficient is model-dependent on log2 species richness adjustment; no supported within-richness independent positive effect at 95% confidence.",
+  "nonclaims": [
+    "No proof of zero/equivalence",
+    "All comparisons post-result exploratory",
+    "One Jena 2003 experiment, no macroevolution or global FD association",
+    "No pure functional-group-count causal contrast separated from plant composition",
+    "Original BIEN 201-system and sPlotOpen/GIFT HOLD remain unchanged"
+  ]
+}

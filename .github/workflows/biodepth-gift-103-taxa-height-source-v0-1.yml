@@ -1,0 +1,61 @@
+name: BIODEPTH 103 species GIFT v3.1 maximum height source coverage
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/audit_biodepth_103_taxa_gift_height_v0_1.py
+      - .github/workflows/biodepth-gift-103-taxa-height-source-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_biodepth_103_taxa_gift_height_v0_1.py
+      - .github/workflows/biodepth-gift-103-taxa-height-source-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bio-independent-trait-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check original scientific taxon names normalization fixture
+        run: |
+          python3 -m py_compile scripts/analysis/audit_biodepth_103_taxa_gift_height_v0_1.py
+          python3 scripts/analysis/audit_biodepth_103_taxa_gift_height_v0_1.py --self-test
+      - name: Download exactly frozen original 2010 source 186 ecotypes and 5802 species-by-plot-year records
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request,urlopen
+          import hashlib
+          sources={
+            "BiodepthSpeciesBiomass2010.txt":(
+                "https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt",
+                "ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"),
+            "BiodepthSpeciesCodes2010.txt":(
+                "https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt",
+                "02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b")}
+          d=Path("/tmp/biodepth_original_2010_sown_roster")
+          d.mkdir(parents=True,exist_ok=True)
+          for name,(url,sha) in sources.items():
+              req=Request(url,headers={"User-Agent":"turnover-biodepth-103taxon-GIFT-feasibility/0.1"})
+              with urlopen(req,timeout=90) as response:raw=response.read(1000000)
+              if hashlib.sha256(raw).hexdigest()!=sha:
+                  raise ValueError("Original Hector 2010 source SHA256 changed")
+              (d/name).write_bytes(raw)
+              print("BIODEPTH_2010_SOWN_SOURCE_SHA_PASS",name,len(raw),sha)
+          PY
+      - name: Probe GIFT 3.1 accepted taxonomy and max-height unambiguous coverage with source-support-only plot geometry
+        run: |
+          python3 scripts/analysis/audit_biodepth_103_taxa_gift_height_v0_1.py \
+            --species /tmp/biodepth_original_2010_sown_roster/BiodepthSpeciesBiomass2010.txt \
+            --codes /tmp/biodepth_original_2010_sown_roster/BiodepthSpeciesCodes2010.txt \
+            --out results/biodepth_2010_species_source_v0_1/gift_103taxa_max_height_source_gate_v0_1.json
+      - name: Archive source coverage no raw records, no trait values or biological models
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-103taxa-gift31-maxheight-source-v0-1
+          path: results/biodepth_2010_species_source_v0_1/gift_103taxa_max_height_source_gate_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

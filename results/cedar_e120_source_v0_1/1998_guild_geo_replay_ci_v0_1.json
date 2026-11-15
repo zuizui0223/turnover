@@ -1,0 +1,37 @@
+{
+  "eighteen_fieldrows": {
+    "conditional_9999_vector_permutation_p": 0.007,
+    "identity_HC3_p": 0.000025801278189348343,
+    "n_field_conditioned_source_strata": 71,
+    "n_source_plot_guild_vectors_exchangeable": 33,
+    "n_variable_strata": 15,
+    "observed_nested_SSE_delta": 6.756252492107283,
+    "seed": 20261116
+  },
+  "four_zone": {
+    "conditional_9999_vector_permutation_p": 0.0004,
+    "identity_HC3_p": 0.0000011756267918633766,
+    "n_field_conditioned_source_strata": 39,
+    "n_source_plot_guild_vectors_exchangeable": 60,
+    "n_variable_strata": 18,
+    "observed_nested_SSE_delta": 8.22552021356934,
+    "seed": 20261115
+  },
+  "n_1998_exact_richness_supported": 94,
+  "n_original_plots": 168,
+  "nonclaims": [
+    "Post-outcome exploratory; no confirmation beyond Cedar E120 site",
+    "Planted guild category and species identity cannot be disentangled",
+    "No original EDI source measured-unit or seed-composition audit"
+  ],
+  "source_sha256": "a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476",
+  "status": "PINNED_CEDAR_GUILD_GEOGRAPHIC_CONDITIONING_REPLAY_PASS",
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43683119554",
+    "job_id": 132717824592,
+    "artifact_id": 14148732883,
+    "artifact_digest": "sha256:eeb2946bae59cab5e40f6fae274f9d47bfb040837849d0e53685fefe7919275d",
+    "original_source_retrieved": true,
+    "raw_source_not_committed": true
+  }
+}

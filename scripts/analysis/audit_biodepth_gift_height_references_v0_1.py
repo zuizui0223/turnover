@@ -27,7 +27,7 @@ def coverage(plots,valid):
                      "height_matched_taxa_unique":len(set().union(*group)&valid) if group else 0}
     return sites,sum(v["provenance_eligible_plots"] for v in sites.values()),sum(v["provenance_eligible_plots"]>=8 for v in sites.values())
 
-def run(s_rows,c_rows):
+def run(s_rows,c_rows,return_values=False):
     original,plots,source_meta=geometry(s_rows,c_rows)
     names=collections.defaultdict(set);nc=0
     for x in paged("species",cap=600000):
@@ -63,6 +63,7 @@ def run(s_rows,c_rows):
             ref_map[key]=r
     if len(ref_map)<700:raise ValueError("Original distinct reference bibliography truncated")
     source_fp=[]
+    height_values={}
     height=set();traceable=set();unresolved=set();direct=set();shared=set()
     by_reference=collections.Counter();nsource=collections.Counter();cv_data=[]
     extreme=collections.Counter()
@@ -94,7 +95,9 @@ def run(s_rows,c_rows):
         if v<.01:extreme["below_1cm"]+=1
         if v>10:extreme["above_10m"]+=1
         if v>50:extreme["above_50m"]+=1
-        if resolved and name not in direct:traceable.add(name)
+        if resolved and name not in direct:
+            traceable.add(name)
+            height_values[name]=v
         source_fp.append([name,work,repr(v),str(rec.get("references")),str(rec.get("n")),str(rec.get("coeff_var"))])
     if len(height)!=88:raise ValueError("Original GIFT 88 height species no longer reproduced")
     sites0,plots0,nsite0=coverage(plots,height)
@@ -107,7 +110,7 @@ def run(s_rows,c_rows):
                     "potential_original_study_overlap":bool(DIRECT.search(long)),
                     "potential_database_overlap":bool(INDIRECT.search(long))})
     good=len(traceable)>=70 and plots1>=80 and nsite1>=4
-    return {
+    report={
       "version":"v0.1","status":"GIFT_HEIGHT_REFERENCE_PROVENANCE_PASS" if good else "GIFT_HEIGHT_REFERENCE_PROVENANCE_HOLD",
       "original_BIODEPTH_species_roster":source_meta,
       "GIFT_original_species_rows":nc,"GIFT_original_height_aggregated_rows":source_rows,
@@ -144,6 +147,10 @@ def run(s_rows,c_rows):
           "Greece has no eligible plots in the prior 174-plot cohort",
           "Original BIODEPTH exact-richness high-support gate remains HOLD",
           "Original sPlotOpen GIFT BIEN family-by-trait rho source gate remains HOLD"]}
+    if return_values:
+        return report,height_values
+    return report
+
 def fixture():
     assert references("123,456")[0]=={"123","456"}
     assert references("123")[1] and not references("bad ref")[1]

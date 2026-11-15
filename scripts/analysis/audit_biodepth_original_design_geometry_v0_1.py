@@ -127,9 +127,11 @@ def main(design_path,shoots_path):
                                     "n_plots_in_within_richness_FG_variation":len(block) if nFG>1 else 0})
             for r in block:
                 guild_vectors.add(tuple(indicator(r[g],g) for g in group_values))
-        is_eligible=len(rs)>=20 and len(eligible_plots)>=20
+        max_single_richness_support=max((item["n_plots"] for item in richness_support if item["n_distinct_FG_counts"]>1),default=0)
+        is_eligible=len(rs)>=20 and max_single_richness_support>=20
         eligible[site]={"n_original_plots":len(rs),
                         "n_plots_within_richness_FG_support":len(eligible_plots),
+                        "max_single_richness_treatment_support":max_single_richness_support,
                         "n_original_richness_levels":len(by_rich),
                         "n_distinct_guild_vectors":len(guild_vectors),
                         "n_original_blocks":len({r["block"].strip() for r in rs}),
@@ -158,12 +160,15 @@ def main(design_path,shoots_path):
         "n_source_valid_numeric_response_records":n_response_valid,
         "response_quality_counts_no_values":dict(response_status),
         "site_year_record_counts":{str(k[0])+"|"+str(k[1]):v for k,v in sorted(per_site_year.items())},
-        "sites_with_20_plus_within_richness_FG_supported_plots":total_supported,
+        "sites_with_one_exact_richness_level_having_20_plus_plots_and_2_FG_levels":total_supported,
+        "n_sites_supported_after_collapsing_across_multiple_richness_levels_not_primary":sum(x["n_plots_within_richness_FG_support"]>=20 for x in eligible.values()),
         "site_design_support":eligible,
         "source_gate_thresholds":{"min_sites":6,"min_unique_plots":250,"min_years":2,
-                       "min_sites_with_at_least_20_within_richness_FG_support":6,
+                       "min_sites_with_20_single_richness_plots_and_multiple_FG_levels":6,
                        "min_numeric_biomass_response_fraction":0.8},
         "biomass_units_and_measurement_period_not_independently_confirmed":True,
+        "important_source_reconciliation":"Design location is text, Shoots location is 1–8 numeric; matched by globally unique plot, source code→site names verified one-to-one.",
+        "mainline_eligibility_explanation":"Strict single-richness 20+ replicates per site required; aggregating 10+12+14 across richness strata cannot pass.",
         "ecological_effects_tested":False,
         "source_nominal_480_plot_x_3year_structure_verified":True,
         "hard_nonclaims":["Site-year rows are not independent field sites",

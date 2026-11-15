@@ -1,0 +1,140 @@
+{
+  "version": "v0.1",
+  "date": "2026-11-15",
+  "status": "POST_OUTCOME_EXPLORATORY_BIODEPTH_MATCHED_TWO_GUILD_COMPARISON_COMPLETE",
+  "source": {
+    "study": "Spehn et al. (2005) BIODEPTH European grasslands original 8-site CC0 supplement, original Figshare v1",
+    "doi": "10.6084/m9.figshare.3565170.v1",
+    "Design_txt_sha256": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "Shoots_txt_sha256": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135",
+    "input_original_Figshare_cc0": true
+  },
+  "original_source_gate": "PRE_OUTCOME_HOLD_ORIGINAL_6SITE_20PLOT_ONE_EXACT_RICHNESS_REQUIREMENT_ONLY_1OF8",
+  "design": "Grass planted present, planned functional-group richness=2; grass+legume vs grass+nonlegume-forb, matched within exact original site×species richness×experimental block, repeated source years1,2,3, each matched stratum equally weighted within site and sites equally weighted.",
+  "selection": "Planned guild-group support only, no biomass outcomes used: original114 source plots → 110 plots after requiring both groups within same site/richness/block; 35 original matched strata in all 8 sites",
+  "population": {
+    "n_original_biodepth_plots": 480,
+    "n_matched_plots": 110,
+    "n_matched_strata": 35,
+    "n_matched_original_plot_year_rows": 330,
+    "n_valid_plot_year_rows": 327,
+    "n_observed_stratum_by_year_differences": 105,
+    "n_independent_original_sites": 8
+  },
+  "site_results": [
+    {
+      "name": "Germany",
+      "plots": 18,
+      "composition_clusters": 9,
+      "mean_log1p_legume_minus_forb": 0.552019,
+      "secondary_composition_cluster_OLS_beta": 0.533621,
+      "secondary_cluster_t_p": 0.000041119,
+      "secondary_inference_eligible": true
+    },
+    {
+      "name": "Greece",
+      "plots": 14,
+      "composition_clusters": 7,
+      "mean_log1p_legume_minus_forb": -0.832717,
+      "secondary_composition_cluster_OLS_beta": -0.858911,
+      "secondary_cluster_t_p": 0.165578,
+      "secondary_inference_eligible": true
+    },
+    {
+      "name": "Ireland",
+      "plots": 16,
+      "composition_clusters": 8,
+      "mean_log1p_legume_minus_forb": 0.202011,
+      "secondary_composition_cluster_OLS_beta": 0.208836,
+      "secondary_cluster_t_p": 0.213666,
+      "secondary_inference_eligible": true
+    },
+    {
+      "name": "Portugal",
+      "plots": 6,
+      "composition_clusters": 3,
+      "mean_log1p_legume_minus_forb": -1.66395,
+      "secondary_composition_cluster_OLS_beta": null,
+      "secondary_cluster_t_p": null,
+      "secondary_inference_eligible": false
+    },
+    {
+      "name": "Sheffield",
+      "plots": 8,
+      "composition_clusters": 4,
+      "mean_log1p_legume_minus_forb": 0.156082,
+      "secondary_composition_cluster_OLS_beta": 0.156082,
+      "secondary_cluster_t_p": 0.38163,
+      "secondary_inference_eligible": true
+    },
+    {
+      "name": "Silwood",
+      "plots": 20,
+      "composition_clusters": 10,
+      "mean_log1p_legume_minus_forb": 0.134931,
+      "secondary_composition_cluster_OLS_beta": 0.150728,
+      "secondary_cluster_t_p": 0.24215,
+      "secondary_inference_eligible": true
+    },
+    {
+      "name": "Sweden",
+      "plots": 8,
+      "composition_clusters": 4,
+      "mean_log1p_legume_minus_forb": 2.223094,
+      "secondary_composition_cluster_OLS_beta": 2.223094,
+      "secondary_cluster_t_p": 0.048794,
+      "secondary_inference_eligible": true
+    },
+    {
+      "name": "Switzerland",
+      "plots": 20,
+      "composition_clusters": 10,
+      "mean_log1p_legume_minus_forb": 0.600319,
+      "secondary_composition_cluster_OLS_beta": 0.623101,
+      "secondary_cluster_t_p": 0.001378,
+      "secondary_inference_eligible": true
+    }
+  ],
+  "site_equal_summary": {
+    "average_log1p_legume_minus_forb": 0.17147354565109507,
+    "median": 0.1790465278611733,
+    "between_site_sd": 1.1286878181039457,
+    "n_positive": 6,
+    "n_negative": 2,
+    "bootstrap_10000_seed": 20261116,
+    "bootstrap_95CI": [
+      -0.5483165023631258,
+      0.9183743892614635
+    ]
+  },
+  "diagnostics": {
+    "source_year_site_equal_mean": {
+      "year1": 0.046180795297172894,
+      "year2": 0.4304153463703536,
+      "year3": 0.0378244952857586
+    },
+    "leave_Sweden_out_equal_site_mean": -0.121615,
+    "leave_Portugal_out_equal_site_mean": 0.4336769,
+    "site_summary_unweighted_difference_mechanistically_conflates_species_composition": true,
+    "independent_reconstruction": {
+      "status": "PASS",
+      "implementation": "Python csv.DictReader source-native manual aggregation vs separate pandas/statsmodels source reader",
+      "plots": 110,
+      "strata": 35,
+      "n_valid": 327,
+      "n_site_year_strata": 105,
+      "max_site_estimate_abs_disagreement": 4.440892098500626e-16,
+      "bootstrap_interval_abs_disagreement_lt": 2e-13
+    }
+  },
+  "hard_nonclaims": [
+    "All source data and original effects used in previous Spehn 2005 paper: not a novel discovery of legume importance",
+    "Outcome is sown treatment-associated aboveground standing biomass in different site harvest regimes; cannot identify nitrogen fixation effect or make all sites uniform ANPP",
+    "Even matched within site/richness/block, actual individual plant species compositions differ; group identity is not a pure biological manipulation",
+    "Independent geographic unit is site n8, not 327 records",
+    "Portugal n3 planted composition clusters: secondary cluster inferential test is HOLD",
+    "Bootstrap 95CI includes zero; no source-wide common positive legume replacement effect established",
+    "Chosen after earlier E120/Jena/BIODEPTH analyses; retrospective exploratory not originally source-gate PASS",
+    "Original 201-system BIEN phylogenetic memory, GIFT/sPlotOpen FD and NEON authenticated source gates remain HOLD"
+  ]
+}

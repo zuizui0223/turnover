@@ -188,7 +188,7 @@ def audit(inputs):
       "n_R_plots_with_nonidentical_original_2005_composition_number_by_site":dict(composition_original_vs_repack),
       "n_original_composition_labels_with_multiple_repack_aliases":sum(len(v)>1 for v in composition_label_map.values()),
       "n_2010_mix_number_disagreement_with_other_source":dict(source_2010_mix_disagreement),
-      "composition_join_policy":"Join by globally unique original plot key and true planted 103-species signature; numeric composition labels may be differently coded across 2005/2010/repackaging and must not be equated.");
+      "composition_join_policy":"Join by globally unique original plot key and true planted 103-species signature; numeric composition labels may be differently coded across 2005/2010/repackaging and must not be equated.",
       "n_original_2010_species_binomial_pairs":len(taxon_unique),
       "n_original_2010_species_taxa_code_to_names_conflicts":len(mismatch_name),
       "unresolved_name_code_examples":mismatch_name[:10],

@@ -1,0 +1,53 @@
+name: GIFT3.1 reference identifier collision diagnosis
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths: [.github/workflows/biodepth-gift-reference-duplicate-diagnose-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/biodepth-gift-reference-duplicate-diagnose-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  refs-original:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect ref_ID repetition and metadata uniqueness without any trait values
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,collections,urllib.request
+          from pathlib import Path
+          url="https://gift.uni-goettingen.de/api/extended/index3.1.php?query=references&startat=0&limit=10000"
+          req=urllib.request.Request(url,headers={"User-Agent":"turnover-GIFT-ref-ID-collision-diagnosis/0.1","Accept":"application/json"})
+          with urllib.request.urlopen(req,timeout=95) as response:raw=response.read(4000000)
+          data=json.loads(raw)
+          if not isinstance(data,list) or len(data)<800:raise ValueError("No full source reference catalog")
+          count=collections.Counter(str(r.get("ref_ID") or "").strip() for r in data)
+          dup={k:v for k,v in count.items() if v>1}
+          diagnostics=[]
+          for k,c in sorted(dup.items(),key=lambda it:(-it[1],it[0]))[:30]:
+            entries=[r for r in data if str(r.get("ref_ID") or "").strip()==k]
+            payload_hashes={hashlib.sha256(json.dumps(r,sort_keys=True).encode()).hexdigest() for r in entries}
+            titles=list({str(r.get("ref_long") or "")[:220] for r in entries})
+            diagnostics.append({"ref_id":k,"count":c,
+                "n_distinct_identical_row_hashes":len(payload_hashes),
+                "n_distinct_ref_long":len(titles),"titles":titles[:3]})
+          out={"source_sha256":hashlib.sha256(raw).hexdigest(),"n_reference_rows":len(data),
+               "n_distinct_reference_ids":len(count),
+               "n_reference_ids_duplicated":len(dup),
+               "total_duplicate_rows":sum(v-1 for v in dup.values()),
+               "n_missing_ref_id":count.get("",0),
+               "first_duplicate_groups":diagnostics}
+          print("GIFT_REFERENCES_DUPLICATE_DIAG",json.dumps(out,sort_keys=True))
+          path=Path("results/biodepth_2010_species_source_v0_1/gift_ref_ID_duplicate_diagnosis_v0_1.json")
+          path.parent.mkdir(parents=True,exist_ok=True)
+          path.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+      - name: Preserve original bibliography collision QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift31-biodepth-reference-key-duplicate-QA-v0-1
+          path: results/biodepth_2010_species_source_v0_1/gift_ref_ID_duplicate_diagnosis_v0_1.json
+          retention-days: 30

@@ -1,0 +1,64 @@
+name: BIODEPTH original 2010 Species Group Community hierarchy source QA
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/audit_biodepth_2005_2010_biomass_hierarchy_v0_1.py
+      - .github/workflows/biodepth-2005-2010-hierarchy-qa-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_biodepth_2005_2010_biomass_hierarchy_v0_1.py
+      - .github/workflows/biodepth-2005-2010-hierarchy-qa-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-hierarchy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify source hierarchy audit fixtures, bytes remain outcome-blind
+        run: |
+          python3 -m py_compile scripts/analysis/audit_biodepth_2005_2010_biomass_hierarchy_v0_1.py
+          python3 scripts/analysis/audit_biodepth_2005_2010_biomass_hierarchy_v0_1.py --self-test
+      - name: Acquire exact original BIODEPTH 2005 and 2010 sources by published SHA256
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          from pathlib import Path
+          import hashlib
+          d=Path("/tmp/biodepth-original-hierarchy");d.mkdir(parents=True,exist_ok=True)
+          files={
+            "Shoots2005.txt":("https://ndownloader.figshare.com/files/5640249",
+              "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"),
+            "Species2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt",
+              "ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"),
+            "SpeciesGroupCommunity2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthBiomass.txt",
+              "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4ee76f886")}
+          for name,(url,digest) in files.items():
+            request=Request(url,headers={"User-Agent":"turnover-BIODEPTH-original-hierarchy-verify/0.1"})
+            with urlopen(request,timeout=100) as res:raw=res.read(2_000_001)
+            if len(raw)>2_000_000 or hashlib.sha256(raw).hexdigest()!=digest:
+                raise ValueError("ORIGINAL_PUBLISHED_SHA_MISMATCH:"+name)
+            (d/name).write_bytes(raw)
+            print("BIODEPTH_SOURCE_PIN_PASS",name,len(raw),digest)
+          PY
+      - name: Audit original 2010 internal additive hierarchy versus 2005 community response (no traits)
+        run: |
+          python3 scripts/analysis/audit_biodepth_2005_2010_biomass_hierarchy_v0_1.py \
+            --shoots /tmp/biodepth-original-hierarchy/Shoots2005.txt \
+            --species /tmp/biodepth-original-hierarchy/Species2010.txt \
+            --mixed /tmp/biodepth-original-hierarchy/SpeciesGroupCommunity2010.txt \
+            --out results/biodepth_2010_species_source_v0_1/biomass_original_hierarchy_qa_v0_1.json
+      - name: Preserve only source hierarchy agreement aggregate by site and year
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-2005-2010-biomass-hierarchy-qa-v0-1
+          path: results/biodepth_2010_species_source_v0_1/biomass_original_hierarchy_qa_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

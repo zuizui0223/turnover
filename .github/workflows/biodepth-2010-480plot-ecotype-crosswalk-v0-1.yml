@@ -1,0 +1,69 @@
+name: BIODEPTH original 2005 to 2010 to RData 480 species key bridge
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/audit_biodepth_2010_2015_species_crosswalk_v0_1.py
+      - .github/workflows/biodepth-2010-480plot-ecotype-crosswalk-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_biodepth_2010_2015_species_crosswalk_v0_1.py
+      - .github/workflows/biodepth-2010-480plot-ecotype-crosswalk-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-keys:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pure Python source reader
+        run: python -m pip install -q rdata pandas numpy
+      - name: Check taxon ecotype-code normalization before real source access
+        run: |
+          python -m py_compile scripts/analysis/audit_biodepth_2010_2015_species_crosswalk_v0_1.py
+          python scripts/analysis/audit_biodepth_2010_2015_species_crosswalk_v0_1.py --self-test
+      - name: Fetch only original matching source bytes and validate SHA256
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          from pathlib import Path
+          import hashlib
+          root=Path("/tmp/biodepth_species_keys");root.mkdir(parents=True,exist_ok=True)
+          original=[
+            ("design.txt","https://ndownloader.figshare.com/files/5640240","a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a"),
+            ("shoots.txt","https://ndownloader.figshare.com/files/5640249","cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"),
+            ("2010_species_biomass.txt","https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt","ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"),
+            ("2010_species_codes.txt","https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt","02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b"),
+            ("2010_species_names.txt","https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesNames.txt","141d49aa35ac3684c716b1e47e79341f0c3953829028348db0c34f85c259e2af"),
+            ("sown_480_103_species.rda","https://raw.githubusercontent.com/jebyrnes/multifunc/main/data/all_biodepth.rda","86f650ca88dd0e91e044744e5c082290d87562044d3022fab05e7a64ab623290")
+          ]
+          for name,url,digest in original:
+              req=Request(url,headers={"User-Agent":"turnover-BIODEPTH-full-source-bridge/0.1"})
+              with urlopen(req,timeout=100) as response: data=response.read(2000000)
+              if hashlib.sha256(data).hexdigest()!=digest:raise ValueError("SOURCE_SOURCE_SHA_DRIFT: "+name)
+              (root/name).write_bytes(data)
+              print("BIODEPTH_SOURCE_LOCKED",name,len(data),digest)
+          PY
+      - name: Verify 480 plot treatments, 103 sown taxa, 186 ecotype names, 5802 plant-year values
+        run: |
+          python scripts/analysis/audit_biodepth_2010_2015_species_crosswalk_v0_1.py \
+            --design /tmp/biodepth_species_keys/design.txt \
+            --shoots /tmp/biodepth_species_keys/shoots.txt \
+            --species_biomass /tmp/biodepth_species_keys/2010_species_biomass.txt \
+            --species_codes /tmp/biodepth_species_keys/2010_species_codes.txt \
+            --species_names /tmp/biodepth_species_keys/2010_species_names.txt \
+            --sown_matrix_rda /tmp/biodepth_species_keys/sown_480_103_species.rda \
+            --out results/biodepth_2010_species_source_v0_1/full_2005_2010_species_crosswalk_v0_1.json
+      - name: Archive QA only and never raw 2010 copyright-restricted records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-full-480plot-103species-186ecotype-crosswalk-QA-v0-1
+          path: results/biodepth_2010_species_source_v0_1/full_2005_2010_species_crosswalk_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

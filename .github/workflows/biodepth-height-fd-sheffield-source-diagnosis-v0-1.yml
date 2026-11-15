@@ -1,0 +1,67 @@
+name: BIODEPTH source-pinned Sheffield site height FD failure diagnostic
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/diagnose_biodepth_height_fd_heldout_failure_v0_1.py
+      - .github/workflows/biodepth-height-fd-sheffield-source-diagnosis-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/diagnose_biodepth_height_fd_heldout_failure_v0_1.py
+      - .github/workflows/biodepth-height-fd-sheffield-source-diagnosis-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  post-result-source-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install fixed numerical stack, check pre-source code and original model-fixture
+        run: |
+          python3 -m pip install --disable-pip-version-check -q numpy==2.3.4
+          python3 -m py_compile scripts/analysis/diagnose_biodepth_height_fd_heldout_failure_v0_1.py
+          python3 scripts/analysis/diagnose_biodepth_height_fd_heldout_failure_v0_1.py --self-test
+      - name: Re-fetch unchanged original 2010 and 2005 planted species and biomass data only by verified sha
+        run: |
+          python3 - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          root=Path("/tmp/BIODEPTH_height_FD_failure_source")
+          root.mkdir(parents=True,exist_ok=True)
+          files={
+            "Species2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt",
+                 "ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"),
+            "Codes2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt",
+                 "02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b"),
+            "Community2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthBiomass.txt",
+                 "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886"),
+            "Design2005.txt":("https://ndownloader.figshare.com/files/5640240",
+                 "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a")}
+          for name,(url,sha) in files.items():
+            req=urllib.request.Request(url,headers={"User-Agent":"turnover-BIODEPTH-FD-site-failure-original-source/0.1"})
+            with urllib.request.urlopen(req,timeout=105) as res:raw=res.read(2_000_001)
+            if len(raw)>2_000_000 or hashlib.sha256(raw).hexdigest()!=sha:
+              raise ValueError("ORIGINAL_BIODEPTH_SOURCE_DRIFT:"+name)
+            (root/name).write_bytes(raw)
+            print("PINNED_SOURCE_PASS",name,len(raw),sha)
+          PY
+      - name: Numerically replay original 7site prediction and diagnose MPD OOD, coefficient condition and heldout loss concentration
+        run: |
+          python3 scripts/analysis/diagnose_biodepth_height_fd_heldout_failure_v0_1.py \
+            --species /tmp/BIODEPTH_height_FD_failure_source/Species2010.txt \
+            --codes /tmp/BIODEPTH_height_FD_failure_source/Codes2010.txt \
+            --design /tmp/BIODEPTH_height_FD_failure_source/Design2005.txt \
+            --community /tmp/BIODEPTH_height_FD_failure_source/Community2010.txt \
+            --provenance results/biodepth_2010_species_source_v0_1/gift_height_103taxa_bibliography_qa_v0_1.json \
+            --prior results/biodepth_2010_species_source_v0_1/height_pairwise_dispersion_biomass_site_holdout_v0_1.json \
+            --out results/biodepth_2010_species_source_v0_1/height_fd_site_failure_ood_diagnostic_v0_1.json
+      - name: Archive only site-aggregated source and numerical diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-7site-height-FD-source-OOD-diagnostic-v0-1
+          path: results/biodepth_2010_species_source_v0_1/height_fd_site_failure_ood_diagnostic_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

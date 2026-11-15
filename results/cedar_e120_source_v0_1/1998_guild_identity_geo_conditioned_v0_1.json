@@ -1,0 +1,99 @@
+{
+  "version": "v0.1",
+  "status": "POST_RESULT_CEDAR_GUILD_IDENTITY_GEO_CONDITIONED_SENSITIVITY",
+  "source": {
+    "experiment": "Cedar Creek E120",
+    "publication": "ESA TIEE secondary teaching workbook 2004",
+    "url": "https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data.html",
+    "original_XLS_SHA256": "a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476",
+    "source_CSV_SHA256": "c40ee678ca80a6bb73680115205b13eef20a9c5fd502284be38482a332a43db1"
+  },
+  "population": {
+    "1998_plots": 94,
+    "planted_species_richness_levels": [
+      2,
+      4,
+      8
+    ],
+    "original_woody_planted": 39,
+    "four_guild_types": [
+      "C3",
+      "C4",
+      "Forb",
+      "Legume"
+    ],
+    "fg_count_definition": "sum of four guild indicators, Woody separate"
+  },
+  "stratification_design": {
+    "Jena_2003": {
+      "n_supported_plots": 62,
+      "original_block_conditioned_swappable_plots": 16,
+      "exact_pairs": 8,
+      "original_block_conditioned_reference_p_May": 0.5
+    },
+    "Cedar_1998": {
+      "richness_woody_FG4_conditioning": {
+        "n_strata": 14,
+        "n_variable_strata": 9,
+        "plots_with_variable_guild_vectors": 73
+      },
+      "richness_woody_FG4_zone_conditioning": {
+        "n_strata": 39,
+        "n_variable_strata": 18,
+        "plots_with_variable_guild_vectors": 60
+      },
+      "richness_woody_FG4_fieldrow_conditioning": {
+        "n_strata": 71,
+        "n_variable_strata": 15,
+        "plots_with_variable_guild_vectors": 33
+      }
+    }
+  },
+  "zone": {
+    "fieldrow_definition": "floor((plot_number-1)/19)+1",
+    "four_zone_limits": [
+      "rows1to4",
+      "rows5to9",
+      "rows10to13",
+      "rows14to18"
+    ],
+    "n_plots": 94,
+    "HC3_three_df_guild_equal_coefficients_chi2": 30.33095435746255,
+    "HC3_p": 0.000001175626791863206,
+    "raw_nested_model_SSE_improvement": 8.225520213569364,
+    "conditional_vector_shuffle": {
+      "n": 9999,
+      "seed": 20261115,
+      "p": 0.0004
+    }
+  },
+  "fieldrow18": {
+    "n_plots": 94,
+    "HC3_three_df_guild_equal_coefficients_chi2": 23.93270243622038,
+    "HC3_p": 0.00002580127818934763,
+    "raw_nested_model_SSE_improvement": 6.756252492107283,
+    "conditional_vector_shuffle": {
+      "n": 9999,
+      "seed": 20261116,
+      "p": 0.007
+    }
+  },
+  "verification": {
+    "independent_statsmodels_formula_zone_p": 0.0000011756267918632442,
+    "independent_statsmodels_formula_fieldrow_p": 0.00002580127818934879,
+    "same_94_original_plots": true,
+    "nonresponse_based_strata": true,
+    "local_code": "turnover_jena_guild_identity_20261115/cedar_sensitivity/zone_identity_support.py",
+    "ci_replay_status": "NOT_YET_VERIFIED_IN_GITHUB_ACTIONS"
+  },
+  "claim_boundary": [
+    "Post-result exploratory sensitivity, not prespecified independent confirmation",
+    "All observations come from same Cedar E120 site and 1998 teaching republished biomass",
+    "Compared guilds differ from Jena: C3 and C4 grasses split, tall/small herbs pooled, legumes named in both",
+    "Treatment guild identity and planted species mixture remain confounded",
+    "Exchangeability conditional on observed strata does not prove original randomization or a causal intervention",
+    "Only 33 of 94 plots exchangeable when fieldrow is conditioned; no international generality",
+    "One Jena site with 16 exchangeable plots and one Cedar site with 33 under stricter within-field context cannot establish universal trait-biomass effects",
+    "Former original Cedar source feasibility gate >=4 years remains HOLD; public teaching source only 3 years"
+  ]
+}

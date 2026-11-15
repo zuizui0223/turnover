@@ -1,0 +1,91 @@
+{
+  "version": "v0.1",
+  "date": "2026-11-15",
+  "status": "SOURCE_GATE_ORIGINAL_4_YEAR_HOLD__THREE_YEAR_TEACHING_DATA_AVAILABLE",
+  "experiment": "Cedar Creek LTER E120, independent of Jena Experiment",
+  "source": "https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data.html",
+  "source_origin": "ESA TIEE 2004 Student Bonus Data, secondary educational republication of E120",
+  "source_download_run": "https://github.com/zuizui0223/turnover/actions/runs/43667743260",
+  "bonus_excel_sha256": "a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476",
+  "species_list_excel_sha256": "58beb1bdb61e4fa011c7df47b81f1369efba16c122a7862bc53173eaae555087",
+  "n_unique_plot_ids": 168,
+  "number_source_rows": 168,
+  "source_years": [
+    1996,
+    1997,
+    1998
+  ],
+  "aboveground_biomass_column_units": "ESA spreadsheet header explicitly states aboveground biomass in g/m2, without original composition-resolved harvest method/weed split",
+  "original_functional_group_fields": [
+    "C3",
+    "C4",
+    "Forb",
+    "Legume",
+    "Woody"
+  ],
+  "species_richness_counts": {
+    "1": 39,
+    "2": 35,
+    "4": 29,
+    "8": 30,
+    "16": 35
+  },
+  "woody_presence_plots": 77,
+  "nonwoody_plots": 91,
+  "within_exact_richness_comparisons": {
+    "all_five_group_treatment_richness_levels": [
+      2,
+      4,
+      8
+    ],
+    "plots_within_richness_two_or_more_FG_levels": 94,
+    "plots_within_richness_and_no_woody": 55,
+    "n_all_group_richness_by_species_richness": {
+      "1": {
+        "1": 39
+      },
+      "2": {
+        "1": 6,
+        "2": 29
+      },
+      "4": {
+        "2": 5,
+        "3": 17,
+        "4": 7
+      },
+      "8": {
+        "3": 4,
+        "4": 15,
+        "5": 11
+      },
+      "16": {
+        "4": 1,
+        "5": 34
+      }
+    }
+  },
+  "data_numeric_quality_only": {
+    "1996": {
+      "missing": 0,
+      "negative": 0,
+      "zero": 5
+    },
+    "1997": {
+      "missing": 0,
+      "negative": 0,
+      "zero": 0
+    },
+    "1998": {
+      "missing": 0,
+      "negative": 0,
+      "zero": 0
+    }
+  },
+  "official_EDI_PASTA_url": "https://pasta.lternet.edu/package/metadata/eml/knb-lter-cdr/273/newest",
+  "official_EDI_status": "HTTP 403 from Actions on metadata, revision and package resource endpoints; no original EDI table bytes opened",
+  "original_four_year_gate_pass": false,
+  "separate_future_scope": "A separately frozen 1998 single-year exploratory association can use 94 2/4/8 species plots and adjust explicitly for Woody presence; it is not retroactive passage of the failed four-year original gate",
+  "mainline_source_gates_not_changed": true,
+  "outcome_effects_estimated": false,
+  "caution": "ESA teaching workbook includes original planned woody species guild which did not maintain presence over E120 development; not identical to Jena four plant guild types, and not independently source-verified annual NPP."
+}

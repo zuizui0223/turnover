@@ -1,0 +1,25 @@
+# Cedar Creek E120 ESA 1998 woody-adjusted guild/bio exploratory contrast v0.1
+
+**Frozen 2026-11-15 BEFORE fitting Cedar biomass effects.** This is **a distinct post-source-failure exploratory single-year protocol**, not retroactive PASS of the previously frozen E120 ≥4-year source gate or global sPlotOpen/BIEN source programme. The selection of independent Cedar Creek followed the exploratory Jena outcomes; report as retrospective replication with source caveats.
+
+## Input source and fixed population
+- ESA TIEE 2004 [Cedar Creek E120 Bonus Data](https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data.html), XLS byte SHA256 `a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476`, CSV conversion source manifest SHA pinned in source gate. Original E120 experiment LTER [description](https://cedarcreek.umn.edu/research/experiments/e120).
+- Teaching XLS *explicitly* labels response as aboveground biomass (g/m²) in **1996, 1997, 1998** but source harvesting details (sown-only/total, weed cover, annual vs standing mass) cannot be independently certified with the official EDI package because EDI source access returned HTTP 403. Therefore **do not equate this measure to Jena sown-only dry biomass or annual NPP**.
+- **Primary target 1998**, chosen from source date coverage only (latest of the 3 early years before any E120 regression opened), 94 plots sown with **2, 4, 8 species** (35+29+30); all 94 kept. Treatments of 1 species (39) and 16 species (35) have no independent within-richness FG5 support and are excluded from the main within-richness contrast. All 168 retained for descriptive source support only.
+- Four herb guild flags `C3,C4,Forb,Legume` and fifth `Woody` were in **original design**; 77 of 168 have `Woody=1`, including 39 of primary 94. Primary `FG4=C3+C4+Forb+Legume`, conditional on `Woody`. In E120, woody guild was originally planted but failed to persist, thus no realized woody functional contribution inferred. Direct biological comparison to Jena's grass/small herb/tall herb/legume definitions is partial.
+- Exclude no plots on the basis of outcome. Require 94 unique IDs, no missing/non-finite/negative 1998 measurements, exactly richness levels 2/4/8 and source-aligned 4 guild flags. Fixed denominator before estimates.
+
+## Estimator and predeclared tests
+1. **Primary exploratory regression** `log1p(Biomass_1998_gm2) ~ C(NumSp) + FG4 + Woody`. HC3 two-sided normal-Wald p and 95% CI for `FG4`. No inferential claim of causal guild-number effect.
+2. Sensitivity same model separately for 1996 and 1997 (same 94 plots). A zero value in 1996 is a legitimate zero, never missing. At most one primary 1998 p.
+3. Spatial sensitivity: derive `field_row = floor((plot_number-1)/19)+1` from documented 18×19 serpentine E120 layout; fit `+ C(field_row)` as additional nuisance controls on same 94. No data-driven location exclusions. Rank/hat checks.
+4. **Explicit within-richness×Woody outcome exchangeability permutation** for 1998 primary beta: 9,999 permutations, seed 20261115, permute responses only within each fixed `(NumSp,Woody)` stratum, recompute coefficient. Approximate conditional randomization, not exact pure guild-count sharp null (species composition differs).
+5. Bootstrap 4,000 whole-plot draws stratified by four pre-fixed field row zones (rows 1–4,5–9,10–13,14–18; seed 20261116), model fit full-rank with at least 95% valid, percentile 95% CI. If rank drops too often, report HOLD rather than loosen.
+6. **Null model:** `~ C(NumSp)+Woody`; alternative plus FG4, primary heldout spatial-zone validation: train on 3 zones, predict the left-out fourth (each plot once). Report `1-SSE_FG/SSE_baseline` and SSEs. This is within-one-E120-site geographic blocking, not generalization to Jena.
+7. Original treatment **guild identity** is a separate mechanism: since `FG4` is the exact sum of the four flags, `FG4 + C3+C4+Forb+Legume` is rank deficient. Instead compare nested unrestricted `~ C(NumSp)+Woody+C3+C4+Forb+Legume` to the equal-guild-coefficient FG4 model, using three-constraint HC3 Wald equality test (exploratory only). Do not select outcome-dependent predictors.
+8. Secondary **nonwoody-only** source subset (`Woody=0`) has 55 within-richness-supported plots (below original ≥60 threshold). May describe under separate robustness label, but does not independently qualify a replication or erase original source gate HOLD.
+
+## Interpretive decision before effects
+- Positive point estimate alone insufficient. A robust *within-Cedar 1998* association would need positive β, HC3 CI lower >0 and conditionally shuffled p≤0.05. If only one method passes, call uncertain. A positive result does not establish causal complementarity or multi-study generality.
+- The 1996/97 response series is earlier establishment, cannot be summed or treated as annual production without source definition. Repeated plots are not independent field sites.
+- Main result Jena within-richness 62 plots β+0.129 p=.168 remains unchanged; E120 source 3-year gate remains HOLD. NEON and original BIEN FD/phylogenetic memory source gates are separate.

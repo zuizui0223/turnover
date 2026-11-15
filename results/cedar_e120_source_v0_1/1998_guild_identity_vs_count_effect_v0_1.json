@@ -1,0 +1,116 @@
+{
+  "version": "v0.1",
+  "date": "2026-11-15",
+  "status": "CEDAR_1998_GUILD_IDENTITY_ASSOCIATION_EXPLORATORY_WITH_NUMBER_NULL",
+  "study": "Cedar Creek LTER E120 original randomized treatment; ESA TIEE 2004 secondary workbook",
+  "source_url": "https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data.html",
+  "raw_xls_sha256": "a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476",
+  "csv_conversion_sha256": "c40ee678ca80a6bb73680115205b13eef20a9c5fd502284be38482a332a43db1",
+  "source_run": "https://github.com/zuizui0223/turnover/actions/runs/43667743260",
+  "design": "1998 source-preselected single-year, 94 plots at 2/4/8 sown species, 39 with Woody sown; original ≥4-year source gate remains HOLD",
+  "source_group_definition": "FG4=C3+C4+Forb+Legume; Woody a separate covariate, not the same guild definitions as Jena",
+  "primary_1998_number": {
+    "n_plots": 94,
+    "beta_fg4": 0.0830142460692296,
+    "hc3_p": 0.5444277041878417,
+    "hc3_ci95": [
+      -0.18541767220872002,
+      0.3514461643471792
+    ],
+    "permutation_within_richness_and_Woody_p": 0.4475,
+    "four_zone_bootstrap_4000_ci95": [
+      -0.17703301804713015,
+      0.33101888177323646
+    ],
+    "with_18_fieldrow_fixed_effects_beta": 0.10980768531487342,
+    "with_18_fieldrow_HC3_p": 0.5177396787316095,
+    "nonwoody_55_plots_beta": 0.16163389156110936,
+    "nonwoody_55_plots_hc3_p": 0.3651265381331006,
+    "strict_support_pass": false
+  },
+  "original_two_sensitivity_years": {
+    "1996": {
+      "fg4_beta": 0.34219497240915797,
+      "hc3_p": 0.059849481979476274,
+      "ci95": [
+        -0.014194594752593992,
+        0.6985845395709099
+      ]
+    },
+    "1997": {
+      "fg4_beta": 0.22190317359223588,
+      "hc3_p": 0.21697321331665442,
+      "ci95": [
+        -0.13036992431104882,
+        0.5741762714955205
+      ]
+    }
+  },
+  "guild_identity_1998": {
+    "coefficients": {
+      "c3": -0.3488114801462696,
+      "c4": -0.04449945239872993,
+      "forb": -0.08329245920238365,
+      "legume": 0.5664660136075896
+    },
+    "individual_95CI": {
+      "c3": [
+        -0.6753602407781281,
+        -0.022262719514411167
+      ],
+      "legume": [
+        0.2109607978185588,
+        0.9219712293966205
+      ]
+    },
+    "equal_four_guild_coefficients_robust_wald_chi2": 31.222577713668844,
+    "equal_coefficients_HC3_p": 7.630860370298895e-7,
+    "with_18_fieldrow_fixed_effects_HC3_p": 0.00002580127818934879,
+    "conditional_identity_shuffle_9999_permutations_p": 0.0003,
+    "nonwoody_55plots_equal_guild_coefficients_HC3_p": 0.00003145248005718991,
+    "conditional_identity_shuffle_strata": "same NumSp, Woody and original FG4 count"
+  },
+  "four_spatial_zone_CV_1998": {
+    "n_plot_predictions": 94,
+    "baseline_SSE": 37.11898320413762,
+    "add_FG4_SSE": 37.16587436048711,
+    "guild_identity_SSE": 32.433282131792026,
+    "group_number_gain": -0.0012632661862423955,
+    "guild_identity_gain": 0.12623462896535598,
+    "plot_bootstrap_refit_2000": {
+      "valid_retrains": 2000,
+      "rank_failed": 0,
+      "seed": 20261122,
+      "number_gain_CI95": [
+        -0.1142511706680683,
+        0.06376571451620759
+      ],
+      "identity_gain_CI95": [
+        -0.20871153295214537,
+        0.32143177379792504
+      ],
+      "identity_minus_number_gain_CI95": [
+        -0.16701183667152183,
+        0.3378708021122441
+      ]
+    },
+    "interpretation": "Point predictive gain is not robustly positive under retrained plot-bootstrap uncertainty"
+  },
+  "test_verification": {
+    "local_source_validated": true,
+    "production_synthetic_tests_passed": 6,
+    "independent_pandas_patsy_statsmodels_reproduction": true,
+    "conditional_guild_label_shuffle_tested": true,
+    "original_xls_import_and_source_conversion_verified_in_gh_actions": true
+  },
+  "hard_nonclaims": [
+    "Post-Jena hypothesis selection and secondary ESA teaching workbook; not new independently preregistered ecology",
+    "1996–98 teaching source fails earlier four-year eligibility gate",
+    "Cedar functional-guild scheme is not identical to Jena grass/small/tall herbs+legumes scheme",
+    "Same source contains originally planted woody guild with low realized establishment; Woody is an adjustment variable, not observed woody biomass",
+    "Guild identity differences do not prove pure causal group effects separate from assigned species composition",
+    "The source outcome is aboveground biomass g/m2 in teaching workbook; official EDI harvest/weed/sown split not independently verified",
+    "Source-only within-experiment results do not prove transport of phylogenetic trait memory rho or multi-trait functional diversity",
+    "CV improvement has CI including zero; avoid forecasting claim and meta-analytic pooling with Jena"
+  ]
+}

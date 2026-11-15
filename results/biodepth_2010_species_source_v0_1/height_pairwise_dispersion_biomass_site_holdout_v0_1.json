@@ -1,0 +1,148 @@
+{
+  "design": "M0 log2 planned richness + squared + 3 planted guild flags + year; M1 + train-standardized mean log height; M2 + train-standardized mean pairwise absolute log-height difference. Seven-source-site holdout, repeated original plot-year records.",
+  "hard_nonclaims": [
+    "The original BIODEPTH 2005–2010 source editions are not interchangeable",
+    "The same seven original sites do not represent global grasslands, and Greece lacks qualifying height coverage",
+    "GIFT references are not proven literature-independent of TRY/BIEN and source height values are species maxima",
+    "This is post-outcome exploratory source response analysis, not a new causal height mechanism",
+    "No evolutionary phylogenetic signal rho or family×trait PD–FD model was tested",
+    "Original BIODEPTH six-site exact-richness source gate and sPlotOpen global source gate stay HOLD"
+  ],
+  "population": {
+    "complete_2010_Community_plot_year_rows": 521,
+    "excluded_missing_original_2010_Community_rows": 1,
+    "independent_original_sites": 7,
+    "original_source_2010_plots": 480,
+    "provenance_quality_eligible_plots": 174,
+    "site_eligible_plots": {
+      "Germany": 26,
+      "Ireland": 32,
+      "Portugal": 14,
+      "Sheffield": 20,
+      "Silwood": 32,
+      "Sweden": 22,
+      "Switzerland": 28
+    }
+  },
+  "predictors": "Original sown 103 species roster, GIFT Plant_height_max metres from traceable bibliography; equal planted-species log height CWM and log-height mean pairwise dissimilarity, never 2010 species biomass weights.",
+  "primary": {
+    "M1_CWM_increase_equal_site_mean": -0.02749108307994062,
+    "M2_FD_CWM_increase_equal_site_mean": -1.255412462098042,
+    "biological_site_replication": 7,
+    "pooled_test_SSE_gain_descriptive": -0.4368343105455843,
+    "primary_equal_site_FD_incremental_holdout_SSE_gain": -1.230853879990266,
+    "primary_positive_gain_supported": false,
+    "primary_site_bootstrap_10000_ci95": [
+      -3.861104514635686,
+      0.13094468464305034
+    ],
+    "site_holdout_records": [
+      {
+        "M0_sse": 52.53842474337749,
+        "M1_sse": 53.261726940628975,
+        "M2_sse": 40.649479080061184,
+        "height_cwm_fd_increment_over_context": 0.2262904858946102,
+        "height_cwm_increment_over_context": -0.01376710856453034,
+        "height_fd_increment_over_cwm": 0.23679757651543487,
+        "heldout_site": "Germany",
+        "n_test_original_plots": 26,
+        "n_test_plot_years": 78
+      },
+      {
+        "M0_sse": 233.43585781517567,
+        "M1_sse": 238.62286072325256,
+        "M2_sse": 232.47273081321876,
+        "height_cwm_fd_increment_over_context": 0.004125874280717645,
+        "height_cwm_increment_over_context": -0.02222024909379483,
+        "height_fd_increment_over_cwm": 0.025773431310785133,
+        "heldout_site": "Ireland",
+        "n_test_original_plots": 32,
+        "n_test_plot_years": 95
+      },
+      {
+        "M0_sse": 152.54465833759835,
+        "M1_sse": 167.1737809431968,
+        "M2_sse": 151.20714372246266,
+        "height_cwm_fd_increment_over_context": 0.008768019999596532,
+        "height_cwm_increment_over_context": -0.09590058914565569,
+        "height_fd_increment_over_cwm": 0.09550921879406049,
+        "heldout_site": "Portugal",
+        "n_test_original_plots": 14,
+        "n_test_plot_years": 42
+      },
+      {
+        "M0_sse": 45.50500124049833,
+        "M1_sse": 45.47287931239616,
+        "M2_sse": 458.58344864870514,
+        "height_cwm_fd_increment_over_context": -9.077649404403864,
+        "height_cwm_increment_over_context": 0.0007058988512581577,
+        "height_fd_increment_over_cwm": -9.08476823071313,
+        "heldout_site": "Sheffield",
+        "n_test_original_plots": 20,
+        "n_test_plot_years": 60
+      },
+      {
+        "M0_sse": 28.345741732122036,
+        "M1_sse": 29.46186400115376,
+        "M2_sse": 27.82972618754999,
+        "height_cwm_fd_increment_over_context": 0.018204340865325963,
+        "height_cwm_increment_over_context": -0.03937530651268539,
+        "height_fd_increment_over_cwm": 0.055398321489090185,
+        "heldout_site": "Silwood",
+        "n_test_original_plots": 32,
+        "n_test_plot_years": 96
+      },
+      {
+        "M0_sse": 314.0489898130101,
+        "M1_sse": 320.32357829467634,
+        "M2_sse": 340.9467569895091,
+        "height_cwm_fd_increment_over_context": -0.0856483161831354,
+        "height_cwm_increment_over_context": -0.01997964867010782,
+        "height_fd_increment_over_cwm": -0.06438233115596881,
+        "heldout_site": "Sweden",
+        "n_test_original_plots": 22,
+        "n_test_plot_years": 66
+      },
+      {
+        "M0_sse": 43.361408290804114,
+        "M1_sse": 43.44382004783884,
+        "M2_sse": 38.243818357488664,
+        "height_cwm_fd_increment_over_context": 0.11802176486045457,
+        "height_cwm_increment_over_context": -0.0019005784240684331,
+        "height_fd_increment_over_cwm": 0.11969485382786582,
+        "heldout_site": "Switzerland",
+        "n_test_original_plots": 28,
+        "n_test_plot_years": 84
+      }
+    ],
+    "sites_positive_incremental_gain": 5,
+    "source_site_bootstrap_seed": 20261115
+  },
+  "response": "2010 Hector original Community aboveground biomass g/m2, log1p; not uniform annual NPP",
+  "source_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "source_provenance_qa_sha256": "af6ecd2d9b8ae082dbc3fe9f646a995dd1c1f0ed1007289b67231d4c27a2c149",
+  "status": "POSTRESULT_BIODEPTH_HEIGHT_FD_OUT_OF_SITE_VALIDATION_ESTIMATED",
+  "version": "v0.1",
+  "complete_height_species_sensitivity": {
+    "status": "FULL_TRAIT_COVERAGE_SUBSET_ESTIMATED",
+    "n_100pct_trait_coverage_plots": 150,
+    "primary_equal_site_FD_incremental_holdout_SSE_gain": -1.2294930413592557,
+    "site_bootstrap_10000_ci95": [
+      -3.822041383387421,
+      0.10124855424562651
+    ],
+    "sites_positive_incremental_gain": 5,
+    "sheffield_FD_incremental_gain": -8.972816617118497,
+    "pooled_test_SSE_gain_descriptive": -0.5029311732651105,
+    "full_json_source": "GitHub Actions #43723058720 artifact ID 14164924899"
+  },
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43723058720",
+    "job_id": 132838985957,
+    "artifact_id": 14164924899,
+    "artifact_digest": "sha256:824419d297ffd7b01ebb12d936afce57268088af49976a8bd832612f37b15ad9",
+    "source_value_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+    "primary_source_material": "Original BIODEPTH Hector 2010 Species/Community and independent reference-traceable GIFT Plant_height_max"
+  },
+  "no_raw_species_height_or_plot_biomass_exported": true
+}

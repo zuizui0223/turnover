@@ -1,0 +1,61 @@
+name: BIODEPTH 2005 vs 2010 source numeric rounding and site outlier QA
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/audit_biodepth_2005_2010_response_rounding_v0_1.py
+      - .github/workflows/biodepth-2005-2010-source-numeric-qa-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_biodepth_2005_2010_response_rounding_v0_1.py
+      - .github/workflows/biodepth-2005-2010-source-numeric-qa-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-edition-numeric-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate source-only numerical tolerance and missingness fixture
+        run: |
+          python3 -m py_compile scripts/analysis/audit_biodepth_2005_2010_response_rounding_v0_1.py
+          python3 scripts/analysis/audit_biodepth_2005_2010_response_rounding_v0_1.py --self-test
+      - name: Re-fetch original Shoots 2005 and Community 2010 with immutable byte checks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request,urlopen
+          import hashlib
+          out=Path("/tmp/biodepth-org-source-differences");out.mkdir(parents=True,exist_ok=True)
+          sources={
+            "Shoots2005.txt":(
+              "https://ndownloader.figshare.com/files/5640249",
+              "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"),
+            "Community2010.txt":(
+              "https://esapubs.org/archive/ecol/E091/155/BiodepthBiomass.txt",
+              "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886")}
+          for name,(url,sha) in sources.items():
+            request=Request(url,headers={"User-Agent":"turnover-BIODEPTH-original-biomass-edition-audit/0.1"})
+            with urlopen(request,timeout=90) as response:
+              raw=response.read(2_000_001)
+            if len(raw)>2_000_000 or hashlib.sha256(raw).hexdigest()!=sha:
+              raise ValueError("ORIGINAL_SOURCE_SHA_CHANGED")
+            (out/name).write_bytes(raw)
+            print("BIODEPTH_BYTE_IDENTITY_PASS",name,len(raw),sha)
+          PY
+      - name: Inspect tolerances, true zeros and original site-year outlier distribution without biological effects
+        run: |
+          python3 scripts/analysis/audit_biodepth_2005_2010_response_rounding_v0_1.py \
+            --shoots /tmp/biodepth-org-source-differences/Shoots2005.txt \
+            --mixed /tmp/biodepth-org-source-differences/Community2010.txt \
+            --out results/biodepth_2010_species_source_v0_1/original_2005_2010_numeric_edition_audit_v0_1.json
+      - name: Archive only site-year aggregate source comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-2005-2010-rounding-profile-v0-1
+          path: results/biodepth_2010_species_source_v0_1/original_2005_2010_numeric_edition_audit_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

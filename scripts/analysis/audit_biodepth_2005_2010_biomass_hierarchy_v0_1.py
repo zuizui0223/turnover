@@ -98,7 +98,7 @@ def audit(shoots,species,mixed):
         S[specieskey]=v
         children_S[k].append(v)
         if k not in Y:raise ValueError("2010 species row not in original 2005 site plot year")
-        if r["site"].strip()!=site_of[k]:
+        if str(r["location"]).strip()!=site_of[k]:
             raise ValueError("2010 species site not same as original 2005 plot site")
     if set(children_S)!=set(Y):
         raise ValueError("Some original 2005 plot-year lacks 2010 planted species records")

@@ -1,0 +1,51 @@
+name: BIODEPTH original CC0 research-only design-shoots source cache
+on:
+  push:
+    branches: [analysis/biodepth-8site-source-first-20261115]
+    paths: [.github/workflows/biodepth-original-cc0-source-cache-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/biodepth-original-cc0-source-cache-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch and verify public original BIODEPTH 2005 CC0 Design, Shoots and dictionary
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,urllib.request
+          from pathlib import Path
+          d=Path("data_source/BIODEPTH_2005_original_CC0");d.mkdir(parents=True,exist_ok=True)
+          original={
+           "Design.txt":(5640240,"29e7d05f45b8613d9bead9337da7d3cc","a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a"),
+           "Shoots.txt":(5640249,"76824bf9ce195e84aa17ae4cd6c1a336","cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"),
+           "suppl-1.htm":(5640234,"dfd5f16d87015b87a879d349c5402db3","20694c14d6b6eccf016294eeae2058479b12c830272a6175a62d32714703c116")
+          }
+          for name,(id,md,sha) in original.items():
+            u=f"https://ndownloader.figshare.com/files/{id}"
+            request=urllib.request.Request(u,headers={"User-Agent":"turnover-BIODEPTH-original-source-CC0-archive/0.1"})
+            with urllib.request.urlopen(request,timeout=90) as resp:raw=resp.read(1000000)
+            if hashlib.md5(raw).hexdigest()!=md or hashlib.sha256(raw).hexdigest()!=sha:
+              raise ValueError("ORIGINAL_SOURCE_CHECKSUM_NOT_AS_PUBLISHED")
+            (d/name).write_bytes(raw)
+            print("BIODEPTH_CC0_PINNED_SOURCE_OK",name,len(raw),sha)
+          (d/"SOURCE_INFO.json").write_text(json.dumps({
+            "doi":"https://doi.org/10.6084/m9.figshare.3565170.v1",
+            "original_study":"Spehn et al. 2005, Ecological Monographs, DOI 10.1890/03-4101",
+            "source_license":"CC0-1.0 (original Figshare metadata)",
+            "source_hashes":{k:{"file_id":v[0],"md5":v[1],"sha256":v[2]} for k,v in original.items()},
+            "source_not_an_independent_study_from_2005_original":True,
+            "this_zip_is_original_public_source_not_ecological_inference":True
+          },indent=2)+"\n")
+          PY
+      - name: Expose 7-day original source research ZIP without adding raw data to Git
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-2005-original-CC0-raw-research-files
+          path: data_source/BIODEPTH_2005_original_CC0/
+          retention-days: 7
+          if-no-files-found: error

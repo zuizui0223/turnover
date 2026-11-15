@@ -1,0 +1,171 @@
+{
+  "version": "v0.1",
+  "status": "RETROSPECTIVE_EXPLORATORY_SITE_EFFECTS_IN_EIGHT_ORIGINAL_BIODEPTH_FIELDS",
+  "source": "Original Spehn et al. 2005 BIODEPTH eight European field site consortium, dataset DOI https://doi.org/10.6084/m9.figshare.3565170.v1",
+  "source_raw_checksums": {
+    "Design_txt_sha256": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "Shoots_txt_sha256": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135"
+  },
+  "dataset_source_version": "Figshare v1 CC0",
+  "source_gate": "PRE_OUTCOME_HOLD_ORIGINAL_SIX_SITES_SINGLE_RICHNESS_20PLOTS_ONLY_1_SITE_ELIGIBLE",
+  "source_selected_exploratory_population": {
+    "original_sites": 8,
+    "original_plots": 480,
+    "original_plot_year_rows": 1440,
+    "source_group_richness_variation_within_site_richness_unique_plots": 230,
+    "valid_source_plot_year_rows_in_exploratory": 681,
+    "source_missing_of_all_original_rows": 21,
+    "original_grass_absent_plots": 122
+  },
+  "treatment_definition": "original three planned guilds grass/legume/forb; source FGr count is exact sum; sites+richness levels chosen solely from treatment support, not biomass outcome",
+  "site_model": "Separate per field site OLS log1p(source Shoots biomass) ~ C(original planted species richness)+C(year)+C(original block if present)+FGr count. Robust sandwich covariance clustered by planted species composition (replicate plots and years clustered).",
+  "site_effects": [
+    {
+      "site": "Germany",
+      "source_plots": 34,
+      "n_independent_original_compositions": 17,
+      "FG_count_beta_log1p": 0.31662116166641585,
+      "FG_count_composition_cluster_se": 0.04888953814837336,
+      "FG_count_cluster_t_ci95": [
+        0.2129799706691995,
+        0.4202623526636322
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.000007646842542399532,
+      "guild_identity_equal_coefficients_p_composition_cluster": null,
+      "guild_identity_source_design_rank_pass": false,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": 0.15570229087945697
+    },
+    {
+      "site": "Greece",
+      "source_plots": 22,
+      "n_independent_original_compositions": 11,
+      "FG_count_beta_log1p": 0.07713899188166996,
+      "FG_count_composition_cluster_se": 0.5283558615786296,
+      "FG_count_cluster_t_ci95": [
+        -1.1001112309763563,
+        1.2543892147396964
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.8868239344924956,
+      "guild_identity_equal_coefficients_p_composition_cluster": 0.03813516348672283,
+      "guild_identity_source_design_rank_pass": true,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": -0.012676411147143352
+    },
+    {
+      "site": "Ireland",
+      "source_plots": 46,
+      "n_independent_original_compositions": 21,
+      "FG_count_beta_log1p": -0.10303510734224747,
+      "FG_count_composition_cluster_se": 0.052057827691545155,
+      "FG_count_cluster_t_ci95": [
+        -0.21162583305087534,
+        0.00555561836638041
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.06172115880008823,
+      "guild_identity_equal_coefficients_p_composition_cluster": 0.21944444232472557,
+      "guild_identity_source_design_rank_pass": true,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": 0.004202498664294785
+    },
+    {
+      "site": "Portugal",
+      "source_plots": 10,
+      "n_independent_original_compositions": 5,
+      "FG_count_beta_log1p": -0.3115363901664102,
+      "FG_count_composition_cluster_se": 0.5092536786372474,
+      "FG_count_cluster_t_ci95": [
+        -1.7254512735227658,
+        1.1023784931899452
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.5737649328367465,
+      "guild_identity_equal_coefficients_p_composition_cluster": null,
+      "guild_identity_source_design_rank_pass": false,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": -0.009485046666842356
+    },
+    {
+      "site": "Sheffield",
+      "source_plots": 10,
+      "n_independent_original_compositions": 5,
+      "FG_count_beta_log1p": 0.21756249720194504,
+      "FG_count_composition_cluster_se": 0.08623647992239573,
+      "FG_count_cluster_t_ci95": [
+        -0.02186835536807838,
+        0.4569933497719685
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.06515802139584788,
+      "guild_identity_equal_coefficients_p_composition_cluster": null,
+      "guild_identity_source_design_rank_pass": false,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": -0.02234915442411589
+    },
+    {
+      "site": "Silwood",
+      "source_plots": 44,
+      "n_independent_original_compositions": 22,
+      "FG_count_beta_log1p": 0.108038283369883,
+      "FG_count_composition_cluster_se": 0.05707767865877654,
+      "FG_count_cluster_t_ci95": [
+        -0.010661247393826304,
+        0.22673781413359229
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.07224568298014304,
+      "guild_identity_equal_coefficients_p_composition_cluster": null,
+      "guild_identity_source_design_rank_pass": false,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": 0.009560536869347325
+    },
+    {
+      "site": "Sweden",
+      "source_plots": 24,
+      "n_independent_original_compositions": 12,
+      "FG_count_beta_log1p": -0.2756259141971289,
+      "FG_count_composition_cluster_se": 0.5476414982896809,
+      "FG_count_cluster_t_ci95": [
+        -1.4809767249830672,
+        0.9297248965888094
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.6246814988056331,
+      "guild_identity_equal_coefficients_p_composition_cluster": 0.000010297429458950018,
+      "guild_identity_source_design_rank_pass": true,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": -0.05958492910685265
+    },
+    {
+      "site": "Switzerland",
+      "source_plots": 40,
+      "n_independent_original_compositions": 20,
+      "FG_count_beta_log1p": 0.23273014407973913,
+      "FG_count_composition_cluster_se": 0.07858574246884922,
+      "FG_count_cluster_t_ci95": [
+        0.06824829475890112,
+        0.3972119934005771
+      ],
+      "FG_count_composition_cluster_t_p_two_sided": 0.008016184563260245,
+      "guild_identity_equal_coefficients_p_composition_cluster": null,
+      "guild_identity_source_design_rank_pass": false,
+      "heldout_year3_FG_count_SSE_gain_over_richness_baseline": 0.014261597311820307
+    }
+  ],
+  "equal_site_descriptive_summary": {
+    "n_sites": 8,
+    "n_positive_slopes": 5,
+    "n_negative_slopes": 3,
+    "equal_site_mean_FG_beta": 0.0327367083117333,
+    "equal_site_median_FG_beta": 0.09258863762577649,
+    "between_site_sd": 0.2373772400512357,
+    "bootstrap_resample_sites_reps": 10000,
+    "bootstrap_seed": 20261115,
+    "bootstrap_equal_site_mean_beta_ci95": [
+      -0.1314615382085546,
+      0.17997176966827177
+    ],
+    "sites_with_source_design_conditional_identity_fullrank": 3
+  },
+  "predictive_scope": "Site-specific years1-2 training and year3 test on same original sites and often same original plots; not novel-species or novel-site prediction; gain is relative heldout SSE",
+  "original_literature_limitation": "Spehn et al. (2005) already reports diversity/functional group effects on aboveground biomass; this source-conditional exact-richness site-specific comparison is retrospective reanalysis not a first empirical discovery.",
+  "hard_nonclaims": [
+    "Original fixed six-site qualification failed 1/8, not retroactively rescued",
+    "Three-year plot observations are repeated; site is unit of cross-site generality",
+    "Site-specific n=10 in Portugal and Sheffield, with only five planted composition clusters each; inferential precision is low",
+    "Source guild identity regressions are rank deficient in five of eight site-specific treatment populations",
+    "No consistent positive across-site guild-count association: bootstrap eight-site mean CI spans 0",
+    "No proof of causal complementarity or nitrogen fixation",
+    "Original biomass once/twice annual harvest protocol differs among sites, cannot claim uniform annual net productivity",
+    "No multi-axis quantitative trait FD, phylogenetic memory rho or genetic effect tested"
+  ]
+}

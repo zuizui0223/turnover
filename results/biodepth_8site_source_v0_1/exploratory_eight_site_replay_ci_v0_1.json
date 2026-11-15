@@ -1,0 +1,150 @@
+{
+  "exploratory_source_support_plots": 230,
+  "exploratory_valid_plot_year_rows": 681,
+  "guild_identity_full_rank_sites": 3,
+  "not_confirmatory_or_causal": true,
+  "original_design_plots": 480,
+  "original_primary_source_gate": "HOLD_ONE_OF_EIGHT_SITES_MEET_EXACT_RICHNESS_20PLOTS",
+  "original_study_already_reports_diversity_biomass_effects": true,
+  "original_yearly_records": 1440,
+  "positive_site_slopes": 5,
+  "site_equal_mean_beta": 0.0327367083117333,
+  "site_equal_mean_bootstrap_ci95": [
+    -0.1314615382085546,
+    0.17997176966827177
+  ],
+  "site_sd_beta": 0.2373772400512357,
+  "source_DOI": "10.6084/m9.figshare.3565170.v1",
+  "status": "SOURCE_PINNED_EIGHT_SITE_EXPLORATORY_REPLAY_PASS",
+  "version": "v0.1",
+  "site_effects": [
+    {
+      "count_beta": 0.31662116166641585,
+      "count_cluster_SE": 0.04888953814837336,
+      "count_cluster_t_CI95": [
+        0.21297997066921137,
+        0.42026235266362033
+      ],
+      "count_cluster_t_p": 0.000007646842542399524,
+      "guild_equality_wald_p": null,
+      "guild_identity_full_rank": false,
+      "n_composition_clusters": 17,
+      "n_plots": 34,
+      "n_source_plot_year_cells": 102,
+      "site": "Germany"
+    },
+    {
+      "count_beta": 0.07713899188166996,
+      "count_cluster_SE": 0.5283558615786296,
+      "count_cluster_t_CI95": [
+        -1.1001112309650836,
+        1.2543892147284237
+      ],
+      "count_cluster_t_p": 0.8868239344924955,
+      "guild_equality_wald_p": 0.03813516348672283,
+      "guild_identity_full_rank": true,
+      "n_composition_clusters": 11,
+      "n_plots": 22,
+      "n_source_plot_year_cells": 65,
+      "site": "Greece"
+    },
+    {
+      "count_beta": -0.10303510734224747,
+      "count_cluster_SE": 0.052057827691545155,
+      "count_cluster_t_CI95": [
+        -0.2116258330508739,
+        0.005555618366378981
+      ],
+      "count_cluster_t_p": 0.06172115880008819,
+      "guild_equality_wald_p": 0.21944444232472557,
+      "guild_identity_full_rank": true,
+      "n_composition_clusters": 21,
+      "n_plots": 46,
+      "n_source_plot_year_cells": 133,
+      "site": "Ireland"
+    },
+    {
+      "count_beta": -0.3115363901664102,
+      "count_cluster_SE": 0.5092536786372474,
+      "count_cluster_t_CI95": [
+        -1.7254512735227685,
+        1.1023784931899479
+      ],
+      "count_cluster_t_p": 0.5737649328367462,
+      "guild_equality_wald_p": null,
+      "guild_identity_full_rank": false,
+      "n_composition_clusters": 5,
+      "n_plots": 10,
+      "n_source_plot_year_cells": 27,
+      "site": "Portugal"
+    },
+    {
+      "count_beta": 0.21756249720194504,
+      "count_cluster_SE": 0.08623647992239573,
+      "count_cluster_t_CI95": [
+        -0.02186835536807885,
+        0.4569933497719689
+      ],
+      "count_cluster_t_p": 0.06515802139584784,
+      "guild_equality_wald_p": null,
+      "guild_identity_full_rank": false,
+      "n_composition_clusters": 5,
+      "n_plots": 10,
+      "n_source_plot_year_cells": 30,
+      "site": "Sheffield"
+    },
+    {
+      "count_beta": 0.108038283369883,
+      "count_cluster_SE": 0.05707767865877654,
+      "count_cluster_t_CI95": [
+        -0.010661247393825318,
+        0.22673781413359131
+      ],
+      "count_cluster_t_p": 0.07224568298014296,
+      "guild_equality_wald_p": null,
+      "guild_identity_full_rank": false,
+      "n_composition_clusters": 22,
+      "n_plots": 44,
+      "n_source_plot_year_cells": 132,
+      "site": "Silwood"
+    },
+    {
+      "count_beta": -0.2756259141971289,
+      "count_cluster_SE": 0.5476414982896809,
+      "count_cluster_t_CI95": [
+        -1.4809767249783081,
+        0.9297248965840503
+      ],
+      "count_cluster_t_p": 0.6246814988056331,
+      "guild_equality_wald_p": 0.000010297429458950018,
+      "guild_identity_full_rank": true,
+      "n_composition_clusters": 12,
+      "n_plots": 24,
+      "n_source_plot_year_cells": 72,
+      "site": "Sweden"
+    },
+    {
+      "count_beta": 0.23273014407973913,
+      "count_cluster_SE": 0.07858574246884922,
+      "count_cluster_t_CI95": [
+        0.0682482947589047,
+        0.39721199340057356
+      ],
+      "count_cluster_t_p": 0.008016184563260245,
+      "guild_equality_wald_p": null,
+      "guild_identity_full_rank": false,
+      "n_composition_clusters": 20,
+      "n_plots": 40,
+      "n_source_plot_year_cells": 120,
+      "site": "Switzerland"
+    }
+  ],
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43696573966",
+    "job_id": 132758334980,
+    "source_original_design_SHA256": "a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a",
+    "source_original_shoots_SHA256": "cc259a57abc89a79f626c4d9497a205c1190580428cd3d7152039cd17f704135",
+    "outcome_driven_site_filtering": false,
+    "raw_original_data_not_committed": true
+  }
+}

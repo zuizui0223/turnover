@@ -1,0 +1,130 @@
+name: GIFT Origanum vulgare max height exact source and raw reference audit
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths: [.github/workflows/biodepth-gift-origanum-maxheight-source-audit-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/biodepth-gift-origanum-maxheight-source-audit-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-explanation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reinspect GIFT3.1 aggregated max-height for original Origanum vulgare, and its cited raw reference records
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          from urllib.parse import urlencode
+          from pathlib import Path
+          import json,collections,hashlib,re,time,math
+          root="https://gift.uni-goettingen.de/api/extended/index3.1.php"
+          def query(name, max_bytes=5_000_000,**opts):
+              url=root+"?"+urlencode({"query":name,**opts})
+              req=Request(url,headers={"User-Agent":"turnover-GIFT-plant-height-outlier-original-reference-audit/0.1",
+                                       "Accept":"application/json"})
+              with urlopen(req,timeout=105) as resp:data=resp.read(max_bytes+1)
+              if len(data)>max_bytes:raise ValueError("GIFT response over fixed source QA limit")
+              result=json.loads(data)
+              return result,hashlib.sha256(data).hexdigest()
+          out={"version":"v0.1",
+               "purpose":"GIFT source-only anomaly diagnosis AFTER a failed heldout Sheffield FD prediction; no model refit",
+               "species_original":"Origanum vulgare",
+               "official_morphology_check":"Kew 20-90cm / Royal Horticultural Society 20-80cm, max 0.5-1m",
+               "GIFT_version":"3.1","GIFT_trait_ID":"1.6.2",
+               "API":root}
+          for q in ("names_matched_unique","names_matched"):
+              try:
+                  vals,sha=query(q,genus="Origanum",epithet="vulgare")
+                  out[q]={"n":len(vals),"sha256":sha,
+                          "first_three":vals[:3] if isinstance(vals,list) else
+                             {k:v for k,v in vals.items() if "work" in k or "name" in k}}
+                  print("ORIGANUM_GIFT_NAME_SOURCE",q,json.dumps(out[q],ensure_ascii=False)[:2000])
+              except Exception as exc:
+                  out[q]={"error_type":type(exc).__name__,"message":str(exc)[:200]}
+          ids=set()
+          for q in ("names_matched_unique","names_matched"):
+              obj=out.get(q,{})
+              for r in obj.get("first_three",[]):
+                  if isinstance(r,dict) and str(r.get("work_species","")).casefold()=="origanum vulgare":
+                      if r.get("work_ID"):ids.add(str(r["work_ID"]))
+          if not ids:
+              counter=0
+              for offset in range(0,380000,10000):
+                  items,_=query("species",startat=offset,limit=10000)
+                  counter+=len(items)
+                  for r in items:
+                      if str(r.get("work_species","")).casefold()=="origanum vulgare":
+                          ids.add(str(r["work_ID"]))
+                  if len(items)<10000:break
+              if counter!=372046:raise ValueError("Original GIFT accepted species roster no longer source identical")
+          if len(ids)!=1:raise ValueError("Origanum vulgare accepted GIFT work_ID not unique")
+          wid=next(iter(ids))
+          out["original_GIFT_accepted_work_ID"]=wid
+          entries=[]
+          count=0
+          for offset in range(0,100000,10000):
+              rows,_=query("traits",traitid="1.6.2",biasref=0,biasderiv=0,
+                           startat=offset,limit=10000)
+              count+=len(rows)
+              entries.extend(r for r in rows if str(r.get("work_ID"))==wid)
+              if len(rows)<10000:break
+          if count!=70231 or len(entries)!=1:
+              raise ValueError("Original GIFT aggregated maximum height not uniquely present")
+          rec=entries[0]
+          out["GIFT_aggregated_maximum_height_record"]={
+             "height_m":rec.get("trait_value"),"source_n":rec.get("n"),"source_coeff_var":rec.get("coeff_var"),
+             "original_bibliographic_ref_IDs":str(rec.get("references")),
+             "positive_numeric_height_more_than_10m":float(rec.get("trait_value"))>10}
+          idsref=list(dict.fromkeys(re.findall(r"\d+",str(rec.get("references") or ""))))
+          refs,_=query("references",startat=0,limit=10000)
+          bibliog=collections.defaultdict(list)
+          for b in refs:bibliog[str(b.get("ref_ID"))].append(b)
+          out["cited_bibliography"]=[]
+          for ref in idsref:
+              candidates=bibliog.get(ref,[])
+              titles={str(t.get("ref_long") or "") for t in candidates}
+              if len(titles)!=1:raise ValueError("Ambiguous original GIFT source ref_ID bibliography title")
+              out["cited_bibliography"].append({"ref_ID":ref,
+                    "source_records":len(candidates),"reference_title":next(iter(titles))[:260]})
+          out["n_distinct_references"]=len(idsref)
+          out["raw_reference_source_queries"]=[]
+          # Raw API is explicitly scoped by refid. Never request an unbounded
+          # taxon-agnostic full raw table; only attempt first six references.
+          for ref in idsref[:6]:
+              it={"ref_ID":ref}
+              for raw_args in ({"traitid":"1.6.2","refid":ref,"deriv":1,"biasderiv":1},
+                               {"traitid":"1.6.2","refid":ref,"deriv":0,"biasderiv":0}):
+                  try:
+                      rows,sha=query("traits_raw",max_bytes=6_000_000,**raw_args)
+                      if not isinstance(rows,list):raise ValueError("raw source not list")
+                      selected=[r for r in rows
+                          if "origanum" in str(r.get("work_species") or r.get("genus") or "").casefold()
+                          and ("vulgare" in str(r.get("work_species") or r.get("species_epithet") or "").casefold()
+                               or str(r.get("work_ID"))==wid)]
+                      it[str(raw_args["deriv"])]={"rows":len(rows),"source_sha256":sha,
+                          "schema_keys":list(rows[0]) if rows and isinstance(rows[0],dict) else [],
+                          "original_origanum_rows":[{k:r.get(k) for k in
+                            ("ref_ID","work_ID","work_species","genus","species_epithet","trait_value","derived","bias_ref","bias_deriv")}
+                            for r in selected[:20]]}
+                  except Exception as e:
+                      it[str(raw_args["deriv"])]={"status":"SOURCE_RAW_HOLD","error_type":type(e).__name__,
+                                                  "error":str(e)[:180]}
+              out["raw_reference_source_queries"].append(it)
+          out["status"]="GIFT_ORIGANUM_MAXHEIGHT_SOURCE_ANOMALY_AUDITED"
+          dest=Path("results/biodepth_2010_species_source_v0_1/gift_origanum_maxheight_anomaly_source_v0_1.json")
+          dest.parent.mkdir(parents=True,exist_ok=True)
+          dest.write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n")
+          print("GIFT_ORIGANUM_HEIGHT_ORIGINAL_SOURCE_AUDIT",json.dumps(out,ensure_ascii=False)[:20000])
+          PY
+      - name: Preserve one-taxon original-source record and references, never raw species-wide trait tables
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift3-1-origanum-vulgare-height-source-QA-v0-1
+          path: results/biodepth_2010_species_source_v0_1/gift_origanum_maxheight_anomaly_source_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

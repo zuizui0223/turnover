@@ -1,0 +1,38 @@
+name: BIODEPTH original eight-site exploratory source-pinned numeric replay
+on:
+  push:
+    branches: [analysis/biodepth-8site-source-first-20261115]
+    paths:
+      - scripts/analysis/replay_biodepth_8site_within_richness_v0_1.py
+      - .github/workflows/biodepth-eight-site-exploratory-replay-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/replay_biodepth_8site_within_richness_v0_1.py
+      - .github/workflows/biodepth-eight-site-exploratory-replay-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-pinned-retrospective:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original-source numerical reproducibility stack
+        run: python -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 statsmodels==0.14.5 patsy==1.0.1
+      - name: Verify original source-pinned 8-site effects and fixed source eligibility
+        run: |
+          python -m py_compile scripts/analysis/replay_biodepth_8site_within_richness_v0_1.py
+          python scripts/analysis/replay_biodepth_8site_within_richness_v0_1.py \
+            --out results/biodepth_8site_source_v0_1/exploratory_eight_site_replay_ci_v0_1.json
+      - name: Store nonraw analytical report and evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biodepth-original-eight-site-source-replay-v0-1
+          path: results/biodepth_8site_source_v0_1/exploratory_eight_site_replay_ci_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

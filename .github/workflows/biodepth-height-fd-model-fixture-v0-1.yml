@@ -1,0 +1,26 @@
+name: BIODEPTH height dispersion post-result model fixture before original biomass access
+on:
+  push:
+    branches: [analysis/biodepth-2010-species-pool-audit-20261115]
+    paths:
+      - scripts/analysis/fit_biodepth_2010_sown_height_fd_biomass_v0_1.py
+      - .github/workflows/biodepth-height-fd-model-fixture-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fit_biodepth_2010_sown_height_fd_biomass_v0_1.py
+      - .github/workflows/biodepth-height-fd-model-fixture-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pre-outcome-fixture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install numerical-only dependency
+        run: python3 -m pip install -q numpy==2.3.4
+      - name: Syntax, source fingerprint parser and pre-outcome model-matrix tests only
+        run: |
+          python3 -m py_compile scripts/analysis/fit_biodepth_2010_sown_height_fd_biomass_v0_1.py
+          python3 scripts/analysis/fit_biodepth_2010_sown_height_fd_biomass_v0_1.py --self-test

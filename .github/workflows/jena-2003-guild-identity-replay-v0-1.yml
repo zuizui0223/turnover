@@ -1,0 +1,119 @@
+name: Jena source-locked 62 plot guild identity replay
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths: [.github/workflows/jena-2003-guild-identity-replay-v0-1.yml]
+  pull_request:
+    paths: [.github/workflows/jena-2003-guild-identity-replay-v0-1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install verified and compatible numerical stack
+        run: python -m pip install -q numpy==2.3.4 pandas==2.2.3 scipy==1.16.3 statsmodels==0.14.5
+      - name: Reproduce from exact public PANGAEA original source with no response files committed
+        run: |
+          python3 - <<'PY'
+          import csv,hashlib,json,urllib.request
+          from itertools import product
+          from collections import defaultdict
+          from pathlib import Path
+          import numpy as np,pandas as pd
+          import statsmodels.formula.api as smf
+          urls=[
+           ("biom","https://doi.org/10.1594/PANGAEA.846317","70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079"),
+           ("plan","https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt","7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70")]
+          raw={}
+          for name,url,digest in urls:
+              headers={"User-Agent":"turnover-jena-guild-original/0.1"}
+              if name=="biom":headers["Accept"]="text/tab-separated-values"
+              with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=90) as response:
+                  data=response.read(2000000)
+              if hashlib.sha256(data).hexdigest()!=digest:raise ValueError("Original source SHA mismatch "+name)
+              raw[name]=data
+          original=pd.read_csv(__import__("io").BytesIO(raw["plan"]),sep="\t")
+          lines=raw["biom"].decode("utf-8-sig").splitlines()
+          measurements=pd.DataFrame(list(csv.DictReader(lines[lines.index("*/")+1:],delimiter="\t")))
+          means=measurements[measurements["Repl"].eq("mean")].copy()
+          if len(original)!=82 or len(means)!=164:raise ValueError("Original population changed")
+          means["month"]=means["Date/time start"].str.slice(5,7)
+          means["biom"]=pd.to_numeric(means["Sown plant biom dw [g/m**2]"],errors="raise")
+          wide=means.pivot(index="Experimental plot",columns="month",values="biom")
+          df=original.merge(wide,left_on="plotcode",right_index=True,validate="one_to_one")
+          df=df[df["NumberSownSpecies"].isin([2,4,8,16])].copy().reset_index(drop=True)
+          df=df.rename(columns={"NumberSownSpecies":"richness","NumberFunctionalGroups":"fg",
+             "PresenceGrasses":"grasses","PresenceSmallHerbs":"small",
+             "PresenceTallHerbs":"tall","PresenceLegumes":"legume"})
+          if len(df)!=62 or (df[["grasses","small","tall","legume"]].sum(axis=1)!=df["fg"]).any():
+              raise ValueError("Fixed within-richness 62 plots changed")
+          df["may"]=np.log1p(df["05"]);df["aug"]=np.log1p(df["08"]);df["delta"]=df["aug"]-df["may"]
+          c="C(richness)+C(block)+fg"
+          i="C(richness)+C(block)+grasses+small+tall+legume"
+          eq="grasses=legume,small=legume,tall=legume"
+          tests={}
+          for season in ("may","aug","delta"):
+              mc=smf.ols(season+" ~ "+c,data=df).fit(cov_type="HC3")
+              mi=smf.ols(season+" ~ "+i,data=df).fit(cov_type="HC3")
+              tests[season]={"count_beta":float(mc.params["fg"]),
+                  "count_p":float(mc.pvalues["fg"]),
+                  "identity_equal_p":float(mi.wald_test(eq,scalar=True).pvalue)}
+          strict=smf.ols("may ~ 0+C(richness):C(block)+grasses+small+tall+legume",data=df).fit(cov_type="HC3")
+          tests["May_richness_by_block_identity_equal_p"]=float(strict.wald_test(eq,scalar=True).pvalue)
+          strata=defaultdict(list)
+          for index,row in df.iterrows():
+              strata[(int(row.richness),row.block,int(row.fg))].append(index)
+          swaps=[a for a in strata.values() if len(a)==2]
+          if len(swaps)!=8 or any(df.loc[x,"richness"]!=2 for pair in swaps for x in pair):
+              raise ValueError("Exactly eight matched swaps expected only in 2-spp plots")
+          baseline=smf.ols("may ~ "+c,data=df).fit()
+          full=smf.ols("may ~ "+i,data=df).fit()
+          observed=float(sum(baseline.resid**2)-sum(full.resid**2))
+          exceed=0
+          for flags in product((False,True),repeat=8):
+              table=df.copy()
+              for flag,pair in zip(flags,swaps):
+                  if flag:
+                      cols=["grasses","small","tall","legume"]
+                      table.loc[pair,cols]=table.loc[pair[::-1],cols].to_numpy()
+              result=smf.ols("may ~ "+i,data=table).fit()
+              if sum(baseline.resid**2)-sum(result.resid**2)>=observed-1e-10:exceed+=1
+          tests["May_256_assignments_p"]=exceed/256
+          pred={key:np.full(len(df),np.nan) for key in ("count","identity")}
+          for block in sorted(df["block"].unique()):
+              train=df[df.block!=block];test=df[df.block==block]
+              for key,formula in [("count","C(richness)+fg"),
+                                  ("identity","C(richness)+grasses+small+tall+legume")]:
+                  model=smf.ols("may ~ "+formula,data=train).fit()
+                  pred[key][test.index.to_numpy()]=model.predict(test)
+          SSE={key:float(np.sum((df["may"].to_numpy()-v)**2)) for key,v in pred.items()}
+          tests["May_identity_vs_count_heldout_SSE_gain"]=1-SSE["identity"]/SSE["count"]
+          if abs(tests["may"]["count_beta"]-0.1286714979090523)>1e-9:raise ValueError("Prior count estimate changed")
+          if abs(tests["may"]["identity_equal_p"]-0.30922989273108237)>1e-9:raise ValueError("Guild equality estimate changed")
+          if abs(tests["May_richness_by_block_identity_equal_p"]-0.6406785803671333)>1e-9:raise ValueError("Strict source estimate changed")
+          if tests["May_256_assignments_p"]!=.5:raise ValueError("Conditioned source reference changed")
+          if abs(tests["May_identity_vs_count_heldout_SSE_gain"]+0.00826908352453204)>1e-9:raise ValueError("Heldout source estimates changed")
+          report={"status":"JENA_SOURCE_LOCKED_GUILD_IDENTITY_REPLAY_PASS",
+                  "original_n":82,"supported_n":62,"exact_conditional_swappable_pairs":8,
+                  "no_causal_or_cross_site_claims":True,"SHA256":{x[0]:x[2] for x in urls},
+                  "results":tests}
+          p=Path("results/biomass_jena_2003_source_v0_1/guild_identity_ci_replay_v0_1.json")
+          p.parent.mkdir(parents=True,exist_ok=True)
+          p.write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
+          print("JENA_GUILD_CI_PASS",json.dumps(report,sort_keys=True))
+          PY
+      - name: Save nonraw replay report, not underlying source rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-original-62plot-guild-identity-replay-v0-1
+          path: results/biomass_jena_2003_source_v0_1/guild_identity_ci_replay_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -1,0 +1,26 @@
+{
+  "version": "v0.1",
+  "source_doi": "10.1594/PANGAEA.923591",
+  "source_sha256": "5f99a116d8616ebbb8151de1d53c0e45d82a1685ce35bc8723800676a25bd31f",
+  "source_bytes": 4744,
+  "source_rows_catalog": 7,
+  "source_level": "binary attachment listing, not seven empirical observations",
+  "access": "DOI content negotiation text/tab-separated-values",
+  "source_actions_run": "https://github.com/zuizui0223/turnover/actions/runs/43576884183",
+  "source_citation": "van der Plas et al. (2024), PANGAEA DOI 10.1594/PANGAEA.923591",
+  "companion_literature": "van der Plas et al. (2020), Plant traits alone are poor predictors of ecosystem properties and long-term ecosystem functioning; Nature Ecology & Evolution",
+  "publisher_warning": "Dataset was curated but lacks usual final author approval according to PANGAEA metadata",
+  "file_names": [
+    "CoverMain-JenaExp2003-2015all.zip",
+    "R2_model.zip",
+    "biomass02_12.zip",
+    "functions4.st.zip",
+    "functions raw values.zip",
+    "predictors_raw.zip",
+    "traits.st.zip"
+  ],
+  "single_file_base": "https://download.pangaea.de/dataset/923591/files/",
+  "bulk_zip_require_login": true,
+  "outcomes_opened": false,
+  "main_splot_bien_pr39_retroactive_rescue": false
+}

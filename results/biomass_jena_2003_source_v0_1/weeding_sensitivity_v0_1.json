@@ -1,0 +1,52 @@
+{
+  "status": "JENA_2003_WEEDING_SAMPLING_SENSITIVITY_COMPLETED",
+  "post_result_exploratory_analysis": true,
+  "n_paired_plots": 82,
+  "source_sha256": {
+    "biomass2003.tab": "70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079",
+    "plotinfo.txt": "7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70"
+  },
+  "original_official_mean_coefficients_reproduced": true,
+  "official_mean_max_abs_difference_g_m2": 0.0005000000001018634,
+  "response": "log1p(arithmetic mean of sown-species standing aboveground dry biomass in g/m2); same six-column richness/functional-group/block design",
+  "estimates": {
+    "official_May": {"FG_beta": 0.16789077791395543, "HC3_se": 0.0833206837399951, "HC3_p_two_sided": 0.04390515186865263, "HC3_ci95": [0.004585238616312937, 0.3311963172115979], "paired_block_stratified_plot_bootstrap_ci95": [0.02207329548998123, 0.3400952863654669]},
+    "official_August": {"FG_beta": 0.0016810095627718508, "HC3_se": 0.07842888599769153, "HC3_p_two_sided": 0.9828998095256244, "HC3_ci95": [-0.1520367823403013, 0.15539880146584498], "paired_block_stratified_plot_bootstrap_ci95": [-0.14150675854845834, 0.1561012311265494]},
+    "ordinary_May": {"FG_beta": 0.17258971788672703, "HC3_se": 0.09026703580627138, "HC3_p_two_sided": 0.05587740836484086, "HC3_ci95": [-0.0043304212847523615, 0.3495098570582064], "paired_block_stratified_plot_bootstrap_ci95": [-0.00011861101603216372, 0.3527487095507992]},
+    "ordinary_August": {"FG_beta": 0.04432861945406759, "HC3_se": 0.08020418592798034, "HC3_p_two_sided": 0.5804708524240847, "HC3_ci95": [-0.1128686963741281, 0.20152593528226326], "paired_block_stratified_plot_bootstrap_ci95": [-0.0996693892826842, 0.2078134950868801]},
+    "careful_May": {"FG_beta": 0.16605303808931474, "HC3_se": 0.09564233638224257, "HC3_p_two_sided": 0.08253066976244963, "HC3_ci95": [-0.021402496617145578, 0.3535085727957751], "paired_block_stratified_plot_bootstrap_ci95": [-0.014656765527684594, 0.37310886528008197]},
+    "careful_August": {"FG_beta": -0.1837340016090063, "HC3_se": 0.11211523309879957, "HC3_p_two_sided": 0.10125574124706734, "HC3_ci95": [-0.40347582060096643, 0.03600781738295386], "paired_block_stratified_plot_bootstrap_ci95": [-0.39018707423025456, 0.030670996232151707]},
+    "May_ordinary_minus_official": {"FG_beta": 0.004698939972771883, "HC3_se": 0.020990000536347014, "HC3_p_two_sided": 0.8228618499436287, "HC3_ci95": [-0.036440705113944684, 0.04583858505948845], "paired_block_stratified_plot_bootstrap_ci95": [-0.04568859985147555, 0.04190163590728338]},
+    "May_careful_minus_ordinary": {"FG_beta": -0.006536679797413181, "HC3_se": 0.0634489531874823, "HC3_p_two_sided": 0.9179449882414102, "HC3_ci95": [-0.13089434290164634, 0.11782098330681998], "paired_block_stratified_plot_bootstrap_ci95": [-0.1320734306416099, 0.12904876859704353]},
+    "August_careful_minus_ordinary": {"FG_beta": -0.22806262106307304, "HC3_se": 0.09891940757287412, "HC3_p_two_sided": 0.021136366106156688, "HC3_ci95": [-0.42194109727794504, -0.034184144848201065], "paired_block_stratified_plot_bootstrap_ci95": [-0.4092572195067673, -0.05824364721750415]},
+    "ordinary_August_minus_May": {"FG_beta": -0.1282610984326604, "HC3_se": 0.09963810131224364, "HC3_p_two_sided": 0.1980003369317357, "HC3_ci95": [-0.323548188492611, 0.06702599162729023], "paired_block_stratified_plot_bootstrap_ci95": [-0.3196998201144761, 0.0644017830857502]}
+  },
+  "bootstrap": {"planned": 4000, "valid": 4000, "rank_failures": 0, "seed": 20261117, "paired_across_seasons_and_quadrat_versions": true},
+  "post_result_multiplicity_sensitivity": {
+    "method": "Holm",
+    "family": "four already-specified paired contrasts; exploratory additional audit, not a newly preregistered decision rule",
+    "p_adjusted": {"May_ordinary_minus_official": 1.0, "May_careful_minus_ordinary": 1.0, "August_careful_minus_ordinary": 0.08454546442462675, "ordinary_August_minus_May": 0.5940010107952071}
+  },
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43604293513",
+    "job_id": 132475494199,
+    "head_sha": "e1d4d9fddc845f5ecfee5daf65ca3cf9461b9e3f",
+    "artifact_id": 14118070606,
+    "artifact_zip_sha256": "ccefd87a8eb26b659b8e30f29c760586e553a138bdfc58f791d2d6fa3db846a4",
+    "digest_matches_github": true,
+    "unit_tests_passed": 13,
+    "workflow_success_verified": true,
+    "full_results_in_artifact": "weeding_sensitivity.json including all model coefficients",
+    "tested_package_script_sha256": "982f9f26432fbd3b9751c2dce53f42fad384f478c62f1a44a67efda14d123b9b",
+    "deployed_script_byte_identical_to_prior_tested_package": true
+  },
+  "limitations": [
+    "Quadrats 1–3 were ordinarily weeded, not unweeded controls.",
+    "Quadrat 4 differs in handling and spatial position; this is not a randomized weeding-effect test.",
+    "Weed biomass is available only as a four-quadrat plot mean, preventing quadrat-level weed mediation tests.",
+    "The reported HC3/bootstrap confidence intervals are post-result exploratory marginal intervals; separate Holm sensitivity is explicitly labeled.",
+    "Same 82 plots in one site/year; no independent validation of continuous FD or phylogenetic memory.",
+    "Response excludes weed biomass, roots and detached dead material; it is not annual NPP."
+  ],
+  "versions": {"python": "3.13.18", "numpy": "2.3.5"}
+}

@@ -1,0 +1,61 @@
+name: Jena 2024 source-native 41-trait ZIP structure probe
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - .github/workflows/jena-923591-zip-schema-probe.yml
+  pull_request:
+    paths:
+      - .github/workflows/jena-923591-zip-schema-probe.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  zip-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch individual public binary files and print ONLY their schemas
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.parse,urllib.error
+          from io import BytesIO,TextIOWrapper
+          from zipfile import ZipFile,is_zipfile
+          import csv,hashlib,json,re
+          base="https://download.pangaea.de/dataset/923591/files/"
+          names=["traits.st.zip","predictors_raw.zip","CoverMain-JenaExp2003-2015all.zip","biomass02_12.zip"]
+          results=[]
+          for filename in names:
+              url=base+urllib.parse.quote(filename)
+              req=urllib.request.Request(url,headers={"User-Agent":"turnover-41trait-sourceonly/0.1"})
+              result={"archive_file":filename,"http_status":None,"archive_bytes":0,"zip_entries":[]}
+              try:
+                  with urllib.request.urlopen(req,timeout=100) as res:
+                      data=res.read(80_000_001)
+                      result["http_status"]=res.status
+                  result["archive_bytes"]=len(data)
+                  if len(data)>80_000_000: raise ValueError("file above 80MB source gate")
+                  if not is_zipfile(BytesIO(data)):raise ValueError("response is not a valid ZIP, possible login HTML")
+                  result["sha256"]=hashlib.sha256(data).hexdigest()
+                  with ZipFile(BytesIO(data)) as z:
+                      for zi in z.infolist():
+                          entry={"basename":zi.filename,"size_uncompressed":zi.file_size,"size_compressed":zi.compress_size}
+                          if not zi.is_dir() and zi.file_size < 20_000_000 and zi.filename.lower().endswith((".csv",".tsv",".txt")):
+                              with z.open(zi) as fp:
+                                  head=fp.read(10_000).decode("utf-8-sig",errors="replace")
+                              lines=head.splitlines()
+                              if lines:
+                                  delim="\t" if "\t" in lines[0] else ","
+                                  entry["first_row_columns"]=next(csv.reader([lines[0]],delimiter=delim))
+                                  entry["preview_only_header"]=True
+                          result["zip_entries"].append(entry)
+                  result["status"]="VALID_PUBLIC_ZIP_SCHEMA"
+              except Exception as e:
+                  result["status"]="SOURCE_ACCESS_OR_FORMAT_HOLD"
+                  result["error_class"]=type(e).__name__
+                  result["error_short"]=str(e)[:180]
+              results.append(result)
+              print("JENA_TRAIT_ZIP_SCHEMA",json.dumps(result,ensure_ascii=False,sort_keys=True))
+          assert len(results)==4
+          PY

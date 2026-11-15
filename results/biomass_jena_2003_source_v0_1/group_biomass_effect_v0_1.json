@@ -1,0 +1,149 @@
+{
+  "version": "v0.1",
+  "status": "JENA_2003_INDEPENDENT_GROUP_RICHNESS_BIOMASS_SENTINEL_ESTIMATED",
+  "primary_scope": "Single randomized Jena site, 82 plot means, May 2003, g/m^2 directly dried standing vegetation",
+  "base_sha256": "70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079",
+  "plotinfo_sha256": "7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70",
+  "n_plots": 82,
+  "n_plots_with_may_and_aug_mean": 82,
+  "response": "log1p(May 2003 sown aboveground standing dry mass in g/m^2)",
+  "baseline_log_richness_plus_block": {
+    "n_plots": 82,
+    "predictors": [
+      "intercept",
+      "log2_sown_richness",
+      "block_B2",
+      "block_B3",
+      "block_B4"
+    ],
+    "response": "log1p measured sown aboveground dry mass g/m^2",
+    "r2_in_sample": 0.1266621788272082,
+    "aic_descriptive": 229.57559505899903,
+    "model_condition_number": 12.382658972413228
+  },
+  "full_plus_planned_functional_group_richness": {
+    "n_plots": 82,
+    "predictors": [
+      "intercept",
+      "log2_sown_richness",
+      "functional_group_richness",
+      "block_B2",
+      "block_B3",
+      "block_B4"
+    ],
+    "response": "log1p measured sown aboveground dry mass g/m^2",
+    "r2_in_sample": 0.14896906467207172,
+    "aic_descriptive": 229.45392975090002,
+    "model_condition_number": 16.01329700669849,
+    "functional_group_beta": 0.1678907779139575,
+    "functional_group_HC3_SE": 0.08332068373999514,
+    "functional_group_HC3_p_two_sided": 0.04390515186865013,
+    "functional_group_HC3_ci95": [
+      0.004585238616314935,
+      0.3311963172116001
+    ],
+    "approx_percent_change_in_one_plus_biomass_per_FG": 18.280741489918295
+  },
+  "block_stratified_plot_bootstrap": {
+    "replicates_planned": 2000,
+    "replicates_valid": 2000,
+    "replicates_singular": 0,
+    "seed": 20261114,
+    "plot_stratified_within_original_blocks": true,
+    "beta_ci95_percentile": [
+      0.021905760267784385,
+      0.35212086961078476
+    ]
+  },
+  "leave_one_block_out_prediction": {
+    "heldout_group": "whole Jena experimental block",
+    "number_blocks": 4,
+    "heldout_plot_predictions_once": 82,
+    "block_fixed_effects_omitted_from_both_cv_models": true,
+    "gain_1_minus_full_over_baseline_SSE": 0.007856344817845029,
+    "sse_baseline": 75.7621104154231,
+    "sse_functional_groups": 75.16689715187188
+  },
+  "primary_positive_support_criterion_pass": true,
+  "secondary_august": {
+    "n_plots": 82,
+    "predictors": [
+      "intercept",
+      "log2_sown_richness",
+      "functional_group_richness",
+      "block_B2",
+      "block_B3",
+      "block_B4"
+    ],
+    "response": "log1p measured sown aboveground dry mass g/m^2",
+    "r2_in_sample": 0.2169979612114986,
+    "aic_descriptive": 225.86703207978024,
+    "model_condition_number": 16.01329700669849,
+    "functional_group_beta": 0.0016810095627732557,
+    "functional_group_HC3_SE": 0.07842888599769166,
+    "functional_group_HC3_p_two_sided": 0.9828998095256102,
+    "functional_group_HC3_ci95": [
+      -0.15203678234030013,
+      0.15539880146584664
+    ],
+    "approx_percent_change_in_one_plus_biomass_per_FG": 0.1682423251378795
+  },
+  "secondary_exclude_whole_pool_60_species": {
+    "n_plots": 78,
+    "predictors": [
+      "intercept",
+      "log2_sown_richness",
+      "functional_group_richness",
+      "block_B2",
+      "block_B3",
+      "block_B4"
+    ],
+    "response": "log1p measured sown aboveground dry mass g/m^2",
+    "r2_in_sample": 0.13587299768221528,
+    "aic_descriptive": 222.25170316240573,
+    "model_condition_number": 14.840816506279529,
+    "functional_group_beta": 0.1698653324911335,
+    "functional_group_HC3_SE": 0.08261441254362954,
+    "functional_group_HC3_p_two_sided": 0.03977073327802105,
+    "functional_group_HC3_ci95": [
+      0.007944059301685513,
+      0.3317866056805815
+    ],
+    "approx_percent_change_in_one_plus_biomass_per_FG": 18.514524001626032
+  },
+  "secondary_adjust_legume_group_presence": {
+    "n_plots": 82,
+    "predictors": [
+      "intercept",
+      "log2_sown_richness",
+      "functional_group_richness",
+      "legumes_present",
+      "block_B2",
+      "block_B3",
+      "block_B4"
+    ],
+    "response": "log1p measured sown aboveground dry mass g/m^2",
+    "r2_in_sample": 0.14898502979656758,
+    "aic_descriptive": 231.45239143726883,
+    "model_condition_number": 16.272078061927385,
+    "functional_group_beta": 0.165289153968521,
+    "functional_group_HC3_SE": 0.13517159825377917,
+    "functional_group_HC3_p_two_sided": 0.22140154608991736,
+    "functional_group_HC3_ci95": [
+      -0.09964231034160342,
+      0.43022061827864544
+    ],
+    "approx_percent_change_in_one_plus_biomass_per_FG": 17.97341942214046
+  },
+  "hard_nonclaims": [
+    "Functional-group richness is a coarse planned sowing-design diversity metric, not multi-axis trait FD, hypervolume or Rao Q.",
+    "Standing dry mass after harvest is not net primary production or all plant-root biomass.",
+    "The original 201-system BIEN PD–FD source gate remains HOLD, no evolutionary memory tested here.",
+    "Inference is within one Jena grassland field experiment and cannot establish a global/multiple-family macroecological relationship.",
+    "The four sampled blocks are few; HC3 and within-block bootstrap do not create four independent regions.",
+    "Legume-presence adjustment is an exploratory alternative functional identity check, not a causal mediation estimate."
+  ],
+  "source_actions_run": "https://github.com/zuizui0223/turnover/actions/runs/43576548290",
+  "source_actions_job_id": 132391913044,
+  "source_check": "Actions log verified; full effect summary, not raw Jena measurements"
+}

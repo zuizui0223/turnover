@@ -1,0 +1,60 @@
+name: Jena 2003 frozen 82-plot group richness vs harvested biomass effect
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - scripts/analysis/fit_jena_2003_group_biomass_v0_1.py
+      - .github/workflows/jena-2003-biomass-group-effect-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fit_jena_2003_group_biomass_v0_1.py
+      - .github/workflows/jena-2003-biomass-group-effect-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-effect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install declared statistical dependencies
+        run: python -m pip install -q numpy statsmodels
+      - name: Test model implementation before reading outcome
+        run: |
+          python -m py_compile scripts/analysis/fit_jena_2003_group_biomass_v0_1.py
+          python scripts/analysis/fit_jena_2003_group_biomass_v0_1.py --self-test
+      - name: Download exact original source and original sowing design
+        run: |
+          set -euo pipefail
+          curl -fsSL --connect-timeout 20 --max-time 90 -H 'Accept: text/tab-separated-values' \
+            'https://doi.org/10.1594/PANGAEA.846317' -o /tmp/jena2003.tab
+          curl -fsSL --connect-timeout 20 --max-time 90 \
+            'https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt' \
+            -o /tmp/jena_plotinfo.txt
+          echo '70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079  /tmp/jena2003.tab' | sha256sum -c -
+          echo '7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70  /tmp/jena_plotinfo.txt' | sha256sum -c -
+      - name: Recheck frozen Tier1 gate on the exact original source bytes
+        run: |
+          python scripts/analysis/audit_jena_2003_group_design_v0_1.py \
+            --source /tmp/jena2003.tab --plotinfo /tmp/jena_plotinfo.txt \
+            --out results/biomass_jena_2003_source_v0_1/tier1_group_design.json
+      - name: Run pre-registered May 82-plot effect, August and composition diagnostics
+        run: |
+          python scripts/analysis/fit_jena_2003_group_biomass_v0_1.py \
+            --source /tmp/jena2003.tab --plotinfo /tmp/jena_plotinfo.txt \
+            --tier1 results/biomass_jena_2003_source_v0_1/tier1_group_design.json \
+            --out results/biomass_jena_2003_source_v0_1/group_biomass_effect_v0_1.json
+      - name: Preserve only inference summary and source-gate manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jena-2003-group-biomass-frozen-effect-v0-1
+          path: |
+            results/biomass_jena_2003_source_v0_1/tier1_group_design.json
+            results/biomass_jena_2003_source_v0_1/group_biomass_effect_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 60

@@ -1,0 +1,55 @@
+{
+  "status": "JENA_FIXED_MODEL_PAIRED_UNCERTAINTY_COMPLETE",
+  "post_outcome_extension": true,
+  "source": "PANGAEA 923591; same 78 Jena plots, 2003–2007 train and 2008–2012 evaluation",
+  "train_rows": 774,
+  "n_test_rows": 767,
+  "n_plot_clusters": 78,
+  "repetitions": 2000,
+  "seed": 20261114,
+  "original_results_reproduced": true,
+  "model_replay_checks": {
+    "M0": {"SSE_abs_difference": 0.0, "max_coefficient_abs_difference": 0.0},
+    "M1_FD": {"SSE_abs_difference": 0.0, "max_coefficient_abs_difference": 0.0},
+    "M2_FI": {"SSE_abs_difference": 0.0, "max_coefficient_abs_difference": 0.0},
+    "M3_FD_FI": {"SSE_abs_difference": 0.0, "max_coefficient_abs_difference": 0.0}
+  },
+  "contrasts": {
+    "FD_over_baseline": {
+      "point": 0.004627145943792432,
+      "ci95": [-0.01580870375869079, 0.021783343860327917],
+      "ci_secondary_family_98_333": null
+    },
+    "FI_over_baseline": {
+      "point": 0.029764895327030527,
+      "ci95": [-0.02941929774563745, 0.08339412958437184],
+      "ci_secondary_family_98_333": [-0.042581692963162714, 0.09391454912383292]
+    },
+    "FI_minus_FD_common_baseline": {
+      "point": 0.025137749383238105,
+      "ci95": [-0.03721417554256485, 0.0819834446854986],
+      "ci_secondary_family_98_333": [-0.0487948323271543, 0.09179507563180524]
+    },
+    "FD_added_to_FI": {
+      "point": -0.001168540828485387,
+      "ci95": [-0.018326814651678968, 0.01369054117354706],
+      "ci_secondary_family_98_333": [-0.022352506400965137, 0.016718933290330678]
+    }
+  },
+  "uncertainty": "paired holdout-plot resampling conditional on fixed fitted models; no training uncertainty",
+  "scope": "Exploratory uncertainty of fixed heldout comparisons; no feature/model tuning; no independent spatial validation",
+  "caution": [
+    "Same plots in train and test.",
+    "PCA-imputed source traits and concurrent cover-weighted indices.",
+    "The three FI-focused contrasts were added after observing point gains.",
+    "98.333% marginal percentile intervals are a Bonferroni-style three-comparison sensitivity, not exact simultaneous guarantees.",
+    "No causal ecosystem mechanism inferred."
+  ],
+  "verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43594472271",
+    "head_sha": "17e15445fcc3d89501977b0ad4f34acd6b43a4f2",
+    "artifact_id": 14113662627,
+    "artifact_zip_sha256": "44bd357ee4d5f7b855123e1cbdd054bed82f37e5c68b7194ec85aa70da530072",
+    "downloaded_artifact_digest_verified": true
+  }
+}

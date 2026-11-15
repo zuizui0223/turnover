@@ -1,0 +1,57 @@
+{
+  "version": "v0.1",
+  "analysis_date": "2026-11-15",
+  "status": "JENA_2003_PAIRED_BIOMASS_ENDPOINT_PARTITION_COMPLETED",
+  "post_result_exploratory": true,
+  "original_n_plots": 82,
+  "n_complete_paired_plots": 81,
+  "n_complete_plot_seasons": 162,
+  "excluded_plot_records": [{"plot":"B1A18","missing":[{"month":"2003-05","endpoint":"weeds"}]}],
+  "model": "intercept + log2(sown richness) + FG richness + original field blocks",
+  "combined_definition": "official sown mean + official non-sown weed mean; excludes roots/dead/unidentified material",
+  "source_sha256": {
+    "biomass2003.tab":"70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079",
+    "plotinfo.txt":"7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70"
+  },
+  "source_cache_artifact_id": 14117253081,
+  "source_cache_zip_sha256":"9646b7dade486a2f3cde7a08d89124d03570841096d886834a1a894956a270a2",
+  "primary_holm_family":["log_weeds_May","log_combined_May","log_weeds_August","log_combined_August"],
+  "estimates": {
+    "raw_sown_May":{"FG_beta":46.8786014857428,"HC3_se":23.26885573833119,"HC3_p_nominal":0.04394132885386729,"HC3_ci95":[1.2724822771554969,92.4847206943301],"paired_plot_bootstrap_ci95":[2.9412061648263537,88.66710968431082]},
+    "log_sown_May":{"FG_beta":0.16732038328171236,"HC3_se":0.08312439365681026,"HC3_p_nominal":0.044126047709935994,"HC3_ci95":[0.004399565477634537,0.3302412010857902],"paired_plot_bootstrap_ci95":[0.023056676779529665,0.3463819334025545]},
+    "raw_weeds_May":{"FG_beta":-6.0287850367009295,"HC3_se":3.5777638375710454,"HC3_p_nominal":0.091974930622452,"HC3_ci95":[-13.041073303529991,0.9835032301281315],"paired_plot_bootstrap_ci95":[-13.715626536574906,-0.46479000757120625]},
+    "log_weeds_May":{"FG_beta":-0.22034705453346062,"HC3_se":0.13915160413254488,"HC3_p_nominal":0.11330674569708014,"HC3_ci95":[-0.4930791870242235,0.05238507795730227],"paired_plot_bootstrap_ci95":[-0.485573734689938,0.04097464203208451],"HC3_p_Holm_four_new_endpoints":0.3399202370912404},
+    "raw_combined_May":{"FG_beta":40.84981644904195,"HC3_se":23.867082598644025,"HC3_p_nominal":0.08697876987555933,"HC3_ci95":[-5.928805860342976,87.62843875842688],"paired_plot_bootstrap_ci95":[-5.619217988347765,83.575264351013]},
+    "log_combined_May":{"FG_beta":0.14821708986137677,"HC3_se":0.08134492206557878,"HC3_p_nominal":0.06844259749450443,"HC3_ci95":[-0.011216027712375176,0.3076502074351287],"paired_plot_bootstrap_ci95":[0.008210889289703338,0.32221626835446304],"HC3_p_Holm_four_new_endpoints":0.2737703899780177},
+    "log_combined_minus_sown_May":{"FG_beta":-0.019103293420335617,"HC3_se":0.009805203055449786,"HC3_p_nominal":0.05138131753333406,"HC3_ci95":[-0.03832113827011929,0.0001145514294480579],"paired_plot_bootstrap_ci95":[-0.04356596801702746,-0.0017532633908512272]},
+    "raw_sown_August":{"FG_beta":-1.7347995440270072,"HC3_se":16.34320466630741,"HC3_p_nominal":0.915464876524372,"HC3_ci95":[-33.766892081956485,30.297292993902474],"paired_plot_bootstrap_ci95":[-30.847888311087402,29.804494878983245]},
+    "log_sown_August":{"FG_beta":0.0014794860802558889,"HC3_se":0.07853635313107513,"HC3_p_nominal":0.9849701541007337,"HC3_ci95":[-0.15244893753377087,0.15540790969428264],"paired_plot_bootstrap_ci95":[-0.1474059339991837,0.15914583386353204]},
+    "raw_weeds_August":{"FG_beta":-3.127332344030096,"HC3_se":3.6218649152161926,"HC3_p_nominal":0.38788507868386546,"HC3_ci95":[-10.22605713472305,3.9713924466628576],"paired_plot_bootstrap_ci95":[-11.48332574848646,2.0440464862561005]},
+    "log_weeds_August":{"FG_beta":-0.07551334609589655,"HC3_se":0.1657176183772914,"HC3_p_nominal":0.6486238306917645,"HC3_ci95":[-0.4003139097191407,0.24928721752734762],"paired_plot_bootstrap_ci95":[-0.38907921348360724,0.22785301389470658],"HC3_p_Holm_four_new_endpoints":1.0},
+    "raw_combined_August":{"FG_beta":-4.862131888057087,"HC3_se":17.185560427494593,"HC3_p_nominal":0.7772384692521875,"HC3_ci95":[-38.545211380083266,28.820947603969095],"paired_plot_bootstrap_ci95":[-35.341448365753244,27.880593490396386]},
+    "log_combined_August":{"FG_beta":-0.015071565240378141,"HC3_se":0.0774877458091079,"HC3_p_nominal":0.8457823882646044,"HC3_ci95":[-0.16694475626942415,0.13680162578866786],"paired_plot_bootstrap_ci95":[-0.15535957001844666,0.13725749055680875],"HC3_p_Holm_four_new_endpoints":1.0},
+    "log_combined_minus_sown_August":{"FG_beta":-0.016551051320635467,"HC3_se":0.014424979541718288,"HC3_p_nominal":0.25122121560944866,"HC3_ci95":[-0.044823491700130405,0.011721389058859472],"paired_plot_bootstrap_ci95":[-0.05266521143789657,0.00958710780944318]}
+  },
+  "bootstrap":{"planned":4000,"valid":4000,"rank_failures":0,"seed":20261118,"paired_both_seasons_all_endpoints":true,"stratification":"original field block"},
+  "raw_additivity_max_abs_error":1.7763568394002505e-13,
+  "verification":{
+    "status":"INDEPENDENT_ENDPOINT_PARTITION_REPRODUCTION_PASS",
+    "n_paired_plots":81,"original_rows":820,"missing_plot":"B1A18",
+    "models_independently_verified":14,"production_helpers_imported":false,
+    "max_statsmodels_vs_production_abs_error":1.5631940186722204e-13,
+    "paired_bootstrap_weighted_least_squares_replay":4000,
+    "max_bootstrap_ci_abs_difference":9.85878045867139e-14,
+    "Holm_correction_independently_reproduced":true,
+    "versions":{"python":"3.13.5","numpy":"2.3.5","pandas":"2.2.3","scipy":"1.17.0","statsmodels":"0.14.6"},
+    "result_sha256":"9c0a890480d46188649888de8d55c4f7fc095729e94534a49f44642bcc392b17"
+  },
+  "limitations":[
+    "Exploratory endpoint extension after previous results; no independent confirmation.",
+    "Planned functional-group count is not continuous trait FD or phylogenetic memory.",
+    "Single site/year with repeated seasons; weed means are not available per quadrat.",
+    "No randomized test of ordinary vs specially careful weeding or weed competition mediation.",
+    "Intervals are marginal; Holm correction applies only to four new log endpoint tests.",
+    "Combined recognized living biomass is not total ecosystem biomass or annual NPP.",
+    "Complete-case analysis can be affected by the excluded record; blank is not assumed zero."
+  ]
+}

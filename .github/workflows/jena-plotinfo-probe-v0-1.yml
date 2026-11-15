@@ -1,0 +1,47 @@
+name: Jena original plot allocation metadata schema probe v0.1
+on:
+  pull_request:
+    paths:
+      - .github/workflows/jena-plotinfo-probe-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  plotinfo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch public Jena original plot information (source-only)
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.error,csv,io,json,collections,hashlib
+          url="https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt"
+          req=urllib.request.Request(url,headers={"User-Agent":"turnover-jena-source-eligibility/0.1"})
+          with urllib.request.urlopen(req,timeout=75) as response:
+              body=response.read()
+          s=body.decode("utf-8-sig",errors="replace")
+          lines=s.splitlines()
+          widths=collections.Counter(len(x.split("\t")) for x in lines if x.strip())
+          print("JENA_PLOTINFO_SOURCE",json.dumps({"bytes":len(body),"sha256":hashlib.sha256(body).hexdigest(),"lines":len(lines),"column_count_frequencies":dict(widths),"first_three_line_column_labels":[line.split("\t")[:50] for line in lines[:3]],"n_lines_containing_sown":sum("sown" in line.lower() for line in lines),"n_lines_containing_function":sum("function" in line.lower() for line in lines)},ensure_ascii=False))
+          assert len(body)>500 and "<html" not in s[:1000].lower()
+          lookup=list(csv.DictReader(io.StringIO(s),delimiter="\t"))
+          names={r["plotcode"].strip() for r in lookup}
+          bio_req=urllib.request.Request("https://doi.org/10.1594/PANGAEA.846317",
+                        headers={"User-Agent":"turnover-jena-source-eligibility/0.1",
+                                 "Accept":"text/tab-separated-values"})
+          with urllib.request.urlopen(bio_req,timeout=100) as response:
+              biomass_text=response.read().decode("utf-8-sig")
+          source_rows=biomass_text.splitlines()
+          header_pos=source_rows.index("*/")+1
+          measurements=list(csv.DictReader(io.StringIO("\n".join(source_rows[header_pos:])),delimiter="\t"))
+          reps=collections.Counter(x.get("Repl","") for x in measurements)
+          bio_names={x["Experimental plot"].strip() for x in measurements}
+          print("JENA_PLOT_REPLICATE_CROSSWALK",json.dumps({"n_plot_info":len(lookup),
+              "n_biomass_rows":len(measurements),"n_biomass_unique_plots":len(bio_names),
+              "n_plot_names_exact_overlap":len(names&bio_names),
+              "n_plotinfo_only":len(names-bio_names),"n_biomass_only":len(bio_names-names),
+              "replicate_codes":dict(reps),
+              "n_block_labels":len({r["block"] for r in lookup}),
+              "planned_sown_richness_levels":sorted({r["NumberSownSpecies"] for r in lookup}),
+              "planned_functional_group_levels":sorted({r["NumberFunctionalGroups"] for r in lookup})},sort_keys=True))
+          PY

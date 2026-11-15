@@ -1,0 +1,56 @@
+name: Jena frozen FD-FI paired uncertainty audit v1
+on:
+  push:
+    branches: [analysis/biomass-jena-measured-source-20261114]
+    paths:
+      - scripts/analysis/audit_jena_fd_fi_paired_uncertainty_v1.py
+      - .github/workflows/jena-fd-fi-paired-uncertainty-v1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_jena_fd_fi_paired_uncertainty_v1.py
+      - .github/workflows/jena-fd-fi-paired-uncertainty-v1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paired-evaluation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install -q numpy==2.3.4
+      - name: Verify paired-comparison fixtures
+        run: python scripts/analysis/audit_jena_fd_fi_paired_uncertainty_v1.py --self-test
+      - name: Retrieve unchanged public source bytes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request,urlopen
+          import hashlib
+          root=Path('/tmp/jena_paired');root.mkdir(exist_ok=True)
+          sources={
+            'predictors_raw.zip':('https://download.pangaea.de/dataset/923591/files/predictors_raw.zip','4af2ccca7b85b7a15b47ace87acfe0386feab79da51d3d5f67b3cf6034442e4b'),
+            'biomass02_12.zip':('https://download.pangaea.de/dataset/923591/files/biomass02_12.zip','aa4e4904c200e4a7d35cfd713a47969b3c08f014bccfe330cefe245ee1e875db'),
+            'plotinfo.txt':('https://store.pangaea.de/Publications/Jena_Experiment/PlotInformationMainExperiment.txt','7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70')}
+          for name,(url,expected) in sources.items():
+              req=Request(url,headers={'User-Agent':'turnover-paired-evaluation/1.0'})
+              with urlopen(req,timeout=90) as r:raw=r.read(10000001)
+              if len(raw)>10000000 or hashlib.sha256(raw).hexdigest()!=expected:raise ValueError('Source bytes differ: '+name)
+              (root/name).write_bytes(raw)
+          PY
+      - name: Reproduce all locked fits and add paired plot-bootstrap comparisons
+        run: |
+          python scripts/analysis/audit_jena_fd_fi_paired_uncertainty_v1.py \
+            --predictors /tmp/jena_paired/predictors_raw.zip \
+            --biomass /tmp/jena_paired/biomass02_12.zip \
+            --plotinfo /tmp/jena_paired/plotinfo.txt \
+            --out results/biomass_jena_2003_source_v0_1/fd_fi_paired_uncertainty_v1.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-fd-fi-paired-uncertainty-v1
+          path: results/biomass_jena_2003_source_v0_1/fd_fi_paired_uncertainty_v1.json
+          retention-days: 60
+          if-no-files-found: error

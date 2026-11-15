@@ -1,0 +1,36 @@
+{
+  "SHA256": {
+    "biom": "70606a050293b34e0cacc3311e10980a2e640cea29703dc8b7fbb4306aa67079",
+    "plan": "7b7f1af497959a77a5ddefea5148b8d784b5d1b50a19f2925f9353426a83da70"
+  },
+  "exact_conditional_swappable_pairs": 8,
+  "no_causal_or_cross_site_claims": true,
+  "original_n": 82,
+  "results": {
+    "May_256_assignments_p": 0.5,
+    "May_identity_vs_count_heldout_SSE_gain": -0.008269083524531151,
+    "May_richness_by_block_identity_equal_p": 0.6406785803671333,
+    "aug": {
+      "count_beta": -0.01615964516118301,
+      "count_p": 0.8474564713454193,
+      "identity_equal_p": 0.2240016632340279
+    },
+    "delta": {
+      "count_beta": -0.1448311430702356,
+      "count_p": 0.15481097838539543,
+      "identity_equal_p": 0.5185005056323857
+    },
+    "may": {
+      "count_beta": 0.1286714979090523,
+      "count_p": 0.16762750597445641,
+      "identity_equal_p": 0.30922989273108237
+    }
+  },
+  "status": "JENA_SOURCE_LOCKED_GUILD_IDENTITY_REPLAY_PASS",
+  "supported_n": 62,
+  "verified_run": "https://github.com/zuizui0223/turnover/actions/runs/43682636270",
+  "verified_job_id": 132716354964,
+  "verified_artifact_id": 14149570482,
+  "verified_artifact_sha256": "986534a2350aefc69dd8ddaf51bf22c217f5c151d29472658a1d39c77a42135f",
+  "public_original_rows_committed": false
+}

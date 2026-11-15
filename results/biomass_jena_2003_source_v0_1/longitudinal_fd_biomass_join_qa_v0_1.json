@@ -1,0 +1,180 @@
+{
+  "all_zero_campaign_labels": [],
+  "hard_nonclaims": [
+    "No FD~biomass effect or group difference fitted",
+    "Original 41-trait values were PCA imputed in source author script",
+    "Same-year composition-based FD not causal or prospective biomarker",
+    "Multiple subsamples are not independent plot replicates",
+    "The same one-site Jena experiment used in earlier published trait analysis"
+  ],
+  "joined_year_labels": [
+    "2003",
+    "2004",
+    "2005",
+    "2006",
+    "2007",
+    "2008",
+    "2009",
+    "2010",
+    "2011",
+    "2012"
+  ],
+  "n_all_zero_year_season_campaigns": 0,
+  "n_biomass_plot_year_seasons_with_valid_subsample": 1639,
+  "n_distinct_joined_plots": 78,
+  "n_distinct_joined_years": 10,
+  "n_overlap_keys_after_documented_all_zero_campaign_filter": 1541,
+  "n_overlap_plot_year_season_keys_before_all_zero_campaign_filter": 1541,
+  "n_plot_year_seasons_with_multiple_original_sampling_months": 0,
+  "n_predictor_plot_year_seasons": 1541,
+  "original_plots": 82,
+  "per_year_season_source_quality": {
+    "2003_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2003_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2004_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 0
+    },
+    "2004_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2005_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 0
+    },
+    "2005_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 2
+    },
+    "2006_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2006_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2007_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 0
+    },
+    "2007_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 0
+    },
+    "2008_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2008_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 0
+    },
+    "2009_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 0
+    },
+    "2009_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 2
+    },
+    "2010_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2010_summer": {
+      "valid_plot_seasons": 81,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 1
+    },
+    "2011_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 2
+    },
+    "2011_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 2
+    },
+    "2012_spring": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 3
+    },
+    "2012_summer": {
+      "valid_plot_seasons": 82,
+      "valid_sample_rows": 0,
+      "zero_only_plot_seasons": 3
+    }
+  },
+  "preselected_fd_axes_coverage": {
+    "SeedsTCW": {
+      "candidate_rows": 1541,
+      "fraction": 1,
+      "nonmissing": 1541
+    },
+    "h1": {
+      "candidate_rows": 1541,
+      "fraction": 1,
+      "nonmissing": 1541
+    },
+    "leafN": {
+      "candidate_rows": 1541,
+      "fraction": 1,
+      "nonmissing": 1541
+    },
+    "sla": {
+      "candidate_rows": 1541,
+      "fraction": 1,
+      "nonmissing": 1541
+    }
+  },
+  "seasonal_qualifying_join_cells": {
+    "spring": 772,
+    "summer": 769
+  },
+  "source": "PANGAEA 923591 published source native biomass and derived FD predictors; no FD relation estimated",
+  "source_month_to_season_mapping": {
+    "Aug": "summer",
+    "Jun": "spring",
+    "May": "spring",
+    "Sept": "summer"
+  },
+  "specimen_sampled_area_and_biomass_units": "NOT AUDITED; cannot yet claim g/m² source normalization",
+  "status": "TIER0_JENA_LONGITUDINAL_JOIN_SOURCE_PASS",
+  "valid_subsample_and_zero_row_counts": {
+    "invalid_or_missing_target_biomass_subsamples": 4,
+    "valid_target_biomass_subsamples": 5080,
+    "zero_target_biomass_subsamples": 119
+  },
+  "version": "v0.1",
+  "year_range_scoped": [
+    2003,
+    2012
+  ],
+  "verified_actions_run": "https://github.com/zuizui0223/turnover/actions/runs/43578800298",
+  "no_ecological_effects_opened": true
+}

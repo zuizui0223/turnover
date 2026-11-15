@@ -1,0 +1,142 @@
+name: Cedar E120 independent biomass and treatment source preflight v0.1
+on:
+  push:
+    branches: [analysis/cedar-e120-independent-biomass-fg-source-20261115]
+    paths:
+      - .github/workflows/cedar-e120-source-preflight-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/cedar-e120-source-preflight-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install workbook structure reader
+        run: python3 -m pip install -q xlrd==2.0.1
+      - name: Probe official EDI E120, ESA teaching source and CRAN port without biomass effect
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.error,xml.etree.ElementTree as ET
+          import hashlib,json,io,collections,re
+          import xlrd
+          sources={}
+          def fetch(url,lim=16000000):
+              req=urllib.request.Request(url,headers={
+                  'User-Agent':'turnover-Cedar-E120-source-QA/0.1 research',
+                  'Accept':'application/xml, text/plain, application/octet-stream, */*'})
+              try:
+                  with urllib.request.urlopen(req,timeout=65) as resp:
+                      raw=resp.read(lim+1);typ=resp.headers.get('Content-Type','')
+                      if len(raw)>lim:raise ValueError('source exceeds pinned safety limit')
+                      return raw,typ,int(resp.status)
+              except urllib.error.HTTPError as e:
+                  raise ValueError('HTTP '+str(e.code)) from e
+          def sha(b):return hashlib.sha256(b).hexdigest()
+          # API is official EDI PASTA. Resolve revision list, then pin revision in source audit.
+          for label,url in [
+            ('edi_revisions','https://pasta.lternet.edu/package/eml/knb-lter-cdr/273'),
+            ('edi_metadata','https://pasta.lternet.edu/package/metadata/eml/knb-lter-cdr/273/newest'),
+            ('edi_resource_map','https://pasta.lternet.edu/package/eml/knb-lter-cdr/273/newest')]:
+              out={'url':url}
+              try:
+                  raw,typ,code=fetch(url)
+                  out.update({'http_status':code,'bytes':len(raw),'sha256':sha(raw),'content_type':typ})
+                  if label=='edi_metadata':
+                      root=ET.fromstring(raw)
+                      ds=[]
+                      for dt in root.iter():
+                          if not dt.tag.endswith('}dataTable') and dt.tag!='dataTable':continue
+                          def x_find(path):
+                              for item in dt.iter():
+                                  if item.tag.split('}')[-1]==path:return (item.text or '').strip()
+                              return None
+                          attrs=[]
+                          for x in dt.iter():
+                              if x.tag.split('}')[-1]=='attribute':
+                                  names=[(y.text or '').strip() for y in x if y.tag.split('}')[-1]=='attributeName']
+                                  if names:attrs.append(names[0])
+                          ds.append({'entity_name':x_find('entityName'),'attributes':attrs[:120],
+                                     'attribute_count':len(attrs)})
+                      out['data_tables']=ds
+                      out['n_data_tables']=len(ds)
+                      out['xml_root']=root.tag
+                  elif label=='edi_revisions':
+                      out['revision_list']=raw.decode('utf-8',errors='replace').splitlines()[-35:]
+                  else:
+                      out['resource_map_urls']=[
+                          line.strip()[:250] for line in raw.decode('utf-8',errors='replace').splitlines()
+                          if '/package/data/' in line][:40]
+                  out['status']='SOURCE_REACHED'
+              except Exception as e:
+                  out['status']='SOURCE_HOLD'
+                  out['error']=type(e).__name__+': '+str(e)[:250]
+              sources[label]=out
+              print('CEDAR_SOURCE_GATE',label,json.dumps(out,ensure_ascii=False))
+          # Teaching XLS: independent republished archive, not treated as new experimental data.
+          for label,name in [('esa_bonus','DataBonus-Student.xls'),('esa_species','Species_List.xls')]:
+              url='https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data/'+name
+              out={'url':url}
+              try:
+                  raw,typ,code=fetch(url,lim=6000000)
+                  out.update({'http_status':code,'bytes':len(raw),'sha256':sha(raw),'content_type':typ,
+                              'file_magic_hex':raw[:8].hex()})
+                  book=xlrd.open_workbook(file_contents=raw)
+                  tabs=[]
+                  for sheet in book.sheets():
+                      head=[str(sheet.cell_value(0,j))[:120] for j in range(min(sheet.ncols,100))] if sheet.nrows else []
+                      tabs.append({'name':sheet.name,'rows':sheet.nrows,'columns':sheet.ncols,
+                                   'first_row_fields':head,
+                                   'sample_plot_count_unknown':True})
+                  out['sheets']=tabs
+                  out['status']='XLS_WORKBOOK_SCHEMA_REACHED'
+              except Exception as e:
+                  out['status']='SOURCE_HOLD';out['error']=type(e).__name__+': '+str(e)[:250]
+              sources[label]=out
+              print('CEDAR_SOURCE_GATE',label,json.dumps(out,ensure_ascii=False))
+          # Known secondary CRAN distribution of 91 plot subset; only verify inventory.
+          label='cran_functClust'
+          url='https://api.github.com/repos/cran/functClust/contents/data'
+          out={'url':url}
+          try:
+              raw,typ,code=fetch(url,lim=2000000)
+              response=json.loads(raw)
+              out.update({'status':'FILE_INVENTORY_REACHED','sha256':sha(raw),
+                          'n_entries':len(response),
+                          'data_file_names':[{'name':x['name'],'size':x.get('size')}
+                          for x in response if 'cedar' in x.get('name','').lower()]})
+          except Exception as e:
+              out.update({'status':'SOURCE_HOLD','error':type(e).__name__+': '+str(e)[:200]})
+          sources[label]=out
+          print('CEDAR_SOURCE_GATE',label,json.dumps(out,ensure_ascii=False))
+          summary={
+            'version':'v0.1',
+            'stage':'SOURCE_CATALOG_ONLY_NO_BIOMASS_OUTCOME_OPENED',
+            'source_experiment':'Cedar Creek E120, 168 randomized plots planted in 1994',
+            'candidate_resources':sources,
+            'source_gate_pass':False,
+            'further_required':['original data rows and units','original 168 plot and species assignment',
+                 'exact plot-year support and within-richness FG positivity','no same-paper duplicate replication'],
+            'citation_boundary':'ESA teaching workbook and CRAN data port are not independent experiments',
+          }
+          from pathlib import Path
+          out=Path('results/cedar_e120_source_v0_1/catalog_preflight.json')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          assert any(x['status']!='SOURCE_HOLD' for x in sources.values()), 'All source portals unreachable'
+          PY
+      - name: Preserve only source metadata (never raw plot observations)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cedar-e120-source-catalog-preflight-v0-1
+          path: results/cedar_e120_source_v0_1/catalog_preflight.json
+          if-no-files-found: ignore
+          retention-days: 30

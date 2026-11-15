@@ -1,0 +1,51 @@
+name: Cedar Creek E120 ESA original teaching workbook byte-pin and temporary research copy
+on:
+  push:
+    branches: [analysis/cedar-e120-independent-biomass-fg-source-20261115]
+    paths:
+      - .github/workflows/cedar-e120-public-xls-source-cache-v0-1.yml
+  pull_request:
+    paths:
+      - .github/workflows/cedar-e120-public-xls-source-cache-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download precisely pinned ESA-TIEE Cedar Creek E120 publicly distributed workbook files
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/cedar_source
+          curl --fail --location --silent --show-error --connect-timeout 15 --max-time 90 \
+            'https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data/DataBonus-Student.xls' \
+            -o /tmp/cedar_source/DataBonus-Student.xls
+          curl --fail --location --silent --show-error --connect-timeout 15 --max-time 90 \
+            'https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data/Species_List.xls' \
+            -o /tmp/cedar_source/Species_List.xls
+          echo 'a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476  /tmp/cedar_source/DataBonus-Student.xls' | sha256sum -c -
+          echo '58beb1bdb61e4fa011c7df47b81f1369efba16c122a7862bc53173eaae555087  /tmp/cedar_source/Species_List.xls' | sha256sum -c -
+      - name: Record non-biological checksum provenance
+        run: |
+          mkdir -p source_qa
+          cat > source_qa/README.txt <<'EOF'
+          Cedar Creek E120 original experiment: https://cedarcreek.umn.edu/research/experiments/e120
+          Teaching data reproduction: https://www.esa.org/tiee/vol/v2/issues/data_sets/cedar_creek/data.html
+          Original author attribution: Fargione, Tilman; ESA Teaching Issues and Experiments in Ecology (2004).
+          DataBonus-Student.xls SHA256 a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476
+          Species_List.xls SHA256 58beb1bdb61e4fa011c7df47b81f1369efba16c122a7862bc53173eaae555087
+          The workbook is secondary teaching republication, NOT original EDI source. Do not commit raw data.
+          EOF
+      - name: Upload ephemeral research-only source bytes; expires after seven days
+        uses: actions/upload-artifact@v4
+        with:
+          name: cedar-e120-esa-public-workbooks-research-source-v0-1
+          path: |
+            /tmp/cedar_source/DataBonus-Student.xls
+            /tmp/cedar_source/Species_List.xls
+            source_qa/README.txt
+          retention-days: 7
+          if-no-files-found: error

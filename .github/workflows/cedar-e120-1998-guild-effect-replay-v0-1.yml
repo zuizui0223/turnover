@@ -1,4 +1,4 @@
-name: Cedar E120 1998 independent replay: guild count vs guild identity
+name: Cedar E120 1998 independent replay of guild count and guild identity
 on:
   push:
     branches: [analysis/cedar-e120-independent-biomass-fg-source-20261115]

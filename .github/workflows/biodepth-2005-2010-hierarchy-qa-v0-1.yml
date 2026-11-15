@@ -38,7 +38,7 @@ jobs:
             "Species2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt",
               "ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816"),
             "SpeciesGroupCommunity2010.txt":("https://esapubs.org/archive/ecol/E091/155/BiodepthBiomass.txt",
-              "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4ee76f886")}
+              "9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886")}
           for name,(url,digest) in files.items():
             request=Request(url,headers={"User-Agent":"turnover-BIODEPTH-original-hierarchy-verify/0.1"})
             with urlopen(request,timeout=100) as res:raw=res.read(2_000_001)

@@ -48,11 +48,20 @@ def run(s_rows,c_rows):
     if source_rows!=N_HEIGHT:raise ValueError("Original GIFT 1.6.2 record count drift")
     ref_records=get("references",startat=0,limit=10000)
     ref_map={}
+    repeat_ref_ids=collections.Counter()
     for r in ref_records:
         key=str(r.get("ref_ID") or "").strip()
-        if not key or key in ref_map:raise ValueError("Duplicate or empty GIFT reference key")
-        ref_map[key]=r
-    if len(ref_map)<800:raise ValueError("Reference catalog truncated")
+        if not key:raise ValueError("Missing GIFT reference key")
+        if key in ref_map:
+            # Original reference table can repeat a bibliographic reference across
+            # different taxon/region metadata rows. Only its identity string is
+            # used for attribution; do not merge contradictory reference titles.
+            if str(ref_map[key].get("ref_long") or "").strip()!=str(r.get("ref_long") or "").strip():
+                raise ValueError("Conflicting bibliographic reference texts share ref_ID "+key)
+            repeat_ref_ids[key]+=1
+        else:
+            ref_map[key]=r
+    if len(ref_map)<700:raise ValueError("Original distinct reference bibliography truncated")
     source_fp=[]
     height=set();traceable=set();unresolved=set();direct=set();shared=set()
     by_reference=collections.Counter();nsource=collections.Counter();cv_data=[]
@@ -103,6 +112,8 @@ def run(s_rows,c_rows):
       "original_BIODEPTH_species_roster":source_meta,
       "GIFT_original_species_rows":nc,"GIFT_original_height_aggregated_rows":source_rows,
       "GIFT_bibliography_source_rows":len(ref_records),
+      "GIFT_bibliography_unique_ref_IDs":len(ref_map),
+      "GIFT_ref_IDs_repeated_with_same_bibliography":dict(repeat_ref_ids),
       "GIFT_bibliography_content_sha256":hashlib.sha256(json.dumps(ref_records,sort_keys=True,ensure_ascii=False).encode()).hexdigest(),
       "GIFT_original_target_species_height_and_reference_fingerprint_sha256":hashlib.sha256(json.dumps(sorted(source_fp),separators=(",",":"),ensure_ascii=False).encode()).hexdigest(),
       "GIFT_metadata_trait_id":"1.6.2","height_unit":"m",

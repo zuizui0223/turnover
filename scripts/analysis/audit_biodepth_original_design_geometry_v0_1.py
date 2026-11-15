@@ -17,7 +17,7 @@ ORIGINAL={
 }
 D_FIELDS=["plot","location","block","composition","species.richness","functional.richness","grasses","legumes","forbs"]
 S_FIELDS=["year","plot","location","block","composition","species.richness","functional.richness","legumes","biomass"]
-KEY_FIELDS=["plot","location"]
+KEY_FIELDS=["plot"]
 TREAT_FIELDS=["block","composition","species.richness","functional.richness","legumes"]
 
 def get_table(path,filename):
@@ -74,15 +74,19 @@ def main(design_path,shoots_path):
     mismatch=Counter()
     response_status=Counter()
     per_site_year=Counter()
+    numeric_site_to_named=defaultdict(set)
+    named_to_numeric_site=defaultdict(set)
     for row in S:
         k=key(row)
         source_rows_per_plot[k]+=1
         years[str(row["year"]).strip()]+=1
-        per_site_year[(k[1],str(row["year"]).strip())]+=1
         if k not in by:
             mismatch["unknown_plot"]+=1
             continue
         orig=by[k]
+        numeric_site_to_named[str(row["location"]).strip()].add(orig["location"].strip())
+        named_to_numeric_site[orig["location"].strip()].add(str(row["location"]).strip())
+        per_site_year[(orig["location"].strip(),str(row["year"]).strip())]+=1
         for field in TREAT_FIELDS:
             if str(row[field]).strip()!=str(orig[field]).strip():
                 mismatch[field]+=1
@@ -99,6 +103,10 @@ def main(design_path,shoots_path):
             else:response_status["valid_positive"]+=1
     if mismatch:
         raise ValueError("Original source design and shoot treatment contradict: "+repr(dict(mismatch)))
+    if len(numeric_site_to_named)!=len(sites) or len(named_to_numeric_site)!=len(sites) or\
+       any(len(names)!=1 for names in numeric_site_to_named.values()) or\
+       any(len(codes)!=1 for codes in named_to_numeric_site.values()):
+        raise ValueError("Original Figshare numeric-versus-name location crosswalk is not one-to-one")
     if set(source_rows_per_plot)!=set(by):
         raise ValueError("Some original plot keys have no response rows")
     plot_repeat=Counter(source_rows_per_plot.values())
@@ -143,6 +151,9 @@ def main(design_path,shoots_path):
         "original_shoot_rows_by_year":dict(years),
         "original_source_rows_per_plot_count_distribution":dict(plot_repeat),
         "n_original_site_plot_year_records":len(S),
+        "numeric_Shoots_location_to_named_Design_location":{key:next(iter(val)) for key,val in sorted(numeric_site_to_named.items())},
+        "n_plots_within_exact_site_richness_FG_variation":sum(x["n_plots_within_richness_FG_support"] for x in eligible.values()),
+        "grasses_original_source_constantly_present":group_values["grasses"][0]==0,
         "n_complete_source_design_treatment_matches":len(S),
         "n_source_valid_numeric_response_records":n_response_valid,
         "response_quality_counts_no_values":dict(response_status),

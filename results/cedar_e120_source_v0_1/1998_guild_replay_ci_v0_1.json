@@ -1,0 +1,38 @@
+{
+  "count_model_HC3": {
+    "CI95": [
+      -0.18541767220872002,
+      0.3514461643471792
+    ],
+    "beta": 0.0830142460692296,
+    "p": 0.5444277041878417
+  },
+  "count_vs_baseline_spatial_cv_gain": -0.0012632661862423955,
+  "guild_conditional_permutation_9999_p": 0.0003,
+  "guild_identity_equal_four_effects_HC3_p": 7.630860370298895e-7,
+  "guild_identity_with_fieldrow_fixed_effects_HC3_p": 0.00002580127818934919,
+  "guild_vs_baseline_spatial_cv_gain": 0.12623462896535598,
+  "n_1998_richness_supported": 94,
+  "n_original": 168,
+  "n_woody_supported": 39,
+  "not_an_independent_globally_generalized_or_causal_effect": true,
+  "source_SHA256": "a86755544d75fabb85f4979303efcada96683ae60c0bc3bdb60c5d4c739d7476",
+  "source_study": "ESA TIEE 2004 republication of Cedar Creek E120",
+  "status": "SOURCE_VERIFIED_INDEPENDENT_CEDAR_1998_EFFECT_REPLAY_PASS",
+  "ci_verification": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43668911803",
+    "job_id": 132674357210,
+    "artifact_id": 14142749659,
+    "artifact_digest": "sha256:b9662d048a8fda9f6ecb7b83c7d574aa99833d005f3dcd10259eda1b47cddc08",
+    "runtime_dependencies": {
+      "python": "3.12",
+      "numpy": "2.3.4",
+      "pandas": "2.2.3",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.5",
+      "xlrd": "2.0.1"
+    },
+    "raw_source_rows_not_committed": true
+  },
+  "interpretation": "Reproduces source-specific FG count uncertainty and guild identity heterogeneity; no established causal group mechanism or cross-site/long-term prediction."
+}

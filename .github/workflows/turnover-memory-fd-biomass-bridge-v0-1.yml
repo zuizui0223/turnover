@@ -7,6 +7,11 @@ on:
       - scripts/analysis/audit_height_fd_transport_memory_bridge_v0_1.py
       - docs/TURNOVER_MEMORY_FD_BIOMASS_BRIDGE_20261116.md
       - .github/workflows/turnover-memory-fd-biomass-bridge-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_height_fd_transport_memory_bridge_v0_1.py
+      - docs/TURNOVER_MEMORY_FD_BIOMASS_BRIDGE_20261116.md
+      - .github/workflows/turnover-memory-fd-biomass-bridge-v0-1.yml
   workflow_dispatch:
 permissions:
   contents: read

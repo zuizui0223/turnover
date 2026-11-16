@@ -1,0 +1,70 @@
+name: TreeDivNet uploaded original Table S1 site inventory year × Figshare plot support
+on:
+  push:
+    branches: [analysis/treedivnet-original-table-s1-temporal-gate-20261116]
+    paths:
+      - docs/TREEDIVNET_ORIGINAL_TABLES1_INVENTORY_YEAR_GATE_V0_6.md
+      - results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json
+      - scripts/source/audit_treedivnet_table_s1_year_matched_plots_v0_6.py
+      - .github/workflows/treedivnet-2026-original-table-s1-site-inventory-year-v0-6.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_ORIGINAL_TABLES1_INVENTORY_YEAR_GATE_V0_6.md
+      - results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json
+      - scripts/source/audit_treedivnet_table_s1_year_matched_plots_v0_6.py
+      - .github/workflows/treedivnet-2026-original-table-s1-site-inventory-year-v0-6.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-temporal-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check frozen site year support contract and separate workbook original-byte provenance
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_table_s1_year_matched_plots_v0_6.py
+          python3 scripts/source/audit_treedivnet_table_s1_year_matched_plots_v0_6.py --self-test
+          test -s docs/TREEDIVNET_ORIGINAL_TABLES1_INVENTORY_YEAR_GATE_V0_6.md
+          test -s results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json
+      - name: Revalidate original publicly pinned Figshare DS1/DS2 and source-only years <=2 matched source plots
+        run: |
+          mkdir -p build/treedivnet_table_s1
+          python3 scripts/source/audit_treedivnet_table_s1_year_matched_plots_v0_6.py \
+            --source-year-table results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json \
+            --out build/treedivnet_table_s1/year_qualified_original_source_plots_v0_6.json
+      - name: Reject new ecological effects, verify study-level history and response-year metadata nature
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open('build/treedivnet_table_s1/year_qualified_original_source_plots_v0_6.json'))
+          assert a['status']=='ORIGINAL_TABLE_S1_SITE_INVENTORY_YEAR_GAP_AUDITED_NO_ECOLOGICAL_EFFECT'
+          assert a['source_Table_S1_original_workbook_sha256']=='245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee'
+          assert a['source_local_upload_original_workbook_not_available_in_GitHub_runner'] is True
+          assert a['exact_original_DS1_DS2_source_plot_join_reproduced'] is True
+          assert a['original_source_numeric_186_plots_reproduced'] is True
+          assert a['predeclared_max_year_gap']==2
+          assert a['new_FD_K_PD_or_woody_biomass_effects_estimated'] is False
+          c=a['source_cohorts']
+          assert c['all_experiments']['original_source_numeric_eligible_plots_before_year_filter']==186
+          assert c['excluding_ECOLINK']['original_source_numeric_eligible_plots_before_year_filter']==153
+          assert c['excluding_ECOLINK_and_MataDIV']['original_source_numeric_eligible_plots_before_year_filter']==143
+          for group in c.values():
+              assert group['source_original_individual_tree_provenance_gate']=='HOLD'
+              assert group['source_original_DS2_species_woody_scaling_gate']=='HOLD'
+              assert group['new_woody_biomass_or_trait_association_tested'] is False
+          print('ORIGINAL_TABLE_S1_YEAR_GAP_SOURCE_VERDICT',
+            c['excluding_ECOLINK']['source_numerical_support_gate'],
+            'number_original_plots',c['excluding_ECOLINK']['original_Table_S1_site_inventory_year_qualified_plots'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-uploaded-treedivnet-TableS1-woody-trait-2yr-source-gate-nonraw
+          path: build/treedivnet_table_s1/year_qualified_original_source_plots_v0_6.json
+          retention-days: 30
+          if-no-files-found: ignore

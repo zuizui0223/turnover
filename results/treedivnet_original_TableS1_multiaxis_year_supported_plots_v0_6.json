@@ -1,0 +1,182 @@
+{
+  "limits": {
+    "min_plots": 80,
+    "min_sites_with_8": 5,
+    "min_species": 20,
+    "year_gap": 2
+  },
+  "method": "Require two DIFFERENT original species rows with positive values for ALL requested axes at each original plot, and <=2 years Table S1 biomass/trait inventory for EACH axis.",
+  "no_user_uploaded_original_table_s1_XLSX_redistributed": true,
+  "no_woody_biomass_FD_PD_or_K_effects_estimated": true,
+  "original_FDis_from_283_monoculture_and_17_external_values_not_used": true,
+  "original_single_axis_or_one_of_three_axes_eligible_plots": 186,
+  "original_unique_source_joined_plots": 328,
+  "original_uploaded_TableS1_sha256": "245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee",
+  "public_Figshare_original_DS1_DS2_MD5_verified": true,
+  "source_DS2_species_woody_to_DS1_plot_woody_normalization": "HOLD",
+  "source_groups": {
+    "all_experiments_source_diagnostic_only": {
+      "original_pre_TableS1_year_numeric_source_plots": 186,
+      "source_population": "all experiments incl genotype/cumulative-coppice ECOLINK for source diagnostics only",
+      "trait_bundle_source_support": {
+        "SLA+LNCM": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_PASS",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 7,
+          "number_original_study_sites_with_any_source_plot": 8,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 36,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 150,
+          "original_study_site_plot_counts": {
+            "B-Tree": 9,
+            "ECOLINK_Uppsala": 33,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4,
+            "IDENT_Macomer": 12,
+            "MataDIV": 10,
+            "MyDiv": 58
+          }
+        },
+        "SLA+LNCM+WD": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 2,
+          "number_original_study_sites_with_any_source_plot": 4,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 15,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 34,
+          "original_study_site_plot_counts": {
+            "B-Tree": 6,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4
+          }
+        },
+        "SLA+WD": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 2,
+          "number_original_study_sites_with_any_source_plot": 4,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 15,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 34,
+          "original_study_site_plot_counts": {
+            "B-Tree": 6,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4
+          }
+        }
+      }
+    },
+    "excluding_ECOLINK": {
+      "original_pre_TableS1_year_numeric_source_plots": 153,
+      "source_population": "Exclude ECOLINK genotype diversity + cumulative harvested coppice",
+      "trait_bundle_source_support": {
+        "SLA+LNCM": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_PASS",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 6,
+          "number_original_study_sites_with_any_source_plot": 7,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 32,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 117,
+          "original_study_site_plot_counts": {
+            "B-Tree": 9,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4,
+            "IDENT_Macomer": 12,
+            "MataDIV": 10,
+            "MyDiv": 58
+          }
+        },
+        "SLA+LNCM+WD": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 2,
+          "number_original_study_sites_with_any_source_plot": 4,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 15,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 34,
+          "original_study_site_plot_counts": {
+            "B-Tree": 6,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4
+          }
+        },
+        "SLA+WD": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 2,
+          "number_original_study_sites_with_any_source_plot": 4,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 15,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 34,
+          "original_study_site_plot_counts": {
+            "B-Tree": 6,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4
+          }
+        }
+      }
+    },
+    "excluding_ECOLINK_and_MataDIV": {
+      "original_pre_TableS1_year_numeric_source_plots": 143,
+      "source_population": "Plus exclude fertilized-only MataDIV as separate source-design sensitivity",
+      "trait_bundle_source_support": {
+        "SLA+LNCM": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_PASS",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 5,
+          "number_original_study_sites_with_any_source_plot": 6,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 26,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 107,
+          "original_study_site_plot_counts": {
+            "B-Tree": 9,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4,
+            "IDENT_Macomer": 12,
+            "MyDiv": 58
+          }
+        },
+        "SLA+LNCM+WD": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 2,
+          "number_original_study_sites_with_any_source_plot": 4,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 15,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 34,
+          "original_study_site_plot_counts": {
+            "B-Tree": 6,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4
+          }
+        },
+        "SLA+WD": {
+          "fixed_source_support_decision": "MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD",
+          "no_original_raw_trait_or_biomass_values_exported": true,
+          "number_original_study_sites_with_8_or_more_original_source_plots": 2,
+          "number_original_study_sites_with_any_source_plot": 4,
+          "number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots": 15,
+          "number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match": 34,
+          "original_study_site_plot_counts": {
+            "B-Tree": 6,
+            "FORBIO_Gedinne": 12,
+            "FORBIO_Hechtel-Eksel": 12,
+            "IDENT_Freiburg": 4
+          }
+        }
+      }
+    }
+  },
+  "source_individual_trait_record_provenance": "HOLD",
+  "status": "SOURCE_ONLY_ORIGINAL_YEAR_MATCHED_SAME_SPECIES_MULTIAXIS_TRAITS_AUDITED",
+  "version": "v0.6",
+  "source_verified_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43882190312",
+    "job_id": 133350695281,
+    "artifact_id": 14232412341,
+    "digest": "sha256:172cfd4c3e7eb2539bc67e297ab3289e5e8332f47050245760bbddd543b726a0",
+    "source_original_uploaded_TableS1_xlsx_SHA_local": "245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee"
+  }
+}

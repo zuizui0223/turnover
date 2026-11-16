@@ -1,0 +1,61 @@
+name: TreeDivNet original Table S1 same-species multiaxis source qualification (no effects)
+on:
+  push:
+    branches: [analysis/treedivnet-original-table-s1-temporal-gate-20261116]
+    paths:
+      - docs/TREEDIVNET_ORIGINAL_TABLE_S1_MULTITRAIT_SOURCE_SUPPORT_V0_6.md
+      - scripts/source/audit_treedivnet_tables1_joint_multitrait_source_v0_6.py
+      - .github/workflows/treedivnet-2026-s1-multiaxis-source-v0-6.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_ORIGINAL_TABLE_S1_MULTITRAIT_SOURCE_SUPPORT_V0_6.md
+      - scripts/source/audit_treedivnet_tables1_joint_multitrait_source_v0_6.py
+      - .github/workflows/treedivnet-2026-s1-multiaxis-source-v0-6.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  plot-source-axis-support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze same-species original multiaxis source only, no response fits
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_tables1_joint_multitrait_source_v0_6.py
+          python3 scripts/source/audit_treedivnet_tables1_joint_multitrait_source_v0_6.py --self-test
+          test -s docs/TREEDIVNET_ORIGINAL_TABLE_S1_MULTITRAIT_SOURCE_SUPPORT_V0_6.md
+      - name: Audit source verified original DS1/DS2 rows and uploaded S1 temporal source metadata
+        run: |
+          mkdir -p build/treedivnet_year_multiaxis
+          python3 scripts/source/audit_treedivnet_tables1_joint_multitrait_source_v0_6.py \
+            --source-year-table results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json \
+            --out build/treedivnet_year_multiaxis/plot_source_support_v0_6.json
+      - name: Verify no regressions or original rows persisted and original study source groups
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('build/treedivnet_year_multiaxis/plot_source_support_v0_6.json'))
+          assert r['status']=='SOURCE_ONLY_ORIGINAL_YEAR_MATCHED_SAME_SPECIES_MULTIAXIS_TRAITS_AUDITED'
+          assert r['original_uploaded_TableS1_sha256']=='245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee'
+          assert r['public_Figshare_original_DS1_DS2_MD5_verified'] is True
+          assert r['original_unique_source_joined_plots']==328
+          assert r['original_single_axis_or_one_of_three_axes_eligible_plots']==186
+          assert r['source_groups']['excluding_ECOLINK']['original_pre_TableS1_year_numeric_source_plots']==153
+          assert r['source_groups']['excluding_ECOLINK_and_MataDIV']['original_pre_TableS1_year_numeric_source_plots']==143
+          assert r['no_woody_biomass_FD_PD_or_K_effects_estimated'] is True
+          assert r['no_user_uploaded_original_table_s1_XLSX_redistributed'] is True
+          print('SOURCE_ONLY_MULTIAXIS_GATES',
+            {k: {tr: q['fixed_source_support_decision'] for tr,q in s['trait_bundle_source_support'].items()}
+             for k,s in r['source_groups'].items()})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-s1-original-multi-axis-trait-year-source-only
+          path: build/treedivnet_year_multiaxis/plot_source_support_v0_6.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -1,0 +1,97 @@
+name: Verify archived TreeDivNet original uploaded Table S1 years and 2-axis FD support
+on:
+  push:
+    branches: [analysis/treedivnet-original-table-s1-temporal-gate-20261116]
+    paths:
+      - results/treedivnet_original_TableS1_woody_trait_gap2_site_source_v0_6.json
+      - results/treedivnet_original_TableS1_multiaxis_year_supported_plots_v0_6.json
+      - docs/TREEDIVNET_ORIGINAL_TABLES1_YEAR_GAP_AND_MULTITRAIT_SOURCE_RESULTS_V0_6.md
+      - .github/workflows/treedivnet-uploaded-s1-source-result-integrity-v0-6.yml
+  pull_request:
+    paths:
+      - results/treedivnet_original_TableS1_woody_trait_gap2_site_source_v0_6.json
+      - results/treedivnet_original_TableS1_multiaxis_year_supported_plots_v0_6.json
+      - docs/TREEDIVNET_ORIGINAL_TABLES1_YEAR_GAP_AND_MULTITRAIT_SOURCE_RESULTS_V0_6.md
+      - .github/workflows/treedivnet-uploaded-s1-source-result-integrity-v0-6.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-derived-nonraw-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recheck uploaded original source year metadata arithmetic, original 186/153/143 cohort and multivariate gates
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          root=Path('results')
+          table=json.loads((root/'treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json').read_text())
+          timing=json.loads((root/'treedivnet_original_TableS1_woody_trait_gap2_site_source_v0_6.json').read_text())
+          multi=json.loads((root/'treedivnet_original_TableS1_multiaxis_year_supported_plots_v0_6.json').read_text())
+          old=json.loads((root/'treedivnet_2026_methods_s1_s2_site_cohort_eligibility_v0_4.json').read_text())
+          src=json.loads((root/'treedivnet_2026_original_DS1_DS2_plot_source_gate_v0_2.json').read_text())
+          assert table['source_uploaded_workbook']['sha256']=='245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee'
+          assert table['source_uploaded_workbook']['bytes']==16088
+          assert table['source_uploaded_workbook']['actual_original_workbook_binary_committed_to_GitHub'] is False
+          years={r['figshare_site_name']:r for r in table['source_site_rows']}
+          assert len(years)==11
+          assert years['FORBIO_Hechtel-Eksel']['published_establishment_window']=='December 2010'
+          assert years['ECOLINK_Uppsala']['inventory_years']['woody']==[2017,2020,2023]
+          for name,r in years.items():
+              woody=r['inventory_years']['woody']
+              for a in ('SLA','LNCM','WD','LPCM','height_increment'):
+                  tr=r['inventory_years'][a]
+                  v=min((abs(x-y) for x in woody for y in tr),default=None)
+                  assert r['minimum_absolute_inventory_year_gap_to_woody'][a]==v
+          assert timing['status']=='ORIGINAL_TABLE_S1_SITE_INVENTORY_YEAR_GAP_AUDITED_NO_ECOLOGICAL_EFFECT'
+          assert timing['predeclared_max_year_gap']==2
+          assert timing['source_local_upload_original_workbook_not_available_in_GitHub_runner'] is True
+          assert timing['exact_original_DS1_DS2_source_plot_join_reproduced'] is True
+          assert timing['original_source_numeric_186_plots_reproduced'] is True
+          assert src['audits']['original_source_join']['source_joined_unique_site_block_plot']==328
+          assert old['all_experiments']['plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody']==186
+          assert old['excluding_ECOLINK']['plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody']==153
+          assert old['excluding_ECOLINK_and_MataDIV']['plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody']==143
+          full=timing['source_cohorts']['all_experiments']
+          a=timing['source_cohorts']['excluding_ECOLINK']
+          b=timing['source_cohorts']['excluding_ECOLINK_and_MataDIV']
+          assert [x['original_Table_S1_site_inventory_year_qualified_plots'] for x in (full,a,b)]==[174,141,131]
+          assert a['lost_original_source_plots_to_site_inventory_year_rule']==12
+          assert a['site_source_eligible_plots_after_year_filter'].get('FORBIO_Zedelgem') is None
+          assert a['qualified_original_plots_by_same_trait_axis']=={'LNCM':120,'SLA':117,'WD':56}
+          assert b['qualified_original_plots_by_same_trait_axis']=={'LNCM':110,'SLA':107,'WD':56}
+          assert all(x['source_numerical_support_gate']=='SITE_INVENTORY_YEAR_SUPPORT_PASS' for x in (full,a,b))
+          assert [x['study_sites_at_least_8_year_qualified_plots'] for x in (full,a,b)]==[9,8,7]
+          assert a['source_original_individual_tree_provenance_gate']=='HOLD'
+          assert a['source_original_DS2_species_woody_scaling_gate']=='HOLD'
+          assert multi['status']=='SOURCE_ONLY_ORIGINAL_YEAR_MATCHED_SAME_SPECIES_MULTIAXIS_TRAITS_AUDITED'
+          assert multi['original_unique_source_joined_plots']==328
+          assert multi['original_single_axis_or_one_of_three_axes_eligible_plots']==186
+          main=multi['source_groups']['excluding_ECOLINK']['trait_bundle_source_support']
+          sens=multi['source_groups']['excluding_ECOLINK_and_MataDIV']['trait_bundle_source_support']
+          assert main['SLA+LNCM']['number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match']==117
+          assert main['SLA+LNCM']['number_original_study_sites_with_8_or_more_original_source_plots']==6
+          assert main['SLA+LNCM']['number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots']==32
+          assert main['SLA+LNCM']['fixed_source_support_decision']=='MULTIAXIS_SOURCE_NUMERIC_SUPPORT_PASS'
+          assert sens['SLA+LNCM']['number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match']==107
+          assert sens['SLA+LNCM']['number_original_study_sites_with_8_or_more_original_source_plots']==5
+          assert sens['SLA+LNCM']['number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots']==26
+          assert sens['SLA+LNCM']['fixed_source_support_decision']=='MULTIAXIS_SOURCE_NUMERIC_SUPPORT_PASS'
+          for bundle in ('SLA+WD','SLA+LNCM+WD'):
+              assert main[bundle]['number_source_original_site_plots_with_two_same_species_full_multiaxis_year_match']==34
+              assert main[bundle]['number_original_study_sites_with_8_or_more_original_source_plots']==2
+              assert main[bundle]['number_original_study_species_with_full_multiaxis_source_traits_on_valid_plots']==15
+              assert main[bundle]['fixed_source_support_decision']=='MULTIAXIS_SOURCE_NUMERIC_SUPPORT_HOLD'
+          assert not timing['new_FD_K_PD_or_woody_biomass_effects_estimated']
+          assert not multi['no_woody_biomass_FD_PD_or_K_effects_estimated'] is False
+          assert timing['source_verified_run']['artifact_id']==14232222695
+          assert multi['source_verified_run']['artifact_id']==14232412341
+          doc=Path('docs/TREEDIVNET_ORIGINAL_TABLES1_YEAR_GAP_AND_MULTITRAIT_SOURCE_RESULTS_V0_6.md').read_text()
+          for t in ('141','117','107','34','2018','2021','3 years','HOLD','inventory'):
+              if t=='3 years':continue
+              assert t in doc,t
+          print('UPLOADED_TABLES1_YEAR_QUALIFIED_SOURCE_INTEGRITY_PASS: 141 any axis, SLA117 LNCM120 WD56; 2-trait 117 PASS; 3-trait 34 HOLD')
+          PY

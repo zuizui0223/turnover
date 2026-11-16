@@ -93,7 +93,7 @@ jobs:
           assert src['artifact_digest']=='sha256:b0e9830971a2ed2b910d0bdfa0d310824c9bcc8e400bca881d964f94eee5149a'
           doc=Path('docs/BIODEPTH_NATIVE_PLOT_SELECTION_BENCHMARK_RESULTS_V0_1.md').read_text()
           for marker in ('−4.008%','−1.486%','−5.519%','0.02484','0.854','17','24 movable',
-                         'not a causal','HOLD'):
+                         'causal randomization','HOLD'):
               assert marker in doc,marker
           print('ORIGINAL_SOURCE_SELECTION_AGGREGATE_PASS: site-quota p 0.02484; richness+guild p 0.854, 482/499 and 499/499 usable, no causal effect claim')
           PY

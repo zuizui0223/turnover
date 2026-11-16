@@ -1,0 +1,90 @@
+name: TreeDivNet observed in-plot SLA LNCM FD incremental woody stock transfer
+on:
+  push:
+    branches: [analysis/treedivnet-observed-sla-lncm-site-transport-20261117]
+    paths:
+      - docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md
+      - scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py
+      - .github/workflows/treedivnet-plot-local-sla-lncm-woody-site-holdout-v0-1.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md
+      - scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py
+      - .github/workflows/treedivnet-plot-local-sla-lncm-woody-site-holdout-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  new-exploratory-original-source-ecology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Preserve already frozen scientific design and source-certified complete planted species
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py
+          python3 scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py --self-test
+          test -s docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/treedivnet_original_plot_local_SLA_LNCM_80pct_source_coverage_v0_1.json')
+          if not p.is_file():
+              raise RuntimeError('SOURCE_HOLD: original source completeness independently archived must exist BEFORE new effect')
+          d=json.loads(p.read_text())
+          assert d['status']=='ORIGINAL_PLOT_LOCAL_SLA_LNCM_COVERAGE_SOURCE_ONLY_AUDITED'
+          assert d['no_FD_PD_K_or_biomass_prediction_computed'] is True
+          assert d['original_source_only_cohorts']['excluding_ECOLINK']['fixed_80pct_plot_local_FD_source_support_status']=='PLOT_LOCAL_FD_SOURCE_COMPLETENESS_PASS'
+          assert d['original_source_only_cohorts']['excluding_ECOLINK_and_MataDIV']['fixed_80pct_plot_local_FD_source_support_status']=='PLOT_LOCAL_FD_SOURCE_COMPLETENESS_PASS'
+          assert d['original_source_only_cohorts']['excluding_ECOLINK']['n_original_source_plots_full_joint_axis_trait_coverage_ge80pct']==117
+          assert d['original_source_only_cohorts']['excluding_ECOLINK_and_MataDIV']['n_original_source_plots_full_joint_axis_trait_coverage_ge80pct']==107
+          print('SOURCE_COMPLETE_TRAIT_PLOTS_ORIGINAL_PASS; strict old individual source gate untouched')
+          PY
+      - name: Fit new, outcome-frozen whole-site 6/5 experiment WLS prediction without DS2 woody predictor
+        run: |
+          mkdir -p build/treedivnet_new_site_transfer
+          python3 scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py \
+            --years results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json \
+            --source-coverage results/treedivnet_original_plot_local_SLA_LNCM_80pct_source_coverage_v0_1.json \
+            --out build/treedivnet_new_site_transfer/original_plot_fd_woody_holdout_v0_1.json
+      - name: Guard source interpretation and nonreplication of authors' original positive results
+        run: |
+          python3 - <<'PY'
+          import json, math
+          d=json.load(open('build/treedivnet_new_site_transfer/original_plot_fd_woody_holdout_v0_1.json'))
+          assert d['status']=='POSTRESULT_EXPLORATORY_TREE_DIVNET_ORIGINAL_PLOT_TRAIT_FD_SITE_TRANSFER_ESTIMATED'
+          assert d['original_paper_positive_FDis_mixing_results_already_known'] is True
+          assert d['original_DS1_stand_woody_response_only'] is True
+          assert d['original_DS2_species_woody_col_never_used'] is True
+          assert d['no_causal_conclusion_authorized'] is True
+          assert d['historical_global_BIEN_sPlotOpen_BIODEPTH_NEON_closed_source_gates_untouched'] is True
+          assert d['main_source_original_plot_support']['n_original_stand_plots']==113
+          assert d['MataDIV_excluded_source_original_plot_support']['n_original_stand_plots']==103
+          assert d['main_heldout_study_site_woody_FD_increment']['n_independent_original_study_sites']==6
+          assert d['MataDIV_excluded_source_only_sensitivity_heldout_FD_increment']['n_independent_original_study_sites']==5
+          for k in ('main_heldout_study_site_woody_FD_increment','MataDIV_excluded_source_only_sensitivity_heldout_FD_increment'):
+              r=d[k]
+              v=[x['incremental_FD_woody_holdout_SSE_gain'] for x in r['heldout_original_study_site_records']]
+              assert len(v)==r['n_independent_original_study_sites']
+              assert math.isclose(sum(v)/len(v),r['mean_equal_study_site_FD_increment_SSE_gain'],abs_tol=1e-10)
+              for row in r['heldout_original_study_site_records']:
+                  assert math.isclose(1-row['with_two_axis_FD_SSE']/row['baseline_cwm_and_richness_SSE'],
+                                      row['incremental_FD_woody_holdout_SSE_gain'],abs_tol=1e-10)
+          print('STUDY_SOURCE_FD_WOODY_HOLDOUT_VERIFIED',
+              d['main_heldout_study_site_woody_FD_increment']['mean_equal_study_site_FD_increment_SSE_gain_pct'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-observed-plot-SLA-LNCM-FD-woody-site-transfer-nonraw
+          path: build/treedivnet_new_site_transfer/original_plot_fd_woody_holdout_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

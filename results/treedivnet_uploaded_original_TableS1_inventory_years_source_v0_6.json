@@ -1,0 +1,502 @@
+{
+  "version": "v0.6",
+  "source_uploaded_workbook": {
+    "uploaded_name": "fec70320-sup-0002-tables1.xlsx",
+    "sha256": "245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee",
+    "bytes": 16088,
+    "sheet_names": [
+      "Table S1",
+      "Caption"
+    ],
+    "table_range": "A1:AA13",
+    "site_rows": 11,
+    "actual_original_workbook_binary_committed_to_GitHub": false,
+    "source_caption": "Stand-level characteristics for 11 experimental sites; inventory years reported separately for each biomass and functional trait variable.",
+    "source_columns": "First header row has variable and unit; second header row has mean, sd, inventory year for each woody, understory, litterfall, SLA, WD, LNCM, LPCM, height increment."
+  },
+  "status": "ORIGINAL_TABLE_S1_SITE_INVENTORY_YEARS_VERIFIED",
+  "source_site_rows": [
+    {
+      "Table_S1_source_site_name": "B-Tree",
+      "figshare_site_name": "B-Tree",
+      "published_establishment_window": "April 2013",
+      "inventory_years": {
+        "woody": [
+          2021
+        ],
+        "SLA": [
+          2022
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2022
+        ],
+        "LPCM": [
+          2022
+        ],
+        "height_increment": [
+          2021
+        ],
+        "understory": [
+          2021
+        ],
+        "litterfall": [
+          2021
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 1,
+        "WD": 0,
+        "LNCM": 1,
+        "LPCM": 1,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "WD",
+        "LNCM"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "BIOTREE-Species Kaltenborn",
+      "figshare_site_name": "BIOTREE_Kaltenborn",
+      "published_establishment_window": "January-March 2004",
+      "inventory_years": {
+        "woody": [
+          2019
+        ],
+        "SLA": [
+          2016
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2016
+        ],
+        "LPCM": [
+          2016
+        ],
+        "height_increment": [
+          2019
+        ],
+        "understory": [],
+        "litterfall": [
+          2021
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 3,
+        "WD": 2,
+        "LNCM": 3,
+        "LPCM": 3,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "WD"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "ECOLINK Uppsala",
+      "figshare_site_name": "ECOLINK_Uppsala",
+      "published_establishment_window": "March 2014",
+      "inventory_years": {
+        "woody": [
+          2017,
+          2020,
+          2023
+        ],
+        "SLA": [
+          2022
+        ],
+        "WD": [],
+        "LNCM": [
+          2022
+        ],
+        "LPCM": [
+          2022
+        ],
+        "height_increment": [
+          2023
+        ],
+        "understory": [
+          2022
+        ],
+        "litterfall": [
+          2022
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 1,
+        "WD": null,
+        "LNCM": 1,
+        "LPCM": 1,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "LNCM"
+      ],
+      "notes": "Source woody 2017+2020+2023 cumulative coppice. Temporal nearest year NOT interchangeable with comparable stock measurement."
+    },
+    {
+      "Table_S1_source_site_name": "FORBIO Gedinne",
+      "figshare_site_name": "FORBIO_Gedinne",
+      "published_establishment_window": "April-May 2010",
+      "inventory_years": {
+        "woody": [
+          2021
+        ],
+        "SLA": [
+          2021
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2021
+        ],
+        "LPCM": [
+          2021
+        ],
+        "height_increment": [
+          2021
+        ],
+        "understory": [
+          2021
+        ],
+        "litterfall": [
+          2021
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 0,
+        "WD": 0,
+        "LNCM": 0,
+        "LPCM": 0,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "WD",
+        "LNCM"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "FORBIO Hechtel-Eksel",
+      "figshare_site_name": "FORBIO_Hechtel-Eksel",
+      "published_establishment_window": "December 2010",
+      "inventory_years": {
+        "woody": [
+          2019
+        ],
+        "SLA": [
+          2021
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2021
+        ],
+        "LPCM": [
+          2021
+        ],
+        "height_increment": [
+          2019
+        ],
+        "understory": [
+          2021
+        ],
+        "litterfall": [
+          2021
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 2,
+        "WD": 2,
+        "LNCM": 2,
+        "LPCM": 2,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "WD",
+        "LNCM"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "FORBIO Zedelgem",
+      "figshare_site_name": "FORBIO_Zedelgem",
+      "published_establishment_window": "December 2009 and March 2010",
+      "inventory_years": {
+        "woody": [
+          2018
+        ],
+        "SLA": [
+          2021
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2021
+        ],
+        "LPCM": [
+          2021
+        ],
+        "height_increment": [
+          2016
+        ],
+        "understory": [
+          2021
+        ],
+        "litterfall": [
+          2021
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 3,
+        "WD": 3,
+        "LNCM": 3,
+        "LPCM": 3,
+        "height_increment": 2
+      },
+      "source_inventory_gap_2yr_qualified_axes": [],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "IDENT Freiburg",
+      "figshare_site_name": "IDENT_Freiburg",
+      "published_establishment_window": "November-December 2013",
+      "inventory_years": {
+        "woody": [
+          2021
+        ],
+        "SLA": [
+          2021
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2021
+        ],
+        "LPCM": [
+          2021
+        ],
+        "height_increment": [
+          2021
+        ],
+        "understory": [
+          2023
+        ],
+        "litterfall": [
+          2021
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 0,
+        "WD": 0,
+        "LNCM": 0,
+        "LPCM": 0,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "WD",
+        "LNCM"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "IDENT Macomer",
+      "figshare_site_name": "IDENT_Macomer",
+      "published_establishment_window": "January-March 2014",
+      "inventory_years": {
+        "woody": [
+          2022
+        ],
+        "SLA": [
+          2022
+        ],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2020
+        ],
+        "LPCM": [
+          2020
+        ],
+        "height_increment": [
+          2017
+        ],
+        "understory": [
+          2023
+        ],
+        "litterfall": [
+          2022
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 0,
+        "WD": 1,
+        "LNCM": 2,
+        "LPCM": 2,
+        "height_increment": 5
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "WD",
+        "LNCM"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "MataDIV",
+      "figshare_site_name": "MataDIV",
+      "published_establishment_window": "November-December 2019",
+      "inventory_years": {
+        "woody": [
+          2024
+        ],
+        "SLA": [
+          2022
+        ],
+        "WD": [],
+        "LNCM": [
+          2022
+        ],
+        "LPCM": [
+          2022
+        ],
+        "height_increment": [
+          2024
+        ],
+        "understory": [],
+        "litterfall": []
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 2,
+        "WD": null,
+        "LNCM": 2,
+        "LPCM": 2,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "LNCM"
+      ],
+      "notes": "Fertilized-only source site."
+    },
+    {
+      "Table_S1_source_site_name": "MyDiv",
+      "figshare_site_name": "MyDiv",
+      "published_establishment_window": "March 2015",
+      "inventory_years": {
+        "woody": [
+          2021
+        ],
+        "SLA": [
+          2021
+        ],
+        "WD": [
+          2017
+        ],
+        "LNCM": [
+          2021
+        ],
+        "LPCM": [
+          2021
+        ],
+        "height_increment": [
+          2021
+        ],
+        "understory": [],
+        "litterfall": [
+          2023
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": 0,
+        "WD": 4,
+        "LNCM": 0,
+        "LPCM": 0,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "SLA",
+        "LNCM"
+      ],
+      "notes": ""
+    },
+    {
+      "Table_S1_source_site_name": "ORPHEE",
+      "figshare_site_name": "ORPHEE",
+      "published_establishment_window": "January-February 2008",
+      "inventory_years": {
+        "woody": [
+          2021
+        ],
+        "SLA": [],
+        "WD": [
+          2021
+        ],
+        "LNCM": [
+          2018
+        ],
+        "LPCM": [
+          2018
+        ],
+        "height_increment": [
+          2021
+        ],
+        "understory": [
+          2021
+        ],
+        "litterfall": [
+          2022
+        ]
+      },
+      "minimum_absolute_inventory_year_gap_to_woody": {
+        "SLA": null,
+        "WD": 0,
+        "LNCM": 3,
+        "LPCM": 3,
+        "height_increment": 0
+      },
+      "source_inventory_gap_2yr_qualified_axes": [
+        "WD"
+      ],
+      "notes": ""
+    }
+  ],
+  "frozen_source_timing_policy": {
+    "max_absolute_year_gap": 2,
+    "trait_axes": [
+      "SLA",
+      "LNCM",
+      "WD"
+    ],
+    "require_original_woody_biomass_inventory_year": true,
+    "ECOLINK_excluded_for_genotype_and_cumulative_coppice": true,
+    "per_plot_individual_years_not_in_supplement": true
+  },
+  "discovered_previous_source_inconsistency": {
+    "figshare_site_name": "FORBIO_Hechtel-Eksel",
+    "previous_turnover_v0_5_table1_year": 2012,
+    "uploaded_original_S1_establishment": "December 2010",
+    "decision": "Correct source establishment-year claim based on directly inspected original Table S1; avoid implying prior table1 year was independently verified."
+  },
+  "published_establishment_years_are_not_inventory_years": true,
+  "woody_stock_species_row_normalization_still_HOLD": true,
+  "source_no_original_biomass_or_trait_values_republished": true,
+  "new_biological_trait_FD_PD_K_biomass_effect_fitted": false
+}

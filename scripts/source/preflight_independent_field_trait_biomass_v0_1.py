@@ -69,7 +69,7 @@ def normalize(s)->str:
 def key(s)->str:
     val=str(s or "").strip()
     if not val:return ""
-    if re.fullmatch(r"0*[0-9]+(?:\\.0+)?",val):
+    if re.fullmatch(r"0*[0-9]+(?:\.0+)?",val):
         return str(int(float(val)))
     return val.casefold()
 

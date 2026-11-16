@@ -1,0 +1,42 @@
+name: Source-audited BIODEPTH FD site influence
+on:
+  push:
+    branches:
+      - analysis/turnover-memory-fd-biomass-bridge-20261116
+    paths:
+      - scripts/analysis/audit_height_fd_transport_memory_bridge_v0_1.py
+      - docs/TURNOVER_MEMORY_FD_BIOMASS_BRIDGE_20261116.md
+      - .github/workflows/turnover-memory-fd-biomass-bridge-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/audit_height_fd_transport_memory_bridge_v0_1.py
+      - docs/TURNOVER_MEMORY_FD_BIOMASS_BRIDGE_20261116.md
+      - .github/workflows/turnover-memory-fd-biomass-bridge-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-published-aggregate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Replay original source checks and corrected site influence
+        run: |
+          python3 -m py_compile scripts/analysis/audit_height_fd_transport_memory_bridge_v0_1.py
+          python3 scripts/analysis/audit_height_fd_transport_memory_bridge_v0_1.py --output build/height_fd_transport_memory_bridge_v0_1.json
+          python3 - <<'PY'
+          import json
+          d = json.load(open('build/height_fd_transport_memory_bridge_v0_1.json'))
+          assert d['Kew_positive_sites'] == 4
+          assert d['Kew_LOO_negative_if_exclude'] == ['Portugal']
+          assert d['Kew_LOO_range_pct_approximately'][0] < 0 < d['Kew_LOO_range_pct_approximately'][1]
+          print('SOURCE-AUDIT PASS: 7 sites, rounded source scores, influence and analytic non-identifiability')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: height-fd-site-influence-nonraw-json
+          path: build/height_fd_transport_memory_bridge_v0_1.json

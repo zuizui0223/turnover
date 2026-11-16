@@ -49,6 +49,7 @@ def assess():
     ratios_by_r=collections.defaultdict(list)
     ratios_by_site=collections.defaultdict(list)
     bad=collections.Counter()
+    source_count_vs_meanmatch=collections.defaultdict(collections.Counter)
     for identity in joined:
         parent=A[identity];children=B[identity]
         y=num(parent["biomass_woody"])
@@ -66,6 +67,12 @@ def assess():
         candidates={"direct_species_sum":original,
                     "mean_per_Ds2_species":original/n,
                     "mean_per_sown_richness":original/k}
+        group="same_DS2_species_count_as_planted" if n==k else "missing_DS2_species_relative_to_planted"
+        source_count_vs_meanmatch[group]["total"]+=1
+        if passes(y,candidates["mean_per_Ds2_species"]):
+            source_count_vs_meanmatch[group]["species_mean_match"]+=1
+        if passes(y,candidates["mean_per_sown_richness"]):
+            source_count_vs_meanmatch[group]["sown_richness_mean_match"]+=1
         for kind,v in candidates.items():
             if passes(y,v):
                 tally[kind]+=1
@@ -118,6 +125,7 @@ def assess():
        "source_site_aggregates":bysite_all,
        "original_planted_richness_strata_aggregates":byr_all,
        "conditional_source_normalization_pattern":preferred,
+       "post_source_discovery_richness_mismatch_vs_normalization_crosscheck":{s:dict(c) for s,c in sorted(source_count_vs_meanmatch.items())},
        "source_evidence_not_accepted_as_confirmed_unit_conversion":True,
        "original_mass_source_qa_gate_stays_HOLD":True,
        "no_species_biomass_raw_rows_exported":True,

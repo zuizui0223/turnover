@@ -41,6 +41,12 @@ With all **M2 source-site SSE values identical to ≤1e−10**, original full-S3
 - The source inclusion of 34 affected plots and explanatory values is a useful diagnostic for future *sampling-process* research, not a new stable mechanism inferred for ecological selection or interspecific competition. Later new hypothesis testing would require genuinely independent plots/sites or prospective experimental variation.
 - Do not resample/retune site selection to rescue a positive FD/biomass predictive result. All original strict BIODEPTH six high-density site support, BIEN×sPlotOpen 201-system macro K→FD→mass, and NEON API auth source gates remain **HOLD**.
 
+## Direct K→FD→biomass next-source feasibility boundary
+
+A strict same-taxon within-family estimate of source-specific trait phylogenetic signal would need adequate species support **per family**. The original temporal programme used a minimum of **20 species per family × trait** and **12 independent families** for its multi-family comparison. Meeting that same structural standard on independent non-overlapping plant families requires at least **240 species**. The currently joint-eligible BIODEPTH population contains only **84 taxa distributed across 17 families** (78 direct backbone native), so **no more than four families could possibly have ≥20 taxa on this local roster** (native subset: at most three). Therefore this BIODEPTH sample **cannot directly estimate and test a broad 12-family trait-specific K→FD→biomass bridge from its own 84 observed species**, regardless of additional model tuning.
+
+This mathematical source-support impossibility does **not** rule out joining **externally estimated source-qualified family-level plant-height K** to these original communities, but doing so changes the estimand. It requires exact family identity, original study-independent plant-height observations, an independently validated tree/sampling frame, a fixed source-overlap contract (GIFT maxima versus independently measured traits), and enough between-community variation in K exposure before opening biomass. Existing AusTraits family-level K estimates are not, by themselves, the K of the original 84 BIODEPTH planted species. Do not substitute broad taxonomic PD for trait-specific K or transfer K across source compilations without matched-source validation.
+
 ## Provenance
 
 - Frozen new 102-paired design: `docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_DIAGNOSTIC_V0_1.md`

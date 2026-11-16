@@ -1,0 +1,94 @@
+name: BIODEPTH source-only GBOTB phylogeny qualification
+on:
+  push:
+    branches: [analysis/biodepth-pd-trait-tree-source-gate-20261116]
+    paths:
+      - docs/BIODEPTH_PHYLOGENY_SOURCE_ONLY_GATE_20261116.md
+      - scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py
+      - scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R
+      - .github/workflows/biodepth-source-only-phylogenetic-coverage-v0-1.yml
+  pull_request:
+    paths:
+      - docs/BIODEPTH_PHYLOGENY_SOURCE_ONLY_GATE_20261116.md
+      - scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py
+      - scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R
+      - .github/workflows/biodepth-source-only-phylogenetic-coverage-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+      - name: Verify frozen source-only contract and prepare original data
+        run: |
+          python3 -m py_compile scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py
+          python3 scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py --self-test
+          test -s docs/BIODEPTH_PHYLOGENY_SOURCE_ONLY_GATE_20261116.md
+          mkdir -p build/biodepth_source_only
+          python3 - <<'PY'
+          from pathlib import Path
+          import urllib.request,hashlib
+          dest=Path('/tmp/biodepth_tree_source')
+          dest.mkdir(parents=True,exist_ok=True)
+          specs={
+            'species.txt':('https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt',
+              'ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816'),
+            'codes.txt':('https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt',
+              '02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b')}
+          for fn,(url,sha) in specs.items():
+            request=urllib.request.Request(url,headers={'User-Agent':'turnover-biological-tree-source-check-20261116/1.0'})
+            with urllib.request.urlopen(request,timeout=120) as handle:
+              blob=handle.read(2000001)
+            if len(blob)>2000000 or hashlib.sha256(blob).hexdigest()!=sha:
+              raise RuntimeError('SOURCE_HOLD: original BIODEPTH source SHA mismatch: '+fn)
+            (dest/fn).write_bytes(blob)
+            print('ORIGINAL_SOURCE_SHA_PASS',fn,len(blob))
+          PY
+          python3 scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py \
+            --species /tmp/biodepth_tree_source/species.txt \
+            --codes /tmp/biodepth_tree_source/codes.txt \
+            --out /tmp/biodepth_tree_source/original_planting_taxa.csv
+      - name: Download and verify pinned historic GBOTB backbone
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          test "$(git -C build/V.PhyloMaker2 rev-parse HEAD)" = "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Exact-genus family, native and S3 grafting and original plot coverage
+        run: |
+          Rscript scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R \
+            --planting /tmp/biodepth_tree_source/original_planting_taxa.csv \
+            --out build/biodepth_source_only/source_phylogeny_coverage_v0_1.json
+      - name: Enforce outcome firewall without selecting a desired source result
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/biodepth_source_only/source_phylogeny_coverage_v0_1.json'))
+          assert d['source_original_taxa']==103
+          assert d['source_original_plots']==480
+          assert d['source_original_sites']==8
+          assert d['source_original_planted_incidence']==1934
+          assert d['n_biomass_records_opened']==0 and d['n_trait_values_opened']==0
+          assert d['n_PD_or_FD_effects_estimated']==0
+          assert d['status'] in ('BIODEPTH_GBOTB_S3_SOURCE_COVERAGE_PASS','HOLD_BIODEPTH_GBOTB_S3_SOURCE_COVERAGE')
+          print('BIODEPTH_TREE_SOURCE_ONLY_VERDICT',d['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biodepth-original-plant-source-only-gbotb-s3-coverage
+          path: build/biodepth_source_only/source_phylogeny_coverage_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

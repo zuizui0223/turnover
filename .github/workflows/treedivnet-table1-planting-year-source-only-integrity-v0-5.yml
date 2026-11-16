@@ -1,0 +1,61 @@
+name: Verify TreeDivNet published planting-year vs observation-year source boundary
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - results/treedivnet_original_planting_year_vs_measurement_source_gate_v0_5.json
+      - docs/TREEDIVNET_PLANTING_VS_MEASUREMENT_YEAR_SOURCE_BOUNDARY_20261116_V0_5.md
+      - .github/workflows/treedivnet-table1-planting-year-source-only-integrity-v0-5.yml
+  pull_request:
+    paths:
+      - results/treedivnet_original_planting_year_vs_measurement_source_gate_v0_5.json
+      - docs/TREEDIVNET_PLANTING_VS_MEASUREMENT_YEAR_SOURCE_BOUNDARY_20261116_V0_5.md
+      - .github/workflows/treedivnet-table1-planting-year-source-only-integrity-v0-5.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published-chronology-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify actual original plot source coverage against published Table 1 and zero invented observation dates
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('results')
+          d=json.loads((root/'treedivnet_original_planting_year_vs_measurement_source_gate_v0_5.json').read_text())
+          parent=json.loads((root/'treedivnet_2026_methods_s1_s2_site_cohort_eligibility_v0_4.json').read_text())
+          assert d['version']=='v0.5'
+          assert d['status']=='PUBLISHED_PLANTING_YEAR_SOURCE_MATCH_PASS__ORIGINAL_BIOMASS_TRAIT_OBSERVATION_DATES_HOLD'
+          expected={'B-Tree':2013,'BIOTREE_Kaltenborn':2004,'ECOLINK_Uppsala':2014,
+            'FORBIO_Gedinne':2010,'FORBIO_Hechtel-Eksel':2012,'FORBIO_Zedelgem':2009,
+            'IDENT_Freiburg':2013,'IDENT_Macomer':2014,'MataDIV':2019,
+            'MyDiv':2015,'ORPHEE':2008}
+          tab=d['published_planting_years_site_identity']
+          assert len(tab)==11 and {r['site']:r['original_published_planting_year'] for r in tab}==expected
+          plots={r['site']:r['original_eligible_plots'] for r in tab}
+          assert plots==parent['all_experiments']['site_eligible_original_plot_counts']
+          assert sum(plots.values())==d['source_eligible_all']==186
+          assert sum(n for s,n in plots.items() if s!='ECOLINK_Uppsala')==d['source_eligible_excluding_ECOLINK']==153
+          assert sum(n for s,n in plots.items() if s not in ('ECOLINK_Uppsala','MataDIV'))==d['source_eligible_excluding_ECOLINK_and_fertilized_MataDIV']==143
+          assert d['source_planting_year_min']==2004 and d['source_planting_year_max']==2019
+          assert len(d['source_eligible_nonECOLINK_by_published_planting_year'])==9
+          assert sum(d['source_eligible_nonECOLINK_by_published_planting_year'].values())==153
+          assert d['source_eligible_nonECOLINK_by_published_planting_year']['2015']==60
+          assert d['n_measurement_year_matched_sites']==0
+          assert d['n_sites_where_same_original_study_site_has_multiple_published_planting_years']==0
+          assert all(r['measured_trait_sampling_year'] is None and r['measured_woody_biomass_year'] is None
+                    and r['biomass_to_trait_year_gap'] is None
+                    and r['planting_year_must_not_be_used_as_measured_year'] is True for r in tab)
+          assert d['original_temporal_eligibility']=='HOLD'
+          assert d['original_species_woody_scaling']=='HOLD'
+          assert d['no_new_ecological_K_FD_PD_biomass_effect_tested'] is True
+          assert d['analysis_authorization'].startswith('NO_NEW_BIOMASS_TRAIT_REGRESSION')
+          narrative=Path('docs/TREEDIVNET_PLANTING_VS_MEASUREMENT_YEAR_SOURCE_BOUNDARY_20261116_V0_5.md').read_text()
+          for term in ('2004–2019','ECOLINK','153','143','measurement','HOLD','Table S1','publication'):
+             assert term in narrative,term
+          print('PUBLISHED_TABLE1_PLANTING_YEARS_IDENTITY_PASS: 11 source studies, 186/153/143 plots; source measurement years remain HOLD, no ecological model')
+          PY

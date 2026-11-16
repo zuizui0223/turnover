@@ -1,0 +1,56 @@
+name: TreeDivNet 2026 Figshare original-data anonymous source metadata audit
+on:
+  push:
+    branches: [source/independent-trait-biomass-field-20261116]
+    paths:
+      - docs/TREEDIVNET_2026_FIGSHARE_SOURCE_GATE_V0_1.md
+      - scripts/source/audit_treedivnet_figshare_metadata_v0_1.py
+      - .github/workflows/treedivnet-2026-figshare-source-metadata-v0-1.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_2026_FIGSHARE_SOURCE_GATE_V0_1.md
+      - scripts/source/audit_treedivnet_figshare_metadata_v0_1.py
+      - .github/workflows/treedivnet-2026-figshare-source-metadata-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  provenance-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen 2026 original-study data provenance and no-effect fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_figshare_metadata_v0_1.py
+          python3 scripts/source/audit_treedivnet_figshare_metadata_v0_1.py --self-test
+          test -s docs/TREEDIVNET_2026_FIGSHARE_SOURCE_GATE_V0_1.md
+      - name: Public official Figshare article metadata and file URL access only
+        run: |
+          mkdir -p build/treedivnet_figshare
+          python3 scripts/source/audit_treedivnet_figshare_metadata_v0_1.py \
+            --out build/treedivnet_figshare/source_metadata_v0_1.json
+      - name: Refuse biological effect or unsupported source claim
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open("build/treedivnet_figshare/source_metadata_v0_1.json"))
+          assert d["article_id_expected"]==31026004
+          assert d["doi_expected"]=="10.6084/m9.figshare.31026004"
+          assert d["no_original_biomass_or_trait_values_opened"] is True
+          assert d["no_ecological_effect_estimated"] is True
+          assert d["status"] in ("ARTICLE_NOT_PUBLIC_HOLD","METADATA_PASS_DATA_GRAIN_HOLD",
+                                 "PUBLIC_DATA_ACCESS_HOLD","FILE_LIST_PASS_HEAD_ONLY")
+          print("TREE_DIVNET_SOURCE_STATUS",d["status"],
+                "n_public",d.get("n_original_file_links_verified_anonymous"))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-jensen-2026-figshare-source-manifest-nonraw
+          path: build/treedivnet_figshare/source_metadata_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

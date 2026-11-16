@@ -1,0 +1,144 @@
+name: BIODEPTH paired native vs full S3 same 102 planted plots
+on:
+  push:
+    branches: [analysis/biodepth-pd-native-paired-cohort-20261116]
+    paths:
+      - docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_DIAGNOSTIC_V0_1.md
+      - scripts/analysis/audit_biodepth_native_vs_s3_fixed_cohort_v0_1.py
+      - .github/workflows/biodepth-native-s3-fixed102-contrast-v0-1.yml
+  pull_request:
+    paths:
+      - docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_DIAGNOSTIC_V0_1.md
+      - scripts/analysis/audit_biodepth_native_vs_s3_fixed_cohort_v0_1.py
+      - .github/workflows/biodepth-native-s3-fixed102-contrast-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-site-holdout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+      - name: Verify frozen new outcome design and source-only proof
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/analysis/audit_biodepth_native_vs_s3_fixed_cohort_v0_1.py
+          python3 scripts/analysis/audit_biodepth_native_vs_s3_fixed_cohort_v0_1.py --self-test
+          test -s docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_DIAGNOSTIC_V0_1.md
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=Path('results/biodepth_2010_species_source_v0_1')
+          p=json.loads((d/'phylogeny_103taxa_source_qualification_v0_1.json').read_text())
+          j=json.loads((d/'gift_gbotb_joint_source_support_v0_1.json').read_text())
+          assert p['status']=='BIODEPTH_GBOTB_S3_SOURCE_COVERAGE_PASS'
+          assert j['status']=='BIODEPTH_GBOTB_GIFT_JOINT_SUPPORT_PASS'
+          assert j['joint_original_plots_min3_and_80pct']==150
+          assert j['joint_height_phylogeny_species']==84
+          assert j['joint_height_phylogeny_native_taxa']==78
+          print('PRIOR_SOURCE_ONLY_GATES_PASS',j['joint_original_sites'])
+          PY
+      - name: Download only original planted species, names and treatment source before outcomes
+        run: |
+          mkdir -p /tmp/biodepth_pd_fd_biomass build/biodepth_pd_fd_biomass
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,urllib.request
+          data={
+            'species.txt':('https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt',
+              'ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816'),
+            'codes.txt':('https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt',
+              '02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b'),
+            'design.txt':('https://ndownloader.figshare.com/files/5640240',
+              'a3029e18937b577aa2dafd9efb31fc50bf8fa39a0c1b48bca7c493cc6013cc7a')}
+          for name,(url,sha) in data.items():
+            request=urllib.request.Request(url,headers={'User-Agent':'turnover-PD-FD-biomass-source-only-preflight-20261116/0.1'})
+            with urllib.request.urlopen(request,timeout=110) as response:
+              raw=response.read(2_000_001)
+            if len(raw)>2_000_000 or hashlib.sha256(raw).hexdigest()!=sha:
+              raise ValueError('SOURCE_HOLD original BIODEPTH source bytes mismatch '+name)
+            (Path('/tmp/biodepth_pd_fd_biomass')/name).write_bytes(raw)
+            print('ORIGINAL_PLANTING_SHA_PASS',name,len(raw))
+          PY
+          python3 scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py \
+            --species /tmp/biodepth_pd_fd_biomass/species.txt \
+            --codes /tmp/biodepth_pd_fd_biomass/codes.txt \
+            --out /tmp/biodepth_pd_fd_biomass/planting.csv
+      - name: Recreate pinned GBOTB S3 source distances before effect opening
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          test "$(git -C build/V.PhyloMaker2 rev-parse HEAD)" = "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+          R CMD INSTALL build/V.PhyloMaker2
+          Rscript scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R \
+            --planting /tmp/biodepth_pd_fd_biomass/planting.csv \
+            --out build/biodepth_pd_fd_biomass/tree_source_replay.json \
+            --crosswalk-out /tmp/biodepth_pd_fd_biomass/GBOTB_S3_crosswalk.csv \
+            --distance-out /tmp/biodepth_pd_fd_biomass/GBOTB_S3_patristic.csv
+      - name: Source-only re-qualify 84 height×phylogeny taxa / 150 original planted plots
+        run: |
+          python3 scripts/source/audit_biodepth_gift_gbotb_joint_support_v0_1.py \
+            --species /tmp/biodepth_pd_fd_biomass/species.txt \
+            --codes /tmp/biodepth_pd_fd_biomass/codes.txt \
+            --provenance results/biodepth_2010_species_source_v0_1/gift_height_103taxa_bibliography_qa_v0_1.json \
+            --phylogeny-gate results/biodepth_2010_species_source_v0_1/phylogeny_103taxa_source_qualification_v0_1.json \
+            --tree-crosswalk /tmp/biodepth_pd_fd_biomass/GBOTB_S3_crosswalk.csv \
+            --tree-distances /tmp/biodepth_pd_fd_biomass/GBOTB_S3_patristic.csv \
+            --out build/biodepth_pd_fd_biomass/joint_source_replay.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('build/biodepth_pd_fd_biomass/joint_source_replay.json'))
+          assert a['status']=='BIODEPTH_GBOTB_GIFT_JOINT_SUPPORT_PASS'
+          assert a['joint_original_plots_min3_and_80pct']==150
+          assert a['biomass_records_read']==0 and a['fd_biomass_model_estimates']==0
+          print('OUTCOME_FIREWALL_MANDATORY_SOURCE_GATE_PASS')
+          PY
+      - name: Only after source-only PASS fetch immutable original Community2010 endpoint
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,urllib.request
+          url='https://esapubs.org/archive/ecol/E091/155/BiodepthBiomass.txt'
+          req=urllib.request.Request(url,headers={'User-Agent':'turnover-BIODEPTH-PD-FD-biomass-retrospective-frozen/0.1'})
+          with urllib.request.urlopen(req,timeout=110) as response:raw=response.read(2000001)
+          sha='9d95e65295bf6014e753f474dffa09036718b6b54ad5e1d4eea41c1dde76f886'
+          if len(raw)>2000000 or hashlib.sha256(raw).hexdigest()!=sha:
+            raise ValueError('ORIGINAL_COMMUNITY2010_SOURCE_HOLD')
+          Path('/tmp/biodepth_pd_fd_biomass/community.txt').write_bytes(raw)
+          print('ORIGINAL_SOURCE_2010_COMMUNITY_BYTE_SHA_PASS',len(raw))
+          PY
+      - name: Replay fixed matched 150-plot PD incremental biomass + FD transport
+        run: |
+          python3 scripts/analysis/audit_biodepth_native_vs_s3_fixed_cohort_v0_1.py \
+            --species /tmp/biodepth_pd_fd_biomass/species.txt \
+            --codes /tmp/biodepth_pd_fd_biomass/codes.txt \
+            --design /tmp/biodepth_pd_fd_biomass/design.txt \
+            --community /tmp/biodepth_pd_fd_biomass/community.txt \
+            --provenance results/biodepth_2010_species_source_v0_1/gift_height_103taxa_bibliography_qa_v0_1.json \
+            --phylogeny-gate results/biodepth_2010_species_source_v0_1/phylogeny_103taxa_source_qualification_v0_1.json \
+            --joint-gate results/biodepth_2010_species_source_v0_1/gift_gbotb_joint_source_support_v0_1.json \
+            --tree-crosswalk /tmp/biodepth_pd_fd_biomass/GBOTB_S3_crosswalk.csv \
+            --tree-distances /tmp/biodepth_pd_fd_biomass/GBOTB_S3_patristic.csv \
+            --previous results/biodepth_2010_species_source_v0_1/matched_pd_fd_biomass_source_verified_result_v0_1.json \
+            --out build/biodepth_pd_fd_biomass/native_vs_s3_same102_v0_1.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biodepth-fixed102-native-full-s3-pd-contrast-nonraw
+          path: build/biodepth_pd_fd_biomass/native_vs_s3_same102_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

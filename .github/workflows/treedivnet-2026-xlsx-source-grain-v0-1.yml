@@ -1,0 +1,57 @@
+name: TreeDivNet 2026 original XLSX source grain and checksum inventory
+on:
+  push:
+    branches: [source/independent-trait-biomass-field-20261116]
+    paths:
+      - scripts/source/audit_treedivnet_figshare_workbooks_v0_1.py
+      - .github/workflows/treedivnet-2026-xlsx-source-grain-v0-1.yml
+      - docs/TREEDIVNET_2026_FIGSHARE_SOURCE_GATE_V0_1.md
+  pull_request:
+    paths:
+      - scripts/source/audit_treedivnet_figshare_workbooks_v0_1.py
+      - .github/workflows/treedivnet-2026-xlsx-source-grain-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-scientific-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify read-only XLSX standard-library schema code and original source gate
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_figshare_workbooks_v0_1.py
+          python3 scripts/source/audit_treedivnet_figshare_workbooks_v0_1.py --self-test
+          test -s docs/TREEDIVNET_2026_FIGSHARE_SOURCE_GATE_V0_1.md
+      - name: Download and verify four public Figshare source file checksums, audit original workbook sheets and headers only
+        run: |
+          mkdir -p build/treedivnet_2026_schema
+          python3 scripts/source/audit_treedivnet_figshare_workbooks_v0_1.py \
+            --out build/treedivnet_2026_schema/source_schema_v0_1.json
+      - name: Assert no original biomass/FD effects and original four file source fingerprints
+        run: |
+          python3 - <<'PY'
+          import json
+          v=json.load(open('build/treedivnet_2026_schema/source_schema_v0_1.json'))
+          assert v['status']=='ORIGINAL_XLSX_SCHEMA_INSPECTED'
+          assert v['figshare_article_id']==31026004
+          assert v['original_source_workbooks']==3
+          assert len(v['filename_metadata'])==4
+          assert all(x['verified'] is True for x in v['filename_metadata'])
+          assert v['source_only'] is True
+          assert v['biological_effect_estimated'] is False
+          assert v['no_original_sp_species_rows_or_biomass_values_exported'] is True
+          assert v['all_original_source_files_accessible_without_auth'] is True
+          print('TREE_DIVNET_2026_SOURCE_SCHEMAS_VERIFIED',len(v['source_sheets']))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-original-xlsx-source-sheet-schema-nonraw
+          path: build/treedivnet_2026_schema/source_schema_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

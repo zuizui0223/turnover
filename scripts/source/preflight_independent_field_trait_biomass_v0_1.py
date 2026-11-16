@@ -252,10 +252,26 @@ def dryad_probe() -> dict:
     original={}
     for name in required:
         item=matches[name]
-        file_id=item.get("id")
+        # Dryad version/file listing often returns only HAL self links, not
+        # a top-level numeric `id`; reconstruct only an official numeric ID
+        # from the API's own `/api/v2/files/<id>` metadata link.
+        links=item.get("_links") or {}
+        self_link=((links.get("self") or {}).get("href") or "")
+        file_id=item.get("id") or item.get("fileId")
+        if file_id is None:
+            m=re.search(r"/api/v2/files/([0-9]+)(?:$|[/?#])",str(self_link))
+            if m:file_id=m.group(1)
         size=item.get("size")
+        out.setdefault("public_file_metadata_shape",[]).append({
+            "name":name,"keys":sorted(item),
+            "id_resolved":file_id is not None,
+            "id_from_HAL_self_link":bool(re.search(r"/api/v2/files/[0-9]+",str(self_link))),
+            "reported_size_bytes":size,
+        })
         if file_id is None or size is not None and int(size)>MAX_FILE:
-            out["status"]="DATA_ACCESS_HOLD";out["reason"]="Expected file ID missing or unexpectedly large";return out
+            out["status"]="DATA_ACCESS_HOLD"
+            out["reason"]="Original file ID still unresolved by source HAL metadata or file unexpectedly large; no alternative source invented"
+            return out
         url=ROOT+"/api/v2/files/"+str(file_id)+"/download"
         status,raw,mime=request(url,maxbytes=MAX_FILE)
         if status!=200:

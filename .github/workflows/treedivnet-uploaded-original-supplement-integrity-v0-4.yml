@@ -52,7 +52,7 @@ jobs:
           assert x['source_joined_unique_site_block_plot']==328
           assert x['plots_with_2plus_identical_axis_species_and_valid_DS1_woody_biomass']==186
           report=Path('docs/TREEDIVNET_USER_UPLOADED_SUPPLEMENT_METHODS_S1_S3_RESULTS_V0_4.md').read_text()
-          for key in ('Methods S1','Methods S2','Methods S3','ECOLINK','MataDIV','three-year','283','17','HOLD'):
+          for key in ('Methods S1','Methods S2','Methods S3','ECOLINK','MataDIV','3-year','283','17','HOLD'):
               assert key in report,key
           print('UPLOADED_METHODS_SOURCE_METADATA_INTEGRITY_PASS: DOCX hashed; ECOLINK genotype+3yr cumulative, MataDIV fertilized, 186 source support, time and woody conversion hold')
           PY

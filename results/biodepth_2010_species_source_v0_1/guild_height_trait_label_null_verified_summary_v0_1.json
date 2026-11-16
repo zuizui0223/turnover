@@ -1,0 +1,90 @@
+{
+  "GIFT_bibliography_sha256": "148855c3c03a9c957178fc22ace4765d2968f9e9e0cdb3d83f8a2c6256e9b35e",
+  "design": "docs/BIODEPTH_HEIGHT_TRAIT_LABEL_RANDOMIZATION_DESIGN_V0_1.md",
+  "historical_response_plots": 174,
+  "historical_response_plotyears": 521,
+  "historical_source_field_sites": [
+    "Germany",
+    "Ireland",
+    "Portugal",
+    "Sheffield",
+    "Silwood",
+    "Sweden",
+    "Switzerland"
+  ],
+  "model": "M2 over M1: CWM-adjusted mean absolute pairwise log maximum-height diversity; original M0 includes planted richness, guild flags, original year",
+  "n_permutations": 999,
+  "null_reference_top_2p5pct": false,
+  "null_site_equal_mean": -0.03276411889150564,
+  "null_site_equal_median": -0.030281134283944522,
+  "null_site_equal_min_max": [
+    -0.2801984361895881,
+    0.17045498139694545
+  ],
+  "null_site_equal_q025_q50_q975": [
+    -0.13676865666339877,
+    -0.030281134283944522,
+    0.07421379068412795
+  ],
+  "obs_minus_label_null_median": 0.06858100699665728,
+  "observed_gains_by_site": {
+    "Germany": 0.18556953345006177,
+    "Ireland": 0.17129695359208008,
+    "Portugal": 0.3036821654115809,
+    "Sheffield": -0.27047664240747116,
+    "Silwood": -0.11729660454007385,
+    "Sweden": 0.15035045831696758,
+    "Switzerland": -0.15502675483415596
+  },
+  "observed_site_count_positive": 4,
+  "observed_site_equal_gain": 0.03829987271271277,
+  "previous_source_bootstrap_ci95": [
+    -0.10923099283551194,
+    0.18286004882552367
+  ],
+  "seed": 20261116,
+  "source_GIFT_height_species_fingerprint_sha256": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "source_eligibility": {
+    "ambiguous_species_heights_held_fixed": 37,
+    "contradictory_species_heights_held_fixed": 0,
+    "height_species_per_guild": {
+      "forb": 21,
+      "grass": 21,
+      "legume": 9
+    },
+    "inferred_unambiguous_GIFT_height_species": 51,
+    "original_GIFT_height_taxa_count": 88,
+    "original_original_sown_taxa_count": 103,
+    "source_eligible_plots_with_at_least_two_permutable_species": 174,
+    "source_sites_for_eligible_plots": {
+      "Germany": 26,
+      "Ireland": 32,
+      "Portugal": 14,
+      "Sheffield": 20,
+      "Silwood": 32,
+      "Sweden": 22,
+      "Switzerland": 28
+    },
+    "thresholds": {
+      "min_each_guild_height_species": 5,
+      "min_original_plots_with_two_permutable_species": 80,
+      "min_unique_guild_height_species": 45
+    }
+  },
+  "source_original_response_editions": "Hector2010 Community only; never Spehn2005 Shoots",
+  "status": "POSTRESULT_GUILD_STRATIFIED_SPECIES_HEIGHT_LABEL_NULL_COMPLETED",
+  "upper_tail_p_with_plus_one": 0.063,
+  "version": "v0.1",
+  "versions": {
+    "numpy": "2.3.4",
+    "python": "3.12.16"
+  },
+  "result_capture": {
+    "source": "Exact GitHub Actions stdout JSON of completed true original-source run; per-site null distributions retained in full signed artifact but not stdout summary",
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43805372379",
+    "artifact_id": 14198695474,
+    "artifact_name": "biodepth-2010-guild-conditioned-height-label-null-aggregate",
+    "artifact_digest": "sha256:79b789e39679cd412e9d8a4e72b7c1347c8a43c6564a9e0e2880b627028f250e",
+    "completed_at_utc": "2026-11-16T04:41:30Z"
+  }
+}

@@ -5,11 +5,13 @@ on:
     paths:
       - docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md
       - scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py
+      - results/treedivnet_original_plot_local_SLA_LNCM_80pct_source_coverage_v0_1.json
       - .github/workflows/treedivnet-plot-local-sla-lncm-woody-site-holdout-v0-1.yml
   pull_request:
     paths:
       - docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md
       - scripts/analysis/fit_treedivnet_plot_observed_twoaxis_fd_woody_source_site_holdout_v0_1.py
+      - results/treedivnet_original_plot_local_SLA_LNCM_80pct_source_coverage_v0_1.json
       - .github/workflows/treedivnet-plot-local-sla-lncm-woody-site-holdout-v0-1.yml
   workflow_dispatch:
 permissions:

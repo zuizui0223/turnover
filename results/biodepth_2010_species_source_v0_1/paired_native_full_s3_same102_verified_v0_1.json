@@ -1,0 +1,380 @@
+{
+  "all_models_heldout_by_entire_original_field": true,
+  "design": "docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_DIAGNOSTIC_V0_1.md",
+  "historical_outcomes_seen_prior_to_new_design": true,
+  "n_distinct_original_source_sites": 7,
+  "new_102_cohort_full_CWM_FD_with_native_PD": {
+    "mass_PD_increment": {
+      "bootstrap_seed": 20261116,
+      "bootstrap_site_draws": 10000,
+      "n_independent_source_sites": 7,
+      "n_sites_positive": 3,
+      "positive_source_transport_supported": false,
+      "site_bootstrap_ci95": [
+        -0.06878470767881281,
+        -0.0059458511890777554
+      ],
+      "site_equal_SSE_improvement_pct": -3.5146881350710535,
+      "site_equal_mean_gain": -0.035146881350710535,
+      "site_records": [
+        {
+          "baseline_sse": 38.01764040202182,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.08584015523210953,
+          "site": "Germany",
+          "with_pd_sse": 41.28108055568989
+        },
+        {
+          "baseline_sse": 118.63320287838616,
+          "n_units": 77,
+          "pd_incremental_SSE_gain": 0.005048177564898282,
+          "site": "Ireland",
+          "with_pd_sse": 118.03432140516347
+        },
+        {
+          "baseline_sse": 40.860700016990926,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": 0.0038682305878439127,
+          "site": "Portugal",
+          "with_pd_sse": 40.70264140734449
+        },
+        {
+          "baseline_sse": 50.38246577122061,
+          "n_units": 54,
+          "pd_incremental_SSE_gain": 0.001859444115274167,
+          "site": "Sheffield",
+          "with_pd_sse": 50.28878239172931
+        },
+        {
+          "baseline_sse": 11.19996290536175,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.02778335610273075,
+          "site": "Silwood",
+          "with_pd_sse": 11.51113546309879
+        },
+        {
+          "baseline_sse": 221.35254022461814,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.03034112919194798,
+          "site": "Sweden",
+          "with_pd_sse": 228.06862624453913
+        },
+        {
+          "baseline_sse": 18.71834023946319,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": -0.11283938119620185,
+          "site": "Switzerland",
+          "with_pd_sse": 20.83050616910418
+        }
+      ]
+    },
+    "plot_years": 305,
+    "plots": 102,
+    "source_tree_and_trait": "full-S3 CWM/FD fixed; native-only PD predictor"
+  },
+  "new_102_cohort_full_S3": {
+    "mass_PD_increment": {
+      "bootstrap_seed": 20261116,
+      "bootstrap_site_draws": 10000,
+      "n_independent_source_sites": 7,
+      "n_sites_positive": 3,
+      "positive_source_transport_supported": false,
+      "site_bootstrap_ci95": [
+        -0.07667589896765,
+        -0.010258305516903744
+      ],
+      "site_equal_SSE_improvement_pct": -4.008463029040919,
+      "site_equal_mean_gain": -0.04008463029040919,
+      "site_records": [
+        {
+          "baseline_sse": 38.01764040202182,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.0762661748445399,
+          "site": "Germany",
+          "with_pd_sse": 40.91710041209926
+        },
+        {
+          "baseline_sse": 118.63320287838616,
+          "n_units": 77,
+          "pd_incremental_SSE_gain": 0.0026228990429441046,
+          "site": "Ireland",
+          "with_pd_sse": 118.32203996409504
+        },
+        {
+          "baseline_sse": 40.860700016990926,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": 1.9811992435503356e-7,
+          "site": "Portugal",
+          "with_pd_sse": 40.86069192167213
+        },
+        {
+          "baseline_sse": 50.38246577122061,
+          "n_units": 54,
+          "pd_incremental_SSE_gain": 0.001091956183291054,
+          "site": "Sheffield",
+          "with_pd_sse": 50.32745032619228
+        },
+        {
+          "baseline_sse": 11.19996290536175,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.0485432980626761,
+          "site": "Silwood",
+          "with_pd_sse": 11.74364604296764
+        },
+        {
+          "baseline_sse": 221.35254022461814,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.030703707321457108,
+          "site": "Sweden",
+          "with_pd_sse": 228.1488838345359
+        },
+        {
+          "baseline_sse": 18.71834023946319,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": -0.12879428515035074,
+          "site": "Switzerland",
+          "with_pd_sse": 21.129155489805896
+        }
+      ]
+    },
+    "plot_years": 305,
+    "plots": 102,
+    "source_tree_and_trait": "full S3 species/tip coverage but exact native-supported plots"
+  },
+  "no_original_family_K_or_BIEN_rho_matched": true,
+  "original_150_cohort": {
+    "mass_PD_increment": {
+      "bootstrap_seed": 20261116,
+      "bootstrap_site_draws": 10000,
+      "n_independent_source_sites": 7,
+      "n_sites_positive": 4,
+      "positive_source_transport_supported": false,
+      "site_bootstrap_ci95": [
+        -0.072913681193667,
+        0.031512177082422786
+      ],
+      "site_equal_SSE_improvement_pct": -1.4511753119435358,
+      "site_equal_mean_gain": -0.014511753119435358,
+      "site_records": [
+        {
+          "baseline_sse": 50.26381281076894,
+          "n_units": 78,
+          "pd_incremental_SSE_gain": -0.162264793457791,
+          "site": "Germany",
+          "with_pd_sse": 58.41986001490943
+        },
+        {
+          "baseline_sse": 124.51694084647062,
+          "n_units": 77,
+          "pd_incremental_SSE_gain": 0.018110156781012576,
+          "site": "Ireland",
+          "with_pd_sse": 122.26191952584897
+        },
+        {
+          "baseline_sse": 35.353013975645254,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": 0.01713954081185065,
+          "site": "Portugal",
+          "with_pd_sse": 34.747079549787756
+        },
+        {
+          "baseline_sse": 50.70278287871002,
+          "n_units": 60,
+          "pd_incremental_SSE_gain": 0.0087221513614274,
+          "site": "Sheffield",
+          "with_pd_sse": 50.26054553199632
+        },
+        {
+          "baseline_sse": 15.73906908559666,
+          "n_units": 72,
+          "pd_incremental_SSE_gain": 0.07556175824261202,
+          "site": "Silwood",
+          "with_pd_sse": 14.549797352387037
+        },
+        {
+          "baseline_sse": 302.2452752020012,
+          "n_units": 54,
+          "pd_incremental_SSE_gain": -0.00006705612482904577,
+          "site": "Sweden",
+          "with_pd_sse": 302.2655425989042
+        },
+        {
+          "baseline_sse": 49.238909303519186,
+          "n_units": 84,
+          "pd_incremental_SSE_gain": -0.05878402945033012,
+          "site": "Switzerland",
+          "with_pd_sse": 52.133370798119394
+        }
+      ]
+    },
+    "plot_years": 449,
+    "plots": 150,
+    "source_tree_and_trait": "all S3 source-covered taxa (84 candidate species)"
+  },
+  "original_current_source_response": "Hector2010 Community only, equal species planned weights; no same-year response-derived trait weighting",
+  "paired_comparison_A_full_150_to_full_102": {
+    "bootstrap_seed": 20261116,
+    "interpretation": "Descriptive within-original-source-site comparison, not independent causal intervention",
+    "mean_gains_difference": -0.025572877170973833,
+    "mean_gains_difference_pp": -2.5572877170973833,
+    "n_sites_difference_positive": 1,
+    "name": "sample restriction holding source S3 feature definition",
+    "per_site_difference_pp": {
+      "Germany": 8.59986186132511,
+      "Ireland": -1.5487257738068472,
+      "Portugal": -1.7139342691926296,
+      "Sheffield": -0.7630195178136345,
+      "Silwood": -12.410505630528812,
+      "Sweden": -3.063665119662806,
+      "Switzerland": -7.001025570002062
+    },
+    "site_paired_bootstrap_ci95_pp": [
+      -6.972315106943691,
+      1.9176500891995414
+    ],
+    "site_resampling_iterations": 10000
+  },
+  "paired_comparison_B_full_102_to_native_102": {
+    "bootstrap_seed": 20261116,
+    "interpretation": "Descriptive within-original-source-site comparison, not independent causal intervention",
+    "mean_gains_difference": 0.005083123135360872,
+    "mean_gains_difference_pp": 0.5083123135360872,
+    "n_sites_difference_positive": 4,
+    "name": "native-tip traits+PD with 102 plots fixed",
+    "per_site_difference_pp": {
+      "Germany": -0.22531866877224527,
+      "Ireland": 0.28669365496494237,
+      "Portugal": -0.34742880794237374,
+      "Sheffield": 0.040453606898183114,
+      "Silwood": 0.31916382190182446,
+      "Sweden": -0.5654506788942859,
+      "Switzerland": 4.0500732665965655
+    },
+    "site_paired_bootstrap_ci95_pp": [
+      -0.26400861278272425,
+      1.747297172094337
+    ],
+    "site_resampling_iterations": 10000
+  },
+  "paired_comparison_C_full_102_PD_to_native_102_PD_given_same_CWM_FD": {
+    "bootstrap_seed": 20261116,
+    "interpretation": "Descriptive within-original-source-site comparison, not independent causal intervention",
+    "mean_gains_difference": 0.004937748939698656,
+    "mean_gains_difference_pp": 0.4937748939698656,
+    "n_sites_difference_positive": 6,
+    "name": "only PD predictor species subset changed with full-S3 CWM and FD baseline held exactly fixed",
+    "per_site_difference_pp": {
+      "Germany": -0.9573980387569625,
+      "Ireland": 0.24252785219541773,
+      "Portugal": 0.38680324679195577,
+      "Sheffield": 0.0767487931983113,
+      "Silwood": 2.075994195994535,
+      "Sweden": 0.03625781295091279,
+      "Switzerland": 1.5954903954148891
+    },
+    "site_paired_bootstrap_ci95_pp": [
+      -0.16231436563234494,
+      1.218652171079478
+    ],
+    "site_resampling_iterations": 10000
+  },
+  "parent_original_150_and_102_site_sse_verified_exact": true,
+  "replayed_102_native_cohort": {
+    "mass_PD_increment": {
+      "bootstrap_seed": 20261116,
+      "bootstrap_site_draws": 10000,
+      "n_independent_source_sites": 7,
+      "n_sites_positive": 2,
+      "positive_source_transport_supported": false,
+      "site_bootstrap_ci95": [
+        -0.06191251309133218,
+        -0.010736932550595102
+      ],
+      "site_equal_SSE_improvement_pct": -3.5001507155048315,
+      "site_equal_mean_gain": -0.035001507155048316,
+      "site_records": [
+        {
+          "baseline_sse": 39.516570796336715,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.07851936153226236,
+          "site": "Germany",
+          "with_pd_sse": 42.619386705209514
+        },
+        {
+          "baseline_sse": 118.48849818673793,
+          "n_units": 77,
+          "pd_incremental_SSE_gain": 0.005489835592593528,
+          "site": "Ireland",
+          "with_pd_sse": 117.83801581207942
+        },
+        {
+          "baseline_sse": 46.618716408065495,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": -0.0034740899594993824,
+          "site": "Portugal",
+          "with_pd_sse": 46.780674022663504
+        },
+        {
+          "baseline_sse": 48.68751754659859,
+          "n_units": 54,
+          "pd_incremental_SSE_gain": 0.0014964922522728852,
+          "site": "Sheffield",
+          "with_pd_sse": 48.614657053807704
+        },
+        {
+          "baseline_sse": 11.24079904784558,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.045351659843657854,
+          "site": "Silwood",
+          "with_pd_sse": 11.750587942634386
+        },
+        {
+          "baseline_sse": 235.37212997161652,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.03635821411039997,
+          "site": "Sweden",
+          "with_pd_sse": 243.92984026874544
+        },
+        {
+          "baseline_sse": 19.99778775855125,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": -0.08829355248438508,
+          "site": "Switzerland",
+          "with_pd_sse": 21.763463481582487
+        }
+      ]
+    },
+    "plot_years": 305,
+    "plots": 102,
+    "source_tree_and_trait": "only native backbone species (78 candidate species)"
+  },
+  "source_original_GIFT_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "source_structure": {
+    "all_seven_source_site_baselines_rank_qualified": true,
+    "full_vs_native_plot_year_identity_fixed": true,
+    "n_102_plots_with_different_CWM_or_FD": 34,
+    "n_102_plots_with_different_PD_value": 34,
+    "n_102_plots_with_more_S3_tip_coverage_than_native": 34,
+    "native_source_plots": 102,
+    "native_source_plots_by_site": {
+      "Germany": 14,
+      "Ireland": 26,
+      "Portugal": 8,
+      "Sheffield": 18,
+      "Silwood": 14,
+      "Sweden": 14,
+      "Switzerland": 8
+    }
+  },
+  "status": "POSTRESULT_PAIRED_102_NATIVE_S3_COHORT_DIAGNOSTIC_ESTIMATED",
+  "verified_source": {
+    "workflow_run": "https://github.com/zuizui0223/turnover/actions/runs/43828231403",
+    "workflow_run_id": 43828231403,
+    "job_id": 133167028626,
+    "artifact_id": 14207851720,
+    "artifact_name": "biodepth-fixed102-native-full-s3-pd-contrast-nonraw",
+    "artifact_sha256": "28de2f2550066b67a371525b78a82a9ef21ef6da1bc04191839dde9e873935b4",
+    "original_historical_150_and_102_replayed": true,
+    "github_run_conclusion": "success"
+  }
+}

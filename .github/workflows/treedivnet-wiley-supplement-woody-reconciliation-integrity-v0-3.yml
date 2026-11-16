@@ -58,7 +58,7 @@ jobs:
           assert sup['verified_artifact_id']==14227450972
           assert sup['verified_artifact_sha256']=='sha256:77559918aa11afcc3987f3256724d2ce2053bfb8e4dbdffc78b6a9a331105d25'
           doc=Path('docs/TREEDIVNET_WILEY_SUPPLEMENT_AND_WOODY_SOURCE_RECONCILIATION_RESULTS_V0_3.md').read_text()
-          for mark in ('321/328','135/328','HTTP 403','TEMPORAL ALIGNMENT','do **not**','HOLD','186'):
+          for mark in ('321/328','135/328','HTTP 403','biomass–trait measurement timing','do **not**','HOLD','186'):
               assert mark in doc,mark
           print('SOURCE_AND_NUMERIC_IDENTITY_INTEGRITY_PASS: 328 plot joins, 321 mean/denom, 7 remaining, Wiley files 403; no ecological effects')
           PY

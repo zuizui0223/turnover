@@ -175,6 +175,17 @@ def audit()->dict:
     yearfields={name:[h for h in headers if any(q in h.casefold() for q in ("year","date","time"))]
            for name,headers in [("DS1",c1),("DS2",c2)]}
     has_year=bool(yearfields["DS1"]) and bool(yearfields["DS2"])
+    # Original authors' README is not a biological-response row. Preserve
+    # only bounded source documentation around provenance/measurement
+    # descriptions to assess whether published DS2 values are individual,
+    # plot-aggregated, monoculture-based or literature-filled.
+    readme=fetch_file("README.txt").decode("utf-8-sig",errors="replace").splitlines()
+    related=set()
+    for i,line in enumerate(readme):
+        if re.search(r"\\bDS[123]\\b|measure|source|literature|mono|trait|species|biomass|year|missing|plot|experiment",line,re.I):
+            related.update(range(max(i-1,0),min(i+2,len(readme))))
+    documentation=[{"line":i+1,"text":" ".join(readme[i].split())[:180]} for i in sorted(related)
+                   if readme[i].strip()]
     source_structure=(len(any2)>=80 and len(core_species)>=20 and source_fields>=5)
     # Do not mark original *primary measurements* as confirmed by mere presence
     # of plot-level species trait values: the publication says some traits
@@ -218,6 +229,7 @@ def audit()->dict:
                "min_experiments_with_8plots":5,"min_unique_species":20,
                "min_eligible_species_per_plot":2},
       "source_structural_plot_support_pass":source_structure,
+      "original_source_readme_measurement_documentation":documentation[:90],
       "source_first_effect_gate_pass":False,
       "reason":"Original species-plot traits and plot woody biomass can be structurally joined, but source direct-vs-monoculture-vs-literature trait provenance and original observation-year alignment cannot be proven from DS2/DS1 workbook fields alone. Supplementary measurement provenance and dated study documentation required before novel effect.",
       "biological_effect_estimated":False,

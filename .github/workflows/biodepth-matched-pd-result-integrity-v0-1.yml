@@ -1,0 +1,86 @@
+name: Verify archived original BIODEPTH matched PD/FD/mass source result
+on:
+  push:
+    branches: [analysis/biodepth-pd-fd-biomass-transport-20261116]
+    paths:
+      - results/biodepth_2010_species_source_v0_1/matched_pd_fd_biomass_source_verified_result_v0_1.json
+      - docs/BIODEPTH_MATCHED_PD_FD_BIOMASS_RESULTS_V0_1.md
+      - .github/workflows/biodepth-matched-pd-result-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source-only qualified population and exact site-sse arithmetic
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          d=Path('results/biodepth_2010_species_source_v0_1')
+          out=json.loads((d/'matched_pd_fd_biomass_source_verified_result_v0_1.json').read_text())
+          src=json.loads((d/'gift_gbotb_joint_source_support_v0_1.json').read_text())
+          tree=json.loads((d/'phylogeny_103taxa_source_qualification_v0_1.json').read_text())
+          gift=json.loads((d/'gift_height_103taxa_bibliography_qa_v0_1.json').read_text())
+          assert out['status']=='POSTRESULT_BIODEPTH_MATCHED_PD_FD_BIOMASS_ESTIMATED'
+          assert out['post_result_exploratory'] is True
+          assert out['source_Community2010_response_only'] is True
+          assert out['no_original_BIEN_trait_memory_rho_or_AusTraits_K_tested'] is True
+          assert tree['status']=='BIODEPTH_GBOTB_S3_SOURCE_COVERAGE_PASS'
+          assert tree['n_S3_eligible']==98 and tree['n_native_tips']==80
+          assert src['status']=='BIODEPTH_GBOTB_GIFT_JOINT_SUPPORT_PASS'
+          assert src['joint_height_phylogeny_species']==84
+          assert src['joint_height_phylogeny_native_taxa']==78
+          assert src['joint_height_phylogeny_families']==17
+          assert out['source_original_matched_plots']==src['joint_original_plots_min3_and_80pct']==150
+          assert out['source_original_matched_site_counts']==src['joint_original_sites']
+          assert out['source_matched_plot_year_numeric_responses']==449
+          assert out['original_GIFT_species_fingerprint']==gift['GIFT_original_target_species_height_and_reference_fingerprint_sha256']
+          primary=out['primary_biomass_incremental_PD_over_FD_and_CWM']
+          fd=out['secondary_planted_height_FD_predictable_by_PD']
+          native=out['mandatory_native_only_sensitivity']
+          assert native['status']=='ESTIMATED_SEPARATE_NATIVE_ONLY_COHORT'
+          assert native['n_plots']==102 and native['source_plot_years']==305
+          assert sum(out['source_original_matched_site_counts'].values())==150
+          def validate(d,expected_units,expected_positive):
+              sites=d['site_records']
+              assert len(sites)==7 and sum(x['n_units'] for x in sites)==expected_units
+              for row in sites:
+                  v=1-row['with_pd_sse']/row['baseline_sse']
+                  assert math.isclose(v,row['pd_incremental_SSE_gain'],abs_tol=1e-10)
+              mean=sum(row['pd_incremental_SSE_gain'] for row in sites)/7
+              assert math.isclose(mean,d['site_equal_mean_gain'],abs_tol=1e-10)
+              assert math.isclose(100*mean,d['site_equal_SSE_improvement_pct'],abs_tol=1e-10)
+              assert sum(row['pd_incremental_SSE_gain']>0 for row in sites)==expected_positive==d['n_sites_positive']
+              assert d['positive_source_transport_supported'] is False
+              assert d['site_bootstrap_ci95'][0]<d['site_bootstrap_ci95'][1]
+              return mean
+          p=validate(primary,449,4)
+          f=validate(fd,150,5)
+          n=validate(native['prediction'],305,2)
+          assert math.isclose(100*p,-1.4511753119435358,abs_tol=1e-8)
+          assert math.isclose(100*f,-1.4782602083368346,abs_tol=1e-8)
+          assert math.isclose(100*n,-3.5001507155048315,abs_tol=1e-8)
+          def check_influence(key,scores):
+              influence=out['site_influence_descriptive'][key]
+              assert len(influence['loo'])==7
+              for rec in influence['loo']:
+                  removed=rec['heldout']
+                  rest=[v['pd_incremental_SSE_gain'] for v in scores['site_records'] if v['site']!=removed]
+                  assert len(rest)==6
+                  assert math.isclose(sum(rest)/6,rec['rest6'],abs_tol=1e-12)
+          check_influence('primary_biomass',primary)
+          check_influence('secondary_fd',fd)
+          check_influence('native_only_biomass',native['prediction'])
+          evidence=out['verified_source']
+          assert evidence['run_url']=='https://github.com/zuizui0223/turnover/actions/runs/43821005183'
+          assert evidence['artifact_id']==14204598003
+          assert evidence['artifact_digest']=='sha256:43fec0dfe9b2e8d915b2f5529db0406812db688ba7babdc1119a35a015b2aec6'
+          doc=Path('docs/BIODEPTH_MATCHED_PD_FD_BIOMASS_RESULTS_V0_1.md').read_text()
+          for mark in ('−1.451%','−1.478%','−3.500%','449','150','84','102','not','HOLD'):
+              assert mark in doc,mark
+          print('ARCHIVED_BIODEPTH_PD_TRANSPORT_INTEGRITY_PASS; -1.45% mass; -1.48% FD; -3.50% native; no K or causal claim')
+          PY

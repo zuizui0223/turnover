@@ -1,0 +1,349 @@
+{
+  "PD": "mean pairwise patristic distance on original S3 dated phylogeny among same species as height FD",
+  "interpretation": "new phylogenetic source breadth is not trait-specific memory K or causal mediation",
+  "mandatory_native_only_sensitivity": {
+    "n_plots": 102,
+    "n_sites_at_least8": 7,
+    "prediction": {
+      "bootstrap_seed": 20261116,
+      "bootstrap_site_draws": 10000,
+      "n_independent_source_sites": 7,
+      "n_sites_positive": 2,
+      "positive_source_transport_supported": false,
+      "site_bootstrap_ci95": [
+        -0.06191251309133218,
+        -0.010736932550595102
+      ],
+      "site_equal_SSE_improvement_pct": -3.5001507155048315,
+      "site_equal_mean_gain": -0.035001507155048316,
+      "site_records": [
+        {
+          "baseline_sse": 39.516570796336715,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.07851936153226236,
+          "site": "Germany",
+          "with_pd_sse": 42.619386705209514
+        },
+        {
+          "baseline_sse": 118.48849818673793,
+          "n_units": 77,
+          "pd_incremental_SSE_gain": 0.005489835592593528,
+          "site": "Ireland",
+          "with_pd_sse": 117.83801581207942
+        },
+        {
+          "baseline_sse": 46.618716408065495,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": -0.0034740899594993824,
+          "site": "Portugal",
+          "with_pd_sse": 46.780674022663504
+        },
+        {
+          "baseline_sse": 48.68751754659859,
+          "n_units": 54,
+          "pd_incremental_SSE_gain": 0.0014964922522728852,
+          "site": "Sheffield",
+          "with_pd_sse": 48.614657053807704
+        },
+        {
+          "baseline_sse": 11.24079904784558,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.045351659843657854,
+          "site": "Silwood",
+          "with_pd_sse": 11.750587942634386
+        },
+        {
+          "baseline_sse": 235.37212997161652,
+          "n_units": 42,
+          "pd_incremental_SSE_gain": -0.03635821411039997,
+          "site": "Sweden",
+          "with_pd_sse": 243.92984026874544
+        },
+        {
+          "baseline_sse": 19.99778775855125,
+          "n_units": 24,
+          "pd_incremental_SSE_gain": -0.08829355248438508,
+          "site": "Switzerland",
+          "with_pd_sse": 21.763463481582487
+        }
+      ]
+    },
+    "source_original_sites": {
+      "Germany": 14,
+      "Ireland": 26,
+      "Portugal": 8,
+      "Sheffield": 18,
+      "Silwood": 14,
+      "Sweden": 14,
+      "Switzerland": 8
+    },
+    "source_plot_years": 305,
+    "status": "ESTIMATED_SEPARATE_NATIVE_ONLY_COHORT"
+  },
+  "no_original_BIEN_trait_memory_rho_or_AusTraits_K_tested": true,
+  "original_GIFT_species_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "post_result_exploratory": true,
+  "primary_biomass_incremental_PD_over_FD_and_CWM": {
+    "bootstrap_seed": 20261116,
+    "bootstrap_site_draws": 10000,
+    "n_independent_source_sites": 7,
+    "n_sites_positive": 4,
+    "positive_source_transport_supported": false,
+    "site_bootstrap_ci95": [
+      -0.072913681193667,
+      0.031512177082422786
+    ],
+    "site_equal_SSE_improvement_pct": -1.4511753119435358,
+    "site_equal_mean_gain": -0.014511753119435358,
+    "site_records": [
+      {
+        "baseline_sse": 50.26381281076894,
+        "n_units": 78,
+        "pd_incremental_SSE_gain": -0.162264793457791,
+        "site": "Germany",
+        "with_pd_sse": 58.41986001490943
+      },
+      {
+        "baseline_sse": 124.51694084647062,
+        "n_units": 77,
+        "pd_incremental_SSE_gain": 0.018110156781012576,
+        "site": "Ireland",
+        "with_pd_sse": 122.26191952584897
+      },
+      {
+        "baseline_sse": 35.353013975645254,
+        "n_units": 24,
+        "pd_incremental_SSE_gain": 0.01713954081185065,
+        "site": "Portugal",
+        "with_pd_sse": 34.747079549787756
+      },
+      {
+        "baseline_sse": 50.70278287871002,
+        "n_units": 60,
+        "pd_incremental_SSE_gain": 0.0087221513614274,
+        "site": "Sheffield",
+        "with_pd_sse": 50.26054553199632
+      },
+      {
+        "baseline_sse": 15.73906908559666,
+        "n_units": 72,
+        "pd_incremental_SSE_gain": 0.07556175824261202,
+        "site": "Silwood",
+        "with_pd_sse": 14.549797352387037
+      },
+      {
+        "baseline_sse": 302.2452752020012,
+        "n_units": 54,
+        "pd_incremental_SSE_gain": -0.00006705612482904577,
+        "site": "Sweden",
+        "with_pd_sse": 302.2655425989042
+      },
+      {
+        "baseline_sse": 49.238909303519186,
+        "n_units": 84,
+        "pd_incremental_SSE_gain": -0.05878402945033012,
+        "site": "Switzerland",
+        "with_pd_sse": 52.133370798119394
+      }
+    ]
+  },
+  "response": "log1p original Hector 2010 Community standing aboveground biomass g/m2",
+  "secondary_planted_height_FD_predictable_by_PD": {
+    "bootstrap_seed": 20261116,
+    "bootstrap_site_draws": 10000,
+    "n_independent_source_sites": 7,
+    "n_sites_positive": 5,
+    "positive_source_transport_supported": false,
+    "site_bootstrap_ci95": [
+      -0.13884184722343246,
+      0.07031417168705877
+    ],
+    "site_equal_SSE_improvement_pct": -1.4782602083368346,
+    "site_equal_mean_gain": -0.014782602083368346,
+    "site_records": [
+      {
+        "baseline_sse": 0.3109308738669601,
+        "n_units": 26,
+        "pd_incremental_SSE_gain": 0.0502140793974194,
+        "site": "Germany",
+        "with_pd_sse": 0.2953177662794956
+      },
+      {
+        "baseline_sse": 0.2974972708195232,
+        "n_units": 26,
+        "pd_incremental_SSE_gain": -0.3679967954279373,
+        "site": "Ireland",
+        "with_pd_sse": 0.40697531312966495
+      },
+      {
+        "baseline_sse": 0.23679600142060836,
+        "n_units": 8,
+        "pd_incremental_SSE_gain": -0.06206664765481906,
+        "site": "Portugal",
+        "with_pd_sse": 0.2514931354068513
+      },
+      {
+        "baseline_sse": 0.16017310051209532,
+        "n_units": 20,
+        "pd_incremental_SSE_gain": 0.05365453812543741,
+        "site": "Sheffield",
+        "with_pd_sse": 0.1515790867839996
+      },
+      {
+        "baseline_sse": 0.19727618003626926,
+        "n_units": 24,
+        "pd_incremental_SSE_gain": 0.07197501198859213,
+        "site": "Silwood",
+        "with_pd_sse": 0.1830772246130951
+      },
+      {
+        "baseline_sse": 0.20478421158207488,
+        "n_units": 18,
+        "pd_incremental_SSE_gain": 0.10043053633218602,
+        "site": "Sweden",
+        "with_pd_sse": 0.18421762338052325
+      },
+      {
+        "baseline_sse": 0.25131070627541774,
+        "n_units": 28,
+        "pd_incremental_SSE_gain": 0.05031106265554297,
+        "site": "Switzerland",
+        "with_pd_sse": 0.23866699758598645
+      }
+    ]
+  },
+  "source_Community2010_response_only": true,
+  "source_gates": "source-only 98/103 S3 phylogeny PASS and 84-taxon / 150-plot GIFT join PASS",
+  "source_matched_plot_year_numeric_responses": 449,
+  "source_original_matched_plots": 150,
+  "source_original_matched_site_counts": {
+    "Germany": 26,
+    "Ireland": 26,
+    "Portugal": 8,
+    "Sheffield": 20,
+    "Silwood": 24,
+    "Sweden": 18,
+    "Switzerland": 28
+  },
+  "source_species_weights": "equal original sown species across the same S3+GIFT joint-covered taxa",
+  "status": "POSTRESULT_BIODEPTH_MATCHED_PD_FD_BIOMASS_ESTIMATED",
+  "version": "v0.1",
+  "verified_source": {
+    "run_url": "https://github.com/zuizui0223/turnover/actions/runs/43821005183",
+    "job_id": 133143826157,
+    "artifact_id": 14204598003,
+    "artifact_digest": "sha256:43fec0dfe9b2e8d915b2f5529db0406812db688ba7babdc1119a35a015b2aec6",
+    "claim": "Retrospective originally source-qualified 150 source plots, original immutable Hector2010 Community, V.PhyloMaker2 pinned S3 and GIFT source fingerprints; no 201 family-by-trait Blomberg K/rho measured"
+  },
+  "site_influence_descriptive": {
+    "primary_biomass": {
+      "minLOO": -0.029524005013109922,
+      "maxLOO": 0.010113753603623913,
+      "positivesLOO": [
+        "Germany"
+      ],
+      "loo": [
+        {
+          "heldout": "Germany",
+          "rest6": 0.010113753603623913
+        },
+        {
+          "heldout": "Ireland",
+          "rest6": -0.01994873810284335
+        },
+        {
+          "heldout": "Portugal",
+          "rest6": -0.019786968774649694
+        },
+        {
+          "heldout": "Sheffield",
+          "rest6": -0.018384070532912484
+        },
+        {
+          "heldout": "Silwood",
+          "rest6": -0.029524005013109922
+        },
+        {
+          "heldout": "Sweden",
+          "rest6": -0.01691920261853641
+        },
+        {
+          "heldout": "Switzerland",
+          "rest6": -0.007133040397619565
+        }
+      ]
+    },
+    "secondary_fd": {
+      "minLOO": -0.03398479181929407,
+      "maxLOO": 0.044086430140726475,
+      "positivesLOO": [
+        "Ireland"
+      ],
+      "loo": [
+        {
+          "heldout": "Germany",
+          "rest6": -0.025615382330166303
+        },
+        {
+          "heldout": "Ireland",
+          "rest6": 0.044086430140726475
+        },
+        {
+          "heldout": "Portugal",
+          "rest6": -0.006901927821459893
+        },
+        {
+          "heldout": "Sheffield",
+          "rest6": -0.026188792118169307
+        },
+        {
+          "heldout": "Silwood",
+          "rest6": -0.02924220442869509
+        },
+        {
+          "heldout": "Sweden",
+          "rest6": -0.03398479181929407
+        },
+        {
+          "heldout": "Switzerland",
+          "rest6": -0.025631546206520233
+        }
+      ]
+    },
+    "native_only_biomass": {
+      "minLOO": -0.041750064279655295,
+      "maxLOO": -0.026119499600158858,
+      "positivesLOO": [],
+      "loo": [
+        {
+          "heldout": "Germany",
+          "rest6": -0.027748531425512646
+        },
+        {
+          "heldout": "Ireland",
+          "rest6": -0.041750064279655295
+        },
+        {
+          "heldout": "Portugal",
+          "rest6": -0.04025607668763981
+        },
+        {
+          "heldout": "Sheffield",
+          "rest6": -0.04108450705626852
+        },
+        {
+          "heldout": "Silwood",
+          "rest6": -0.03327648170694673
+        },
+        {
+          "heldout": "Sweden",
+          "rest6": -0.03477538932915638
+        },
+        {
+          "heldout": "Switzerland",
+          "rest6": -0.026119499600158858
+        }
+      ]
+    }
+  }
+}

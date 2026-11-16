@@ -1,0 +1,62 @@
+name: Independent NASA ORNL + Dryad original field-trait x biomass source gate
+on:
+  push:
+    branches:
+      - source/independent-trait-biomass-field-20261116
+    paths:
+      - docs/INDEPENDENT_PLOT_TRAIT_BIOMASS_SOURCE_ROUTE_20261116.md
+      - scripts/source/preflight_independent_field_trait_biomass_v0_1.py
+      - .github/workflows/independent-primary-trait-biomass-source-preflight-v0-1.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_PLOT_TRAIT_BIOMASS_SOURCE_ROUTE_20261116.md
+      - scripts/source/preflight_independent_field_trait_biomass_v0_1.py
+      - .github/workflows/independent-primary-trait-biomass-source-preflight-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-eligibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen design, python parser, and no outcome fitting
+        run: |
+          python3 -m py_compile scripts/source/preflight_independent_field_trait_biomass_v0_1.py
+          python3 scripts/source/preflight_independent_field_trait_biomass_v0_1.py --self-test
+          test -s docs/INDEPENDENT_PLOT_TRAIT_BIOMASS_SOURCE_ROUTE_20261116.md
+          mkdir -p build/independent_field_trait_biomass
+      - name: Probe official NASA ORNL CMR and Dryad 2026 source only (bounded original file inspection)
+        run: |
+          python3 scripts/source/preflight_independent_field_trait_biomass_v0_1.py \
+            --out build/independent_field_trait_biomass/source_gate_v0_1.json
+      - name: Fail closed on missing audit or ecological response leakage
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('build/independent_field_trait_biomass/source_gate_v0_1.json').read_text())
+          assert x['main_result']=='SOURCE_ONLY_NO_BIOLOGICAL_EFFECT'
+          assert len(x['candidates'])==2
+          targets={c['DOI'] for c in x['candidates'] if 'DOI' in c}
+          assert '10.3334/ORNLDAAC/1292' in targets and '10.5061/dryad.kprr4xh8v' in targets
+          statuses={'SOURCE_GATE_PASS','METADATA_ONLY','AUTH_HOLD','DATA_ACCESS_HOLD',
+              'SCHEMA_HOLD','SITE_IDENTITY_HOLD','INSUFFICIENT_SUPPORT_HOLD',
+              'TAXON_CROSSWALK_HOLD','TECHNICAL_HOLD','PUBLIC_FILE_LINKS_HEAD_PASS_ONLY'}
+          for d in x['candidates']:
+              assert d['status'] in statuses
+              assert d.get('ecological_effect_estimated') is False or d.get('biomass_effect_estimated') is False
+          print('INDEPENDENT_SOURCE_ONLY_VERDICTS',
+                {d['dataset']:d['status'] for d in x['candidates']})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-original-field-trait-biomass-source-gate-nonraw
+          path: build/independent_field_trait_biomass/source_gate_v0_1.json
+          retention-days: 30
+          if-no-files-found: ignore

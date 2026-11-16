@@ -59,9 +59,13 @@ sinked <- capture.output({
 })
 if(is.null(phy$species.list) || is.null(phy$scenario.3))
   stop("SOURCE_HOLD: V.PhyloMaker2 S3 returned no complete source crosswalk")
-status <- as.character(phy$species.list$status)
-if(length(status)!=nrow(taxo) || any(is.na(status)))
-  stop("SOURCE_HOLD: V.PhyloMaker2 source status incomplete")
+raw_status <- as.character(phy$species.list$status)
+raw_species <- tolower(gsub("_"," ",as.character(phy$species.list$species),fixed=TRUE))
+if(length(raw_status)!=nrow(taxo) || any(is.na(raw_status)) ||
+   anyDuplicated(raw_species) || !setequal(raw_species,tolower(taxo$species)))
+  stop("SOURCE_HOLD: V.PhyloMaker2 source species/status identity incomplete")
+status <- raw_status[match(tolower(taxo$species),raw_species)]
+if(any(is.na(status)))stop("SOURCE_HOLD: impossible matched phylo statuses")
 if(!all(status %in% c("prune","bind","fail to bind")))
   stop("SOURCE_HOLD: unexpected V.PhyloMaker2 species status")
 tree <- phy$scenario.3

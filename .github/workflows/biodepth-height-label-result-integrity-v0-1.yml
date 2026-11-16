@@ -1,0 +1,59 @@
+name: Verify frozen BIODEPTH height-label-null aggregate and claims
+on:
+  push:
+    branches:
+      - analysis/biodepth-guild-conditioned-height-label-null-20261116
+    paths:
+      - results/biodepth_2010_species_source_v0_1/guild_height_trait_label_null_verified_summary_v0_1.json
+      - docs/BIODEPTH_HEIGHT_TRAIT_LABEL_RANDOMIZATION_RESULT_V0_1.md
+      - .github/workflows/biodepth-height-label-result-integrity-v0-1.yml
+  pull_request:
+    paths:
+      - results/biodepth_2010_species_source_v0_1/guild_height_trait_label_null_verified_summary_v0_1.json
+      - docs/BIODEPTH_HEIGHT_TRAIT_LABEL_RANDOMIZATION_RESULT_V0_1.md
+      - .github/workflows/biodepth-height-label-result-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate saved source-run stdout aggregate and exact source boundaries
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          d=Path('results/biodepth_2010_species_source_v0_1')
+          p=json.loads((d/'guild_height_trait_label_null_verified_summary_v0_1.json').read_text())
+          prior=json.loads((d/'origanum_botanical_height_source_correction_summary_v0_1.json').read_text())
+          g=json.loads((d/'gift_height_103taxa_bibliography_qa_v0_1.json').read_text())
+          assert p['status']=='POSTRESULT_GUILD_STRATIFIED_SPECIES_HEIGHT_LABEL_NULL_COMPLETED'
+          assert p['n_permutations']==999 and p['seed']==20261116
+          assert p['source_eligibility']['inferred_unambiguous_GIFT_height_species']==51
+          assert p['source_eligibility']['ambiguous_species_heights_held_fixed']==37
+          assert p['source_eligibility']['height_species_per_guild']=={'forb':21,'grass':21,'legume':9}
+          assert p['source_eligibility']['source_eligible_plots_with_at_least_two_permutable_species']==174
+          assert p['historical_response_plots']==174 and p['historical_response_plotyears']==521
+          assert len(p['historical_source_field_sites'])==7
+          assert p['source_GIFT_height_species_fingerprint_sha256']==g['GIFT_original_target_species_height_and_reference_fingerprint_sha256']
+          assert p['GIFT_bibliography_sha256']==g['GIFT_bibliography_content_sha256']
+          obs=p['observed_site_equal_gain']
+          assert math.isclose(obs,prior['comparison']['Kew_0_90m']['FD_site_equal_gain'],abs_tol=1e-12)
+          vals=list(p['observed_gains_by_site'].values())
+          assert len(vals)==7 and sum(v>0 for v in vals)==4 and math.isclose(sum(vals)/7,obs,abs_tol=1e-12)
+          q=p['null_site_equal_q025_q50_q975']
+          assert len(q)==3 and q[0]<q[1]<obs<q[2]
+          assert math.isclose(q[1],p['null_site_equal_median'],abs_tol=1e-12)
+          assert math.isclose(obs-q[1],p['obs_minus_label_null_median'],abs_tol=1e-12)
+          assert math.isclose(p['upper_tail_p_with_plus_one'],63/1000,abs_tol=1e-12)
+          assert p['null_reference_top_2p5pct'] is False
+          assert p['result_capture']['workflow_run'].endswith('/43805372379')
+          assert p['result_capture']['artifact_id']==14198695474
+          assert p['result_capture']['artifact_digest']=='sha256:79b789e39679cd412e9d8a4e72b7c1347c8a43c6564a9e0e2880b627028f250e'
+          doc=Path('docs/BIODEPTH_HEIGHT_TRAIT_LABEL_RANDOMIZATION_RESULT_V0_1.md').read_text()
+          for token in ('0.063','999','51 species','37','NOT above','HOLD','K→FD→biomass'):
+              assert token in doc,token
+          print('PERMANENT_AGGREGATE_INTEGRITY_PASS: 999 permutations, p=0.063, 4/7 sites, all strict HOLD boundaries')
+          PY

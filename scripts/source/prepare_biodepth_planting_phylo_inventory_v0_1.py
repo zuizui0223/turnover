@@ -3,8 +3,9 @@
 No trait values and no plot/year biomass data opened, downloaded or exported.
 """
 from __future__ import annotations
-import argparse,csv
+import argparse,csv,sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))
 from audit_biodepth_103_taxa_gift_height_v0_1 import source, geometry
 
 def prepare(species_path: str, codes_path: str, out_path: str) -> dict:

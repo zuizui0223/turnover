@@ -1,0 +1,139 @@
+{
+  "version": "v0.4",
+  "status": "ORIGINAL_SUPPLEMENT_CONTENT_VERIFIED_TIMING_AND_SPECIES_WOODY_CONVERSION_HOLD",
+  "document": {
+    "filename": "fec70320-sup-0001-figures1-s12-tables5-s6.docx",
+    "sha256": "6e422d5bbe685e00b045634137c150e8a6824e8dd4c6f88da43beae2f2ee9ddd",
+    "bytes": 1170063,
+    "pages": 15,
+    "origin": "User-uploaded original publisher supplement; examined in this conversation",
+    "original_binary_committed_to_GitHub": false
+  },
+  "article_doi": "10.1111/1365-2435.70320",
+  "methods_s1": {
+    "page": 15,
+    "ECOLINK_Uppsala": {
+      "diversity_manipulation": "GENOTYPE_NOT_SPECIES",
+      "taxonomic_richness_manipulated": false
+    },
+    "MataDIV": {
+      "only_fertilized_plots_included": true
+    },
+    "other_site_rule": "Exclude manipulated irrigation/fertilization for most sites"
+  },
+  "methods_s2": {
+    "page": 15,
+    "ECOLINK_Uppsala": {
+      "woody_response": "CUMULATIVE_BIOMASS_FROM_SEPARATE_COPPICE_HARVEST_YEARS",
+      "coppice_cycle_years": 3,
+      "first_harvest_stools_manually_weighed": true,
+      "subsequent_harvest_equations_fitted_separately": true,
+      "same_as_one_time_standing_stock": false
+    },
+    "ORPHEE": {
+      "some_Quercus_root_collar_diameters_estimated_from_DBH_or_height": true
+    },
+    "IDENT_Freiburg": {
+      "rubus_and_non_target_woody_seedlings_removed": true
+    }
+  },
+  "methods_s3": {
+    "page": 15,
+    "top_crown_leaf_sampling_sites": [
+      "IDENT Macomer",
+      "IDENT Freiburg"
+    ],
+    "other_sites_leaf_samples_across_crown": true,
+    "leaf_nutrient_means_by_species_within_plot_explicit": true,
+    "LNCA_formula": "LNCA = LNCM*(1/SLA)",
+    "site_chemistry_methods_vary": true,
+    "individual_leaf_sample_ID_reported": false,
+    "per_site_sampling_year_reported": false
+  },
+  "figure_s2": {
+    "page": 3,
+    "ECOLINK_diameter_height_measurement_year": 2022,
+    "year_not_evidence_of_studywide_trait_biomass_temporal_match": true
+  },
+  "figure_s4": {
+    "page": 5,
+    "in_situ_monoculture_averages": 283,
+    "literature_or_database_values": 17,
+    "used_for": "FDis reference only"
+  },
+  "figure_s11": {
+    "page": 12,
+    "SEM_site_count": 6,
+    "published_Fisher_C": 6.58,
+    "published_model_fit_p": 0.584,
+    "already_authors_results_not_independent_replication": true
+  },
+  "table_s5": {
+    "page": 14,
+    "original_authors_ANOVA": {
+      "woody_biomass": {
+        "chi2": 18.441,
+        "p": "<0.001"
+      },
+      "litterfall_biomass": {
+        "chi2": 29.562,
+        "p": "<0.001"
+      },
+      "understory_biomass": {
+        "chi2": 1.051,
+        "p": "0.305"
+      }
+    },
+    "direction_of_difference_cannot_be_read_from_chi2_alone": true
+  },
+  "table_s6": {
+    "page": 14,
+    "original_authors_ANOVA": {
+      "SLA_unweighted": {
+        "chi2": 23.119,
+        "p": "<0.001"
+      },
+      "SLA_weighted": {
+        "chi2": 0.982,
+        "p": "0.322"
+      },
+      "LAI_unweighted": {
+        "chi2": 12.168,
+        "p": "<0.001"
+      },
+      "LNCA_unweighted": {
+        "chi2": 32.186,
+        "p": "<0.001"
+      },
+      "LNCA_weighted": {
+        "chi2": 7.481,
+        "p": "0.006"
+      },
+      "WD_unweighted": {
+        "chi2": 0.186,
+        "p": "0.667"
+      },
+      "WD_weighted": {
+        "chi2": 0.005,
+        "p": "0.945"
+      }
+    }
+  },
+  "outcome_gates": {
+    "DS1_DS2_original_join": "328_EXACT_PLOTS_GEOMETRY_PASS",
+    "plots_with_2_species_trait_and_woody": "186_POTENTIAL_NOT_REFINED_BY_SOURCE_EXPERIMENT_TYPE",
+    "published_measured_plot_species_nutrients": "AUTHOR_METHOD_SUPPORT_PASS",
+    "individual_trait_sample_lineage": "HOLD",
+    "full_site_trait_vs_biomass_measurement_year": "HOLD",
+    "original_DS2_species_woody_to_DS1_plot_woody_scaling": "HOLD",
+    "ECOLINK_taxonomic_richness_manipulation": "INCOMPATIBLE_GENOTYPE_TREATMENT",
+    "ECOLINK_biomass_snapshot": "INCOMPATIBLE_CUMULATIVE_COPPICE",
+    "MataDIV_baseline": "FERTILIZED_STANDS_ONLY",
+    "no_new_ecological_effect_estimated": true
+  },
+  "missing_support": [
+    "per-site tree biomass and leaf trait sampling years",
+    "explicit DS1–DS2 biomass scaling contract / site specific allometry Table S3",
+    "individual original tree/sample lineage for per-row provenance claims"
+  ]
+}

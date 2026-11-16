@@ -1,0 +1,295 @@
+{
+  "version": "v0.3",
+  "status": "PLOT_JOIN_PASS__SOURCE_MEASUREMENT_TIMING_AND_WOODY_SCALING_HOLD",
+  "original_published_study_doi": "10.1111/1365-2435.70320",
+  "original_figshare_doi": "10.6084/m9.figshare.31026004.v1",
+  "previous_audit_archive": "results/treedivnet_2026_original_DS1_DS2_plot_source_gate_v0_2.json",
+  "previous_joined_plots": 328,
+  "previous_two_trait_species_eligible_plots": 186,
+  "original_source_only": true,
+  "ecological_effects_fit": 0,
+  "audit_reports": {
+    "supplement_and_readme": {
+      "individual_DS2_original_trait_provenance": "INDIVIDUAL_SOURCE_PROVENANCE_HOLD",
+      "no_new_trait_FD_K_PD_or_biomass_effect": true,
+      "nonclaims": [
+        "No unpublished Wiley supplementary was invented from a 403 page",
+        "No source year derived from experimental establishment date",
+        "DS2 woody species row averages 321/328 DS1 rows but no explicit species scaling formula was established by arithmetic alone",
+        "No plot trait–biomass coefficient, causal model or evolutionary K estimated"
+      ],
+      "official_publisher_supplement": {
+        "allometry_table": {
+          "public_source_filename": "fec70320-sup-0004-TableS3.xlsx",
+          "publisher_access_probes": [
+            {
+              "publisher_hostname": "besjournals.onlinelibrary.wiley.com",
+              "result": 403
+            },
+            {
+              "publisher_hostname": "onlinelibrary.wiley.com",
+              "result": 403
+            }
+          ],
+          "status": "PUBLISHER_SUPPLEMENT_ACCESS_HOLD",
+          "verified_original_metadata": null
+        },
+        "methods_docx": {
+          "public_source_filename": "fec70320-sup-0001-FigureS1-S12-TableS5-S6.docx",
+          "publisher_access_probes": [
+            {
+              "publisher_hostname": "besjournals.onlinelibrary.wiley.com",
+              "result": 403
+            },
+            {
+              "publisher_hostname": "onlinelibrary.wiley.com",
+              "result": 403
+            }
+          ],
+          "status": "PUBLISHER_SUPPLEMENT_ACCESS_HOLD",
+          "verified_original_metadata": null
+        },
+        "site_table": {
+          "public_source_filename": "fec70320-sup-0002-TableS1.xlsx",
+          "publisher_access_probes": [
+            {
+              "publisher_hostname": "besjournals.onlinelibrary.wiley.com",
+              "result": 403
+            },
+            {
+              "publisher_hostname": "onlinelibrary.wiley.com",
+              "result": 403
+            }
+          ],
+          "status": "PUBLISHER_SUPPLEMENT_ACCESS_HOLD",
+          "verified_original_metadata": null
+        }
+      },
+      "original_DS1_DS2_time_alignment": "TEMPORAL_ALIGNMENT_HOLD",
+      "original_figshare_article": "10.6084/m9.figshare.31026004.v1",
+      "original_figshare_readme": {
+        "mentions_biomass_species_row_scaling_formula": false,
+        "mentions_original_measurement_year": false,
+        "original_text_lines": 171,
+        "readme_is_original_public_data_documentation": true,
+        "readme_source_MD5": "8fd3551d0a2b69fb9dca54b7cdbca422",
+        "time_or_response_definition_evidence_lines": [
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 18,
+            "short_excerpt": "Plot-level data including functional diversity, stand biomass"
+          },
+          {
+            "categories": [
+              "biomass",
+              "wood",
+              "species",
+              "mass"
+            ],
+            "readme_line": 25,
+            "short_excerpt": "Species-per-plot-level data including woody biomass and functional traits."
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 30,
+            "short_excerpt": "Plot-level net diversity effects (NDE) for biomass components and trait-associated"
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 59,
+            "short_excerpt": "Biomass variables:"
+          },
+          {
+            "categories": [
+              "biomass",
+              "wood",
+              "mass"
+            ],
+            "readme_line": 60,
+            "short_excerpt": "- biomass_woody: aboveground woody biomass at the plot level (Mg"
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 61,
+            "short_excerpt": "- biomass_litterfall: annual litterfall biomass at the plot level (Mg"
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 62,
+            "short_excerpt": "- biomass_understory: aboveground understory biomass at the plot level (Mg"
+          },
+          {
+            "categories": [
+              "wood"
+            ],
+            "readme_line": 68,
+            "short_excerpt": "Wood density (WD)"
+          },
+          {
+            "categories": [
+              "wood",
+              "species"
+            ],
+            "readme_line": 69,
+            "short_excerpt": "- WD_mean_unweighted: wood density, arithmetic mean across species within a"
+          },
+          {
+            "categories": [
+              "wood",
+              "species"
+            ],
+            "readme_line": 70,
+            "short_excerpt": "- WD_mean_BA_weighted: wood density, basal-area weighted mean across species within"
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 99,
+            "short_excerpt": "Tree biomass:"
+          },
+          {
+            "categories": [
+              "biomass",
+              "wood",
+              "species",
+              "mass"
+            ],
+            "readme_line": 100,
+            "short_excerpt": "- biomass_woody: aboveground woody biomass of the focal species within"
+          },
+          {
+            "categories": [
+              "wood"
+            ],
+            "readme_line": 106,
+            "short_excerpt": "Wood density (WD)"
+          },
+          {
+            "categories": [
+              "wood",
+              "species"
+            ],
+            "readme_line": 107,
+            "short_excerpt": "- WD: species-level wood density (kg m-3)."
+          },
+          {
+            "categories": [
+              "biomass",
+              "wood",
+              "mass"
+            ],
+            "readme_line": 126,
+            "short_excerpt": "- NDE_tree_biomass_unweighted: net diversity effect on aboveground woody biomass."
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 127,
+            "short_excerpt": "- NDE_litterfall_unweighted: net diversity effect on litterfall biomass."
+          },
+          {
+            "categories": [
+              "biomass",
+              "mass"
+            ],
+            "readme_line": 128,
+            "short_excerpt": "- NDE_understory_unweighted: net diversity effect on understory biomass."
+          },
+          {
+            "categories": [
+              "wood"
+            ],
+            "readme_line": 137,
+            "short_excerpt": "- NDE_WD_BA_weighted: net diversity effect on basal-area weighted wood density."
+          },
+          {
+            "categories": [
+              "sampling"
+            ],
+            "readme_line": 142,
+            "short_excerpt": "Details of experimental design, sampling protocols, trait measurements,"
+          }
+        ]
+      },
+      "original_publisher_paper": "10.1111/1365-2435.70320",
+      "source_decision": "RETAIN_PREVIOUS_328_PLOT_SOURCE_GEOMETRY_PASS_WITH_PROVENANCE_AND_YEAR_HOLD",
+      "source_only": true,
+      "version": "v0.1",
+      "woody_biomass_source_identity_explained": "UNVERIFIED_AUTHOR_FORMULA",
+      "verified_run_url": "https://github.com/zuizui0223/turnover/actions/runs/43869912574",
+      "verified_job_id": 133308031966,
+      "verified_artifact_id": 14227450972,
+      "verified_artifact_sha256": "sha256:77559918aa11afcc3987f3256724d2ce2053bfb8e4dbdffc78b6a9a331105d25"
+    },
+    "richness_denominator_check": {
+      "do_not_duplicate_DS1_mass_per_species_as_independent_rows": true,
+      "do_not_reinterpret_species_row_woody_as_raw_species_mass_contribution": true,
+      "interpretation": "Mathematical reconciliation of original exported tables; underlying formula/biological normalization convention still requires published author source Methods S2, not inferred from empirical equality.",
+      "no_original_plot_taxon_mass_values_exported": true,
+      "no_trait_FD_K_PD_or_biomass_effect_estimated": true,
+      "observed_mathematical_identity_is_not_author_confirmed_transform": true,
+      "original_2026_Figshare_source_MD5_verified": true,
+      "original_file_raw_rows": {
+        "DS1": 363,
+        "DS2": 689
+      },
+      "original_richness_vs_species_row_count_mismatch": {
+        "difference_not_resolved_by_original_richness_denominator": 6,
+        "difference_resolved_by_original_richness_denominator": 0,
+        "reported_richness_not_equal_DS2_rows": 6
+      },
+      "remaining_plots_when_sum_div_original_richness_not_equal_DS1": {
+        "n_remaining_bad_plots": 7,
+        "original_richness_is_1": 0,
+        "original_woody_is_zero": 0,
+        "with_rowcount_equal_richness": 1,
+        "within_1pct": 2
+      },
+      "response_source_grain": "single original DS1 woody dry biomass Mg/ha per site×block×plot",
+      "source_arithmetic_counts": {
+        "DS2_mean_equals_DS1": 321,
+        "DS2_sum_equals_DS1": 135,
+        "DS2_sum_over_original_richness_equals_DS1": 321,
+        "joined_plots": 328,
+        "rowcount_equal_original_richness": 322,
+        "within_1pct_DS2_sum_over_richness": 323,
+        "within_5pct_DS2_sum_over_richness": 325
+      },
+      "source_identical_site_block_plot_joins": 328,
+      "status": "WOODY_PLANTED_RICHNESS_NORMALIZATION_NOT_EXACT_ALL_PLOTS",
+      "study": "Jensen et al. 2026 TreeDivNet",
+      "version": "v0.3",
+      "verified_run_url": "https://github.com/zuizui0223/turnover/actions/runs/43870526893",
+      "verified_job_id": 133310177926,
+      "verified_artifact_id": 14227206669,
+      "verified_artifact_sha256": "sha256:440e36e925a09e72835db4c47db07a4cd965d6ef56daa7f7fd62c845be016633"
+    }
+  },
+  "hard_conclusions": [
+    "The original source contains 328 exact DS1×DS2 site/block/plot joins across 11 experimental sites with 186 trait+woody cases; this is a geometry rather than original per-tree measurement source pass.",
+    "Original README contains no original per-plot trait or woody biomass measurement year or original DS2 normalization formula.",
+    "Publisher supplementary Methods S2/S3, Table S1 and Table S3 exact Wiley DOI path candidates each returned 403 from both official publisher subdomains in a source-only runner.",
+    "The DS2-species-woody average equals DS1 plot woody on 321/328 cases, but summing DS2/DS1 original planted richness also equals DS1 on only the same 321/328; this denominator does not resolve the 7 exceptions.",
+    "No independent K→FD→biomass effect is authorized on the current source gate."
+  ],
+  "next_scientific_source_dependency": "Original author-supplied site × measurement year and explicit DS2 species-to-DS1 woody normalization formula or officially accessible Methods S2/S3 + Tables S1/S3; do not extrapolate from article publication or planting age."
+}

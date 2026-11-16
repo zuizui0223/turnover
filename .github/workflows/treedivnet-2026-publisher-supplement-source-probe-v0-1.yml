@@ -1,0 +1,59 @@
+name: TreeDivNet original Wiley Methods S2 S3 and Figshare README source provenance preflight
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - docs/TREEDIVNET_SUPPLEMENT_CHRONOLOGY_BIOMASS_SCALE_SOURCE_PROBE_V0_1.md
+      - scripts/source/probe_treedivnet_wiley_methods_and_readme_v0_1.py
+      - .github/workflows/treedivnet-2026-publisher-supplement-source-probe-v0-1.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_SUPPLEMENT_CHRONOLOGY_BIOMASS_SCALE_SOURCE_PROBE_V0_1.md
+      - scripts/source/probe_treedivnet_wiley_methods_and_readme_v0_1.py
+      - .github/workflows/treedivnet-2026-publisher-supplement-source-probe-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check frozen source interpretation and ZIP parser
+        run: |
+          python3 -m py_compile scripts/source/probe_treedivnet_wiley_methods_and_readme_v0_1.py
+          python3 scripts/source/probe_treedivnet_wiley_methods_and_readme_v0_1.py --self-test
+          test -s docs/TREEDIVNET_SUPPLEMENT_CHRONOLOGY_BIOMASS_SCALE_SOURCE_PROBE_V0_1.md
+      - name: Check source-pinned Figshare original README and bounded official Wiley supplement files
+        run: |
+          mkdir -p build/treedivnet_wiley
+          python3 scripts/source/probe_treedivnet_wiley_methods_and_readme_v0_1.py \
+            --out build/treedivnet_wiley/source_methods_v0_1.json
+      - name: Verify source-only and preserve timing, normalization, and measurement-origin uncertainty
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('build/treedivnet_wiley/source_methods_v0_1.json'))
+          assert x['version']=='v0.1'
+          assert x['source_only'] is True
+          assert x['no_new_trait_FD_K_PD_or_biomass_effect'] is True
+          assert x['original_figshare_readme']['readme_source_MD5']=='8fd3551d0a2b69fb9dca54b7cdbca422'
+          assert x['original_DS1_DS2_time_alignment']=='TEMPORAL_ALIGNMENT_HOLD'
+          assert x['woody_biomass_source_identity_explained']=='UNVERIFIED_AUTHOR_FORMULA'
+          assert len(x['official_publisher_supplement'])==3
+          for q in x['official_publisher_supplement'].values():
+              assert q['status'] in ('PUBLISHER_SUPPLEMENT_ACCESS_HOLD','PUBLISHER_SUPPLEMENT_READ_ONLY_METADATA_PASS')
+          print('TREE_DIVNET_WILEY_SUPPLEMENT_PREFLIGHT_VERDICTS',
+                {n:q['status'] for n,q in x['official_publisher_supplement'].items()})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-original-Wiley-Methods-S2-S3-README-probe-nonraw
+          path: build/treedivnet_wiley/source_methods_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

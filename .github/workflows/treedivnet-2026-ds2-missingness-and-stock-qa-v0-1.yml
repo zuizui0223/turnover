@@ -1,0 +1,58 @@
+name: TreeDivNet original trait missing-codes and woody biomass hierarchy source audit
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - scripts/source/audit_treedivnet_ds2_missing_codes_biomass_reconciliation_v0_1.py
+      - .github/workflows/treedivnet-2026-ds2-missingness-and-stock-qa-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_treedivnet_ds2_missing_codes_biomass_reconciliation_v0_1.py
+      - .github/workflows/treedivnet-2026-ds2-missingness-and-stock-qa-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-quality-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check source-only numerical category QA fixture (no ecological model)
+        run: |
+          python -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/source/audit_treedivnet_ds2_missing_codes_biomass_reconciliation_v0_1.py
+          python3 scripts/source/audit_treedivnet_ds2_missing_codes_biomass_reconciliation_v0_1.py --self-test
+      - name: Source-pinned Figshare DS1 + DS2 positive-zero-missing classification and source mass additivity audit
+        run: |
+          mkdir -p build/treedivnet_2026_quality
+          python3 scripts/source/audit_treedivnet_ds2_missing_codes_biomass_reconciliation_v0_1.py \
+            --out build/treedivnet_2026_quality/source_missingness_stock_qa_v0_1.json
+      - name: Verify original row counts, no trait→biomass model or copyrighted original row export
+        run: |
+          python3 - <<'PY'
+          import json
+          j=json.load(open('build/treedivnet_2026_quality/source_missingness_stock_qa_v0_1.json'))
+          assert j['status']=='ORIGINAL_NONRAW_SOURCE_MISSINGNESS_AND_MASS_IDENTITY_AUDITED'
+          assert j['no_ecological_outcomes_fitted'] is True
+          assert j['no_original_rows_or_source_plot_ids_exported'] is True
+          assert j['source_MD5_original_workbook_files_verified'] is True
+          assert j['original_DS1_rows']==363 and j['original_DS2_rows']==689
+          assert j['original_exact_joined_plots']==328
+          for k,groups in j['original_trait_value_categories'].items():
+              assert sum(groups.values())==689,(k,groups)
+          assert sum(j['original_woody_source_categories']['DS1_woody'].values())==363
+          assert sum(j['original_woody_source_categories']['DS2_woody'].values())==689
+          print('ORIGINAL_SOURCE_TRAIT_ZEROS_MISSING_AND_BIOMASS_HIERARCHY_QA_PASS',
+                j['source_consistency_flag'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-DS2-trait-zero-and-woody-hierarchy-nonraw
+          path: build/treedivnet_2026_quality/source_missingness_stock_qa_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

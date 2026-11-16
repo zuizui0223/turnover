@@ -1,0 +1,82 @@
+name: Validate archived TreeDivNet original site-block-plot join and woody response grain
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - results/treedivnet_2026_original_DS1_DS2_plot_source_gate_v0_2.json
+      - docs/TREEDIVNET_2026_DS1_DS2_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md
+      - .github/workflows/treedivnet-2026-verified-join-archive-integrity-v0-2.yml
+  pull_request:
+    paths:
+      - results/treedivnet_2026_original_DS1_DS2_plot_source_gate_v0_2.json
+      - docs/TREEDIVNET_2026_DS1_DS2_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md
+      - .github/workflows/treedivnet-2026-verified-join-archive-integrity-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-audit-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconcile all original nonraw counts, source hashes, join and author-method nonclaims
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          p=Path('results/treedivnet_2026_original_DS1_DS2_plot_source_gate_v0_2.json')
+          r=json.loads(p.read_text())
+          assert r['status']=='SOURCE_JOIN_GEOMETRY_PASS__ORIGINAL_TRAIT_LINEAGE_AND_TEMPORAL_ALIGNMENT_HOLD'
+          assert r['no_ecological_trait_to_biomass_inference'] is True
+          j=r['audits']['original_source_join']
+          q=r['audits']['trait_missingness_and_mass_source_QA']
+          m=r['audits']['woody_response_mean_vs_sum_diagnostic']
+          assert j['source_file_checksum_pass'] is True
+          assert j['original_DS1_rows']==363 and j['original_DS2_rows']==689
+          assert j['DS1_unique_site_block_plot']==363 and j['DS2_unique_site_block_plot']==340
+          assert j['DS1_duplicate_primary_keys']==0 and j['DS2_duplicate_site_block_plot_species_rows']==0
+          assert j['source_joined_unique_site_block_plot']==328
+          assert j['source_unmatched_DS1_plot_ids']==35 and j['source_unmatched_DS2_plot_ids']==12
+          assert j['source_matched_unique_sites']==11
+          assert j['plots_with_2plus_identical_axis_species_and_valid_DS1_woody_biomass']==186
+          assert j['positive_numeric_trait_species_labels_on_eligible_plots']==38
+          assert j['number_eligible_sites_with_atleast8_plots']==10
+          assert j['geometry_status']=='SOURCE_JOIN_GEOMETRY_PASS'
+          assert j['study_admissible_for_independent_direct_field_trait_to_biomass_effect'] is False
+          assert j['trait_measurement_provenance']=='TRAIT_PROVENANCE_HOLD'
+          assert j['temporal_alignment']=='TEMPORAL_ALIGNMENT_HOLD'
+          for k in ('treatment','species_richness','species_composition'):
+              assert j['plot_metadata_agreement'][k+'_matched_exact']==328
+          assert q['original_exact_joined_plots']==328
+          assert sum(q['original_trait_value_categories']['SLA'].values())==689
+          assert q['original_trait_value_categories']['WD']['positive_numeric']==303
+          assert q['source_consistency_flag']=='POTENTIAL_STOCK_HIERARCHY_MISMATCH'
+          assert m['exact_joined_source_plots']==328
+          assert m['matched_plot_with_mean_DS2_woody_equal_DS1_woody']==321
+          assert m['matched_plot_with_sum_DS2_woody_equal_DS1_woody']==135
+          assert m['matched_plot_richness_agrees_with_DS2_rowcount']==322
+          assert m['mean_mismatch_source_quality_diagnostics']['n_plots']==7
+          assert m['mean_mismatch_source_quality_diagnostics']['with_original_richness_not_equal_DS2_row_count']==6
+          assert math.isclose(m['matched_plot_average_identity_fraction'],321/328,abs_tol=1e-12)
+          assert m['must_not_aggregate_woody_by_summing_DS2_species_rows'] is True
+          for x in (j,q,m):
+              assert x.get('biological_effect_estimated',False) is False
+          pub=r['author_methods_boundary']
+          assert pub['no_direct_record_level_provenance_or_time_alignment_confirmed'] is True
+          assert pub['DS1_or_DS2_original_measurement_dates_present'] is False
+          refs=[
+            ('original_source_join',43862053465,14223078390),
+            ('trait_missingness_and_mass_source_QA',43862840694,14223472403),
+            ('woody_response_mean_vs_sum_diagnostic',43863638593,14224687418)
+          ]
+          for key,run,artifact in refs:
+              z=r['audits'][key]
+              assert z['source_run_url'].endswith('/'+str(run))
+              assert z['artifact_id']==artifact
+              assert z['artifact_digest'].startswith('sha256:')
+          doc=Path('docs/TREEDIVNET_2026_DS1_DS2_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md').read_text()
+          for mark in ('321/328','97.87%','328/328','186','38','TRAIT','time alignment','not','HOLD'):
+              assert mark in doc,mark
+          print('TREE_DIVNET_2026_ORIGINAL_JOIN_AGGREGATE_INTEGRITY_PASS 328 joins, 186 trait source plots, 321 woody means, 7 exceptions, no K/FD/biomass effects')
+          PY

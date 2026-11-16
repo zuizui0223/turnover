@@ -1,0 +1,55 @@
+name: TreeDivNet DS1 plot woody vs mean original DS2 species-row woody v0.2
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - scripts/source/diagnose_treedivnet_ds2_woody_plot_mean_identity_v0_2.py
+      - .github/workflows/treedivnet-2026-woody-row-mean-identity-v0-2.yml
+  pull_request:
+    paths:
+      - scripts/source/diagnose_treedivnet_ds2_woody_plot_mean_identity_v0_2.py
+      - .github/workflows/treedivnet-2026-woody-row-mean-identity-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-hierarchy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original-data average versus sum fixture
+        run: |
+          python3 -m py_compile scripts/source/diagnose_treedivnet_ds2_woody_plot_mean_identity_v0_2.py
+          python3 scripts/source/diagnose_treedivnet_ds2_woody_plot_mean_identity_v0_2.py --self-test
+      - name: Replay pinned source and test plot response mean identity
+        run: |
+          mkdir -p build/tree_source_mean_audit
+          python3 scripts/source/diagnose_treedivnet_ds2_woody_plot_mean_identity_v0_2.py \
+            --out build/tree_source_mean_audit/result_v0_2.json
+      - name: Assert original response unit is unique plot and no ecological effect
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/tree_source_mean_audit/result_v0_2.json'))
+          assert d['original_DS1_plot_rows']==363 and d['original_DS2_species_plot_rows']==689
+          assert d['exact_joined_source_plots']==328
+          assert d['no_original_species_plot_or_mass_values_exported'] is True
+          assert d['no_biodiversity_ecological_effect_tested'] is True
+          assert d['must_not_aggregate_woody_by_summing_DS2_species_rows'] is True
+          assert d['status'] in (
+              'SPECIES_ROW_WOODY_ARITHMETIC_MEAN_MATCHES_PLOT_RESPONSE_ON_MOST_PLOTS',
+              'SPECIES_ROW_WOODY_MEAN_CONSISTENCY_HOLD')
+          print('DS2_STOCK_MEAN_IDENTITY_SOURCE_VERDICT',d['status'],
+                d['matched_plot_with_mean_DS2_woody_equal_DS1_woody'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-DS2-arithmetic-mean-vs-DS1-woody-source-only
+          path: build/tree_source_mean_audit/result_v0_2.json
+          retention-days: 30
+          if-no-files-found: ignore

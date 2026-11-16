@@ -1,0 +1,158 @@
+{
+  "version": "v0.5",
+  "status": "PUBLISHED_PLANTING_YEAR_SOURCE_MATCH_PASS__ORIGINAL_BIOMASS_TRAIT_OBSERVATION_DATES_HOLD",
+  "source_articles": {
+    "Jensen2026": "https://doi.org/10.1111/1365-2435.70320",
+    "published_Table1": "https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2435.70320"
+  },
+  "source_previous": "results/treedivnet_2026_methods_s1_s2_site_cohort_eligibility_v0_4.json",
+  "published_planting_years_site_identity": [
+    {
+      "site": "B-Tree",
+      "original_published_planting_year": 2013,
+      "original_eligible_plots": 9,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "BIOTREE_Kaltenborn",
+      "original_published_planting_year": 2004,
+      "original_eligible_plots": 8,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "ECOLINK_Uppsala",
+      "original_published_planting_year": 2014,
+      "original_eligible_plots": 33,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "GENOTYPE_DIVERSITY_AND_CUMULATIVE_COPPICE"
+    },
+    {
+      "site": "FORBIO_Gedinne",
+      "original_published_planting_year": 2010,
+      "original_eligible_plots": 12,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "FORBIO_Hechtel-Eksel",
+      "original_published_planting_year": 2012,
+      "original_eligible_plots": 12,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "FORBIO_Zedelgem",
+      "original_published_planting_year": 2009,
+      "original_eligible_plots": 12,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "IDENT_Freiburg",
+      "original_published_planting_year": 2013,
+      "original_eligible_plots": 12,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "IDENT_Macomer",
+      "original_published_planting_year": 2014,
+      "original_eligible_plots": 12,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "MataDIV",
+      "original_published_planting_year": 2019,
+      "original_eligible_plots": 10,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "ONLY_FERTILIZED_STANDS"
+    },
+    {
+      "site": "MyDiv",
+      "original_published_planting_year": 2015,
+      "original_eligible_plots": 60,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    },
+    {
+      "site": "ORPHEE",
+      "original_published_planting_year": 2008,
+      "original_eligible_plots": 6,
+      "measured_trait_sampling_year": null,
+      "measured_woody_biomass_year": null,
+      "biomass_to_trait_year_gap": null,
+      "planting_year_must_not_be_used_as_measured_year": true,
+      "design": "OTHER_SOURCE_SITE"
+    }
+  ],
+  "n_original_study_sites": 11,
+  "source_eligible_all": 186,
+  "source_eligible_excluding_ECOLINK": 153,
+  "source_eligible_excluding_ECOLINK_and_fertilized_MataDIV": 143,
+  "source_eligible_nonECOLINK_by_published_planting_year": {
+    "2004": 8,
+    "2008": 6,
+    "2009": 12,
+    "2010": 12,
+    "2012": 12,
+    "2013": 21,
+    "2014": 12,
+    "2015": 60,
+    "2019": 10
+  },
+  "source_planting_year_min": 2004,
+  "source_planting_year_max": 2019,
+  "n_distinct_published_planting_years": 9,
+  "n_measurement_year_matched_sites": 0,
+  "n_sites_where_same_original_study_site_has_multiple_published_planting_years": 0,
+  "year_interpretation": "Published planting year is a source site establishment date; not trait collection year, woody diameter measurement year or timing of response. There is a single published planting year per original study site.",
+  "study_design_identifiability": "Published planting year is nested in site; site fixed effects fully absorb the between-site planting-year contrast, so age/source chronology cannot be isolated simply by adding both as fixed effects.",
+  "source_file_coverage": [
+    "published main Table 1 site planting year",
+    "original Figshare DS1/DS2 positive source coverage counts",
+    "user-supplied 15-page Methods S1/S2/S3 supplement"
+  ],
+  "missing_exact_source": [
+    "original Supplementary Table S1 original leaf and woody sampling years if supplied",
+    "original Supplementary Table S3 woody allometry equations and transformation terms"
+  ],
+  "figshare_original_file_and_DSX_untouched": true,
+  "no_original_site_plot_raw_biomass_or_trait_records_opened_in_this_turn": true,
+  "no_new_ecological_K_FD_PD_biomass_effect_tested": true,
+  "original_temporal_eligibility": "HOLD",
+  "original_species_woody_scaling": "HOLD",
+  "analysis_authorization": "NO_NEW_BIOMASS_TRAIT_REGRESSION_UNTIL_TRUE_ORIGINAL_SAMPLING_YEARS_AND_SCALING_SOURCE_ARE_CONFIRMED"
+}

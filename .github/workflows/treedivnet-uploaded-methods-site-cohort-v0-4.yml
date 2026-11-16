@@ -1,0 +1,61 @@
+name: TreeDivNet original S1 S2 source eligibility for ECOLINK and MataDIV
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - docs/TREEDIVNET_UPLOADED_METHODS_SITE_ELIGIBILITY_GATE_20261116_V0_4.md
+      - scripts/source/audit_treedivnet_s1_s2_site_eligibility_v0_4.py
+      - .github/workflows/treedivnet-uploaded-methods-site-cohort-v0-4.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_UPLOADED_METHODS_SITE_ELIGIBILITY_GATE_20261116_V0_4.md
+      - scripts/source/audit_treedivnet_s1_s2_site_eligibility_v0_4.py
+      - .github/workflows/treedivnet-uploaded-methods-site-cohort-v0-4.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-group-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Methods S1-S3 source-derived design and original checksum files
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_s1_s2_site_eligibility_v0_4.py
+          python3 scripts/source/audit_treedivnet_s1_s2_site_eligibility_v0_4.py --self-test
+          test -s docs/TREEDIVNET_UPLOADED_METHODS_SITE_ELIGIBILITY_GATE_20261116_V0_4.md
+          test -s results/treedivnet_2026_user_supplied_methods_s1_s3_source_audit_v0_4.json
+      - name: Replay original Figshare MD5-qualified DS1 DS2 and source-only site cohort support
+        run: |
+          mkdir -p build/treedivnet_uploaded_methods
+          python3 scripts/source/audit_treedivnet_s1_s2_site_eligibility_v0_4.py \
+            --out build/treedivnet_uploaded_methods/site_source_cohort_v0_4.json
+      - name: Verify no ecological effect, original 328/186 geometry and source classifications
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/treedivnet_uploaded_methods/site_source_cohort_v0_4.json'))
+          assert d['status'] in ('UPLOADED_METHODS_SITE_SOURCE_COHORT_GATE_PASS','UPLOADED_METHODS_SITE_CLASSIFICATION_HOLD')
+          assert d['original_join_geometry_328_reproduced'] is True
+          assert d['original_186_trait_source_gate_reproduced'] is True
+          assert d['original_Figshare_data_MD5_verified'] is True
+          assert d['original_site_count']==11
+          assert d['all_experiments']['plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody']==186
+          assert d['all_experiments']['original_DS1_DS2_joined_plots']==328
+          assert d['all_experiments']['trait_qualified_plots_by_axis']=={'SLA':165,'LNCM':170,'WD':77}
+          assert d['decision']=='NO_NEW_ECOLOGICAL_EFFECT_AUTHORIZED___PER_SITE_MEASUREMENT_YEARS_AND_WOODY_CONVERSION_MISSING'
+          assert d['user_supplied_original_supplement_SHA256']=='6e422d5bbe685e00b045634137c150e8a6824e8dd4c6f88da43beae2f2ee9ddd'
+          print('METHODS_S1_S2_SITE_COHORT_QUALIFICATION',d['status'],
+             'ECOLINK',d['site_label_ECOLINK'],'MataDIV',d['site_label_MataDIV'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-original-uploaded-Methods-S1-S2-site-source-cohort-nonraw
+          path: build/treedivnet_uploaded_methods/site_source_cohort_v0_4.json
+          if-no-files-found: ignore
+          retention-days: 30

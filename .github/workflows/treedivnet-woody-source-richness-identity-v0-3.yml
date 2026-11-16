@@ -1,0 +1,58 @@
+name: TreeDivNet 2026 DS2 summed woody divided by original richness vs DS1 source response
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - scripts/source/audit_treedivnet_woody_richness_denominator_v0_3.py
+      - .github/workflows/treedivnet-woody-source-richness-identity-v0-3.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_treedivnet_woody_richness_denominator_v0_3.py
+      - .github/workflows/treedivnet-woody-source-richness-identity-v0-3.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source-only fixture and original workbook source checksum parser
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_woody_richness_denominator_v0_3.py
+          python3 scripts/source/audit_treedivnet_woody_richness_denominator_v0_3.py --self-test
+      - name: Replay public original Excel source and test planted-richness arithmetic identity
+        run: |
+          mkdir -p build/treedivnet_woody_denominator
+          python3 scripts/source/audit_treedivnet_woody_richness_denominator_v0_3.py \
+            --out build/treedivnet_woody_denominator/source_reconciliation_v0_3.json
+      - name: Assert original source geometry unchanged; never infer ecology from identity
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/treedivnet_woody_denominator/source_reconciliation_v0_3.json'))
+          assert d['source_identical_site_block_plot_joins']==328
+          assert d['original_file_raw_rows']=={'DS1':363,'DS2':689}
+          assert d['original_2026_Figshare_source_MD5_verified'] is True
+          assert d['no_trait_FD_K_PD_or_biomass_effect_estimated'] is True
+          assert d['no_original_plot_taxon_mass_values_exported'] is True
+          assert d['do_not_reinterpret_species_row_woody_as_raw_species_mass_contribution'] is True
+          assert d['status'] in {
+            'WOODY_SUM_DIVIDED_BY_PLANTED_RICHNESS_RECONCILES_ALL_SOURCE_PLOTS',
+            'WOODY_PLANTED_RICHNESS_NORMALIZATION_NOT_EXACT_ALL_PLOTS'}
+          assert d['source_arithmetic_counts']['DS2_mean_equals_DS1']==321
+          assert d['source_arithmetic_counts']['DS2_sum_equals_DS1']==135
+          print('SOURCE_WOODY_PLANTED_RICHNESS_NORMALIZER_VERDICT',
+                d['status'],d['source_arithmetic_counts']['DS2_sum_over_original_richness_equals_DS1'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-DS2-woody-ratio-original-richness-nonraw
+          path: build/treedivnet_woody_denominator/source_reconciliation_v0_3.json
+          if-no-files-found: ignore
+          retention-days: 30

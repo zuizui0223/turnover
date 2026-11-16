@@ -92,7 +92,7 @@ def run()->dict:
     # Figshare public article may return DOI with immutable version .v1 etc.,
     # while the published Data Availability Statement cites the root DOI.
     # Validate an exact root+numeric version only; never a different DOI.
-    accepted=bool(re.fullmatch(re.escape(DOI)+r"(?:\\.v[1-9][0-9]*)?",found_doi))
+    accepted=bool(re.fullmatch(re.escape(DOI)+r"(?:\.v[1-9][0-9]*)?",found_doi))
     if body.get("id")!=ID or not accepted:
         record["status"]="ARTICLE_NOT_PUBLIC_HOLD"
         record["reason"]="Figshare article identity or DOI mismatch"

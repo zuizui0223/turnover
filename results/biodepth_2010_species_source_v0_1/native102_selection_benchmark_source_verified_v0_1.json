@@ -1,0 +1,260 @@
+{
+  "design": "docs/BIODEPTH_NATIVE_PLOT_SELECTION_NULL_FROZEN_V0_1.md",
+  "historical_102_fullS3_gain": -0.04008463029040919,
+  "historical_150_allS3_gain": -0.014511753119435358,
+  "native102_plot_years": 305,
+  "old_BIEN_family_K_and_rho_not_compared": true,
+  "original_150_plot_years": 449,
+  "original_Community2010_response_used": true,
+  "original_six_high_density_BIODEPTH_and_global_BIEN_NEON_source_gates": "HOLD",
+  "original_source_selection_eligibility": {
+    "fixed_native102_source_features": {
+      "original_field_site_plot_counts": {
+        "Germany": 14,
+        "Ireland": 26,
+        "Portugal": 8,
+        "Sheffield": 18,
+        "Silwood": 14,
+        "Sweden": 14,
+        "Switzerland": 8
+      },
+      "original_plots": 102,
+      "planted_species_richness_distribution": {
+        "3": 2,
+        "4": 40,
+        "8": 34,
+        "11": 6,
+        "12": 8,
+        "14": 4,
+        "16": 4,
+        "32": 4
+      },
+      "plot_mean_log_max_height": {
+        "max": 0.2746530721670274,
+        "mean": 0.02333270144249015,
+        "median": 0.021724073374704802,
+        "min": -0.24321527084063738
+      },
+      "plot_mean_pairwise_S3_patristic_distance": {
+        "max": 264.789944,
+        "mean": 193.45706707862146,
+        "median": 215.78206896969695,
+        "min": 29.580657000000002
+      },
+      "plot_pairwise_log_height_dispersion": {
+        "max": 0.5915445288912411,
+        "mean": 0.3464891211827757,
+        "median": 0.3597460761291787,
+        "min": 0.07024034377188419
+      },
+      "source_planned_guild_vector_distribution": {
+        "g0f1l1": 6,
+        "g1f0l0": 12,
+        "g1f0l1": 12,
+        "g1f1l0": 12,
+        "g1f1l1": 60
+      }
+    },
+    "full150_source_features": {
+      "original_field_site_plot_counts": {
+        "Germany": 26,
+        "Ireland": 26,
+        "Portugal": 8,
+        "Sheffield": 20,
+        "Silwood": 24,
+        "Sweden": 18,
+        "Switzerland": 28
+      },
+      "original_plots": 150,
+      "planted_species_richness_distribution": {
+        "3": 2,
+        "4": 66,
+        "8": 50,
+        "11": 10,
+        "12": 8,
+        "14": 4,
+        "16": 6,
+        "32": 4
+      },
+      "plot_mean_log_max_height": {
+        "max": 0.2746530721670274,
+        "mean": 0.01800002406819571,
+        "median": 0.019240260284032078,
+        "min": -0.24321527084063738
+      },
+      "plot_mean_pairwise_S3_patristic_distance": {
+        "max": 264.789944,
+        "mean": 181.62488600327944,
+        "median": 206.99117674999997,
+        "min": 24.690637833333383
+      },
+      "plot_pairwise_log_height_dispersion": {
+        "max": 0.5915445288912411,
+        "mean": 0.3334113115232453,
+        "median": 0.3414414366722644,
+        "min": 0.07024034377188419
+      },
+      "source_planned_guild_vector_distribution": {
+        "g0f1l1": 6,
+        "g1f0l0": 22,
+        "g1f0l1": 22,
+        "g1f1l0": 18,
+        "g1f1l1": 82
+      }
+    },
+    "native_selected_original_plots": 102,
+    "not_selected_source_eligible_original_plots": 48,
+    "omitted48_source_features": {
+      "original_field_site_plot_counts": {
+        "Germany": 12,
+        "Sheffield": 2,
+        "Silwood": 10,
+        "Sweden": 4,
+        "Switzerland": 20
+      },
+      "original_plots": 48,
+      "planted_species_richness_distribution": {
+        "4": 26,
+        "8": 16,
+        "11": 4,
+        "16": 2
+      },
+      "plot_mean_log_max_height": {
+        "max": 0.15633510028638045,
+        "mean": 0.0066680846478200375,
+        "median": 0.011590359252124925,
+        "min": -0.21616187468057915
+      },
+      "plot_mean_pairwise_S3_patristic_distance": {
+        "max": 248.16457849999998,
+        "mean": 156.48150121817767,
+        "median": 184.33404672527473,
+        "min": 24.690637833333383
+      },
+      "plot_pairwise_log_height_dispersion": {
+        "max": 0.514224072040613,
+        "mean": 0.30562096599674327,
+        "median": 0.29840318991056214,
+        "min": 0.14384103622589042
+      },
+      "source_planned_guild_vector_distribution": {
+        "g1f0l0": 10,
+        "g1f0l1": 10,
+        "g1f1l0": 6,
+        "g1f1l1": 22
+      }
+    },
+    "selection_strata_eligibility": {
+      "native102_source_plots": 102,
+      "number_exact_source_strata": 47,
+      "number_strata_with_nontrivial_alternatives": 8,
+      "original_source150_site_capacities": {
+        "Germany": 26,
+        "Ireland": 26,
+        "Portugal": 8,
+        "Sheffield": 20,
+        "Silwood": 24,
+        "Sweden": 18,
+        "Switzerland": 28
+      },
+      "secondary_structural_support": true,
+      "selected_source_plots_in_nontrivial_strata": 24,
+      "site_quotas": {
+        "Germany": 14,
+        "Ireland": 26,
+        "Portugal": 8,
+        "Sheffield": 18,
+        "Silwood": 14,
+        "Sweden": 14,
+        "Switzerland": 8
+      },
+      "sites_with_nontrivial_exact_strata": [
+        "Germany",
+        "Sheffield",
+        "Silwood",
+        "Sweden",
+        "Switzerland"
+      ],
+      "source150_plots": 150
+    },
+    "source_no_outcome_plots": 150
+  },
+  "prior_source_150_and_102_SSE_replayed_exact": true,
+  "site_exact_richness_guild_secondary": {
+    "benchmark": "Fixed site × exact planted species richness × planned grass/forb/legume vector",
+    "benchmark_mean": -0.05695314694898868,
+    "benchmark_median": -0.05518680206752667,
+    "benchmark_min_max": [
+      -0.11363445293478858,
+      -0.017735047468919424
+    ],
+    "benchmark_q025_q50_q975": [
+      -0.09591135871259349,
+      -0.05518680206752667,
+      -0.029425508402785558
+    ],
+    "conditional_descriptive_lower_tail_reference_p": 0.854,
+    "count_draws_at_or_below_native_observed_gain": 426,
+    "frozen_minimum_valid_draws": 475,
+    "interpretation": "Source-stratified descriptive resampling reference, NOT a causal treatment randomization or prospective independent null.",
+    "invalid_source_model_reasons": {},
+    "n_invalid_model_draws": 0,
+    "n_positive_gain_draws": 0,
+    "n_predeclared_draws": 499,
+    "n_valid_model_draws": 499,
+    "native_observed_minus_benchmark_median_pp": 1.510217177711748,
+    "observed_native102_fullS3_gain": -0.04008463029040919,
+    "sampled_numeric_plot_year_row_counts": {
+      "305": 499
+    },
+    "seed": 20261117,
+    "status": "MODEL_INFORMATIVENESS_PASS"
+  },
+  "site_quotas_primary": {
+    "benchmark": "Fixed per-site native102 quotas; random original plot IDs within each original field",
+    "benchmark_mean": -0.013830755410594961,
+    "benchmark_median": -0.014856204322754632,
+    "benchmark_min_max": [
+      -0.061538884889004275,
+      0.029699381287491215
+    ],
+    "benchmark_q025_q50_q975": [
+      -0.03933101126831408,
+      -0.014856204322754632,
+      0.013174112262490554
+    ],
+    "conditional_descriptive_lower_tail_reference_p": 0.024844720496894408,
+    "count_draws_at_or_below_native_observed_gain": 11,
+    "frozen_minimum_valid_draws": 475,
+    "interpretation": "Source-stratified descriptive resampling reference, NOT a causal treatment randomization or prospective independent null.",
+    "invalid_source_model_reasons": {
+      "RANK_DEFICIENT_TRAINING_MODEL_2": 17
+    },
+    "n_invalid_model_draws": 17,
+    "n_positive_gain_draws": 74,
+    "n_predeclared_draws": 499,
+    "n_valid_model_draws": 482,
+    "native_observed_minus_benchmark_median_pp": -2.522842596765456,
+    "observed_native102_fullS3_gain": -0.04008463029040919,
+    "sampled_numeric_plot_year_row_counts": {
+      "305": 499
+    },
+    "seed": 20261116,
+    "status": "MODEL_INFORMATIVENESS_PASS"
+  },
+  "source_original_GIFT_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "source_project": "Hector 2010 original Community, 150 original GIFT×GBOTB plots, seven field sites",
+  "status": "POSTRESULT_NATIVE_102_SOURCE_SELECTION_BENCHMARK_COMPLETED",
+  "version": "v0.1",
+  "verified_source_run": {
+    "run_id": 43831214966,
+    "job_id": 133176741454,
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43831214966",
+    "artifact_id": 14209062451,
+    "artifact_name": "biodepth-102-native-source-selection-null-nonraw",
+    "artifact_digest": "sha256:b0e9830971a2ed2b910d0bdfa0d310824c9bcc8e400bca881d964f94eee5149a",
+    "original_Hector_source_checks_passed": true,
+    "original_PR52_SSE_replayed": true,
+    "prior_results_unmodified": true
+  }
+}

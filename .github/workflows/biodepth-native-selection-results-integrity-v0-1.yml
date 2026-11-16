@@ -1,0 +1,99 @@
+name: Validate archived original BIODEPTH native 102 source-selection benchmark
+on:
+  push:
+    branches: [analysis/biodepth-native-selection-null-20261116]
+    paths:
+      - results/biodepth_2010_species_source_v0_1/native102_selection_benchmark_source_verified_v0_1.json
+      - docs/BIODEPTH_NATIVE_PLOT_SELECTION_BENCHMARK_RESULTS_V0_1.md
+      - .github/workflows/biodepth-native-selection-results-integrity-v0-1.yml
+  pull_request:
+    paths:
+      - results/biodepth_2010_species_source_v0_1/native102_selection_benchmark_source_verified_v0_1.json
+      - docs/BIODEPTH_NATIVE_PLOT_SELECTION_BENCHMARK_RESULTS_V0_1.md
+      - .github/workflows/biodepth-native-selection-results-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-aggregate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recompute original 102 selection source and random-reference arithmetic
+        run: |
+          python3 - <<'PY'
+          import math,json
+          from pathlib import Path
+          root=Path('results/biodepth_2010_species_source_v0_1')
+          cur=json.loads((root/'native102_selection_benchmark_source_verified_v0_1.json').read_text())
+          parent=json.loads((root/'paired_native_full_s3_same102_verified_v0_1.json').read_text())
+          gift=json.loads((root/'gift_height_103taxa_bibliography_qa_v0_1.json').read_text())
+          assert cur['status']=='POSTRESULT_NATIVE_102_SOURCE_SELECTION_BENCHMARK_COMPLETED'
+          assert cur['prior_source_150_and_102_SSE_replayed_exact'] is True
+          assert cur['original_150_plot_years']==449 and cur['native102_plot_years']==305
+          assert cur['old_BIEN_family_K_and_rho_not_compared'] is True
+          assert cur['original_six_high_density_BIODEPTH_and_global_BIEN_NEON_source_gates']=='HOLD'
+          assert cur['source_original_GIFT_fingerprint']==gift['GIFT_original_target_species_height_and_reference_fingerprint_sha256']
+          assert math.isclose(cur['historical_150_allS3_gain'],
+              parent['original_150_cohort']['mass_PD_increment']['site_equal_mean_gain'],abs_tol=1e-12)
+          assert math.isclose(cur['historical_102_fullS3_gain'],
+              parent['new_102_cohort_full_S3']['mass_PD_increment']['site_equal_mean_gain'],abs_tol=1e-12)
+          s=cur['original_source_selection_eligibility']
+          assert s['source_no_outcome_plots']==150
+          assert s['native_selected_original_plots']==102
+          assert s['not_selected_source_eligible_original_plots']==48
+          selected=s['fixed_native102_source_features']
+          omitted=s['omitted48_source_features']
+          assert selected['original_plots']==102 and omitted['original_plots']==48
+          def mean_rich(d):
+              counts=d['planted_species_richness_distribution']
+              assert sum(counts.values())==d['original_plots']
+              return sum(int(k)*v for k,v in counts.items())/sum(counts.values())
+          assert math.isclose(mean_rich(selected),8.313725490196079,abs_tol=1e-9)
+          assert math.isclose(mean_rich(omitted),6.416666666666667,abs_tol=1e-9)
+          assert selected['plot_pairwise_log_height_dispersion']['mean']>omitted['plot_pairwise_log_height_dispersion']['mean']
+          assert selected['plot_mean_pairwise_S3_patristic_distance']['mean']>omitted['plot_mean_pairwise_S3_patristic_distance']['mean']
+          m=s['selection_strata_eligibility']
+          assert m['secondary_structural_support'] is True
+          assert m['selected_source_plots_in_nontrivial_strata']==24
+          assert m['number_strata_with_nontrivial_alternatives']==8
+          assert len(m['sites_with_nontrivial_exact_strata'])==5
+          assert sum(m['site_quotas'].values())==102
+          assert sum(m['original_source150_site_capacities'].values())==150
+          for name in ('site_quotas_primary','site_exact_richness_guild_secondary'):
+              x=cur[name]
+              assert x['status']=='MODEL_INFORMATIVENESS_PASS'
+              assert x['n_predeclared_draws']==499
+              assert x['n_valid_model_draws']+x['n_invalid_model_draws']==499
+              assert x['n_valid_model_draws']>=x['frozen_minimum_valid_draws']==475
+              assert sum(x['sampled_numeric_plot_year_row_counts'].values())==499
+              assert x['sampled_numeric_plot_year_row_counts']=={'305':499}
+              p=(1+x['count_draws_at_or_below_native_observed_gain'])/(x['n_valid_model_draws']+1)
+              assert math.isclose(p,x['conditional_descriptive_lower_tail_reference_p'],abs_tol=1e-12)
+              obs=cur['historical_102_fullS3_gain']
+              assert math.isclose(x['observed_native102_fullS3_gain'],obs,abs_tol=1e-12)
+              q=x['benchmark_q025_q50_q975']
+              assert len(q)==3 and q[0]<=q[1]<=q[2]
+              assert math.isclose(q[1],x['benchmark_median'],abs_tol=1e-12)
+              assert math.isclose(100*(obs-q[1]),x['native_observed_minus_benchmark_median_pp'],abs_tol=1e-10)
+          p=cur['site_quotas_primary']
+          q=cur['site_exact_richness_guild_secondary']
+          assert p['n_valid_model_draws']==482 and p['n_invalid_model_draws']==17
+          assert p['invalid_source_model_reasons']=={'RANK_DEFICIENT_TRAINING_MODEL_2':17}
+          assert p['count_draws_at_or_below_native_observed_gain']==11
+          assert math.isclose(p['conditional_descriptive_lower_tail_reference_p'],12/483,abs_tol=1e-12)
+          assert q['n_valid_model_draws']==499 and q['n_invalid_model_draws']==0
+          assert q['count_draws_at_or_below_native_observed_gain']==426
+          assert math.isclose(q['conditional_descriptive_lower_tail_reference_p'],427/500,abs_tol=1e-12)
+          assert p['benchmark_median']>cur['historical_102_fullS3_gain']
+          assert q['benchmark_median']<cur['historical_102_fullS3_gain']
+          src=cur['verified_source_run']
+          assert src['run_id']==43831214966 and src['artifact_id']==14209062451
+          assert src['artifact_digest']=='sha256:b0e9830971a2ed2b910d0bdfa0d310824c9bcc8e400bca881d964f94eee5149a'
+          doc=Path('docs/BIODEPTH_NATIVE_PLOT_SELECTION_BENCHMARK_RESULTS_V0_1.md').read_text()
+          for marker in ('−4.008%','−1.486%','−5.519%','0.02484','0.854','17','24 movable',
+                         'causal randomization','HOLD'):
+              assert marker in doc,marker
+          print('ORIGINAL_SOURCE_SELECTION_AGGREGATE_PASS: site-quota p 0.02484; richness+guild p 0.854, 482/499 and 499/499 usable, no causal effect claim')
+          PY

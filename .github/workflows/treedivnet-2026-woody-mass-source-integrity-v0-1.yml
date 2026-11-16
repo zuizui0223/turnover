@@ -1,0 +1,55 @@
+name: TreeDivNet 2026 original DS1 total woody biomass vs DS2 species sum source QA
+on:
+  push:
+    branches: [source/independent-trait-biomass-field-20261116]
+    paths:
+      - docs/TREEDIVNET_2026_SPECIES_PLOT_WOODY_MASS_HIERARCHY_QA_V0_1.md
+      - scripts/source/audit_treedivnet_woody_species_sum_source_v0_1.py
+      - .github/workflows/treedivnet-2026-woody-mass-source-integrity-v0-1.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_2026_SPECIES_PLOT_WOODY_MASS_HIERARCHY_QA_V0_1.md
+      - scripts/source/audit_treedivnet_woody_species_sum_source_v0_1.py
+      - .github/workflows/treedivnet-2026-woody-mass-source-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-hierarchy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify frozen source hierarchy and nonregression fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_woody_species_sum_source_v0_1.py
+          PYTHONPATH=scripts/source python3 scripts/source/audit_treedivnet_woody_species_sum_source_v0_1.py --self-test
+          test -s docs/TREEDIVNET_2026_SPECIES_PLOT_WOODY_MASS_HIERARCHY_QA_V0_1.md
+      - name: Compare only source sums and original species roster completeness, no biological association
+        run: |
+          mkdir -p build/treedivnet_source_mass_qa
+          PYTHONPATH=scripts/source python3 scripts/source/audit_treedivnet_woody_species_sum_source_v0_1.py \
+            --out build/treedivnet_source_mass_qa/source_woody_mass_hierarchy_v0_1.json
+      - name: Preserve original source quality result even on HOLD
+        run: |
+          python3 - <<'PY'
+          import json
+          q=json.load(open('build/treedivnet_source_mass_qa/source_woody_mass_hierarchy_v0_1.json'))
+          assert q['source_only'] and q['old_family_K_and_PD_rho_not_opened']
+          assert q['no_ecological_biomass_model_estimated'] and q['no_original_plot_species_response_rows_exported']
+          assert q['source_plot_keys_DS1']==363 and q['source_plot_keys_DS2']==340
+          assert q['original_joined_plot_keys']==328
+          assert q['status'] in ('SOURCE_SPECIES_MASS_INTEGRITY_HOLD','ORIGINAL_SPECIES_PLOT_MASS_HIERARCHY_PASS')
+          assert q['new_biological_effect_authorized'] is False
+          print('SOURCE_WOODY_HIERARCHY_VERDICT',q['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-original-woody-mass-species-sum-quality-nonraw
+          path: build/treedivnet_source_mass_qa/source_woody_mass_hierarchy_v0_1.json
+          retention-days: 30
+          if-no-files-found: ignore

@@ -1,0 +1,546 @@
+{
+  "biological_effect_estimated": false,
+  "by_individual_trait_positive_presence": {
+    "LNCA": {
+      "mass_and_trait_plot_keys_with_two_species": 165,
+      "source_site_counts": {
+        "b-tree": 9,
+        "biotree_kaltenborn": 3,
+        "ecolink_uppsala": 33,
+        "forbio_gedinne": 12,
+        "forbio_hechtel-eksel": 12,
+        "forbio_zedelgem": 12,
+        "ident_freiburg": 4,
+        "ident_macomer": 12,
+        "matadiv": 10,
+        "mydiv": 58
+      },
+      "unique_species_with_positive_original_values": 37
+    },
+    "LNCM": {
+      "mass_and_trait_plot_keys_with_two_species": 170,
+      "source_site_counts": {
+        "b-tree": 9,
+        "biotree_kaltenborn": 3,
+        "ecolink_uppsala": 33,
+        "forbio_gedinne": 12,
+        "forbio_hechtel-eksel": 12,
+        "forbio_zedelgem": 12,
+        "ident_freiburg": 5,
+        "ident_macomer": 12,
+        "matadiv": 10,
+        "mydiv": 60,
+        "orphee": 2
+      },
+      "unique_species_with_positive_original_values": 38
+    },
+    "LPCM": {
+      "mass_and_trait_plot_keys_with_two_species": 143,
+      "source_site_counts": {
+        "b-tree": 9,
+        "ecolink_uppsala": 33,
+        "forbio_gedinne": 6,
+        "forbio_hechtel-eksel": 6,
+        "forbio_zedelgem": 12,
+        "ident_freiburg": 5,
+        "matadiv": 10,
+        "mydiv": 60,
+        "orphee": 2
+      },
+      "unique_species_with_positive_original_values": 28
+    },
+    "SLA": {
+      "mass_and_trait_plot_keys_with_two_species": 165,
+      "source_site_counts": {
+        "b-tree": 9,
+        "biotree_kaltenborn": 3,
+        "ecolink_uppsala": 33,
+        "forbio_gedinne": 12,
+        "forbio_hechtel-eksel": 12,
+        "forbio_zedelgem": 12,
+        "ident_freiburg": 4,
+        "ident_macomer": 12,
+        "matadiv": 10,
+        "mydiv": 58
+      },
+      "unique_species_with_positive_original_values": 37
+    },
+    "WD": {
+      "mass_and_trait_plot_keys_with_two_species": 77,
+      "source_site_counts": {
+        "b-tree": 6,
+        "biotree_kaltenborn": 8,
+        "forbio_gedinne": 12,
+        "forbio_hechtel-eksel": 12,
+        "forbio_zedelgem": 12,
+        "ident_freiburg": 12,
+        "mydiv": 9,
+        "orphee": 6
+      },
+      "unique_species_with_positive_original_values": 22
+    },
+    "height_increment": {
+      "mass_and_trait_plot_keys_with_two_species": 190,
+      "source_site_counts": {
+        "b-tree": 9,
+        "biotree_kaltenborn": 8,
+        "ecolink_uppsala": 33,
+        "forbio_gedinne": 12,
+        "forbio_hechtel-eksel": 12,
+        "forbio_zedelgem": 12,
+        "ident_freiburg": 12,
+        "ident_macomer": 12,
+        "matadiv": 10,
+        "mydiv": 60,
+        "orphee": 10
+      },
+      "unique_species_with_positive_original_values": 40
+    }
+  },
+  "duplicated_source_DS1_plot_records": 0,
+  "duplicated_source_DS2_plot_by_species_records": 0,
+  "duplicated_source_DS3_plot_records": 0,
+  "figshare_doi": "10.6084/m9.figshare.31026004.v1",
+  "has_original_trait_measurement_source_indicator": false,
+  "has_plot_species_trait_and_woody_mass_year_matched": false,
+  "no_12family20species_K_test_possible": true,
+  "original_2026_paper_already_analysed_diversity_mass": true,
+  "original_experiments_with_at_least8_coincident_trait_mass_plots": 11,
+  "original_numeric_biomass_values_exported": false,
+  "original_plots_with_two_species_at_least_one_positive_trait_and_mass": 190,
+  "original_source_readme_measurement_documentation": [
+    {
+      "line": 1,
+      "text": "Data supporting:"
+    },
+    {
+      "line": 2,
+      "text": "\"Tree species diversity drives aboveground carbon sequestration through light-related trait shifts\""
+    },
+    {
+      "line": 17,
+      "text": "1) DS1.xlsx"
+    },
+    {
+      "line": 18,
+      "text": "Plot-level data including functional diversity, stand biomass"
+    },
+    {
+      "line": 19,
+      "text": "components, and functional traits calculated as"
+    },
+    {
+      "line": 20,
+      "text": "unweighted means and basal-area weighted community-weighted means."
+    },
+    {
+      "line": 22,
+      "text": "Each row represents one experimental plot."
+    },
+    {
+      "line": 24,
+      "text": "2) DS2.xlsx"
+    },
+    {
+      "line": 25,
+      "text": "Species-per-plot-level data including woody biomass and functional traits."
+    },
+    {
+      "line": 27,
+      "text": "Each row represents one species within one experimental plot."
+    },
+    {
+      "line": 29,
+      "text": "3) DS3.xlsx"
+    },
+    {
+      "line": 30,
+      "text": "Plot-level net diversity effects (NDE) for biomass components and trait-associated responses."
+    },
+    {
+      "line": 32,
+      "text": "Net diversity effects quantify the relative effect of tree species"
+    },
+    {
+      "line": 33,
+      "text": "mixtures compared to the corresponding monocultures. Positive values"
+    },
+    {
+      "line": 34,
+      "text": "indicate positive diversity effects, whereas negative values indicate"
+    },
+    {
+      "line": 37,
+      "text": "Each row represents one experimental mixture plot."
+    },
+    {
+      "line": 44,
+      "text": "- block: block identifier within site."
+    },
+    {
+      "line": 45,
+      "text": "- plot: plot identifier."
+    },
+    {
+      "line": 46,
+      "text": "- treatment: experimental treatment other than species diversity."
+    },
+    {
+      "line": 47,
+      "text": "- species_richness: number of tree species per plot."
+    },
+    {
+      "line": 48,
+      "text": "- species_composition: identity of all tree species present in the plot."
+    },
+    {
+      "line": 53,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 54,
+      "text": "TABLE 1: PLOT-LEVEL VARIABLES"
+    },
+    {
+      "line": 55,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 56,
+      "text": "Functional diversity:"
+    },
+    {
+      "line": 57,
+      "text": "- fdis: functional dispersion (FDis) calculated at the plot level, based on species-level LAI, WD, LNCM, SLA and annual height increment."
+    },
+    {
+      "line": 59,
+      "text": "Biomass variables:"
+    },
+    {
+      "line": 60,
+      "text": "- biomass_woody: aboveground woody biomass at the plot level (Mg ha-1)."
+    },
+    {
+      "line": 61,
+      "text": "- biomass_litterfall: annual litterfall biomass at the plot level (Mg ha-1 yr-1)."
+    },
+    {
+      "line": 62,
+      "text": "- biomass_understory: aboveground understory biomass at the plot level (Mg ha-1)."
+    },
+    {
+      "line": 64,
+      "text": "Specific leaf area (SLA)"
+    },
+    {
+      "line": 65,
+      "text": "- SLA_mean_unweighted: specific leaf area, calculated as the arithmetic mean across species within a plot (cm2 g-1)."
+    },
+    {
+      "line": 66,
+      "text": "- SLA_mean_BA_weighted: specific leaf area, calculated as a community-weighted mean using species basal area as weights (cm2 g-1)."
+    },
+    {
+      "line": 68,
+      "text": "Wood density (WD)"
+    },
+    {
+      "line": 69,
+      "text": "- WD_mean_unweighted: wood density, arithmetic mean across species within a plot (kg m-3)."
+    },
+    {
+      "line": 70,
+      "text": "- WD_mean_BA_weighted: wood density, basal-area weighted mean across species within a plot (kg m-3)."
+    },
+    {
+      "line": 72,
+      "text": "Leaf nutrient concentrations"
+    },
+    {
+      "line": 73,
+      "text": "- LNCM_mean_unweighted: mass-based leaf nitrogen concentration, arithmetic mean across species (%)."
+    },
+    {
+      "line": 74,
+      "text": "- LNCM_mean_BA_weighted: mass-based leaf nitrogen concentration, basal-area weighted mean (%)."
+    },
+    {
+      "line": 75,
+      "text": "- LNCA_mean_unweighted: area-based leaf nitrogen concentration, arithmetic mean across species (g m-2)."
+    },
+    {
+      "line": 76,
+      "text": "- LNCA_mean_BA_weighted: area-based leaf nitrogen concentration, basal-area weighted mean (g m-2)."
+    },
+    {
+      "line": 77,
+      "text": "- LPCM_mean_unweighted: mass-based leaf phosphorus concentration, arithmetic mean across species (%)."
+    },
+    {
+      "line": 78,
+      "text": "- LPCM_mean_BA_weighted: mass-based leaf phosphorus concentration, basal-area weighted mean (%)."
+    },
+    {
+      "line": 80,
+      "text": "Leaf stoichiometry"
+    },
+    {
+      "line": 81,
+      "text": "- CN_leaf_mean_unweighted: leaf carbon to nitrogen ratio, arithmetic mean across species (unitless)."
+    },
+    {
+      "line": 82,
+      "text": "- CN_leaf_mean_BA_weighted: leaf carbon to nitrogen ratio, basal-area weighted mean (unitless)."
+    },
+    {
+      "line": 83,
+      "text": "- NP_leaf_mean_unweighted: leaf nitrogen to phosphorus ratio, arithmetic mean across species (unitless)."
+    },
+    {
+      "line": 84,
+      "text": "- NP_leaf_mean_BA_weighted: leaf nitrogen to phosphorus ratio, basal-area weighted mean (unitless)."
+    },
+    {
+      "line": 86,
+      "text": "Tree height"
+    },
+    {
+      "line": 87,
+      "text": "- height_mean: mean tree height per plot (m)."
+    },
+    {
+      "line": 88,
+      "text": "- height_increment_mean: mean annual height increment per plot (m yr-1)."
+    },
+    {
+      "line": 90,
+      "text": "Canopy cover"
+    },
+    {
+      "line": 91,
+      "text": "- LAI: leaf area index at the plot level (m2 m-2)."
+    },
+    {
+      "line": 93,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 94,
+      "text": "TABLE 2: SPECIES-PER-PLOT-LEVEL VARIABLES (DS2)"
+    },
+    {
+      "line": 95,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 96,
+      "text": "Species identity:"
+    },
+    {
+      "line": 97,
+      "text": "- species: taxonomic identity of the focal tree species."
+    },
+    {
+      "line": 99,
+      "text": "Tree biomass:"
+    },
+    {
+      "line": 100,
+      "text": "- biomass_woody: aboveground woody biomass of the focal species within"
+    },
+    {
+      "line": 101,
+      "text": "the plot (Mg ha-1)."
+    },
+    {
+      "line": 103,
+      "text": "Specific leaf area (SLA)"
+    },
+    {
+      "line": 104,
+      "text": "- SLA: species-level specific leaf area (cm2 g-1)."
+    },
+    {
+      "line": 106,
+      "text": "Wood density (WD)"
+    },
+    {
+      "line": 107,
+      "text": "- WD: species-level wood density (kg m-3)."
+    },
+    {
+      "line": 109,
+      "text": "Leaf nutrient concentrations"
+    },
+    {
+      "line": 110,
+      "text": "- LNCM: species-level mass-based leaf nitrogen concentration (%)."
+    },
+    {
+      "line": 111,
+      "text": "- LNCA: species-level area-based leaf nitrogen concentration (g m-2)."
+    },
+    {
+      "line": 112,
+      "text": "- LPCM: species-level mass-based leaf phosphorus concentration (%)."
+    },
+    {
+      "line": 114,
+      "text": "Tree height"
+    },
+    {
+      "line": 115,
+      "text": "- height_increment: species-level mean annual height increment within the plot (m yr-1)."
+    },
+    {
+      "line": 120,
+      "text": "Functional diversity:"
+    },
+    {
+      "line": 121,
+      "text": "- fdis: functional dispersion (FDis) calculated at the plot level, based on species-level LAI, WD, LNCM, SLA and annual height increment."
+    },
+    {
+      "line": 125,
+      "text": "Net diversity effects (NDE):"
+    },
+    {
+      "line": 126,
+      "text": "- NDE_tree_biomass_unweighted: net diversity effect on aboveground woody biomass."
+    },
+    {
+      "line": 127,
+      "text": "- NDE_litterfall_unweighted: net diversity effect on litterfall biomass."
+    },
+    {
+      "line": 128,
+      "text": "- NDE_understory_unweighted: net diversity effect on understory biomass."
+    },
+    {
+      "line": 129,
+      "text": "- NDE_LAI_unweighted: net diversity effect on leaf area index."
+    },
+    {
+      "line": 141,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 142,
+      "text": "Details of experimental design, sampling protocols, trait measurements,"
+    },
+    {
+      "line": 143,
+      "text": "and statistical analyses are provided in the associated publication."
+    },
+    {
+      "line": 146,
+      "text": "community-weighted means (CWM), and \"_unweighted\" denotes arithmetic means"
+    },
+    {
+      "line": 147,
+      "text": "across species."
+    },
+    {
+      "line": 149,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 150,
+      "text": "MISSING VALUES"
+    },
+    {
+      "line": 151,
+      "text": "----------------------------------------------------------------"
+    },
+    {
+      "line": 152,
+      "text": "Missing values are coded as n.a."
+    }
+  ],
+  "original_source_row_counts": {
+    "DS1": 363,
+    "DS2": 689,
+    "DS3": 224
+  },
+  "original_species_plot_rows_exported": false,
+  "reason": "Original species-plot traits and plot woody biomass can be structurally joined, but source direct-vs-monoculture-vs-literature trait provenance and original observation-year alignment cannot be proven from DS2/DS1 workbook fields alone. Supplementary measurement provenance and dated study documentation required before novel effect.",
+  "source_DS1_DS2_coincident_mass_numeric_plot_keys": 328,
+  "source_DS1_DS2_exact_original_plot_overlap": 328,
+  "source_DS1_mass_numeric_plot_keys": 363,
+  "source_DS1_original_sites": 11,
+  "source_DS1_unique_plot_keys": 363,
+  "source_DS2_mass_numeric_plot_keys": 340,
+  "source_DS2_original_sites": 11,
+  "source_DS2_unique_plot_keys": 340,
+  "source_DS3_unique_plot_keys": 224,
+  "source_all_file_plot_overlap": 193,
+  "source_checksum_verified_files": {
+    "DS1.xlsx": "ab691e410093885d08ad8738cbdedf91",
+    "DS2.xlsx": "571e0ef965e28b8b31dd27f971efeff6",
+    "DS3.xlsx": "888d7a3d156be451966be3ca34b7892f"
+  },
+  "source_explicit_observation_year_fields": {
+    "DS1": [],
+    "DS2": []
+  },
+  "source_first_effect_gate_pass": false,
+  "source_original_site_by_block_by_plot_key_used": true,
+  "source_plot_support_thresholds": {
+    "min_eligible_plot_ids": 80,
+    "min_eligible_species_per_plot": 2,
+    "min_experiments_with_8plots": 5,
+    "min_unique_species": 20
+  },
+  "source_schema_trait_origin_flags": {
+    "DS1": [],
+    "DS2": [],
+    "DS3": []
+  },
+  "source_site_counts_of_DS1_DS2_overlap": {
+    "b-tree": 17,
+    "biotree_kaltenborn": 12,
+    "ecolink_uppsala": 45,
+    "forbio_gedinne": 21,
+    "forbio_hechtel-eksel": 22,
+    "forbio_zedelgem": 22,
+    "ident_freiburg": 34,
+    "ident_macomer": 33,
+    "matadiv": 22,
+    "mydiv": 80,
+    "orphee": 20
+  },
+  "source_sites_eligible_ge8": {
+    "b-tree": 9,
+    "biotree_kaltenborn": 8,
+    "ecolink_uppsala": 33,
+    "forbio_gedinne": 12,
+    "forbio_hechtel-eksel": 12,
+    "forbio_zedelgem": 12,
+    "ident_freiburg": 12,
+    "ident_macomer": 12,
+    "matadiv": 10,
+    "mydiv": 60,
+    "orphee": 10
+  },
+  "source_structural_plot_support_pass": true,
+  "status": "ORIGINAL_SOURCE_PLOT_SUPPORT_PASS_PROVENANCE_HOLD",
+  "study": "Jensen et al 2026 Figshare v1 TreeDivNet original DS1×DS2×DS3",
+  "unique_species_in_two_species_plus_plot_cohort": 40,
+  "version": "v0.1",
+  "source_manuscript_provenance": {
+    "paper_doi": "10.1111/1365-2435.70320",
+    "description": "Published Section 2.3 individual per-species per-plot trait measurements aggregated as required, wood mass from plot allometry; Section 2.5 reports site-specific monoculture (283) and compiled source (17) FDis values, but states literature/monoculture substitution restricted to published FDis; all other trait/biomass analyses use measured values.",
+    "source_status": "MEASURED_AGGREGATED_SPECIES_PLOT_VALUES_CONFIRMED_IN_MAIN_TEXT_BUT_INDIVIDUAL_TREE_MEASUREMENT_RECORDS_NOT_PUBLISHED",
+    "explicit_year_in_DS1_DS2": false,
+    "need": "Original experiment-specific sampling/measurement year confirmation and exact plot source provenance; do not claim complete direct individual data or family-K"
+  },
+  "verified_source": {
+    "run_url": "https://github.com/zuizui0223/turnover/actions/runs/43856186343",
+    "job_id": 133260918755,
+    "artifact_id": 14219414852,
+    "artifact_digest": "sha256:da149a9ec4d42665ad411120f38c57e84acb70e5284ed777a9de654dc653267b",
+    "original_files_md5_verified": true,
+    "no_effect_computed": true
+  }
+}

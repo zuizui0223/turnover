@@ -1,0 +1,93 @@
+{
+  "version": "v0.1",
+  "status": "TWO_INDEPENDENT_SOURCE_CANDIDATES_AUTH_HOLD",
+  "source_only": true,
+  "biological_effect_estimated": false,
+  "date_utc": "2026-11-16",
+  "source_code": "scripts/source/preflight_independent_field_trait_biomass_v0_1.py",
+  "source_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43853096898",
+    "job_id": 133250412876
+  },
+  "candidates": [
+    {
+      "DOI": "10.3334/ORNLDAAC/1292",
+      "NASA_CMR_DOI_lookup_status": 200,
+      "bio_data_downloaded": false,
+      "catalogue_reference": "https://daac.ornl.gov/NACP/guides/NACP_TERRA-PNW.html",
+      "cmr_collection_concept_id": "C2539885886-ORNL_CLOUD",
+      "cmr_granule_count_returned": 6,
+      "cmr_granule_lookup_status": 200,
+      "cmr_original_csv_links_discovered": 12,
+      "cmr_published_collections_matched": 1,
+      "cmr_short_name": "NACP_TERRA-PNW_1292",
+      "cmr_version_id": "1",
+      "dataset": "NASA NACP TERRA-PNW, ORNLDAAC/1292",
+      "ecological_effect_estimated": false,
+      "official_original_data_link_access_status": {
+        "biomass": 403,
+        "leaf": 403
+      },
+      "reason": "NASA CMR names original file references but actual data access requires credentials; do not seek bypass.",
+      "source_BIOMASS_gC_m2_field": "AG_BIOMASS_TREE_TOTAL_AS_CARBON",
+      "source_PROD_gC_m2_yr_field": "AG_PROD_TREE_TOTAL_AS_CARBON",
+      "source_measurement": "original measured leaf traits; aboveground tree wood+foliage carbon and production estimates, not destructive biomass dry-weight",
+      "source_published_biomass_site_records": 266,
+      "source_published_leaf_individuals": 1296,
+      "source_published_projects": 6,
+      "source_published_species": 35,
+      "status": "AUTH_HOLD"
+    },
+    {
+      "DOI": "10.5061/dryad.kprr4xh8v",
+      "biomass_effect_estimated": false,
+      "dataset": "2026 MA Continuous Forest Inventory original local trait / allometric AGB",
+      "dryad_dataset_id": 106480,
+      "dryad_dataset_meta_api_status": 200,
+      "dryad_files_api_status": 200,
+      "dryad_files_in_version": 11,
+      "dryad_license": "https://spdx.org/licenses/CC0-1.0.html",
+      "dryad_version_meta_api_status": 200,
+      "dryad_version_number": 7,
+      "dryad_visibility": "public",
+      "file_download_status_for_trait_obs.csv": 401,
+      "original_files_retrieved": [],
+      "public_file_metadata_shape": [
+        {
+          "id_from_HAL_self_link": true,
+          "id_resolved": true,
+          "keys": [
+            "_links",
+            "digest",
+            "digestType",
+            "mimeType",
+            "path",
+            "size",
+            "status"
+          ],
+          "name": "trait_obs.csv",
+          "reported_size_bytes": 9066
+        }
+      ],
+      "reason": "Dryad public original file download request not accessible; HTTP status logged without original rows",
+      "required_Dryad_files_present": [
+        "CFI_AGB_covars_092026.csv",
+        "cfi_ba.csv",
+        "trait_obs.csv"
+      ],
+      "source_expected_inventory_plot_years": 626,
+      "source_expected_inventory_plots": 304,
+      "source_expected_local_trait_plots": 26,
+      "source_expected_local_trait_tree_records": 142,
+      "source_expected_original_forests": 7,
+      "source_grain": "local treeID trait observations vs original 2000–2021 inventory plot-year response",
+      "status": "AUTH_HOLD"
+    }
+  ],
+  "next_action": "Seek alternate independently public original source before requesting any user credential; do not bypass NASA or Dryad authentication.",
+  "nonclaims": [
+    "No source original rows downloaded or original trait/biomass plot keys verified.",
+    "Published catalog counts are not joined plots.",
+    "No new family-specific K, FD or biomass association computed."
+  ]
+}

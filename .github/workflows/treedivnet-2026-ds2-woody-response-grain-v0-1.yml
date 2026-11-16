@@ -1,0 +1,55 @@
+name: TreeDivNet DS2 woody species-row data grain vs stand biomass source audit
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - scripts/source/audit_treedivnet_ds2_woody_response_grain_v0_1.py
+      - .github/workflows/treedivnet-2026-ds2-woody-response-grain-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_treedivnet_ds2_woody_response_grain_v0_1.py
+      - .github/workflows/treedivnet-2026-ds2-woody-response-grain-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-source-outcome-duplication:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source response-grain fixture; verify no ecological models
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_ds2_woody_response_grain_v0_1.py
+          python3 scripts/source/audit_treedivnet_ds2_woody_response_grain_v0_1.py --self-test
+      - name: Original-MD5 source DS1 and DS2 plot woody response equality
+        run: |
+          mkdir -p build/treedivnet_2026_response_grain
+          python3 scripts/source/audit_treedivnet_ds2_woody_response_grain_v0_1.py \
+            --out build/treedivnet_2026_response_grain/result_v0_1.json
+      - name: Validate original study-source response-grain audit and its strict interpretation
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/treedivnet_2026_response_grain/result_v0_1.json'))
+          assert d['no_ecological_effect_estimated'] is True
+          assert d['no_original_biomass_values_or_named_plot_ids_exported'] is True
+          assert d['do_not_sum_DS2_woody_across_species'] is True
+          assert d['DS1_unique_plots']==363
+          assert d['DS1_DS2_unique_matched_plots']==328
+          assert d['status'] in ('REPEATED_PLOT_BIOMASS_NOT_SPECIES_COMPONENT',
+            'MIXED_SPECIES_VS_PLOT_RESPONSE_GRAIN_HOLD','SOURCE_ROW_GRAIN_HOLD')
+          print('DS2_WOODY_RESPONSE_GRAIN_STATUS',d['status'],
+                d['matched_DS2_species_rows_equal_DS1_plot_biomass'],
+                '/',d['matched_DS2_species_rows_with_numeric_woody'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-DS2-species-row-repeated-plot-woody-mass-nonraw
+          path: build/treedivnet_2026_response_grain/result_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

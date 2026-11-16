@@ -1,0 +1,58 @@
+name: Verify uploaded TreeDivNet original Methods S1-S3 source metadata and historical gates
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - results/treedivnet_2026_user_supplied_methods_s1_s3_source_audit_v0_4.json
+      - docs/TREEDIVNET_USER_UPLOADED_SUPPLEMENT_METHODS_S1_S3_RESULTS_V0_4.md
+      - .github/workflows/treedivnet-uploaded-original-supplement-integrity-v0-4.yml
+  pull_request:
+    paths:
+      - results/treedivnet_2026_user_supplied_methods_s1_s3_source_audit_v0_4.json
+      - docs/TREEDIVNET_USER_UPLOADED_SUPPLEMENT_METHODS_S1_S3_RESULTS_V0_4.md
+      - .github/workflows/treedivnet-uploaded-original-supplement-integrity-v0-4.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-original-supplement-metadata:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm original uploaded document SHA, methods, existing 328/186 population and ecological HOLD boundaries
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('results')
+          s=json.loads((root/'treedivnet_2026_user_supplied_methods_s1_s3_source_audit_v0_4.json').read_text())
+          old=json.loads((root/'treedivnet_2026_original_DS1_DS2_plot_source_gate_v0_2.json').read_text())
+          assert s['document']['sha256']=='6e422d5bbe685e00b045634137c150e8a6824e8dd4c6f88da43beae2f2ee9ddd'
+          assert s['document']['bytes']==1170063 and s['document']['pages']==15
+          assert s['document']['original_binary_committed_to_GitHub'] is False
+          assert s['methods_s1']['ECOLINK_Uppsala']['taxonomic_richness_manipulated'] is False
+          assert s['methods_s1']['MataDIV']['only_fertilized_plots_included'] is True
+          assert s['methods_s2']['ECOLINK_Uppsala']['coppice_cycle_years']==3
+          assert s['methods_s2']['ECOLINK_Uppsala']['same_as_one_time_standing_stock'] is False
+          assert s['methods_s2']['ORPHEE']['some_Quercus_root_collar_diameters_estimated_from_DBH_or_height'] is True
+          assert s['methods_s3']['leaf_nutrient_means_by_species_within_plot_explicit'] is True
+          assert s['methods_s3']['per_site_sampling_year_reported'] is False
+          assert s['figure_s2']['ECOLINK_diameter_height_measurement_year']==2022
+          assert s['figure_s4']['in_situ_monoculture_averages']==283
+          assert s['figure_s4']['literature_or_database_values']==17
+          assert s['table_s5']['original_authors_ANOVA']['woody_biomass']['chi2']==18.441
+          assert s['table_s5']['original_authors_ANOVA']['litterfall_biomass']['p']=='<0.001'
+          assert s['table_s6']['original_authors_ANOVA']['SLA_weighted']['p']=='0.322'
+          assert s['table_s6']['original_authors_ANOVA']['LNCA_weighted']['p']=='0.006'
+          assert s['outcome_gates']['full_site_trait_vs_biomass_measurement_year']=='HOLD'
+          assert s['outcome_gates']['original_DS2_species_woody_to_DS1_plot_woody_scaling']=='HOLD'
+          assert s['outcome_gates']['no_new_ecological_effect_estimated'] is True
+          x=old['audits']['original_source_join']
+          assert x['source_joined_unique_site_block_plot']==328
+          assert x['plots_with_2plus_identical_axis_species_and_valid_DS1_woody_biomass']==186
+          report=Path('docs/TREEDIVNET_USER_UPLOADED_SUPPLEMENT_METHODS_S1_S3_RESULTS_V0_4.md').read_text()
+          for key in ('Methods S1','Methods S2','Methods S3','ECOLINK','MataDIV','three-year','283','17','HOLD'):
+              assert key in report,key
+          print('UPLOADED_METHODS_SOURCE_METADATA_INTEGRITY_PASS: DOCX hashed; ECOLINK genotype+3yr cumulative, MataDIV fertilized, 186 source support, time and woody conversion hold')
+          PY

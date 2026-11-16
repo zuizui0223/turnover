@@ -1,0 +1,98 @@
+name: Verify BIODEPTH paired native S3 original-source aggregate arithmetic
+on:
+  push:
+    branches: [analysis/biodepth-pd-native-paired-cohort-20261116]
+    paths:
+      - results/biodepth_2010_species_source_v0_1/paired_native_full_s3_same102_verified_v0_1.json
+      - docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_RESULTS_V0_1.md
+      - .github/workflows/biodepth-native-s3-same102-result-integrity-v0-1.yml
+  pull_request:
+    paths:
+      - results/biodepth_2010_species_source_v0_1/paired_native_full_s3_same102_verified_v0_1.json
+      - docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_RESULTS_V0_1.md
+      - .github/workflows/biodepth-native-s3-same102-result-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-data-aggregate-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Independently recalculate saved 7-site paired score identities
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          b=Path("results/biodepth_2010_species_source_v0_1")
+          old=json.loads((b/"matched_pd_fd_biomass_source_verified_result_v0_1.json").read_text())
+          d=json.loads((b/"paired_native_full_s3_same102_verified_v0_1.json").read_text())
+          assert d["status"]=="POSTRESULT_PAIRED_102_NATIVE_S3_COHORT_DIAGNOSTIC_ESTIMATED"
+          assert d["original_150_cohort"]["plots"]==150 and d["original_150_cohort"]["plot_years"]==449
+          assert d["replayed_102_native_cohort"]["plots"]==102 and d["replayed_102_native_cohort"]["plot_years"]==305
+          assert d["new_102_cohort_full_S3"]["plots"]==102 and d["new_102_cohort_full_S3"]["plot_years"]==305
+          assert d["new_102_cohort_full_CWM_FD_with_native_PD"]["plots"]==102
+          assert d["source_structure"]["n_102_plots_with_more_S3_tip_coverage_than_native"]==34
+          assert d["source_structure"]["n_102_plots_with_different_PD_value"]==34
+          assert d["source_structure"]["n_102_plots_with_different_CWM_or_FD"]==34
+          assert d["parent_original_150_and_102_site_sse_verified_exact"] is True
+          assert d["historical_outcomes_seen_prior_to_new_design"] is True
+          assert d["no_original_family_K_or_BIEN_rho_matched"] is True
+          A=d["original_150_cohort"]["mass_PD_increment"]
+          B=d["new_102_cohort_full_S3"]["mass_PD_increment"]
+          C=d["replayed_102_native_cohort"]["mass_PD_increment"]
+          D=d["new_102_cohort_full_CWM_FD_with_native_PD"]["mass_PD_increment"]
+          parent_a=old["primary_biomass_incremental_PD_over_FD_and_CWM"]
+          parent_c=old["mandatory_native_only_sensitivity"]["prediction"]
+          def check(result,expected_units,positive_sites):
+              rows=result["site_records"]
+              assert len(rows)==7 and sum(x["n_units"] for x in rows)==expected_units
+              for s in rows:
+                  assert s["baseline_sse"]>0
+                  assert math.isclose(s["pd_incremental_SSE_gain"],
+                       1-s["with_pd_sse"]/s["baseline_sse"],rel_tol=0,abs_tol=1e-11)
+              mean=sum(s["pd_incremental_SSE_gain"] for s in rows)/7
+              assert math.isclose(mean,result["site_equal_mean_gain"],abs_tol=1e-12)
+              assert sum(s["pd_incremental_SSE_gain"]>0 for s in rows)==positive_sites
+              assert result["positive_source_transport_supported"] is False
+              assert result["site_bootstrap_ci95"][0]<=mean<=result["site_bootstrap_ci95"][1]
+              return mean
+          means=[check(A,449,4),check(B,305,3),check(C,305,2),check(D,305,3)]
+          assert math.isclose(100*means[0],-1.4511753119435358,abs_tol=1e-10)
+          assert math.isclose(100*means[1],-4.008463029040919,abs_tol=1e-10)
+          assert math.isclose(100*means[2],-3.5001507155048315,abs_tol=1e-10)
+          assert math.isclose(100*means[3],-3.5146881350710535,abs_tol=1e-10)
+          for x,y in ((A,parent_a),(C,parent_c)):
+              for now,prev in zip(x["site_records"],y["site_records"]):
+                  assert now["site"]==prev["site"]
+                  for k in ("baseline_sse","with_pd_sse","pd_incremental_SSE_gain"):
+                      assert math.isclose(now[k],prev[k],rel_tol=0,abs_tol=1e-10)
+          for f,n in zip(B["site_records"],D["site_records"]):
+              assert f["site"]==n["site"]
+              assert f["n_units"]==n["n_units"]
+              assert math.isclose(f["baseline_sse"],n["baseline_sse"],rel_tol=0,abs_tol=1e-10)
+          pairs=[
+            (d["paired_comparison_A_full_150_to_full_102"],A,B),
+            (d["paired_comparison_B_full_102_to_native_102"],B,C),
+            (d["paired_comparison_C_full_102_PD_to_native_102_PD_given_same_CWM_FD"],B,D),
+          ]
+          for record,left,right in pairs:
+              score=(right["site_equal_mean_gain"]-left["site_equal_mean_gain"])*100
+              assert math.isclose(score,record["mean_gains_difference_pp"],abs_tol=1e-11)
+              sites_left={r["site"]:r["pd_incremental_SSE_gain"] for r in left["site_records"]}
+              sites_right={r["site"]:r["pd_incremental_SSE_gain"] for r in right["site_records"]}
+              assert set(sites_left)==set(sites_right)
+              for site,delta in record["per_site_difference_pp"].items():
+                  assert math.isclose(100*(sites_right[site]-sites_left[site]),delta,abs_tol=1e-10)
+              assert record["site_resampling_iterations"]==10000
+              assert record["site_paired_bootstrap_ci95_pp"][0]<=score<=record["site_paired_bootstrap_ci95_pp"][1]
+          e=d["verified_source"]
+          assert e["workflow_run_id"]==43828231403
+          assert e["artifact_id"]==14207851720
+          assert e["artifact_sha256"]=="28de2f2550066b67a371525b78a82a9ef21ef6da1bc04191839dde9e873935b4"
+          narrative=Path("docs/BIODEPTH_PAIRED_NATIVE_GRAFT_COHORT_RESULTS_V0_1.md").read_text()
+          for token in ("−4.008%","−3.500%","+0.508","−2.557","+0.494","34/102","retrospective","HOLD"):
+              assert token in narrative,token
+          print("PAIRED_NATIVE_S3_AGGREGATE_VERIFIED: -1.451% 150; -4.008% full102; -3.500% native102; fixed-CWM/FD native-PD -3.515%.")
+          PY

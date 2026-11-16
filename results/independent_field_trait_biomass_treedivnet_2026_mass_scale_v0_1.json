@@ -1,0 +1,244 @@
+{
+  "candidate_match_fraction": {
+    "direct_species_sum": 0.4115853658536585,
+    "mean_per_Ds2_species": 0.9847560975609756,
+    "mean_per_sown_richness": 0.9847560975609756
+  },
+  "candidate_matched_plot_totals": {
+    "direct_species_sum": 135,
+    "mean_per_Ds2_species": 323,
+    "mean_per_sown_richness": 323
+  },
+  "conditional_source_normalization_pattern": {
+    "mean_per_Ds2_species": {
+      "original_plot_match_fraction": 0.9847560975609756,
+      "pattern_found": true,
+      "sites_with_atleast_as_many_matches_as_sum": 11
+    },
+    "mean_per_sown_richness": {
+      "original_plot_match_fraction": 0.9847560975609756,
+      "pattern_found": true,
+      "sites_with_atleast_as_many_matches_as_sum": 11
+    }
+  },
+  "no_ecological_effect_fitted": true,
+  "no_species_biomass_raw_rows_exported": true,
+  "nonclaims": [
+    "Scale ratios alone cannot prove original Figshare per-species area representation",
+    "Do not change original woody mass response, reinterpret mass without original author metadata, or test effect with one of three chosen ratios",
+    "No family-specific trait K, FD or biomass association estimated"
+  ],
+  "original_ds2_species_rows_not_equal_planted_richness": 6,
+  "original_mass_source_qa_gate_stays_HOLD": true,
+  "original_planted_richness_strata_aggregates": {
+    "1": {
+      "equal_species_count_mean_match": 135,
+      "n_numeric": 135,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1,
+        "q25": 1,
+        "q75": 1
+      },
+      "sown_richness_mean_match": 135,
+      "sum_match": 135
+    },
+    "2": {
+      "equal_species_count_mean_match": 110,
+      "n_numeric": 110,
+      "source_mass_to_species_sum_ratio": {
+        "median": 2,
+        "q25": 1.9999999999999998,
+        "q75": 2.0000000000000004
+      },
+      "sown_richness_mean_match": 110,
+      "sum_match": 0
+    },
+    "3": {
+      "equal_species_count_mean_match": 20,
+      "n_numeric": 20,
+      "source_mass_to_species_sum_ratio": {
+        "median": 3,
+        "q25": 2.9999999999999996,
+        "q75": 3.0000000000000004
+      },
+      "sown_richness_mean_match": 20,
+      "sum_match": 0
+    },
+    "4": {
+      "equal_species_count_mean_match": 53,
+      "n_numeric": 57,
+      "source_mass_to_species_sum_ratio": {
+        "median": 4,
+        "q25": 3.9999999999999996,
+        "q75": 4
+      },
+      "sown_richness_mean_match": 54,
+      "sum_match": 0
+    },
+    "5plus": {
+      "equal_species_count_mean_match": 5,
+      "n_numeric": 6,
+      "source_mass_to_species_sum_ratio": {
+        "median": 6,
+        "q25": 5.659317523354783,
+        "q75": 6.000000000000001
+      },
+      "sown_richness_mean_match": 4,
+      "sum_match": 0
+    }
+  },
+  "original_strict_direct_sum_match_fraction": 0.4115853658536585,
+  "original_strict_direct_sum_match_plots": 135,
+  "post_original_sum_failure_diagnostic": true,
+  "post_source_discovery_richness_mismatch_vs_normalization_crosscheck": {
+    "missing_DS2_species_relative_to_planted": {
+      "sown_richness_mean_match": 1,
+      "species_mean_match": 1,
+      "total": 6
+    },
+    "same_DS2_species_count_as_planted": {
+      "sown_richness_mean_match": 322,
+      "species_mean_match": 322,
+      "total": 322
+    }
+  },
+  "source": "TreeDivNet Jensen et al 2026 Figshare v1",
+  "source_evidence_not_accepted_as_confirmed_unit_conversion": true,
+  "source_numeric_original_woody_mass_comparable_plots": 328,
+  "source_only": true,
+  "source_original_numeric_missingness": {},
+  "source_original_plot_keys_joined": 328,
+  "source_site_aggregates": {
+    "b-tree": {
+      "equal_species_count_mean_match": 17,
+      "n_numeric": 17,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1.9999999999999996,
+        "q25": 1,
+        "q75": 2.0000000000000004
+      },
+      "sown_richness_mean_match": 17,
+      "sum_match": 8
+    },
+    "biotree_kaltenborn": {
+      "equal_species_count_mean_match": 12,
+      "n_numeric": 12,
+      "source_mass_to_species_sum_ratio": {
+        "median": 2,
+        "q25": 1,
+        "q75": 2.0000000000000004
+      },
+      "sown_richness_mean_match": 12,
+      "sum_match": 4
+    },
+    "ecolink_uppsala": {
+      "equal_species_count_mean_match": 45,
+      "n_numeric": 45,
+      "source_mass_to_species_sum_ratio": {
+        "median": 2,
+        "q25": 1,
+        "q75": 2.9999999999999996
+      },
+      "sown_richness_mean_match": 45,
+      "sum_match": 12
+    },
+    "forbio_gedinne": {
+      "equal_species_count_mean_match": 21,
+      "n_numeric": 21,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1.9999999999999998,
+        "q25": 1,
+        "q75": 2.0000000000000004
+      },
+      "sown_richness_mean_match": 21,
+      "sum_match": 9
+    },
+    "forbio_hechtel-eksel": {
+      "equal_species_count_mean_match": 22,
+      "n_numeric": 22,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1.9999999999999998,
+        "q25": 1,
+        "q75": 2.0000000000000004
+      },
+      "sown_richness_mean_match": 22,
+      "sum_match": 10
+    },
+    "forbio_zedelgem": {
+      "equal_species_count_mean_match": 22,
+      "n_numeric": 22,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1.9999999999999991,
+        "q25": 1,
+        "q75": 2
+      },
+      "sown_richness_mean_match": 22,
+      "sum_match": 10
+    },
+    "ident_freiburg": {
+      "equal_species_count_mean_match": 33,
+      "n_numeric": 34,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1,
+        "q25": 1,
+        "q75": 1.9999999999999998
+      },
+      "sown_richness_mean_match": 32,
+      "sum_match": 22
+    },
+    "ident_macomer": {
+      "equal_species_count_mean_match": 30,
+      "n_numeric": 33,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1,
+        "q25": 1,
+        "q75": 2
+      },
+      "sown_richness_mean_match": 30,
+      "sum_match": 18
+    },
+    "matadiv": {
+      "equal_species_count_mean_match": 22,
+      "n_numeric": 22,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1,
+        "q25": 1,
+        "q75": 3.0000000000000004
+      },
+      "sown_richness_mean_match": 22,
+      "sum_match": 12
+    },
+    "mydiv": {
+      "equal_species_count_mean_match": 80,
+      "n_numeric": 80,
+      "source_mass_to_species_sum_ratio": {
+        "median": 2.0000000000000004,
+        "q25": 1.7499999999999993,
+        "q75": 4
+      },
+      "sown_richness_mean_match": 80,
+      "sum_match": 20
+    },
+    "orphee": {
+      "equal_species_count_mean_match": 19,
+      "n_numeric": 20,
+      "source_mass_to_species_sum_ratio": {
+        "median": 1.5,
+        "q25": 1,
+        "q75": 2.0000000000000004
+      },
+      "sown_richness_mean_match": 20,
+      "sum_match": 10
+    }
+  },
+  "status": "SOURCE_SCALE_PATTERN_FOUND_UNCONFIRMED_PHYSICAL_MEANING",
+  "version": "v0.1",
+  "workflow_source_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43858126778",
+    "job_id": 133267594312,
+    "artifact_id": 14221751670,
+    "artifact_digest": "sha256:540381a7c94b35dba4f0423941de5a5275a38fb1dbad4604747983ea8c14c3a0",
+    "source_files_md5_verified": true,
+    "no_biological_effect_fitted": true
+  }
+}

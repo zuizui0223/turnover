@@ -1,0 +1,34 @@
+# TreeDivNet: uploaded original Methods S1–S3 and the frozen cross-site original-source eligibility audit (v0.4)
+
+**Provenance:** Uploaded original publisher 15-page supplement `fec70320-sup-0001-figures1-s12-tables5-s6.docx`; binary SHA256 `6e422d5bbe685e00b045634137c150e8a6824e8dd4c6f88da43beae2f2ee9ddd`, 1,170,063 bytes, locally inspected with python-docx on 2026-11-16. Original document is NOT committed to GitHub. Derived machine-readable audit stored in `results/treedivnet_2026_user_supplied_methods_s1_s3_source_audit_v0_4.json`. This explicitly supersedes the prior *access* HOLD for the single Methods S2/S3 document, **not** the original method-year/normalization evidence gates.
+
+## What the uploaded supplement actually says (page 15)
+
+1. **Methods S1:** ECOLINK Uppsala manipulated **genetic**, not taxonomic, diversity. Most experiments excluded manipulated fertilizer/irrigation; MataDIV Brazil was included with **only fertilized** plots. Hence ECOLINK cannot be represented as a replicated manipulated tree-*species richness* field experiment.
+2. **Methods S2:** ECOLINK Uppsala willow coppice follows **three-year cutting cycles** and the reported accumulated woody biomass is the **sum across individual harvest years**. A harvest-specific allometric equation was used except first harvest: stools were manually weighed. This is not automatically the same endpoint as a **single-time standing biomass** in other studies. ORPHEE Quercus root-collar diameters were sometimes inferred using DBH/height. At IDENT Freiburg, Rubus and non-target woody seedlings were removed.
+3. **Methods S3:** Leaf sampling at top of crown in IDENT Macomer and IDENT Freiburg but across the canopy at other sites; original chemistry protocols differ among sites. Nutrients were calculated as individual **species×plot means** and then overall plot means, supporting plot/species measured-method provenance. **No original sample IDs and no site-level biomass-versus-trait observation-year crosswalk** are provided here. LNCA = LNCM × (1/SLA).
+4. **Fig S2 (page 3)**: ECOLINK 2022 is the **local diameter–height relationship** figure's year, not an original same-year trait/biomass match for all experiments.
+5. **Fig S4 (page 5):** The original published FDis input contains 283 in situ monoculture trait averages plus 17 literature/database values; separate from DS2 original species-per-plot trait columns. Avoid conflating derived FDis reference traits and actual plot-local leaves.
+6. **Table S5 (page 14):** The *authors* found expected-versus-observed mixtures differ for woody (chi-square 18.441, p<0.001) and litterfall (29.562, p<0.001), not understory (1.051, p=.305). Table S6 supports unweighted SLA and LNCA differences but not basal-area-weighted SLA or wood density. These are **already published authors' results**, not a new outcome.
+7. **Figs S11/S12 (pages 12–13)** present the *authors'* six-experiment SEM, not an independent 11-site confirmation or evidence of a new causal K→FD→woody pathway.
+
+## Non-outcome original source site-eligibility comparison — frozen before site counts open
+
+The prior source audit passed exact DS1↔DS2 `site×block×plot` join on **328 plots across 11 sites**, with **186 plots** across 10 sites satisfying original ≥2 positive *same-axis* species trait records and finite nonnegative DS1 woody response. The independent source check must reproduce **all 328 and all 186** before applying uploaded Methods site exclusions.
+
+- Identify ECOLINK Uppsala using original site strings after deterministic casefold and stripping punctuation/whitespace, and accept **only one original site identifier** containing `ecolink` (also record `uppsala`). If no unique match, report **`SITE_CLASSIFICATION_HOLD`**; do not guess.
+- Identify MataDIV similarly by exact normalized `matadiv` token; one original site expected. If no unique match, **HOLD** strict grouping and report source labels only in the temporary runner log, not source plot IDs.
+- Reproduce all original source 328-plot matches, 11 sites and **186 source eligible** plots, and original same-axis SLA, LNCM, WD counts (165,170,77); do not alter prior data quality thresholds.
+- Report plot counts and trait-coverage source counts for (A) all 11 sites; (B) dropping the one **genotype-based and cumulative-harvest** ECOLINK site; (C) additionally dropping the exclusively fertilized MataDIV site, as **source design sensitivity only**. Do not interpret (B) and (C) as independent ecological effects or claim fertilization invalidates all MataDIV data (it defines that experimental sample).
+- A new **taxonomic diversity × standing woody response study** cannot use ECOLINK as if genetically manipulated willow varieties were independent tree species, or treat its cumulatively harvested woody mass as a single standing-stock measurement. Do **not** use data-derived mass quantiles, the previous authors' significant result, or posthoc station effects to choose exclusions. These are fixed from uploaded Methods **before** these source eligibility counts.
+- Report whether after the ECOLINK source restriction the originally frozen structural gate still has **≥80** plots with ≥2 source species of the same positive trait axis, **≥5** remaining experimental sites with ≥8 eligible plots and **≥20** original source taxa with positive same-axis traits. This only qualifies **source numerical design**, NOT observation-year alignment, field-individual provenance or conversion methods.
+- Original species/taxon keys, plot keys and numeric response values are not exported. Only source counts and per *published original site name* counts may be archived, with no individual source values. No ecological FD–biomass regression, tree K, environment causal model or PD estimation in this phase.
+
+## Still unresolved
+
+- Supplement **Table S1** source observation dates (not inside this 15-page DOCX) for each site's original tree-biomass and original leaf trait years; the previous `TEMPORAL_ALIGNMENT_HOLD` stays.
+- Supplement **Table S3** original per-site allometric equations (not inside this DOCX) and an explicit source scaling explanation for 321/328 original plot cases with `DS1 woody = mean(DS2 species-row woody)`; source arithmetic alone does not establish this biological meaning. The previous **`WOODY_SPECIES_TO_PLOT_NORMALIZATION_HOLD`** stays.
+- While Methods S3 supports per-plot species nutrient measurements, the uploaded supplement does not add **individual tree or leaf-sample IDs**, so per-original-row provenance remains **`INDIVIDUAL_SOURCE_LINEAGE_HOLD`**.
+- 11 experimental sites and 38–40 original taxa cannot yield ≥12 independent plant families ×20 taxon/trait species (≥240 species), thus no family-specific evolutionary-memory-K→FD→mass study follows.
+
+Historical source HOLD constraints in BIEN/sPlotOpen, original BIODEPTH and NEON remain unchanged. No source outcome reruns or `main` merge.

@@ -1,0 +1,242 @@
+{
+  "MataDIV_excluded_source_only_sensitivity_heldout_FD_increment": {
+    "bootstrap_iterations": 10000,
+    "bootstrap_seed": 20261117,
+    "heldout_original_study_site_records": [
+      {
+        "baseline_cwm_and_richness_SSE": 0.7831770329558221,
+        "incremental_FD_woody_holdout_SSE_gain": -1.3416092321665274,
+        "n_original_source_heldout_plots": 9,
+        "site": "B-Tree",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 1.8338945707901415
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 14.57410447108115,
+        "incremental_FD_woody_holdout_SSE_gain": 0.0316631000154497,
+        "n_original_source_heldout_plots": 12,
+        "site": "FORBIO_Gedinne",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 14.112643143577694
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 5.148814047181367,
+        "incremental_FD_woody_holdout_SSE_gain": -0.9685345482636722,
+        "n_original_source_heldout_plots": 12,
+        "site": "FORBIO_Hechtel-Eksel",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 10.135618334461823
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 20.60568506293422,
+        "incremental_FD_woody_holdout_SSE_gain": -0.1665529182657175,
+        "n_original_source_heldout_plots": 12,
+        "site": "IDENT_Macomer",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 24.037622043030222
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 14.380448101543333,
+        "incremental_FD_woody_holdout_SSE_gain": -2.8647067251872578,
+        "n_original_source_heldout_plots": 58,
+        "site": "MyDiv",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 55.576214489240854
+      }
+    ],
+    "mean_equal_study_site_FD_increment_SSE_gain": -1.061948064773545,
+    "mean_equal_study_site_FD_increment_SSE_gain_pct": -106.1948064773545,
+    "model": "M1 original log2 richness + source train-scaled log SLA and log LNCM community means; M2 adds equally planted weighted source pairwise Euclidean 2D FD; weighted OLS 1/n_site, predict heldout original study site woody log1p dry mass (Mg/ha).",
+    "n_independent_original_study_sites": 5,
+    "n_study_sites_required_positive": 4,
+    "n_study_sites_with_gain_positive": 1,
+    "original_site_bootstrap_CI95": [
+      -1.9808132615425702,
+      -0.24766283695284158
+    ],
+    "original_site_bootstrap_CI95_pct": [
+      -198.08132615425703,
+      -24.76628369528416
+    ],
+    "predeclared_positive_transfer_supported": false
+  },
+  "MataDIV_excluded_source_original_plot_support": {
+    "does_not_include_original_genotype_or_coppice_ECOLINK": true,
+    "excluded_small_site_source_plots": 4,
+    "heldout_source_sites": {
+      "B-Tree": 9,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "IDENT_Macomer": 12,
+      "MyDiv": 58
+    },
+    "n_original_stand_plots": 103,
+    "n_original_taxa_fully_two_trait_observed": 23,
+    "orig_species_coverage_fraction_min": 1,
+    "original_biomass_woody_stand_response_from_DS1_only": true,
+    "original_eligible_source_sites_before_min8": {
+      "B-Tree": 9,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "IDENT_Freiburg": 4,
+      "IDENT_Macomer": 12,
+      "MyDiv": 58
+    },
+    "original_pre_site8_source_plots": 107,
+    "scope": "MataDIV_EXCLUDED"
+  },
+  "historical_global_BIEN_sPlotOpen_BIODEPTH_NEON_closed_source_gates_untouched": true,
+  "main_heldout_study_site_woody_FD_increment": {
+    "bootstrap_iterations": 10000,
+    "bootstrap_seed": 20261117,
+    "heldout_original_study_site_records": [
+      {
+        "baseline_cwm_and_richness_SSE": 1.602511864443529,
+        "incremental_FD_woody_holdout_SSE_gain": -0.012381755614538914,
+        "n_original_source_heldout_plots": 9,
+        "site": "B-Tree",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 1.622353774718468
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 13.364868455291747,
+        "incremental_FD_woody_holdout_SSE_gain": 0.04232334443598196,
+        "n_original_source_heldout_plots": 12,
+        "site": "FORBIO_Gedinne",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 12.799222524316844
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 6.862742064914104,
+        "incremental_FD_woody_holdout_SSE_gain": -0.8378346959660194,
+        "n_original_source_heldout_plots": 12,
+        "site": "FORBIO_Hechtel-Eksel",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 12.612585476364625
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 18.841895704638596,
+        "incremental_FD_woody_holdout_SSE_gain": -0.4546430604727101,
+        "n_original_source_heldout_plots": 12,
+        "site": "IDENT_Macomer",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 27.408232832903096
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 3.487985691708551,
+        "incremental_FD_woody_holdout_SSE_gain": -0.9805562357934616,
+        "n_original_source_heldout_plots": 10,
+        "site": "MataDIV",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 6.908151812071742
+      },
+      {
+        "baseline_cwm_and_richness_SSE": 17.556842736770538,
+        "incremental_FD_woody_holdout_SSE_gain": 0.1487763921492985,
+        "n_original_source_heldout_plots": 58,
+        "site": "MyDiv",
+        "train_source_study_site_balanced": true,
+        "with_two_axis_FD_SSE": 14.944799016861202
+      }
+    ],
+    "mean_equal_study_site_FD_increment_SSE_gain": -0.3490526685435749,
+    "mean_equal_study_site_FD_increment_SSE_gain_pct": -34.90526685435749,
+    "model": "M1 original log2 richness + source train-scaled log SLA and log LNCM community means; M2 adds equally planted weighted source pairwise Euclidean 2D FD; weighted OLS 1/n_site, predict heldout original study site woody log1p dry mass (Mg/ha).",
+    "n_independent_original_study_sites": 6,
+    "n_study_sites_required_positive": 5,
+    "n_study_sites_with_gain_positive": 2,
+    "original_site_bootstrap_CI95": [
+      -0.7077547032389422,
+      -0.015620758401993217
+    ],
+    "original_site_bootstrap_CI95_pct": [
+      -70.77547032389421,
+      -1.5620758401993218
+    ],
+    "predeclared_positive_transfer_supported": false
+  },
+  "main_source_original_plot_support": {
+    "does_not_include_original_genotype_or_coppice_ECOLINK": true,
+    "excluded_small_site_source_plots": 4,
+    "heldout_source_sites": {
+      "B-Tree": 9,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "IDENT_Macomer": 12,
+      "MataDIV": 10,
+      "MyDiv": 58
+    },
+    "n_original_stand_plots": 113,
+    "n_original_taxa_fully_two_trait_observed": 29,
+    "orig_species_coverage_fraction_min": 1,
+    "original_biomass_woody_stand_response_from_DS1_only": true,
+    "original_eligible_source_sites_before_min8": {
+      "B-Tree": 9,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "IDENT_Freiburg": 4,
+      "IDENT_Macomer": 12,
+      "MataDIV": 10,
+      "MyDiv": 58
+    },
+    "original_pre_site8_source_plots": 117,
+    "scope": "MataDIV_FERTILIZED_CONTEXT_RETAINED"
+  },
+  "new_exploratory_estimand": "Original plot-measured SLA+LNCM dispersion predictive increment over original species richness and same-original-trait means for DS1 woody stand stock across unseen source experiments.",
+  "no_causal_conclusion_authorized": true,
+  "no_independent_experiment_replication_of_Jensen_2026": true,
+  "no_phylogenetic_K_or_BIEN_rho_directly_estimated": true,
+  "original_DS1_stand_woody_response_only": true,
+  "original_DS2_species_woody_col_never_used": true,
+  "original_DS2_species_woody_vs_DS1_stand_scaling_still_HOLD_but_unneeded_for_new_plot_predictor_response_join": true,
+  "original_Figshare_MD5_pinned_DS1_DS2": true,
+  "original_genetic_coppice_ECOLINK_study_never_in_source_population": true,
+  "original_paper_positive_FDis_mixing_results_already_known": true,
+  "original_uploaded_TableS1_source_SHA256": "245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee",
+  "original_user_TableS1_original_binary_not_committed": true,
+  "original_woody_source_original_allometry_site_methods_heterogeneous": true,
+  "source_frozen_design": "docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md",
+  "sources_original_individual_row_lineage_still_not_verified": true,
+  "status": "POSTRESULT_EXPLORATORY_TREE_DIVNET_ORIGINAL_PLOT_TRAIT_FD_SITE_TRANSFER_ESTIMATED",
+  "version": "v0.1",
+  "verified_original_source_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43905844746",
+    "job_id": 133434312953,
+    "artifact_id": 14245291977,
+    "artifact_digest": "sha256:d82e78f67292eb3e064b033a2340ecba9c915080a599078e189b20a72cd640c7",
+    "source_original_public_Figshare_MD5_and_uploaded_TableS1_source_SHA": true
+  },
+  "posthoc_descriptive_site_influence_from_already_fitted_site_scores": {
+    "main": {
+      "original_outcome_site_scores_already_fit": true,
+      "mean_after_omitting_one_already_scored_site_pct_by_site": {
+        "B-Tree": -41.63868511293821,
+        "FORBIO_Gedinne": -42.73278711394863,
+        "FORBIO_Hechtel-Eksel": -25.129626305908605,
+        "IDENT_Macomer": -32.793459015774786,
+        "MataDIV": -22.275195509359758,
+        "MyDiv": -44.86184806821497
+      },
+      "n_site_gains_positive": 2,
+      "full_mean_pct": -34.90526685435749,
+      "highest_predictive_gain_source_site": "MyDiv",
+      "lowest_predictive_gain_source_site": "MataDIV",
+      "cannot_infer_causal_treatment_from_observational_site_omission": true
+    },
+    "MataDIV_excluded": {
+      "original_outcome_site_scores_already_fit": true,
+      "mean_after_omitting_one_already_scored_site_pct_by_site": {
+        "B-Tree": -99.20327729252995,
+        "FORBIO_Gedinne": -133.5350855970794,
+        "FORBIO_Hechtel-Eksel": -108.53014439010131,
+        "IDENT_Macomer": -128.5796851400502,
+        "MyDiv": -61.125839967011686
+      },
+      "n_site_gains_positive": 1,
+      "full_mean_pct": -106.19480647735449,
+      "highest_predictive_gain_source_site": "FORBIO_Gedinne",
+      "lowest_predictive_gain_source_site": "MyDiv",
+      "cannot_infer_causal_treatment_from_observational_site_omission": true
+    }
+  }
+}

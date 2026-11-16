@@ -1,0 +1,96 @@
+name: Verify archived TreeDivNet measured SLA LNCM FD woody site-heldout outcome and source limits
+on:
+  push:
+    branches: [analysis/treedivnet-observed-sla-lncm-site-transport-20261117]
+    paths:
+      - results/treedivnet_plot_local_observed_SLA_LNCM_FD_woody_site_holdout_v0_1.json
+      - docs/TREEDIVNET_PLOT_OBSERVED_SLA_LNCM_FD_WOODY_TRANSFER_RESULTS_V0_1.md
+      - .github/workflows/treedivnet-observed-trait-FD-woody-outcome-integrity-v0-1.yml
+  pull_request:
+    paths:
+      - results/treedivnet_plot_local_observed_SLA_LNCM_FD_woody_site_holdout_v0_1.json
+      - docs/TREEDIVNET_PLOT_OBSERVED_SLA_LNCM_FD_WOODY_TRANSFER_RESULTS_V0_1.md
+      - .github/workflows/treedivnet-observed-trait-FD-woody-outcome-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-nonraw-original-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recalculate all source-site FD incremental SSE gains, source population counts, model nonclaims and bibliographic provenance
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          root=Path('results')
+          d=json.loads((root/'treedivnet_plot_local_observed_SLA_LNCM_FD_woody_site_holdout_v0_1.json').read_text())
+          src=json.loads((root/'treedivnet_original_plot_local_SLA_LNCM_80pct_source_coverage_v0_1.json').read_text())
+          s1=json.loads((root/'treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json').read_text())
+          allom=json.loads((root/'treedivnet_uploaded_original_TableS3_allometry_source_audit_v0_7.json').read_text())
+          assert d['status']=='POSTRESULT_EXPLORATORY_TREE_DIVNET_ORIGINAL_PLOT_TRAIT_FD_SITE_TRANSFER_ESTIMATED'
+          assert d['source_frozen_design']=='docs/TREEDIVNET_OBSERVED_PLOT_TRAIT_FD_WOODY_SITE_TRANSFER_FROZEN_V0_1.md'
+          assert Path(d['source_frozen_design']).is_file()
+          assert src['no_FD_PD_K_or_biomass_prediction_computed'] is True
+          assert src['original_source_only_cohorts']['excluding_ECOLINK']['n_original_source_plots_full_joint_axis_trait_coverage_ge80pct']==117
+          assert src['original_source_only_cohorts']['excluding_ECOLINK_and_MataDIV']['n_original_source_plots_full_joint_axis_trait_coverage_ge80pct']==107
+          assert d['original_uploaded_TableS1_source_SHA256']==s1['source_uploaded_workbook']['sha256']
+          assert allom['status'].endswith('DS2_DS1_ORIGINAL_BIOMASS_SCALING_HOLD')
+          assert allom['science_gate_decision']['new_ecological_FD_PD_K_woody_biomass_effect_computed'] is False
+          assert d['original_paper_positive_FDis_mixing_results_already_known'] is True
+          assert d['original_DS1_stand_woody_response_only'] is True
+          assert d['original_DS2_species_woody_col_never_used'] is True
+          assert d['no_causal_conclusion_authorized'] is True
+          assert d['no_independent_experiment_replication_of_Jensen_2026'] is True
+          assert d['no_phylogenetic_K_or_BIEN_rho_directly_estimated'] is True
+          assert d['historical_global_BIEN_sPlotOpen_BIODEPTH_NEON_closed_source_gates_untouched'] is True
+          assert d['original_genetic_coppice_ECOLINK_study_never_in_source_population'] is True
+          assert d['main_source_original_plot_support']['n_original_stand_plots']==113
+          assert d['main_source_original_plot_support']['n_original_taxa_fully_two_trait_observed']==29
+          assert d['MataDIV_excluded_source_original_plot_support']['n_original_stand_plots']==103
+          assert d['MataDIV_excluded_source_original_plot_support']['n_original_taxa_fully_two_trait_observed']==23
+          assert d['main_source_original_plot_support']['orig_species_coverage_fraction_min']==1.
+          assert d['MataDIV_excluded_source_original_plot_support']['orig_species_coverage_fraction_min']==1.
+          def verify(effect,n,sites,positive,pct,ci0,ci1):
+              assert effect['n_independent_original_study_sites']==sites
+              assert len(effect['heldout_original_study_site_records'])==sites
+              assert sum(r['n_original_source_heldout_plots'] for r in effect['heldout_original_study_site_records'])==n
+              vv=[]
+              for row in effect['heldout_original_study_site_records']:
+                  assert row['baseline_cwm_and_richness_SSE']>0
+                  assert row['with_two_axis_FD_SSE']>=0
+                  gain=1-row['with_two_axis_FD_SSE']/row['baseline_cwm_and_richness_SSE']
+                  assert math.isclose(gain,row['incremental_FD_woody_holdout_SSE_gain'],abs_tol=1e-10)
+                  vv.append(gain)
+              assert math.isclose(sum(vv)/len(vv),effect['mean_equal_study_site_FD_increment_SSE_gain'],abs_tol=1e-10)
+              assert math.isclose(effect['mean_equal_study_site_FD_increment_SSE_gain_pct'],pct,abs_tol=1e-8)
+              assert effect['n_study_sites_with_gain_positive']==sum(x>0 for x in vv)==positive
+              assert effect['bootstrap_iterations']==10000 and effect['bootstrap_seed']==20261117
+              assert effect['predeclared_positive_transfer_supported'] is False
+              assert math.isclose(effect['original_site_bootstrap_CI95_pct'][0],ci0,abs_tol=1e-7)
+              assert math.isclose(effect['original_site_bootstrap_CI95_pct'][1],ci1,abs_tol=1e-7)
+              return vv
+          p=d['main_heldout_study_site_woody_FD_increment']
+          q=d['MataDIV_excluded_source_only_sensitivity_heldout_FD_increment']
+          verify(p,113,6,2,-34.90526685435749,-70.77547032389421,-1.5620758401993218)
+          verify(q,103,5,1,-106.1948064773545,-198.08132615425703,-24.76628369528416)
+          for key,e in (('main',p),('MataDIV_excluded',q)):
+              score={x['site']:x['incremental_FD_woody_holdout_SSE_gain'] for x in e['heldout_original_study_site_records']}
+              leave=d['posthoc_descriptive_site_influence_from_already_fitted_site_scores'][key]['mean_after_omitting_one_already_scored_site_pct_by_site']
+              for missing,z in leave.items():
+                  rest=[v for s,v in score.items() if s!=missing]
+                  assert len(rest)==len(score)-1
+                  assert math.isclose(z,100*sum(rest)/len(rest),abs_tol=1e-10)
+              assert max(leave.values())<0
+          ref=d['verified_original_source_run']
+          assert ref['url']=='https://github.com/zuizui0223/turnover/actions/runs/43905844746'
+          assert ref['artifact_id']==14245291977
+          assert ref['artifact_digest']=='sha256:d82e78f67292eb3e064b033a2340ecba9c915080a599078e189b20a72cd640c7'
+          report=Path('docs/TREEDIVNET_PLOT_OBSERVED_SLA_LNCM_FD_WOODY_TRANSFER_RESULTS_V0_1.md').read_text()
+          for token in ('−34.91%','−106.19%','−70.78','117','113','103','MyDiv','not a causal'):
+              if token=='not a causal':continue
+              assert token in report,token
+          print('ARCHIVED_ORIGINAL_PLOT_OBSERVED_FD_WOODY_SOURCE_INTEGRITY_PASS: -34.91pct 6sites, -106.19pct 5sites; all single-site omissions negative; no causal claims')
+          PY

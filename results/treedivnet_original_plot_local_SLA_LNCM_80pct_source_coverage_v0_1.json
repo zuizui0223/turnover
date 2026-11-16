@@ -1,0 +1,112 @@
+{
+  "exact_DS1_DS2_original_source_joins": 328,
+  "fixed_min_joint_SLA_LNCM_fraction_of_original_planted_species": 0.8,
+  "no_FD_PD_K_or_biomass_prediction_computed": true,
+  "original_DS1_unique_stand_plot_rows": 363,
+  "original_DS2_species_plot_rows": 689,
+  "original_DS2_woody_aggregation_gate_remains_HOLD": true,
+  "original_individual_sample_ID_gate_remains_HOLD": true,
+  "original_public_DS1_DS2_MD5_source_checked": true,
+  "original_public_figshare_article": 31026004,
+  "original_source_only_cohorts": {
+    "all_original_studies_diagnostic_only": {
+      "fixed_80pct_plot_local_FD_source_support_status": "PLOT_LOCAL_FD_SOURCE_COMPLETENESS_PASS",
+      "n_original_source_plots_full_joint_axis_trait_coverage_ge80pct": 150,
+      "n_original_species_with_positive_full_joint_axis_source_trait_in_final_plots": 36,
+      "n_original_study_sites_8plus_source_eligible": 7,
+      "n_original_study_sites_any_source_eligible": 8,
+      "original_DS1_woody_values_fit_or_correlated_with_traits": false,
+      "original_DS2_species_woody_values_accessed_or_used": false,
+      "original_richness_mismatches_by_public_experiment": {},
+      "original_source_paired_trait_completeness_distribution_before_ge80pct": {
+        "100pct": 150
+      },
+      "original_source_plots_rejected_richness_mismatch": 0,
+      "original_source_richness_equals_unique_DS2_species_rows": 150,
+      "original_source_row_identifiers_saved": false,
+      "source_original_year_aligned_plot_with_2plus_joint_axis_species": 150,
+      "source_population": "All 11 source experiments only as diagnostic",
+      "source_public_study_site_eligible_plot_counts": {
+        "B-Tree": 9,
+        "ECOLINK_Uppsala": 33,
+        "FORBIO_Gedinne": 12,
+        "FORBIO_Hechtel-Eksel": 12,
+        "IDENT_Freiburg": 4,
+        "IDENT_Macomer": 12,
+        "MataDIV": 10,
+        "MyDiv": 58
+      }
+    },
+    "excluding_ECOLINK": {
+      "fixed_80pct_plot_local_FD_source_support_status": "PLOT_LOCAL_FD_SOURCE_COMPLETENESS_PASS",
+      "n_original_source_plots_full_joint_axis_trait_coverage_ge80pct": 117,
+      "n_original_species_with_positive_full_joint_axis_source_trait_in_final_plots": 32,
+      "n_original_study_sites_8plus_source_eligible": 6,
+      "n_original_study_sites_any_source_eligible": 7,
+      "original_DS1_woody_values_fit_or_correlated_with_traits": false,
+      "original_DS2_species_woody_values_accessed_or_used": false,
+      "original_richness_mismatches_by_public_experiment": {},
+      "original_source_paired_trait_completeness_distribution_before_ge80pct": {
+        "100pct": 117
+      },
+      "original_source_plots_rejected_richness_mismatch": 0,
+      "original_source_richness_equals_unique_DS2_species_rows": 117,
+      "original_source_row_identifiers_saved": false,
+      "source_original_year_aligned_plot_with_2plus_joint_axis_species": 117,
+      "source_population": "Tree-species diversity × single woody stand primary source scope",
+      "source_public_study_site_eligible_plot_counts": {
+        "B-Tree": 9,
+        "FORBIO_Gedinne": 12,
+        "FORBIO_Hechtel-Eksel": 12,
+        "IDENT_Freiburg": 4,
+        "IDENT_Macomer": 12,
+        "MataDIV": 10,
+        "MyDiv": 58
+      }
+    },
+    "excluding_ECOLINK_and_MataDIV": {
+      "fixed_80pct_plot_local_FD_source_support_status": "PLOT_LOCAL_FD_SOURCE_COMPLETENESS_PASS",
+      "n_original_source_plots_full_joint_axis_trait_coverage_ge80pct": 107,
+      "n_original_species_with_positive_full_joint_axis_source_trait_in_final_plots": 26,
+      "n_original_study_sites_8plus_source_eligible": 5,
+      "n_original_study_sites_any_source_eligible": 6,
+      "original_DS1_woody_values_fit_or_correlated_with_traits": false,
+      "original_DS2_species_woody_values_accessed_or_used": false,
+      "original_richness_mismatches_by_public_experiment": {},
+      "original_source_paired_trait_completeness_distribution_before_ge80pct": {
+        "100pct": 107
+      },
+      "original_source_plots_rejected_richness_mismatch": 0,
+      "original_source_richness_equals_unique_DS2_species_rows": 107,
+      "original_source_row_identifiers_saved": false,
+      "source_original_year_aligned_plot_with_2plus_joint_axis_species": 107,
+      "source_population": "Source-defined no-genotype no-fertilized sensitivity",
+      "source_public_study_site_eligible_plot_counts": {
+        "B-Tree": 9,
+        "FORBIO_Gedinne": 12,
+        "FORBIO_Hechtel-Eksel": 12,
+        "IDENT_Freiburg": 4,
+        "IDENT_Macomer": 12,
+        "MyDiv": 58
+      }
+    }
+  },
+  "scientific_contract": "docs/TREEDIVNET_PLOT_LOCAL_TRAIT_COMPLETENESS_SOURCE_GATE_V0_1.md",
+  "source_plot_min_trait_species": 2,
+  "source_support_thresholds": {
+    "min_plots": 80,
+    "min_sites_with_8": 5,
+    "min_species": 20,
+    "year_gap_max": 2
+  },
+  "status": "ORIGINAL_PLOT_LOCAL_SLA_LNCM_COVERAGE_SOURCE_ONLY_AUDITED",
+  "uploaded_original_Table_S1_SHA256": "245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee",
+  "version": "v0.1",
+  "verified_original_source_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43904442625",
+    "job_id": 133429387256,
+    "artifact_id": 14243997805,
+    "digest": "sha256:002ddb761091cfaee79f001f328e25f75c2b408aa45cd6511a40104b04c0055d",
+    "raw_original_public_Figshare_XLSX_files_MD5_passed": true
+  }
+}

@@ -1,0 +1,62 @@
+name: TreeDivNet original plot-local measured SLA+LNCM 80pc source completeness
+on:
+  push:
+    branches: [analysis/treedivnet-observed-sla-lncm-site-transport-20261117]
+    paths:
+      - docs/TREEDIVNET_PLOT_LOCAL_TRAIT_COMPLETENESS_SOURCE_GATE_V0_1.md
+      - scripts/source/audit_treedivnet_plot_local_sla_lncm_coverage_v0_1.py
+      - .github/workflows/treedivnet-plot-local-two-trait-80pct-source-v0-1.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_PLOT_LOCAL_TRAIT_COMPLETENESS_SOURCE_GATE_V0_1.md
+      - scripts/source/audit_treedivnet_plot_local_sla_lncm_coverage_v0_1.py
+      - .github/workflows/treedivnet-plot-local-two-trait-80pct-source-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-only-completeness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Freeze and self-test source-only original measured trait support
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_plot_local_sla_lncm_coverage_v0_1.py
+          python3 scripts/source/audit_treedivnet_plot_local_sla_lncm_coverage_v0_1.py --self-test
+          test -s docs/TREEDIVNET_PLOT_LOCAL_TRAIT_COMPLETENESS_SOURCE_GATE_V0_1.md
+      - name: Original MD5-pinned Figshare site/species plot source and Table S1 years
+        run: |
+          mkdir -p build/tree_local_source
+          python3 scripts/source/audit_treedivnet_plot_local_sla_lncm_coverage_v0_1.py \
+            --years results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json \
+            --out build/tree_local_source/coverage_v0_1.json
+      - name: Check fixed original source cohort and prohibit empirical FD/mass fit
+        run: |
+          python3 - <<'PY'
+          import json
+          p=json.load(open("build/tree_local_source/coverage_v0_1.json"))
+          assert p["status"]=="ORIGINAL_PLOT_LOCAL_SLA_LNCM_COVERAGE_SOURCE_ONLY_AUDITED"
+          assert p["original_DS1_unique_stand_plot_rows"]==363
+          assert p["original_DS2_species_plot_rows"]==689
+          assert p["exact_DS1_DS2_original_source_joins"]==328
+          assert p["fixed_min_joint_SLA_LNCM_fraction_of_original_planted_species"]==.8
+          assert p["no_FD_PD_K_or_biomass_prediction_computed"] is True
+          assert p["original_DS2_woody_aggregation_gate_remains_HOLD"] is True
+          assert p["original_individual_sample_ID_gate_remains_HOLD"] is True
+          assert p["original_source_only_cohorts"]["excluding_ECOLINK"]["source_original_year_aligned_plot_with_2plus_joint_axis_species"]==117
+          assert p["original_source_only_cohorts"]["excluding_ECOLINK_and_MataDIV"]["source_original_year_aligned_plot_with_2plus_joint_axis_species"]==107
+          print("TREE_DIVNET_SOURCE_ONLY_COVERAGE_VERDICT",
+                p["original_source_only_cohorts"]["excluding_ECOLINK"]["fixed_80pct_plot_local_FD_source_support_status"],
+                p["original_source_only_cohorts"]["excluding_ECOLINK"]["n_original_source_plots_full_joint_axis_trait_coverage_ge80pct"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-original-plot-local-sla-lncm-80pc-source-nonraw
+          path: build/tree_local_source/coverage_v0_1.json
+          retention-days: 30
+          if-no-files-found: ignore

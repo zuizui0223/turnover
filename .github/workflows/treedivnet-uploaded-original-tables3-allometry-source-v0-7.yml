@@ -1,0 +1,66 @@
+name: TreeDivNet original Table S3 allometry provenance and Table S1 source year validation
+on:
+  push:
+    branches: [analysis/treedivnet-original-table-s1-temporal-gate-20261116]
+    paths:
+      - results/treedivnet_uploaded_original_TableS3_allometry_source_audit_v0_7.json
+      - docs/TREEDIVNET_UPLOADED_ORIGINAL_TABLES3_ALLOMETRY_SOURCE_RESULTS_V0_7.md
+      - scripts/source/verify_treedivnet_table_s3_original_allometry_source_v0_7.py
+      - .github/workflows/treedivnet-uploaded-original-tables3-allometry-source-v0-7.yml
+  pull_request:
+    paths:
+      - results/treedivnet_uploaded_original_TableS3_allometry_source_audit_v0_7.json
+      - docs/TREEDIVNET_UPLOADED_ORIGINAL_TABLES3_ALLOMETRY_SOURCE_RESULTS_V0_7.md
+      - scripts/source/verify_treedivnet_table_s3_original_allometry_source_v0_7.py
+      - .github/workflows/treedivnet-uploaded-original-tables3-allometry-source-v0-7.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-local-upload-metadata:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source-derived original Table S3 audit, no raw XLSX copied to runner
+        run: |
+          python3 -m py_compile scripts/source/verify_treedivnet_table_s3_original_allometry_source_v0_7.py
+          python3 scripts/source/verify_treedivnet_table_s3_original_allometry_source_v0_7.py --self-test
+          test -s results/treedivnet_uploaded_original_TableS3_allometry_source_audit_v0_7.json
+          test -s docs/TREEDIVNET_UPLOADED_ORIGINAL_TABLES3_ALLOMETRY_SOURCE_RESULTS_V0_7.md
+      - name: Reconcile 77 source allometry rows with 11 original Table S1 woody inventory years and original Figshare source coverage
+        run: |
+          mkdir -p build/treedivnet_original_tables3
+          python3 scripts/source/verify_treedivnet_table_s3_original_allometry_source_v0_7.py \
+            --allometry results/treedivnet_uploaded_original_TableS3_allometry_source_audit_v0_7.json \
+            --years results/treedivnet_uploaded_original_TableS1_inventory_years_source_v0_6.json \
+            --time-support results/treedivnet_original_TableS1_woody_trait_gap2_site_source_v0_6.json \
+            --multiaxis-support results/treedivnet_original_TableS1_multiaxis_year_supported_plots_v0_6.json \
+            --out build/treedivnet_original_tables3/source_allometry_year_integrity_v0_7.json
+      - name: Enforce no biological regression and no independent source normalization claim
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('build/treedivnet_original_tables3/source_allometry_year_integrity_v0_7.json'))
+          assert x['status']=='USER_UPLOADED_TABLE_S3_LOCAL_SOURCE_METADATA_AND_TABLE_S1_YEAR_LEDGER_CROSSCHECK_PASS'
+          assert x['original_table_s3_binary_available_to_GitHub_runner'] is False
+          assert x['n_original_allometry_records']==77
+          assert x['n_sites_matched_exact_inventory_years']==11
+          assert x['n_source_proxy_equations']==7
+          assert x['n_MataDIV_woody_response_formulas_using_WD']==5
+          assert x['original_2axis_SLA_LNCM_numeric_eligible_plots']==117
+          assert x['original_2axis_SLA_LNCM_numeric_eligible_plots_excluding_MataDIV']==107
+          assert x['original_DS2_species_row_to_DS1_plot_woody_normalization']=='HOLD'
+          assert x['new_ecological_effect_estimated'] is False
+          print('ORIGINAL_TABLE_S3_ALLOMETRY_SITE_YEAR_GATE_PASS, ORIGINAL_BIOMASS_NORMALIZATION_HOLD')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-original-uploaded-TableS3-allometry-source-year-nonraw
+          path: build/treedivnet_original_tables3/source_allometry_year_integrity_v0_7.json
+          if-no-files-found: ignore
+          retention-days: 30

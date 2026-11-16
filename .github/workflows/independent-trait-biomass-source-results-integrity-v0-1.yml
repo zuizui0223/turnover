@@ -78,7 +78,7 @@ jobs:
           assert math.isclose(s['original_strict_direct_sum_match_fraction'],135/328,abs_tol=1e-13)
           text=Path('docs/INDEPENDENT_FIELD_TRAIT_BIOMASS_SOURCE_RESULTS_20261116.md').read_text()
           for term in ('190 original plots','165 original plots','135 of 328','323/328',
-                       '322/322','AUTH_HOLD','NO','HOLD'):
+                       '322/322','AUTH_HOLD','No new FD','HOLD'):
               assert term in text,term
           print('INDEPENDENT_FIELD_SOURCE_ONLY_EVIDENCE_PASS: NASA/Dryad AUTH HOLD; TreeDivNet 190 plots/40 species/11 experiments, 322/322 roster complete normalize by species mean, no ecological effect')
           PY

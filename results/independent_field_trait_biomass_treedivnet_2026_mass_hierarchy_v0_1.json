@@ -1,0 +1,136 @@
+{
+  "SLA_two_species_plots_with_numeric_woody_mass": 165,
+  "interpretation": "Source-only additive integrity/roster equality; no FD/biomass biological association fitted. Actual tree measurement/source year remains unverified.",
+  "new_biological_effect_authorized": false,
+  "no_ecological_biomass_model_estimated": true,
+  "no_original_plot_species_response_rows_exported": true,
+  "old_family_K_and_PD_rho_not_opened": true,
+  "original_DS2_species_count_minus_DS1_richness_distribution": {
+    "-1": 2,
+    "-3": 4
+  },
+  "original_SLA_positive_species_plot_occurrences_in_mass_comparable_plots": 573,
+  "original_joined_plot_keys": 328,
+  "original_mass_numeric_source_incomplete_plot_keys": 0,
+  "original_numeric_mass_hierarchy_eligible_plots": 328,
+  "original_positive_woody_stand_mass_comparable_plots": 327,
+  "original_richness_equals_ds2_distinct_species_plots": 322,
+  "original_richness_mismatch_count_plots": 6,
+  "original_source_site_audit": {
+    "b-tree": {
+      "joined_plot_keys": 17,
+      "numeric_woody_mass_comparable_plots": 17,
+      "original_species_richness_matched_plots": 17,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 9,
+      "woody_mass_sum_matches_plots": 8,
+      "woody_mass_sum_mismatches_plots": 9
+    },
+    "biotree_kaltenborn": {
+      "joined_plot_keys": 12,
+      "numeric_woody_mass_comparable_plots": 12,
+      "original_species_richness_matched_plots": 12,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 3,
+      "woody_mass_sum_matches_plots": 4,
+      "woody_mass_sum_mismatches_plots": 8
+    },
+    "ecolink_uppsala": {
+      "joined_plot_keys": 45,
+      "numeric_woody_mass_comparable_plots": 45,
+      "original_species_richness_matched_plots": 45,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 33,
+      "woody_mass_sum_matches_plots": 12,
+      "woody_mass_sum_mismatches_plots": 33
+    },
+    "forbio_gedinne": {
+      "joined_plot_keys": 21,
+      "numeric_woody_mass_comparable_plots": 21,
+      "original_species_richness_matched_plots": 21,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 12,
+      "woody_mass_sum_matches_plots": 9,
+      "woody_mass_sum_mismatches_plots": 12
+    },
+    "forbio_hechtel-eksel": {
+      "joined_plot_keys": 22,
+      "numeric_woody_mass_comparable_plots": 22,
+      "original_species_richness_matched_plots": 22,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 12,
+      "woody_mass_sum_matches_plots": 10,
+      "woody_mass_sum_mismatches_plots": 12
+    },
+    "forbio_zedelgem": {
+      "joined_plot_keys": 22,
+      "numeric_woody_mass_comparable_plots": 22,
+      "original_species_richness_matched_plots": 22,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 12,
+      "woody_mass_sum_matches_plots": 10,
+      "woody_mass_sum_mismatches_plots": 12
+    },
+    "ident_freiburg": {
+      "joined_plot_keys": 34,
+      "numeric_woody_mass_comparable_plots": 34,
+      "original_species_richness_matched_plots": 32,
+      "original_species_richness_mismatch_plots": 2,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 4,
+      "woody_mass_sum_matches_plots": 22,
+      "woody_mass_sum_mismatches_plots": 12
+    },
+    "ident_macomer": {
+      "joined_plot_keys": 33,
+      "numeric_woody_mass_comparable_plots": 33,
+      "original_species_richness_matched_plots": 30,
+      "original_species_richness_mismatch_plots": 3,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 12,
+      "woody_mass_sum_matches_plots": 18,
+      "woody_mass_sum_mismatches_plots": 15
+    },
+    "matadiv": {
+      "joined_plot_keys": 22,
+      "numeric_woody_mass_comparable_plots": 22,
+      "original_species_richness_matched_plots": 22,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 10,
+      "woody_mass_sum_matches_plots": 12,
+      "woody_mass_sum_mismatches_plots": 10
+    },
+    "mydiv": {
+      "joined_plot_keys": 80,
+      "numeric_woody_mass_comparable_plots": 80,
+      "original_species_richness_matched_plots": 80,
+      "plots_with_two_original_SLA_species_in_numeric_mass_comparison": 58,
+      "woody_mass_sum_matches_plots": 20,
+      "woody_mass_sum_mismatches_plots": 60
+    },
+    "orphee": {
+      "joined_plot_keys": 20,
+      "numeric_woody_mass_comparable_plots": 20,
+      "original_species_richness_matched_plots": 19,
+      "original_species_richness_mismatch_plots": 1,
+      "woody_mass_sum_matches_plots": 10,
+      "woody_mass_sum_mismatches_plots": 10
+    }
+  },
+  "predetermined_quality_gate": {
+    "mass_absolute_tolerance_Mg_per_ha": 0.001,
+    "mass_relative_tolerance": 0.01,
+    "min_numeric_comparable_plots": 300,
+    "min_original_richness_match_fraction": 0.9,
+    "min_source_mass_sum_match_fraction": 0.9
+  },
+  "source": "TreeDivNet Jensen et al. 2026, Figshare 10.6084/m9.figshare.31026004.v1",
+  "source_only": true,
+  "source_original_richness_match_fraction": 0.9817073170731707,
+  "source_plot_keys_DS1": 363,
+  "source_plot_keys_DS2": 340,
+  "source_woody_mass_reconciled_fraction": 0.4115853658536585,
+  "species_sum_mass_matched_plots": 135,
+  "species_sum_mass_mismatched_plots": 193,
+  "status": "SOURCE_SPECIES_MASS_INTEGRITY_HOLD",
+  "version": "v0.1",
+  "workflow_source_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43857493766",
+    "job_id": 133265410434,
+    "artifact_id": 14221775995,
+    "artifact_digest": "sha256:46bcce2e6196a53f6d2e40454c9e166403784f779845760f70899046102f2b09",
+    "source_files_md5_verified": true,
+    "no_biological_effect_fitted": true
+  }
+}

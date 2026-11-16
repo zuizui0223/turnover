@@ -1,0 +1,56 @@
+name: TreeDivNet 2026 original plot-species traits and woody biomass exact source join
+on:
+  push:
+    branches: [source/independent-trait-biomass-field-20261116]
+    paths:
+      - scripts/source/audit_treedivnet_figshare_original_join_v0_1.py
+      - .github/workflows/treedivnet-2026-original-source-join-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_treedivnet_figshare_original_join_v0_1.py
+      - .github/workflows/treedivnet-2026-original-source-join-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  field-source-grain-join-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source first exact-keys and all original workbooks with no biological model
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_figshare_original_join_v0_1.py
+          PYTHONPATH=scripts/source python3 scripts/source/audit_treedivnet_figshare_original_join_v0_1.py --self-test
+          test -s docs/TREEDIVNET_2026_FIGSHARE_SOURCE_GATE_V0_1.md
+      - name: Fetch exact SHA-verified original site × block × plot DS1 and species DS2 and report only aggregate source-join eligibility
+        run: |
+          mkdir -p build/treedivnet_2026_exact_keys
+          PYTHONPATH=scripts/source python3 scripts/source/audit_treedivnet_figshare_original_join_v0_1.py \
+            --out build/treedivnet_2026_exact_keys/source_join_v0_1.json
+      - name: Require source-matched original plot units, no trait/bio effect or unproven K
+        run: |
+          python3 - <<'PY'
+          import json
+          obj=json.load(open('build/treedivnet_2026_exact_keys/source_join_v0_1.json'))
+          assert obj['original_source_row_counts']=={'DS1':363,'DS2':689,'DS3':224}
+          assert obj['source_original_site_by_block_by_plot_key_used'] is True
+          assert obj['source_first_effect_gate_pass'] is False
+          assert obj['biological_effect_estimated'] is False
+          assert obj['original_numeric_biomass_values_exported'] is False
+          assert obj['original_species_plot_rows_exported'] is False
+          assert obj['no_12family20species_K_test_possible'] is True
+          assert obj['status'] in ('ORIGINAL_SOURCE_PLOT_SUPPORT_PASS_PROVENANCE_HOLD','SOURCE_COVERAGE_HOLD')
+          print('TREEDIVNET_2026_ORIGINAL_SOURCE_JOIN_STATUS',obj['status'],
+                'exact_plot_match',obj['source_DS1_DS2_exact_original_plot_overlap'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-species-trait-woody-biomass-source-join-nonraw
+          path: build/treedivnet_2026_exact_keys/source_join_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

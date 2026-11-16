@@ -1,0 +1,84 @@
+name: Validate independent field-trait and biomass source evidence across original source families
+on:
+  push:
+    branches: [source/independent-trait-biomass-field-20261116]
+    paths:
+      - docs/INDEPENDENT_FIELD_TRAIT_BIOMASS_SOURCE_RESULTS_20261116.md
+      - results/independent_field_trait_biomass_source_gate_20261116.json
+      - results/independent_field_trait_biomass_treedivnet_2026_source_join_v0_1.json
+      - results/independent_field_trait_biomass_treedivnet_2026_mass_hierarchy_v0_1.json
+      - results/independent_field_trait_biomass_treedivnet_2026_mass_scale_v0_1.json
+      - .github/workflows/independent-trait-biomass-source-results-integrity-v0-1.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_FIELD_TRAIT_BIOMASS_SOURCE_RESULTS_20261116.md
+      - results/independent_field_trait_biomass_source_gate_20261116.json
+      - results/independent_field_trait_biomass_treedivnet_2026_source_join_v0_1.json
+      - results/independent_field_trait_biomass_treedivnet_2026_mass_hierarchy_v0_1.json
+      - results/independent_field_trait_biomass_treedivnet_2026_mass_scale_v0_1.json
+      - .github/workflows/independent-trait-biomass-source-results-integrity-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  aggregate-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify provenance, independent project keys, source roster normalization, NO biological effects
+        run: |
+          python3 - <<'PY'
+          import math,json
+          from pathlib import Path
+          folder=Path('results')
+          q=json.loads((folder/'independent_field_trait_biomass_source_gate_20261116.json').read_text())
+          j=json.loads((folder/'independent_field_trait_biomass_treedivnet_2026_source_join_v0_1.json').read_text())
+          h=json.loads((folder/'independent_field_trait_biomass_treedivnet_2026_mass_hierarchy_v0_1.json').read_text())
+          s=json.loads((folder/'independent_field_trait_biomass_treedivnet_2026_mass_scale_v0_1.json').read_text())
+          assert q['status']=='TWO_INDEPENDENT_SOURCE_CANDIDATES_AUTH_HOLD'
+          assert sorted((x['DOI'],x['status']) for x in q['candidates'])==[
+               ('10.3334/ORNLDAAC/1292','AUTH_HOLD'),
+               ('10.5061/dryad.kprr4xh8v','AUTH_HOLD')]
+          assert q['biological_effect_estimated'] is False
+          assert j['status']=='ORIGINAL_SOURCE_PLOT_SUPPORT_PASS_PROVENANCE_HOLD'
+          assert j['source_first_effect_gate_pass'] is False
+          assert j['source_structural_plot_support_pass'] is True
+          assert j['source_DS1_unique_plot_keys']==363
+          assert j['source_DS2_unique_plot_keys']==340
+          assert j['source_DS1_DS2_exact_original_plot_overlap']==328
+          assert j['original_plots_with_two_species_at_least_one_positive_trait_and_mass']==190
+          assert j['original_experiments_with_at_least8_coincident_trait_mass_plots']==11
+          assert j['unique_species_in_two_species_plus_plot_cohort']==40
+          assert j['by_individual_trait_positive_presence']['SLA']['mass_and_trait_plot_keys_with_two_species']==165
+          assert j['by_individual_trait_positive_presence']['SLA']['unique_species_with_positive_original_values']==37
+          assert j['has_plot_species_trait_and_woody_mass_year_matched'] is False
+          assert j['biological_effect_estimated'] is False
+          assert h['status']=='SOURCE_SPECIES_MASS_INTEGRITY_HOLD'
+          assert h['original_joined_plot_keys']==328
+          assert h['original_numeric_mass_hierarchy_eligible_plots']==328
+          assert h['species_sum_mass_matched_plots']==135
+          assert h['original_richness_equals_ds2_distinct_species_plots']==322
+          assert h['no_ecological_biomass_model_estimated'] is True
+          assert s['status']=='SOURCE_SCALE_PATTERN_FOUND_UNCONFIRMED_PHYSICAL_MEANING'
+          assert s['post_original_sum_failure_diagnostic'] is True
+          assert s['source_original_plot_keys_joined']==328
+          assert s['source_numeric_original_woody_mass_comparable_plots']==328
+          assert s['candidate_matched_plot_totals']=={
+              'direct_species_sum':135,'mean_per_Ds2_species':323,
+              'mean_per_sown_richness':323}
+          assert s['source_evidence_not_accepted_as_confirmed_unit_conversion'] is True
+          assert s['original_mass_source_qa_gate_stays_HOLD'] is True
+          cross=s['post_source_discovery_richness_mismatch_vs_normalization_crosscheck']
+          assert cross['same_DS2_species_count_as_planted']['total']==322
+          assert cross['same_DS2_species_count_as_planted']['species_mean_match']==322
+          assert cross['missing_DS2_species_relative_to_planted']['total']==6
+          assert cross['missing_DS2_species_relative_to_planted']['species_mean_match']==1
+          assert s['no_ecological_effect_fitted'] is True
+          assert math.isclose(s['original_strict_direct_sum_match_fraction'],135/328,abs_tol=1e-13)
+          text=Path('docs/INDEPENDENT_FIELD_TRAIT_BIOMASS_SOURCE_RESULTS_20261116.md').read_text()
+          for term in ('190 original plots','165 original plots','135 of 328','323/328',
+                       '322/322','AUTH_HOLD','No new FD','HOLD'):
+              assert term in text,term
+          print('INDEPENDENT_FIELD_SOURCE_ONLY_EVIDENCE_PASS: NASA/Dryad AUTH HOLD; TreeDivNet 190 plots/40 species/11 experiments, 322/322 roster complete normalize by species mean, no ecological effect')
+          PY

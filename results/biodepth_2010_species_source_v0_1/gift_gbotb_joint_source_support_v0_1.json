@@ -1,0 +1,55 @@
+{
+  "GBOTB_S3_matched_source_taxa": 98,
+  "GIFT_original_88_species_fingerprint": "125ced593d7218369b33fb11b6fae8e296f5d4d7b57700222b0800ed4adef9ee",
+  "GIFT_original_bibliography_fingerprint": "148855c3c03a9c957178fc22ace4765d2968f9e9e0cdb3d83f8a2c6256e9b35e",
+  "GIFT_provenance_height_taxa": 88,
+  "biomass_records_read": 0,
+  "distinct_original_plot_mean_pairwise_PD_1e_minus8": 63,
+  "fd_biomass_model_estimates": 0,
+  "hard_nonclaims": [
+    "Joint support is not an estimated PD/FD or biomass relation",
+    "GBOTB source native or S3-bound distances are not a per-family trait K",
+    "Earlier original BIODEPTH exact-richness, global BIEN/sPlotOpen and NEON auth gates remain HOLD"
+  ],
+  "independence_boundary": "GIFT source may share literature with other trait compilations; original sown community not current species biomass",
+  "joint_height_phylogeny_families": 17,
+  "joint_height_phylogeny_native_taxa": 78,
+  "joint_height_phylogeny_species": 84,
+  "joint_original_plots_min3_and_80pct": 150,
+  "joint_original_sites": {
+    "Germany": 26,
+    "Ireland": 26,
+    "Portugal": 8,
+    "Sheffield": 20,
+    "Silwood": 24,
+    "Sweden": 18,
+    "Switzerland": 28
+  },
+  "joint_original_sites_with_atleast8": 7,
+  "next_step": "Freeze matched-site PD→FD & PD incremental biomass models before original 2010 Community access",
+  "original_history_height_eligible_plots": 174,
+  "original_history_height_eligible_sites": {
+    "Germany": 26,
+    "Ireland": 32,
+    "Portugal": 14,
+    "Sheffield": 20,
+    "Silwood": 32,
+    "Sweden": 22,
+    "Switzerland": 28
+  },
+  "predefined_thresholds": {
+    "min_distinct_mean_pairwise_PD_values_1e_minus8": 10,
+    "min_joint_backbone_native_height_species": 40,
+    "min_joint_families": 8,
+    "min_joint_height_tree_species": 65,
+    "min_original_height_source_plots_with_joint_3plus_and_80pct": 120,
+    "min_source_sites_with_at_least_8_joint_plots": 5
+  },
+  "source_only": true,
+  "source_original_plots": 480,
+  "source_original_species": 103,
+  "status": "BIODEPTH_GBOTB_GIFT_JOINT_SUPPORT_PASS",
+  "version": "v0.1",
+  "verified_source_run": "https://github.com/zuizui0223/turnover/actions/runs/43819650055",
+  "source_only_outcome_firewall_passed": true
+}

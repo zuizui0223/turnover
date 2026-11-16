@@ -1,0 +1,286 @@
+{
+  "ecolink_genetic_diversity_and_cumulative_coppice_not_standing_stock": true,
+  "exact_original_DS1_DS2_source_plot_join_reproduced": true,
+  "new_FD_K_PD_or_woody_biomass_effects_estimated": false,
+  "original_Figshare_DS1_DS2_source_MD5_pinned": true,
+  "original_site_level_inventory_year_is_not_individual_sample_day_or_provenance": true,
+  "original_source_numeric_186_plots_reproduced": true,
+  "original_woody_response_from_DS1_unique_site_block_plot_only": true,
+  "predeclared_max_year_gap": 2,
+  "scientific_next_gate": "Confirm original author source response normalization and individual measurement provenance before any new 153→year-matched source model. Table S1 supplies site-level variable inventory years but not original individual sample IDs.",
+  "source_Table_S1_original_workbook_sha256": "245fdf2002240b905b032c9f444a9a359991212be93032637c9ed80a27516fee",
+  "source_cohorts": {
+    "all_experiments": {
+      "cohort": "all_11_original_studies_including_ecolink__for_source_diagnostic_only",
+      "distinct_original_species_by_year_qualified_trait_axis": {
+        "LNCM": 36,
+        "SLA": 36,
+        "WD": 17
+      },
+      "distinct_original_species_with_time_qualified_positive_original_trait": 38,
+      "lost_original_source_plots_to_site_inventory_year_rule": 12,
+      "new_woody_biomass_or_trait_association_tested": false,
+      "original_Table_S1_site_inventory_year_qualified_plots": 174,
+      "original_source_numeric_eligible_plots_before_year_filter": 186,
+      "qualified_original_plots_by_same_trait_axis": {
+        "LNCM": 153,
+        "SLA": 150,
+        "WD": 56
+      },
+      "site_source_eligible_plots_after_year_filter": {
+        "B-Tree": 9,
+        "BIOTREE_Kaltenborn": 8,
+        "ECOLINK_Uppsala": 33,
+        "FORBIO_Gedinne": 12,
+        "FORBIO_Hechtel-Eksel": 12,
+        "IDENT_Freiburg": 12,
+        "IDENT_Macomer": 12,
+        "MataDIV": 10,
+        "MyDiv": 60,
+        "ORPHEE": 6
+      },
+      "source_numerical_support_gate": "SITE_INVENTORY_YEAR_SUPPORT_PASS",
+      "source_original_DS2_species_woody_scaling_gate": "HOLD",
+      "source_original_individual_tree_provenance_gate": "HOLD",
+      "source_year_diff_per_site_axis_in_calendar_years": {
+        "B-Tree": {
+          "LNCM": 1,
+          "SLA": 1,
+          "WD": 0
+        },
+        "BIOTREE_Kaltenborn": {
+          "LNCM": 3,
+          "SLA": 3,
+          "WD": 2
+        },
+        "ECOLINK_Uppsala": {
+          "LNCM": 1,
+          "SLA": 1,
+          "WD": null
+        },
+        "FORBIO_Gedinne": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 0
+        },
+        "FORBIO_Hechtel-Eksel": {
+          "LNCM": 2,
+          "SLA": 2,
+          "WD": 2
+        },
+        "FORBIO_Zedelgem": {
+          "LNCM": 3,
+          "SLA": 3,
+          "WD": 3
+        },
+        "IDENT_Freiburg": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 0
+        },
+        "IDENT_Macomer": {
+          "LNCM": 2,
+          "SLA": 0,
+          "WD": 1
+        },
+        "MataDIV": {
+          "LNCM": 2,
+          "SLA": 2,
+          "WD": null
+        },
+        "MyDiv": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 4
+        },
+        "ORPHEE": {
+          "LNCM": 3,
+          "SLA": null,
+          "WD": 0
+        }
+      },
+      "study_sites_at_least_8_year_qualified_plots": 9,
+      "study_sites_with_at_least_one_eligible_plot": 10
+    },
+    "excluding_ECOLINK": {
+      "cohort": "exclude_ecolink__main_original_species_richness_and_standing_woody_source_population",
+      "distinct_original_species_by_year_qualified_trait_axis": {
+        "LNCM": 32,
+        "SLA": 32,
+        "WD": 17
+      },
+      "distinct_original_species_with_time_qualified_positive_original_trait": 34,
+      "lost_original_source_plots_to_site_inventory_year_rule": 12,
+      "new_woody_biomass_or_trait_association_tested": false,
+      "original_Table_S1_site_inventory_year_qualified_plots": 141,
+      "original_source_numeric_eligible_plots_before_year_filter": 153,
+      "qualified_original_plots_by_same_trait_axis": {
+        "LNCM": 120,
+        "SLA": 117,
+        "WD": 56
+      },
+      "site_source_eligible_plots_after_year_filter": {
+        "B-Tree": 9,
+        "BIOTREE_Kaltenborn": 8,
+        "FORBIO_Gedinne": 12,
+        "FORBIO_Hechtel-Eksel": 12,
+        "IDENT_Freiburg": 12,
+        "IDENT_Macomer": 12,
+        "MataDIV": 10,
+        "MyDiv": 60,
+        "ORPHEE": 6
+      },
+      "source_numerical_support_gate": "SITE_INVENTORY_YEAR_SUPPORT_PASS",
+      "source_original_DS2_species_woody_scaling_gate": "HOLD",
+      "source_original_individual_tree_provenance_gate": "HOLD",
+      "source_year_diff_per_site_axis_in_calendar_years": {
+        "B-Tree": {
+          "LNCM": 1,
+          "SLA": 1,
+          "WD": 0
+        },
+        "BIOTREE_Kaltenborn": {
+          "LNCM": 3,
+          "SLA": 3,
+          "WD": 2
+        },
+        "FORBIO_Gedinne": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 0
+        },
+        "FORBIO_Hechtel-Eksel": {
+          "LNCM": 2,
+          "SLA": 2,
+          "WD": 2
+        },
+        "FORBIO_Zedelgem": {
+          "LNCM": 3,
+          "SLA": 3,
+          "WD": 3
+        },
+        "IDENT_Freiburg": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 0
+        },
+        "IDENT_Macomer": {
+          "LNCM": 2,
+          "SLA": 0,
+          "WD": 1
+        },
+        "MataDIV": {
+          "LNCM": 2,
+          "SLA": 2,
+          "WD": null
+        },
+        "MyDiv": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 4
+        },
+        "ORPHEE": {
+          "LNCM": 3,
+          "SLA": null,
+          "WD": 0
+        }
+      },
+      "study_sites_at_least_8_year_qualified_plots": 8,
+      "study_sites_with_at_least_one_eligible_plot": 9
+    },
+    "excluding_ECOLINK_and_MataDIV": {
+      "cohort": "also_exclude_fertilized_mata_div__source_sensitivity_only",
+      "distinct_original_species_by_year_qualified_trait_axis": {
+        "LNCM": 26,
+        "SLA": 26,
+        "WD": 17
+      },
+      "distinct_original_species_with_time_qualified_positive_original_trait": 28,
+      "lost_original_source_plots_to_site_inventory_year_rule": 12,
+      "new_woody_biomass_or_trait_association_tested": false,
+      "original_Table_S1_site_inventory_year_qualified_plots": 131,
+      "original_source_numeric_eligible_plots_before_year_filter": 143,
+      "qualified_original_plots_by_same_trait_axis": {
+        "LNCM": 110,
+        "SLA": 107,
+        "WD": 56
+      },
+      "site_source_eligible_plots_after_year_filter": {
+        "B-Tree": 9,
+        "BIOTREE_Kaltenborn": 8,
+        "FORBIO_Gedinne": 12,
+        "FORBIO_Hechtel-Eksel": 12,
+        "IDENT_Freiburg": 12,
+        "IDENT_Macomer": 12,
+        "MyDiv": 60,
+        "ORPHEE": 6
+      },
+      "source_numerical_support_gate": "SITE_INVENTORY_YEAR_SUPPORT_PASS",
+      "source_original_DS2_species_woody_scaling_gate": "HOLD",
+      "source_original_individual_tree_provenance_gate": "HOLD",
+      "source_year_diff_per_site_axis_in_calendar_years": {
+        "B-Tree": {
+          "LNCM": 1,
+          "SLA": 1,
+          "WD": 0
+        },
+        "BIOTREE_Kaltenborn": {
+          "LNCM": 3,
+          "SLA": 3,
+          "WD": 2
+        },
+        "FORBIO_Gedinne": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 0
+        },
+        "FORBIO_Hechtel-Eksel": {
+          "LNCM": 2,
+          "SLA": 2,
+          "WD": 2
+        },
+        "FORBIO_Zedelgem": {
+          "LNCM": 3,
+          "SLA": 3,
+          "WD": 3
+        },
+        "IDENT_Freiburg": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 0
+        },
+        "IDENT_Macomer": {
+          "LNCM": 2,
+          "SLA": 0,
+          "WD": 1
+        },
+        "MyDiv": {
+          "LNCM": 0,
+          "SLA": 0,
+          "WD": 4
+        },
+        "ORPHEE": {
+          "LNCM": 3,
+          "SLA": null,
+          "WD": 0
+        }
+      },
+      "study_sites_at_least_8_year_qualified_plots": 7,
+      "study_sites_with_at_least_one_eligible_plot": 8
+    }
+  },
+  "source_local_upload_original_workbook_not_available_in_GitHub_runner": true,
+  "status": "ORIGINAL_TABLE_S1_SITE_INVENTORY_YEAR_GAP_AUDITED_NO_ECOLOGICAL_EFFECT",
+  "study": "Jensen et al 2026 TreeDivNet 11 tree diversity experiments",
+  "version": "v0.6",
+  "woody_species_to_stand_normalization_cannot_be_derived_from_year_table": true,
+  "source_verified_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43881430051",
+    "job_id": 133348017668,
+    "artifact_id": 14232222695,
+    "artifact_digest": "sha256:09310d1aa274151ad550faf49f78c4eb969d03d76f09653d2d4c04dfd808a97c",
+    "original_GitHub_runner_Figshare_MD5_verification": true,
+    "uploaded_Table_S1_original_XLSX_SHA_verified_locally_by_artifact_tool": true,
+    "uploaded_original_file_republished": false
+  }
+}

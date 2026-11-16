@@ -1,0 +1,59 @@
+{
+  "version": "v0.1",
+  "status": "BIODEPTH_GBOTB_S3_SOURCE_COVERAGE_PASS",
+  "type": "SOURCE_ONLY",
+  "tree_source": "jinyizju/V.PhyloMaker2@7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+  "backbone": "GBOTB.extended.TPL",
+  "scenario": "S3",
+  "tree_backbone_tips": 74529,
+  "source_original_taxa": 103,
+  "source_original_plots": 480,
+  "source_original_planted_incidence": 1934,
+  "source_original_sites": 8,
+  "n_exact_genus_family": 98,
+  "n_unresolved_genus_family": 5,
+  "n_native_tips": 80,
+  "n_S3_prune": 80,
+  "n_S3_bind": 18,
+  "n_S3_fail": 0,
+  "n_S3_eligible": 98,
+  "n_resolved_families": 18,
+  "n_source_plots_with_at_least_3_S3_species": 206,
+  "n_sites_with_at_least_8_S3_plots": 8,
+  "site_plot_counts_with_3_species": {
+    "Germany": 26,
+    "Greece": 26,
+    "Ireland": 34,
+    "Portugal": 18,
+    "Sheffield": 20,
+    "Silwood": 30,
+    "Sweden": 22,
+    "Switzerland": 30
+  },
+  "thresholds": {
+    "min_exact_genus_family": 70,
+    "min_S3_eligible": 60,
+    "min_resolved_families": 6,
+    "min_native_tips": 25,
+    "min_plots_atleast3_S3": 200,
+    "min_sites_atleast8_plots": 6
+  },
+  "status_taxa_match_S3_count": true,
+  "n_biomass_records_opened": 0,
+  "n_trait_values_opened": 0,
+  "n_PD_or_FD_effects_estimated": 0,
+  "preserved_prior_biomass_findings": true,
+  "next_gate": "SOURCE_ONLY joint GIFT-height × phylogeny original-plot coverage; freeze new PD→FD model before response access",
+  "hard_nonclaims": [
+    "Taxonomic accepted-name link does not prove trait or phylogeny independence",
+    "S3-bound tips are not direct backbone-native species",
+    "No PD, FD, biomass, K or evolutionary-process result was estimated",
+    "Earlier BIODEPTH strong source gate, BIEN global cross-axis gate and NEON auth HOLD remain unchanged"
+  ],
+  "verified_source": {
+    "run": "https://github.com/zuizui0223/turnover/actions/runs/43818684314",
+    "source_script": "scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R",
+    "status": "PASS",
+    "note": "Reconstructed directly from original SHA-pinned Hector2010 Species+Codes and fixed V.PhyloMaker2; no numeric trait or biomass values opened"
+  }
+}

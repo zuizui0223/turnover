@@ -1,0 +1,57 @@
+name: TreeDivNet original DS1-DS2 exact plot/species-source join
+on:
+  push:
+    branches: [analysis/treedivnet-2026-source-plot-join-20261116]
+    paths:
+      - docs/TREEDIVNET_DS1_DS2_ORIGINAL_SOURCE_JOIN_GATE_V0_1.md
+      - scripts/source/audit_treedivnet_ds1_ds2_exact_plot_join_v0_1.py
+      - .github/workflows/treedivnet-2026-ds1-ds2-original-source-join-v0-1.yml
+  pull_request:
+    paths:
+      - docs/TREEDIVNET_DS1_DS2_ORIGINAL_SOURCE_JOIN_GATE_V0_1.md
+      - scripts/source/audit_treedivnet_ds1_ds2_exact_plot_join_v0_1.py
+      - .github/workflows/treedivnet-2026-ds1-ds2-original-source-join-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen original source-only join contract and parser fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_treedivnet_ds1_ds2_exact_plot_join_v0_1.py
+          python3 scripts/source/audit_treedivnet_ds1_ds2_exact_plot_join_v0_1.py --self-test
+          test -s docs/TREEDIVNET_DS1_DS2_ORIGINAL_SOURCE_JOIN_GATE_V0_1.md
+      - name: Fetch original source MD5-pinned workbooks and audit only nonraw source join/measurement provenance
+        run: |
+          mkdir -p build/treedivnet_2026_original_join
+          python3 scripts/source/audit_treedivnet_ds1_ds2_exact_plot_join_v0_1.py \
+            --out build/treedivnet_2026_original_join/source_join_v0_1.json
+      - name: Enforce no trait-FD or biomass ecological relation was opened
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('build/treedivnet_2026_original_join/source_join_v0_1.json'))
+          assert x['contract']=='docs/TREEDIVNET_DS1_DS2_ORIGINAL_SOURCE_JOIN_GATE_V0_1.md'
+          assert x['source_only'] is True and x['biological_effect_estimated'] is False
+          assert x['no_original_plot_or_taxon_identifiers_exported'] is True
+          assert x['source_file_checksum_pass'] is True
+          assert x['status'] in {'SOURCE_ONLY_JOIN_AUDITED','SCHEMA_OR_ACCESS_HOLD'}
+          assert x['original_DS1_rows']==363 and x['original_DS2_rows']==689
+          print('TREE_DIVNET_SOURCE_JOIN_VERDICT',x['status'],
+                x.get('geometry_status'),x.get('trait_measurement_provenance'),
+                x.get('temporal_alignment'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-ds1-ds2-original-plot-source-join-nonraw
+          path: build/treedivnet_2026_original_join/source_join_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

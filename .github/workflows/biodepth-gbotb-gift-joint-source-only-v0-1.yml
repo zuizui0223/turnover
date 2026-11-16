@@ -1,0 +1,115 @@
+name: BIODEPTH original GIFT height x GBOTB S3 source-only joint eligibility
+on:
+  push:
+    branches: [analysis/biodepth-gbotb-gift-joint-support-20261116]
+    paths:
+      - docs/BIODEPTH_GBOTB_GIFT_JOINT_SOURCE_ONLY_GATE_V0_1.md
+      - scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R
+      - scripts/source/audit_biodepth_gift_gbotb_joint_support_v0_1.py
+      - .github/workflows/biodepth-gbotb-gift-joint-source-only-v0-1.yml
+  pull_request:
+    paths:
+      - docs/BIODEPTH_GBOTB_GIFT_JOINT_SOURCE_ONLY_GATE_V0_1.md
+      - scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R
+      - scripts/source/audit_biodepth_gift_gbotb_joint_support_v0_1.py
+      - .github/workflows/biodepth-gbotb-gift-joint-source-only-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-joint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+      - name: Check source-only script and prior tree/GIFT identity gates
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/source/audit_biodepth_gift_gbotb_joint_support_v0_1.py
+          python3 scripts/source/audit_biodepth_gift_gbotb_joint_support_v0_1.py --self-test
+          test -s docs/BIODEPTH_GBOTB_GIFT_JOINT_SOURCE_ONLY_GATE_V0_1.md
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('results/biodepth_2010_species_source_v0_1')
+          tree=json.loads((root/'phylogeny_103taxa_source_qualification_v0_1.json').read_text())
+          gif=json.loads((root/'gift_height_103taxa_bibliography_qa_v0_1.json').read_text())
+          assert tree['status']=='BIODEPTH_GBOTB_S3_SOURCE_COVERAGE_PASS'
+          assert tree['n_S3_eligible']==98 and tree['n_native_tips']==80
+          assert gif['status']=='GIFT_HEIGHT_REFERENCE_PROVENANCE_PASS'
+          assert gif['original_species_with_full_references_and_no_explicit_original_BIODEPTH']==88
+          print('UPSTREAM_SOURCE_VERDICT_PASS',tree['n_S3_eligible'],gif['original_species_with_full_references_and_no_explicit_original_BIODEPTH'])
+          PY
+      - name: Fetch original planted Species/Codes only with SHA256
+        run: |
+          mkdir -p /tmp/biodepth_gbotb_joint build/biodepth_gbotb_joint
+          python3 - <<'PY'
+          import urllib.request,hashlib
+          from pathlib import Path
+          specs={
+             'species.txt':('https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesBiomass.txt',
+               'ebe677c639ef4603bc1ed50d49e7440588683e7696be230c0cbfff7d6b22b816'),
+             'codes.txt':('https://esapubs.org/archive/ecol/E091/155/BiodepthSpeciesCodes.txt',
+               '02ad483f727d4d10c10be7e7fe83e9e66c42803d6d08956d9397001dbf32f11b')}
+          for name,(url,sha) in specs.items():
+              request=urllib.request.Request(url,headers={'User-Agent':'turnover-BIODEPTH-GIFT-GBOTB-join-gate-20261116/0.1'})
+              with urllib.request.urlopen(request,timeout=110) as response:
+                  raw=response.read(2000001)
+              if len(raw)>2000000 or hashlib.sha256(raw).hexdigest()!=sha:
+                  raise RuntimeError('SOURCE_HOLD: prior BIODEPTH source drift '+name)
+              (Path('/tmp/biodepth_gbotb_joint')/name).write_bytes(raw)
+              print('SOURCE_SHA_PASS',name,len(raw))
+          PY
+          python3 scripts/source/prepare_biodepth_planting_phylo_inventory_v0_1.py \
+            --species /tmp/biodepth_gbotb_joint/species.txt \
+            --codes /tmp/biodepth_gbotb_joint/codes.txt \
+            --out /tmp/biodepth_gbotb_joint/planting.csv
+      - name: Install exact historical V.PhyloMaker2 TPL
+        run: |
+          mkdir -p build
+          git clone --filter=blob:none https://github.com/jinyizju/V.PhyloMaker2.git build/V.PhyloMaker2
+          git -C build/V.PhyloMaker2 checkout 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
+          test "$(git -C build/V.PhyloMaker2 rev-parse HEAD)" = "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+          R CMD INSTALL build/V.PhyloMaker2
+      - name: Replay source-only native/Graft S3 and derive temporary dated pair distances
+        run: |
+          Rscript scripts/source/audit_biodepth_phylogeny_source_coverage_v0_1.R \
+            --planting /tmp/biodepth_gbotb_joint/planting.csv \
+            --out build/biodepth_gbotb_joint/phylo_source_replay.json \
+            --crosswalk-out /tmp/biodepth_gbotb_joint/GBOTB_S3_crosswalk.csv \
+            --distance-out /tmp/biodepth_gbotb_joint/GBOTB_S3_patristic.csv
+      - name: Outcome-blind 88 GIFT height-species by 98 GBOTB-source tree joint gate
+        run: |
+          python3 scripts/source/audit_biodepth_gift_gbotb_joint_support_v0_1.py \
+            --species /tmp/biodepth_gbotb_joint/species.txt \
+            --codes /tmp/biodepth_gbotb_joint/codes.txt \
+            --provenance results/biodepth_2010_species_source_v0_1/gift_height_103taxa_bibliography_qa_v0_1.json \
+            --phylogeny-gate results/biodepth_2010_species_source_v0_1/phylogeny_103taxa_source_qualification_v0_1.json \
+            --tree-crosswalk /tmp/biodepth_gbotb_joint/GBOTB_S3_crosswalk.csv \
+            --tree-distances /tmp/biodepth_gbotb_joint/GBOTB_S3_patristic.csv \
+            --out build/biodepth_gbotb_joint/source_joint_support_v0_1.json
+      - name: Enforce source-only firewall and archive only qualified original summary
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/biodepth_gbotb_joint/source_joint_support_v0_1.json'))
+          assert d['biomass_records_read']==0 and d['fd_biomass_model_estimates']==0
+          assert d['source_original_plots']==480 and d['GIFT_provenance_height_taxa']==88
+          assert d['status'] in ('BIODEPTH_GBOTB_GIFT_JOINT_SUPPORT_PASS','HOLD_BIODEPTH_GBOTB_GIFT_JOINT_SUPPORT')
+          print('SOURCE_ONLY_JOINT_VERDICT',d['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biodepth-original-gbotb-gift-height-joint-source-coverage
+          path: build/biodepth_gbotb_joint/
+          if-no-files-found: ignore
+          retention-days: 30

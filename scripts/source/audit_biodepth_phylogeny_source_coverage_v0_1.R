@@ -120,6 +120,29 @@ out <- list(version="v0.1",status=if(qualification)"BIODEPTH_GBOTB_S3_SOURCE_COV
   hard_nonclaims=c("Taxonomic accepted-name link does not prove trait or phylogeny independence",
        "S3-bound tips are not direct backbone-native species", "No PD, FD, biomass, K or evolutionary-process result was estimated",
        "Earlier BIODEPTH strong source gate, BIEN global cross-axis gate and NEON auth HOLD remain unchanged"))
+# Optional SOURCE-ONLY derived tree inputs for the next matched-source gate.
+# These are ephemeral runner files and contain no original trait values or biomass.
+opt <- function(k){i<-match(k,args);if(is.na(i))return(NULL);if(i==length(args))stop(paste("missing",k));args[[i+1]]}
+crosspath<-opt("--crosswalk-out"); distpath<-opt("--distance-out")
+if(xor(is.null(crosspath),is.null(distpath)))stop("SOURCE_HOLD: both source-only tree inputs required")
+if(!is.null(crosspath)){
+  if(!qualification)stop("SOURCE_HOLD: no S3 tree inputs when original tree source gate fails")
+  tab<-data.frame(species=tolower(taxo$species),family=taxo$family,status=status,
+                  stringsAsFactors=FALSE)
+  if(anyDuplicated(tab$species))stop("SOURCE_HOLD: repeated tree source species")
+  d<-ape::cophenetic.phylo(tree)
+  rownames(d)<-tolower(gsub("_"," ",rownames(d),fixed=TRUE))
+  colnames(d)<-tolower(gsub("_"," ",colnames(d),fixed=TRUE))
+  if(!setequal(rownames(d),tab$species[tab$status %in% c("prune","bind")]) ||
+     !setequal(rownames(d),colnames(d)) ||
+     any(!is.finite(d)) || any(d<0) || max(abs(d-t(d)))>1e-7 ||
+     max(abs(diag(d)))>1e-7)
+    stop("SOURCE_HOLD: derived patristic distance matrix invalid")
+  dir.create(dirname(crosspath),recursive=TRUE,showWarnings=FALSE)
+  dir.create(dirname(distpath),recursive=TRUE,showWarnings=FALSE)
+  write.csv(tab,crosspath,row.names=FALSE,na="")
+  write.csv(d,distpath,row.names=TRUE,na="")
+}
 dir.create(dirname(output),showWarnings=FALSE,recursive=TRUE)
 write_json(out,output,pretty=TRUE,auto_unbox=TRUE,null="null")
 cat("BIODEPTH_PHYLOGENY_SOURCE_ONLY ",toJSON(out,auto_unbox=TRUE,null="null"),"\n",sep="")

@@ -1,0 +1,132 @@
+{
+  "all_experiments": {
+    "DS2_species_woody_to_stand_scaling_qualified": false,
+    "cohort": "all original 11 experiments",
+    "individual_trait_sample_lineage_qualified": false,
+    "n_distinct_positive_trait_species_in_eligible_plots": 38,
+    "no_biomass_trait_association_estimated": true,
+    "number_sites_with_at_least_8_eligible_original_plots": 10,
+    "original_DS1_DS2_joined_plots": 328,
+    "original_study_measurement_year_qualified": false,
+    "plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody": 186,
+    "prior_frozen_structural_plot_site_species_gate_pass": true,
+    "site_eligible_original_plot_counts": {
+      "B-Tree": 9,
+      "BIOTREE_Kaltenborn": 8,
+      "ECOLINK_Uppsala": 33,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "FORBIO_Zedelgem": 12,
+      "IDENT_Freiburg": 12,
+      "IDENT_Macomer": 12,
+      "MataDIV": 10,
+      "MyDiv": 60,
+      "ORPHEE": 6
+    },
+    "source_site_count": 11,
+    "trait_qualified_plots_by_axis": {
+      "LNCM": 170,
+      "SLA": 165,
+      "WD": 77
+    }
+  },
+  "decision": "NO_NEW_ECOLOGICAL_EFFECT_AUTHORIZED___PER_SITE_MEASUREMENT_YEARS_AND_WOODY_CONVERSION_MISSING",
+  "excluding_ECOLINK": {
+    "DS2_species_woody_to_stand_scaling_qualified": false,
+    "cohort": "exclude genotype-manipulation and cumulative-coppice ECOLINK",
+    "individual_trait_sample_lineage_qualified": false,
+    "n_distinct_positive_trait_species_in_eligible_plots": 34,
+    "no_biomass_trait_association_estimated": true,
+    "number_sites_with_at_least_8_eligible_original_plots": 9,
+    "original_DS1_DS2_joined_plots": 283,
+    "original_study_measurement_year_qualified": false,
+    "plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody": 153,
+    "prior_frozen_structural_plot_site_species_gate_pass": true,
+    "site_eligible_original_plot_counts": {
+      "B-Tree": 9,
+      "BIOTREE_Kaltenborn": 8,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "FORBIO_Zedelgem": 12,
+      "IDENT_Freiburg": 12,
+      "IDENT_Macomer": 12,
+      "MataDIV": 10,
+      "MyDiv": 60,
+      "ORPHEE": 6
+    },
+    "source_site_count": 10,
+    "trait_qualified_plots_by_axis": {
+      "LNCM": 137,
+      "SLA": 132,
+      "WD": 77
+    }
+  },
+  "excluding_ECOLINK_and_MataDIV": {
+    "DS2_species_woody_to_stand_scaling_qualified": false,
+    "cohort": "exclude ECOLINK and only-fertilized MataDIV (source-design sensitivity)",
+    "individual_trait_sample_lineage_qualified": false,
+    "n_distinct_positive_trait_species_in_eligible_plots": 28,
+    "no_biomass_trait_association_estimated": true,
+    "number_sites_with_at_least_8_eligible_original_plots": 8,
+    "original_DS1_DS2_joined_plots": 261,
+    "original_study_measurement_year_qualified": false,
+    "plots_2plus_same_axis_species_with_original_DS1_nonnegative_woody": 143,
+    "prior_frozen_structural_plot_site_species_gate_pass": true,
+    "site_eligible_original_plot_counts": {
+      "B-Tree": 9,
+      "BIOTREE_Kaltenborn": 8,
+      "FORBIO_Gedinne": 12,
+      "FORBIO_Hechtel-Eksel": 12,
+      "FORBIO_Zedelgem": 12,
+      "IDENT_Freiburg": 12,
+      "IDENT_Macomer": 12,
+      "MyDiv": 60,
+      "ORPHEE": 6
+    },
+    "source_site_count": 9,
+    "trait_qualified_plots_by_axis": {
+      "LNCM": 127,
+      "SLA": 122,
+      "WD": 77
+    }
+  },
+  "nonclaims": [
+    "This is a pre-effect original-source cohort eligibility check, not a new published or independent biomass effect.",
+    "Do not treat ECOLINK genotype diversity as species richness or sum of coppice harvests as snapshot biomass.",
+    "Do not treat MataDIV-only-fertilized as a confounding-free unfertilized control.",
+    "Numeric support alone does not unlock time alignment, individual sample-ID/lineage, and original DS2 woody normalization.",
+    "No trait phylogenetic K, distance memory rho, new FD→biomass or PD model was estimated."
+  ],
+  "original_186_trait_source_gate_reproduced": true,
+  "original_Figshare_data_MD5_verified": true,
+  "original_join_geometry_328_reproduced": true,
+  "original_site_count": 11,
+  "remaining_source_site_labels": [
+    "B-Tree",
+    "BIOTREE_Kaltenborn",
+    "FORBIO_Gedinne",
+    "FORBIO_Hechtel-Eksel",
+    "FORBIO_Zedelgem",
+    "IDENT_Freiburg",
+    "IDENT_Macomer",
+    "MyDiv",
+    "ORPHEE"
+  ],
+  "site_label_ECOLINK": "ECOLINK_Uppsala",
+  "site_label_MataDIV": "MataDIV",
+  "status": "UPLOADED_METHODS_SITE_SOURCE_COHORT_GATE_PASS",
+  "supplement_methods_s1": "ECOLINK genetically manipulated varieties; MataDIV only fertilized study plots",
+  "supplement_methods_s2": "ECOLINK cumulative harvest cycles not single snapshot biomass; ORPHEE some imputed root collar diameters",
+  "supplement_methods_s3": "Plot×species leaf nutrient means measured but observation year absent",
+  "user_supplied_original_supplement_SHA256": "6e422d5bbe685e00b045634137c150e8a6824e8dd4c6f88da43beae2f2ee9ddd",
+  "version": "v0.4",
+  "source_verified_run": {
+    "run_id": 43875714360,
+    "job_id": 133328085551,
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/43875714360",
+    "artifact_id": 14229702034,
+    "artifact_digest": "sha256:2b0771a9b9222f8f7973802cb9830c278cbc9012ce310f826384fe6df5f5c869",
+    "source_original_Figshare_data_MD5_verified": true,
+    "original_user_uploaded_DOCX_original_bytes_released": false
+  }
+}

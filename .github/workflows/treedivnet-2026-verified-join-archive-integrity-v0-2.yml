@@ -76,7 +76,7 @@ jobs:
               assert z['artifact_id']==artifact
               assert z['artifact_digest'].startswith('sha256:')
           doc=Path('docs/TREEDIVNET_2026_DS1_DS2_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md').read_text()
-          for mark in ('321/328','97.87%','328/328','186','38','TRAIT','TEMPORAL','not','HOLD'):
+          for mark in ('321/328','97.87%','328/328','186','38','TRAIT','time alignment','not','HOLD'):
               assert mark in doc,mark
           print('TREE_DIVNET_2026_ORIGINAL_JOIN_AGGREGATE_INTEGRITY_PASS 328 joins, 186 trait source plots, 321 woody means, 7 exceptions, no K/FD/biomass effects')
           PY

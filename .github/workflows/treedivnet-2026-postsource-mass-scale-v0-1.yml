@@ -1,0 +1,51 @@
+name: TreeDivNet 2026 postsource original woody biomass scaling diagnosis
+on:
+  push:
+    branches: [source/independent-trait-biomass-field-20261116]
+    paths:
+      - docs/TREEDIVNET_2026_SPECIES_MASS_SCALING_DIAGNOSIS_V0_1.md
+      - scripts/source/diagnose_treedivnet_species_mass_scaling_v0_1.py
+      - .github/workflows/treedivnet-2026-postsource-mass-scale-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-posthoc-scale-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify fixed scaling hypotheses not ecological effect
+        run: |
+          python3 -m py_compile scripts/source/diagnose_treedivnet_species_mass_scaling_v0_1.py
+          PYTHONPATH=scripts/source python3 scripts/source/diagnose_treedivnet_species_mass_scaling_v0_1.py --self-test
+          test -s docs/TREEDIVNET_2026_SPECIES_MASS_SCALING_DIAGNOSIS_V0_1.md
+      - name: Audit original three prescribed source mass representations with all original plots
+        run: |
+          mkdir -p build/treedivnet_source_scale
+          PYTHONPATH=scripts/source python3 scripts/source/diagnose_treedivnet_species_mass_scaling_v0_1.py \
+            --out build/treedivnet_source_scale/source_scale_v0_1.json
+      - name: Preserve first source hierarchy HOLD and no causal effect
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('build/treedivnet_source_scale/source_scale_v0_1.json'))
+          assert x['source_only'] is True
+          assert x['original_mass_source_qa_gate_stays_HOLD'] is True
+          assert x['no_ecological_effect_fitted'] is True
+          assert x['source_original_plot_keys_joined']==328
+          assert x['source_numeric_original_woody_mass_comparable_plots']==328
+          assert x['original_strict_direct_sum_match_plots']==135
+          assert x['status'] in ('SOURCE_SCALE_PATTERN_FOUND_UNCONFIRMED_PHYSICAL_MEANING','UNRESOLVED_SOURCE_SCALE_HOLD')
+          print('TREE_DIVNET_SCALE_SOURCE_STATUS',x['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treedivnet-2026-posthoc-species-woody-mass-source-scale-only-nonraw
+          path: build/treedivnet_source_scale/source_scale_v0_1.json
+          retention-days: 30
+          if-no-files-found: ignore

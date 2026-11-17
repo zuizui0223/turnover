@@ -47,7 +47,7 @@ jobs:
           x=d['original_source_keys_and_cardinality']
           assert x['original_2020_main_function_plots']==78
           assert x['original_plant_cover_plots']==82
-          assert x['original_source_trait_reference_rows']==59
+          assert x['original_species_trait_reference_rows']==59
           assert d['status'] in ('JENA_ORIGINAL_AUTHOR_CODE_CANONICAL_KEY_SOURCE_GEOMETRY_PASS',
                                  'JENA_ORIGINAL_CROSSFILE_KEY_SOURCE_HOLD')
           assert d['source_thresholds']['min_matched_canonical_original_plots']==60

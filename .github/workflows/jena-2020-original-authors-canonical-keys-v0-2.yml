@@ -52,7 +52,7 @@ jobs:
                                  'JENA_ORIGINAL_CROSSFILE_KEY_SOURCE_HOLD')
           assert d['source_thresholds']['min_matched_canonical_original_plots']==60
           print('JENA_2020_CANONICAL_SOURCE_KEYS',d['status'],
-              'plots',x['n_exact_original_main_plotcodes_present_in_both_original_cover_and_biomass'],
+              'plots',x['n_exact_main_plotcodes_present_in_both_original_cover_and_biomass'],
               'plot-years',x['n_exact_original_function_cover_biomass_plotyear_overlap'],
               'named_trait_source',d['original_trait_species_abbreviation_identity']['n_trait_species_exact_authors_abbreviated_code_in_biomass_and_cover'])
           PY

@@ -1,0 +1,46 @@
+{
+  "new_biomass_effect_estimated": false,
+  "source_only_support": {
+    "n_training_years_with_numeric_outcome_presence_only": 0,
+    "no_source_response_value_used_to_select_original_species_or_covariates": true,
+    "no_trait_biomass_model_fitted": true,
+    "original_source_plot_years_any_origin_2003to2012": 773,
+    "original_source_plot_years_with_no_cover_or_missing_trait": {
+      "less_than_80pct_original_cover_trait_weight": 748,
+      "less_than_two_complete_original_trait_species": 22
+    },
+    "original_source_plotyears_with_cover_and_trait_covariates": 3,
+    "source_80pct_threshold": 0.8,
+    "source_distinct_species_threshold": 20,
+    "source_distinct_trait_species": 3,
+    "source_heldout_source_year_plot_counts": {
+      "2010": 1,
+      "2011": 1,
+      "2012": 1
+    },
+    "source_original_biomass_response_label_presence_only": {
+      "SOURCE_POSITIVE": 3
+    },
+    "source_original_complete_height_leafN_trait_taxa": 5,
+    "source_original_year_coverage": {
+      "2010": 1,
+      "2011": 1,
+      "2012": 1
+    },
+    "source_plot_threshold": 60,
+    "source_training_unique_original_main_plots": 0,
+    "source_trait_cover_weight_coverage_median": 0,
+    "source_trait_cover_weight_coverage_min": 0,
+    "source_year_threshold": 6,
+    "status": "SOURCE_SUPPORT_HOLD"
+  },
+  "status": "SOURCE_SUPPORT_HOLD",
+  "version": "v0.1",
+  "verified_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44005557495",
+    "job_id": 133779932756,
+    "artifact_id": 14295060234,
+    "artifact_digest": "sha256:b124e58529757f2f9684dace34ae1d5c7d389ed0e0545ffc751f2f1d11da23b8",
+    "nature": "Correctly completed CI after changing technical HOLD output field assertion only; no biological thresholds or trait pair changed."
+  }
+}

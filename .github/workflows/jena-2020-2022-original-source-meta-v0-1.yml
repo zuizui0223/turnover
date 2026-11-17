@@ -1,0 +1,61 @@
+name: Source-only Jena 2020 original vs 2022 same-study reply Figshare metadata
+on:
+  push:
+    branches: [source/jena-longitudinal-trait-function-portability-20261117]
+    paths:
+      - docs/JENA_INDEPENDENT_LONGITUDINAL_TRAIT_FUNCTION_SOURCE_PREFLIGHT_20261117.md
+      - scripts/source/preflight_jena_independent_2020_2022_figshare_v0_1.py
+      - .github/workflows/jena-2020-2022-original-source-meta-v0-1.yml
+  pull_request:
+    paths:
+      - docs/JENA_INDEPENDENT_LONGITUDINAL_TRAIT_FUNCTION_SOURCE_PREFLIGHT_20261117.md
+      - scripts/source/preflight_jena_independent_2020_2022_figshare_v0_1.py
+      - .github/workflows/jena-2020-2022-original-source-meta-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independently-source-anchored-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source-first protocol and official Figshare schema
+        run: |
+          python3 -m py_compile scripts/source/preflight_jena_independent_2020_2022_figshare_v0_1.py
+          python3 scripts/source/preflight_jena_independent_2020_2022_figshare_v0_1.py --self-test
+          test -s docs/JENA_INDEPENDENT_LONGITUDINAL_TRAIT_FUNCTION_SOURCE_PREFLIGHT_20261117.md
+      - name: Original Jena author Figshare 2020 and same-study 2022 response metadata and public file list
+        run: |
+          mkdir -p build/jena_2020_2022_source
+          python3 scripts/source/preflight_jena_independent_2020_2022_figshare_v0_1.py \
+            --out build/jena_2020_2022_source/figshare_source_metadata_v0_1.json
+      - name: Enforce no original biological outcome or invented independent site replication
+        run: |
+          python3 - <<'PY'
+          import json
+          p='build/jena_2020_2022_source/figshare_source_metadata_v0_1.json'
+          x=json.load(open(p))
+          assert x['status']=='JENA_2020_2022_SOURCE_METADATA_AUDIT_COMPLETE'
+          assert len(x['articles'])==2
+          assert {q['original_article_id'] for q in x['articles']}=={12834350,19087640}
+          assert x['n_distinct_original_ecological_experiments']==1
+          assert x['Jena_is_not_independent_of_earlier_turnover_Jena_guild_results'] is True
+          assert x['no_biological_response_or_trait_FD_K_predictive_effect_opened'] is True
+          allowed={'SOURCE_META_PASS_FILE_LINK_PASS','PUBLISHER_META_HOLD',
+                   'SOURCE_FILE_ACCESS_HOLD','SOURCE_FILE_MANIFEST_HOLD'}
+          assert all(q['status'] in allowed for q in x['articles'])
+          assert all(q['original_source_biological_rows_downloaded']==0 for q in x['articles'])
+          print('JENA_SOURCE_ORIGINAL_AUTHORED_FILES_VERDICT',
+            {q['original_article_id']:q['status'] for q in x['articles']})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-Jena-2020-2022-Figshare-source-manifest-nonraw
+          path: build/jena_2020_2022_source/figshare_source_metadata_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

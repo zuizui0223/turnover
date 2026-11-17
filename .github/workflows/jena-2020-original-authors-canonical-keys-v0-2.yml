@@ -1,0 +1,65 @@
+name: Jena 2020 original author plotcode species year key identity audit
+on:
+  push:
+    branches: [source/jena-longitudinal-trait-function-portability-20261117]
+    paths:
+      - docs/JENA_AUTHOR_CODE_FOLD_LEAKAGE_AND_EXACT_SOURCE_JOIN_GATE_V0_2.md
+      - scripts/source/audit_jena_2020_original_canonical_keys_v0_2.py
+      - .github/workflows/jena-2020-original-authors-canonical-keys-v0-2.yml
+  pull_request:
+    paths:
+      - docs/JENA_AUTHOR_CODE_FOLD_LEAKAGE_AND_EXACT_SOURCE_JOIN_GATE_V0_2.md
+      - scripts/source/audit_jena_2020_original_canonical_keys_v0_2.py
+      - .github/workflows/jena-2020-original-authors-canonical-keys-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-Jena-canonic-plot-year:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Jena original authors plotcode/abbreviated species and no-model fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_jena_2020_original_canonical_keys_v0_2.py
+          python3 scripts/source/audit_jena_2020_original_canonical_keys_v0_2.py --self-test
+          test -s docs/JENA_AUTHOR_CODE_FOLD_LEAKAGE_AND_EXACT_SOURCE_JOIN_GATE_V0_2.md
+      - name: Source MD5 original canonical plotcode/year/species join audit, no ecological effects
+        run: |
+          mkdir -p build/jena_2020_original_keys
+          python3 scripts/source/audit_jena_2020_original_canonical_keys_v0_2.py \
+            --out build/jena_2020_original_keys/source_plotyear_taxon_v0_2.json
+      - name: Validate original source rows, years and forbid leaked outcome coefficients
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/jena_2020_original_keys/source_plotyear_taxon_v0_2.json'))
+          assert d['version']=='v0.2'
+          assert d['source_only'] is True
+          assert d['original_2020_authors_Figshare_MD5_six_source_files_reverified'] is True
+          assert d['no_biomass_FD_or_K_predictor_response_effect_estimated'] is True
+          assert d['derived_full_panel_predictors_not_independently_future_year_fold_safe'] is True
+          assert d['original_author_script_calculates_RaoQ_FD_and_cover_abundance_weighted_CWM'] is True
+          x=d['original_source_keys_and_cardinality']
+          assert x['original_2020_main_function_plots']==78
+          assert x['original_plant_cover_plots']==82
+          assert x['original_species_trait_reference_rows']==59
+          assert d['status'] in ('JENA_ORIGINAL_AUTHOR_CODE_CANONICAL_KEY_SOURCE_GEOMETRY_PASS',
+                                 'JENA_ORIGINAL_CROSSFILE_KEY_SOURCE_HOLD')
+          assert d['source_thresholds']['min_matched_canonical_original_plots']==60
+          print('JENA_2020_CANONICAL_SOURCE_KEYS',d['status'],
+              'plots',x['n_exact_main_plotcodes_present_in_both_original_cover_and_biomass'],
+              'plot-years',x['n_exact_original_function_cover_biomass_plotyear_overlap'],
+              'named_trait_source',d['original_trait_species_abbreviation_identity']['n_trait_species_exact_authors_abbreviated_code_in_biomass_and_cover'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-2020-original-authors-plotcode-year-species-cross-file-nonraw
+          path: build/jena_2020_original_keys/source_plotyear_taxon_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 30

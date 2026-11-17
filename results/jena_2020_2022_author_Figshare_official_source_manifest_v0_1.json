@@ -1,0 +1,122 @@
+{
+  "version": "v0.1",
+  "status": "OFFICIAL_ORIGINAL_FIGSHARE_2020_AND_SAME_JENA_2022_REANALYSIS_SOURCE_META_PASS",
+  "original_source_run": "https://github.com/zuizui0223/turnover/actions/runs/44003756499",
+  "source_artifact_id": 14294110601,
+  "source_artifact_digest": "sha256:8d37cc10d57229ab2b6505ea9915c3718570e96bf7cb22857b8ab58bc5c9b1ef",
+  "source_Jena_2020_original_study_note": "Original study Jena Main 78 plots 2003-2012, 41 traits and 42 ecosystem functions; original Nature Ecology & Evolution paper authors' study.",
+  "original_Jena_2022_reply_note": "Reanalysis of the SAME Jena 2020 experiment, not independent field study.",
+  "no_original_ecological_effect_estimated": true,
+  "articles": [
+    {
+      "id": 12834350,
+      "doi": "10.6084/m9.figshare.12834350.v1",
+      "paper_doi": "10.1038/s41559-020-01316-9",
+      "source_role": "2020_Jena_original_primary_source",
+      "title": "Data and R scripts of \"Plant traits alone are poor predictors of ecosystem properties and long-term ecosystem functioning\"",
+      "status": "SOURCE_META_PASS_FILE_LINK_PASS",
+      "published_date": "2020-08-20T13:24:38Z",
+      "metadata_sha256": "9a7b9b05b3bccde93f150592b74eb91d0fb204a1b14b12897b7fb69bd38b8612",
+      "n_files": 46,
+      "n_public": 46,
+      "core_original_files": [
+        {
+          "filename": "biomass02_12.csv",
+          "original_file_id": 24365000,
+          "source_size_bytes": 2120583,
+          "source_md5": "2e350fae58c653c78edc606dad157533",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "functions4.st.csv",
+          "original_file_id": 24365006,
+          "source_size_bytes": 360071,
+          "source_md5": "0bb0b5b909f21b1c152086351ad7f240",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "CoverMain-JenaExp2003-2015all.csv",
+          "original_file_id": 24365003,
+          "source_size_bytes": 198989,
+          "source_md5": "9a1d6c8ea08e089717ae9933a11394ec",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "functions raw values.csv",
+          "original_file_id": 24365009,
+          "source_size_bytes": 201652,
+          "source_md5": "dc76132cd190a770eb4b0e8dbdd98c6e",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "traits.st.csv",
+          "original_file_id": 24365039,
+          "source_size_bytes": 47135,
+          "source_md5": "8045e7ee38f26b212dbe81aed0039765",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "predictors_raw.csv",
+          "original_file_id": 24365042,
+          "source_size_bytes": 2334726,
+          "source_md5": "1ad0602600c00a9c2f580c05ebd8084c",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        }
+      ]
+    },
+    {
+      "id": 19087640,
+      "doi": "10.6084/m9.figshare.19087640.v1",
+      "paper_doi": "10.1038/s41559-022-01920-x",
+      "source_role": "2022_reply_reanalysis_same_original_Jena_experiment",
+      "title": "Unique data: Matters Arising (Hagan et al. 2022), Nature Ecology and Evolution",
+      "status": "SOURCE_META_PASS_FILE_LINK_PASS",
+      "published_date": "2022-07-13T15:43:10Z",
+      "metadata_sha256": "1bc5f60de1f4ee43472d698d73eebc397eb931b7c5e3110c8277dfd8ee3a3808",
+      "n_files": 4,
+      "n_public": 4,
+      "core_original_files": [
+        {
+          "filename": "raw_data_fig_1b.csv",
+          "original_file_id": 36260463,
+          "source_size_bytes": 3428,
+          "source_md5": "e16a85f09a2b9bb1e4271934908f93d6",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "summary_data_fig_1a.csv",
+          "original_file_id": 36260466,
+          "source_size_bytes": 262,
+          "source_md5": "a9175c1dfe0732bf569493cdea01fecd",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "raw_data_fig_1a.xlsx",
+          "original_file_id": 36260469,
+          "source_size_bytes": 130287,
+          "source_md5": "55e5904128380798404ee5101d51e486",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        },
+        {
+          "filename": "Matters_Arising_NEE_2020.R",
+          "original_file_id": 36260691,
+          "source_size_bytes": 10924,
+          "source_md5": "7517cb2ba81336b3c8bf68a48399f547",
+          "official_file_id_link_validated": true,
+          "anonymous_access_status": 200
+        }
+      ]
+    }
+  ],
+  "no_original_author_source_rows_redistributed": true,
+  "warning": "Original 2022 reply, 2020 source and PANGAEA 923591 are one underlying original Jena experiment; do not count independent replication or infer K."
+}

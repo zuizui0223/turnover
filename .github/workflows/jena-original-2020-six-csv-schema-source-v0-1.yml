@@ -1,0 +1,64 @@
+name: Jena 2020 original six CSV MD5 and source plot year trait grain
+on:
+  push:
+    branches: [source/jena-longitudinal-trait-function-portability-20261117]
+    paths:
+      - docs/JENA_2020_PINNED_ORIGINAL_BIOMASS_COVER_TRAIT_SCHEMA_GATE_V0_1.md
+      - scripts/source/audit_jena_2020_original_csv_grain_v0_1.py
+      - .github/workflows/jena-original-2020-six-csv-schema-source-v0-1.yml
+  pull_request:
+    paths:
+      - docs/JENA_2020_PINNED_ORIGINAL_BIOMASS_COVER_TRAIT_SCHEMA_GATE_V0_1.md
+      - scripts/source/audit_jena_2020_original_csv_grain_v0_1.py
+      - .github/workflows/jena-original-2020-six-csv-schema-source-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-six-source-files:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check frozen six file original IDs, MD5 source, schema fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_jena_2020_original_csv_grain_v0_1.py
+          python3 scripts/source/audit_jena_2020_original_csv_grain_v0_1.py --self-test
+          test -s docs/JENA_2020_PINNED_ORIGINAL_BIOMASS_COVER_TRAIT_SCHEMA_GATE_V0_1.md
+      - name: Verify six official immutable source CSVs and original plot year species schema only
+        run: |
+          mkdir -p build/jena_original_2020
+          python3 scripts/source/audit_jena_2020_original_csv_grain_v0_1.py \
+            --out build/jena_original_2020/source_schema_v0_1.json
+      - name: Enforce source exact files and no trait or biomass outcome inference
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/jena_original_2020/source_schema_v0_1.json'))
+          assert d['version']=='v0.1'
+          assert d['full_six_original_CSV_MD5_and_byte_size_source_verified'] is True
+          assert d['n_six_original_source_files']==6
+          assert d['original_plot_year_trait_biomass_cross_file_join_verified'] is False
+          assert d['n_original_biomass_trait_effects_estimated']==0
+          assert d['original_2020_original_dataset_and_2022_reply_are_same_Jena_experiment'] is True
+          assert d['historical_BIEN_spatial_201family_and_GloBI_terminal_source_gates_remain_HOLD'] is True
+          assert d['status'] in ('SOURCE_ONLY_MULTI_YEAR_KEY_SCHEMA_DISCOVERED',
+                                  'PLOT_YEAR_KEY_SEMANTICS_HOLD','FILE_SCHEMA_HOLD')
+          for name,v in d['original_csv_metadata'].items():
+              assert v['original_biomass_or_trait_numerical_values_NOT_exported'] is True
+              assert v['original_plot_and_species_values_NOT_exported'] is True
+              assert v['no_ecological_effect_tested'] is True
+          print('JENA_ORIGINAL_2020_SIX_CSV_SOURCE_GATE',d['status'],
+                'n_explicit_plot_files',d['n_original_explicit_plot_candidate_files'],
+                'n_explicit_year_files',d['n_original_explicit_year_candidate_files'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-original-2020-six-source-csv-schema-plot-year-nonraw
+          path: build/jena_original_2020/source_schema_v0_1.json
+          retention-days: 30
+          if-no-files-found: ignore

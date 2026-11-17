@@ -60,7 +60,13 @@ jobs:
           assert d['status'] in (
             'SOURCE_SUPPORT_HOLD','RESPONSE_SOURCE_NUMERIC_SUPPORT_HOLD',
             'POSTRESULT_EXPLORATORY_JENA_2003_2009_TO_2010_2012_CONDITIONAL_COVER_NOWCAST_ESTIMATED')
-          assert d['source_only_pre_effect_support']['no_source_response_value_used_to_select_original_species_or_covariates'] is True
+          source=d.get('source_only_pre_effect_support',d.get('source_only_support'))
+          assert source is not None
+          assert source['no_source_response_value_used_to_select_original_species_or_covariates'] is True
+          if d['status']=='SOURCE_SUPPORT_HOLD':
+              assert d['new_biomass_effect_estimated'] is False
+              assert source['status']=='SOURCE_SUPPORT_HOLD'
+              assert source['source_original_complete_height_leafN_trait_taxa']<20
           if d['status'].startswith('POSTRESULT'):
               assert d['original_training_years']==[2003,2004,2005,2006,2007,2008,2009]
               assert d['original_heldout_future_years']==[2010,2011,2012]

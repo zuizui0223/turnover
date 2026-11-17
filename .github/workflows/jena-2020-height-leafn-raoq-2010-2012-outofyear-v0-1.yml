@@ -1,0 +1,85 @@
+name: Jena original plot-year cover-based height leafN 2D RaoQ to 2010-12 biomass
+on:
+  push:
+    branches: [analysis/jena-two-trait-raoq-outofyear-20261117]
+    paths:
+      - docs/JENA_HEIGHT_LEAFN_FD_2010_2012_HELDOUT_YEARS_DESIGN_V0_1.md
+      - scripts/analysis/test_jena_h1_leafN_raoq_outofyear_original_cover_v0_1.py
+      - .github/workflows/jena-2020-height-leafn-raoq-2010-2012-outofyear-v0-1.yml
+  pull_request:
+    paths:
+      - docs/JENA_HEIGHT_LEAFN_FD_2010_2012_HELDOUT_YEARS_DESIGN_V0_1.md
+      - scripts/analysis/test_jena_h1_leafN_raoq_outofyear_original_cover_v0_1.py
+      - .github/workflows/jena-2020-height-leafn-raoq-2010-2012-outofyear-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-Jena-outofcalendar-years:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze original 2003-09 train and 2010-12 heldout date and source agreements
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/analysis/test_jena_h1_leafN_raoq_outofyear_original_cover_v0_1.py
+          python3 scripts/analysis/test_jena_h1_leafN_raoq_outofyear_original_cover_v0_1.py --self-test
+          test -s docs/JENA_HEIGHT_LEAFN_FD_2010_2012_HELDOUT_YEARS_DESIGN_V0_1.md
+          python3 - <<'PY'
+          import json
+          p='results/jena_2020_original_source_78plots_851plotyears_59traitspecies_v0_2.json'
+          v=json.load(open(p))
+          assert v['status']=='JENA_ORIGINAL_AUTHOR_CODE_CANONICAL_KEY_SOURCE_GEOMETRY_PASS'
+          assert v['source_only'] is True
+          assert v['no_biomass_FD_or_K_predictor_response_effect_estimated'] is True
+          assert v['derived_full_panel_predictors_not_independently_future_year_fold_safe'] is True
+          assert v['original_source_keys_and_cardinality']['n_exact_original_function_cover_biomass_plotyear_overlap']==851
+          assert v['original_source_keys_and_cardinality']['n_exact_main_plotcodes_present_in_both_original_cover_and_biomass']==78
+          assert v['original_trait_species_abbreviation_identity']['n_trait_species_exact_authors_abbreviated_code_in_biomass_and_cover']==59
+          print('ORIGINAL_78_PLOTS_851_PLOTYEARS_AND_59_TRAIT_SPECIES_SOURCE_GATE_PASS')
+          PY
+      - name: Original MD5 Figshare source revalidation + cover and trait preflight then frozen heldout-time model
+        run: |
+          mkdir -p build/jena_2020_outofyear
+          python3 scripts/analysis/test_jena_h1_leafN_raoq_outofyear_original_cover_v0_1.py \
+            --out build/jena_2020_outofyear/height_leafN_RaoQ_FD_woody_2010_12_v0_1.json
+      - name: Guard originally frozen source/date/biological estimand
+        run: |
+          python3 - <<'PY'
+          import json,math
+          d=json.load(open('build/jena_2020_outofyear/height_leafN_RaoQ_FD_woody_2010_12_v0_1.json'))
+          assert d['version']=='v0.1'
+          assert d['status'] in (
+            'SOURCE_SUPPORT_HOLD','RESPONSE_SOURCE_NUMERIC_SUPPORT_HOLD',
+            'POSTRESULT_EXPLORATORY_JENA_2003_2009_TO_2010_2012_CONDITIONAL_COVER_NOWCAST_ESTIMATED')
+          assert d['source_only_pre_effect_support']['no_source_response_value_used_to_select_original_species_or_covariates'] is True
+          if d['status'].startswith('POSTRESULT'):
+              assert d['original_training_years']==[2003,2004,2005,2006,2007,2008,2009]
+              assert d['original_heldout_future_years']==[2010,2011,2012]
+              assert d['no_same_year_biomass_used_for_predictor_or_case_eligibility'] is True
+              assert d['original_cover_is_contemporaneously_measured_so_this_is_not_preseason_forecasting'] is True
+              assert d['no_global_independent_phylogenetic_K_rho_association_tested'] is True
+              assert d['no_independent_site_or_study_replication_of_earlier_Jena_source'] is True
+              assert d['previous_BIEN_GloBI_BIODEPTH_NEON_strict_source_HOLDs_unchanged'] is True
+              gain=1-d['pooled_three_future_years_M1_SSE']/d['pooled_three_future_years_M0_SSE']
+              assert math.isclose(gain,d['pooled_future_year_FD_incremental_SSE_gain'],abs_tol=1e-12)
+              assert len(d['future_year_records'])==3
+              assert d['n_original_future_plotyears_with_numeric_target']>=170
+          print('ORIGINAL_JENA_TIME_TRAIT_FD_VERDICT',
+                d['status'],d.get('pooled_future_year_FD_incremental_SSE_gain_pct'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-2003to09-original-height-leafN-RaoQ-2010to12-biomass-time-transfer
+          path: build/jena_2020_outofyear/height_leafN_RaoQ_FD_woody_2010_12_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

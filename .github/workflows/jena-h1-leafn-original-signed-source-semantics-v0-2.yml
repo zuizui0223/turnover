@@ -1,0 +1,61 @@
+name: Original Jena h1 leafN signed source numeric transform vs old positive-only HOLD
+on:
+  push:
+    branches: [analysis/jena-two-trait-raoq-outofyear-20261117]
+    paths:
+      - scripts/source/audit_jena_h1_leafN_signed_scale_semantics_v0_2.py
+      - .github/workflows/jena-h1-leafn-original-signed-source-semantics-v0-2.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_jena_h1_leafN_signed_scale_semantics_v0_2.py
+      - .github/workflows/jena-h1-leafn-original-signed-source-semantics-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-scale:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source-only signed scale, source row and no effect fixture
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/source/audit_jena_h1_leafN_signed_scale_semantics_v0_2.py
+          python3 scripts/source/audit_jena_h1_leafN_signed_scale_semantics_v0_2.py --self-test
+      - name: Original MD5 Jena 59-species source h1 leafN signed scale/missingness only
+        run: |
+          mkdir -p build/jena_original_signed_scale
+          python3 scripts/source/audit_jena_h1_leafN_signed_scale_semantics_v0_2.py \
+            --out build/jena_original_signed_scale/scale_source_v0_2.json
+      - name: Verify original trait pair unchanged, old source gate remains intact
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('build/jena_original_signed_scale/scale_source_v0_2.json'))
+          assert r['status']=='ORIGINAL_JENA_H1_LEAFN_SIGNED_SCALE_SOURCE_SEMANTICS_AUDITED'
+          assert r['n_source_original_species']==59 and r['source_id']==24365039
+          assert r['expected_original_MD5']=='8045e7ee38f26b212dbe81aed0039765'
+          assert r['source_original_csv_MD5_verified_on_download'] is True
+          assert r['n_joint_strictly_positive_h1_and_leafN_original_species']==5
+          assert r['old_original_positive_only_source_GATE_HOLD_preserved'] is True
+          assert r['no_new_FD_K_or_biomass_effect_estimated'] is True
+          assert r['no_original_plot_cover_or_biomass_response_values_opened'] is True
+          for a in ('h1','leafN'):
+              x=r['signed_numeric_field_summary'][a]
+              assert sum(x[k] for k in ('n_negative_finite','n_zero_finite','n_positive_finite'))==x['n_finite_signed_source_values']
+              assert x['n_finite_signed_source_values']+x['n_missing_nonfinite_or_non_numeric']==59
+          print('JENA_SIGNED_SOURCE_SCALE_ONLY',
+                r['n_joint_finite_signed_h1_and_leafN_original_species'],
+                {a:r['signed_numeric_field_summary'][a]['source_approximately_centered_and_unit_scaled'] for a in ('h1','leafN')})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-Jena-h1-leafN-signed-scale-semantic-source-nonraw
+          path: build/jena_original_signed_scale/scale_source_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 30

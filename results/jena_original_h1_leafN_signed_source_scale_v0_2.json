@@ -1,0 +1,58 @@
+{
+  "expected_original_MD5": "8045e7ee38f26b212dbe81aed0039765",
+  "n_joint_finite_signed_h1_and_leafN_original_species": 57,
+  "n_joint_strictly_positive_h1_and_leafN_original_species": 5,
+  "n_source_original_species": 59,
+  "no_new_FD_K_or_biomass_effect_estimated": true,
+  "no_original_plot_cover_or_biomass_response_values_opened": true,
+  "old_original_positive_only_source_GATE_HOLD_preserved": true,
+  "original_2020_author_Figshare_article": 12834350,
+  "original_author_full_41trait_imputed_FD_not_reproduced": true,
+  "signed_numeric_field_summary": {
+    "h1": {
+      "finite_source_max": 3.39107053655569,
+      "finite_source_mean": -6.622382953904442e-17,
+      "finite_source_median": -0.249210710874819,
+      "finite_source_min": -1.43625894373259,
+      "finite_source_sd_population": 0.9911892555667041,
+      "finite_source_sd_sample": 0.9999999999999999,
+      "n_finite_signed_source_values": 57,
+      "n_missing_nonfinite_or_non_numeric": 2,
+      "n_negative_finite": 37,
+      "n_positive_finite": 20,
+      "n_total_original_species": 59,
+      "n_zero_finite": 0,
+      "source_approximately_centered_and_unit_scaled": true
+    },
+    "leafN": {
+      "finite_source_max": 1.93117166447166,
+      "finite_source_mean": 2.258080728051166e-17,
+      "finite_source_median": -0.213578770391422,
+      "finite_source_min": -1.42240039969103,
+      "finite_source_sd_population": 0.9914892069294686,
+      "finite_source_sd_sample": 0.9999999999999998,
+      "n_finite_signed_source_values": 59,
+      "n_missing_nonfinite_or_non_numeric": 0,
+      "n_negative_finite": 33,
+      "n_positive_finite": 26,
+      "n_total_original_species": 59,
+      "n_zero_finite": 0,
+      "source_approximately_centered_and_unit_scaled": true
+    }
+  },
+  "source_file": "traits.st.csv",
+  "source_id": 24365039,
+  "source_original_author_main_r_code_reads_traits_st_csv_and_imputesPCA_but_does_not_log_h1_or_leafN_before_FD": true,
+  "source_original_csv_MD5_verified_on_download": true,
+  "source_predicate_for_possible_separately_frozen_signed_scale_test": true,
+  "source_semantic_diagnosis": "Original h1 and leafN have many negative numerical values. These are finite signed original-file values, not biological negative meters or percent leaf nitrogen; their physical units and original transform require original metadata. If near-centered/unit-variance, treat as provided transformed source scale, and NEVER apply log again.",
+  "status": "ORIGINAL_JENA_H1_LEAFN_SIGNED_SCALE_SOURCE_SEMANTICS_AUDITED",
+  "version": "v0.2",
+  "original_source_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44006083178",
+    "job_id": 133781673982,
+    "original_figshare_file_id": 24365039,
+    "verified_artifact_id": 14293638794,
+    "verified_artifact_digest": "sha256:f690544337f9564c4d069a28b43f780b7425d9e013894296c5c33bbc69b10ea5"
+  }
+}

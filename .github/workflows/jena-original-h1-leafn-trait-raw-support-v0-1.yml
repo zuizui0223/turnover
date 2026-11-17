@@ -1,0 +1,63 @@
+name: Jena original 59-species raw h1 leafN predeclared trait completeness HOLD
+on:
+  push:
+    branches: [analysis/jena-two-trait-raoq-outofyear-20261117]
+    paths:
+      - scripts/source/audit_jena_h1_leafN_raw_trait_complete_case_v0_1.py
+      - docs/JENA_H1_LEAFN_RAW_TRAIT_COMPLETE_CASE_SOURCE_DIAGNOSTIC_V0_1.md
+      - .github/workflows/jena-original-h1-leafn-trait-raw-support-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_jena_h1_leafN_raw_trait_complete_case_v0_1.py
+      - docs/JENA_H1_LEAFN_RAW_TRAIT_COMPLETE_CASE_SOURCE_DIAGNOSTIC_V0_1.md
+      - .github/workflows/jena-original-h1-leafn-trait-raw-support-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-raw-trait-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify original h1 leafN gate and source-only trait audit fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_jena_h1_leafN_raw_trait_complete_case_v0_1.py
+          python3 scripts/source/audit_jena_h1_leafN_raw_trait_complete_case_v0_1.py --self-test
+          test -s docs/JENA_H1_LEAFN_RAW_TRAIT_COMPLETE_CASE_SOURCE_DIAGNOSTIC_V0_1.md
+      - name: Fetch source-authored 2020 original trait file by MD5 and count missingness without fitting outcomes
+        run: |
+          mkdir -p build/jena_original_h1_leafN
+          python3 scripts/source/audit_jena_h1_leafN_raw_trait_complete_case_v0_1.py \
+            --out build/jena_original_h1_leafN/source_only_trait_completeness_v0_1.json
+      - name: Validate 59 source species and 20-species original frozen gate without rescue
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/jena_original_h1_leafN/source_only_trait_completeness_v0_1.json'))
+          assert d['version']=='v0.1'
+          assert d['status']=='JENA_H1_LEAFN_PREDECLARED_RAW_TRAIT_SOURCE_COMPLETE_CASE_HOLD'
+          assert d['original_trait_source_file_id']==24365039
+          assert d['original_source_MD5_checked_by_get_orig'] is True
+          assert d['original_trait_species_total']==59
+          assert d['original_taxa_with_both_h1_and_leafN_positive_finite']==5
+          assert d['original_source_minimum_joint_species_before_any_prediction']==20
+          assert d['source_pair_support_pass'] is False
+          assert d['original_prior_biomass_effect_not_estimated'] is True
+          assert d['trait_pair_and_source_thresholds_not_changed'] is True
+          assert d['no_imputation_added_after_failure'] is True
+          assert d['no_names_values_or_raw_original_data_exported'] is True
+          for t in ('h1','leafN'):
+              assert sum(d['original_numeric_value_states'][t].values())==59
+          print('JENA_SOURCE_H1_LEAFN_COMPLETE_CASE_HOLD_CORRECT: only',d['original_taxa_with_both_h1_and_leafN_positive_finite'],'of 59 taxa; no ecological model')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-2020-original-h1-leafN-raw-trait-completeness-source-only
+          path: build/jena_original_h1_leafN/source_only_trait_completeness_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

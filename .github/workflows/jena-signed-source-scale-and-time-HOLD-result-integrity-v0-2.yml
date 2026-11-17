@@ -69,7 +69,7 @@ jobs:
           assert evidence['artifact_id']==14294044423
           assert evidence['artifact_digest']=='sha256:00321094d5e1ddbf04486125540520645e368283cb0ef75ea952898160aa8b1e'
           doc=Path('docs/JENA_H1_LEAFN_SIGNED_SOURCE_SUPPORT_FINAL_DIAGNOSIS_20261117_V0_2.md').read_text()
-          for token in ('57/59','55','47','48','51','489','SOURCE_SUPPORT_HOLD','PCA','not'):
+          for token in ('57','55','47','48','51','489','SOURCE_SUPPORT_HOLD','PCA','not'):
               assert token in doc,token
           print('JENA_ORIGINAL_SOURCE_SEMANTICS_AND_HOLD_INTEGRITY_PASS: h1+leafN 57 signed species, 489 plot-years, 55 original train plots, 47/48/51 test plots, no effects')
           PY

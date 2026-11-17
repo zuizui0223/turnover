@@ -1,0 +1,169 @@
+{
+  "derived_full_panel_predictors_not_independently_future_year_fold_safe": true,
+  "independence_limits": [
+    "Same Jena study as authors' 2020 and 2022 reply; and overlaps earlier turnover Jena original guild source.",
+    "Different ecosystem from TreeDivNet forestry, but original source only one Jena field experiment.",
+    "Original authors used PCA-imputed traits and a Rao's Q FD, not plot-measured 2D Euclidean FD; do not call them directly equivalent."
+  ],
+  "n_source_years_2003to2012_with_numeric_original_function_biomass": 10,
+  "next_step": "If original exact plotcode and year source geometry qualifies, separately freeze source-only all-original plot-year feature construction from cover and traits, never conditioned on future heldout biomass. Any future original time-transport test must be a separately outcome-frozen exploratory analysis.",
+  "no_biomass_FD_or_K_predictor_response_effect_estimated": true,
+  "original_2020_authors_Figshare_MD5_six_source_files_reverified": true,
+  "original_author_script": "fonsvanderplas/traits-and-ecosystem-properties/main analysis.r",
+  "original_author_script_calculates_RaoQ_FD_and_cover_abundance_weighted_CWM": true,
+  "original_author_script_uses_PCA_imputation_of_trait_table": true,
+  "original_author_script_uses_cover_minus9999_as_zero_and_codes_1_to_0point5_2_to_3": true,
+  "original_author_script_uses_target_biomass_positive_row_selection_when_building_derived_community": true,
+  "original_functions_raw_target_biomass_presence_by_year_not_effect": {
+    "2002": {
+      "SOURCE_MISSING_OR_SENTINEL": 1,
+      "SOURCE_POSITIVE": 77
+    },
+    "2003": {
+      "SOURCE_POSITIVE": 78
+    },
+    "2004": {
+      "SOURCE_POSITIVE": 78
+    },
+    "2005": {
+      "SOURCE_POSITIVE": 77
+    },
+    "2006": {
+      "SOURCE_POSITIVE": 77
+    },
+    "2007": {
+      "SOURCE_POSITIVE": 78
+    },
+    "2008": {
+      "SOURCE_POSITIVE": 78
+    },
+    "2009": {
+      "SOURCE_MISSING_OR_SENTINEL": 1,
+      "SOURCE_POSITIVE": 77
+    },
+    "2010": {
+      "SOURCE_MISSING_OR_SENTINEL": 1,
+      "SOURCE_POSITIVE": 77
+    },
+    "2011": {
+      "SOURCE_POSITIVE": 75
+    },
+    "2012": {
+      "SOURCE_MISSING_OR_SENTINEL": 1,
+      "SOURCE_POSITIVE": 75
+    }
+  },
+  "original_functions_raw_target_biomass_presence_not_effect": {
+    "SOURCE_MISSING_OR_SENTINEL": 4,
+    "SOURCE_POSITIVE": 847
+  },
+  "original_source_keys_and_cardinality": {
+    "n_canonical_plotyear_missing_original_fields": {
+      "biomass": 0,
+      "cover": 0,
+      "derived_predictors": 0,
+      "functions": 0
+    },
+    "n_derived_predictor_plotyears": 851,
+    "n_exact_main_plotcodes_present_in_both_original_cover_and_biomass": 78,
+    "n_exact_original_function_biomass_plotyear_overlap": 851,
+    "n_exact_original_function_cover_biomass_plotyear_overlap": 851,
+    "n_exact_original_function_cover_plotyear_overlap": 851,
+    "n_exact_original_main_plotcodes_present_in_biomass": 78,
+    "n_exact_original_main_plotcodes_present_in_cover": 78,
+    "n_main_plotcodes_in_authors_derived_predictors": 78,
+    "n_main_plotcodes_missing_in_biomass": 0,
+    "n_main_plotcodes_missing_in_cover": 0,
+    "n_original_biomass_plotyears": 968,
+    "n_original_cover_plotyears": 1148,
+    "n_original_functions_plotyears": 851,
+    "original_2020_main_function_plots": 78,
+    "original_author_source_code_field_to_use_for_biomass": "plotcode",
+    "original_author_source_cover_Plot_to_use": "Plot",
+    "original_author_source_functions_plot_to_use": "plot",
+    "original_biomass_complete_plotcodes": 88,
+    "original_biomass_composite_block_plot_ids": 88,
+    "original_biomass_numeric_plot_values_only": 24,
+    "original_plant_cover_plots": 82,
+    "original_publication_2020_figshare_years_biomass": [
+      "2002",
+      "2003",
+      "2004",
+      "2005",
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012"
+    ],
+    "original_publication_2020_figshare_years_cover": [
+      "2002",
+      "2003",
+      "2004",
+      "2005",
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015"
+    ],
+    "original_publication_2020_figshare_years_function": [
+      "2002",
+      "2003",
+      "2004",
+      "2005",
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012"
+    ],
+    "original_species_trait_reference_rows": 59
+  },
+  "original_trait_species_abbreviation_identity": {
+    "n_biomass_source_species_columns": 60,
+    "n_cover_source_species_columns": 60,
+    "n_cover_species_without_original_trait_table": 1,
+    "n_trait_species_exact_authors_abbreviated_code_in_biomass_and_cover": 59,
+    "n_trait_species_missing_in_biomass": 0,
+    "n_trait_species_missing_in_cover": 0,
+    "n_unique_source_trait_species_codes": 59,
+    "no_species_codes_or_original_taxon_labels_exported": true
+  },
+  "source_only": true,
+  "source_thresholds": {
+    "min_matched_canonical_original_plots": 60,
+    "min_matched_plotyears_fraction_of_theoretical_min": 0.6,
+    "min_original_trait_species": 20,
+    "min_years_numeric_2003to2012": 7
+  },
+  "source_years_2003to2012_with_numeric_original_function_biomass": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012
+  ],
+  "status": "JENA_ORIGINAL_AUTHOR_CODE_CANONICAL_KEY_SOURCE_GEOMETRY_PASS",
+  "version": "v0.2",
+  "source_verified_GitHub_run": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44004892797",
+    "original_job_id": 133777718298,
+    "artifact_id": 14293782910,
+    "digest": "sha256:4f12c4f8cac7fff18e6d9ae4369c2a6673ee46eacd72540a4511a96bc67b60e7"
+  }
+}

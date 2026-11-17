@@ -157,6 +157,7 @@ def source_features(functions, cover, trait_map):
            "plot":plot,"year":year,"planted_richness":int(rich),
            "plotyear_source_trait_weight_coverage":frac,
            "source_trait_species":len(ids),
+           "source_trait_names_ephemeral":ids,
            "log_trait_values":vals,
            "relative_cover_species_weights":pp,
            "response_raw":row["target_biomass_average"],
@@ -194,8 +195,19 @@ def source_features(functions, cover, trait_map):
 
 
 def train_transform(rows):
-    original_species_ivs=np.vstack([r["log_trait_values"] for r in rows if r["year"] in TRAIN_YEARS])
-    if len(original_species_ivs)==0:raise ValueError("MODEL_SOURCE_HOLD: no training reference trait values")
+    # Standardize using each original species reference once, not repeated
+    # plot-years or future source cover; the frozen design explicitly uses
+    # training-year observed source species, not source row-count weighting.
+    source_by_species={}
+    for r in rows:
+        if r["year"] not in TRAIN_YEARS:continue
+        for sp,val in zip(r["source_trait_names_ephemeral"],r["log_trait_values"]):
+            if sp in source_by_species and not np.allclose(source_by_species[sp],val,rtol=0,atol=1e-12):
+                raise ValueError("SOURCE_HOLD: original static source trait species reference changed between plot-years")
+            source_by_species[sp]=val
+    if len(source_by_species)<MIN_SOURCE_SPECIES:
+        raise ValueError("MODEL_SOURCE_HOLD: fewer than 20 original training species trait references")
+    original_species_ivs=np.vstack([source_by_species[sp] for sp in sorted(source_by_species)])
     mu=original_species_ivs.mean(axis=0)
     sd=original_species_ivs.std(axis=0,ddof=0)
     if not np.isfinite(sd).all() or min(sd)<=1e-10:

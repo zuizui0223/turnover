@@ -1,0 +1,98 @@
+name: Jena v0.2 corrected signed standardized h1 leafN Rao Q future-year biomass nowcast
+on:
+  push:
+    branches: [analysis/jena-signed-h1-leafn-time-transport-20261117]
+    paths:
+      - docs/JENA_STANDARDIZED_SIGNED_H1_LEAFN_ORIGINAL_TIME_TRANSPORT_DESIGN_V0_2.md
+      - results/jena_original_h1_leafN_signed_source_scale_v0_2.json
+      - scripts/analysis/test_jena_signed_h1_leafN_raoq_outofyear_v0_2.py
+      - .github/workflows/jena-original-standardized-height-leafn-time-holdout-v0-2.yml
+  pull_request:
+    paths:
+      - docs/JENA_STANDARDIZED_SIGNED_H1_LEAFN_ORIGINAL_TIME_TRANSPORT_DESIGN_V0_2.md
+      - results/jena_original_h1_leafN_signed_source_scale_v0_2.json
+      - scripts/analysis/test_jena_signed_h1_leafN_raoq_outofyear_v0_2.py
+      - .github/workflows/jena-original-standardized-height-leafn-time-holdout-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-signed-time-holdout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Preserve old v0.1 gate HOLD and source-only certified signed numeric values
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/analysis/test_jena_signed_h1_leafN_raoq_outofyear_v0_2.py
+          python3 scripts/analysis/test_jena_signed_h1_leafN_raoq_outofyear_v0_2.py --self-test
+          test -s docs/JENA_STANDARDIZED_SIGNED_H1_LEAFN_ORIGINAL_TIME_TRANSPORT_DESIGN_V0_2.md
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          d=json.loads(Path("results/jena_original_h1_leafN_signed_source_scale_v0_2.json").read_text())
+          p=json.loads(Path("results/jena_original_h1_leafN_raw_source_HOLD_preoutcome_v0_1.json").read_text())
+          assert d["status"]=="ORIGINAL_JENA_H1_LEAFN_SIGNED_SCALE_SOURCE_SEMANTICS_AUDITED"
+          assert d["n_joint_finite_signed_h1_and_leafN_original_species"]==57
+          assert d["n_joint_strictly_positive_h1_and_leafN_original_species"]==5
+          assert d["source_predicate_for_possible_separately_frozen_signed_scale_test"] is True
+          for t in ("h1","leafN"):
+            a=d["signed_numeric_field_summary"][t]
+            assert abs(a["finite_source_mean"])<1e-12
+            assert math.isclose(a["finite_source_sd_sample"],1.0,abs_tol=1e-12)
+          assert p["status"]=="SOURCE_SUPPORT_HOLD" and p["new_biomass_effect_estimated"] is False
+          assert p["source_only_support"]["source_original_complete_height_leafN_trait_taxa"]==5
+          assert p["source_only_support"]["original_source_plotyears_with_cover_and_trait_covariates"]==3
+          print("SOURCE_SCALE_SEMANTIC_CORRECTION_INDEPENDENTLY_QUALIFIED: 57 signed source species, old v0.1 retains HOLD")
+          PY
+      - name: Recheck MD5 original Figshare, original plot-year cover and signed source trait geometry before any response
+        run: |
+          mkdir -p build/jena_signed_source_time
+          python3 scripts/analysis/test_jena_signed_h1_leafN_raoq_outofyear_v0_2.py \
+            --source-scale results/jena_original_h1_leafN_signed_source_scale_v0_2.json \
+            --out build/jena_signed_source_time/scale_corrected_source_year_v0_2.json
+      - name: Verify predeclared original year, source nonclaims and exact plot/year SSE
+        run: |
+          python3 - <<'PY'
+          import json,math
+          d=json.load(open("build/jena_signed_source_time/scale_corrected_source_year_v0_2.json"))
+          assert d["version"]=="v0.2"
+          assert d["status"] in (
+            "SOURCE_SUPPORT_HOLD",
+            "RESPONSE_SOURCE_NUMERIC_SUPPORT_HOLD",
+            "POSTRESULT_EXPLORATORY_JENA_SIGNED_SOURCE_2003_2009_TO_2010_2012_NOWCAST_ESTIMATED")
+          s=d.get("source_only_pre_effect_support",d.get("source_only_support"))
+          assert s["no_source_response_value_used_to_select_original_species_or_covariates"] is True
+          if d["status"].startswith("POSTRESULT"):
+            assert d["original_training_years"]==list(range(2003,2010))
+            assert d["original_heldout_future_years"]==[2010,2011,2012]
+            assert d["source_only_pre_effect_support"]["status"]=="ORIGINAL_COVER_PLUS_REFERENCE_TRAIT_GEOMETRY_PASS"
+            assert d["no_same_year_biomass_used_for_predictor_or_case_eligibility"] is True
+            assert d["original_cover_is_contemporaneously_measured_so_this_is_not_preseason_forecasting"] is True
+            assert d["no_global_independent_phylogenetic_K_rho_association_tested"] is True
+            assert d["previous_BIEN_GloBI_BIODEPTH_NEON_strict_source_HOLDs_unchanged"] is True
+            a=d["pooled_three_future_years_M0_SSE"]
+            b=d["pooled_three_future_years_M1_SSE"]
+            assert a>0 and b>=0 and math.isclose(1-b/a,d["pooled_future_year_FD_incremental_SSE_gain"],abs_tol=1e-11)
+            assert len(d["future_year_records"])==3
+            assert d["n_original_future_plotyears_with_numeric_target"]>=170
+          else:
+            assert d["new_biomass_effect_estimated"] is False
+          print("JENA_SIGNED_ORIGINAL_SOURCE_TIME_VERDICT",
+               d["status"],d.get("pooled_future_year_FD_incremental_SSE_gain_pct"))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-original-signed-standardized-h1-leafN-RaoQ-2010to12-nonraw
+          path: build/jena_signed_source_time/scale_corrected_source_year_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 30

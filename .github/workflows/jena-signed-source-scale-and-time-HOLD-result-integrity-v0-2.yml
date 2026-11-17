@@ -1,0 +1,75 @@
+name: Verify Jena v0.1 old and v0.2 signed-source data HOLD, zero biomass effects
+on:
+  push:
+    branches: [analysis/jena-signed-h1-leafn-time-transport-20261117]
+    paths:
+      - results/jena_original_signed_h1_leafN_time_transport_SOURCE_HOLD_v0_2.json
+      - docs/JENA_H1_LEAFN_SIGNED_SOURCE_SUPPORT_FINAL_DIAGNOSIS_20261117_V0_2.md
+      - .github/workflows/jena-signed-source-scale-and-time-HOLD-result-integrity-v0-2.yml
+  pull_request:
+    paths:
+      - results/jena_original_signed_h1_leafN_time_transport_SOURCE_HOLD_v0_2.json
+      - docs/JENA_H1_LEAFN_SIGNED_SOURCE_SUPPORT_FINAL_DIAGNOSIS_20261117_V0_2.md
+      - .github/workflows/jena-signed-source-scale-and-time-HOLD-result-integrity-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate original source scale, missingness, year/plot eligibility and no FD-biomass effect was opened
+        run: |
+          python3 - <<'PY'
+          import json,math
+          from pathlib import Path
+          b=Path('results')
+          old=json.loads((b/'jena_original_h1_leafN_raw_source_HOLD_preoutcome_v0_1.json').read_text())
+          raw=json.loads((b/'jena_original_h1_leafN_signed_source_scale_v0_2.json').read_text())
+          new=json.loads((b/'jena_original_signed_h1_leafN_time_transport_SOURCE_HOLD_v0_2.json').read_text())
+          orig=json.loads((b/'jena_2020_original_source_78plots_851plotyears_59traitspecies_v0_2.json').read_text())
+          assert orig['status']=='JENA_ORIGINAL_AUTHOR_CODE_CANONICAL_KEY_SOURCE_GEOMETRY_PASS'
+          assert orig['original_source_keys_and_cardinality']['n_exact_original_function_cover_biomass_plotyear_overlap']==851
+          assert old['status']=='SOURCE_SUPPORT_HOLD' and old['new_biomass_effect_estimated'] is False
+          assert old['source_only_support']['source_original_complete_height_leafN_trait_taxa']==5
+          assert old['source_only_support']['original_source_plotyears_with_cover_and_trait_covariates']==3
+          assert raw['status']=='ORIGINAL_JENA_H1_LEAFN_SIGNED_SCALE_SOURCE_SEMANTICS_AUDITED'
+          assert raw['n_source_original_species']==59
+          assert raw['n_joint_finite_signed_h1_and_leafN_original_species']==57
+          assert raw['n_joint_strictly_positive_h1_and_leafN_original_species']==5
+          assert raw['source_predicate_for_possible_separately_frozen_signed_scale_test'] is True
+          for k,n,negative,missing in [('h1',57,37,2),('leafN',59,33,0)]:
+              a=raw['signed_numeric_field_summary'][k]
+              assert a['n_finite_signed_source_values']==n
+              assert a['n_negative_finite']==negative
+              assert a['n_missing_nonfinite_or_non_numeric']==missing
+              assert math.isclose(a['finite_source_mean'],0.,abs_tol=1e-12)
+              assert math.isclose(a['finite_source_sd_sample'],1.,abs_tol=1e-12)
+          assert new['version']=='v0.2' and new['status']=='SOURCE_SUPPORT_HOLD'
+          assert new['new_biomass_effect_estimated'] is False
+          x=new['source_only_support']
+          assert x['status']=='SOURCE_SUPPORT_HOLD'
+          assert x['source_original_complete_height_leafN_trait_taxa']==57
+          assert x['source_distinct_trait_species']==57
+          assert x['n_training_years_with_numeric_outcome_presence_only']==7
+          assert x['source_training_unique_original_main_plots']==55
+          assert x['source_heldout_source_year_plot_counts']=={'2010':47,'2011':48,'2012':51}
+          assert x['original_source_plotyears_with_cover_and_trait_covariates']==489
+          assert x['original_source_plot_years_with_no_cover_or_missing_trait']=={
+              'less_than_80pct_original_cover_trait_weight':137,
+              'less_than_two_complete_original_trait_species':147}
+          assert x['source_plot_threshold']==60
+          assert x['source_80pct_threshold']==.8
+          assert x['no_trait_biomass_model_fitted'] is True
+          assert x['no_source_response_value_used_to_select_original_species_or_covariates'] is True
+          evidence=new['verified_original_source_run']
+          assert evidence['url']=='https://github.com/zuizui0223/turnover/actions/runs/44006596166'
+          assert evidence['artifact_id']==14294044423
+          assert evidence['artifact_digest']=='sha256:00321094d5e1ddbf04486125540520645e368283cb0ef75ea952898160aa8b1e'
+          doc=Path('docs/JENA_H1_LEAFN_SIGNED_SOURCE_SUPPORT_FINAL_DIAGNOSIS_20261117_V0_2.md').read_text()
+          for token in ('57','55','47','48','51','489','SOURCE_SUPPORT_HOLD','PCA','not'):
+              assert token in doc,token
+          print('JENA_ORIGINAL_SOURCE_SEMANTICS_AND_HOLD_INTEGRITY_PASS: h1+leafN 57 signed species, 489 plot-years, 55 original train plots, 47/48/51 test plots, no effects')
+          PY

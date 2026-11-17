@@ -157,7 +157,7 @@ def audit():
         "original_author_script_uses_cover_minus9999_as_zero_and_codes_1_to_0point5_2_to_3":True,
         "original_author_script_uses_target_biomass_positive_row_selection_when_building_derived_community":True,
         "derived_full_panel_predictors_not_independently_future_year_fold_safe":True,
-        "original_author_script_calculates_RaoQ_FD_and_biomass_weighted_CWM":True,
+        "original_author_script_calculates_RaoQ_FD_and_cover_abundance_weighted_CWM":True,
         "original_author_script_uses_PCA_imputation_of_trait_table":True,
         "original_2020_authors_Figshare_MD5_six_source_files_reverified":True,
         "original_source_keys_and_cardinality":cross,

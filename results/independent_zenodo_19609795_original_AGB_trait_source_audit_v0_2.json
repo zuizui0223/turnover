@@ -1,0 +1,374 @@
+{
+  "version": "v0.2",
+  "original_doi": "10.5281/zenodo.19609795",
+  "status": "ORIGINAL_ZENODO_200_PLOT_SOURCE_VERIFIED_BUT_PLOT_SUMMARY_ONLY_AND_AGB_UNIT_CONFLICT_HOLD",
+  "audited_at": "2026-11-18",
+  "new_biological_FD_AGB_or_family_K_model_fit": false,
+  "original_published_source_DOI": "https://doi.org/10.5281/zenodo.19609795",
+  "traceable_zenodo_GitHub_Actions_runs": {
+    "v0_1_original_api_schema": {
+      "dataset_doi": "10.5281/zenodo.19609795",
+      "family_specific_phylogenetic_K_estimated": 0,
+      "frozen_protocol": "docs/INDEPENDENT_K_FD_AGB_NEW_SOURCE_PILOT_20261118.md",
+      "no_ecological_effect_estimated": true,
+      "no_original_data_rows_committed": true,
+      "original_biomass_response_coefficients_estimated": 0,
+      "original_catalogue": {
+        "DOI": "10.5281/zenodo.19609795",
+        "modified": "2026-04-20T14:47:59.901405+00:00",
+        "n_original_files": 2,
+        "original_record_access_public": true,
+        "original_source_license": [],
+        "published": "2026-04-16T14:50:14.405129+00:00",
+        "source_file_inventory": [
+          {
+            "checksum": "md5:c3ffed15932611dca604dcd9e67d9bb8",
+            "name": "Forest_AGB_Data. Final.csv",
+            "size": 67552
+          },
+          {
+            "checksum": "md5:6f0e782ec7968d35f5ee5f5539124b24",
+            "name": "README Dataset Description.txt",
+            "size": 1686
+          }
+        ],
+        "source_record_id": 19609795
+      },
+      "original_zenodo_record_id": 19609795,
+      "prior_BIEN_sPlotOpen_BIODEPTH_NEON_gates_unchanged": true,
+      "reason": "No explicit source plot ID column. Stand plot/source type cannot be conflated.",
+      "source_csv_nonraw_profile": {
+        "n_original_source_columns": 28,
+        "n_original_source_rows": 200,
+        "original_candidate_plot_ID_columns": [],
+        "original_candidate_site_type_columns": [
+          "Site"
+        ],
+        "original_candidate_species_taxon_columns": [],
+        "source_biomass_field_candidates": [
+          "AGB"
+        ],
+        "source_columns": [
+          "Plot code",
+          "Site",
+          "FDis",
+          "FDiv",
+          "FEve",
+          "FRic",
+          "FDomin",
+          "CWM_LDMC",
+          "CWM_SLA",
+          "CWM_Hmax",
+          "CWM_DBHmax",
+          "CWM_Crownmax",
+          "AGB",
+          "Latitude",
+          "Longitude",
+          "Cr",
+          "Ni",
+          "Cu",
+          "Mn",
+          "Ca",
+          "Mg",
+          "Na",
+          "Co",
+          "N",
+          "Mt",
+          "MP",
+          "RH",
+          "MWP"
+        ],
+        "source_derived_FD_CWM_composition_index_columns": [
+          "FDis",
+          "FDiv",
+          "FEve",
+          "FRic",
+          "CWM_LDMC",
+          "CWM_SLA",
+          "CWM_Hmax",
+          "CWM_DBHmax",
+          "CWM_Crownmax"
+        ],
+        "source_field_missing_counts": {
+          "AGB": 0,
+          "CWM_Crownmax": 0,
+          "CWM_DBHmax": 0,
+          "CWM_Hmax": 0,
+          "CWM_LDMC": 0,
+          "CWM_SLA": 0,
+          "Ca": 0,
+          "Co": 0,
+          "Cr": 0,
+          "Cu": 0,
+          "FDis": 0,
+          "FDiv": 0,
+          "FDomin": 0,
+          "FEve": 0,
+          "FRic": 0,
+          "Latitude": 0,
+          "Longitude": 0,
+          "MP": 0,
+          "MWP": 0,
+          "Mg": 0,
+          "Mn": 0,
+          "Mt": 0,
+          "N": 0,
+          "Na": 0,
+          "Ni": 0,
+          "Plot code": 0,
+          "RH": 0,
+          "Site": 0
+        },
+        "source_numeric_field_profile": {
+          "AGB": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 157
+          },
+          "CWM_Crownmax": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 166
+          },
+          "CWM_DBHmax": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 118
+          },
+          "CWM_Hmax": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 163
+          },
+          "CWM_LDMC": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 109
+          },
+          "CWM_SLA": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 123
+          },
+          "Ca": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 86
+          },
+          "Co": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 95
+          },
+          "Cr": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 93
+          },
+          "Cu": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 76
+          },
+          "FDis": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 115
+          },
+          "FDiv": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 83
+          },
+          "FDomin": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 114
+          },
+          "FEve": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 97
+          },
+          "FRic": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 132
+          },
+          "Latitude": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 81
+          },
+          "Longitude": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 80
+          },
+          "MP": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 42
+          },
+          "MWP": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 120
+          },
+          "Mg": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 116
+          },
+          "Mn": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 104
+          },
+          "Mt": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 77
+          },
+          "N": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 120
+          },
+          "Na": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 115
+          },
+          "Ni": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 105
+          },
+          "Plot code": {
+            "finite_numeric_values": 0,
+            "negative_numeric_values": 0
+          },
+          "RH": {
+            "finite_numeric_values": 200,
+            "negative_numeric_values": 80
+          },
+          "Site": {
+            "finite_numeric_values": 0,
+            "negative_numeric_values": 0
+          }
+        },
+        "source_original_direct_species_trait_candidates": [],
+        "source_original_plot_grain_check": {},
+        "source_plot_ID_cardinality": {},
+        "source_site_or_forest_type_cardinality": {
+          "Site": 3
+        },
+        "species_trait_community_join_proven": false
+      },
+      "status": "SOURCE_SITE_SUPPORT_HOLD",
+      "verified_original_files": [
+        {
+          "bytes": 67552,
+          "md5": "c3ffed15932611dca604dcd9e67d9bb8",
+          "name": "Forest_AGB_Data. Final.csv",
+          "original_source_record_id": 19609795
+        },
+        {
+          "bytes": 1686,
+          "md5": "6f0e782ec7968d35f5ee5f5539124b24",
+          "mentions_original_measured_biomass": false,
+          "mentions_species_level_traits": false,
+          "n_original_document_lines": 38,
+          "name": "README Dataset Description.txt",
+          "original_source_record_id": 19609795
+        }
+      ],
+      "version": "v0.1",
+      "source_run_url": "https://github.com/zuizui0223/turnover/actions/runs/44224176076",
+      "source_job_id": 134533149575,
+      "artifact_id": 14392461102,
+      "artifact_digest": "sha256:8d7acda7606fc8abd7f02468807c8d9ebbc72cada9d704969c53232723399ef5"
+    },
+    "v0_2_plot_code_scale_correction": {
+      "n_original_CSV_rows": 200,
+      "n_source_duplicate_site_plot_keys": 0,
+      "n_unique_original_site_plot_keys": 200,
+      "no_AGB_trait_correlations_estimated": true,
+      "no_individual_original_plot_rows_or_original_response_values_committed": true,
+      "no_species_level_source_trait_records_in_original_file": true,
+      "original_201_family_global_programme_and_BIODEPTH_TreeDivNet_closed_gates_untouched": true,
+      "original_AGB_numeric_profile_nonraw": {
+        "aggregate_max": 1.977202832,
+        "aggregate_mean": -0.125500000005,
+        "aggregate_min": -0.53799742,
+        "aggregate_population_sd": 0.6046367254584663,
+        "n_missing": 0,
+        "n_negative": 157,
+        "n_positive": 43,
+        "n_valid": 200,
+        "n_zero": 0
+      },
+      "original_AGB_physical_units_gate": "NONPHYSICAL_SIGNED_AGB_SOURCE_SCALE_HOLD",
+      "original_latitude_numeric_profile_nonraw": {
+        "aggregate_max": 1.031193771,
+        "aggregate_mean": -4.999998540200501e-12,
+        "aggregate_min": -1.889870013,
+        "aggregate_population_sd": 0.9974968671636282,
+        "n_missing": 0,
+        "n_negative": 81,
+        "n_positive": 119,
+        "n_valid": 200,
+        "n_zero": 0
+      },
+      "original_longitude_numeric_profile_nonraw": {
+        "aggregate_max": 1.010084856,
+        "aggregate_mean": -9.00000035608528e-11,
+        "aggregate_min": -1.734561553,
+        "aggregate_population_sd": 0.9974968672049289,
+        "n_missing": 0,
+        "n_negative": 80,
+        "n_positive": 120,
+        "n_valid": 200,
+        "n_zero": 0
+      },
+      "original_site_label_count": 3,
+      "original_source_plot_counts_per_site_anonymized": [
+        40,
+        70,
+        90
+      ],
+      "original_source_stores_only_precomputed_fdis_fdiv_feve_fric_and_CWM_traits": true,
+      "original_species_trait_to_plot_K_FD_mass_source_eligibility": "PLOT_SUMMARY_ONLY_HOLD",
+      "readme_semantic_keyword_counts": {
+        "lines_with_AGB_or_biomass": 3,
+        "lines_with_plot_or_site": 6,
+        "lines_with_species_traits": 1,
+        "lines_with_standardization_or_scale_term": 0
+      },
+      "same_plot_label_possible_in_multiple_sites": false,
+      "source_AGB_not_safe_to_interpret_as_g_m2_or_Mg_ha_without_original_inverse_scale": true,
+      "source_MD5_original_README": "6f0e782ec7968d35f5ee5f5539124b24",
+      "source_MD5_original_forest_CSV": "c3ffed15932611dca604dcd9e67d9bb8",
+      "source_README_AGB_unit_conflicts_with_observed_negative_values": true,
+      "source_dataset_doi": "10.5281/zenodo.19609795",
+      "source_exact_Zenodo_record_id": 19609795,
+      "source_latitude_longitude_raw_geographic_coordinate_claim": "HOLD_IF_ANY_NEGATIVE_LATITUDE_IN_PAKISTAN",
+      "source_plot_column": "Plot code",
+      "source_readme_declares_original_AGB_Mg_per_ha": true,
+      "source_readme_has_any_explicit_standardization_or_scaling_word": false,
+      "source_readme_original_line_count": 38,
+      "source_site_column": "Site",
+      "status": "ORIGINAL_PLOT_KEY_IDENTIFIED_AND_AGB_SCALE_AUDITED",
+      "version": "v0.2",
+      "source_run_url": "https://github.com/zuizui0223/turnover/actions/runs/44225131413",
+      "source_job_id": 134536336616,
+      "artifact_id": 14391858950,
+      "artifact_digest": "sha256:68b9b4343a5540d9e9a6ccda2aaa29a80a71c9ddd061cc306b1d52ccd2d996f2"
+    }
+  },
+  "source_scientific_decision": {
+    "original_stand_plots": 200,
+    "site_variable_categories": 3,
+    "site_plot_group_sizes_anonymized": [
+      40,
+      70,
+      90
+    ],
+    "original_site_plot_key": "Site × Plot code",
+    "original_sample_ids_unique": true,
+    "original_AGB_numeric_negative_count": 157,
+    "original_AGB_numeric_total": 200,
+    "source_readme_claims_units": "Aboveground biomass (Mg ha^-1)",
+    "README_describes_original_AGB_inverse_transform": false,
+    "source_original_sample_AGB_must_not_be_interpreted_as_raw_mass": true,
+    "original_species_by_plot_taxa_or_direct_trait_measured_records_present": false,
+    "original_FDis_and_CWM_are_precomputed_community_summaries": true,
+    "original_family_trait_K_estimation_qualified": false,
+    "original_species_K_to_FD_to_AGB_pathway_qualified": false,
+    "no_outcome_analysis_performed": true
+  },
+  "negative_source_gate_nonclaims": [
+    "Negative original numerical AGB in 157/200 source rows conflicts with untransformed nonnegative physical Mg/ha declared in README. Do not assume z score because published README does not specify a standardization/inverse scaling recipe.",
+    "Negative original latitude/longitude values and ~0 mean indicate a likely transformed coordinate encoding, not actual geolocation.",
+    "Three Site column labels are source categories; do not automatically infer three independent replicated forest study programmes.",
+    "Species-level trait measurements and original plot×taxon composition cannot be reconstructed from precomputed FDis/CWM indices.",
+    "The first v0.1 simple ID regex missed the exact original 'Plot code' column; corrected in v0.2, proving 200 distinct site×plot keys. Original source did not change.",
+    "No regression K/FD/AGB effect opened or thresholds modified; original BIEN global and TreeDivNet/BIODEPTH source gates unchanged."
+  ]
+}

@@ -1,0 +1,60 @@
+name: Independent 2026 forest original Plot code and signed AGB README source audit
+on:
+  push:
+    branches: [source/independent-agb-trait-original-20261118]
+    paths:
+      - docs/INDEPENDENT_FOREST_ZENODO_AGB_SCALE_AND_PLOT_GRAIN_FOLLOWUP_20261118.md
+      - scripts/source/audit_zenodo_independent_forest_agb_plot_scale_v0_2.py
+      - .github/workflows/independent-zenodo-forest-AGB-plot-code-source-v0-2.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_FOREST_ZENODO_AGB_SCALE_AND_PLOT_GRAIN_FOLLOWUP_20261118.md
+      - scripts/source/audit_zenodo_independent_forest_agb_plot_scale_v0_2.py
+      - .github/workflows/independent-zenodo-forest-AGB-plot-code-source-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-plot-and-AGB-scale:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify fixed original source-only Plot code and AGB semantic probe
+        run: |
+          python3 -m py_compile scripts/source/audit_zenodo_independent_forest_agb_plot_scale_v0_2.py
+          python3 scripts/source/audit_zenodo_independent_forest_agb_plot_scale_v0_2.py --self-test
+          test -s docs/INDEPENDENT_FOREST_ZENODO_AGB_SCALE_AND_PLOT_GRAIN_FOLLOWUP_20261118.md
+      - name: Re-fetch and MD5 verify original Zenodo CSV+README and profile plot grain/AGB signs
+        run: |
+          mkdir -p build/forest_source_AGB_semantics
+          python3 scripts/source/audit_zenodo_independent_forest_agb_plot_scale_v0_2.py \
+            --out build/forest_source_AGB_semantics/original_signed_AGB_plot_code_gate_v0_2.json
+      - name: Fail closed before any FD–AGB modelling
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/forest_source_AGB_semantics/original_signed_AGB_plot_code_gate_v0_2.json'))
+          assert d['source_dataset_doi']=='10.5281/zenodo.19609795'
+          assert d['no_AGB_trait_correlations_estimated'] is True
+          assert d['status'] in ('ORIGINAL_PLOT_KEY_IDENTIFIED_AND_AGB_SCALE_AUDITED','SOURCE_ACCESS_OR_SCHEMA_HOLD')
+          if d['status']=='ORIGINAL_PLOT_KEY_IDENTIFIED_AND_AGB_SCALE_AUDITED':
+              assert d['n_original_CSV_rows']==200
+              assert d['source_plot_column']=='Plot code'
+              assert d['source_site_column']=='Site'
+              assert d['n_source_duplicate_site_plot_keys']==0
+              assert d['original_AGB_numeric_profile_nonraw']['n_negative']==157
+              assert d['original_species_trait_to_plot_K_FD_mass_source_eligibility']=='PLOT_SUMMARY_ONLY_HOLD'
+              assert d['source_AGB_not_safe_to_interpret_as_g_m2_or_Mg_ha_without_original_inverse_scale'] is True
+          print('ORIGINAL_AGB_PLOT_SOURCE_VERDICT',d['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-zenodo-200plots-3sites-signed-AGB-source-QA
+          path: build/forest_source_AGB_semantics/original_signed_AGB_plot_code_gate_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 30

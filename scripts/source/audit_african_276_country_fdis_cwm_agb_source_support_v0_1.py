@@ -58,7 +58,7 @@ def source_numeric(row,k):
 
 
 def inspect(raw:bytes)->dict:
-    reader=csv.DictReader(io.StringIO(raw.decode("utf8-sig")))
+    reader=csv.DictReader(io.StringIO(raw.decode("utf-8-sig")))
     cols=reader.fieldnames or []
     required={"plot_uniq_ID","country","growth","plot_size_ha",SOURCE_TARGET,SOURCE_FDIS,*REQUIRED_CONT}
     if not required.issubset(cols):

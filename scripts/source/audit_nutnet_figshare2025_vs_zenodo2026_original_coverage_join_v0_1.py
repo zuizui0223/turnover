@@ -137,7 +137,7 @@ def main():
         if k in orig_spec_seen:source_row_dup+=1
         orig_spec_seen.add(k)
         if tt in CONTROL_TERMS and value is not None and value>0 and has_binomial(sp):
-            source_row_records+=1
+            source_cover_row_records+=1
             z=(s,plot,year)
             full_control.setdefault(z,set()).add(sp)
             if trtyear in ("0","0.0"):
@@ -178,7 +178,7 @@ def main():
           "n_original_duplicate_site_block_plot_year_species_treatment_rows":source_row_dup,
           "published_original_treatment_labels_row_counts":dict(trt),
           "published_original_year_treatment_relative_labels":dict(yeartrt),
-          "n_positive_numeric_original_control_species_binomial_rows":source_row_records,
+          "n_positive_numeric_original_control_species_binomial_rows":source_cover_row_records,
           "n_original_sites_with_positive_botanical_control_rows":n_source_botanical_sites,
       },
       "source_original_Zenodo_2026":{"record_id":ZENODO_ID,"md5":ZEN_DATA_MD5,"n_source_unique_2026_biomass_plot_years":len(zen_keys),

@@ -1,0 +1,81 @@
+{
+  "next_step": "Use original NutNet plot-ID and treatment-year data dictionary if direct joined keys fail; do not invent block/plot transformations or treat control post-treatment as pretreatment baseline. Independently source original observed trait data before estimating K.",
+  "no_original_raw_species_dataset_republished": true,
+  "no_phylogenetic_K_functional_FD_or_biomass_trait_association_estimated": true,
+  "no_species_taxon_names_or_original_site_plot_keys_exported": true,
+  "original_control_definition_certified_from_field_protocol": false,
+  "source_only_gate_minima": {
+    "min_direct_plot_year_matches": 100,
+    "min_fraction_matches_six_species": 0.5,
+    "min_sites": 15,
+    "min_species_per_plot": 6
+  },
+  "source_original_Figshare_2025": {
+    "article_id": 26412295,
+    "bytes": 374626,
+    "md5": "2ab0e3bac17f0766265a4fdf23992fce",
+    "n_negative_or_nonnumeric_cover": 0,
+    "n_original_covered_taxon_rows": 5668,
+    "n_original_duplicate_site_block_plot_year_species_treatment_rows": 0,
+    "n_original_sites_with_positive_botanical_control_rows": 0,
+    "n_positive_numeric_original_control_species_binomial_rows": 0,
+    "n_source_binomial_taxon_rows": 0,
+    "n_source_unresolved_taxon_rows": 5668,
+    "n_unique_original_site_plot_year_keys": 528,
+    "n_unique_original_source_sites": 72,
+    "original_version": 4,
+    "published_original_treatment_labels_row_counts": {
+      "control": 3115,
+      "npk": 2553
+    },
+    "published_original_year_treatment_relative_labels": {
+      "4": 4934,
+      "14": 734
+    },
+    "source_approved_file_id": 52508654
+  },
+  "source_original_Zenodo_2026": {
+    "md5": "c65e714c78fb2afb401e3b2ed6e625ae",
+    "n_original_biomass_sites": 130,
+    "n_source_unique_2026_biomass_plot_years": 1108,
+    "original_raw_species_records_in_Zenodo": false,
+    "record_id": 20070364,
+    "year": "Original field calendar year"
+  },
+  "source_year_trt0_pre_treatment_interpretation_verified": false,
+  "species_cover_not_species_biomass": true,
+  "status": "ORIGINAL_FIGSHARE_ZENODO_EXACT_SOURCE_COMPOSITION_JOIN_HOLD",
+  "structural_overlap": {
+    "direct_original_site_plot_year_control_overlap": {
+      "all_original_figshare_control_plotkey_time_match_no_fuzzy": true,
+      "fraction_matching_keys_with_6plus_species": null,
+      "n_matching_keys_with_6plus_positive_exact_binomial_species": 0,
+      "n_original_matched_sites": 0,
+      "n_original_matched_stand_plot_years": 0
+    },
+    "direct_original_site_plot_year_control_year_trt0_overlap": {
+      "all_original_figshare_control_plotkey_time_match_no_fuzzy": true,
+      "fraction_matching_keys_with_6plus_species": null,
+      "n_matching_keys_with_6plus_positive_exact_binomial_species": 0,
+      "n_original_matched_sites": 0,
+      "n_original_matched_stand_plot_years": 0
+    },
+    "n_public_figshare_control_plot_year_keys": 0,
+    "n_public_figshare_control_year_trt_zero_plot_year_keys": 0,
+    "n_shared_original_site_calendar_year_pairs": 0,
+    "n_site_codes_shared_verbatim": 57,
+    "original_Zenodo_site_plotID_to_Figshare_block_or_plot_mapping_VERIFIED": false
+  },
+  "version": "v0.1",
+  "verified_original_source": {
+    "run_url": "https://github.com/zuizui0223/turnover/actions/runs/44247263519",
+    "job_id": 134609108925,
+    "artifacts": [
+      {
+        "id": 14402222094,
+        "name": "nutnet-original-2025-2026-botanical-species-plot-crosswalk-aggregate",
+        "digest": "sha256:16df1b560edaa481a4a314d2803795027689ea4947cd7973f0475816a43ae527"
+      }
+    ]
+  }
+}

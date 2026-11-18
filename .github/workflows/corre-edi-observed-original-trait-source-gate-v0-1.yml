@@ -1,0 +1,57 @@
+name: CoRRE original 2024 observed traits EDI PASTA source-vs-imputation identification
+on:
+  push:
+    branches: [source/grassland-independent-k-fd-mass-20261118]
+    paths:
+      - scripts/source/audit_corre_edi_observed_trait_package_v0_1.py
+      - .github/workflows/corre-edi-observed-original-trait-source-gate-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_corre_edi_observed_trait_package_v0_1.py
+      - .github/workflows/corre-edi-observed-original-trait-source-gate-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-edi-metadata-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check original EDI PASTA API resource-map and XML schema fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_corre_edi_observed_trait_package_v0_1.py
+          python3 scripts/source/audit_corre_edi_observed_trait_package_v0_1.py --self-test
+          test -s docs/INDEPENDENT_NUTNET_CORRE_K_FD_MASS_SOURCE_GATE_20261118.md
+      - name: Resolve official EDI original CoRRE DOI package metadata and observed-only training-source entity
+        run: |
+          mkdir -p build/corre_edi_original_trait_source
+          python3 scripts/source/audit_corre_edi_observed_trait_package_v0_1.py \
+            --out build/corre_edi_original_trait_source/edi_observed_vs_imputed_source_v0_1.json
+      - name: Fail closed on equating imputed continuous trait means and observed family K
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('build/corre_edi_original_trait_source/edi_observed_vs_imputed_source_v0_1.json'))
+          assert r['version']=='v0.1'
+          assert r['source_only'] is True
+          assert r['new_K_FD_biomass_estimated'] is False
+          assert r['original_imputation_training_trait_values_downloaded'] is False
+          assert r['original_CoRRE_EDI_DOI']=='10.6073/pasta/a33c9be2bd819d6b1a2c52663d561158'
+          assert r['status'] in ('ORIGINAL_EDI_METADATA_ACCESS_HOLD','ORIGINAL_EDI_EML_LINK_UNRESOLVED_HOLD',
+              'ORIGINAL_EDI_EML_ACCESS_HOLD','ORIGINAL_EDI_EML_MALFORMED_HOLD',
+              'ORIGINAL_OBSERVED_TRAINING_SOURCE_METADATA_IDENTIFIED',
+              'NO_UNAMBIGUOUS_ORIGINAL_OBSERVED_TRAINING_TABLE_SOURCE_HOLD')
+          assert r.get('trait_K_20species_x12families_verified') is not True
+          print('CORRE_EDI_SOURCE_OBSERVED_VS_IMPUTED_VERDICT',r['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: corre-2024-EDI-raw-observed-training-trait-source-metadata-nonraw
+          path: build/corre_edi_original_trait_source/edi_observed_vs_imputed_source_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

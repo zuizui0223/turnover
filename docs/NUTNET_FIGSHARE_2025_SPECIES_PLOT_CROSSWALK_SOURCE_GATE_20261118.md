@@ -1,0 +1,19 @@
+# NutNet 2025 source species-cover Figshare vs 2026 pre-treatment biomass
+
+**Source-only contract frozen 2026-11-18 before reading original Figshare biological rows.** A verified public 2026 NutNet original source contains 1,108 unique siteID × plotID × year dry-biomass rows across 130 sites, nine derived CWM traits, and NO species-by-plot matrix (MD5 c65e714c78fb2afb401e3b2ed6e625ae). A 2025 study provides a possible independently published SPECIES COVER source for a NutNet crosswalk, but NOT an independent grassland experiment.
+
+- Source B: Zhang et al 2025 Nature Ecology & Evolution DOI 10.1038/s41559-025-02701-y, original Figshare DOI 10.6084/m9.figshare.26412295.v4, expected official article ID 26412295. Original Nature paper uses 76 grassland sites, but do NOT infer that the Figshare contains 76 sites, the same 130 sites, or data from identical source years. The same paper cites additional original EDI DOI 10.6073/pasta/442895326274ea09942bd04e6ea92df2.
+- Source A: Andraczek 2026 original Zenodo 10.5281/zenodo.20070364, pre-treatment unmanipulated NutNet controls, MD5-pinned original files. Any public Figshare source may contain later post-treatment data and cannot be pooled without actual treatment/year checking.
+- NutNet main raw full-cover_2025-01-31.csv access is governed by network coordinator rules (https://nutnet.org/data). Use only data specifically and publicly released in the Figshare under its actual file/license; do not bypass data policy or distribute raw biological data.
+- Source C: CoRRE Komatsu 2024 EDI DOI 10.6073/pasta/a33c9be2bd819d6b1a2c52663d561158 contains phylogenetically IMPUTED continuous trait means. No K calculation from such values. Native-family K must derive from true original observed trait records with original observation ID deduplication; original CoRRE PASTA DOI API returned HTTP403 in source-only preliminary audit.
+
+## Predeclared Figshare source checks
+
+1. Probe original official https://api.figshare.com/v2/articles/26412295 only. Validate article ID/DOI root/version; accept exact original version v4, and report higher/newer revision separately rather than silently combining. Collect file names, file IDs, sizes, checksums, license and publication date.
+2. Download only API-advertised original files with official https://ndownloader.figshare.com/files/<id> links, maximum 10 MB per file and 15 MB total uncompressed. Check source MD5 advertised, exact file size, no archive traversal; reject unapproved large/embargoed source.
+3. Inspect original source columns and row grain: site, plot, year, treatment, original botanical taxon name, numeric species cover, and source biomass identity. Species cover may sum above 100% due to layered canopy; never call percent cover measured species dry-mass. No taxonomic approximate names or source site aliases.
+4. Compare only exact siteID × plotID × year after whitespace/case numeric canonicalization against actual 2026 source 1,108 baseline-control source rows. If species release uses different site/plot/year codes or post-treatment selection unclear, mark SOURCE_KEY_CROSSWALK_HOLD, do not guess.
+5. For future original botanical FD qualification require ≥100 exact public plot×year matched source biomass+botanical composition units across ≥15 NutNet sites, with ≥6 individually resolved named species with positive cover for ≥50% of matched original source plot records. These are structural gates only; new original field traits and independent K still require separately source-validated datasets.
+6. Do not fit FD, K, biomass regressions, or infer causation. Do not commit original source biological rows or species/plot identifiers, only nonraw original file integrity/schema and original source overlap counts.
+
+This new independent 2025 source query does not reopen the closed BIEN/sPlotOpen 201-system, original BIODEPTH strict gate, NEON auth, or TreeDivNet results.

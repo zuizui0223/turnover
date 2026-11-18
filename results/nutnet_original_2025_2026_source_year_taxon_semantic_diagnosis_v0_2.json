@@ -1,0 +1,127 @@
+{
+  "2025_figshare_original_treatment_labels": {
+    "control": 3115,
+    "npk": 2553
+  },
+  "distinct_original_2025_taxon_string_labels": 1140,
+  "nonclaims": [
+    "Zero direct site+year overlap does not rule out same biological years if different indexing conventions exist, but no authorized conversion is known.",
+    "Source syntax class mismatch does not prove these taxon strings are not scientifically identifiable.",
+    "No original NutNet shared site/plot/year crosswalk was inferred by guessing block-plot mapping.",
+    "No K, FD, PD, aboveground biomass model or causal effect was estimated.",
+    "No raw species names, site or plot identifiers, cover or biomass values were exported."
+  ],
+  "original_2025_Figshare_MD5": "2ab0e3bac17f0766265a4fdf23992fce",
+  "original_2025_Figshare_article_id": 26412295,
+  "original_2025_Figshare_file_id": 52508654,
+  "original_2025_cover_rows": 5668,
+  "original_2026_Zenodo_biomass_MD5": "c65e714c78fb2afb401e3b2ed6e625ae",
+  "original_2026_biomass_CWM_rows": 1108,
+  "original_Figshare_2025_source_NPK_year_histogram": {
+    "2011": 686,
+    "2012": 229,
+    "2013": 118,
+    "2014": 14,
+    "2015": 57,
+    "2016": 48,
+    "2017": 187,
+    "2018": 88,
+    "2019": 336,
+    "2020": 137,
+    "2021": 468,
+    "2022": 146,
+    "2023": 39
+  },
+  "original_Figshare_2025_source_control_year_histogram": {
+    "2011": 824,
+    "2012": 310,
+    "2013": 128,
+    "2014": 25,
+    "2015": 63,
+    "2016": 65,
+    "2017": 226,
+    "2018": 115,
+    "2019": 386,
+    "2020": 160,
+    "2021": 540,
+    "2022": 213,
+    "2023": 60
+  },
+  "original_Figshare_2025_source_treatment_relative_year_histogram": {
+    "4": 4934,
+    "14": 734
+  },
+  "original_Figshare_2025_source_year_field_histogram": {
+    "2011": 1510,
+    "2012": 539,
+    "2013": 246,
+    "2014": 39,
+    "2015": 120,
+    "2016": 113,
+    "2017": 413,
+    "2018": 203,
+    "2019": 722,
+    "2020": 297,
+    "2021": 1008,
+    "2022": 359,
+    "2023": 99
+  },
+  "original_Zenodo_2026_original_calendar_year_histogram": {
+    "2007": 274,
+    "2008": 24,
+    "2009": 12,
+    "2010": 11,
+    "2011": 8,
+    "2012": 55,
+    "2013": 37,
+    "2014": 171,
+    "2015": 52,
+    "2016": 54,
+    "2017": 24,
+    "2018": 162,
+    "2019": 82,
+    "2021": 89,
+    "2022": 53
+  },
+  "original_taxon_syntax_label_rows": {
+    "indeterminate_sp_cf_agg": 177,
+    "other_source_taxon_format": 5401,
+    "single_alpha_word": 6,
+    "three_plus_words": 84
+  },
+  "previous_frozen_source_gate_result": "ORIGINAL_FIGSHARE_ZENODO_EXACT_SOURCE_COMPOSITION_JOIN_HOLD",
+  "safe_next_step": "Source-original data dictionaries and the published Figshare species-label semantics are necessary before a different temporal/plot crosswalk; do not revise the frozen strict join to force a positive result.",
+  "source_semantics": {
+    "2025_year_calendar_assumption": "NOT VERIFIED; source field values reported as is without renaming",
+    "2025_year_trt_0_exists": false,
+    "2026_original_pretreatment_baseline_identity": "Published Zenodo original source documentation only, cross-release year mapping not certified",
+    "original_2025_cover_trt_column_not_reclassified": true,
+    "species_name_accepted_synonym_mapping": "NONE; source syntax classified without taxonomic renaming"
+  },
+  "source_strict_overlap": {
+    "n_common_site_and_original_year": 0,
+    "n_common_site_names": 57,
+    "n_common_site_plot_disregarding_year": 0,
+    "n_common_site_plot_original_control_disregarding_year": 0,
+    "n_common_site_plot_year_all_treatments": 0,
+    "n_common_site_plot_year_original_control": 0,
+    "n_common_site_year_NPK": 0,
+    "n_common_site_year_original_control": 0,
+    "n_original_sites_with_atleast_one_exact_shared_year": 0,
+    "n_unique_2025_figshare_site_names": 72,
+    "n_unique_2026_zenodo_site_names": 130
+  },
+  "status": "POST_HOLD_NUTNET_2025_2026_SOURCE_YEAR_TAXON_FORMAT_DIAGNOSIS_COMPLETED",
+  "version": "v0.2",
+  "verified_original_source": {
+    "run_url": "https://github.com/zuizui0223/turnover/actions/runs/44247634606",
+    "job_id": 134610328003,
+    "artifacts": [
+      {
+        "id": 14402701239,
+        "name": "nutnet-2025-2026-source-year-name-format-postHOLD-nonraw",
+        "digest": "sha256:d829d8fa0ce99f62bcc99af89d6c969fc850075702dd495a343b90daab4b81ae"
+      }
+    ]
+  }
+}

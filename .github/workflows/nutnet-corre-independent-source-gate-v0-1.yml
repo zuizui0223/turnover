@@ -1,0 +1,65 @@
+name: Independent NutNet biomass and CoRRE observed-only K source qualification
+on:
+  push:
+    branches: [source/grassland-independent-k-fd-mass-20261118]
+    paths:
+      - docs/INDEPENDENT_NUTNET_CORRE_K_FD_MASS_SOURCE_GATE_20261118.md
+      - scripts/source/audit_nutnet_corre_original_source_gate_v0_1.py
+      - .github/workflows/nutnet-corre-independent-source-gate-v0-1.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_NUTNET_CORRE_K_FD_MASS_SOURCE_GATE_20261118.md
+      - scripts/source/audit_nutnet_corre_original_source_gate_v0_1.py
+      - .github/workflows/nutnet-corre-independent-source-gate-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check independent frozen source contract and no-effect site/schema fixtures
+        run: |
+          python3 -m py_compile scripts/source/audit_nutnet_corre_original_source_gate_v0_1.py
+          python3 scripts/source/audit_nutnet_corre_original_source_gate_v0_1.py --self-test
+          test -s docs/INDEPENDENT_NUTNET_CORRE_K_FD_MASS_SOURCE_GATE_20261118.md
+      - name: Public original Zenodo NutNet source MD5/rows/site biomass and CoRRE EDI DOI metadata
+        run: |
+          mkdir -p build/independent_grassland_source
+          python3 scripts/source/audit_nutnet_corre_original_source_gate_v0_1.py \
+            --out build/independent_grassland_source/nutnet_corre_gate_v0_1.json
+      - name: Ensure biomass mass and raw observed K inputs are not inferred from derived CWM
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/independent_grassland_source/nutnet_corre_gate_v0_1.json")
+          d=json.loads(p.read_text())
+          assert d["version"]=="v0.1"
+          assert d["new_biological_K_FD_biomass_effect_estimated"] is False
+          assert d["separate_from_original_BIEN_BIODEPTH_TreeDivNet_source_gates"] is True
+          n=d["nutnet_derived_biomass_and_CWM"]
+          t=d["corre_observed_vs_imputed_trait_K"]
+          assert n["zenodo_record_id"]==20070364
+          assert n["biological_effect_estimated"] is False
+          assert t["reported_original_species_categorical"]==4079
+          assert t["reported_imputed_continuous_species"]==2927
+          assert t["new_phylogenetic_K_estimated"] is False
+          assert t["actual_source_12families_x20species_trait_axes_verified"] is False
+          if n.get("original_source_rows_opened"):
+              assert n["source_file_audit"]["status"]=="SOURCE_CHECKSUMS_PASS"
+              assert n["original_file_schema_profile"]["raw_species_by_plot_rows_present"] is False
+          print("INDEPENDENT_GRASSLAND_SOURCE_GATE_VERDICT",n.get("status"),t.get("status"))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-zenodo-NutNet-grassland-biomass-and-CoRRE-EDI-trait-source-gate
+          path: build/independent_grassland_source/nutnet_corre_gate_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

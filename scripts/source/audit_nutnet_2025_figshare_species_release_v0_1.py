@@ -40,7 +40,7 @@ def req(url,limit):
 
 def csv_schema(blob):
     try:
-        text=blob.decode("utf8-sig")
+        text=blob.decode("utf-8-sig")
         first=next(csv.reader(io.StringIO(text)),[])
         if not first:return {"status":"CSV_HEADER_EMPTY_HOLD"}
         return {"status":"CSV_HEADER_FOUND",

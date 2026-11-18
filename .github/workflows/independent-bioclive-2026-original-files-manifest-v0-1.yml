@@ -1,0 +1,66 @@
+name: Independent Utrecht BioCliVE original 2018-2022 species biomass and trait source manifest
+on:
+  push:
+    branches: [source/independent-agb-trait-original-20261118]
+    paths:
+      - docs/INDEPENDENT_UU_BIOCLIVE_LONGITUDINAL_SOURCE_PREFLIGHT_20261118.md
+      - scripts/source/audit_zenodo_bioclive_2026_original_manifest_v0_1.py
+      - .github/workflows/independent-bioclive-2026-original-files-manifest-v0-1.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_UU_BIOCLIVE_LONGITUDINAL_SOURCE_PREFLIGHT_20261118.md
+      - scripts/source/audit_zenodo_bioclive_2026_original_manifest_v0_1.py
+      - .github/workflows/independent-bioclive-2026-original-files-manifest-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-manifest-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Freeze original source contract and fixture (no ecological models)
+        run: |
+          python3 -m py_compile scripts/source/audit_zenodo_bioclive_2026_original_manifest_v0_1.py
+          python3 scripts/source/audit_zenodo_bioclive_2026_original_manifest_v0_1.py --self-test
+          test -s docs/INDEPENDENT_UU_BIOCLIVE_LONGITUDINAL_SOURCE_PREFLIGHT_20261118.md
+      - name: Inspect source Zenodo official record, original-file MD5 and limited original headers
+        run: |
+          mkdir -p build/independent_bioclive
+          python3 scripts/source/audit_zenodo_bioclive_2026_original_manifest_v0_1.py \
+            --out build/independent_bioclive/original_manifest_v0_1.json
+      - name: Verify no new biomass–FD or K effect and preserve original grain boundaries
+        run: |
+          python3 - <<'PY'
+          import json
+          with open('build/independent_bioclive/original_manifest_v0_1.json') as f:
+              d=json.load(f)
+          assert d['doi']=='10.5281/zenodo.18483939'
+          assert d['version']=='v0.1'
+          assert d['status'] in {
+              'PUBLIC_SOURCE_MANIFEST_VERIFIED', 'ORIGINAL_SOURCE_FILES_ACCESS_HOLD',
+              'SOURCE_ACCESS_OR_MANIFEST_HOLD','AUTH_HOLD','SOURCE_MANIFEST_SIZE_HOLD'
+          }
+          assert d['no_ecological_model_estimated'] is True
+          if d['status'] in ('PUBLIC_SOURCE_MANIFEST_VERIFIED','ORIGINAL_SOURCE_FILES_ACCESS_HOLD'):
+              assert d['no_source_outcome_numeric_values_exported'] is True
+              assert d['original_experiment_published_design']['one_original_Utrecht_experiment'] is True
+              assert d['original_experiment_published_design']['published_original_plots']==88
+              assert d['original_experiment_published_design']['biomass_original_annual_species_clipping_years']==[2018,2019,2020,2021,2022]
+              for item in d['original_file_content_header_profiles']:
+                  assert item['original_byte_MD5_verified'] is True
+          print('ORIGINAL_2026_BIOCLIVE_SOURCE_MANIFEST_VERDICT',d['status'],
+                'source_files',d.get('original_dataset_file_count',0),
+                'verified',d.get('n_source_files_MD5_accessible_and_verified',0))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Utrecht-BioCliVE-2026-original-species-biomass-2022-trait-Zenodo-source-manifest-nonraw
+          path: build/independent_bioclive/original_manifest_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

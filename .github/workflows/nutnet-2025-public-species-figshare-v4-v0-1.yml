@@ -1,0 +1,61 @@
+name: NutNet 2025 Figshare original species-cover public-source manifest and MD5
+on:
+  push:
+    branches: [source/grassland-independent-k-fd-mass-20261118]
+    paths:
+      - docs/NUTNET_FIGSHARE_2025_SPECIES_PLOT_CROSSWALK_SOURCE_GATE_20261118.md
+      - scripts/source/audit_nutnet_2025_figshare_species_release_v0_1.py
+      - .github/workflows/nutnet-2025-public-species-figshare-v4-v0-1.yml
+  pull_request:
+    paths:
+      - docs/NUTNET_FIGSHARE_2025_SPECIES_PLOT_CROSSWALK_SOURCE_GATE_20261118.md
+      - scripts/source/audit_nutnet_2025_figshare_species_release_v0_1.py
+      - .github/workflows/nutnet-2025-public-species-figshare-v4-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-figshare-public-species-manifest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify original Figshare v4 and NutNet source-only species access contract
+        run: |
+          python3 -m py_compile scripts/source/audit_nutnet_2025_figshare_species_release_v0_1.py
+          python3 scripts/source/audit_nutnet_2025_figshare_species_release_v0_1.py --self-test
+          test -s docs/NUTNET_FIGSHARE_2025_SPECIES_PLOT_CROSSWALK_SOURCE_GATE_20261118.md
+      - name: Inspect public original NutNet 2025 Figshare ID / file MD5 / bounded headers, no ecological rows
+        run: |
+          mkdir -p build/nutnet_figshare_species
+          python3 scripts/source/audit_nutnet_2025_figshare_species_release_v0_1.py \
+            --out build/nutnet_figshare_species/original_species_file_manifest_v0_1.json
+      - name: No FD/K effects, no silent year/treatment source merge
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/nutnet_figshare_species/original_species_file_manifest_v0_1.json'))
+          assert d['ecological_effect_estimated'] is False
+          assert d['only_source_metadata_and_file_checks'] is True
+          assert d['status'] in (
+            'SOURCE_API_ACCESS_HOLD','ORIGINAL_PUBLIC_FIGSHARE_IDENTITY_HOLD',
+            'ORIGINAL_PUBLIC_FIGSHARE_VERSION_HOLD','ORIGINAL_SOURCE_FILE_MANIFEST_LIMIT_HOLD',
+            'ORIGINAL_PUBLIC_SPECIES_SOURCE_FILE_MANIFEST_VERIFIED',
+            'ORIGINAL_FIGSHARE_DATA_FILE_ACCESS_HOLD','SOURCE_META_PARSE_HOLD')
+          if 'source_article_id' in d:
+            assert d['source_article_id']==26412295
+          if d['status']=='ORIGINAL_PUBLIC_SPECIES_SOURCE_FILE_MANIFEST_VERIFIED':
+            assert d['original_2026_nutnet_1108_130_site_crosswalk_executed'] is False
+          print('NUTNET_FIGSHARE_PUBLIC_SPECIES_SOURCE_VERDICT',d['status'],
+                d.get('source_n_original_file_MD5_verified'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nutnet-2025-public-figshare-species-source-manifest-md5-nonraw
+          path: build/nutnet_figshare_species/original_species_file_manifest_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

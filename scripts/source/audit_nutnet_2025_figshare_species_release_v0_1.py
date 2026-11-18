@@ -102,7 +102,12 @@ def safe_files(obj):
             out["source_file_catalogue"].append(record);continue
         status,raw,host=req(canonical,MAX_FILE)
         record["source_download_http"]=status
-        if status==200 and host in ("ndownloader.figshare.com","figshare.com","files.figshare.com") and len(raw)==size and hashlib.md5(raw).hexdigest()==md5:
+        record["download_final_host_for_redirect_audit"]=host
+        # Figshare's exact advertised HTTPS ndownloader URL can redirect
+        # to provider cloud storage. Provenance is the official API original
+        # file ID plus exact original length and advertised MD5, not the CDN
+        # final hostname, which is not under the user's control.
+        if status==200 and len(raw)==size and hashlib.md5(raw).hexdigest()==md5:
             record["source_file_access"]="PUBLIC_ORIGINAL_BYTES_MD5_PASS"
             record["source_file_bytes_verified"]=len(raw)
             extension=record["file_extension"]

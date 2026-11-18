@@ -1,0 +1,58 @@
+name: Diagnose NutNet 2025 vs 2026 original year and botanical name format after source HOLD
+on:
+  push:
+    branches: [source/grassland-independent-k-fd-mass-20261118]
+    paths:
+      - docs/NUTNET_TWO_PUBLIC_RELEASES_SOURCE_MISMATCH_DIAGNOSIS_V0_2.md
+      - scripts/source/diagnose_nutnet_2025_2026_original_source_key_and_taxon_format_v0_2.py
+      - .github/workflows/nutnet-original-2025-2026-source-grain-semantics-v0-2.yml
+  pull_request:
+    paths:
+      - docs/NUTNET_TWO_PUBLIC_RELEASES_SOURCE_MISMATCH_DIAGNOSIS_V0_2.md
+      - scripts/source/diagnose_nutnet_2025_2026_original_source_key_and_taxon_format_v0_2.py
+      - .github/workflows/nutnet-original-2025-2026-source-grain-semantics-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-no-effects:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fixture for original binomial case and year/source-grain semantics
+        run: |
+          python3 -m py_compile scripts/source/diagnose_nutnet_2025_2026_original_source_key_and_taxon_format_v0_2.py
+          python3 scripts/source/diagnose_nutnet_2025_2026_original_source_key_and_taxon_format_v0_2.py --self-test
+          test -s docs/NUTNET_TWO_PUBLIC_RELEASES_SOURCE_MISMATCH_DIAGNOSIS_V0_2.md
+      - name: Re-fetch both original MD5 sources and diagnose year/taxon-label source mismatch only
+        run: |
+          mkdir -p build/nutnet_source_semantic
+          python3 scripts/source/diagnose_nutnet_2025_2026_original_source_key_and_taxon_format_v0_2.py \
+            --out build/nutnet_source_semantic/diagnosis_v0_2.json
+      - name: Confirm previous source HOLD, 57 shared sites, zero calendar-year matches and no FD/mass outcome
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/nutnet_source_semantic/diagnosis_v0_2.json'))
+          assert d['status']=='POST_HOLD_NUTNET_2025_2026_SOURCE_YEAR_TAXON_FORMAT_DIAGNOSIS_COMPLETED'
+          assert d['original_2025_cover_rows']==5668
+          assert d['original_2026_biomass_CWM_rows']==1108
+          assert d['original_2025_Figshare_MD5']=='2ab0e3bac17f0766265a4fdf23992fce'
+          assert d['original_2026_Zenodo_biomass_MD5']=='c65e714c78fb2afb401e3b2ed6e625ae'
+          assert d['source_strict_overlap']['n_common_site_names']==57
+          assert d['source_strict_overlap']['n_common_site_and_original_year']==0
+          assert d['source_semantics']['original_2025_cover_trt_column_not_reclassified'] is True
+          assert d['source_semantics']['species_name_accepted_synonym_mapping']=='NONE; source syntax classified without taxonomic renaming'
+          print('NUTNET_ORIGINAL_SOURCE_YEAR_TAXON_FORMAT_PASS; zero safe original year matches, no biology')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nutnet-2025-2026-source-year-name-format-postHOLD-nonraw
+          path: build/nutnet_source_semantic/diagnosis_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 30

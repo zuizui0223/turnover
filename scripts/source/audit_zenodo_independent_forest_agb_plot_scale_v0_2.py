@@ -24,7 +24,7 @@ PLOT_COL="Plot code"
 SITE_COL="Site"
 BIO_COL="AGB"
 GEO_COLS=("Latitude","Longitude")
-SIG_RE=re.compile(r"\\b(?:standardiz\\w*|standardis\\w*|z[ -]?scor\\w*|normaliz\\w*|normalis\\w*|scaled|scaling|center\\w*|centr\\w*|units?)\\b",re.I)
+SIG_RE=re.compile(r"\b(?:standardiz\w*|standardis\w*|z[ -]?scor\w*|normaliz\w*|normalis\w*|scaled|scaling|center\w*|centr\w*|units?)\b",re.I)
 SEMANTIC_RE=re.compile(r"\bAGB\b|biomass|measur|trait|plot|latitude|longitude|covari|field|site",re.I)
 
 def sourcefiles():
@@ -109,7 +109,7 @@ def run():
     if biomass["n_valid"]!=200 or biomass["n_negative"]!=157:
         raise ValueError("SOURCE_HOLD: prior verified 200 AGB and 157 negative raw source results changed")
     readme_std=bool(SIG_RE.search(source_readme))
-    source_coverage=bool(re.search(r"\\bAGB\\b[^\\n]{0,90}\\bMg\\b",source_readme,re.I))
+    source_coverage=bool(re.search(r"\bAGB\b[^\n]{0,90}\bMg\b",source_readme,re.I))
     # NOTE: source README says Mg ha^-1, but 157 / 200 original values are
     # negative, which cannot physically be untransformed stand dry biomass.
     # Mere standardized-looking coordinates do not provide the inverse AGB
@@ -165,6 +165,7 @@ def fixture():
     assert p["aggregate_mean"]==0
     assert PLOT_COL=="Plot code"
     assert SIG_RE.search("Community-weighted mean leaf dry matter") is None
+    assert SIG_RE.search("The data were standardized and unit-scaled") is not None
     assert SIG_RE.search("AGB: Aboveground biomass (Mg ha-1)") is None
     return {"status":"FOREST_PLOT_CODE_AND_SIGNED_AGB_SOURCE_FIXTURE_PASS","checks":4}
 

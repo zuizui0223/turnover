@@ -1,0 +1,57 @@
+name: BEF-China 2025 original H1H2 AGB and H3 mixture plot/year source grain
+on:
+  push:
+    branches: [source/independent-africa-befchina-forest-trait-mass-20261118]
+    paths:
+      - scripts/source/audit_befchina_2025_original_plot_year_source_v0_2.py
+      - .github/workflows/befchina-2025-plot-year-original-source-v0-2.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_befchina_2025_original_plot_year_source_v0_2.py
+      - .github/workflows/befchina-2025-plot-year-original-source-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fixed original source parser self-check
+        run: |
+          python3 -m py_compile scripts/source/audit_befchina_2025_original_plot_year_source_v0_2.py
+          python3 scripts/source/audit_befchina_2025_original_plot_year_source_v0_2.py --self-test
+      - name: Original Figshare H1H2 and H3 MD5 pinned plot-year identity audit
+        run: |
+          mkdir -p build/befchina_original
+          python3 scripts/source/audit_befchina_2025_original_plot_year_source_v0_2.py \
+             --out build/befchina_original/plot_year_grain_v0_2.json
+      - name: Verify no original biodiversity/AGB model estimated and original site boundaries preserved
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/befchina_original/plot_year_grain_v0_2.json'))
+          assert d['status']=='BEFCHINA_PUBLISHED_ORIGINAL_PLOT_YEAR_GRAIN_VERIFIED__DIRECT_SPECIES_TRAIT_SOURCE_HOLD'
+          assert d['biological_effects_opened'] is False
+          assert d['original_raw_binary_not_committed'] is True
+          assert d['published_original_reported_independent_experiment_sites']==2
+          a=d['two_original_source_tables']
+          assert a['H1H2']['original_data_rows']==1927
+          assert a['H3']['original_data_rows']==1251
+          assert a['H1H2']['original_MD5_source']=='d045623a427b076d529cadb12c025242'
+          assert a['H3']['original_MD5_source']=='a39eb71df9bf507892213a1d3891bc23'
+          print('BEFCHINA_ORIGINAL_PLOT_YEAR_GRAIN_VERDICT',
+                 d['original_source_tabular_rows_unique_plot_years_confirmed'],
+                 d['original_source_species_name_and_direct_leaf_trait_absent'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: BEFChina-original-Figshare-2025-H1H2-H3-plotyear-nonraw
+          path: build/befchina_original/plot_year_grain_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 30

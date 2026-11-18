@@ -24,7 +24,7 @@ PLOT_COL="Plot code"
 SITE_COL="Site"
 BIO_COL="AGB"
 GEO_COLS=("Latitude","Longitude")
-SIG_RE=re.compile(r"standardiz|standardis|z.?score|normaliz|normalis|scaled|scaling|center|centr|unit|z.transfor",re.I)
+SIG_RE=re.compile(r"\\b(?:standardiz\\w*|standardis\\w*|z[ -]?scor\\w*|normaliz\\w*|normalis\\w*|scaled|scaling|center\\w*|centr\\w*|units?)\\b",re.I)
 SEMANTIC_RE=re.compile(r"\bAGB\b|biomass|measur|trait|plot|latitude|longitude|covari|field|site",re.I)
 
 def sourcefiles():
@@ -109,6 +109,12 @@ def run():
     if biomass["n_valid"]!=200 or biomass["n_negative"]!=157:
         raise ValueError("SOURCE_HOLD: prior verified 200 AGB and 157 negative raw source results changed")
     readme_std=bool(SIG_RE.search(source_readme))
+    source_coverage=bool(re.search(r"\\bAGB\\b[^\\n]{0,90}\\bMg\\b",source_readme,re.I))
+    # NOTE: source README says Mg ha^-1, but 157 / 200 original values are
+    # negative, which cannot physically be untransformed stand dry biomass.
+    # Mere standardized-looking coordinates do not provide the inverse AGB
+    # scaling parameters.
+
     if biomass["n_negative"]>0:
         physical="NONPHYSICAL_SIGNED_AGB_SOURCE_SCALE_HOLD"
     else:
@@ -140,6 +146,8 @@ def run():
           "lines_with_plot_or_site":sum(e["has_plot_or_site_term"] for e in evidence)
       },
       "source_readme_has_any_explicit_standardization_or_scaling_word":readme_std,
+      "source_readme_declares_original_AGB_Mg_per_ha":source_coverage,
+      "source_README_AGB_unit_conflicts_with_observed_negative_values":bool(source_coverage and biomass["n_negative"]>0),
       "source_readme_original_line_count":len(source_readme.splitlines()),
       "no_species_level_source_trait_records_in_original_file":True,
       "original_source_stores_only_precomputed_fdis_fdiv_feve_fric_and_CWM_traits":True,
@@ -156,6 +164,8 @@ def fixture():
     assert p["n_negative"]==1 and p["n_positive"]==1
     assert p["aggregate_mean"]==0
     assert PLOT_COL=="Plot code"
+    assert SIG_RE.search("Community-weighted mean leaf dry matter") is None
+    assert SIG_RE.search("AGB: Aboveground biomass (Mg ha-1)") is None
     return {"status":"FOREST_PLOT_CODE_AND_SIGNED_AGB_SOURCE_FIXTURE_PASS","checks":4}
 
 if __name__=="__main__":

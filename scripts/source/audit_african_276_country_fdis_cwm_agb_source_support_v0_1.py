@@ -31,7 +31,11 @@ def fetch_source():
     matches=[r for r in info.get("files",[]) if r.get("key")==SOURCE_NAME]
     if len(matches)!=1:raise ValueError("SOURCE_MANIFEST_HOLD: original archived file missing or duplicated")
     f=matches[0]
-    url=str((f.get("links") or {}).get("content") or "")
+    # Zenodo's public file manifest has version-specific HAL representations:
+    # some records expose only links.self while others use links.content.
+    # Accept only the exact trusted official host and unchanged MD5 bytes.
+    links=f.get("links") or {}
+    url=str(links.get("content") or links.get("self") or "")
     parsed=urllib.parse.urlparse(url)
     if parsed.hostname!="zenodo.org" or parsed.scheme!="https" or int(f.get("size",0))>1_000_000:
         raise ValueError("SOURCE_LINK_HOLD: unpublished or oversized original source")

@@ -1,0 +1,64 @@
+name: Independent original forest AGB plot-trait source-granularity Zenodo 19609795
+on:
+  push:
+    branches: [source/independent-agb-trait-original-20261118]
+    paths:
+      - docs/INDEPENDENT_K_FD_AGB_NEW_SOURCE_PILOT_20261118.md
+      - scripts/source/audit_zenodo_independent_forest_agb_trait_grain_v0_1.py
+      - .github/workflows/independent-original-zenodo-forest-agb-source-v0-1.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_K_FD_AGB_NEW_SOURCE_PILOT_20261118.md
+      - scripts/source/audit_zenodo_independent_forest_agb_trait_grain_v0_1.py
+      - .github/workflows/independent-original-zenodo-forest-agb-source-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-field-data-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify frozen original source and no outcome code
+        run: |
+          python3 -m py_compile scripts/source/audit_zenodo_independent_forest_agb_trait_grain_v0_1.py
+          python3 scripts/source/audit_zenodo_independent_forest_agb_trait_grain_v0_1.py --self-test
+          test -s docs/INDEPENDENT_K_FD_AGB_NEW_SOURCE_PILOT_20261118.md
+      - name: Fetch only official Zenodo API and two original MD5 source files, inspect headers/grain
+        run: |
+          mkdir -p build/independent_original_forest
+          python3 scripts/source/audit_zenodo_independent_forest_agb_trait_grain_v0_1.py \
+            --out build/independent_original_forest/zenodo_19609795_source_gate_v0_1.json
+      - name: Enforce no biological output, taxonomy and source identity qualification boundaries
+        run: |
+          python3 - <<'PY'
+          import json
+          with open('build/independent_original_forest/zenodo_19609795_source_gate_v0_1.json') as h:
+              d=json.load(h)
+          assert d['version']=='v0.1'
+          assert d['dataset_doi']=='10.5281/zenodo.19609795'
+          assert d['no_ecological_effect_estimated'] is True
+          assert d['no_original_data_rows_committed'] is True
+          assert d['status'] in ('SOURCE_IDENTITY_HOLD','DATA_ACCESS_HOLD','AUTH_HOLD',
+                                 'SOURCE_BIOMASS_MISSING_HOLD','SOURCE_SITE_SUPPORT_HOLD',
+                                 'PLOT_SUMMARY_ONLY_HOLD','SOURCE_GRANULARITY_REVIEW_REQUIRED')
+          if 'source_csv_nonraw_profile' in d:
+              p=d['source_csv_nonraw_profile']
+              assert p['n_original_source_rows']>0
+              assert p['species_trait_community_join_proven'] is False
+              assert d['original_biomass_response_coefficients_estimated']==0
+              assert d['family_specific_phylogenetic_K_estimated']==0
+              assert len(d['verified_original_files'])==2
+          print('INDEPENDENT_ZENODO_ORIGINAL_SOURCE_GATE',d['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-forest-zenodo-19609795-plot-trait-AGB-grain-nonraw
+          path: build/independent_original_forest/zenodo_19609795_source_gate_v0_1.json
+          retention-days: 30
+          if-no-files-found: ignore

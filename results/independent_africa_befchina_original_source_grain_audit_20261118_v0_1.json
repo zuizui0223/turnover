@@ -1,0 +1,479 @@
+{
+  "version": "v0.1",
+  "status": "TWO_INDEPENDENT_ORIGINAL_SOURCES_DOWNLOADED_ORIGINAL_SPECIES_TRAIT_GRAIN_HOLD",
+  "verified_source_run": "https://github.com/zuizui0223/turnover/actions/runs/44300781971",
+  "artifact_id": 14425632129,
+  "artifact_sha256": "sha256:0f81ea7f28a5dabc4a0631bf5861d5cb06c07aae0661690b0f67da9401cde450",
+  "study_design": "docs/INDEPENDENT_FOREST_TRAIT_BIOMASS_AFRICA_BEFCHINA_SOURCE_GATE_20261118.md",
+  "original_source_data_files_committed": false,
+  "candidates": [
+    {
+      "ecological_effect_opened": false,
+      "expected_inventory_period": "2014–2020",
+      "expected_original_5_countries": 5,
+      "expected_original_species_from_article": 207,
+      "expected_public_original_plots_from_article": 276,
+      "metadata_status": "ORIGINAL_SPECIES_TRAIT_GRAIN_HOLD",
+      "n_original_files_md5_pass": 3,
+      "name": "Noulekoun et al 2023 African forest GEB source",
+      "official_api_http_status": 200,
+      "official_public_url": "https://zenodo.org/records/10045492",
+      "original_archived_dryad_doi": "10.5061/dryad.dfn2z3582",
+      "original_author_R_script_available": true,
+      "original_manifest": [
+        {
+          "advertised_size": 12119,
+          "filename": "Description_abbreviations_Noulekoun.xlsx",
+          "original_source_checksum_status": "PASS",
+          "public_original_file_http": 200,
+          "retrieved_md5": "6779d4c95a31e254f33e6c2e421d1f38",
+          "source_checksum": "md5:6779d4c95a31e254f33e6c2e421d1f38"
+        },
+        {
+          "advertised_size": 5557,
+          "filename": "README.md",
+          "source_checksum": "md5:b9d8a4b71cff0d8da3a65a71a5fcacd3"
+        },
+        {
+          "advertised_size": 71968,
+          "filename": "R_script_Noulekoun_GEB.r",
+          "original_source_checksum_status": "PASS",
+          "public_original_file_http": 200,
+          "retrieved_md5": "f3763db40ac72598e1138a0ce48006f4",
+          "source_checksum": "md5:f3763db40ac72598e1138a0ce48006f4"
+        },
+        {
+          "advertised_size": 155745,
+          "filename": "dataall_Noulekoun_GEB.csv",
+          "original_source_checksum_status": "PASS",
+          "public_original_file_http": 200,
+          "retrieved_md5": "60fc555c8e2942af432b09d3aeb84d57",
+          "source_checksum": "md5:60fc555c8e2942af432b09d3aeb84d57"
+        }
+      ],
+      "original_primary_plot_CSV_grain": {
+        "actual_original_source_rows": 276,
+        "format": "csv",
+        "number_original_source_columns": 64,
+        "original_source_CWM_or_precomputed_FD_columns": [
+          "cwmwd",
+          "cwmhm",
+          "cwmsla",
+          "cwmla",
+          "cwmlcc",
+          "cwmlnc",
+          "cwmlt",
+          "cwmrd",
+          "sd_fdis"
+        ],
+        "original_source_columns": [
+          "plot_uniq_ID",
+          "country",
+          "plot_size_ha",
+          "growth",
+          "age_years",
+          "latitude",
+          "longitude",
+          "altitude",
+          "PREC",
+          "Temp",
+          "CMI",
+          "clay1m",
+          "sand1m",
+          "silt1m",
+          "cec1m",
+          "soc1m",
+          "ph1m",
+          "cwmwd",
+          "cwmhm",
+          "cwmsla",
+          "cwmla",
+          "cwmlcc",
+          "cwmlnc",
+          "cwmlt",
+          "cwmrd",
+          "Hd5",
+          "Hd10",
+          "Hd15",
+          "Hh5",
+          "Hh10",
+          "Hh12",
+          "cvdbh",
+          "cvheight",
+          "aridity_class",
+          "sd_plots",
+          "sd_prec",
+          "sd_temp",
+          "sd_CMI",
+          "sd_elevation",
+          "sd_clay1m",
+          "sd_sand1m",
+          "sd_silt1m",
+          "sd_cec1m",
+          "sd_soc1m",
+          "sd_ph1m",
+          "sd_richness",
+          "sd_agb.mg.ha",
+          "sd_Hd5",
+          "sd_Hd10",
+          "sd_Hd15",
+          "sd_Hh5",
+          "sd_Hh10",
+          "sd_Hh12",
+          "sd_fdis",
+          "sd_cwmwd",
+          "sd_cwmhm",
+          "sd_cwmsla",
+          "sd_cwmla",
+          "sd_cwmlcc",
+          "sd_cwmlnc",
+          "sd_cwmlt",
+          "sd_cwmrd",
+          "sd_cvdbh",
+          "sd_cvheight"
+        ],
+        "original_source_explicit_taxon_name_columns": [],
+        "original_source_per_species_measured_trait_and_species_column_same_row": false,
+        "original_source_unique_values_for_categorical_or_identity_fields": {
+          "country": 5,
+          "growth": 2,
+          "plot_uniq_ID": 276
+        },
+        "original_source_woody_or_biomass_columns": [],
+        "source_nonempty_row_counts_for_data_columns": {
+          "CMI": 276,
+          "Hd10": 276,
+          "Hd15": 276,
+          "Hd5": 276,
+          "Hh10": 276,
+          "Hh12": 276,
+          "Hh5": 276,
+          "PREC": 276,
+          "Temp": 276,
+          "age_years": 104,
+          "altitude": 276,
+          "aridity_class": 276,
+          "cec1m": 276,
+          "clay1m": 276,
+          "country": 276,
+          "cvdbh": 276,
+          "cvheight": 276,
+          "cwmhm": 276,
+          "cwmla": 276,
+          "cwmlcc": 276,
+          "cwmlnc": 276,
+          "cwmlt": 276,
+          "cwmrd": 276,
+          "cwmsla": 276,
+          "cwmwd": 276,
+          "growth": 276,
+          "latitude": 276,
+          "longitude": 276,
+          "ph1m": 276,
+          "plot_size_ha": 276,
+          "plot_uniq_ID": 276,
+          "sand1m": 276,
+          "sd_CMI": 276,
+          "sd_Hd10": 276,
+          "sd_Hd15": 276,
+          "sd_Hd5": 276,
+          "sd_Hh10": 276,
+          "sd_Hh12": 276,
+          "sd_Hh5": 276,
+          "sd_agb.mg.ha": 276,
+          "sd_cec1m": 276,
+          "sd_clay1m": 276,
+          "sd_cvdbh": 276,
+          "sd_cvheight": 276,
+          "sd_cwmhm": 276,
+          "sd_cwmla": 276,
+          "sd_cwmlcc": 276,
+          "sd_cwmlnc": 276,
+          "sd_cwmlt": 276,
+          "sd_cwmrd": 276,
+          "sd_cwmsla": 276,
+          "sd_cwmwd": 276,
+          "sd_elevation": 276,
+          "sd_fdis": 276,
+          "sd_ph1m": 276,
+          "sd_plots": 276,
+          "sd_prec": 276,
+          "sd_richness": 276,
+          "sd_sand1m": 276,
+          "sd_silt1m": 276,
+          "sd_soc1m": 276,
+          "sd_temp": 276,
+          "silt1m": 276,
+          "soc1m": 276
+        },
+        "source_rows_values_exported": false
+      },
+      "original_source_variable_description_XLSX_schema": {
+        "format": "xlsx",
+        "n_original_sheets": 1,
+        "sheets": [
+          {
+            "original_sheet_row_elements": 65,
+            "sheet_name": "definition_abbreviations",
+            "source_only_header_candidates": [
+              {
+                "header_column_names": [
+                  "plot_uniq_ID",
+                  "Plot unique ID"
+                ],
+                "n_scientific_key_columns": 2,
+                "source_row_number": "2"
+              },
+              {
+                "header_column_names": [
+                  "country",
+                  "Country of data sampling"
+                ],
+                "n_scientific_key_columns": 2,
+                "source_row_number": "3"
+              },
+              {
+                "header_column_names": [
+                  "plot_size_ha",
+                  "Plot size in ha"
+                ],
+                "n_scientific_key_columns": 2,
+                "source_row_number": "4"
+              }
+            ],
+            "source_rows_not_exported": true
+          }
+        ]
+      },
+      "original_study_doi": "10.1111/geb.13800",
+      "reason": "Source database is published plot-level CWM/FD, biomass and covariates but no original per-plot named species and directly measured trait rows; no independent K→FD→mass derivation from this file.",
+      "record_DOI": "10.5061/dryad.dfn2z3582",
+      "record_id": 10045492,
+      "record_version": null,
+      "source_license": "cc-zero",
+      "source_only": true
+    },
+    {
+      "bytes_original_tabular_read_ephemeral": 244760,
+      "ecological_effect_opened": false,
+      "figshare_article_version": 1,
+      "figshare_license": "CC BY 4.0",
+      "figshare_original_published_date": "2025-07-17T17:33:12Z",
+      "metadata_status": "SMALL_ORIGINAL_TABULAR_SOURCE_SCHEMA_PASS__TRAIT_OR_STOCK_GRAIN_UNQUALIFIED",
+      "n_original_article_files": 5,
+      "n_small_tabular_original_files_md5_pass": 3,
+      "name": "Deng et al 2025 BEF-China woody canopy/biomass PNAS source",
+      "official_figshare_metadata_http": 200,
+      "official_public_url": "https://doi.org/10.6084/m9.figshare.29592203",
+      "original_allometric_WD_source_policy": "constant assumed 0.52 for all tree species",
+      "original_article_doi": "10.6084/m9.figshare.29592203.v1",
+      "original_reported_independent_experiment_sites": 2,
+      "original_reported_plots": 482,
+      "original_reported_survey_years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "original_reported_tree_individuals": 38088,
+      "original_source_file_manifest": [
+        {
+          "access_status": "NON_TABULAR_FILE_NOT_OPENED",
+          "advertised_bytes": 16638,
+          "name": "DengEtAl_PNAS_code_20250718.R",
+          "original_advertised_md5": "e438b02804f759e2dcbd848211b65666",
+          "original_file_id": 56354924
+        },
+        {
+          "access_status": "NON_TABULAR_FILE_NOT_OPENED",
+          "advertised_bytes": 2297,
+          "name": "DengEtAl_PNAS_README_20250718.txt",
+          "original_advertised_md5": "e04dc6c74431038b4bcf2828cb280a32",
+          "original_file_id": 56354966
+        },
+        {
+          "access_status": "ORIGINAL_FILE_MD5_PASS",
+          "advertised_bytes": 119953,
+          "http_status": 200,
+          "name": "DengEtAl_PNAS_H1H2_20250718.xlsx",
+          "original_advertised_md5": "d045623a427b076d529cadb12c025242",
+          "original_file_id": 56354972,
+          "original_source_schema_only": {
+            "format": "xlsx",
+            "n_original_sheets": 2,
+            "sheets": [
+              {
+                "original_sheet_row_elements": 1928,
+                "sheet_name": "DengEtAl_PNAS_H1H2_20250718",
+                "source_only_header_candidates": [
+                  {
+                    "header_column_names": [
+                      "Plot",
+                      "year",
+                      "TREE_R",
+                      "AGB",
+                      "Canopy cover",
+                      "FHD",
+                      "Db"
+                    ],
+                    "n_scientific_key_columns": 4,
+                    "source_row_number": "1"
+                  }
+                ],
+                "source_rows_not_exported": true
+              },
+              {
+                "original_sheet_row_elements": 8,
+                "sheet_name": "Meta Data",
+                "source_only_header_candidates": [
+                  {
+                    "header_column_names": [
+                      "Plot",
+                      "plot number",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "2"
+                  },
+                  {
+                    "header_column_names": [
+                      "year",
+                      "year of data collection",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "3"
+                  },
+                  {
+                    "header_column_names": [
+                      "TREE_R",
+                      "tree species richness",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "4"
+                  }
+                ],
+                "source_rows_not_exported": true
+              }
+            ]
+          }
+        },
+        {
+          "access_status": "ORIGINAL_FILE_MD5_PASS",
+          "advertised_bytes": 111578,
+          "http_status": 200,
+          "name": "DengEtAl_PNAS_H3_20250718.xlsx",
+          "original_advertised_md5": "a39eb71df9bf507892213a1d3891bc23",
+          "original_file_id": 56354975,
+          "original_source_schema_only": {
+            "format": "xlsx",
+            "n_original_sheets": 2,
+            "sheets": [
+              {
+                "original_sheet_row_elements": 1252,
+                "sheet_name": "DengEtAl_PNAS_H3_20250718",
+                "source_only_header_candidates": [
+                  {
+                    "header_column_names": [
+                      "Plot",
+                      "year",
+                      "TREE_R",
+                      "NE",
+                      "SE",
+                      "CE",
+                      "Canopy cover",
+                      "FHD",
+                      "Db"
+                    ],
+                    "n_scientific_key_columns": 3,
+                    "source_row_number": "1"
+                  }
+                ],
+                "source_rows_not_exported": true
+              },
+              {
+                "original_sheet_row_elements": 10,
+                "sheet_name": "Meta Data",
+                "source_only_header_candidates": [
+                  {
+                    "header_column_names": [
+                      "Plot",
+                      "plot number",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "2"
+                  },
+                  {
+                    "header_column_names": [
+                      "year",
+                      "year of data collection",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "3"
+                  },
+                  {
+                    "header_column_names": [
+                      "TREE_R",
+                      "tree species richness",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "4"
+                  }
+                ],
+                "source_rows_not_exported": true
+              }
+            ]
+          }
+        },
+        {
+          "access_status": "ORIGINAL_FILE_MD5_PASS",
+          "advertised_bytes": 13229,
+          "http_status": 200,
+          "name": "DengEtAl_PNAS_Fig5_20250718.xlsx",
+          "original_advertised_md5": "270e84ad263f8d75705f7a0c8d535875",
+          "original_file_id": 56354978,
+          "original_source_schema_only": {
+            "format": "xlsx",
+            "n_original_sheets": 2,
+            "sheets": [
+              {
+                "original_sheet_row_elements": 37,
+                "sheet_name": "DengEtAl_PNAS_Fig5_20250718",
+                "source_only_header_candidates": [],
+                "source_rows_not_exported": true
+              },
+              {
+                "original_sheet_row_elements": 9,
+                "sheet_name": "Meta Data",
+                "source_only_header_candidates": [
+                  {
+                    "header_column_names": [
+                      "Year",
+                      "year of data collection",
+                      "-"
+                    ],
+                    "n_scientific_key_columns": 2,
+                    "source_row_number": "2"
+                  }
+                ],
+                "source_rows_not_exported": true
+              }
+            ]
+          }
+        }
+      ],
+      "original_tree_traits_present_from_source_schema": false,
+      "published_article": "10.1073/pnas.2506750122",
+      "source_only": true,
+      "strict_independent_source_site_reason": "Two original BEF-China experimental sites, not five independent field environments; four repeated years cannot serve as independent sites.",
+      "strict_independent_source_site_threshold_pass": false
+    }
+  ],
+  "biological_FD_K_PD_AGB_effects_estimated": false,
+  "original_201_system_BIEN_sPlotOpen_and_NEON_held_gates_unchanged": true,
+  "conclusion": "African source has 276 site plots and standardized CWM/FDis/AGB, but no species names or raw species traits; BEF-China original public 2025 dataset has year×plot aggregated AGB and canopy metrics, only two study sites and no original leaf SLA/LNCM species level trait measurements in downloaded small worksheets; no direct family-specific K→FD→biomass test."
+}

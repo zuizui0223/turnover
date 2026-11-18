@@ -1,0 +1,122 @@
+{
+  "data_grain": "One source author-derived aggregate per forest plot, not species or individual tree observations",
+  "no_biological_trait_evolutionary_K_or_plant_community_local_FD_claim": true,
+  "original_complete_response_and_predictor_source_plots": 276,
+  "original_plot_ID_unique": true,
+  "original_source_md5": "60fc555c8e2942af432b09d3aeb84d57",
+  "original_source_total_plot_rows": 276,
+  "outcome_analysis_authorization": "SOURCE_HOLD",
+  "source": "Noulekoun et al GEB 2023, Zenodo original record 10045492",
+  "source_complete_original_plots_by_country": {
+    "Benin": 64,
+    "Burki Faso": 8,
+    "Ethiopia": 168,
+    "Gha": 6,
+    "Togo": 30
+  },
+  "source_countries": {
+    "Benin": 64,
+    "Burki Faso": 8,
+    "Ethiopia": 168,
+    "Gha": 6,
+    "Togo": 30
+  },
+  "source_derived_FDis_original_field": "sd_fdis",
+  "source_growth_class_counts": {
+    "old": 172,
+    "young": 104
+  },
+  "source_growth_class_counts_by_country": {
+    "Benin": {
+      "old": 64
+    },
+    "Burki Faso": {
+      "old": 8
+    },
+    "Ethiopia": {
+      "old": 64,
+      "young": 104
+    },
+    "Gha": {
+      "old": 6
+    },
+    "Togo": {
+      "old": 30
+    }
+  },
+  "source_nonfinite_or_missing_col_counts": {},
+  "source_original_biomass_Mg_ha_raw_unstandardized_in_csv": false,
+  "source_original_biomass_response_units": "Original authors globally standardized aboveground biomass, not original raw Mg ha−1",
+  "source_original_species_name_columns_available": false,
+  "source_original_species_trait_rows_available": false,
+  "source_plot_year_by_record_available": false,
+  "source_qualifying_limits": {
+    "min_all_complete": 200,
+    "min_countries": 5,
+    "min_per_country": 12
+  },
+  "source_rank_preflight_by_heldout_country": {
+    "Benin": {
+      "n_covariates_baseline": 10,
+      "n_covariates_with_FDis": 11,
+      "n_source_test_plots": 64,
+      "n_source_train_plots": 212,
+      "nonconstant_original_source_predictors": true,
+      "rank_baseline": 10,
+      "rank_with_FDis": 11,
+      "source_rank_full": true
+    },
+    "Burki Faso": {
+      "n_covariates_baseline": 10,
+      "n_covariates_with_FDis": 11,
+      "n_source_test_plots": 8,
+      "n_source_train_plots": 268,
+      "nonconstant_original_source_predictors": true,
+      "rank_baseline": 10,
+      "rank_with_FDis": 11,
+      "source_rank_full": true
+    },
+    "Ethiopia": {
+      "n_covariates_baseline": 10,
+      "n_covariates_with_FDis": 11,
+      "n_source_test_plots": 168,
+      "n_source_train_plots": 108,
+      "nonconstant_original_source_predictors": false,
+      "rank_baseline": 9,
+      "rank_with_FDis": 10,
+      "source_rank_full": false
+    },
+    "Gha": {
+      "n_covariates_baseline": 10,
+      "n_covariates_with_FDis": 11,
+      "n_source_test_plots": 6,
+      "n_source_train_plots": 270,
+      "nonconstant_original_source_predictors": true,
+      "rank_baseline": 10,
+      "rank_with_FDis": 11,
+      "source_rank_full": true
+    },
+    "Togo": {
+      "n_covariates_baseline": 10,
+      "n_covariates_with_FDis": 11,
+      "n_source_test_plots": 30,
+      "n_source_train_plots": 246,
+      "nonconstant_original_source_predictors": true,
+      "rank_baseline": 10,
+      "rank_with_FDis": 11,
+      "source_rank_full": true
+    }
+  },
+  "source_standardized_AGB_original_field": "sd_agb.mg.ha",
+  "source_tested_no_FD_AGB_regression_or_effect": true,
+  "status": "AFRICAN_DERIVED_FDIS_AGB_COUNTRY_SOURCE_SUPPORT_HOLD",
+  "version": "v0.1",
+  "verified_run": {
+    "run_id": 44302931105,
+    "source_job_id": 134797010449,
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44302931105",
+    "artifact_id": 14426977039,
+    "artifact_digest": "sha256:20167df986f2ed804586170c1fa4c3709c5f3171fd1f6be03b65d042ca98095b",
+    "status": "SOURCE_QA_ACTION_SUCCESS"
+  }
+}

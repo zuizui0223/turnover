@@ -1,0 +1,64 @@
+name: African 276-plot published FDis vs standardized AGB country-transfer source-only gate
+on:
+  push:
+    branches: [source/independent-africa-befchina-forest-trait-mass-20261118]
+    paths:
+      - docs/AFRICAN_PUBLISHED_FDIS_CWM_AGB_COUNTRY_TRANSFER_SOURCE_GATE_20261118.md
+      - scripts/source/audit_african_276_country_fdis_cwm_agb_source_support_v0_1.py
+      - .github/workflows/african-original-derived-fdis-country-source-v0-1.yml
+  pull_request:
+    paths:
+      - docs/AFRICAN_PUBLISHED_FDIS_CWM_AGB_COUNTRY_TRANSFER_SOURCE_GATE_20261118.md
+      - scripts/source/audit_african_276_country_fdis_cwm_agb_source_support_v0_1.py
+      - .github/workflows/african-original-derived-fdis-country-source-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  strict-original-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check frozen source-only five country design before any model effects
+        run: |
+          python3 -m pip install -q numpy==2.3.4
+          python3 -m py_compile scripts/source/audit_african_276_country_fdis_cwm_agb_source_support_v0_1.py
+          python3 scripts/source/audit_african_276_country_fdis_cwm_agb_source_support_v0_1.py --self-test
+          test -s docs/AFRICAN_PUBLISHED_FDIS_CWM_AGB_COUNTRY_TRANSFER_SOURCE_GATE_20261118.md
+      - name: Fetch MD5-pinned original African 276 plot Zenodo source and check country folds, not biomass associations
+        run: |
+          mkdir -p build/african_country_gate
+          python3 scripts/source/audit_african_276_country_fdis_cwm_agb_source_support_v0_1.py \
+            --out build/african_country_gate/original_source_country_qualification_v0_1.json
+      - name: Confirm no ecological effect and distinguish precomputed FDis from species observations
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('build/african_country_gate/original_source_country_qualification_v0_1.json').read_text())
+          assert d['original_source_md5']=='60fc555c8e2942af432b09d3aeb84d57'
+          assert d['original_source_total_plot_rows']==276
+          assert d['original_plot_ID_unique'] is True
+          assert len(d['source_countries'])==5
+          assert sum(d['source_countries'].values())==276
+          assert d['source_tested_no_FD_AGB_regression_or_effect'] is True
+          assert d['source_original_species_name_columns_available'] is False
+          assert d['source_original_biomass_Mg_ha_raw_unstandardized_in_csv'] is False
+          assert d['source_original_species_trait_rows_available'] is False
+          assert d['status'] in ('AFRICAN_DERIVED_FDIS_AGB_COUNTRY_SOURCE_SUPPORT_PASS',
+                  'AFRICAN_DERIVED_FDIS_AGB_COUNTRY_SOURCE_SUPPORT_HOLD')
+          print('ORIGINAL_AFRICAN_SOURCE_ONLY_COUNTRY_VERDICT',d['status'],
+            'plots',d['original_complete_response_and_predictor_source_plots'],
+            'country_n',d['source_complete_original_plots_by_country'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-Africa-276plot-published-FDis-AGB-country-fold-source-nonraw
+          path: build/african_country_gate/original_source_country_qualification_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

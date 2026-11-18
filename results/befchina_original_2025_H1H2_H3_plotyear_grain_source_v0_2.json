@@ -1,0 +1,85 @@
+{
+  "biological_effects_opened": false,
+  "main_scientific_conclusion": "Original article files contain time-repeated plot/year already aggregated AGB/canopy and mixture-source variables; no original tree species identity and leaf trait observational rows; 482 plots over 4 years are not 482 spatially independent ecosystems.",
+  "not_phylogenetic_K_or_original_field_trait_source": true,
+  "official_original_Figshare_29592203_version": 1,
+  "original_raw_binary_not_committed": true,
+  "original_source_H1H2_and_H3_year_plot_sets_are_different_targets": true,
+  "original_source_species_name_and_direct_leaf_trait_absent": true,
+  "original_source_tabular_rows_unique_plot_years_confirmed": true,
+  "published_original_reported_independent_experiment_sites": 2,
+  "status": "BEFCHINA_PUBLISHED_ORIGINAL_PLOT_YEAR_GRAIN_VERIFIED__DIRECT_SPECIES_TRAIT_SOURCE_HOLD",
+  "two_original_source_tables": {
+    "H1H2": {
+      "contains_original_leaf_trait_measurement_column": false,
+      "contains_original_tree_species_identity_column": false,
+      "duplicate_original_plot_year_keys": 0,
+      "invalid_or_missing_key_and_response_numeric_counts": {},
+      "original_MD5_source": "d045623a427b076d529cadb12c025242",
+      "original_column_names": [
+        "Plot",
+        "year",
+        "TREE_R",
+        "AGB",
+        "Canopy cover",
+        "FHD",
+        "Db"
+      ],
+      "original_data_rows": 1927,
+      "original_figure_table": "H1H2",
+      "original_file_id": 56354972,
+      "original_sheet_xml_row_elements": 1928,
+      "original_unique_plot_ID_count": 486,
+      "original_unique_plot_year_key_count": 1927,
+      "original_year_row_counts": {
+        "2021": 486,
+        "2022": 481,
+        "2023": 481,
+        "2024": 479
+      },
+      "source_biomass_plot_year_model_target_col_available": true,
+      "source_rows_or_plot_IDs_exported": false
+    },
+    "H3": {
+      "contains_original_leaf_trait_measurement_column": false,
+      "contains_original_tree_species_identity_column": false,
+      "duplicate_original_plot_year_keys": 0,
+      "invalid_or_missing_key_and_response_numeric_counts": {},
+      "original_MD5_source": "a39eb71df9bf507892213a1d3891bc23",
+      "original_column_names": [
+        "Plot",
+        "year",
+        "TREE_R",
+        "NE",
+        "SE",
+        "CE",
+        "Canopy cover",
+        "FHD",
+        "Db"
+      ],
+      "original_data_rows": 1251,
+      "original_figure_table": "H3",
+      "original_file_id": 56354975,
+      "original_sheet_xml_row_elements": 1252,
+      "original_unique_plot_ID_count": 316,
+      "original_unique_plot_year_key_count": 1251,
+      "original_year_row_counts": {
+        "2021": 314,
+        "2022": 315,
+        "2023": 315,
+        "2024": 307
+      },
+      "source_biomass_plot_year_model_target_col_available": false,
+      "source_rows_or_plot_IDs_exported": false
+    }
+  },
+  "version": "v0.2",
+  "verified_run": {
+    "run_id": 44302830945,
+    "source_job_id": 134796680858,
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44302830945",
+    "artifact_id": 14426223817,
+    "artifact_digest": "sha256:1859f7f1b0b1f34c40e504c36530c31ea7af149eebeca4fd7ec7316eab022942",
+    "status": "SOURCE_QA_ACTION_SUCCESS"
+  }
+}

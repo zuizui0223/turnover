@@ -1,0 +1,63 @@
+name: Independently sourced African forests and BEF-China original trait x biomass plot gate
+on:
+  push:
+    branches:
+      - source/independent-africa-befchina-forest-trait-mass-20261118
+    paths:
+      - docs/INDEPENDENT_FOREST_TRAIT_BIOMASS_AFRICA_BEFCHINA_SOURCE_GATE_20261118.md
+      - scripts/source/audit_independent_africa_befchina_original_source_v0_1.py
+      - .github/workflows/independent-africa-befchina-original-source-audit-v0-1.yml
+  pull_request:
+    paths:
+      - docs/INDEPENDENT_FOREST_TRAIT_BIOMASS_AFRICA_BEFCHINA_SOURCE_GATE_20261118.md
+      - scripts/source/audit_independent_africa_befchina_original_source_v0_1.py
+      - .github/workflows/independent-africa-befchina-original-source-audit-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-original-source-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify original candidate source gate frozen before any original numeric result
+        run: |
+          python3 -m py_compile scripts/source/audit_independent_africa_befchina_original_source_v0_1.py
+          python3 scripts/source/audit_independent_africa_befchina_original_source_v0_1.py --self-test
+          test -s docs/INDEPENDENT_FOREST_TRAIT_BIOMASS_AFRICA_BEFCHINA_SOURCE_GATE_20261118.md
+      - name: Official Zenodo original MD5 and Figshare API / small original tables only
+        run: |
+          mkdir -p build/independent_africa_befchina_source
+          python3 scripts/source/audit_independent_africa_befchina_original_source_v0_1.py \
+            --out build/independent_africa_befchina_source/original_source_gate_v0_1.json
+      - name: Ensure no biological inference, preserve old source gates, and no source row leakage
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('build/independent_africa_befchina_source/original_source_gate_v0_1.json').read_text())
+          assert d['source_only'] is True
+          assert d['ecological_FD_K_PD_or_biomass_effect_estimated'] is False
+          assert d['original_source_file_contents_not_committed'] is True
+          assert d['historical_global_BIEN_BIODEPTH_NEON_source_gates_unchanged'] is True
+          assert d['direct_same_source_family_specific_K_min_species']==240
+          assert len(d['candidates'])==2
+          assert set(x['name'] for x in d['candidates'])=={
+             'Noulekoun et al 2023 African forest GEB source',
+             'Deng et al 2025 BEF-China woody canopy/biomass PNAS source'}
+          for x in d['candidates']:
+              assert x['source_only'] is True and x['ecological_effect_opened'] is False
+          print('INDEPENDENT_FOREST_ORIGINAL_SOURCE_GATE_VERDICTS',
+                {x['name']:x['metadata_status'] for x in d['candidates']})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-forest-Africa-BEFChina-original-source-meta-schema-nonraw
+          path: build/independent_africa_befchina_source/original_source_gate_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

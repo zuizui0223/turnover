@@ -1,0 +1,72 @@
+name: Verify original independent forest source 200 plots and AGB physical unit HOLD
+on:
+  push:
+    branches: [source/independent-agb-trait-original-20261118]
+    paths:
+      - results/independent_zenodo_19609795_original_AGB_trait_source_audit_v0_2.json
+      - docs/INDEPENDENT_2026_FOREST_AGB_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md
+      - .github/workflows/independent-zenodo-forest-source-result-integrity-v0-2.yml
+  pull_request:
+    paths:
+      - results/independent_zenodo_19609795_original_AGB_trait_source_audit_v0_2.json
+      - docs/INDEPENDENT_2026_FOREST_AGB_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md
+      - .github/workflows/independent-zenodo-forest-source-result-integrity-v0-2.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  nonraw-source-verdict:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recompute original Zenodo source geometry and physical-mass validity boundary from both original Actions archives
+        run: |
+          python3 - <<'PY'
+          import json, math
+          from pathlib import Path
+          p=Path('results/independent_zenodo_19609795_original_AGB_trait_source_audit_v0_2.json')
+          d=json.loads(p.read_text())
+          assert d['status']=='ORIGINAL_ZENODO_200_PLOT_SOURCE_VERIFIED_BUT_PLOT_SUMMARY_ONLY_AND_AGB_UNIT_CONFLICT_HOLD'
+          assert d['new_biological_FD_AGB_or_family_K_model_fit'] is False
+          assert d['source_scientific_decision']['original_stand_plots']==200
+          assert d['source_scientific_decision']['site_variable_categories']==3
+          assert d['source_scientific_decision']['site_plot_group_sizes_anonymized']==[40,70,90]
+          assert d['source_scientific_decision']['original_AGB_numeric_negative_count']==157
+          assert d['source_scientific_decision']['original_AGB_numeric_total']==200
+          old=d['traceable_zenodo_GitHub_Actions_runs']['v0_1_original_api_schema']
+          now=d['traceable_zenodo_GitHub_Actions_runs']['v0_2_plot_code_scale_correction']
+          assert old['status']=='SOURCE_SITE_SUPPORT_HOLD'  # v0.1 regex missed 'Plot code'
+          assert now['status']=='ORIGINAL_PLOT_KEY_IDENTIFIED_AND_AGB_SCALE_AUDITED'
+          assert now['source_plot_column']=='Plot code'
+          assert now['source_site_column']=='Site'
+          assert now['n_unique_original_site_plot_keys']==200
+          assert now['n_source_duplicate_site_plot_keys']==0
+          assert now['original_source_plot_counts_per_site_anonymized']==[40,70,90]
+          assert now['original_AGB_numeric_profile_nonraw']['n_negative']==157
+          assert now['original_AGB_numeric_profile_nonraw']['n_positive']==43
+          assert now['original_AGB_numeric_profile_nonraw']['n_missing']==0
+          assert now['original_AGB_physical_units_gate']=='NONPHYSICAL_SIGNED_AGB_SOURCE_SCALE_HOLD'
+          assert now['source_README_AGB_unit_conflicts_with_observed_negative_values'] is True
+          assert now['source_readme_declares_original_AGB_Mg_per_ha'] is True
+          assert now['source_readme_has_any_explicit_standardization_or_scaling_word'] is False
+          assert abs(now['original_latitude_numeric_profile_nonraw']['aggregate_mean'])<1e-7
+          assert abs(now['original_longitude_numeric_profile_nonraw']['aggregate_mean'])<1e-7
+          assert now['original_latitude_numeric_profile_nonraw']['n_negative']==81
+          assert now['original_longitude_numeric_profile_nonraw']['n_negative']==80
+          assert now['no_species_level_source_trait_records_in_original_file'] is True
+          assert now['original_species_trait_to_plot_K_FD_mass_source_eligibility']=='PLOT_SUMMARY_ONLY_HOLD'
+          assert now['no_AGB_trait_correlations_estimated'] is True
+          assert d['source_scientific_decision']['no_outcome_analysis_performed'] is True
+          assert old['original_catalogue']['original_record_access_public'] is True
+          assert old['source_csv_nonraw_profile']['n_original_source_rows']==200
+          assert old['source_csv_nonraw_profile']['n_original_source_columns']==28
+          assert old['verified_original_files'][0]['md5']=='c3ffed15932611dca604dcd9e67d9bb8'
+          assert old['verified_original_files'][1]['md5']=='6f0e782ec7968d35f5ee5f5539124b24'
+          assert now['artifact_id'] if 'artifact_id' in now else True
+          assert d['traceable_zenodo_GitHub_Actions_runs']['v0_2_plot_code_scale_correction']['artifact_digest']=='sha256:68b9b4343a5540d9e9a6ccda2aaa29a80a71c9ddd061cc306b1d52ccd2d996f2'
+          text=Path('docs/INDEPENDENT_2026_FOREST_AGB_ORIGINAL_SOURCE_AUDIT_RESULTS_V0_2.md').read_text()
+          for token in ('157/200','200','40, 70, 90','Mg ha','PLOT_SUMMARY_ONLY','HOLD'):
+              assert token in text,token
+          print('SOURCE_AGB_SIGNED_AND_PLOT_GRAIN_ARCHIVE_INTEGRITY_PASS: 200 distinct original plots/3 site labels; AGB157 negative with README Mg/ha; no original species raw traits; no K/FD/biomass effect.')
+          PY

@@ -1,0 +1,64 @@
+name: NutNet original 2025 species cover × 2026 biomass exact original plot-year crosswalk
+on:
+  push:
+    branches: [source/grassland-independent-k-fd-mass-20261118]
+    paths:
+      - docs/NUTNET_FIGSHARE_2025_SPECIES_PLOT_CROSSWALK_SOURCE_GATE_20261118.md
+      - scripts/source/audit_nutnet_figshare2025_vs_zenodo2026_original_coverage_join_v0_1.py
+      - .github/workflows/nutnet-figshare2025-zenodo2026-species-original-crosswalk-v0-1.yml
+  pull_request:
+    paths:
+      - docs/NUTNET_FIGSHARE_2025_SPECIES_PLOT_CROSSWALK_SOURCE_GATE_20261118.md
+      - scripts/source/audit_nutnet_figshare2025_vs_zenodo2026_original_coverage_join_v0_1.py
+      - .github/workflows/nutnet-figshare2025-zenodo2026-species-original-crosswalk-v0-1.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-crosswalk-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify source-only predeclared original NutNet 2025 and 2026 crosswalk
+        run: |
+          python3 -m py_compile scripts/source/audit_nutnet_figshare2025_vs_zenodo2026_original_coverage_join_v0_1.py
+          python3 scripts/source/audit_nutnet_figshare2025_vs_zenodo2026_original_coverage_join_v0_1.py --self-test
+          test -s docs/NUTNET_FIGSHARE_2025_SPECIES_PLOT_CROSSWALK_SOURCE_GATE_20261118.md
+      - name: Open original public MD5-pinned 2025 botanical cover and 2026 biomass only for exact site/plot/year key qualification
+        run: |
+          mkdir -p build/nutnet_botanical_source_crosswalk
+          python3 scripts/source/audit_nutnet_figshare2025_vs_zenodo2026_original_coverage_join_v0_1.py \
+            --out build/nutnet_botanical_source_crosswalk/strict_source_overlap_v0_1.json
+      - name: Verify original hashes/independent site grain and no inference from CWM or nutrient-treatment plots
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/nutnet_botanical_source_crosswalk/strict_source_overlap_v0_1.json'))
+          assert d['version']=='v0.1'
+          assert d['source_original_Figshare_2025']['article_id']==26412295
+          assert d['source_original_Figshare_2025']['source_approved_file_id']==52508654
+          assert d['source_original_Figshare_2025']['md5']=='2ab0e3bac17f0766265a4fdf23992fce'
+          assert d['source_original_Zenodo_2026']['record_id']==20070364
+          assert d['source_original_Zenodo_2026']['md5']=='c65e714c78fb2afb401e3b2ed6e625ae'
+          assert d['source_original_Zenodo_2026']['n_source_unique_2026_biomass_plot_years']==1108
+          assert d['source_original_Zenodo_2026']['n_original_biomass_sites']==130
+          assert d['no_species_taxon_names_or_original_site_plot_keys_exported'] is True
+          assert d['no_phylogenetic_K_functional_FD_or_biomass_trait_association_estimated'] is True
+          assert d['source_year_trt0_pre_treatment_interpretation_verified'] is False
+          assert d['original_control_definition_certified_from_field_protocol'] is False
+          assert d['status'] in ('ORIGINAL_FIGSHARE_ZENODO_EXACT_SOURCE_COMPOSITION_JOIN_PASS',
+                                 'ORIGINAL_FIGSHARE_ZENODO_EXACT_SOURCE_COMPOSITION_JOIN_HOLD')
+          print('ORIGINAL_NUTNET_2025_2026_BOTANICAL_JOIN_SOURCE_VERDICT',d['status'],
+            d['structural_overlap']['direct_original_site_plot_year_control_overlap']['n_original_matched_stand_plot_years'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nutnet-original-2025-2026-botanical-species-plot-crosswalk-aggregate
+          path: build/nutnet_botanical_source_crosswalk/strict_source_overlap_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

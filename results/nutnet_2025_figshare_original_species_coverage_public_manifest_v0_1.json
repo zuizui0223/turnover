@@ -1,0 +1,399 @@
+{
+  "ecological_effect_estimated": false,
+  "inference_limit": "Manifest and headers only. Species×plot×year key overlap and original measured vs imputed trait lineage not yet established. NutNet raw network data policy remains binding.",
+  "only_source_metadata_and_file_checks": true,
+  "original_2026_nutnet_1108_130_site_crosswalk_executed": false,
+  "published_date": "2025-04-19T21:13:37Z",
+  "source_API": "https://api.figshare.com/v2/articles/26412295",
+  "source_API_http": 200,
+  "source_api_original_meta_sha256": "3fd3fdfa2eb5a7229cf216c8d6d39813fa2a938fe721ea3ed9c3525d179f793e",
+  "source_article_id": 26412295,
+  "source_article_title": "Data for Local nutrient addition drives plant diversity losses but not biotic homogenization in global grasslands",
+  "source_file_catalogue": [
+    {
+      "advertised_MD5": "75c7c83dbaa91c7f38df0d1f851bbda8",
+      "advertised_file_bytes": 1672,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "avg.min.distance1",
+          "avg.min.area"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": false,
+          "treatment": false,
+          "year": false
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "minimum area and distance among blocks.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508507,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 1672
+    },
+    {
+      "advertised_MD5": "858cfab2111e26d5f21db8dcb630590d",
+      "advertised_file_bytes": 2465,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "drought.index1"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": false,
+          "treatment": false,
+          "year": false
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "site drought index.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508516,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 2465
+    },
+    {
+      "advertised_MD5": "85a3d803801ea9e78cbc950d9c59f735",
+      "advertised_file_bytes": 2511,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "herb.index",
+          "herb.rich",
+          "grazer.biomass"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": true,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": false,
+          "treatment": false,
+          "year": false
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "site herbivores.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508519,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 2511
+    },
+    {
+      "advertised_MD5": "aead15517ed61a2bb45b834e78533505",
+      "advertised_file_bytes": 2223,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "site.productivity"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": false,
+          "treatment": false,
+          "year": false
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "site productivity.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508522,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 2223
+    },
+    {
+      "advertised_MD5": "75ee0315f26e3aa79fa94558d25b6a8d",
+      "advertised_file_bytes": 1226,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "species.pool"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": true,
+          "taxon": false,
+          "treatment": false,
+          "year": false
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "site species pool.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508525,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 1226
+    },
+    {
+      "advertised_MD5": "4a82219fc2799b285c7fe4e56a229bdb",
+      "advertised_file_bytes": 5568,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "Continent",
+          "Habitat",
+          "Latitude",
+          "Longitude",
+          "First nutrient year",
+          "Year used"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": false,
+          "treatment": false,
+          "year": true
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "sites with geolocation and experimental years used.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508528,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 5568
+    },
+    {
+      "advertised_MD5": "a5daf78438f84f5ebbdb56cf39cc43f4",
+      "advertised_file_bytes": 143944,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "year_trt",
+          "functional_group",
+          "q",
+          "alpha",
+          "gamma",
+          "beta",
+          "cat.beta",
+          "cat.process"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": false,
+          "duration": false,
+          "plot": false,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": false,
+          "treatment": false,
+          "year": true
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "effects of nutrient addition on diversity across scales.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508534,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 143944
+    },
+    {
+      "advertised_MD5": "2ab0e3bac17f0766265a4fdf23992fce",
+      "advertised_file_bytes": 374626,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "block",
+          "plot",
+          "trt",
+          "year_trt",
+          "year",
+          "richness",
+          "functional_group",
+          "local_provenance",
+          "standard_taxon",
+          "max_cover"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": true,
+          "duration": false,
+          "plot": true,
+          "richness": true,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": true,
+          "treatment": false,
+          "year": true
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "raw cover data for control and NPK at 72 NutNet sites.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508654,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 374626
+    },
+    {
+      "advertised_MD5": "93b8d1a037028215736dcf1839683494",
+      "advertised_file_bytes": 81972,
+      "download_final_host_for_redirect_audit": "44c1cec316ec56bca76dfd65d2882b20.r2.cloudflarestorage.com",
+      "file_extension": "csv",
+      "header_only": {
+        "first_original_header_columns": [
+          "",
+          "site_code",
+          "block",
+          "plot",
+          "trt",
+          "year_trt",
+          "functional_group",
+          "local_provenance",
+          "standard_taxon",
+          "max_cover"
+        ],
+        "header_token_presence": {
+          "abundance": false,
+          "biomass": false,
+          "control": false,
+          "cover": true,
+          "duration": false,
+          "plot": true,
+          "richness": false,
+          "sample": false,
+          "scientific": false,
+          "site": true,
+          "species": false,
+          "taxon": true,
+          "treatment": false,
+          "year": true
+        },
+        "original_rows_read_or_exported": false,
+        "status": "CSV_HEADER_FOUND"
+      },
+      "name": "raw cover data for sites have five blocks.csv",
+      "original_plant_species_cover_file_source_metadata_only": true,
+      "source_download_http": 200,
+      "source_figshare_file_id": 52508657,
+      "source_file_access": "PUBLIC_ORIGINAL_BYTES_MD5_PASS",
+      "source_file_bytes_verified": 81972
+    }
+  ],
+  "source_licence": "CC BY 4.0",
+  "source_n_catalogued_csv_or_excel_or_zip": 9,
+  "source_n_files": 9,
+  "source_n_original_file_MD5_verified": 9,
+  "source_original_species_cover_rows_exported": false,
+  "source_public_DOI_expected": "10.6084/m9.figshare.26412295",
+  "source_reported_version": 4,
+  "source_returned_doi": "10.6084/m9.figshare.26412295.v4",
+  "status": "ORIGINAL_PUBLIC_SPECIES_SOURCE_FILE_MANIFEST_VERIFIED",
+  "version": "v0.1",
+  "verified_original_actions": {
+    "run_url": "https://github.com/zuizui0223/turnover/actions/runs/44246544942",
+    "job_id": 134606754343,
+    "artifacts": [
+      {
+        "id": 14401188187,
+        "name": "nutnet-2025-public-figshare-species-source-manifest-md5-nonraw",
+        "digest": "sha256:a3ddc2fc88ed525d0e753f82ee3aab5f92057f8eb21c0b594b327385d215110b"
+      }
+    ]
+  }
+}

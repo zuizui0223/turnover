@@ -1,0 +1,71 @@
+name: Evolution RC4 cleaned 201-system recovery and publication figure QA
+
+on:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc4-cleaned-20261119
+    paths:
+      - 'results/trait_memory_positive_only_cleaning_impact_v0_2/**'
+      - 'scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py'
+      - 'scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py'
+      - '.github/workflows/trait-memory-evolution-rc4-recovered-figures-v0-1.yml'
+  pull_request:
+    paths:
+      - 'results/trait_memory_positive_only_cleaning_impact_v0_2/**'
+      - 'scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py'
+      - 'scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py'
+      - '.github/workflows/trait-memory-evolution-rc4-recovered-figures-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-restored-effects-and-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recheck literal recovered Stage B job outputs against original aggregate
+        run: |
+          python3 -m py_compile scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py
+          python3 scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py --out build/trait_memory_rc4/recovery_validation.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/trait_memory_rc4/recovery_validation.json'))
+          assert d['status']=='REPAIRED_201_LOG_RECOVERY_IDENTITY_PASS'
+          assert d['impact_exactly_matches_original_successful_Stage_B'] is True
+          assert d['n_families']==45 and d['n_traits']==12
+          assert d['49_corrected_and_152_inherited'] is True
+          print('SOURCE_VERIFIED_201_CLEANED_SYSTEMS_PASS')
+          PY
+      - name: Render corrected outcome-only figure set from validated 201-row CSV
+        run: |
+          python3 -m pip install -q numpy matplotlib
+          python3 -m py_compile scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py
+          python3 scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py --out-dir build/trait_memory_rc4/figures
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('build/trait_memory_rc4/figures')
+          m=json.loads((root/'rc4_figures_manifest.json').read_text())
+          assert m['recovered_systems']==201
+          assert m['no_new_inferential_model'] is True
+          assert m['no_new_significance_tests'] is True
+          assert len(m['figure_files'])==6
+          for path in m['figure_files']:
+            assert (root/path).stat().st_size > 500
+          print('RC4_FIGURE_SOURCE_GATE_PASS',m['figure_files'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evolution-rc4-source-verified-201-effects-and-figures
+          path: |
+            results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv
+            build/trait_memory_rc4/
+          if-no-files-found: warn
+          retention-days: 90

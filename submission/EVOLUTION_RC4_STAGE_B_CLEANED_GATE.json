@@ -1,7 +1,7 @@
 {
   "version": "RC4_STAGE_B_CLEANED_v0.1",
   "created_jst": "2026-11-19",
-  "status": "HOLD_SOURCE_ROW_EFFECTS_AND_SUBMISSION_PACKAGE",
+  "status": "HOLD_ANONYMOUS_FORMATTED_PACKAGE_AND_AUTHOR_REVIEW",
   "primary_evidence": {
     "dataset": "BIEN 4.2.8",
     "systems": 201,
@@ -15,21 +15,32 @@
     "original_downstream_zip_artifact": 11402782797,
     "original_zip_retention_days": 30,
     "original_source_artifact_availability": "NOT_CONFIRMED_AND_MAY_BE_EXPIRED",
-    "source_integrity": "Result JSON restored verbatim from original successful job stdout; full cleaned 201-row table not restored."
+    "source_integrity": "Original v0.3 201-system rho/SE and Stage B 49 corrected raw/log rho/SE recovered from 40 original GitHub job stdout records; full 201-row cleaned effects CSV committed. Original Stage B corrected-impact summary and all four mean(SE²) inputs matched; independent CI #44541550788 PASS.",
+    "recovered_201_effects_csv": "results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv",
+    "recovered_source_manifest": "results/trait_memory_positive_only_cleaning_impact_v0_2/recovered_201_provenance_v0_1.json",
+    "recovery_source_job_runs": [
+      37281031394,
+      37443037590
+    ],
+    "recovery_qa_action_run": 44541550788
   },
   "manuscript": {
     "file": "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md",
     "raw_and_log_both_mandatory": true,
     "formal_submission_ready": false,
     "unmodified_old_RC3_pr": 29,
-    "old_RC3_submission_HOLD_preserved": true
+    "old_RC3_submission_HOLD_preserved": true,
+    "cleaned_201_source_row_effects_restored": true,
+    "figure_source_validation_success": true,
+    "source_verified_figure_action_run": 44541550788,
+    "figure_action_artifact_id": 14538043215,
+    "figure_action_artifact_expiration": "2027-02-17T14:14:13Z"
   },
   "outstanding_before_submission": [
-    "Rebuild or recover original 201-row cleaned family×trait effects plus species-bootstrap SE from source-pinned workflows, not from invented synthetic records.",
-    "Independently reproduce all 201 corrected raw/log effects and models against the saved Stage B aggregate.",
-    "Rebuild figures/table captions and submission-specific anonymous manuscript and supplementary files from the corrected effects, with exact source fingerprints.",
-    "Ensure the manuscript, title page, cover letter, bibliography and journal format pass author and coauthor review.",
-    "Submission authorization by authors."
+    "Rebuild the formatted anonymous RC4 DOCX/PDF from the corrected Markdown and new 201-system figures; check alt text, manuscript cross-references and accessibility.",
+    "Verify visual layout of the newly generated SVG/PNG figures and decide their final main/supplement panel placement.",
+    "Independently verify frozen fitted model outputs from recovered CSV if full numerical replay is required for scientific signoff.",
+    "Confirm journal formatting, literature references, data/code permissions, licence, coauthor approvals and actual author submission authorization."
   ],
   "science_guard": [
     "No new effects, trait transformations or predictors to strengthen desired results.",
@@ -38,5 +49,5 @@
     "No replacing K, rho, phylogenetic rates or time-space claims.",
     "Do not auto-merge or submit."
   ],
-  "review_decision": "SCIENCE_TEXT_DRAFT_ONLY"
+  "review_decision": "SCIENTIFIC_TEXT_AND_FIGURE_SOURCE_PASS__ANONYMOUS_PACKAGE_HOLD"
 }

@@ -261,6 +261,23 @@
         "CI_source_audit_success_run_id": 44515506497
       },
       "caveat": "Original Dryad workbook blocked by HTTP 403. Cannot infer underlying trait grain absent; no biological regression estimated. The source-only action succeeded by correctly returning HOLD, not source PASS."
+    },
+    {
+      "id": "TERRA-PNW-SOURCE-PREFLIGHT",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/66",
+      "unit": "Published 1,296 individual leaf rows, 266 stand records, 35 tree/shrub species from 6 projects; these are not original matched eligible plot counts",
+      "estimand": "Original local SLA_PSA and leaf nitrogen paired to wood-carbon stock through exact PROJECT×PLOT_ID and year gaps<=2 with source overstory identity",
+      "observations": {
+        "published_individual_trait_rows": 1296,
+        "published_stand_records": 266,
+        "published_tree_shrub_species": 35,
+        "actual_original_csv_join_verified": false,
+        "source_gate_actions_pending_at_this_snapshot": true,
+        "new_biological_effects": 0,
+        "wood_stock_response": "AG_BIOMASS_TREE_WOOD_AS_CARBON g C m-2"
+      },
+      "caveat": "ORNL/AWS registry indicates controlled-access distribution; official anonymous source attempt queued. Source-only audit, no K (35 total species cannot satisfy 12×20), no new FD–biomass effect. Six project programmes are not six independent published studies."
     }
   ]
 }

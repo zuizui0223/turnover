@@ -60,7 +60,7 @@
         "BLUP_gain_S3": 0.006,
         "BLUP_gain_prune": -0.0048
       },
-      "caveat": "Not a full replacement for original CI; pre-frozen two-way uncertainty gate HOLD"
+      "caveat": "Historical pre-cleaning v0.3 reliability/scale audit. Original all-201 no-offset log HOLD was subsequently **resolved only under the distinct frozen Stage B positive-only physical data-validity cleaning** in PR #30. Do not label the old uncleaned v0.3 result the corrected primary source."
     },
     {
       "id": "BIEN-LOG-EXPLORATORY",
@@ -280,6 +280,34 @@
         "verified_successful_source_audit_run_id": 44518757061
       },
       "caveat": "Verified source-only GitHub Actions succeeded (synthetic tests 8/8), but anonymous official ORNL leaf CSV returned HTTP 401; source original-data eligibility unverified. No K or FD→wood stock model fitted; data-access HOLD, not evidence of zero ecological effect."
+    },
+    {
+      "id": "BIEN-STAGEB-CORRECTED",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/30",
+      "unit": "All 201 frozen family×trait systems; 45 families, 12 continuous traits; 49 source-contaminated recomputed and 152 unchanged",
+      "estimand": "source-validity corrected BIEN distance–trait dissimilarity rho, crossed family repeatability and same-fold held-out-family BLUP SSE gain on raw/log state representations",
+      "observations": {
+        "verified_actions_run": 37443037590,
+        "source_downstream_job_id": 112205536516,
+        "original_stage_b_artifact_id": 11402782797,
+        "original_actions_artifact_retention_days": 30,
+        "source_qualified_all_201_systems": true,
+        "cleaned_log_all_201_available": true,
+        "naive_R_family_raw_S3": 0.15638977692065784,
+        "naive_R_family_raw_prune": 0.1541461232867591,
+        "naive_R_family_log_S3": 0.14885486339104514,
+        "naive_R_family_log_prune": 0.1614826346631868,
+        "BLUP_gain_raw_S3": 0.012078564256229551,
+        "BLUP_gain_raw_prune": 0.00003355500575730197,
+        "BLUP_gain_log_S3": 0.05921568531504062,
+        "BLUP_gain_log_prune": 0.05508136601822178,
+        "cleaned_raw_zero_family_correlated_trait_null_p_S3": 0.016983016983016984,
+        "cleaned_raw_zero_family_correlated_trait_null_p_prune": 0.012987012987012988,
+        "cleaned_raw_measurement_aware_typical_total_sampling_share_S3": 0.23180852087757872,
+        "new_biomass_related_effects": 0
+      },
+      "caveat": "Data-validity correction was frozen before cleaned outcomes after Stage A identified impossible raw nonpositive values. Completed in original 2026-10-06 Actions; result JSON recovered from full successful job stdout into PR #30. Per-system 201-row cleaned effects/SE archive is not recovered; Evolution RC3 (PR #29) remains submission HOLD, corrected RC4 draft PR #67 requires source/figure reproduction. Raw/log trait portability differs; do not claim universal nonportability or effect significance from gain alone."
     }
   ]
 }

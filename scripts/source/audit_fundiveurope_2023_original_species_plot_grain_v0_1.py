@@ -168,8 +168,29 @@ def main(path: Path):
         file_bytes = get_public(OFFICIAL_PUBLIC_FILE, LIMIT_XLSX)
         result["downloaded_file_byte_size"] = len(file_bytes)
         result["downloaded_file_sha256"] = hashlib.sha256(file_bytes).hexdigest()
-        result["source_workbook_sheets"] = inspect_xlsx(file_bytes)
-        result["status"] = diagnose(result["source_workbook_sheets"])
+        raw_sheets = inspect_xlsx(file_bytes)
+        result["status"] = diagnose(raw_sheets)
+        # Do not export arbitrary original workbook headers: wide matrices could place
+        # site or taxon identities in header names. Emit nonraw semantic flags only.
+        result["source_workbook_sheets"] = []
+        for i, s in enumerate(raw_sheets):
+            h = [re.sub(r"[^a-z0-9]+", "_", x.lower()).strip("_")
+                 for x in s["original_header_names"]]
+            result["source_workbook_sheets"].append({
+                "sheet_ordinal": i + 1,
+                "sheet_name_class": (s["sheet"] if s["sheet"] in ("Data", "Metadata") else "Other"),
+                "source_xml_row_elements": s["source_xml_row_elements"],
+                "header_count": s["header_count"],
+                "column_concept_flags": {
+                    "source_plot_id": any(x in ("plot", "plotid", "plot_id", "plot_code") for x in h),
+                    "source_species_identity": any(x in ("species", "species_name", "scientific_name", "taxon", "taxon_name", "sp_name") for x in h),
+                    "source_SLA": any("sla" in x or "specific_leaf_area" in x for x in h),
+                    "source_leaf_N": any("leaf_n" in x or "nitrogen" in x for x in h),
+                    "biomass": any("biomass" in x or x == "agb" for x in h),
+                    "derived_FD": any("fdis" in x or "functional_diversity" in x for x in h),
+                    "derived_CWM": any("cwm" in x for x in h),
+                },
+            })
     except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError,
             ValueError, KeyError, zipfile.BadZipFile, ET.ParseError,
             json.JSONDecodeError) as exc:
@@ -187,7 +208,7 @@ def main(path: Path):
         "status": result["status"],
         "DOI_metadata": result.get("official_dryad_dataset_DOI_metadata_retrieved", False),
         "workbook_bytes": result.get("downloaded_file_byte_size"),
-        "sheet_header_counts": [(x["sheet"], x["header_count"], x["source_xml_row_elements"])
+        "sheet_header_counts": [(x["sheet_name_class"], x["header_count"], x["source_xml_row_elements"])
                                 for x in result.get("source_workbook_sheets", [])],
         "error_type": result.get("source_audit_error_type"),
         "http_status": result.get("source_audit_http_status"),

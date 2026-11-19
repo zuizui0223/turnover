@@ -245,6 +245,22 @@
         "new_eligible_effects": 0
       },
       "caveat": "Respect existing independently frozen source-specific thresholds; no additional outcome opened"
+    },
+    {
+      "id": "FUNDIVEUROPE-SOURCE-ACCESS",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/65",
+      "unit": "Published six-region European forest network (209 plots; 15 named target species in article, not verified total species)",
+      "estimand": "new original species-by-plot directly measured traits and biomass source availability preflight",
+      "observations": {
+        "official_dryad_DOI_metadata_accessible": true,
+        "workbook_original_http": 403,
+        "original_headers_obtained": false,
+        "qualified_original_species_by_plot_trait_rows": false,
+        "qualified_biological_effects": 0,
+        "CI_source_audit_success_run_id": 44515506497
+      },
+      "caveat": "Original Dryad workbook blocked by HTTP 403. Cannot infer underlying trait grain absent; no biological regression estimated. The source-only action succeeded by correctly returning HOLD, not source PASS."
     }
   ]
 }

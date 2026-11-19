@@ -149,6 +149,21 @@ def main(out):
             claimed=target["effect_impact"][axis][key]
             check(math.isclose(value,claimed,rel_tol=0,abs_tol=1e-10),f"Stage B effect-impact mismatch {axis} {key}: {value} vs {claimed}")
         impact[axis] = calculated
+    # This also proves that the sampling-error inputs used by the downstream crossed
+    # meta-analysis are recovered, not merely the published point-gradient changes.
+    sampling_variance_source_checks = {}
+    for scale in ("raw", "log"):
+        for axis,stem in (("S3","S3"),("prune_only","prune")):
+            key = f"{stem}_{scale}_se"
+            reconstructed = sum(float(r[key])**2 for r in rows) / len(rows)
+            original = target["cleaned_"+scale]["measurement_aware"][axis]["mean_sampling_variance"]
+            check(math.isclose(reconstructed,original,rel_tol=0,abs_tol=1e-12),
+                  f"Stage B mean sampling variance drift {scale} {axis}")
+            sampling_variance_source_checks[f"{stem}_{scale}"] = {
+                "recovered_mean_SE_squared": reconstructed,
+                "original_Stage_B_mean_sampling_variance": original,
+                "difference": reconstructed-original,
+            }
     check(max_abs_source_rho_diff==0,"reference original rho values differ between runs")
     report = {
         "status":"REPAIRED_201_LOG_RECOVERY_IDENTITY_PASS",
@@ -163,6 +178,8 @@ def main(out):
         "n_families":45,"n_traits":12,"n_row_columns":len(rows[0]),
         "species_removed":species_removed,
         "impact_exactly_matches_original_successful_Stage_B":True,
+        "SE_squared_means_match_original_Stage_B_all_four_axes":True,
+        "SE_squared_mean_qa":sampling_variance_source_checks,
         "impact":impact,
     }
     out.parent.mkdir(parents=True,exist_ok=True)

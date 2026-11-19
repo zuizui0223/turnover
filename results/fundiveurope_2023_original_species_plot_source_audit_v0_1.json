@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "as_of": "2026-11-19",
+  "source": "Scherer-Lorenzen et al. 2023 FunDivEUROPE dataset",
+  "doi": "10.5061/dryad.9ghx3ffpz",
+  "audit_status": "SOURCE_ACCESS_HOLD_HTTP_403",
+  "verified_gitHub_Action": {
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44515506497",
+    "run_id": 44515506497,
+    "artifact_id": 14525326967,
+    "artifact_digest": "sha256:3ebd369827fe1afd23f3f6832db3f9260b2fdd7b03f5dd1c0569a6c89d755cd2",
+    "ci_conclusion": "success_source_gate_HOLD"
+  },
+  "original_Dryad_DOI_metadata_retrieved": true,
+  "original_small_workbook_access": {
+    "public_landing_advertised_file": "FunDivEUROPE_alldata_exploratory-platform_2023.xlsx",
+    "original_download_attempt": "Official public landing-page linked Dryad file_stream path",
+    "http_error_code": 403,
+    "original_file_bytes_obtained": false,
+    "original_tabular_headers_verified": false,
+    "original_species_by_plot_trait_rows_verified": false
+  },
+  "published_catalogue_descriptors_unverified_as_raw_rows": {
+    "plots": 209,
+    "countries": 6,
+    "target_species_not_total_species": 15,
+    "inventoried_trees": 12939
+  },
+  "inherited_source_gate_requirements": {
+    "min_unique_plots": 80,
+    "min_forest_groups": 5,
+    "min_plots_per_group": 8,
+    "min_total_named_species": 30,
+    "min_source_observed_species_per_plot": 2,
+    "min_trait_coverage_fraction": 0.8,
+    "max_trait_biomass_year_gap": 2
+  },
+  "biological_models_run": false,
+  "K_to_FD_to_biomass_identified": false,
+  "ecological_effects_produced": 0,
+  "interpretation": "File access HTTP 403 blocks source-grain qualification. Neither source eligibility nor source ineligibility of original species-level traits is established; no effect can be opened."
+}

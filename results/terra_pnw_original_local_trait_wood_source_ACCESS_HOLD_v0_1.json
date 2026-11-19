@@ -1,0 +1,52 @@
+{
+  "schema_version": "v0.1",
+  "as_of_jst": "2026-11-19",
+  "original_dataset_doi": "10.3334/ORNLDAAC/1292",
+  "source": "Law and Berner (2015) NASA/ORNL NACP TERRA-PNW",
+  "verified_source_run": {
+    "run_id": 44518757061,
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44518757061",
+    "job_id": 135541581684,
+    "conclusion": "success",
+    "artifact_id": 14526626845,
+    "artifact_digest": "sha256:9d4360f8332bd6a7d61b9078a1fea4b2899ddb88f7d32ce08ec95b1fadd6a1c0"
+  },
+  "synthetic_source_fixture": {
+    "status": "TERRA_PNW_SOURCE_FIXTURE_PASS",
+    "checks": 8
+  },
+  "source_access": {
+    "method": "Anonymous official ORNL legacy distribution endpoint",
+    "leaf_trait_file_http_status": 401,
+    "biomass_file_attempted": false,
+    "original_source_bytes_read": false,
+    "source_join_executed": false
+  },
+  "status": "SOURCE_ACCESS_OR_SCHEMA_HOLD",
+  "original_empirical_eligibility": {
+    "plot_local_SLA_and_leafN_verified": false,
+    "unique_plots_verified": false,
+    "local_observed_taxa_verified": false,
+    "five_source_project_groups_verified": false,
+    "original_study_repeated_plot_independence_verified": false
+  },
+  "published_description_only": {
+    "plant_trait_individual_rows": 1296,
+    "forest_stand_rows": 266,
+    "tree_and_shrub_species": 35,
+    "sampling_programmes": 6
+  },
+  "frozen_minima": {
+    "min_original_eligible_plot_keys": 80,
+    "min_original_named_taxa": 30,
+    "min_distinct_original_projects": 5,
+    "min_eligible_plot_keys_per_project": 8,
+    "min_source_observed_taxa_per_plot": 2,
+    "min_basal_area_fraction_dual_trait_coverage": 0.8,
+    "max_leaf_stand_year_gap": 2
+  },
+  "response_for_future_distinct_frozen_study": "AG_BIOMASS_TREE_WOOD_AS_CARBON, g C m^-2",
+  "no_biomass_or_fd_effect_estimated": true,
+  "no_phylogenetic_family_K_estimated": true,
+  "interpretation": "Official original anonymous download requires authorization (401). No source-effect model or K->FD->wood stock test was opened. SCIENTIFIC source eligibility cannot be judged from catalogue counts."
+}

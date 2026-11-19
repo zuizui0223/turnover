@@ -19,7 +19,7 @@ def main():
     need(d["status"]=="TRAIT_MEMORY_POSITIVE_ONLY_CLEANING_IMPACT_COMPLETE","stage B incomplete")
     need(d["all_201_support_retained"] is True and d["all_201_cleaned_log_available"] is True,"cleaned support fails")
     need(d["data_contract_decision"]=="CLEANED_POSITIVE_ONLY_BECOMES_PRIMARY","primary source contract drift")
-    need(g["status"]=="HOLD_SOURCE_ROW_EFFECTS_AND_SUBMISSION_PACKAGE","submission gate not HOLD")
+    need(g["status"]=="HOLD_ANONYMOUS_FORMATTED_PACKAGE_AND_AUTHOR_REVIEW","submission gate not HOLD")
     need(g["primary_evidence"]["original_successful_actions_run"]==37443037590,"source run drift")
     need(g["primary_evidence"]["systems"]==201 and g["primary_evidence"]["families"]==45 and g["primary_evidence"]["traits"]==12,"core drift")
     need("201/201" in m and "49" in m and "152" in m,"cleaning denominator missing")
@@ -49,6 +49,8 @@ def main():
         for key in ("S3_total_point_shares","prune_total_point_shares"):
             vals=d[scale]["measurement_aware"][key]
             need(math.isclose(sum(vals.values()),1,abs_tol=1e-9),"variance-share arithmetic drift")
+    need(g["manuscript"]["cleaned_201_source_row_effects_restored"] is True,"validated source effects not marked recovered")
+    need(g["manuscript"]["figure_source_validation_success"] is True,"source figure gate not recorded")
     need(g["manuscript"]["formal_submission_ready"] is False,"unreviewed submission gate changed")
     need(g["manuscript"]["old_RC3_submission_HOLD_preserved"] is True,"RC3 HOLD unexpectedly overridden")
     out={

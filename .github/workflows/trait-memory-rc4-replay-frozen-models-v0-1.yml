@@ -1,11 +1,17 @@
 name: Evolution RC4 replay frozen models from recovered 201 effects
 on:
-  pull_request:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc4-cleaned-20261119
     paths:
       - '.github/workflows/trait-memory-rc4-replay-frozen-models-v0-1.yml'
       - 'scripts/analysis/verify_trait_memory_rc4_recovered_models_v0_1.py'
       - 'results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv'
   workflow_dispatch:
+
+concurrency:
+  group: trait-memory-rc4-frozen-model-replay-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

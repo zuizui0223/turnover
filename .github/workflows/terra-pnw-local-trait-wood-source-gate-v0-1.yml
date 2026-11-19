@@ -1,0 +1,52 @@
+name: TERRA-PNW original local SLA leaf N and wood stock source-only gate
+on:
+  push:
+    paths:
+      - '.github/workflows/terra-pnw-local-trait-wood-source-gate-v0-1.yml'
+      - 'docs/TERRA_PNW_LOCAL_SLA_LEAFN_WOOD_SOURCE_GATE_20261119.md'
+      - 'scripts/source/audit_terra_pnw_local_leaf_trait_wood_source_v0_1.py'
+  pull_request:
+    paths:
+      - '.github/workflows/terra-pnw-local-trait-wood-source-gate-v0-1.yml'
+      - 'docs/TERRA_PNW_LOCAL_SLA_LEAFN_WOOD_SOURCE_GATE_20261119.md'
+      - 'scripts/source/audit_terra_pnw_local_leaf_trait_wood_source_v0_1.py'
+  workflow_dispatch:
+
+jobs:
+  original-data-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and synthetic exact-source fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_terra_pnw_local_leaf_trait_wood_source_v0_1.py
+          python3 scripts/source/audit_terra_pnw_local_leaf_trait_wood_source_v0_1.py --self-test
+          test -s docs/TERRA_PNW_LOCAL_SLA_LEAFN_WOOD_SOURCE_GATE_20261119.md
+      - name: Anonymous official ORNL source request, exact schema and no-effect gate
+        run: |
+          mkdir -p build/terra_pnw
+          python3 scripts/source/audit_terra_pnw_local_leaf_trait_wood_source_v0_1.py \
+            --out build/terra_pnw/original_source_eligibility_v0_1.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('build/terra_pnw/original_source_eligibility_v0_1.json').read_text())
+          assert x['no_biological_effect_estimated'] is True
+          assert x['no_phylogenetic_family_K_estimated'] is True
+          assert x['status'].endswith(('HOLD','RESAMPLE_AUDIT'))
+          assert x['frozen_minimums']['original_species'] == 30
+          print('SOURCE_ONLY_HARD_STOP_CONFIRMED', x['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: terra-pnw-original-anonymous-source-eligibility-nonraw
+          path: build/terra_pnw/original_source_eligibility_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

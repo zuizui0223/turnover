@@ -22,7 +22,10 @@
       37281031394,
       37443037590
     ],
-    "recovery_qa_action_run": 44541550788
+    "recovery_qa_action_run": 44541550788,
+    "frozen_model_replay_run": 44542568468,
+    "frozen_model_replay_artifact_id": 14538379092,
+    "frozen_model_replay_result": "30 / 30 frozen model numeric checks match original Stage B, max absolute difference = 0.0"
   },
   "manuscript": {
     "file": "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md",
@@ -34,12 +37,13 @@
     "figure_source_validation_success": true,
     "source_verified_figure_action_run": 44541550788,
     "figure_action_artifact_id": 14538043215,
-    "figure_action_artifact_expiration": "2027-02-17T14:14:13Z"
+    "figure_action_artifact_expiration": "2027-02-17T14:14:13Z",
+    "frozen_R_model_replay_success": true,
+    "canonical_figure_captions": "docs/TRAIT_MEMORY_EVOLUTION_RC4_FIGURE_CAPTIONS_V0_1.md"
   },
   "outstanding_before_submission": [
     "Rebuild the formatted anonymous RC4 DOCX/PDF from the corrected Markdown and new 201-system figures; check alt text, manuscript cross-references and accessibility.",
     "Verify visual layout of the newly generated SVG/PNG figures and decide their final main/supplement panel placement.",
-    "Independently verify frozen fitted model outputs from recovered CSV if full numerical replay is required for scientific signoff.",
     "Confirm journal formatting, literature references, data/code permissions, licence, coauthor approvals and actual author submission authorization."
   ],
   "science_guard": [
@@ -49,5 +53,5 @@
     "No replacing K, rho, phylogenetic rates or time-space claims.",
     "Do not auto-merge or submit."
   ],
-  "review_decision": "SCIENTIFIC_TEXT_AND_FIGURE_SOURCE_PASS__ANONYMOUS_PACKAGE_HOLD"
+  "review_decision": "REPAIRED_ALL_201_AND_30_FROZEN_MODEL_CHECKS_PASS__ANONYMOUS_FORMAT_AND_AUTHOR_REVIEW_HOLD"
 }

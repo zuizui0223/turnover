@@ -9,13 +9,11 @@ on:
       - 'scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py'
       - 'scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py'
       - '.github/workflows/trait-memory-evolution-rc4-recovered-figures-v0-1.yml'
-  pull_request:
-    paths:
-      - 'results/trait_memory_positive_only_cleaning_impact_v0_2/**'
-      - 'scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py'
-      - 'scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py'
-      - '.github/workflows/trait-memory-evolution-rc4-recovered-figures-v0-1.yml'
   workflow_dispatch:
+
+concurrency:
+  group: trait-memory-rc4-figures-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

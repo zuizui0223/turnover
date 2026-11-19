@@ -26,5 +26,19 @@
     "49_original_nonpositive_counts_identical": true,
     "152_unmodified_source_log_estimates_available": true,
     "all_201_admitted_original_tree_graph": true
+  },
+  "independent_frozen_model_replay": {
+    "run_id": 44542568468,
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44542568468",
+    "source_artifact_id": 14538379092,
+    "source_artifact_digest": "sha256:e6f68e50a65f593b1a8b290a54b234382a1b6fb2de4de44416a3eb0152e3c5db",
+    "checked_numbers": 30,
+    "max_absolute_difference": 0,
+    "model_selection_or_parameter_changes": false,
+    "models_replayed": [
+      "crossed measurement-error-aware variance components",
+      "training-only held-out-family BLUP",
+      "predeclared correlated-trait zero-family-effect null"
+    ]
   }
 }

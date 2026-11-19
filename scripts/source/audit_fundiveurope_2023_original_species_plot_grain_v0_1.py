@@ -108,8 +108,10 @@ def diagnose(sheets):
     has_species = any(h in ("species", "species_name", "scientific_name", "taxon", "taxon_name", "sp_name")
                       for h in headers)
     has_plot = any(h in ("plot", "plot_id", "plotid", "plot_code") for h in headers)
-    has_two_traits = sum(any(x in h for x in words)
-        for words in (("sla", "specific_leaf_area"), ("leaf_n", "nitrogen"))) >= 2
+    has_two_traits = sum(
+        any(any(x in h for x in words) for h in headers)
+        for words in (("sla", "specific_leaf_area"), ("leaf_n", "nitrogen"))
+    ) >= 2
     if not (has_species and has_plot and has_two_traits):
         return "PLOT_AGGREGATE_OR_DIRECT_TRAIT_GRAIN_SOURCE_HOLD"
     return "HEADER_CANDIDATE_BUT_ACTUAL_SPECIES_PLOT_TRAIT_GRAIN_UNVERIFIED_HOLD"

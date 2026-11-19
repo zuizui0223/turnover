@@ -36,7 +36,7 @@ jobs:
           import json
           from pathlib import Path
           d=json.loads(Path('submission/EVOLUTION_RC4_STAGE_B_CLEANED_GATE.json').read_text())
-          assert d['status']=='HOLD_SOURCE_ROW_EFFECTS_AND_SUBMISSION_PACKAGE'
+          assert d['status']=='HOLD_ANONYMOUS_FORMATTED_PACKAGE_AND_AUTHOR_REVIEW'
           assert d['manuscript']['formal_submission_ready'] is False
           assert d['manuscript']['old_RC3_submission_HOLD_preserved'] is True
           print('RC4_CI_INFERENCE_AND_SUBMISSION_FIREWALL_PASS')

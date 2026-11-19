@@ -1,0 +1,94 @@
+{
+  "version": "v0.1.1",
+  "status": "TRAIT_MEMORY_NONPOSITIVE_RAW_VALUE_AUDIT_COMPLETE",
+  "stage": "A_RAW_DATA_VALIDITY_ONLY",
+  "evidence": {
+    "workflow_run": 37394585442,
+    "artifact_id": 11384305653,
+    "artifact_name": "trait-memory-nonpositive-value-audit-v0-1",
+    "artifact_sha256": "c82bcc5f0cf7c3f6cce329107fbe03edc4c948c6ce7979616e06b0efc8a64933",
+    "artifact_result_sha256": "e8dbe34c75b619905961441bce4d58e7afac5260a148eae6e3b6b8b8e8fda500",
+    "trait_summary_sha256": "1e12d23624df63cd3c6a24be2bf220caf0a20d627bd16e39d4610179113dd716",
+    "nonpositive_raw_value_frequency_sha256": "6917bee2ffe6eaa6b0140ce35bbf9104cb72d329d495e04bf2218a88e4011109"
+  },
+  "identity_gate": {
+    "pass": true,
+    "S3_affected_systems": 25,
+    "prune_affected_systems": 18
+  },
+  "population": {
+    "systems": 201,
+    "species_states_audited": 26112,
+    "systems_with_median_nonpositive": 25,
+    "systems_with_any_nonpositive_raw": 49,
+    "species_with_median_nonpositive": 206,
+    "species_with_any_nonpositive_raw": 443
+  },
+  "species_median_classification": {
+    "ZERO_MEDIAN_ALL_ZERO": 141,
+    "ZERO_MEDIAN_MIXED": 65,
+    "NEGATIVE_MEDIAN": 0,
+    "POSITIVE_MEDIAN_WITH_NONPOSITIVE_RAW": 237
+  },
+  "raw_nonpositive_by_trait": {
+    "whole plant height": {
+      "median_nonpositive_species": 197,
+      "raw_nonpositive_species": 229,
+      "zero_records": 8858,
+      "negative_records": 1,
+      "negative_values": [-3],
+      "unit": "m",
+      "missing_source_share_of_nonpositive_records": 0.9973
+    },
+    "diameter at breast height (1.3 m)": {
+      "median_nonpositive_species": 1,
+      "raw_nonpositive_species": 188,
+      "zero_records": 2786,
+      "negative_records": 0,
+      "unit": "cm",
+      "missing_source_share_of_nonpositive_records": 0.9957
+    },
+    "leaf area": {
+      "median_nonpositive_species": 4,
+      "raw_nonpositive_species": 17,
+      "zero_records": 23,
+      "negative_records": 0,
+      "unit": "mm2",
+      "dominant_source": "The LEDA database",
+      "dominant_source_share_of_nonpositive_records": 1
+    },
+    "leaf dry mass": {
+      "median_nonpositive_species": 1,
+      "raw_nonpositive_species": 4,
+      "zero_records": 109,
+      "negative_records": 0,
+      "unit": "g",
+      "dominant_source": "published paper",
+      "dominant_source_share_of_nonpositive_records": 1
+    },
+    "seed mass": {
+      "median_nonpositive_species": 3,
+      "raw_nonpositive_species": 5,
+      "zero_records": 61,
+      "negative_records": 0,
+      "unit": "mg",
+      "dominant_source": "published paper",
+      "dominant_source_share_of_nonpositive_records": 1
+    }
+  },
+  "unaffected_traits": [
+    "leaf area per leaf dry mass",
+    "leaf dry mass per leaf fresh mass",
+    "leaf nitrogen content per leaf area",
+    "leaf nitrogen content per leaf dry mass",
+    "leaf phosphorus content per leaf dry mass",
+    "maximum whole plant height",
+    "stem wood density"
+  ],
+  "unit_mixing": {
+    "affected_species_with_mixed_units": 0,
+    "interpretation": "Nonpositive values are not explained by within-species unit mixing."
+  },
+  "data_validity_interpretation": "The nonpositive blocker is a raw-data validity problem, not merely a logarithm applicability problem. All 206 nonpositive species medians equal exactly zero and occur in the five Stage-A predeclared positive-only physical size/mass traits. The raw contamination is almost entirely exact zero values in ordinary units, plus one whole-plant-height record of -3 m. Zero g leaf dry mass, zero mg seed mass, zero mm2 leaf area, and nonpositive plant height are outside the admissible physical measurement domain. Stage B must therefore evaluate the impact of excluding raw <=0 records under a frozen rule before submission.",
+  "hard_guard": "No rho or downstream manuscript statistic was recomputed in Stage A."
+}

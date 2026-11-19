@@ -1,0 +1,759 @@
+{
+  "all_201_cleaned_log_available": true,
+  "all_201_support_retained": true,
+  "cleaned_log": {
+    "measurement_aware": {
+      "S3": {
+        "family_share_heterogeneity": 0.16274440652159716,
+        "heterogeneity_total": 0.014098444752111604,
+        "intercept": 0.0977794260470851,
+        "intercept_se": 0.0169298868329437,
+        "mean_sampling_variance": 0.004318956414354673,
+        "median_sampling_variance": 0.003052086435529023,
+        "sampling_share_mean_total": 0.23450411788925293,
+        "sampling_share_median_total": 0.1779587117236626,
+        "sigma2_family": 0.002294443024059929,
+        "sigma2_system": 0.010153192906576779,
+        "sigma2_trait": 0.0016508088214748952,
+        "system_share_heterogeneity": 0.7201640383104014,
+        "trait_share_heterogeneity": 0.11709155516800136
+      },
+      "S3_total_point_shares": {
+        "family": 0.12458017302884003,
+        "sampling_error": 0.23450411788925293,
+        "system_heterogeneity": 0.5512826057708585,
+        "trait": 0.0896331033110484
+      },
+      "prune_only": {
+        "family_share_heterogeneity": 0.1492716576817679,
+        "heterogeneity_total": 0.020314565567216926,
+        "intercept": 0.11171095508329525,
+        "intercept_se": 0.0194001143659254,
+        "mean_sampling_variance": 0.0069016078544286655,
+        "median_sampling_variance": 0.005244376372283138,
+        "sampling_share_mean_total": 0.2535847985499561,
+        "sampling_share_median_total": 0.2051875380716843,
+        "sigma2_family": 0.003032388877303434,
+        "sigma2_system": 0.015307657876183291,
+        "sigma2_trait": 0.0019745188137301993,
+        "system_share_heterogeneity": 0.7535311461883467,
+        "trait_share_heterogeneity": 0.09719719612988535
+      },
+      "prune_total_point_shares": {
+        "family": 0.11141863443931879,
+        "sampling_error": 0.2535847985499561,
+        "system_heterogeneity": 0.5624471022810573,
+        "trait": 0.07254946472966782
+      }
+    },
+    "naive_repeatability": {
+      "S3": {
+        "R_family": 0.14885486339104514,
+        "R_residual": 0.7539897434061844,
+        "R_trait": 0.0971553932027705,
+        "singular": false,
+        "var_family": 0.0026957597938704,
+        "var_residual": 0.013654745226062446,
+        "var_trait": 0.0017594830077245173
+      },
+      "prune_only": {
+        "R_family": 0.1614826346631868,
+        "R_residual": 0.7539256017757248,
+        "R_trait": 0.08459176356108836,
+        "singular": false,
+        "var_family": 0.004194257776655619,
+        "var_residual": 0.019582033231394125,
+        "var_trait": 0.0021971381808151285
+      }
+    },
+    "portability": {
+      "S3": {
+        "axis": "S3_log",
+        "gain_blup": 0.05921568531504062,
+        "gain_unshrunk": 0.03793385732641563,
+        "median_training_residual_variance": 0.013734240938414516,
+        "median_training_trait_variance": 0.0017665635598923949,
+        "paired_sse_improvement_blup_vs_unshrunk": 0.07695687741452373,
+        "q25_q75_training_trait_variance": [
+          0.0017084261777624559,
+          0.0017976753983964435
+        ],
+        "singular_fraction": 0,
+        "sse_blup": 3.4019550960290763,
+        "sse_global": 3.6160839875059883,
+        "sse_unshrunk": 3.4789119734436
+      },
+      "prune_only": {
+        "axis": "prune_log",
+        "gain_blup": 0.05508136601822178,
+        "gain_unshrunk": 0.04404007272064547,
+        "median_training_residual_variance": 0.019695496359578044,
+        "median_training_trait_variance": 0.002223901605694487,
+        "paired_sse_improvement_blup_vs_unshrunk": 0.05724450368805467,
+        "q25_q75_training_trait_variance": [
+          0.0020935443611033284,
+          0.0022930742401833727
+        ],
+        "singular_fraction": 0,
+        "sse_blup": 4.899009270929785,
+        "sse_global": 5.1845831955773,
+        "sse_unshrunk": 4.9562537746178394
+      }
+    }
+  },
+  "cleaned_raw": {
+    "correlated_trait_null": {
+      "S3": {
+        "R_family_null_median": 0.03477980100228317,
+        "R_family_null_q025_q975": [
+          0,
+          0.14144672772198258
+        ],
+        "axis": "S3",
+        "block_parameters": [
+          {
+            "min_eigen_before_projection": 0.09831149415045476,
+            "overlap": [
+              [
+                {
+                  "_row": "whole plant height",
+                  "maximum whole plant height": 9,
+                  "whole plant height": 31
+                }
+              ],
+              [
+                {
+                  "_row": "maximum whole plant height",
+                  "maximum whole plant height": 10,
+                  "whole plant height": 9
+                }
+              ]
+            ],
+            "projected_to_nearPD": false,
+            "raw_correlation": [
+              [
+                {
+                  "_row": "whole plant height",
+                  "maximum whole plant height": 0.9016885058495453,
+                  "whole plant height": 1
+                }
+              ],
+              [
+                {
+                  "_row": "maximum whole plant height",
+                  "maximum whole plant height": 1,
+                  "whole plant height": 0.9016885058495453
+                }
+              ]
+            ],
+            "regularized_correlation": [
+              [
+                {
+                  "_row": "whole plant height",
+                  "maximum whole plant height": 0.9016885058495453,
+                  "whole plant height": 1
+                }
+              ],
+              [
+                {
+                  "_row": "maximum whole plant height",
+                  "maximum whole plant height": 1,
+                  "whole plant height": 0.9016885058495453
+                }
+              ]
+            ],
+            "traits": [
+              "whole plant height",
+              "maximum whole plant height"
+            ]
+          },
+          {
+            "min_eigen_before_projection": -0.285604268873868,
+            "overlap": [
+              [
+                {
+                  "_row": "leaf area",
+                  "leaf area": 16,
+                  "leaf area per leaf dry mass": 15,
+                  "leaf dry mass": 6
+                }
+              ],
+              [
+                {
+                  "_row": "leaf dry mass",
+                  "leaf area": 6,
+                  "leaf area per leaf dry mass": 6,
+                  "leaf dry mass": 7
+                }
+              ],
+              [
+                {
+                  "_row": "leaf area per leaf dry mass",
+                  "leaf area": 15,
+                  "leaf area per leaf dry mass": 25,
+                  "leaf dry mass": 6
+                }
+              ]
+            ],
+            "projected_to_nearPD": true,
+            "raw_correlation": [
+              [
+                {
+                  "_row": "leaf area",
+                  "leaf area": 1,
+                  "leaf area per leaf dry mass": 0.36153639984119945,
+                  "leaf dry mass": 0.8103337448743296
+                }
+              ],
+              [
+                {
+                  "_row": "leaf dry mass",
+                  "leaf area": 0.8103337448743296,
+                  "leaf area per leaf dry mass": -0.7299072505300006,
+                  "leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf area per leaf dry mass",
+                  "leaf area": 0.36153639984119945,
+                  "leaf area per leaf dry mass": 1,
+                  "leaf dry mass": -0.7299072505300006
+                }
+              ]
+            ],
+            "regularized_correlation": [
+              [
+                {
+                  "_row": "leaf area",
+                  "leaf area": 1,
+                  "leaf area per leaf dry mass": 0.23763628900242406,
+                  "leaf dry mass": 0.6516654905594957
+                }
+              ],
+              [
+                {
+                  "_row": "leaf dry mass",
+                  "leaf area": 0.6516654905594957,
+                  "leaf area per leaf dry mass": -0.5819190701832365,
+                  "leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf area per leaf dry mass",
+                  "leaf area": 0.23763628900242406,
+                  "leaf area per leaf dry mass": 1,
+                  "leaf dry mass": -0.5819190701832365
+                }
+              ]
+            ],
+            "traits": [
+              "leaf area",
+              "leaf dry mass",
+              "leaf area per leaf dry mass"
+            ]
+          },
+          {
+            "min_eigen_before_projection": 0.6023037906054918,
+            "overlap": [
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf dry mass",
+                  "leaf nitrogen content per leaf area": 4,
+                  "leaf nitrogen content per leaf dry mass": 13
+                }
+              ],
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf area",
+                  "leaf nitrogen content per leaf area": 5,
+                  "leaf nitrogen content per leaf dry mass": 4
+                }
+              ]
+            ],
+            "projected_to_nearPD": false,
+            "raw_correlation": [
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf dry mass",
+                  "leaf nitrogen content per leaf area": 0.3976962093945083,
+                  "leaf nitrogen content per leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf area",
+                  "leaf nitrogen content per leaf area": 1,
+                  "leaf nitrogen content per leaf dry mass": 0.3976962093945083
+                }
+              ]
+            ],
+            "regularized_correlation": [
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf dry mass",
+                  "leaf nitrogen content per leaf area": 0.3976962093945083,
+                  "leaf nitrogen content per leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf area",
+                  "leaf nitrogen content per leaf area": 1,
+                  "leaf nitrogen content per leaf dry mass": 0.3976962093945083
+                }
+              ]
+            ],
+            "traits": [
+              "leaf nitrogen content per leaf dry mass",
+              "leaf nitrogen content per leaf area"
+            ]
+          }
+        ],
+        "null_replicates": 1000,
+        "observed": {
+          "R_family": 0.15638977692065784,
+          "R_residual": 0.791684516820335,
+          "R_trait_group": 0.05192570625900723,
+          "singular": false,
+          "var_family": 0.003313424459800877,
+          "var_residual": 0.016773390781220785,
+          "var_trait_group": 0.0011001480314043685
+        },
+        "p_family_ge_observed": 0.016983016983016984,
+        "singleton_traits": [
+          "diameter at breast height (1.3 m)",
+          "leaf dry mass per leaf fresh mass",
+          "leaf phosphorus content per leaf dry mass",
+          "seed mass",
+          "stem wood density"
+        ],
+        "success_fraction": 1
+      },
+      "prune_only": {
+        "R_family_null_median": 0.02533424442584578,
+        "R_family_null_q025_q975": [
+          0,
+          0.13160520035363
+        ],
+        "axis": "prune_only",
+        "block_parameters": [
+          {
+            "min_eigen_before_projection": 0.02722174063135202,
+            "overlap": [
+              [
+                {
+                  "_row": "whole plant height",
+                  "maximum whole plant height": 9,
+                  "whole plant height": 31
+                }
+              ],
+              [
+                {
+                  "_row": "maximum whole plant height",
+                  "maximum whole plant height": 10,
+                  "whole plant height": 9
+                }
+              ]
+            ],
+            "projected_to_nearPD": false,
+            "raw_correlation": [
+              [
+                {
+                  "_row": "whole plant height",
+                  "maximum whole plant height": 0.9727782593686479,
+                  "whole plant height": 1
+                }
+              ],
+              [
+                {
+                  "_row": "maximum whole plant height",
+                  "maximum whole plant height": 1,
+                  "whole plant height": 0.9727782593686479
+                }
+              ]
+            ],
+            "regularized_correlation": [
+              [
+                {
+                  "_row": "whole plant height",
+                  "maximum whole plant height": 0.9727782593686479,
+                  "whole plant height": 1
+                }
+              ],
+              [
+                {
+                  "_row": "maximum whole plant height",
+                  "maximum whole plant height": 1,
+                  "whole plant height": 0.9727782593686479
+                }
+              ]
+            ],
+            "traits": [
+              "whole plant height",
+              "maximum whole plant height"
+            ]
+          },
+          {
+            "min_eigen_before_projection": -0.2860193988953163,
+            "overlap": [
+              [
+                {
+                  "_row": "leaf area",
+                  "leaf area": 16,
+                  "leaf area per leaf dry mass": 15,
+                  "leaf dry mass": 6
+                }
+              ],
+              [
+                {
+                  "_row": "leaf dry mass",
+                  "leaf area": 6,
+                  "leaf area per leaf dry mass": 6,
+                  "leaf dry mass": 7
+                }
+              ],
+              [
+                {
+                  "_row": "leaf area per leaf dry mass",
+                  "leaf area": 15,
+                  "leaf area per leaf dry mass": 25,
+                  "leaf dry mass": 6
+                }
+              ]
+            ],
+            "projected_to_nearPD": true,
+            "raw_correlation": [
+              [
+                {
+                  "_row": "leaf area",
+                  "leaf area": 1,
+                  "leaf area per leaf dry mass": 0.2191511684770823,
+                  "leaf dry mass": 0.9392849912770992
+                }
+              ],
+              [
+                {
+                  "_row": "leaf dry mass",
+                  "leaf area": 0.9392849912770992,
+                  "leaf area per leaf dry mass": -0.7054894964370557,
+                  "leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf area per leaf dry mass",
+                  "leaf area": 0.2191511684770823,
+                  "leaf area per leaf dry mass": 1,
+                  "leaf dry mass": -0.7054894964370557
+                }
+              ]
+            ],
+            "regularized_correlation": [
+              [
+                {
+                  "_row": "leaf area",
+                  "leaf area": 1,
+                  "leaf area per leaf dry mass": 0.10338384233689715,
+                  "leaf dry mass": 0.7616015119589099
+                }
+              ],
+              [
+                {
+                  "_row": "leaf dry mass",
+                  "leaf area": 0.7616015119589099,
+                  "leaf area per leaf dry mass": -0.5658357768637482,
+                  "leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf area per leaf dry mass",
+                  "leaf area": 0.10338384233689715,
+                  "leaf area per leaf dry mass": 1,
+                  "leaf dry mass": -0.5658357768637482
+                }
+              ]
+            ],
+            "traits": [
+              "leaf area",
+              "leaf dry mass",
+              "leaf area per leaf dry mass"
+            ]
+          },
+          {
+            "min_eigen_before_projection": 0.21811878727052358,
+            "overlap": [
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf dry mass",
+                  "leaf nitrogen content per leaf area": 4,
+                  "leaf nitrogen content per leaf dry mass": 13
+                }
+              ],
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf area",
+                  "leaf nitrogen content per leaf area": 5,
+                  "leaf nitrogen content per leaf dry mass": 4
+                }
+              ]
+            ],
+            "projected_to_nearPD": false,
+            "raw_correlation": [
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf dry mass",
+                  "leaf nitrogen content per leaf area": 0.7818812127294764,
+                  "leaf nitrogen content per leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf area",
+                  "leaf nitrogen content per leaf area": 1,
+                  "leaf nitrogen content per leaf dry mass": 0.7818812127294764
+                }
+              ]
+            ],
+            "regularized_correlation": [
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf dry mass",
+                  "leaf nitrogen content per leaf area": 0.7818812127294764,
+                  "leaf nitrogen content per leaf dry mass": 1
+                }
+              ],
+              [
+                {
+                  "_row": "leaf nitrogen content per leaf area",
+                  "leaf nitrogen content per leaf area": 1,
+                  "leaf nitrogen content per leaf dry mass": 0.7818812127294764
+                }
+              ]
+            ],
+            "traits": [
+              "leaf nitrogen content per leaf dry mass",
+              "leaf nitrogen content per leaf area"
+            ]
+          }
+        ],
+        "null_replicates": 1000,
+        "observed": {
+          "R_family": 0.1541461232867591,
+          "R_residual": 0.8179645984327735,
+          "R_trait_group": 0.027889278280467455,
+          "singular": false,
+          "var_family": 0.004600817575245895,
+          "var_residual": 0.0244138861241262,
+          "var_trait_group": 0.0008324145877804259
+        },
+        "p_family_ge_observed": 0.012987012987012988,
+        "singleton_traits": [
+          "diameter at breast height (1.3 m)",
+          "leaf dry mass per leaf fresh mass",
+          "leaf phosphorus content per leaf dry mass",
+          "seed mass",
+          "stem wood density"
+        ],
+        "success_fraction": 1
+      }
+    },
+    "measurement_aware": {
+      "S3": {
+        "family_share_heterogeneity": 0.21113397509771156,
+        "heterogeneity_total": 0.015505836189207173,
+        "intercept": 0.07363111726083599,
+        "intercept_se": 0.016856717921779042,
+        "mean_sampling_variance": 0.004679022157465684,
+        "median_sampling_variance": 0.003099160418845362,
+        "sampling_share_mean_total": 0.23180852087757872,
+        "sampling_share_median_total": 0.1665767795681294,
+        "sigma2_family": 0.003273808831841262,
+        "sigma2_system": 0.010943741112481543,
+        "sigma2_trait": 0.0012882862448843685,
+        "system_share_heterogeneity": 0.705782066761348,
+        "trait_share_heterogeneity": 0.08308395814094045
+      },
+      "S3_cluster_bootstrap": {
+        "ci95": {
+          "family_share_heterogeneity": [
+            0.13334327388263825,
+            0.7597197965563812
+          ],
+          "naive_R_family": [
+            0.08272070147202729,
+            0.6361999272486498
+          ],
+          "naive_R_residual": [
+            0.24236880254875826,
+            0.8415430794301674
+          ],
+          "naive_R_trait": [
+            0,
+            0.2579215514561529
+          ],
+          "sampling_share_mean_total": [
+            0.12939624755944837,
+            0.4484540544198974
+          ],
+          "sigma2_family": [
+            0.0010789897628575068,
+            0.0204011319802826
+          ],
+          "sigma2_system": [
+            0.0007801740400366478,
+            0.013613386023240418
+          ],
+          "sigma2_trait": [
+            5.749946402968243e-05,
+            0.007134283554673599
+          ],
+          "system_share_heterogeneity": [
+            0.05798264199546024,
+            0.7328137187269508
+          ],
+          "trait_share_heterogeneity": [
+            0.002521794216066253,
+            0.3799831190129291
+          ]
+        },
+        "error_message_counts": null,
+        "frozen_min_success_fraction": 0.9,
+        "gate_pass": true,
+        "replicates": 500,
+        "seed": 20261006,
+        "success_fraction": 1,
+        "successful": 500
+      },
+      "S3_total_point_shares": {
+        "family": 0.16219132062330752,
+        "sampling_error": 0.23180852087757872,
+        "system_heterogeneity": 0.5421757698034794,
+        "trait": 0.06382438869563438
+      },
+      "prune_only": {
+        "family_share_heterogeneity": 0.1899664652938101,
+        "heterogeneity_total": 0.02193473286163753,
+        "intercept": 0.09533814087490299,
+        "intercept_se": 0.017631802002051073,
+        "mean_sampling_variance": 0.007258219269729404,
+        "median_sampling_variance": 0.00503389470582141,
+        "sampling_share_mean_total": 0.24862916354152034,
+        "sampling_share_median_total": 0.18665742975721317,
+        "sigma2_family": 0.0041668636688892615,
+        "sigma2_system": 0.01691502902388378,
+        "sigma2_trait": 0.0008528401688644913,
+        "system_share_heterogeneity": 0.7711527252500577,
+        "trait_share_heterogeneity": 0.03888080945613225
+      },
+      "prune_total_point_shares": {
+        "family": 0.14273526192687083,
+        "sampling_error": 0.24862916354152034,
+        "system_heterogeneity": 0.5794216682083719,
+        "trait": 0.029213906323236852
+      }
+    },
+    "naive_repeatability": {
+      "S3": {
+        "R_family": 0.15638977692065784,
+        "R_residual": 0.791684516820335,
+        "R_trait": 0.05192570625900723,
+        "singular": false,
+        "var_family": 0.003313424459800877,
+        "var_residual": 0.016773390781220785,
+        "var_trait": 0.0011001480314043685
+      },
+      "prune_only": {
+        "R_family": 0.1541461232867591,
+        "R_residual": 0.8179645984327735,
+        "R_trait": 0.027889278280467455,
+        "singular": false,
+        "var_family": 0.004600817575245895,
+        "var_residual": 0.0244138861241262,
+        "var_trait": 0.0008324145877804259
+      }
+    },
+    "portability": {
+      "S3": {
+        "axis": "S3_raw",
+        "gain_blup": 0.012078564256229551,
+        "gain_unshrunk": -0.016306072370523728,
+        "median_training_residual_variance": 0.0168891887170907,
+        "median_training_trait_variance": 0.0011129716866710342,
+        "paired_sse_improvement_blup_vs_unshrunk": 0.12051180880590628,
+        "q25_q75_training_trait_variance": [
+          0.0010353173189218475,
+          0.0011528482437423292
+        ],
+        "singular_fraction": 0,
+        "sse_blup": 4.194388702069748,
+        "sse_global": 4.245670303643067,
+        "sse_unshrunk": 4.314900510875654
+      },
+      "prune_only": {
+        "axis": "prune_raw",
+        "gain_blup": 3.355500575730197e-05,
+        "gain_unshrunk": -0.02631075591951415,
+        "median_training_residual_variance": 0.024546525184255454,
+        "median_training_trait_variance": 0.000819122721087193,
+        "paired_sse_improvement_blup_vs_unshrunk": 0.15935795165599398,
+        "q25_q75_training_trait_variance": [
+          0.0007356768597223326,
+          0.0008901306722208332
+        ],
+        "singular_fraction": 0,
+        "sse_blup": 6.048843139265646,
+        "sse_global": 6.049046115042862,
+        "sse_unshrunk": 6.20820109092164
+      }
+    }
+  },
+  "data_contract_decision": "CLEANED_POSITIVE_ONLY_BECOMES_PRIMARY",
+  "effect_impact": {
+    "S3": {
+      "max_abs_delta": 0.0850165296724558,
+      "median_abs_delta": 0.0,
+      "n_abs_delta_ge_0_01": 17,
+      "n_abs_delta_ge_0_05": 4,
+      "n_abs_delta_ge_0_10": 0,
+      "n_sign_changes": 2,
+      "p90_abs_delta": 0.005309436018195862,
+      "pearson_original_cleaned": 0.9960418359743893,
+      "spearman_original_cleaned": 0.9910388650805381
+    },
+    "prune": {
+      "max_abs_delta": 0.14382569047914834,
+      "median_abs_delta": 0.0,
+      "n_abs_delta_ge_0_01": 15,
+      "n_abs_delta_ge_0_05": 3,
+      "n_abs_delta_ge_0_10": 2,
+      "n_sign_changes": 3,
+      "p90_abs_delta": 0.0037240184075671354,
+      "pearson_original_cleaned": 0.9958669262888465,
+      "spearman_original_cleaned": 0.9935584453967785
+    }
+  },
+  "interpretation_guard": "Stage B is a data-validity correction triggered by semantically inadmissible raw values, not a robustness analysis selected for favorable manuscript impact. Cleaned positive-only values become the primary data contract because all 201 systems retain support.",
+  "original_RC3_reference": {
+    "BLUP_gain_S3": 0.006007446522735993,
+    "BLUP_gain_prune": -0.004770827542518008,
+    "correlated_trait_null_p_S3": 0.016983016983016984,
+    "correlated_trait_null_p_prune": 0.008991008991008992,
+    "measurement_aware_S3_total_point_shares": {
+      "family": 0.15148088861339648,
+      "sampling_error": 0.24234314231368748,
+      "system_heterogeneity": 0.5492374757560131,
+      "trait": 0.05693849331690298
+    }
+  },
+  "species_removed": {
+    "S3_total": 141,
+    "max_per_system_S3": 26,
+    "max_per_system_prune": 14,
+    "prune_total": 54
+  },
+  "status": "TRAIT_MEMORY_POSITIVE_ONLY_CLEANING_IMPACT_COMPLETE",
+  "version": "v0.2"
+}

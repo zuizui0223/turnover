@@ -1,0 +1,51 @@
+name: FunDivEUROPE 2023 original species-plot source grain gate (no effects)
+on:
+  push:
+    paths:
+      - '.github/workflows/fundiveurope-original-species-plot-source-v0-1.yml'
+      - 'scripts/source/audit_fundiveurope_2023_original_species_plot_grain_v0_1.py'
+      - 'docs/FUNDIVEUROPE_2023_ORIGINAL_PLOT_SPECIES_TRAIT_SOURCE_GATE_20261119.md'
+  pull_request:
+    paths:
+      - '.github/workflows/fundiveurope-original-species-plot-source-v0-1.yml'
+      - 'scripts/source/audit_fundiveurope_2023_original_species_plot_grain_v0_1.py'
+      - 'docs/FUNDIVEUROPE_2023_ORIGINAL_PLOT_SPECIES_TRAIT_SOURCE_GATE_20261119.md'
+  workflow_dispatch:
+
+jobs:
+  source-only-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax, synthetic workbook parser, and frozen source protocol
+        run: |
+          python3 -m py_compile scripts/source/audit_fundiveurope_2023_original_species_plot_grain_v0_1.py
+          python3 scripts/source/audit_fundiveurope_2023_original_species_plot_grain_v0_1.py --self-test
+          test -s docs/FUNDIVEUROPE_2023_ORIGINAL_PLOT_SPECIES_TRAIT_SOURCE_GATE_20261119.md
+      - name: Request public original Dryad source and report metadata-only decision
+        run: |
+          mkdir -p build/fundiveurope
+          python3 scripts/source/audit_fundiveurope_2023_original_species_plot_grain_v0_1.py --out build/fundiveurope/original_source_grain_v0_1.json
+          python3 - <<'PY'
+          import json
+          p='build/fundiveurope/original_source_grain_v0_1.json'
+          x=json.load(open(p))
+          assert x['status'].endswith('HOLD')
+          assert x['no_FD_K_biomass_regression_or_predictive_effect_fitted'] is True
+          assert x['original_local_species_trait_grain_qualified'] is False
+          assert x['predeclared_thresholds_inherited_from_PR63']['min_original_named_species'] == 30
+          print('FUNDIVEUROPE_NO_BIOLOGICAL_EFFECT_GATE_PASS',x['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fundiveurope-2023-public-source-header-aggregate-only
+          path: build/fundiveurope/original_source_grain_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 30

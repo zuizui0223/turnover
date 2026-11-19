@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-19",
+  "repository": "zuizui0223/turnover",
+  "purpose": "Cross-programme evidence inventory; no novel pooled effects, no reclassification of frozen primary outcomes",
+  "status_vocab": {
+    "primary_support": "Prospectively selected primary outcome, as qualified by study-specific criteria",
+    "qualified_support": "Original source and target qualified, with explicit estimator/provenance restriction",
+    "retrospective_support": "Reanalysis after previous outcomes known, not independent confirmatory test",
+    "mixed_or_no_generalization": "Positive cross-site/heldout criterion not established or fails; not a biological zero",
+    "source_hold": "No new biological effect opened",
+    "methods_result": "Known-truth methods analysis only"
+  },
+  "claims": [
+    {
+      "id": "BIEN-FAMILY-COMPONENT",
+      "status": "primary_support",
+      "citation": "https://github.com/zuizui0223/turnover/blob/main/README.md",
+      "unit": "201 family-trait systems in 45 families/12 traits",
+      "estimand": "crossed REML share of distance-dissimilarity rho",
+      "observations": {
+        "family_repeatability_S3": 0.1504,
+        "trait_repeatability_S3": 0.0433,
+        "residual_unresolved_S3": 0.8063,
+        "conditional_family_S3": 0.1825,
+        "conditional_family_95CI": [
+          0.0285,
+          0.3369
+        ]
+      },
+      "caveat": "Residual includes estimation error; no family-versus-trait variance dominance test"
+    },
+    {
+      "id": "BIEN-RAW-PORTABILITY",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/blob/main/README.md",
+      "unit": "Held-out whole families; 201 systems",
+      "estimand": "SSE prediction gain for same trait's mean in other families",
+      "observations": {
+        "gain_S3": -0.0242,
+        "p_S3": 0.091,
+        "gain_prune": -0.0324,
+        "p_prune": 0.193
+      },
+      "caveat": "Original raw criterion fails; does not rule out all information under alternative scales/regularization"
+    },
+    {
+      "id": "BIEN-ERROR-ROBUSTNESS",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/28",
+      "unit": "201 systems, unmerged draft sensitivity",
+      "estimand": "measurement-aware S3 typical total variance point decomposition",
+      "observations": {
+        "family_share": 0.151,
+        "trait_share": 0.057,
+        "unresolved_system_share": 0.549,
+        "sampling_error_share": 0.242,
+        "family_null_p_S3": 0.017,
+        "family_null_p_prune": 0.009,
+        "BLUP_gain_S3": 0.006,
+        "BLUP_gain_prune": -0.0048
+      },
+      "caveat": "Not a full replacement for original CI; pre-frozen two-way uncertainty gate HOLD"
+    },
+    {
+      "id": "BIEN-LOG-EXPLORATORY",
+      "status": "retrospective_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/31",
+      "unit": "Post-outcome positive-only cleaned BIEN 201 systems",
+      "estimand": "log-scale trait absolute/rank predictive portability",
+      "observations": {
+        "absolute_gain_S3": 0.059,
+        "absolute_gain_prune": 0.055,
+        "rank_gain_S3": 0.068,
+        "rank_gain_prune": 0.028
+      },
+      "caveat": "Distinct preprocessing from #28 original all-201 no-offset HOLD; do not retroactively pass it"
+    },
+    {
+      "id": "AUSTRAITS-RHO-FAMILY",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/13",
+      "unit": "259 systems/42 families/14 traits, independent compilation",
+      "estimand": "rho conditional family level and trait prediction",
+      "observations": {
+        "conditional_family_S3": 0.2958,
+        "conditional_family_prune": 0.391,
+        "absolute_trait_gain_S3": 0.0139,
+        "absolute_trait_gain_prune": 0.0163,
+        "rank_gain_S3": -0.0378,
+        "rank_gain_prune": -0.0155
+      },
+      "caveat": "Independent compilation, not independent primary measurements; original DOI recovery 67.4%"
+    },
+    {
+      "id": "AUSTRAITS-K-ALLOCATION",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/13",
+      "unit": "254 systems/42 families/13 traits, matched positive log core",
+      "estimand": "held-out-family Blomberg K rank prediction",
+      "observations": {
+        "conditional_family_S3": 0.5306,
+        "conditional_family_prune": 0.5881,
+        "rank_gain_S3": 0.0808,
+        "rank_gain_prune": 0.1531,
+        "p_S3": 0.0002,
+        "p_prune": 0.0001,
+        "rank_reversal_S3": 0.4403,
+        "rank_reversal_prune": 0.3988
+      },
+      "caveat": "K and rho are not equivalent; equal-BM null rejection does not establish adaptation; OU/source heterogeneity alternative remains"
+    },
+    {
+      "id": "ORGAN-K",
+      "status": "retrospective_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/38",
+      "unit": "Same-tip/tree reproductive-versus-vegetative comparisons, 34 families",
+      "estimand": "fraction of within-family K pairs higher for reproductive traits",
+      "observations": {
+        "n_pairs_S3": 406,
+        "reproductive_higher_S3": 313,
+        "n_pairs_prune": 397,
+        "reproductive_higher_prune": 314,
+        "source_matched_pairs_S3": 142,
+        "source_matched_reproductive_higher_S3": 120,
+        "source_matched_pairs_prune": 101,
+        "source_matched_reproductive_higher_prune": 81
+      },
+      "caveat": "Functional module identified post-K outcomes; cohort/tip selection influences magnitude, no external independent primary source"
+    },
+    {
+      "id": "CEDAR-GUILD-IDENTITY",
+      "status": "retrospective_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/44",
+      "unit": "Single E120 field experiment; secondary teaching source",
+      "estimand": "conditional guild-identity association with log standing biomass",
+      "observations": {
+        "within_18_fieldrows_permutation_p": 0.007
+      },
+      "caveat": "Guild indicators reflect assigned mixtures and no matched independent Jena replication"
+    },
+    {
+      "id": "BIODEPTH-HEIGHT-FD",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/46",
+      "unit": "174 original plots/7 fields",
+      "estimand": "equal-site held-out SSE gain from adding one-dimensional height FD",
+      "observations": {
+        "unmodified_GIFT_gain": -1.2309,
+        "source_corrected_gain": 0.0383,
+        "corrected_bootstrap_95CI": [
+          -0.1092,
+          0.1829
+        ]
+      },
+      "caveat": "Posthoc botanical height source correction; CI spans zero and 4/7 sites positive"
+    },
+    {
+      "id": "BIODEPTH-PD",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/51",
+      "unit": "150 original plots/449 plot-years/7 fields",
+      "estimand": "additional PD to standing biomass held-out SSE gain",
+      "observations": {
+        "gain": -0.01451,
+        "bootstrap_95CI": [
+          -0.07291,
+          0.03151
+        ]
+      },
+      "caveat": "Community MPD not K/rho; no causal effect inferred"
+    },
+    {
+      "id": "TREEDIVNET-FD",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/57",
+      "unit": "113 original plot-aggregate records/6 whole studies held out",
+      "estimand": "additional observed SLA+leafN FD to absolute woody stock beyond richness and CWM",
+      "observations": {
+        "site_equal_gain": -0.3491,
+        "bootstrap_95CI": [
+          -0.7078,
+          -0.0156
+        ],
+        "sensitivity_excluding_MataDIV_gain": -1.0619
+      },
+      "caveat": "Not net diversity effect; not an ecological negative effect of FD; six independent study clusters"
+    },
+    {
+      "id": "ASSIGNABILITY-METHOD",
+      "status": "methods_result",
+      "citation": "https://github.com/zuizui0223/turnover/pull/27",
+      "unit": "722 prequalified geometries/120 families/25 traits",
+      "estimand": "target rho=0.15 generator accessibility and recovery",
+      "observations": {
+        "recovery_success": 255,
+        "total": 722,
+        "continuous_success": 249,
+        "continuous_total": 443,
+        "categorical_success": 6,
+        "categorical_total": 279,
+        "OU_no_bracket": 220,
+        "categorical_total_restricted": 276,
+        "Mk2_rescued": 51,
+        "balance_rescued": 50
+      },
+      "caveat": "Simulation methodology, not evidence about evolution of categorical traits"
+    },
+    {
+      "id": "JENA-ORIGINAL-SOURCE",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/60",
+      "unit": "One Jena experiment; original 78 plots and 851 plot-years cross-file",
+      "estimand": "strict signed leafN+height source eligibility",
+      "observations": {
+        "eligible_training_plots": 55,
+        "predeclared_minimum": 60,
+        "test_plots_by_year": [
+          47,
+          48,
+          51
+        ]
+      },
+      "caveat": "No new FD–biomass effect opened; repeated plot-years are not independent sites"
+    },
+    {
+      "id": "FOREST-2026-ALI",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/61",
+      "unit": "200 original source rows",
+      "estimand": "physical AGB and species-level source validity",
+      "observations": {
+        "negative_AGB": 157,
+        "total": 200
+      },
+      "caveat": "Physical stock cannot be negative; raw species-by-plot trait data absent; no effect estimated"
+    },
+    {
+      "id": "INDEPENDENT-NEXT-SOURCES",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/63",
+      "unit": "Africa and BEF-China distinct candidate sources; also NutNet/CoRRE PR #62",
+      "estimand": "original source admission before ecological prediction",
+      "observations": {
+        "new_eligible_effects": 0
+      },
+      "caveat": "Respect existing independently frozen source-specific thresholds; no additional outcome opened"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "version": "RC4_STAGE_B_CLEANED_v0.1",
+  "created_jst": "2026-11-19",
+  "status": "HOLD_SOURCE_ROW_EFFECTS_AND_SUBMISSION_PACKAGE",
+  "primary_evidence": {
+    "dataset": "BIEN 4.2.8",
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "source_cleaning_audit_pr": 30,
+    "cleaning_frozen_design": "data/trait_memory_positive_only_cleaning_impact_design_v0_2.json",
+    "scientific_result": "results/trait_memory_positive_only_cleaning_impact_v0_2/result.json",
+    "original_successful_actions_run": 37443037590,
+    "original_downstream_job": 112205536516,
+    "original_downstream_zip_artifact": 11402782797,
+    "original_zip_retention_days": 30,
+    "original_source_artifact_availability": "NOT_CONFIRMED_AND_MAY_BE_EXPIRED",
+    "source_integrity": "Result JSON restored verbatim from original successful job stdout; full cleaned 201-row table not restored."
+  },
+  "manuscript": {
+    "file": "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md",
+    "raw_and_log_both_mandatory": true,
+    "formal_submission_ready": false,
+    "unmodified_old_RC3_pr": 29,
+    "old_RC3_submission_HOLD_preserved": true
+  },
+  "outstanding_before_submission": [
+    "Rebuild or recover original 201-row cleaned family×trait effects plus species-bootstrap SE from source-pinned workflows, not from invented synthetic records.",
+    "Independently reproduce all 201 corrected raw/log effects and models against the saved Stage B aggregate.",
+    "Rebuild figures/table captions and submission-specific anonymous manuscript and supplementary files from the corrected effects, with exact source fingerprints.",
+    "Ensure the manuscript, title page, cover letter, bibliography and journal format pass author and coauthor review.",
+    "Submission authorization by authors."
+  ],
+  "science_guard": [
+    "No new effects, trait transformations or predictors to strengthen desired results.",
+    "No data threshold changes after outcome.",
+    "No reuse of older uncleaned figures as cleaned data.",
+    "No replacing K, rho, phylogenetic rates or time-space claims.",
+    "Do not auto-merge or submit."
+  ],
+  "review_decision": "SCIENCE_TEXT_DRAFT_ONLY"
+}

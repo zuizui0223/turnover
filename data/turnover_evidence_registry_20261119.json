@@ -312,9 +312,12 @@
         "source_table_validation_and_figure_generation_run": 44541550788,
         "all_Stage_B_delta_and_four_variance_inputs_match": true,
         "corrected_rc4_figures_generated": 3,
-        "figure_artifact_id": 14538043215
+        "figure_artifact_id": 14538043215,
+        "frozen_R_model_replay_run": 44542568468,
+        "frozen_model_replay_30_checks": true,
+        "maximum_replayed_model_absolute_difference": 0
       },
-      "caveat": "Frozen data-validity correction after Stage A. Entire 201-system corrected rho/SE table has been recovered verbatim from original calculation logs, and row values, delta statistics, sampling-variance inputs and three figures have passed numeric CI checks (RC4 PR #67). The original source observations were not re-extracted in this recovery; no new scientific effect selected. RC3 remains HOLD, and RC4 needs formatted anonymous submission package and author approval."
+      "caveat": "Data-validity correction frozen before cleaned outcomes. Full corrected 201 rho/SE table recovered from original job stdout with no source species rows republished; all corrected-row, impact and raw/log sampling-variance checks pass. A re-run of the three unchanged original R models matched all 30 frozen Stage B model statistics exactly (PR #67, Actions #44542568468). This confirms numerical reproducibility, not independent biological replication or causality. RC3 stays blocked and RC4 still needs visually reviewed anonymous DOCX/PDF, rights and author approval."
     }
   ]
 }

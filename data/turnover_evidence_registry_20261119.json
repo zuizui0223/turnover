@@ -305,9 +305,16 @@
         "cleaned_raw_zero_family_correlated_trait_null_p_S3": 0.016983016983016984,
         "cleaned_raw_zero_family_correlated_trait_null_p_prune": 0.012987012987012988,
         "cleaned_raw_measurement_aware_typical_total_sampling_share_S3": 0.23180852087757872,
-        "new_biomass_related_effects": 0
+        "new_biomass_related_effects": 0,
+        "recovered_full_201_effects_and_species_SE_rows": true,
+        "recovery_original_robust_v0_3_run": 37281031394,
+        "recovery_stage_b_cleaning_run": 37443037590,
+        "source_table_validation_and_figure_generation_run": 44541550788,
+        "all_Stage_B_delta_and_four_variance_inputs_match": true,
+        "corrected_rc4_figures_generated": 3,
+        "figure_artifact_id": 14538043215
       },
-      "caveat": "Data-validity correction was frozen before cleaned outcomes after Stage A identified impossible raw nonpositive values. Completed in original 2026-10-06 Actions; result JSON recovered from full successful job stdout into PR #30. Per-system 201-row cleaned effects/SE archive is not recovered; Evolution RC3 (PR #29) remains submission HOLD, corrected RC4 draft PR #67 requires source/figure reproduction. Raw/log trait portability differs; do not claim universal nonportability or effect significance from gain alone."
+      "caveat": "Frozen data-validity correction after Stage A. Entire 201-system corrected rho/SE table has been recovered verbatim from original calculation logs, and row values, delta statistics, sampling-variance inputs and three figures have passed numeric CI checks (RC4 PR #67). The original source observations were not re-extracted in this recovery; no new scientific effect selected. RC3 remains HOLD, and RC4 needs formatted anonymous submission package and author approval."
     }
   ]
 }

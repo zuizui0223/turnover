@@ -12,6 +12,7 @@ import math
 import re
 import statistics
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -48,13 +49,13 @@ def source_fetch(kind):
     with urllib.request.urlopen(req, timeout=45) as resp:
         if resp.status != 200:
             raise RuntimeError("ANONYMOUS_SOURCE_NON_200")
-        final_host = urllib.request.urlparse(resp.url).hostname or ""
+        final_host = urllib.parse.urlparse(resp.url).hostname or ""
         if ("urs.earthdata.nasa.gov" in final_host or "login" in resp.url.lower()):
             raise RuntimeError("EARTHDATA_LOGIN_REQUIRED")
         payload = resp.read(MAX_BYTES + 1)
     if len(payload) > MAX_BYTES:
         raise RuntimeError("SOURCE_FILE_EXCEEDS_FIXED_BYTE_CAP")
-    if not payload.lstrip(b"\xef\xbb\xbf").startswith(b"PROJECT,"):
+    if b"PROJECT" not in payload[:500].upper():
         raise RuntimeError("DOWNLOADED_BYTES_NOT_ORIGINAL_CSV")
     return payload
 

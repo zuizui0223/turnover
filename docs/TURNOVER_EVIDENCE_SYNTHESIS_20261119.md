@@ -1,5 +1,21 @@
 # Turnover evidence map — what is positively supported, and what is not
 
+## 2026-11-19 submission-critical correction — original Stage B completed (supersedes historical log HOLD for manuscript)
+
+**Source provenance:** [original completed Stage B Actions #37443037590](https://github.com/zuizui0223/turnover/actions/runs/37443037590) (2026-10-06), [audited derived aggregate result and review in PR #30](https://github.com/zuizui0223/turnover/pull/30), and [new corrected manuscript draft PR #67](https://github.com/zuizui0223/turnover/pull/67). The original RC3 [PR #29](https://github.com/zuizui0223/turnover/pull/29) remains **submission HOLD**.
+
+Stage A showed invalid raw ≤0 values in five predeclared positive-only physical traits. Stage B, frozen before its corrected outcomes, excluded only those raw records, recomputed **49** impacted family×trait systems, inherited **152** unchanged and retained all **201/201** systems on original trees. The previously **blocked uncleaned** 25-S3/18-prune log sensitivity is not retrospectively passed; **a different, semantically valid cleaned primary source** now supports all-201 raw and log tests.
+
+| Corrected BIEN statistic | Raw S3 | Raw prune | Log S3 | Log prune |
+|---|---:|---:|---:|---:|
+| Crossed family repeatability | 0.1564 | 0.1541 | 0.1489 | 0.1615 |
+| Held-out-family trait BLUP gain | +1.21% | ≈0.00% | +5.92% | +5.51% |
+
+A corrected correlated-trait zero-family null supports a raw family component (p=0.017 S3, p=0.013 prune). Corrected measurement-aware S3 **point** variance shares are family **16.22%**, trait **6.38%**, system heterogeneity **54.22%**, and finite-species sampling error **23.18%**; overlapping bootstrap CIs prohibit a dominance claim. The revised conclusion is **family-associated repeatability plus scale-dependent modest trait portability**. There is no biological K/FD/biomass mediation or evolutionary-rate inference.
+
+The October run's original 30-day Actions ZIP is not a durable 201-row effects archive. The complete **aggregate-only** Stage B JSON has been reconstructed exactly from successful job stdout and stored under PR #30. Corrected per-system effect/SE data and figures remain a **source/reproducibility HOLD** before submission. No new scientific analysis was fitted in the evidence map or RC4 editorial draft.
+
+
 **Evidence cut:** 2026-11-19 (JST). **Scope:** editorial synthesis only; `main` frozen BIEN programme plus explicitly referenced open PRs. **No new biological effects, thresholds, datasets, pooled estimators, nulls, or outcomes** are introduced by this document.
 
 ## Scientific conclusion for the programme

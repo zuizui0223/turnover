@@ -1,0 +1,59 @@
+name: Evolution RC4 anonymous 201-system review data and code bundle
+on:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc4-cleaned-20261119
+    paths:
+      - '.github/workflows/trait-memory-evolution-rc4-anonymous-evidence-bundle-v0-1.yml'
+      - 'scripts/submission/build_evolution_rc4_anonymous_review_bundle_v0_1.py'
+      - 'results/trait_memory_positive_only_cleaning_impact_v0_2/**'
+  workflow_dispatch:
+
+concurrency:
+  group: trait-memory-evolution-rc4-review-bundle
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  anonymous-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate exact source-locked corrected 201 system table
+        run: |
+          python scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py --out build/rc4_bundle/recovered_source_qa.json
+      - name: Build neutral review source tree and archive, scan for identifiers
+        run: |
+          python -m py_compile scripts/submission/build_evolution_rc4_anonymous_review_bundle_v0_1.py
+          python scripts/submission/build_evolution_rc4_anonymous_review_bundle_v0_1.py --output-dir build/rc4_bundle
+          python - <<'PY'
+          import json,pathlib,zipfile,hashlib
+          b=pathlib.Path('build/rc4_bundle')
+          s=json.loads((b/'anonymous_review_bundle_status.json').read_text())
+          assert s['status']=='RC4_DERIVED_201_ANONYMOUS_EVIDENCE_SOURCE_QUALIFIED'
+          assert s['n_derived_systems']==201 and s['submission_ready'] is False
+          z=b/s['zip']
+          assert hashlib.sha256(z.read_bytes()).hexdigest()==s['sha256']
+          with zipfile.ZipFile(z) as f:
+              assert f.testzip() is None
+              assert len(f.namelist())==s['n_files']
+              assert 'Anonymous_RC4_Evidence/README.md' in f.namelist()
+              assert 'Anonymous_RC4_Evidence/MANIFEST.json' in f.namelist()
+          print('ANONYMOUS_RC4_REVIEW_SOURCE_QA_PASS',s['n_files'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evolution-rc4-anonymous-derived-201-data-code-bundle
+          path: |
+            build/rc4_bundle/Anonymous_RC4_Evidence_Review.zip
+            build/rc4_bundle/anonymous_review_bundle_status.json
+            build/rc4_bundle/recovered_source_qa.json
+          if-no-files-found: warn
+          retention-days: 90

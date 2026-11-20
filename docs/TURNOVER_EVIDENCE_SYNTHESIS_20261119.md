@@ -145,3 +145,19 @@ The prospective source gate checks exact original `PROJECT×PLOT_ID`, local SLA/
 The cleaned 201-system positive-only BIEN primary study has advanced from source recovery to a complete anonymized initial-review package. The full [scientific RC4 PR #67](https://github.com/zuizui0223/turnover/pull/67) uses 201 recovered system effects and bootstrap standard errors, with all 30 original frozen R model checks exactly replicated. The [anonymous Word/PDF document and figure package](https://github.com/zuizui0223/turnover/actions/runs/44731825055) passed automated formatting/anonymization and all 19-page full-resolution visual review (A11y 0 high/medium/low). A separate [anonymous reviewer-derived-data and model-code ZIP](https://github.com/zuizui0223/turnover/actions/runs/44731211225) contains only source-derived 201-system effect summaries, not original species measurements.
 
 The initial-review Word/PDF exists and corrected figures have been visually checked; **there is no new ecological association or K→FD→biomass inference**. The manuscript is **not submitted**. Outstanding tasks require author/coauthor completion of separate title page and cover letter, licence and Data Availability verification, authorship/disclosures and submission authorization. Source milestones should not be mistaken for acceptance, journal readiness or an independent original biological replication.
+
+
+## 2026-11-20 全球FDの「既報関連」から「研究をまたぐ予測」への新しい検証
+
+[Original Figshare source PR #70](https://github.com/zuizui0223/turnover/pull/70) は *Nature* Chen et al. 2025の原著データ**29ファイルすべてを公式Figshareから認証なしで実取得・照合**し、元の4,598混植/452 StudyID、葉N FD 2,273/213、SLA FD 2,784/247を再確認した。元の外れ値除去 82/4,680、TRY形質値の別途ライセンスを踏まえ、原著の観測値や Study/plot 個体識別はGitHubに再公開していない。
+
+その上で [v0.1 predictor-only rank and v0.2 source-qualified study-heldout PR #71](https://github.com/zuizui0223/turnover/pull/71) が別の estimand をテストした。元のv0.1は Eco1 と PlantType の完全重複により全foldでフルランク失敗、**生態学的効果を開かず保留**。説明変数だけの診断後、元の完全ケース/StudyID fold/FD/結果定義は変えず、重複 PlantType dummy のみを落とした**別仕様v0.2**を先に固定。原著研究ID全体を未知の研究として除外し、CE/SEを同一混植区・同一foldで予測した。
+
+| FD | 原著共変量調整後のCE増分（研究留保 SSE） | SE増分 | 対応差（CE改善−SE改善） |
+|---|---:|---:|---:|
+| 葉N 1,709観測・116 StudyID | **+0.77%** [−2.87,+3.66] | **−1.19%** [−1.96,−0.50] | **+1.95ポイント** [−1.59,+5.08] |
+| SLA 2,031観測・127 StudyID | **−0.13%** [−0.77,+0.47] | **+0.04%** [−1.88,+2.12] | **−0.17ポイント** [−2.20,+1.78] |
+
+括弧内はStudyIDを2000回再標本化した固定LOSO残差の95%区間であり、全foldモデル再推定まで含む確信区間ではない。**CEにFDを追加した独立の正の一般化利得も、CEとSEへの増分差も確認されない。** 葉NでSEへの予測誤差が悪化したことは、FDがSEを生物学的に抑制する因果効果を意味しない。元の2025 Natureの葉N FD–CE正関連は元の回帰estimandで有効でも、研究を一つ未知にした追加予測利得を保証するものではない。**原著同一データの retrospective reanalysis であり、452実験を我々が独立追試したものではない。** 非完全ケースによって原著StudyIDを約半分失う、StudyIDが独立学術論文DOIに一対一対応するか未確認、という重要なsource限制もある。元のBIEN K/ρ→FD→CE/SE→バイオマス因果媒介鎖は依然未検証。
+
+実測計算 [Actions #44761456911](https://github.com/zuizui0223/turnover/actions/runs/44761456911) PASS、6指標の算術/CI独立監査 [#44762349411](https://github.com/zuizui0223/turnover/actions/runs/44762349411) PASS。**統合証拠台帳は20件**。この新しい肯定的成果は「FD正効果の証明」ではなく、既報相関と他研究への予測一般化の違いを**実データで検定可能・実行済み**にしたことにある。

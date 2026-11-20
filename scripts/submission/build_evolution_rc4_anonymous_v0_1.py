@@ -110,6 +110,8 @@ def main(fig_dir,out_dir):
     sec.footer_distance=Inches(.45)
     line_numbers(sec);page_footer(sec);doc_styles(doc)
     blocks=list(chunks(source))
+    published_text="\n".join(t for _,t in blocks)
+    check("Remaining submission HOLD" not in published_text and "old RC3 submission remains blocked" not in published_text,"Operational publication-status paragraph leaked into reviewer manuscript")
     check(blocks and blocks[0][0]=="title","No title")
     headers=[s for k,s in blocks if k=="heading1"]
     check(all(x in headers for x in ("Abstract","Keywords","Introduction","Materials and Methods","Results","Discussion","References")),"Sections absent")

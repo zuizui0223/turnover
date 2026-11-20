@@ -1,0 +1,69 @@
+name: Cadotte 2017 single-experiment FD NDE versus absolute mass pilot
+
+on:
+  push:
+    branches:
+      - analysis/cadotte-2017-fd-nde-pilot-20261120
+    paths:
+      - '.github/workflows/cadotte-2017-fd-nde-pilot-v0-1.yml'
+      - 'docs/CADOTTE_2017_FD_NDE_SINGLE_EXPERIMENT_PILOT_FROZEN_20261120.md'
+      - 'scripts/analysis/cadotte_2017_fd_nde_same_plot_exploratory_v0_1.py'
+  pull_request:
+    paths:
+      - '.github/workflows/cadotte-2017-fd-nde-pilot-v0-1.yml'
+      - 'docs/CADOTTE_2017_FD_NDE_SINGLE_EXPERIMENT_PILOT_FROZEN_20261120.md'
+      - 'scripts/analysis/cadotte_2017_fd_nde_same_plot_exploratory_v0_1.py'
+  workflow_dispatch:
+
+concurrency:
+  group: cadotte-2017-fd-nde-single-study-pilot
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  retrospective-source-identity-and-fixed-estimand:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check numerical source parser and public CC0 Zenodo MD5 contract
+        run: |
+          python -m pip install -q numpy
+          python -m py_compile scripts/analysis/cadotte_2017_fd_nde_same_plot_exploratory_v0_1.py
+          python scripts/analysis/cadotte_2017_fd_nde_same_plot_exploratory_v0_1.py --self-test
+          test -s docs/CADOTTE_2017_FD_NDE_SINGLE_EXPERIMENT_PILOT_FROZEN_20261120.md
+      - name: Fetch official published 2017 original experimental CSVs and open only fixed pilot
+        run: |
+          mkdir -p build/cadotte_pilot
+          python scripts/analysis/cadotte_2017_fd_nde_same_plot_exploratory_v0_1.py \
+            --out build/cadotte_pilot/result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('build/cadotte_pilot/result.json').read_text())
+          assert x['scientific_role']=='RETROSPECTIVE_SINGLE_STUDY_PILOT_NOT_INDEPENDENT_CONFIRMATION'
+          assert x['outcome_preview_and_published_directions_seen_before_pilot_protocol'] is True
+          assert x['no_causal_FD_mediation_claim'] is True
+          assert x['no_original_species_rows_redistributed'] is True
+          if x['analysis_status']=='RETROSPECTIVE_EXPLORATORY_CV_PILOT_COMPLETE':
+            assert x['source_counts']['source_joined_mixture_rows']>=30
+            assert x['source_counts']['component_identity_failures']==0
+            assert x['source_counts']['biomass_original_cross_source_failures']==0
+            assert x['effect']['composition_bootstrap_replicates']==1000
+            assert len(x['effect']['endpoint_predictive_gain'])==4
+          else:
+            assert x['analysis_status']=='NO_MODEL_SOURCE_HOLD'
+          print('CADOTTE_ORIGINAL_SOURCE_AND_NO_CAUSAL_CLAIM_GATE_PASS',x['analysis_status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cadotte-2017-cc0-source-same-mixture-fd-nde-pilot-aggregate-only
+          path: build/cadotte_pilot/result.json
+          if-no-files-found: ignore
+          retention-days: 90

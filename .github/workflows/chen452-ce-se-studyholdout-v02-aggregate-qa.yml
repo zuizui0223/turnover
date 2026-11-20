@@ -1,0 +1,31 @@
+name: Chen452 CE SE source-only aggregate and paired StudyID holdout verification
+on:
+  push:
+    branches:
+      - analysis/chen452-leafn-fd-ce-se-lo-study-20261120
+    paths:
+      - 'results/chen452_leafn_sla_fd_ce_se_studyholdout_v0_2.json'
+      - 'scripts/analysis/verify_chen452_ce_se_fd_holdout_v0_2.py'
+      - '.github/workflows/chen452-ce-se-studyholdout-v02-aggregate-qa.yml'
+  pull_request:
+    paths:
+      - 'results/chen452_leafn_sla_fd_ce_se_studyholdout_v0_2.json'
+      - 'scripts/analysis/verify_chen452_ce_se_fd_holdout_v0_2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-nonraw:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check source of six fixed CE SE and contrast prediction outcomes
+        run: |
+          python3 -m py_compile scripts/analysis/verify_chen452_ce_se_fd_holdout_v0_2.py
+          python3 scripts/analysis/verify_chen452_ce_se_fd_holdout_v0_2.py

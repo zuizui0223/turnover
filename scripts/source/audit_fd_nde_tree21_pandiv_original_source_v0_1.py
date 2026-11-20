@@ -208,7 +208,7 @@ def try_source(source):
     return out
 
 def self_test():
-    payload=b'Plot,Species,Biomass,Harvest,\\n1,a,3.1,J17\\n2,b,5,A17\\n'
+    payload=b'Plot,Species,Biomass,Harvest,\n1,a,3.1,J17\n2,b,5,A17\n'
     s=delimited_header(payload)
     assert s["n_header_fields"]>=4
     assert s["source_nonblank_rows"]==2

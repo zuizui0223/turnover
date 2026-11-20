@@ -1,7 +1,7 @@
 {
   "version": "RC4_STAGE_B_CLEANED_v0.1",
   "created_jst": "2026-11-19",
-  "status": "HOLD_ANONYMOUS_FORMATTED_PACKAGE_AND_AUTHOR_REVIEW",
+  "status": "HOLD_AUTHOR_APPROVAL_DATA_RIGHTS_AND_JOURNAL_SUBMISSION",
   "primary_evidence": {
     "dataset": "BIEN 4.2.8",
     "systems": 201,
@@ -39,12 +39,25 @@
     "figure_action_artifact_id": 14538043215,
     "figure_action_artifact_expiration": "2027-02-17T14:14:13Z",
     "frozen_R_model_replay_success": true,
-    "canonical_figure_captions": "docs/TRAIT_MEMORY_EVOLUTION_RC4_FIGURE_CAPTIONS_V0_1.md"
+    "canonical_figure_captions": "docs/TRAIT_MEMORY_EVOLUTION_RC4_FIGURE_CAPTIONS_V0_1.md",
+    "anonymous_rc4_docx_pdf_rendered": true,
+    "anonymous_package_successful_actions_run": 44731825055,
+    "anonymous_package_artifact_id": 14626941673,
+    "anonymous_package_artifact_sha256": "2ecebc6c71deda84f0b4853cea4c58b4443f5f879b7447a15fc81f1440923e2c",
+    "anonymous_package_rendered_page_count": 19,
+    "anonymous_package_full_page_visual_audit": "19/19 pages inspected, including all figure/caption pages; no clipping, blank pages or overlapping legends",
+    "anonymous_package_a11y_audit": "0 high / 0 medium / 0 low",
+    "anonymous_derived_data_code_zip": true,
+    "anonymous_derived_data_code_ci_run": 44731211225,
+    "anonymous_derived_data_code_artifact_id": 14625848802,
+    "author_only_title_page": "docs/EVOLUTION_RC4_TITLE_PAGE_AUTHOR_ONLY_TEMPLATE_V0_1.md",
+    "author_only_cover_letter": "docs/EVOLUTION_RC4_COVER_LETTER_AUTHOR_ONLY_V0_1.md"
   },
   "outstanding_before_submission": [
-    "Rebuild the formatted anonymous RC4 DOCX/PDF from the corrected Markdown and new 201-system figures; check alt text, manuscript cross-references and accessibility.",
-    "Verify visual layout of the newly generated SVG/PNG figures and decide their final main/supplement panel placement.",
-    "Confirm journal formatting, literature references, data/code permissions, licence, coauthor approvals and actual author submission authorization."
+    "Fill and verify author names, affiliations, order, corresponding author, contributions, funding and conflict-of-interest fields on the separate author-only title page.",
+    "Check BIEN and tree-data reuse terms, code licences, permanent archiving/deposition rights and any third-party permissions; complete an approved Data Availability statement.",
+    "Obtain all coauthors' review of corrected RC4 scientific claims, figure captions, bibliography, AI disclosure, anonymization and files.",
+    "Obtain explicit author authorization and complete the Evolution editorial submission system; no submission has been made."
   ],
   "science_guard": [
     "No new effects, trait transformations or predictors to strengthen desired results.",
@@ -53,5 +66,5 @@
     "No replacing K, rho, phylogenetic rates or time-space claims.",
     "Do not auto-merge or submit."
   ],
-  "review_decision": "REPAIRED_ALL_201_AND_30_FROZEN_MODEL_CHECKS_PASS__ANONYMOUS_FORMAT_AND_AUTHOR_REVIEW_HOLD"
+  "review_decision": "ANONYMOUS_RC4_DOCX_PDF_19P_AND_THREE_FIGURES_VISUALLY_VALIDATED__AUTHORS_RIGHTS_SUBMISSION_HOLD"
 }

@@ -318,6 +318,42 @@
         "maximum_replayed_model_absolute_difference": 0
       },
       "caveat": "Data-validity correction frozen before cleaned outcomes. Full corrected 201 rho/SE table recovered from original job stdout with no source species rows republished; all corrected-row, impact and raw/log sampling-variance checks pass. A re-run of the three unchanged original R models matched all 30 frozen Stage B model statistics exactly (PR #67, Actions #44542568468). This confirms numerical reproducibility, not independent biological replication or causality. RC3 stays blocked and RC4 still needs visually reviewed anonymous DOCX/PDF, rights and author approval."
+    },
+    {
+      "id": "CADOTTE-2017-FD-NDE-EXPLORATORY",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/69",
+      "unit": "40 original mixtures, 14 trait species and 34 original planted composition holdout groups, one Canadian experiment",
+      "estimand": "same-plot and same-composition-fold FD incremental SSE prediction: NDE (signed) versus absolute biomass, plus selection and complementarity, adjusted for planted richness and mean SLA/height",
+      "observations": {
+        "source_zenodo": "https://zenodo.org/records/5022435",
+        "original_data_MD5_files_verified": 4,
+        "original_mixtures": 40,
+        "composition_holdout_groups": 34,
+        "NDE_equal_original_selection_plus_complementarity": true,
+        "source_plot_biomass_crosscheck_mismatches": 0,
+        "gain_absolute_biomass": 0.08819451939612577,
+        "gain_absolute_biomass_95CI": [
+          -0.13507909272815424,
+          0.2577613184007899
+        ],
+        "gain_NDE": -0.03619668084038774,
+        "gain_NDE_95CI": [
+          -0.1552250182457807,
+          0.04087317829716512
+        ],
+        "gain_complementarity": -0.06247859661441435,
+        "gain_selection": -0.012355025909775552,
+        "NDE_minus_absolute_gain": -0.12439120023651351,
+        "NDE_minus_absolute_gain_95CI": [
+          -0.2656392635670391,
+          0.008373569198313198
+        ],
+        "bootstrap_resamples_of_heldout_error_vectors": 1000,
+        "source_CI_run": 44750171096,
+        "source_qa_run": 44751586875
+      },
+      "caveat": "Source-verified separate retrospective and outcome-aware **single-study** pilot. All individual and paired 95% intervals cross zero; hypothesized better NDE prediction not supported, and opposite point sign is not conclusive. 34 composition holdouts are not 34 studies. Bootstrap resamples heldout errors without refitting. Pre-sown two-trait FD is an attribute of planted species, not an independently randomized FD intervention. Prior Cadotte selection/complementarity relationship already published; no new causal inference or global FD biomass generality."
     }
   ]
 }

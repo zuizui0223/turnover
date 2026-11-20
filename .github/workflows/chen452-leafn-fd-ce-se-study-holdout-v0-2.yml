@@ -1,0 +1,98 @@
+name: Chen452 v0.2 source-identifiable Eco1-only FD predicts CE versus SE in held-out studies
+on:
+  push:
+    branches:
+      - analysis/chen452-leafn-fd-ce-se-lo-study-20261120
+    paths:
+      - '.github/workflows/chen452-leafn-fd-ce-se-study-holdout-v0-2.yml'
+      - 'scripts/analysis/chen452_identifiable_leafn_fd_ce_se_study_holdout_v0_2.py'
+      - 'docs/CHEN452_LEAFN_FD_CE_SE_STUDY_HOLDOUT_IDENTIFIABLE_V0_2.md'
+  pull_request:
+    paths:
+      - '.github/workflows/chen452-leafn-fd-ce-se-study-holdout-v0-2.yml'
+      - 'scripts/analysis/chen452_identifiable_leafn_fd_ce_se_study_holdout_v0_2.py'
+  workflow_dispatch:
+
+concurrency:
+  group: chen452-study-holdout-identifiable-v02-20261120
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  source-locked-study-holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install numerical library and run synthetic no-outcome checks
+        run: |
+          python3 -m pip install -q numpy
+          python3 -m py_compile scripts/analysis/chen452_identifiable_leafn_fd_ce_se_study_holdout_v0_2.py
+          python3 scripts/analysis/chen452_identifiable_leafn_fd_ce_se_study_holdout_v0_2.py --self-test
+          test -s docs/CHEN452_LEAFN_FD_CE_SE_STUDY_HOLDOUT_IDENTIFIABLE_V0_2.md
+      - name: Verify five original restrictions, source arithmetic and all source-only LO-study folds
+        run: |
+          mkdir -p build/chen452_identifiable_v02
+          python3 scripts/analysis/chen452_identifiable_leafn_fd_ce_se_study_holdout_v0_2.py \
+            --mode preflight --out build/chen452_identifiable_v02/source_only.json
+          python3 - <<'PY'
+          import json
+          p='build/chen452_identifiable_v02/source_only.json'
+          x=json.load(open(p))
+          assert x['no_original_biological_rows_exported']
+          assert x['no_original_study_plot_or_species_names_exported']
+          assert x['model_fitted'] is False
+          assert x['author_published_FD_CE_SE_findings_known_before_design']
+          assert x['old_v0_1_specification_rank_HOLD_retained']
+          print('SOURCE_ONLY_COHORT_OR_HOLD',x['status'])
+          PY
+      - name: Fit unchanged original-study-held-out comparisons ONLY when source eligibility passed
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,sys
+          x=json.load(open('build/chen452_identifiable_v02/source_only.json'))
+          if x['status']!='CHEN452_CE_SE_ORIGINAL_STUDY_SOURCE_QUALIFIED':
+              print('SOURCE_OR_FIXED_DESIGN_HOLD_NO_BIOLOGICAL_EFFECT_OPENED',x.get('hold_code'),x['status'])
+              sys.exit(0)
+          cmd=[sys.executable,'scripts/analysis/chen452_identifiable_leafn_fd_ce_se_study_holdout_v0_2.py',
+               '--mode','fit','--out','build/chen452_identifiable_v02/frozen_prediction_result.json']
+          subprocess.run(cmd,check=True)
+          PY
+      - name: Ensure full result or fail-closed source diagnostic, never invent valid model
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('build/chen452_identifiable_v02')
+          s=json.loads((root/'source_only.json').read_text())
+          path=root/'frozen_prediction_result.json'
+          if s['status']=='CHEN452_CE_SE_ORIGINAL_STUDY_SOURCE_QUALIFIED':
+              assert path.is_file()
+              d=json.loads(path.read_text())
+              assert d['status']=='CHEN452_LEAFN_AND_SLA_FD_STUDY_HOLDOUT_COMPLETED',d.get('hold_code')
+              assert d['model_fitted'] is True
+              assert d['no_original_biological_rows_exported']
+              assert set(d['cohorts'])=={'leafN','SLA'}
+              for cohort,results in d['cohorts'].items():
+                  o=results['fixed_model_comparison']
+                  assert set(o['outcomes'])=={'CE','SE','CE_minus_SE'}
+                  assert o['bootstrap_resamples']==2000
+                  assert len(o['primary_paired_study_bootstrap_95CI'])==2
+              print('FROZEN_CROSS_STUDY_CE_SE_FD_PREDICTION_REPRODUCIBLE_PASS')
+          else:
+              assert not path.exists()
+              assert s['model_fitted'] is False
+              print('ORIGINAL_SOURCE_DESIGN_HOLD_NO_EFFECTS_OPENED')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chen452-v02-identifiable-CE-SE-leafN-and-SLA-studyheldout
+          path: build/chen452_identifiable_v02/
+          if-no-files-found: ignore
+          retention-days: 90

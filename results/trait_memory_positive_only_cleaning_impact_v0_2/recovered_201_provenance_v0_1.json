@@ -1,0 +1,44 @@
+{
+  "status": "RECOVERED_LOG_BACKED_CLEANED_201_SYSTEM_TABLE",
+  "primary_data_rows": 201,
+  "modified_systems": 49,
+  "unchanged_systems": 152,
+  "original_source_run": 37281031394,
+  "corrected_source_run": 37443037590,
+  "original_batch_jobs": 32,
+  "corrected_batch_jobs": 8,
+  "original_payload_part_files": [
+    "recovered_original_robust_R001_R014.json",
+    "recovered_original_robust_R015_R028.json",
+    "recovered_original_robust_R029_R032.json"
+  ],
+  "corrected_payload_part_file": "recovered_stage_b_cleaned_C01_C08.json",
+  "aggregate_reference": "result.json",
+  "schema_fields": 30,
+  "source_data_reestimated": false,
+  "source_species_measurement_rows_included": false,
+  "no_original_species_states_or_names": true,
+  "full_201_effects_csv": "effects_positive_only_cleaned_recovered_v0_2.csv",
+  "original_aggregate_spearman_S3": 0.9910388650805381,
+  "original_aggregate_spearman_prune": 0.9935584453967785,
+  "hard_check": {
+    "49_original_rho_identical_to_source_v0_3": true,
+    "49_original_nonpositive_counts_identical": true,
+    "152_unmodified_source_log_estimates_available": true,
+    "all_201_admitted_original_tree_graph": true
+  },
+  "independent_frozen_model_replay": {
+    "run_id": 44542568468,
+    "url": "https://github.com/zuizui0223/turnover/actions/runs/44542568468",
+    "source_artifact_id": 14538379092,
+    "source_artifact_digest": "sha256:e6f68e50a65f593b1a8b290a54b234382a1b6fb2de4de44416a3eb0152e3c5db",
+    "checked_numbers": 30,
+    "max_absolute_difference": 0,
+    "model_selection_or_parameter_changes": false,
+    "models_replayed": [
+      "crossed measurement-error-aware variance components",
+      "training-only held-out-family BLUP",
+      "predeclared correlated-trait zero-family-effect null"
+    ]
+  }
+}

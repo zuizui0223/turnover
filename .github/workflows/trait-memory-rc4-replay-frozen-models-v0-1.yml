@@ -1,0 +1,93 @@
+name: Evolution RC4 replay frozen models from recovered 201 effects
+on:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc4-cleaned-20261119
+    paths:
+      - '.github/workflows/trait-memory-rc4-replay-frozen-models-v0-1.yml'
+      - 'scripts/analysis/verify_trait_memory_rc4_recovered_models_v0_1.py'
+      - 'results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv'
+  workflow_dispatch:
+
+concurrency:
+  group: trait-memory-rc4-frozen-model-replay-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  replay-only-no-model-selection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::lme4
+            any::metafor
+            any::Matrix
+            any::MASS
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze exact source row checks before fitting unchanged models
+        run: |
+          python3 scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py --out build/rc4/row_identity.json
+          python3 - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path("build/rc4/row_identity.json").read_text())
+          assert d["status"]=="REPAIRED_201_LOG_RECOVERY_IDENTITY_PASS"
+          assert d["impact_exactly_matches_original_successful_Stage_B"]
+          assert d["SE_squared_means_match_original_Stage_B_all_four_axes"]
+          p=pathlib.Path("build/rc4/model_contract.json")
+          p.parent.mkdir(parents=True,exist_ok=True)
+          p.write_text(json.dumps({
+            "status":"TRAIT_MEMORY_ROBUST_EFFECTS_AGGREGATED",
+            "n_systems":201,
+            "n_qualified_families":45,
+            "n_qualified_traits":12,
+            "compatibility_note":"Frozen Stage B original scalar status alias for already verified recovered 201 rows; no scientific parameter changed."
+          },indent=2)+"\n")
+          PY
+      - name: Refit exact frozen raw and log measurement-error-aware crossed model
+        run: |
+          Rscript scripts/analysis/fit_trait_memory_measurement_aware_v0_3.R \
+            --effects results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv \
+            --aggregate-json build/rc4/model_contract.json \
+            --out build/rc4/measurement_aware_replay.json \
+            --bootstrap-table build/rc4/measurement_aware_replay_bootstrap.csv
+      - name: Refit exact frozen raw and log family-held-out BLUP
+        run: |
+          Rscript scripts/analysis/test_trait_memory_portability_blup_v0_3.R \
+            --effects results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv \
+            --aggregate-json build/rc4/model_contract.json \
+            --out build/rc4/blup_replay.json \
+            --predictions build/rc4/blup_replay_predictions.csv
+      - name: Refit exact frozen correlated-trait zero-family null
+        run: |
+          Rscript scripts/analysis/test_trait_memory_correlated_trait_null_v0_3.R \
+            --effects results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv \
+            --aggregate-json build/rc4/model_contract.json \
+            --out build/rc4/null_replay.json \
+            --null-table build/rc4/null_replay_draws.csv
+      - name: Compare frozen replay model outputs to original Stage B results
+        run: |
+          python3 -m py_compile scripts/analysis/verify_trait_memory_rc4_recovered_models_v0_1.py
+          python3 scripts/analysis/verify_trait_memory_rc4_recovered_models_v0_1.py \
+            --measurement build/rc4/measurement_aware_replay.json \
+            --blup build/rc4/blup_replay.json \
+            --null build/rc4/null_replay.json \
+            --out build/rc4/frozen_model_replay_qa.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evolution-rc4-recovered-201-original-model-replay-nonraw
+          path: build/rc4
+          if-no-files-found: warn
+          retention-days: 90

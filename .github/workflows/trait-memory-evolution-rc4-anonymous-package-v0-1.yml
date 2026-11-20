@@ -1,0 +1,161 @@
+name: Evolution RC4 anonymous Word PDF and figure review package
+on:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc4-cleaned-20261119
+    paths:
+      - '.github/workflows/trait-memory-evolution-rc4-anonymous-package-v0-1.yml'
+      - 'scripts/submission/build_evolution_rc4_anonymous_v0_1.py'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md'
+      - 'docs/TRAIT_MEMORY_EVOLUTION_RC4_FIGURE_CAPTIONS_V0_1.md'
+      - 'scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py'
+      - 'results/trait_memory_positive_only_cleaning_impact_v0_2/**'
+  workflow_dispatch:
+
+concurrency:
+  group: trait-memory-evolution-rc4-anonymous-package
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  anonymous-review-rc4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Word/render QA dependencies
+        run: |
+          python -m pip install -q python-docx numpy matplotlib pillow pypdf cairosvg
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-writer poppler-utils fonts-liberation
+      - name: Verify original source-locked 201-row effects before document creation
+        run: |
+          python scripts/analysis/validate_trait_memory_rc4_recovered_table_v0_1.py --out build/rc4_package/source_qa.json
+          python scripts/analysis/verify_trait_memory_evolution_rc4_stage_b_v0_1.py
+      - name: Regenerate source-based figures without new inferential model
+        run: |
+          python scripts/figures/render_trait_memory_rc4_cleaned_v0_1.py --out-dir build/rc4_package/figures
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('build/rc4_package/figures/rc4_figures_manifest.json').read_text())
+          assert x['recovered_systems']==201 and x['no_new_significance_tests']
+          assert len(x['figure_files'])==6
+          PY
+      - name: Generate anonymous Word manuscript including three figures and legends
+        run: |
+          python scripts/submission/build_evolution_rc4_anonymous_v0_1.py \
+            --figure-dir build/rc4_package/figures \
+            --output-dir build/rc4_package/anonymous
+      - name: Generate reviewer PDF and vector standalone figure PDFs
+        run: |
+          mkdir -p build/rc4_package/preview
+          soffice -env:UserInstallation=file:///tmp/soffice-rc4-anonymous-$GITHUB_RUN_ID \
+            --headless --convert-to pdf --outdir build/rc4_package/anonymous \
+            build/rc4_package/anonymous/Anonymous_Main_Manuscript_RC4.docx
+          python - <<'PY'
+          from pathlib import Path
+          import cairosvg
+          base=Path('build/rc4_package')
+          for idx,stem in enumerate((
+            'Fig1_source_correction_identity',
+            'Fig2_measurement_aware_point_shares',
+            'Fig3_raw_vs_log_trait_portability'),1):
+              cairosvg.svg2pdf(url=str(base/'figures'/f'{stem}.svg'),
+                               write_to=str(base/'anonymous'/f'Anonymous_Figure_{idx}.pdf'))
+          PY
+          test -s build/rc4_package/anonymous/Anonymous_Main_Manuscript_RC4.pdf
+          pdfinfo build/rc4_package/anonymous/Anonymous_Main_Manuscript_RC4.pdf
+          pdftoppm -r 110 -png -q build/rc4_package/anonymous/Anonymous_Main_Manuscript_RC4.pdf build/rc4_package/preview/page
+      - name: Rendered PDF and anonymous Word/figure/privacy audit
+        run: |
+          python - <<'PY'
+          import re,json,zipfile
+          from pathlib import Path
+          from PIL import Image,ImageChops,ImageDraw
+          from pypdf import PdfReader
+          from docx import Document
+          base=Path('build/rc4_package')
+          manuscript=base/'anonymous/Anonymous_Main_Manuscript_RC4.docx'
+          pdf=base/'anonymous/Anonymous_Main_Manuscript_RC4.pdf'
+          doc=Document(manuscript)
+          pages=PdfReader(pdf).pages
+          txt='\n'.join(p.extract_text() or '' for p in pages)
+          assert 10<=len(pages)<=70, f'Unexpected page count: {len(pages)}'
+          for t in ('Repeatable lineage context','Abstract','Introduction','Materials and Methods',
+                    'Results','Discussion','References','Figure 1.','Figure 2.','Figure 3.',
+                    '5.92%','5.51%','1.21%'):
+            assert t in txt, f'PDF missing {t}'
+          for t in ('Teaser text','RC4 evidence and figure status','Remaining submission HOLD',
+                    'old RC3 submission remains blocked','zuizui0223',
+                    'github.com/','rachelzhang','Tohoku University','ZHANG RUIQI'):
+            assert t.lower() not in txt.lower(), f'Private or nonpaper text present: {t}'
+          assert not re.search(r'[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}',txt), 'Email leaked'
+          with zipfile.ZipFile(manuscript) as z:
+            images=[n for n in z.namelist() if n.startswith('word/media/')]
+            assert len(images)==3, f'Expected three inserted figures, got {images}'
+            mainxml=z.read('word/document.xml').decode()
+            assert 'lnNumType' in mainxml,'No Word continuous line numbering'
+            assert mainxml.count('descr=')>=3,'Missing image alternative descriptions'
+            for n in z.namelist():
+              if not (n.endswith('.xml') or n.endswith('.rels')): continue
+              b=z.read(n).decode(errors='ignore').lower()
+              for needle in ('.git/', 'github.com/zuizui0223', 'rachelzhang',
+                             'zhang ruiqi','tohoku university'):
+                assert needle not in b, f'Identity metadata leak: {needle} in {n}'
+          assert doc.core_properties.author=='Anonymous'
+          assert doc.core_properties.last_modified_by=='Anonymous'
+          assert len(doc.inline_shapes)==3
+          pngs=sorted((base/'preview').glob('page-*.png'))
+          assert len(pngs)==len(pages), f'Rendered page count mismatch {len(pngs)} vs {len(pages)}'
+          measurements=[]
+          for path in pngs:
+            im=Image.open(path).convert('RGB')
+            bg=Image.new('RGB',im.size,'white')
+            bounds=ImageChops.difference(im,bg).getbbox()
+            assert bounds is not None, f'Blank page: {path.name}'
+            x0,y0,x1,y1=bounds
+            assert x0>=8 and y0>=8 and x1<=im.width-8 and y1<=im.height-8, f'Clipped page {path.name} {bounds}'
+            measurements.append({'page':path.name,'bounds':list(bounds)})
+          for n in (1,2,3):
+            assert len(PdfReader(base/'anonymous'/f'Anonymous_Figure_{n}.pdf').pages)==1
+          report={'status':'ANONYMOUS_RC4_RENDERED_AUTOMATED_QA_PASS',
+                  'pdf_pages':len(pages),'rendered_pages_checked':len(pngs),
+                  'docx_embedded_figures':len(images),'alt_text_count':len(doc.inline_shapes),
+                  'standalone_vector_figure_pdfs':3,
+                  'privacy_scan':'PASS','manual_visual_inspection':'PENDING',
+                  'source_models_recomputed':False,'submission_ready':False,
+                  'page_bounds_sample':measurements[:3]}
+          (base/'anonymous/rc4_anonymous_package_qa.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,sort_keys=True))
+          import math
+          thumbs=[]
+          for i,path in enumerate(pngs,1):
+            img=Image.open(path).convert('RGB')
+            img.thumbnail((300,430))
+            tile=Image.new('RGB',(324,476),'white')
+            tile.paste(img,((324-img.width)//2,20))
+            ImageDraw.Draw(tile).text((8,450),f'Page {i}',fill='black')
+            thumbs.append(tile)
+          cols=4
+          sheet=Image.new('RGB',(cols*324,math.ceil(len(thumbs)/cols)*476),'#eeeeee')
+          for i,tile in enumerate(thumbs):
+            sheet.paste(tile,((i%cols)*324,(i//cols)*476))
+          sheet.save(base/'preview/contact_sheet_all_pages.png')
+          print(f'RENDERED_CONTACT_SHEET {len(pngs)} pages')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evolution-rc4-anonymous-docx-pdf-figures-and-visual-qa
+          path: |
+            build/rc4_package/anonymous/
+            build/rc4_package/preview/contact_sheet_all_pages.png
+            build/rc4_package/source_qa.json
+          if-no-files-found: warn
+          retention-days: 90

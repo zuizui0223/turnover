@@ -1,0 +1,43 @@
+name: Evolution RC4 cleaned Stage B scientific-text evidence gate
+on:
+  push:
+    branches:
+      - submission/trait-memory-evolution-rc4-cleaned-20261119
+    paths:
+      - 'docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md'
+      - 'submission/EVOLUTION_RC4_STAGE_B_CLEANED_GATE.json'
+      - 'scripts/analysis/verify_trait_memory_evolution_rc4_stage_b_v0_1.py'
+  pull_request:
+    paths:
+      - 'docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md'
+      - 'submission/EVOLUTION_RC4_STAGE_B_CLEANED_GATE.json'
+      - 'scripts/analysis/verify_trait_memory_evolution_rc4_stage_b_v0_1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-contract-no-effects:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile and verify the source-checked RC4 manuscript claim contract
+        run: |
+          python3 -m py_compile scripts/analysis/verify_trait_memory_evolution_rc4_stage_b_v0_1.py
+          python3 scripts/analysis/verify_trait_memory_evolution_rc4_stage_b_v0_1.py
+      - name: No new empirical effects or package submission
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('submission/EVOLUTION_RC4_STAGE_B_CLEANED_GATE.json').read_text())
+          assert d['status']=='HOLD_AUTHOR_APPROVAL_DATA_RIGHTS_AND_JOURNAL_SUBMISSION'
+          assert d['manuscript']['formal_submission_ready'] is False
+          assert d['manuscript']['old_RC3_submission_HOLD_preserved'] is True
+          print('RC4_CI_INFERENCE_AND_SUBMISSION_FIREWALL_PASS')
+          PY

@@ -1,0 +1,70 @@
+{
+  "version": "RC4_STAGE_B_CLEANED_v0.1",
+  "created_jst": "2026-11-19",
+  "status": "HOLD_AUTHOR_APPROVAL_DATA_RIGHTS_AND_JOURNAL_SUBMISSION",
+  "primary_evidence": {
+    "dataset": "BIEN 4.2.8",
+    "systems": 201,
+    "families": 45,
+    "traits": 12,
+    "source_cleaning_audit_pr": 30,
+    "cleaning_frozen_design": "data/trait_memory_positive_only_cleaning_impact_design_v0_2.json",
+    "scientific_result": "results/trait_memory_positive_only_cleaning_impact_v0_2/result.json",
+    "original_successful_actions_run": 37443037590,
+    "original_downstream_job": 112205536516,
+    "original_downstream_zip_artifact": 11402782797,
+    "original_zip_retention_days": 30,
+    "original_source_artifact_availability": "NOT_CONFIRMED_AND_MAY_BE_EXPIRED",
+    "source_integrity": "Original v0.3 201-system rho/SE and Stage B 49 corrected raw/log rho/SE recovered from 40 original GitHub job stdout records; full 201-row cleaned effects CSV committed. Original Stage B corrected-impact summary and all four mean(SE²) inputs matched; independent CI #44541550788 PASS.",
+    "recovered_201_effects_csv": "results/trait_memory_positive_only_cleaning_impact_v0_2/effects_positive_only_cleaned_recovered_v0_2.csv",
+    "recovered_source_manifest": "results/trait_memory_positive_only_cleaning_impact_v0_2/recovered_201_provenance_v0_1.json",
+    "recovery_source_job_runs": [
+      37281031394,
+      37443037590
+    ],
+    "recovery_qa_action_run": 44541550788,
+    "frozen_model_replay_run": 44542568468,
+    "frozen_model_replay_artifact_id": 14538379092,
+    "frozen_model_replay_result": "30 / 30 frozen model numeric checks match original Stage B, max absolute difference = 0.0"
+  },
+  "manuscript": {
+    "file": "docs/TRAIT_MEMORY_EVOLUTION_MANUSCRIPT_RC4_CLEANED_V0_1.md",
+    "raw_and_log_both_mandatory": true,
+    "formal_submission_ready": false,
+    "unmodified_old_RC3_pr": 29,
+    "old_RC3_submission_HOLD_preserved": true,
+    "cleaned_201_source_row_effects_restored": true,
+    "figure_source_validation_success": true,
+    "source_verified_figure_action_run": 44541550788,
+    "figure_action_artifact_id": 14538043215,
+    "figure_action_artifact_expiration": "2027-02-17T14:14:13Z",
+    "frozen_R_model_replay_success": true,
+    "canonical_figure_captions": "docs/TRAIT_MEMORY_EVOLUTION_RC4_FIGURE_CAPTIONS_V0_1.md",
+    "anonymous_rc4_docx_pdf_rendered": true,
+    "anonymous_package_successful_actions_run": 44731825055,
+    "anonymous_package_artifact_id": 14626941673,
+    "anonymous_package_artifact_sha256": "2ecebc6c71deda84f0b4853cea4c58b4443f5f879b7447a15fc81f1440923e2c",
+    "anonymous_package_rendered_page_count": 19,
+    "anonymous_package_full_page_visual_audit": "19/19 pages inspected, including all figure/caption pages; no clipping, blank pages or overlapping legends",
+    "anonymous_package_a11y_audit": "0 high / 0 medium / 0 low",
+    "anonymous_derived_data_code_zip": true,
+    "anonymous_derived_data_code_ci_run": 44731211225,
+    "anonymous_derived_data_code_artifact_id": 14625848802,
+    "author_only_title_page": "docs/EVOLUTION_RC4_TITLE_PAGE_AUTHOR_ONLY_TEMPLATE_V0_1.md",
+    "author_only_cover_letter": "docs/EVOLUTION_RC4_COVER_LETTER_AUTHOR_ONLY_V0_1.md"
+  },
+  "outstanding_before_submission": [
+    "Fill and verify author names, affiliations, order, corresponding author, contributions, funding and conflict-of-interest fields on the separate author-only title page.",
+    "Check BIEN and tree-data reuse terms, code licences, permanent archiving/deposition rights and any third-party permissions; complete an approved Data Availability statement.",
+    "Obtain all coauthors' review of corrected RC4 scientific claims, figure captions, bibliography, AI disclosure, anonymization and files.",
+    "Obtain explicit author authorization and complete the Evolution editorial submission system; no submission has been made."
+  ],
+  "science_guard": [
+    "No new effects, trait transformations or predictors to strengthen desired results.",
+    "No data threshold changes after outcome.",
+    "No reuse of older uncleaned figures as cleaned data.",
+    "No replacing K, rho, phylogenetic rates or time-space claims.",
+    "Do not auto-merge or submit."
+  ],
+  "review_decision": "ANONYMOUS_RC4_DOCX_PDF_19P_AND_THREE_FIGURES_VISUALLY_VALIDATED__AUTHORS_RIGHTS_SUBMISSION_HOLD"
+}

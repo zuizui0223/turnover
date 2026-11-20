@@ -48,7 +48,7 @@ def fetch(name):
 
 def csv_rows(name,data):
     s=data.decode("utf-8-sig")
-    reader=csv.DictReader(io.StringIO(s))
+    reader=csv.DictReader(io.StringIO(s,newline=""))
     if not reader.fieldnames:fail("ORIGINAL_CSV_HEADER_MISSING_"+name)
     return [{(k or "").strip(): (v or "").strip() for k,v in r.items()} for r in reader]
 

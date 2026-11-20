@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "as_of_jst": "2026-11-19",
+  "as_of_jst": "2026-11-20",
   "repository": "zuizui0223/turnover",
   "purpose": "Cross-programme evidence inventory; no novel pooled effects, no reclassification of frozen primary outcomes",
   "status_vocab": {
@@ -354,6 +354,57 @@
         "source_qa_run": 44751586875
       },
       "caveat": "Source-verified separate retrospective and outcome-aware **single-study** pilot. All individual and paired 95% intervals cross zero; hypothesized better NDE prediction not supported, and opposite point sign is not conclusive. 34 composition holdouts are not 34 studies. Bootstrap resamples heldout errors without refitting. Pre-sown two-trait FD is an attribute of planted species, not an independently randomized FD intervention. Prior Cadotte selection/complementarity relationship already published; no new causal inference or global FD biomass generality."
+    },
+    {
+      "id": "CHEN452-LEAFN-FD-CE-SE-STUDY-TRANSPORT",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/71",
+      "unit": "2025 Nature author-published meta-analysis, 4598 original no-outlier mixture rows/452 StudyIDs. Fixed model complete-case cohorts: leaf N 1709 observations/116 author StudyIDs; SLA 2031/127 author StudyIDs.",
+      "estimand": "Extra predictive study-equal held-out-study squared error gain when a priori planted-species RaoQ functional diversity is added beyond richness, PD, CWM, N-fixer mix, stand age, ecosystem and climate, for signed CE vs signed SE with identical original StudyID folds",
+      "observations": {
+        "original_452_study_raw_nooutlier_source_rows": 4598,
+        "original_complete_leafN_rows": 1709,
+        "original_complete_leafN_StudyIDs": 116,
+        "original_complete_SLA_rows": 2031,
+        "original_complete_SLA_StudyIDs": 127,
+        "original_v01_model_all_folds_rank_hold": true,
+        "v02_identifiability_adjustment": "remove the exact redundant PlantType dummy, keep Eco1; source row/fold and numerical gates unchanged before outcomes",
+        "original_CE_plus_SE_equals_DY_source_checks": true,
+        "leafN_gain_CE": 0.007674929661180108,
+        "leafN_gain_CE_95CI": [
+          -0.028655280994113786,
+          0.03661520933855403
+        ],
+        "leafN_gain_SE": -0.011853713244749375,
+        "leafN_gain_SE_95CI": [
+          -0.01956819559641067,
+          -0.004970028227339615
+        ],
+        "leafN_gain_CE_minus_SE": 0.019528642905929483,
+        "leafN_gain_CE_minus_SE_95CI": [
+          -0.01592704775157274,
+          0.050832375848030915
+        ],
+        "SLA_gain_CE": -0.0012638897564301033,
+        "SLA_gain_CE_95CI": [
+          -0.007704730072469496,
+          0.004693574930923855
+        ],
+        "SLA_gain_SE": 0.0004396600868962208,
+        "SLA_gain_SE_95CI": [
+          -0.018784194671832528,
+          0.021190880160130952
+        ],
+        "SLA_gain_CE_minus_SE": -0.001703549843326324,
+        "SLA_gain_CE_minus_SE_95CI": [
+          -0.022006677457064965,
+          0.01781690602912832
+        ],
+        "new_source_2000_bootstrap_original_studyIDs": true,
+        "source_frozen_analytical_run": 44761456911,
+        "nonrefit_aggregate_arithmetic_QA_run": 44762349411
+      },
+      "caveat": "Retrospective predictive analysis on SAME originally published meta-analysis, not an independent original biological replication. Authors' earlier FD-vs-CE positive associations need not imply FD incremental holdout improvement. Pairwise CE-vs-SE gain difference intervals include zero, and leaf N FD worsens SE prediction score, not biologically suppressing selection. Original StudyID not independently verified unique article, source original outcome-based outlier removal 82 rows and substantial complete-case attrition (116/213 leaf N StudyIDs) limit generality. Study cluster 2000 bootstrap of fixed predictions omits refit uncertainty. No FD-only randomized treatment or phylogenetic-memory FD causal path."
     }
   ]
 }

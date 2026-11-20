@@ -1,0 +1,62 @@
+name: Chen 2025 Nature 452-experiment official Figshare CE/SE source-only gate
+on:
+  push:
+    branches:
+      - source/chen452-ce-se-figshare-20261120
+    paths:
+      - 'docs/CHEN_452_EXPERIMENTS_CE_SE_CROSS_STUDY_SOURCE_GATE_20261120.md'
+      - 'scripts/source/audit_chen452_figshare_original_source_v0_1.py'
+      - '.github/workflows/chen452-figshare-ce-se-source-v0-1.yml'
+  pull_request:
+    paths:
+      - 'docs/CHEN_452_EXPERIMENTS_CE_SE_CROSS_STUDY_SOURCE_GATE_20261120.md'
+      - 'scripts/source/audit_chen452_figshare_original_source_v0_1.py'
+      - '.github/workflows/chen452-figshare-ce-se-source-v0-1.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: chen452-original-source-metadata-20261120
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  original-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and synthetic original-source fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_chen452_figshare_original_source_v0_1.py
+          python3 scripts/source/audit_chen452_figshare_original_source_v0_1.py --self-test
+          test -s docs/CHEN_452_EXPERIMENTS_CE_SE_CROSS_STUDY_SOURCE_GATE_20261120.md
+      - name: Query public official Figshare article and inspect size-bounded data/code headers only
+        run: |
+          mkdir -p build/chen452_original
+          python3 scripts/source/audit_chen452_figshare_original_source_v0_1.py --out build/chen452_original/original_source_metadata.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('build/chen452_original/original_source_metadata.json').read_text())
+          assert d['article_id']==27316062
+          assert d['no_original_study_plot_or_species_names_exported'] is True
+          assert d['no_original_BEF_source_rows_redistributed'] is True
+          assert d['no_CE_SE_FD_models_fitted'] is True
+          assert d['original_independent_study_and_effect_grain_qualified'] is False
+          for f in d['source_files']:
+              assert 'original_response_data' not in f
+              assert 'original_study_names' not in f
+          print('CHEN452_SOURCE_ONLY_NO_EFFECTS_GATE_PASS',d['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chen452-original-figshare-nonraw-source-and-code-metadata
+          path: build/chen452_original/original_source_metadata.json
+          if-no-files-found: ignore
+          retention-days: 90

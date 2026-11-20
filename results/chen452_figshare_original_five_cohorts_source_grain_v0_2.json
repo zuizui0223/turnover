@@ -1,0 +1,87 @@
+{
+  "schema_version": "0.2",
+  "source": "Chen, Xiao & Chen (2025) Nature",
+  "doi": "10.6084/m9.figshare.27316062",
+  "article_id": 27316062,
+  "official_version": 1,
+  "official_license": "CC BY 4.0",
+  "as_of": "2026-11-20",
+  "original_source_first_gate": {
+    "run_id": 44757843070,
+    "result": "SUCCESS",
+    "files_checksum_verified": 29,
+    "original_files": 29,
+    "source_schema_only_artifact_id": 14640650539,
+    "digest": "sha256:6acea07acac81536081a8b60fc8da3e562ef800c3fd7fd5a1fde972a78f7267d"
+  },
+  "original_cohort_gate": {
+    "run_id": 44758861235,
+    "result": "SUCCESS",
+    "original_file_md5_verified": 5,
+    "artifact_id": 14639398282,
+    "digest": "sha256:33bba30bfc006d5ee4a15378001dcd7975d1479e4e62d6703459cb57640920d9"
+  },
+  "author_original_file_rows": {
+    "all_full": 4680,
+    "all_primary_no_outliers": 4598,
+    "field_primary_no_outliers": 3091,
+    "leafN_primary_no_outliers": 2273,
+    "SLA_primary_no_outliers": 2784
+  },
+  "unique_author_study_ids": {
+    "all": 452,
+    "field": 215,
+    "leafN": 213,
+    "SLA": 247
+  },
+  "original_structural_cols": [
+    "StudyID",
+    "ObserveID",
+    "Study",
+    "Location",
+    "LAT",
+    "LON",
+    "MAT",
+    "AI",
+    "StandAge_year",
+    "Eco1",
+    "PlantType",
+    "SR",
+    "SpeciesRatio",
+    "PD",
+    "FD_WithNFix",
+    "DY",
+    "CE",
+    "SE",
+    "yi",
+    "SE_modified",
+    "FD_biomass",
+    "Nt",
+    "Nc"
+  ],
+  "trait_source_cols": {
+    "leafN": [
+      "RaoQLN",
+      "CWMLN",
+      "RaoQLN_harvest",
+      "CWMLN_harvest"
+    ],
+    "SLA": [
+      "RaoQSLA",
+      "CWMSLA",
+      "RaoQSLA_harvest",
+      "CWMSLA_harvest"
+    ]
+  },
+  "missingness_structural_checks": {
+    "all_CE_SE_n": 4598,
+    "leafN_CE_SE_n": 2273,
+    "SLA_CE_SE_n": 2784,
+    "SE_modified_n_all": 4592
+  },
+  "source_analyses_undertaken": 0,
+  "source_original_biological_row_values_republished": false,
+  "statistical_estimand_opened": false,
+  "source_semantic_warning": "Original dataset R script and published methods must verify CE,SE,DY/yi relative units, which RaoQ is based on pre-mixture trait source, and whether StudyID uniquely corresponds to independent publications before any effect model is opened.",
+  "scientific_status": "SOURCE_BYTES_HEADER_AND_COUNTS_PASS; INDEPENDENT_GROUP_AND_OUTCOME_UNIT_QUALIFICATION_PENDING"
+}

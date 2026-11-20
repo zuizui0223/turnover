@@ -54,7 +54,8 @@ def main(dest):
     figure_save(fig,dest,"Fig1_source_correction_identity")
 
     # Fig 2: matched study geometry and model estimate, without attaching a 500-bootstrap CI to the wrong estimand.
-    fig,ax=plt.subplots(figsize=(9,4.5))
+    fig,ax=plt.subplots(figsize=(9,5.0))
+    fig.subplots_adjust(top=.72,bottom=.15)
     series=[]
     for scale in ["cleaned_raw","cleaned_log"]:
         for axis in ["S3_total_point_shares","prune_total_point_shares"]:
@@ -73,8 +74,8 @@ def main(dest):
         bottom+=arr[:,j]
     ax.set_xticks(xx,labels);ax.set_ylabel("Typical total variance (point share, %)")
     ax.set_ylim(0,100)
-    ax.legend(loc="upper right",frameon=False,fontsize=8,ncol=2)
-    ax.set_title("Figure 2. Family context remains; sampling error is substantial",loc="left",fontsize=11)
+    ax.legend(loc="lower center",bbox_to_anchor=(.5,1.01),frameon=False,fontsize=8,ncol=4)
+    ax.set_title("Figure 2. Family context remains; sampling error is substantial",loc="left",fontsize=11,y=1.27)
     fig.text(.02,.02,"Point estimates only; 500-refit component-share intervals overlap. No dominance test.",fontsize=8)
     figure_save(fig,dest,"Fig2_measurement_aware_point_shares")
 

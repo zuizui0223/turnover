@@ -17,10 +17,7 @@ def main():
     d=json.loads(FILE.read_text())
     ensure(d["status"]=="CHEN452_LEAFN_AND_SLA_FD_STUDY_HOLDOUT_COMPLETED","model status")
     ensure(d["method"]["seed"]==20261120,"bootstrap seed drift")
-    ensure(d["provenance"]["v01_original_source_rank_hold_run"]==44760473697 if
-           "v01_original_source_rank_hold_run" in d["provenance"] else
-           d["provenance"]["v01_original_source_rank_hold_run"]==44760473697,
-           "old rank HOLD missing")
+    ensure(d["provenance"]["v01_original_source_rank_hold_run"]==44760473697,"old rank HOLD missing")
     ensure(d["method"]["retrospective_after_published_findings"],"retrospective status")
     ensure(d["provenance"]["v02_actual_source_qualified_models_CI_run"]==44761456911,"source CI drift")
     ensure(d["method"]["uncertainty"].startswith("2000 bootstrap"),"uncertainty definition drift")
@@ -54,8 +51,7 @@ def main():
            "SLA paired contrast interval no longer includes zero")
     ensure(d["cohorts"]["leafN"]["outcomes"]["SE"]["ci95"][1]<0,
            "negative leafN FD incremental SE result drift")
-    ensure(not d["method"]["no_new_pvalues"] if "no_new_pvalues" in d["method"] else True,
-           "unexpected new significance test")
+    ensure(d["method"].get("no_new_pvalues", True) is True,"unexpected new significance test")
     report={"status":"CHEN452_RESTORED_GLOBAL_CE_SE_SOURCE_AGGREGATE_QA_PASS",
             "cohorts":list(d["cohorts"]),"original_studies_leafN":116,
             "original_studies_SLA":127,"n_outcome_SSE_algebra_checks":n,

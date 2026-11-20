@@ -76,7 +76,7 @@ def column_audit(cols,rows):
 
 def run(path):
     article=json.loads(request(ROOT,1_500_000))
-    assert str(article.get("doi","")).endswith("27316062")
+    assert re.search(r"10[.]6084/m9[.]figshare[.]27316062([.]v[0-9]+)?$", str(article.get("doi","")), re.I), "OFFICIAL_FIGSHARE_DOI_IDENTITY_HOLD"
     fm={f["id"]:f for f in article.get("files",[])}
     out={"status":"STRUCTURAL_SOURCE_ONLY_NO_EFFECTS",
          "original_article":27316062,

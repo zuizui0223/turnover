@@ -1,0 +1,30 @@
+name: Cadotte 2017 fixed retrospective FD/NDE aggregate outcome audit
+on:
+  push:
+    branches:
+      - analysis/cadotte-2017-fd-nde-pilot-20261120
+    paths:
+      - '.github/workflows/cadotte-2017-fd-nde-pilot-audit-v0-1.yml'
+      - 'scripts/analysis/verify_cadotte_2017_fd_nde_pilot_v0_1.py'
+      - 'results/cadotte_2017_same_mixture_fd_nde_pilot_v0_1.json'
+  pull_request:
+    paths:
+      - '.github/workflows/cadotte-2017-fd-nde-pilot-audit-v0-1.yml'
+      - 'scripts/analysis/verify_cadotte_2017_fd_nde_pilot_v0_1.py'
+      - 'results/cadotte_2017_same_mixture_fd_nde_pilot_v0_1.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-original-result-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original source and frozen aggregate effect algebra without any refit
+        run: |
+          python3 -m py_compile scripts/analysis/verify_cadotte_2017_fd_nde_pilot_v0_1.py
+          python3 scripts/analysis/verify_cadotte_2017_fd_nde_pilot_v0_1.py

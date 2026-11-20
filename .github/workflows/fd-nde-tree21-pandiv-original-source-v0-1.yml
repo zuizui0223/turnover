@@ -1,0 +1,64 @@
+name: Original Dryad 21 TreeDivNet FD NDE and PaNDiv source-only admission
+
+on:
+  push:
+    branches:
+      - source/fd-nde-productivity-2025-pandiv-20261120
+    paths:
+      - '.github/workflows/fd-nde-tree21-pandiv-original-source-v0-1.yml'
+      - 'scripts/source/audit_fd_nde_tree21_pandiv_original_source_v0_1.py'
+      - 'docs/FD_NDE_ABSOLUTE_YIELD_TREE2025_PANDIV2022_SOURCE_GATE_20261120.md'
+  pull_request:
+    paths:
+      - '.github/workflows/fd-nde-tree21-pandiv-original-source-v0-1.yml'
+      - 'scripts/source/audit_fd_nde_tree21_pandiv_original_source_v0_1.py'
+      - 'docs/FD_NDE_ABSOLUTE_YIELD_TREE2025_PANDIV2022_SOURCE_GATE_20261120.md'
+  workflow_dispatch:
+
+concurrency:
+  group: fd-nde-source-only-20261120
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  public-original-data-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Frozen source contract, syntax and synthetic source parser
+        run: |
+          python3 -m py_compile scripts/source/audit_fd_nde_tree21_pandiv_original_source_v0_1.py
+          python3 scripts/source/audit_fd_nde_tree21_pandiv_original_source_v0_1.py --self-test
+          test -s docs/FD_NDE_ABSOLUTE_YIELD_TREE2025_PANDIV2022_SOURCE_GATE_20261120.md
+      - name: Official anonymous DOI metadata and file-grain preflight
+        run: |
+          mkdir -p build/fd_nde_original
+          python3 scripts/source/audit_fd_nde_tree21_pandiv_original_source_v0_1.py \
+            --out build/fd_nde_original/source_only_v0_1.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('build/fd_nde_original/source_only_v0_1.json').read_text())
+          assert x['no_original_data_rows_redistributed'] is True
+          assert x['no_ecological_coefficients_fitted'] is True
+          assert x['no_biological_causal_mediation_claim'] is True
+          assert x['status']=='SOURCE_ONLY_UNVERIFIED_OR_HOLD'
+          assert len(x['sources'])==3
+          for key,s in x['sources'].items():
+            assert s['biological_effects_fitted']==0
+            assert s['source_data_admission_pass'] is False
+          print('FD_NDE_ORIGINAL_SOURCE_ONLY_GATE_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fd-nde-tree21-pandiv-official-source-metadata-only
+          path: build/fd_nde_original/source_only_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 90

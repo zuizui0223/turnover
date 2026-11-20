@@ -1,0 +1,58 @@
+name: Chen452 official Figshare five original published cohorts and public-header source grain
+on:
+  push:
+    branches:
+      - source/chen452-ce-se-figshare-20261120
+    paths:
+      - '.github/workflows/chen452-figshare-original-cohort-v0-2.yml'
+      - 'scripts/source/audit_chen452_source_cohorts_v0_2.py'
+      - 'docs/CHEN_452_EXPERIMENTS_CE_SE_CROSS_STUDY_SOURCE_GATE_20261120.md'
+  pull_request:
+    paths:
+      - '.github/workflows/chen452-figshare-original-cohort-v0-2.yml'
+      - 'scripts/source/audit_chen452_source_cohorts_v0_2.py'
+  workflow_dispatch:
+
+concurrency:
+  group: chen452-original-source-cohort-header-v02
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source-parsing synthetic fixture
+        run: |
+          python3 -m py_compile scripts/source/audit_chen452_source_cohorts_v0_2.py
+          python3 scripts/source/audit_chen452_source_cohorts_v0_2.py --self-test
+      - name: Official Figshare checksum and original public-header/row-grain metadata
+        run: |
+          mkdir -p build/chen452
+          python3 scripts/source/audit_chen452_source_cohorts_v0_2.py --out build/chen452/cohort_source_v0_2.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('build/chen452/cohort_source_v0_2.json'))
+          assert d['status']=='STRUCTURAL_SOURCE_ONLY_NO_EFFECTS'
+          assert d['no_original_experiment_or_species_ID_values_exported']
+          assert d['no_original_response_values_exported']
+          assert d['no_CE_SE_FD_model_or_hypothesis_fitted']
+          assert d['datasets']['all_primary']['original_data_count']==4598
+          assert d['datasets']['leafN_primary']['original_data_count']==2273
+          assert d['datasets']['SLA_primary']['original_data_count']==2784
+          print('CHEN452_ORIGINAL_FIVE_DATASETS_STRUCTURAL_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chen452-five-official-original-data-tables-public-headers-nonraw
+          path: build/chen452/cohort_source_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 90

@@ -1,0 +1,40 @@
+name: Chen452 original fixed model rank diagnosis (source only, no outcome fits)
+on:
+  push:
+    branches:
+      - analysis/chen452-leafn-fd-ce-se-lo-study-20261120
+    paths:
+      - 'scripts/source/diagnose_chen452_frozen_study_design_rank_v0_1.py'
+      - '.github/workflows/chen452-original-rank-diagnosis-v0-1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rank-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compute outcome-blind original predictor design aliases
+        run: |
+          python -m pip install -q numpy
+          python -m py_compile scripts/source/diagnose_chen452_frozen_study_design_rank_v0_1.py
+          python scripts/source/diagnose_chen452_frozen_study_design_rank_v0_1.py
+          python - <<'PY'
+          import json
+          d=json.load(open('build/chen452_holdout/original_rank_diagnosis_v0_1.json'))
+          assert d['biological_effect_fitted'] is False
+          assert d['source_study_names_exported'] is False
+          assert d['original_frozen_HOLD_unchanged'] is True
+          print('ORIGINAL_DESIGN_RANK_AUDIT_NO_EFFECTS_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chen452-original-source-only-rank-diagnostic
+          path: build/chen452_holdout/original_rank_diagnosis_v0_1.json
+          if-no-files-found: ignore
+          retention-days: 90

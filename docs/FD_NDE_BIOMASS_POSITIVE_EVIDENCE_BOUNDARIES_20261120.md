@@ -77,3 +77,21 @@ A distinct **small-scale method pilot** [PR #69](https://github.com/zuizui0223/t
 ### Revised inference prioritization
 
 The robust causal claim currently supported by manipulative experiments is the **total effect of planted species mixture/richness/composition**, conditional on allocation and design. The hypothesized chain **pre-sowing FD → NDE through selection/complementarity → biomass** remains a mechanistic pathway, not a proven FD-only intervention or a validated BIEN family-specific phylogenetic-memory mediation. When original data become available, use *identical plot sets and whole-experiment holdouts* for absolute productivity and NDE, report both signed NDE and its components, and never log-transform signed component values. Do not count forest and grassland publications sharing original experiments as independent biological replications.
+
+
+## 2026-11-20 実測 Cadotte 2017 探索的予測照合（公開原データ使用、因果解釈なし）
+
+[PR #69](https://github.com/zuizui0223/turnover/pull/69) では公開原著 Zenodo 5022435 の4 CSV のMD5を照合し、元の**40混植区**、**14種の形質**、**34種組成の留保単位**を正確に結合した。全40区で原著 `COMP+SELECT=DeltaY` が成立し、別表の絶対バイオマスと整合（許容誤差外0）、植栽種数と元の種リストも一致した。種を植える前の2形質（log SLA・log height）から作るFDを、種数＋形質平均CWMのベースモデルに追加し、組成を丸ごと除外する予測で比較した。モデル・応答・変換は計算前に固定したが、原著の正の関係を見た後の単一実験のため**retrospective exploratory**である。
+
+| 同一区画の応答 | FD追加の留保組成SSE改善 | 95%組成ブートストラップCI |
+|---|---:|---:|
+| 絶対地上部バイオマス | **+8.82%** | −13.51%〜+25.78% |
+| NDE（元の符号付きDeltaY） | **−3.62%** | −15.52%〜+4.09% |
+| 補完性（COMP） | −6.25% | −15.15%〜+0.08% |
+| 選択（SELECT） | −1.24% | −10.06%〜+3.11% |
+
+**事前指定したNDE改善−絶対量改善 = −12.44ポイント、95%CI [−26.56,+0.84]ポイント。** 予想した「FDは絶対量よりNDEを良く予測する」は**この試行では支持されなかった**。逆方向の普遍性も、CIが0を跨ぐため証明されない。固定された学習済み予測残差を34原組成単位でブートストラップ（1000回）した近似CIであり、モデル再推定ブートストラップではない。元の論文はすでにFDと選択・補完性の関係を報告しているので独立確認を名乗らない。
+
+**重要な含意:** 「FDと補完性／NDEの原著正相関」と「種数・CWMを超えたFDの独立した留保組成予測利得」は**違う推定対象**である。原著の正相関が成立してもこの追加予測が確立するとは限らない。NDEや選択・補完性は符号付きなので対数変換しない。原著の生物種組成がFDと同時に変わるためFDだけの因果介入効果ではなく、K/ρ→FD→バイオマスの媒介連鎖でもない。
+
+[実測CI #44750171096](https://github.com/zuizui0223/turnover/actions/runs/44750171096)、[独立集計QA #44751586875](https://github.com/zuizui0223/turnover/actions/runs/44751586875)。この1実験40区を21森林実験／PaNDivと合算したメタ解析とは呼べない。TreeDivNet 2025・PaNDiv 2022/2025 の原データは引き続きオリジナルDryadダウンロードHTTP401＝SOURCE_ACCESS_HOLDであり、それらに新しい係数は存在しない。

@@ -1,0 +1,79 @@
+{
+  "analysis_status": "RETROSPECTIVE_EXPLORATORY_CV_PILOT_COMPLETE",
+  "effect": {
+    "composition_bootstrap_replicates": 1000,
+    "descriptive_gain_difference_NDE_minus_absolute_mass": -0.12439120023651351,
+    "endpoint_predictive_gain": {
+      "COMP": {
+        "composition_bootstrap_ci95": [
+          -0.15150321520258583,
+          0.0007817993621129948
+        ],
+        "gain": -0.06247859661441435,
+        "sse_baseline": 26575.952299390025,
+        "sse_fd_added": 28236.380502747532
+      },
+      "NDE": {
+        "composition_bootstrap_ci95": [
+          -0.1552250182457807,
+          0.04087317829716512
+        ],
+        "gain": -0.03619668084038774,
+        "sse_baseline": 59170.032277553786,
+        "sse_fd_added": 61311.79105121984
+      },
+      "SELECT": {
+        "composition_bootstrap_ci95": [
+          -0.10063877254285784,
+          0.0311130135976811
+        ],
+        "gain": -0.012355025909775552,
+        "sse_baseline": 27297.61758633661,
+        "sse_fd_added": 27634.880358890947
+      },
+      "mass": {
+        "composition_bootstrap_ci95": [
+          -0.13507909272815424,
+          0.2577613184007899
+        ],
+        "gain": 0.08819451939612577,
+        "sse_baseline": 38262.417312629106,
+        "sse_fd_added": 34887.88180680778
+      }
+    },
+    "paired_group_bootstrap_ci95": [
+      -0.2656392635670391,
+      0.008373569198313198
+    ],
+    "source_group_holdout_count": 34
+  },
+  "no_causal_FD_mediation_claim": true,
+  "no_global_generalization_claim": true,
+  "no_new_hypothesis_selection": true,
+  "no_original_species_rows_redistributed": true,
+  "original_MD5_provenance": {
+    "comp_select.csv": "079c2ef9fdf62a9b3c6bd40877d3e0d2",
+    "planted.csv": "4e2bb17177a7f2be0347182b1f60ce27",
+    "raw_biomass.csv": "73de6c8957f5a1c7729898057c4c339b",
+    "species_traits_final2016.csv": "c4211aacdf298f9c2bee62dca95ee9f6"
+  },
+  "original_source_doi": "10.5061/dryad.627rt",
+  "outcome_preview_and_published_directions_seen_before_pilot_protocol": true,
+  "raw_original_numeric_observations_exported": false,
+  "scientific_role": "RETROSPECTIVE_SINGLE_STUDY_PILOT_NOT_INDEPENDENT_CONFIRMATION",
+  "source": "Cadotte 2017 Ecology Letters original Dryad CC0 Zenodo 5022435",
+  "source_counts": {
+    "biomass_original_cross_source_failures": 0,
+    "component_identity_failures": 0,
+    "source_joined_mixture_rows": 40,
+    "source_original_biomass_rows": 89,
+    "source_original_comp_select_rows": 40,
+    "source_original_planted_rows": 91,
+    "source_original_trait_taxa": 14,
+    "source_pre_mixing_named_taxon_columns": 14,
+    "sown_vs_realized_richness_mismatches": 0,
+    "unique_source_composition_groups": 34
+  },
+  "source_status": "ORIGINAL_SOURCE_IDENTITIES_AND_JOIN_PASS",
+  "source_url": "https://zenodo.org/records/5022435"
+}

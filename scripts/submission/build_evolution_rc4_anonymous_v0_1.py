@@ -139,7 +139,9 @@ def main(fig_dir,out_dir):
             inline(p,t)
     for n,name in enumerate(FIGURES,1):
         p=doc.add_paragraph()
-        p.page_break_before=True;p.paragraph_format.space_after=Pt(3)
+        p.paragraph_format.page_break_before=True
+        p.paragraph_format.keep_with_next=True
+        p.paragraph_format.space_after=Pt(3)
         p.alignment=WD_ALIGN_PARAGRAPH.CENTER
         shape=p.add_run().add_picture(str(fig_dir/name),width=Inches(6.7))
         shape._inline.docPr.set("descr",caps[n][1])

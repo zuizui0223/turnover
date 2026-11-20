@@ -91,7 +91,8 @@ jobs:
                     'Results','Discussion','References','Figure 1.','Figure 2.','Figure 3.',
                     '5.92%','5.51%','1.21%'):
             assert t in txt, f'PDF missing {t}'
-          for t in ('Teaser text','RC4 evidence and figure status','zuizui0223',
+          for t in ('Teaser text','RC4 evidence and figure status','Remaining submission HOLD',
+                    'old RC3 submission remains blocked','zuizui0223',
                     'github.com/','rachelzhang','Tohoku University','ZHANG RUIQI'):
             assert t.lower() not in txt.lower(), f'Private or nonpaper text present: {t}'
           assert not re.search(r'[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}',txt), 'Email leaked'

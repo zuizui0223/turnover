@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "date": "2026-11-20",
+  "source": "Chen, Xiao & Chen (2025) Nature 638:435–440",
+  "doi": "10.6084/m9.figshare.27316062",
+  "author_figshare_version": 1,
+  "license": "CC BY 4.0",
+  "status": "CHEN452_LEAFN_AND_SLA_FD_STUDY_HOLDOUT_COMPLETED",
+  "source_frozen_v01_status": "SOURCE_TRAINING_FOLD_RANK_HOLD; no effects fitted in old model",
+  "v02_pre_result_amendment": "Remove exactly algebraically redundant PlantType dummy when Eco1 dummies are present in every original study-fold. Keep original source complete-case cohort, numerical model, endpoints, FD, folds, all threshold gates.",
+  "provenance": {
+    "original_figshare_29files_and_schema_run": 44757843070,
+    "original_five_cohort_row_and_header_run": 44758861235,
+    "original_predictor_only_rank_diagnosis_run": 44760950900,
+    "v01_original_source_rank_hold_run": 44760473697,
+    "v02_actual_source_qualified_models_CI_run": 44761456911,
+    "v02_ci_artifact_id": 14640719071,
+    "v02_ci_artifact_sha256": "sha256:dbf39722cc77adc07694c6448af084a7e995d522a7a84dc8849b4171d31a4344",
+    "frozen_document": "docs/CHEN452_LEAFN_FD_CE_SE_STUDY_HOLDOUT_IDENTIFIABLE_V0_2.md",
+    "source_file_recovered_from_official_archive": true,
+    "original_public_rows_republished": false
+  },
+  "method": {
+    "original_study_cluster": "StudyID (author source-defined meta-analysis unit, unique publication ID not independently proven)",
+    "predictor_excluded_postharvest": [
+      "RaoQLN_harvest",
+      "CWMLN_harvest",
+      "RaoQSLA_harvest",
+      "CWMSLA_harvest",
+      "FD_biomass"
+    ],
+    "baseline": "log2(SR)+log1p(StandAge_year)+PD+ CWM LN/SLA + MAT + AI + N-fixer mix + Eco1",
+    "added_predictor": "source fixed planted-species RaoQ FD from leaf N or SLA",
+    "response": [
+      "CE",
+      "SE",
+      "CE_minus_SE"
+    ],
+    "validation": "Leave one original StudyID completely out, WLS with train study-equal weights and train-only covariate scaling, paired study-equal SSE gain",
+    "uncertainty": "2000 bootstrap resamples of original StudyID held-out squared-error aggregates (no model refit in bootstrap)",
+    "seed": 20261120,
+    "no_new_pvalues": true,
+    "retrospective_after_published_findings": true
+  },
+  "cohorts": {
+    "leafN": {
+      "source": {
+        "original_rows": 2273,
+        "original_studyIDs": 213,
+        "complete_rows": 1709,
+        "complete_studyIDs": 116,
+        "groups_with_ge5_rows": 47,
+        "missing_prespecified_source_fields": 564,
+        "response_identity_mismatches": 0,
+        "original_source_sha256": "048817a5d680c7e3d4be2cfd8a1d5e9c1625d187200dee78f65a332119b98720",
+        "original_md5": "cbf1955398018ba892e52abe2ca8c315",
+        "original_file_id": 50036712,
+        "max_source_train_condition_number": 40.556624474723684,
+        "all_study_folds_rank_qualified": true
+      },
+      "outcomes": {
+        "CE": {
+          "gain": 0.007674929661180108,
+          "ci95": [
+            -0.028655280994113786,
+            0.03661520933855403
+          ],
+          "study_groups_improving": 63,
+          "sse0_study_equal": 13.060377968194517,
+          "sse1_study_equal": 12.960140485940197
+        },
+        "SE": {
+          "gain": -0.011853713244749375,
+          "ci95": [
+            -0.01956819559641067,
+            -0.004970028227339615
+          ],
+          "study_groups_improving": 46,
+          "sse0_study_equal": 4.381359385463166,
+          "sse1_study_equal": 4.433294763240638
+        },
+        "CE_minus_SE": {
+          "gain": 0.0003571943201110539,
+          "ci95": [
+            -0.032581522843989415,
+            0.021861963428606756
+          ],
+          "study_groups_improving": 52,
+          "sse0_study_equal": 22.408286446524873,
+          "sse1_study_equal": 22.400282333882753
+        }
+      },
+      "paired_CE_gain_minus_SE_gain": 0.019528642905929483,
+      "paired_95CI": [
+        -0.01592704775157274,
+        0.050832375848030915
+      ]
+    },
+    "SLA": {
+      "source": {
+        "original_rows": 2784,
+        "original_studyIDs": 247,
+        "complete_rows": 2031,
+        "complete_studyIDs": 127,
+        "groups_with_ge5_rows": 55,
+        "missing_prespecified_source_fields": 753,
+        "response_identity_mismatches": 0,
+        "original_source_sha256": "9c3fcf53ace6909f87d47320600a60604acb8e35e29ca93f3af1cfbbfd8af599",
+        "original_md5": "df6b948bd892c3a04595e0f8f83c0f8b",
+        "original_file_id": 50036718,
+        "max_source_train_condition_number": 59.03260413575488,
+        "all_study_folds_rank_qualified": true
+      },
+      "outcomes": {
+        "CE": {
+          "gain": -0.0012638897564301033,
+          "ci95": [
+            -0.007704730072469496,
+            0.004693574930923855
+          ],
+          "study_groups_improving": 56,
+          "sse0_study_equal": 15.160820750220251,
+          "sse1_study_equal": 15.179982356265528
+        },
+        "SE": {
+          "gain": 0.0004396600868962208,
+          "ci95": [
+            -0.018784194671832528,
+            0.021190880160130952
+          ],
+          "study_groups_improving": 58,
+          "sse0_study_equal": 4.013970542619255,
+          "sse1_study_equal": 4.012205759981688
+        },
+        "CE_minus_SE": {
+          "gain": 0.001351089414299289,
+          "ci95": [
+            -0.01262458430049641,
+            0.013973177174125993
+          ],
+          "study_groups_improving": 57,
+          "sse0_study_equal": 21.959531417815423,
+          "sse1_study_equal": 21.92986212737384
+        }
+      },
+      "paired_CE_gain_minus_SE_gain": -0.001703549843326324,
+      "paired_95CI": [
+        -0.022006677457064965,
+        0.01781690602912832
+      ]
+    }
+  },
+  "interpretation": "Same published experimental meta-analysis, retrospective heldout predictive reanalysis (not independent primary data replication). Fixed-model positive CE gain point leafN but its 95% CI includes zero; leafN FD worsens SE prediction with fixed-prediction study-cluster bootstrap CI below zero. Paired CE-versus-SE advantage CI includes zero. SLA added gains near zero. Source study-ID may not be independently validated unique publications; complete-case attrition from published cohort substantial. No FD intervention or causal mediator established, and not independent K/rho–FD biomass connection."
+}

@@ -19,7 +19,7 @@ def main():
     need(d["status"]=="TRAIT_MEMORY_POSITIVE_ONLY_CLEANING_IMPACT_COMPLETE","stage B incomplete")
     need(d["all_201_support_retained"] is True and d["all_201_cleaned_log_available"] is True,"cleaned support fails")
     need(d["data_contract_decision"]=="CLEANED_POSITIVE_ONLY_BECOMES_PRIMARY","primary source contract drift")
-    need(g["status"]=="HOLD_ANONYMOUS_FORMATTED_PACKAGE_AND_AUTHOR_REVIEW","submission gate not HOLD")
+    need(g["status"]=="HOLD_AUTHOR_APPROVAL_DATA_RIGHTS_AND_JOURNAL_SUBMISSION","submission gate not HOLD")
     need(g["primary_evidence"]["original_successful_actions_run"]==37443037590,"source run drift")
     need(g["primary_evidence"]["systems"]==201 and g["primary_evidence"]["families"]==45 and g["primary_evidence"]["traits"]==12,"core drift")
     need("201/201" in m and "49" in m and "152" in m,"cleaning denominator missing")

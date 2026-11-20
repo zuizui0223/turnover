@@ -46,7 +46,10 @@ def number(x):
     except ValueError:return None
 
 def csv_bytes(b):
-    s=b.decode("utf-8-sig")
+    try:
+        s=b.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        s=b.decode("cp1252")  # Original author CSV includes legacy European characters
     rd=csv.DictReader(io.StringIO(s,newline=""))
     if not rd.fieldnames:raise RuntimeError("SOURCE_CSV_MISSING_HEADER")
     cols=rd.fieldnames

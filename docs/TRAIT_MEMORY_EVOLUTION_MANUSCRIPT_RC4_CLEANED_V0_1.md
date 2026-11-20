@@ -220,8 +220,6 @@ The studied Spearman association of patristic distance and pairwise trait-state 
 
 Stage B's measurement validity rule was frozen before cleaned outcomes but followed a post-result raw-data audit; the chronology is explicit. Uncertainty intervals on crossed heterogeneity shares are broad; family context remains mechanistically unidentified. The deep-family and provenance checks were not re-run on the corrected matrix. This study provides no causal K→FD→biomass evidence and does not generalize to the closed spatial/interaction source programme.
 
-**Remaining submission HOLD:** The 201-system corrected effect/SE table has now been restored from source GitHub calculation logs, and its numerical inputs (including all four raw/log sampling-error means) match the original successful Stage B summaries. The three newly rendered RC4 source-linked figures have passed automated validation. This scientific text still requires a newly formatted and visually reviewed anonymous Word/PDF manuscript with those figures, together with references/licence checks and coauthor approval; the old RC3 submission remains blocked.
-
 ## Conclusion
 
 In 201 comparisons spanning 45 vascular-plant families and 12 continuous traits, phylogenetic memory gradients contain a modest family-associated repeatable component after correcting invalid physical measurements. Trait identity additionally contains scale-dependent predictive information: close to zero on raw states and modestly positive on log states.

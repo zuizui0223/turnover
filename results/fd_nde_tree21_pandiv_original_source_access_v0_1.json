@@ -1,0 +1,43 @@
+{
+  "version": "v0.1",
+  "as_of": "2026-11-20",
+  "source_only": true,
+  "no_new_fitted_biological_results": true,
+  "source_action": "https://github.com/zuizui0223/turnover/actions/runs/44748888990",
+  "source_audit_artifact_id": 14634721245,
+  "source_audit_artifact_digest": "sha256:7253d4586185668d6ddcd6de63967966ede8d51ec7e1d18bcb04362250b0725c",
+  "parser_synthetic_tests": 7,
+  "parser_test_result": "PASS",
+  "official_dataset_metadata": "DOI metadata returned successfully for all three published original releases",
+  "source_file_access": [
+    {
+      "dataset": "Jensen 2025 TreeDivNet 21 experiments",
+      "doi": "10.5061/dryad.dz08kps9x",
+      "first_original_file": "DS1.xlsx",
+      "official_anonymous_file_download_status": 401,
+      "source_data_admitted": false
+    },
+    {
+      "dataset": "Cappelli 2022 PaNDiv",
+      "doi": "10.5061/dryad.zs7h44jbp",
+      "first_original_file": "Plot_information.csv",
+      "official_anonymous_file_download_status": 401,
+      "source_data_admitted": false
+    },
+    {
+      "dataset": "Allan and Pichon 2025 PaNDiv",
+      "doi": "10.5061/dryad.1c59zw47k",
+      "first_original_file": "PaNDiv_biomass_2017to2023.txt",
+      "official_anonymous_file_download_status": 401,
+      "source_data_admitted": false
+    }
+  ],
+  "status": "SOURCE_ACCESS_HOLD_ALL_THREE",
+  "interpretation": "DOI/API metadata pass and original three file-stream download attempts 401 indicate anonymous-access restriction, not a biological null or missing data. Neither paired FD/NDE/production complete-case count nor causal composition comparison has been evaluated.",
+  "original_source_rows_read": 0,
+  "original_source_outcomes_examined_in_analysis": 0,
+  "ecological_effects_estimated": 0,
+  "scientific_support_admitted": false,
+  "frozen_design": "docs/FD_NDE_ABSOLUTE_YIELD_TREE2025_PANDIV2022_SOURCE_GATE_20261120.md",
+  "next_prospective_valid_path": "Obtain original data through authorized Dryad access or a separately verifiable original public author archive. Do not bypass access controls or reclassify source hold as negative ecological effect."
+}

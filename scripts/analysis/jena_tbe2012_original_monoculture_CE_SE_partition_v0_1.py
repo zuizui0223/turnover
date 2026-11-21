@@ -55,7 +55,7 @@ def assemble_source():
         pool=row[cols["pool"]].strip()
         required(month in {"May","Aug"} and rich in (1,2,3,4,8) and fd in (0,1,2,3,4),
                  "ORIGINAL_PLANTING_OR_HARVEST_DOMAIN_DRIFT")
-        sown=[s for s in species if row.get(s,"").strip()]
+        sown=[s for s in species if (row.get(s) or "").strip()]
         required(len(sown)==rich,"SOURCE_ORIGINAL_SOWN_SPECIES_ROSTER_SIZE_DRIFT")
         recorded={}
         for sp in sown:

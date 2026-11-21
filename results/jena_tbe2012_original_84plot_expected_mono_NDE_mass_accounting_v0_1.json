@@ -1,0 +1,60 @@
+{
+  "as_of_jst": "2026-11-21",
+  "status": "JENA_TBE_ORIGINAL_84PLOT_OBSERVED_EXPECTED_MONO_NDE_ACCOUNTING_REPRODUCED",
+  "source_original_DOI": "10.1594/PANGAEA.876725",
+  "source_original_sha256": "458f61307df217d285c972f894ca5cf23709c3524dc6e13bb4d9dd3c26c2ab56",
+  "analysis_science_contract": "docs/JENA_TBE2012_ANNUAL_MASS_EXPECTED_MONO_NDE_RECONCILIATION_POSTHOC_20261121.md",
+  "original_source_and_numerical_actions_run": 44849069631,
+  "original_artifact_id": 14683713172,
+  "original_artifact_digest": "sha256:4407cd8cd2abf7c0a11677cad3e35c814c25eb3d3fff98c463cff48d346aa008",
+  "n_original_mixture_plot_units": 84,
+  "n_mono_plot_units": 24,
+  "plots_per_pool_from_mono": [
+    8,
+    8,
+    8
+  ],
+  "original_pool_richness_strata": 6,
+  "original_plot_prefix_classes": 3,
+  "original_literal_Block_unique_categories": 1,
+  "randomized_spatial_block_identity_verified": false,
+  "official_JEXIS_739_public_source_status": "TIMEOUT_HOLD",
+  "source_max_plot_observed_expected_plus_NDE_identity_error": 2.2737367544323206e-13,
+  "all_model_coefficients_use_same_source_plot_cohort_and_original_weighting": true,
+  "highFD_minus_lowFD_g_dry_m2": {
+    "observed_sown_mass": 35.341788448280155,
+    "monoculture_expected_baseline": -33.61900795538662,
+    "net_diversity_effect": 68.96079640366666,
+    "Loreau_Hector_complementarity": 27.81490083968951,
+    "Loreau_Hector_selection": 41.14589556397725
+  },
+  "paired_stratified_plot_bootstrap_95CI_g_dry_m2": {
+    "observed_sown_mass": [
+      -76.27843095189722,
+      146.73426743824567
+    ],
+    "monoculture_expected_baseline": [
+      -94.17197945044131,
+      32.13192232992252
+    ],
+    "net_diversity_effect": [
+      -24.628634898601447,
+      163.5267321129064
+    ],
+    "Loreau_Hector_complementarity": [
+      -47.626232434517796,
+      104.00603581328903
+    ],
+    "Loreau_Hector_selection": [
+      -26.79529027726879,
+      104.39068128992173
+    ]
+  },
+  "source_original_plot_bootstrap_refits": 2000,
+  "bootstrap_failures": 0,
+  "bootstrap_seed": 20261121,
+  "posthoc_source_accounting_after_numerical_results": true,
+  "source_original_monoculture_yield_estimation_uncertainty_in_bootstrap": false,
+  "source_original_sown_species_and_plot_rows_redistributed": false,
+  "scientific_guard": "One Jena TBE single-site 2012; experimental allocation changes species composition, FD not independently assigned. Original plot prefix A/B/C not independently verified original spatial block. All CIs include zero, no confirmed highFD NDE or mass treatment. Wagg 2017 already published trait-based complementarity and competitive disparity in same source. No BIEN K/rho or globally causal mediation."
+}

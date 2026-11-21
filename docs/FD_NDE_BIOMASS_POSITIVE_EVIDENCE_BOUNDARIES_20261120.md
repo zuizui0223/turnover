@@ -95,3 +95,27 @@ The robust causal claim currently supported by manipulative experiments is the *
 **重要な含意:** 「FDと補完性／NDEの原著正相関」と「種数・CWMを超えたFDの独立した留保組成予測利得」は**違う推定対象**である。原著の正相関が成立してもこの追加予測が確立するとは限らない。NDEや選択・補完性は符号付きなので対数変換しない。原著の生物種組成がFDと同時に変わるためFDだけの因果介入効果ではなく、K/ρ→FD→バイオマスの媒介連鎖でもない。
 
 [実測CI #44750171096](https://github.com/zuizui0223/turnover/actions/runs/44750171096)、[独立集計QA #44751586875](https://github.com/zuizui0223/turnover/actions/runs/44751586875)。この1実験40区を21森林実験／PaNDivと合算したメタ解析とは呼べない。TreeDivNet 2025・PaNDiv 2022/2025 の原データは引き続きオリジナルDryadダウンロードHTTP401＝SOURCE_ACCESS_HOLDであり、それらに新しい係数は存在しない。
+
+
+## 2026-11-21 原データによるJena TBE混植収量分解：FDから機構に近づけるが因果は未成立
+
+**同一研究を繰り返し「独立研究」と数えない。** Wagg et al. 2017のオリジナルJena Trait-Based Experiment は、2002年のJena Main Experimentとは**別の設計**ながら**一つの野外実験**である。原PANGAEA [10.1594/PANGAEA.876725](https://doi.org/10.1594/PANGAEA.876725)、CC BY 3.0。元の **138植栽区画（2012年のMay/Aug合計276観測）、24真正単植区（種プールごと8種）、114混植区**から、**事前に固定した6種プール×植栽種数層の高FD≥3／低FD≤2、84元混植区**を全く同じ母集団・重みで比較した。[原データ/割付 source PR #72](https://github.com/zuizui0223/turnover/pull/72)、[年間絶対量 PR #73](https://github.com/zuizui0223/turnover/pull/73)、[単植期待・Loreau–Hector CE/SE/NDEによる原データ分解 PR #74](https://github.com/zuizui0223/turnover/pull/74)。
+
+**同じ元データ・区画・設計から算出した高FD−低FD調整差**（単位 g乾燥重量/m²、全て2000回元区画ブートストラップ95%区間）：
+
+| 応答／成分 | 点推定 | 95%CI |
+|---|---:|---:|
+| 元のプール固有単植からの期待量 E | **−33.62** | **[−94.17, +32.13]** |
+| 混植超過利得 NDE | **+68.96** | **[−24.63, +163.53]** |
+| 補完性成分 CE | **+27.81** | **[−47.63, +104.01]** |
+| 選択成分 SE | **+41.15** | **[−26.80, +104.39]** |
+| 観測された年間混植バイオマス B | **+35.34** | **[−76.28, +146.73]** |
+
+**独立に原データから証明できた会計式**：
+`+35.34 = −33.62 + 68.96`（`B=E+NDE`）かつ `+68.96=+27.81+41.15`（`NDE=CE+SE`）。各84原混植区のCE+SE−NDEの最大計算残差は**2.27e−13 g/m²**。これによって**「混植の超過利得が大きい点推定」と「群集絶対量の増分が小さい点推定」が元の単植期待生産能力の違いによって同時に成り立つ**ことを、同一元データで示した。ただし**5項目すべての95%CIは0を含み、符号も因果効果も確定しない**。数式恒等式自体は新しい進化・生態学的原理ではない。
+
+**source/causal gate未解決**：原PANGAEA `Block` 列は1種類、論文には3空間無作為化ブロックと記載。Plot ID A/B/Cが各46区画という均衡は確認したが、**物理的な無作為化Blockとの正規対応はJEXIS #739タイムアウトで未確定**。3系列はあくまで非認証の説明用空間proxyであり、**元の厳密な因果実験source gateはHOLD**。さらに設計されたFD区分を操作すると植栽種アイデンティティが一緒に変わるため、連続FDの独立した因果操作ではない。各種単植が実質1区画なので、84混植区のplot bootstrapは単植期待値の標本誤差を伝播しない。元Wagg論文はすでに空間・時期資源利用による補完性の関係を研究しており、ここで新しい独立実験として再発見したとは扱わない。
+
+Source empirical runs: [#44847711261](https://github.com/zuizui0223/turnover/actions/runs/44847711261) (DOI+source eligibility), [#44847964061](https://github.com/zuizui0223/turnover/actions/runs/44847964061) (plot prefix/JEXIS), [#44848307503](https://github.com/zuizui0223/turnover/actions/runs/44848307503) (84 annual biomass), [#44848773717](https://github.com/zuizui0223/turnover/actions/runs/44848773717) (24 mono, CE/SE/NDE), [#44849069631](https://github.com/zuizui0223/turnover/actions/runs/44849069631) (observed=expected+NDE same source) and [#44849252682](https://github.com/zuizui0223/turnover/actions/runs/44849252682) (independent aggregate-number/CI identity). All numeric outputs are nonraw; no original plot/species data redistributed.
+
+**科学的優先順位**：元の「FDは生産を増やすか？」という問いだけではなく、**同じ混植が単植期待量をどれだけ上回るか、その超過分がCEかSEか**を区別することが重要。しかし本例でその成分が高FDのために増えた確定的な根拠はない。次に必要なのは、真の原設計Blockと植栽種の無作為割付が検証できる独立実験群で同じ固定比較を行い、単植推定値の不確実性まで同時に伝播すること。**K/ρ→FD→CE/SE→biomassの因果媒介鎖は未実証のまま**。

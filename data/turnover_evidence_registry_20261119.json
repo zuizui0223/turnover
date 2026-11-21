@@ -467,7 +467,8 @@
         "arithmetic_identity_replay_action": 44849252682,
         "original_species_biomass_rows_republished": false
       },
-      "caveat": "Strict original design required 3 observed physical Block levels and FAILED: literal PANGAEA Block field has one; Plot A/B/C 46×3 are proxies NOT verified randomized physical blocks (JEXIS 739 timeout). A separate pre-fixed exploratory source-based contrast bundles assigned species identities with FD, so cannot identify a pure scalar FD causal intervention. All five plot-bootstrap intervals cross zero; source monos one original plot per species×pool so their yield-estimation uncertainty is not resampled. Already analyzed in original Wagg et al. 2017; one Jena experimental field (not 3 independent sites). This positive-point mixture gain offsetting a negative expected yield is an exact algebraic bookkeeping illustration only, not confirmed ecological compensation, external replication or rho/K→FD→biomass mediation."
+      "caveat": "This reanalysis's source-certification gate required 3 verified physical Block levels and remains HOLD: the literal PANGAEA Block field has one; Plot A/B/C 46×3 are proxies NOT verified randomized physical blocks (JEXIS 739 timeout). A separate pre-fixed exploratory source-based contrast bundles assigned species identities with FD, so cannot identify a pure scalar FD causal intervention. All five plot-bootstrap intervals cross zero; source monos one original plot per species×pool so their yield-estimation uncertainty is not resampled. Already analyzed in original Wagg et al. 2017; one Jena experimental field (not 3 independent sites). The positive NDE contrast and negative high-minus-low expected-yield contrast reproduce the observed biomass contrast algebraically; this is not confirmed ecological compensation, external replication or rho/K→FD→biomass mediation."
     }
   ]
 }
+

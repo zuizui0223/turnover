@@ -1,0 +1,48 @@
+name: Jena TBE official plot-prefix source balance and university JEXIS crosswalk
+on:
+  push:
+    branches:
+      - source/jena-tbe2012-assigned-fd-biomass-20261121
+    paths:
+      - '.github/workflows/jena-tbe2012-source-prefix-jexis-v0-2.yml'
+      - 'scripts/source/audit_jena_tbe_2012_plot_prefix_jexis_v0_2.py'
+      - 'docs/JENA_TBE_2012_PLOT_PREFIX_SPATIAL_STRATA_SOURCE_AMENDMENT_20261121.md'
+  pull_request:
+    paths:
+      - '.github/workflows/jena-tbe2012-source-prefix-jexis-v0-2.yml'
+      - 'scripts/source/audit_jena_tbe_2012_plot_prefix_jexis_v0_2.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-prefix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check fixed original 3-prefix schema
+        run: |
+          python3 -m py_compile scripts/source/audit_jena_tbe_2012_plot_prefix_jexis_v0_2.py
+          python3 scripts/source/audit_jena_tbe_2012_plot_prefix_jexis_v0_2.py --self-test
+      - name: Source-only original PANGAEA SHA and JEXIS official dataset 739 public check
+        run: |
+          mkdir -p build/jena_tbe
+          python3 scripts/source/audit_jena_tbe_2012_plot_prefix_jexis_v0_2.py --out build/jena_tbe/prefix_jexis_v0_2.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('build/jena_tbe/prefix_jexis_v0_2.json'))
+          assert x['original_v01_3_literal_blocks_gate_HOLD'] is True
+          assert x['original_biomass_effect_estimated'] is False
+          assert x['causal_assignment_claim_authorized'] is False
+          print('ORIGINAL_EXPERIMENT_NO_EFFECT_SOURCE_PREFIX_GATE',x['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-tbe2012-original-plotprefix-3block-jexis-nonraw
+          path: build/jena_tbe/prefix_jexis_v0_2.json
+          if-no-files-found: ignore
+          retention-days: 90

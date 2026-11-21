@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "as_of_jst": "2026-11-20",
+  "as_of_jst": "2026-11-21",
   "repository": "zuizui0223/turnover",
   "purpose": "Cross-programme evidence inventory; no novel pooled effects, no reclassification of frozen primary outcomes",
   "status_vocab": {
@@ -405,6 +405,69 @@
         "nonrefit_aggregate_arithmetic_QA_run": 44762349411
       },
       "caveat": "Retrospective predictive analysis on SAME originally published meta-analysis, not an independent original biological replication. Authors' earlier FD-vs-CE positive associations need not imply FD incremental holdout improvement. Pairwise CE-vs-SE gain difference intervals include zero, and leaf N FD worsens SE prediction score, not biologically suppressing selection. Original StudyID not independently verified unique article, source original outcome-based outlier removal 82 rows and substantial complete-case attrition (116/213 leaf N StudyIDs) limit generality. Study cluster 2000 bootstrap of fixed predictions omits refit uncertainty. No FD-only randomized treatment or phylogenetic-memory FD causal path."
+    },
+    {
+      "id": "JENA-TBE-2012-ASSIGNED-FD-MONO-NDE-ACCOUNTING",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/74",
+      "unit": "One original Wagg et al. 2017 Jena Trait-Based Experiment: 138 source plots, 24 original pool-specific monocultures, 84 eligible mixture plot units in 6 matched pool×richness strata; 2012 May+August annual sown dry biomass g/m²",
+      "estimand": "Same-source high (wFDc 3–4) vs low (wFDc 1–2) assigned trait-disparity composition contrast, adjusted for source pool×richness and uncertified plot-prefix A/B/C source coding: observed annual biomass = same-pool mono expected yield + net diversity effect; NDE = Loreau–Hector complementarity CE + selection SE",
+      "observations": {
+        "source_original_doi": "10.1594/PANGAEA.876725",
+        "source_original_sha256": "458f61307df217d285c972f894ca5cf23709c3524dc6e13bb4d9dd3c26c2ab56",
+        "original_source_plot_count": 138,
+        "source_2012_plot_month_rows": 276,
+        "source_monoculture_plots": 24,
+        "source_monoculture_species_per_pool": [
+          8,
+          8,
+          8
+        ],
+        "original_source_eligible_mixtures": 84,
+        "source_eligible_pool_x_richness_strata": 6,
+        "annual_observed_biomass_highFD_minus_lowFD_g_m2": 35.341788448280155,
+        "annual_observed_biomass_95CI_g_m2": [
+          -76.27843095189722,
+          146.73426743824567
+        ],
+        "pool_specific_monoculture_expected_yield_difference_g_m2": -33.61900795538662,
+        "pool_specific_monoculture_expected_yield_95CI_g_m2": [
+          -94.17197945044131,
+          32.13192232992252
+        ],
+        "net_diversity_effect_NDE_difference_g_m2": 68.96079640366666,
+        "net_diversity_effect_NDE_95CI_g_m2": [
+          -24.628634898601447,
+          163.5267321129064
+        ],
+        "complementarity_CE_difference_g_m2": 27.81490083968951,
+        "complementarity_CE_95CI_g_m2": [
+          -47.626232434517796,
+          104.00603581328903
+        ],
+        "selection_SE_difference_g_m2": 41.14589556397725,
+        "selection_SE_95CI_g_m2": [
+          -26.79529027726879,
+          104.39068128992173
+        ],
+        "same_source_observed_equals_expected_plus_NDE": true,
+        "same_source_NDE_equals_CE_plus_SE": true,
+        "maximum_original_84_plot_CE_plus_SE_minus_NDE_error_g_m2": 2.2737367544323206e-13,
+        "repeated_plot_bootstrap_refits": 2000,
+        "original_field_Block_levels": 1,
+        "plot_ID_prefix_classes_three_46_each": true,
+        "prefix_identified_as_physical_randomized_block": false,
+        "JEXIS_original_block_assignment_source": "TIMEOUT_HOLD",
+        "new_causal_FD_only_effect_estimated": false,
+        "source_original_year_and_species_coverage_action": 44847711261,
+        "source_prefix_structural_action": 44847964061,
+        "annual_mass_descriptive_source_action": 44848307503,
+        "monoculture_CE_SE_NDE_source_action": 44848773717,
+        "accounting_identity_original_action": 44849069631,
+        "arithmetic_identity_replay_action": 44849252682,
+        "original_species_biomass_rows_republished": false
+      },
+      "caveat": "Strict original design required 3 observed physical Block levels and FAILED: literal PANGAEA Block field has one; Plot A/B/C 46×3 are proxies NOT verified randomized physical blocks (JEXIS 739 timeout). A separate pre-fixed exploratory source-based contrast bundles assigned species identities with FD, so cannot identify a pure scalar FD causal intervention. All five plot-bootstrap intervals cross zero; source monos one original plot per species×pool so their yield-estimation uncertainty is not resampled. Already analyzed in original Wagg et al. 2017; one Jena experimental field (not 3 independent sites). This positive-point mixture gain offsetting a negative expected yield is an exact algebraic bookkeeping illustration only, not confirmed ecological compensation, external replication or rho/K→FD→biomass mediation."
     }
   ]
 }

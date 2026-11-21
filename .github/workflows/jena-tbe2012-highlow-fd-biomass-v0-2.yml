@@ -1,0 +1,64 @@
+name: Jena TBE 2012 assigned high low FD annual biomass retrospective noncausal contrast
+on:
+  push:
+    branches:
+      - analysis/jena-tbe2012-fd-contrast-20261121
+    paths:
+      - '.github/workflows/jena-tbe2012-highlow-fd-biomass-v0-2.yml'
+      - 'scripts/analysis/jena_tbe2012_highlow_fd_annual_biomass_v0_2.py'
+      - 'docs/JENA_TBE2012_ASSIGNED_HIGHLOW_FD_ANNUAL_BIOMASS_RETROSPECTIVE_V0_2.md'
+  pull_request:
+    paths:
+      - '.github/workflows/jena-tbe2012-highlow-fd-biomass-v0-2.yml'
+      - 'scripts/analysis/jena_tbe2012_highlow_fd_annual_biomass_v0_2.py'
+  workflow_dispatch:
+
+concurrency:
+  group: jena-tbe-2012-fd-descriptive-v02
+  cancel-in-progress: true
+permissions:
+  contents: read
+
+jobs:
+  original-source-fixed-descriptive-effects:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source and model immutable preprocessing fixture
+        run: |
+          python -m pip install -q numpy
+          python -m py_compile scripts/analysis/jena_tbe2012_highlow_fd_annual_biomass_v0_2.py
+          python scripts/analysis/jena_tbe2012_highlow_fd_annual_biomass_v0_2.py --self-test
+          test -s docs/JENA_TBE2012_ASSIGNED_HIGHLOW_FD_ANNUAL_BIOMASS_RETROSPECTIVE_V0_2.md
+      - name: Single new source-locked one-site retrospective composition association
+        run: |
+          mkdir -p build/jena_tbe
+          python scripts/analysis/jena_tbe2012_highlow_fd_annual_biomass_v0_2.py --out build/jena_tbe/fd_contrast_v0_2.json
+          python - <<'PY'
+          import json
+          p='build/jena_tbe/fd_contrast_v0_2.json'
+          r=json.load(open(p))
+          assert r['original_v01_literal_3_Block_levels_HOLD_preserved']
+          assert r['original_JEXIS_739_physical_block_crosswalk_HOLD']
+          assert not r['causal_FD_specific_effect_claimed']
+          assert not r['source_raw_plot_species_biomass_rows_redistributed']
+          if r['status']=='JENA_TBE2012_RETROSPECTIVE_DESCRIPTIVE_HIGHLOW_FD_BIOMASS_FIT_COMPLETE':
+              assert r['source_only_matched_support']['source_matched_high_low_mixture_plot_units']==84
+              assert r['source_only_matched_support']['source_high_low_sown_FD_pool_x_richness_strata']==6
+              assert r['primary']['bootstrap_successful_fixed_model_refits']>=1800
+              assert r['secondary_raw_mass']['bootstrap_successful_fixed_model_refits']>=1800
+          else:
+              assert r['status']=='SOURCE_OR_DESCRIPTIVE_FD_CONTRAST_HOLD'
+          print('JENA_TBE_FROZEN_RETROSPECTIVE_NONCAUSAL_OR_HOLD_VERIFIED',r['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-tbe-2012-84plot-assigned-FD-annual-biomass-descriptive-nonraw
+          path: build/jena_tbe/fd_contrast_v0_2.json
+          retention-days: 90
+          if-no-files-found: ignore

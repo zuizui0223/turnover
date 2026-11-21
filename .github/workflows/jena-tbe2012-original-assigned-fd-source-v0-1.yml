@@ -1,0 +1,57 @@
+name: Jena TBE 2012 original experimentally assigned FD and PANGAEA biomass source-only
+on:
+  push:
+    branches:
+      - source/jena-tbe2012-assigned-fd-biomass-20261121
+    paths:
+      - '.github/workflows/jena-tbe2012-original-assigned-fd-source-v0-1.yml'
+      - 'docs/JENA_TBE_2012_ASSIGNED_FD_BIOMASS_SOURCE_GATE_20261121.md'
+      - 'scripts/source/audit_jena_tbe_2012_assigned_fd_biomass_v0_1.py'
+  pull_request:
+    paths:
+      - '.github/workflows/jena-tbe2012-original-assigned-fd-source-v0-1.yml'
+      - 'docs/JENA_TBE_2012_ASSIGNED_FD_BIOMASS_SOURCE_GATE_20261121.md'
+      - 'scripts/source/audit_jena_tbe_2012_assigned_fd_biomass_v0_1.py'
+  workflow_dispatch:
+
+concurrency:
+  group: jena-tbe2012-official-source-v0-1
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  original-source-no-effects:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze and validate original source parser
+        run: |
+          python3 -m py_compile scripts/source/audit_jena_tbe_2012_assigned_fd_biomass_v0_1.py
+          python3 scripts/source/audit_jena_tbe_2012_assigned_fd_biomass_v0_1.py --self-test
+          test -s docs/JENA_TBE_2012_ASSIGNED_FD_BIOMASS_SOURCE_GATE_20261121.md
+      - name: Official PANGAEA DOI 2012 original biomass source gate
+        run: |
+          mkdir -p build/jena_tbe
+          python3 scripts/source/audit_jena_tbe_2012_assigned_fd_biomass_v0_1.py --out build/jena_tbe/source_only_result_v0_1.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('build/jena_tbe/source_only_result_v0_1.json').read_text())
+          assert x['dataset_doi']=='10.1594/PANGAEA.876725'
+          assert x['no_ecological_effects_estimated']
+          assert x['no_original_biomass_values_exported']
+          assert x['no_original_plot_or_species_ID_values_exported']
+          assert not x.get('biological_effect_fitted',False)
+          print('JENA_TBE_OFFICIAL_SOURCE_NO_EFFECT_GATE_PASS',x['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-tbe2012-original-assigned-FD-biomass-source-count-only
+          path: build/jena_tbe/source_only_result_v0_1.json
+          retention-days: 90
+          if-no-files-found: ignore

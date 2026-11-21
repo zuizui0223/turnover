@@ -18,16 +18,27 @@ def invalid(reason):
     raise ValueError(reason)
 
 def public_bytes():
-    req=urllib.request.Request(URL,headers={"User-Agent":"turnover-jena-TBE-original-source-audit/0.1",
-       "Accept":"text/plain,text/tab-separated-values"})
-    with urllib.request.urlopen(req,timeout=55) as r:
-        if r.status!=200:invalid("SOURCE_HTTP_NOT_200")
-        raw=r.read(BYTES_LIMIT+1)
-        if len(raw)>BYTES_LIMIT:invalid("SOURCE_FIXED_BYTE_LIMIT")
-        final=r.geturl().lower()
-        if any(x in final for x in ("login","captcha","auth.")):
-            invalid("OFFICIAL_DATA_ACCESS_AUTH_HOLD")
-        return raw
+    # Both URLs are explicitly documented official PANGAEA routes, not mirrors.
+    # See https://wiki.pangaea.de/wiki/Data_Access_and_Reuse
+    routes=[URL,"https://doi.org/10.1594/PANGAEA.876725"]
+    for i,url in enumerate(routes):
+        req=urllib.request.Request(url,headers={"User-Agent":"turnover-jena-TBE-original-source-audit/0.1",
+           "Accept":"text/tab-separated-values"})
+        try:
+            with urllib.request.urlopen(req,timeout=55) as r:
+                if r.status!=200:invalid("SOURCE_HTTP_NOT_200")
+                raw=r.read(BYTES_LIMIT+1)
+                if len(raw)>BYTES_LIMIT:invalid("SOURCE_FIXED_BYTE_LIMIT")
+                final=r.geturl().lower()
+                if any(x in final for x in ("login","captcha","auth.")):
+                    invalid("OFFICIAL_DATA_ACCESS_AUTH_HOLD")
+                return raw
+        except urllib.error.HTTPError as e:
+            if e.code in (401,403) or i==len(routes)-1:
+                raise
+            if e.code not in (400,406):
+                raise
+    invalid("OFFICIAL_PANGAEA_SOURCE_ROUTES_UNAVAILABLE")
 
 def parse_source(b, synthetic_fixture=False):
     try: s=b.decode("utf-8-sig")

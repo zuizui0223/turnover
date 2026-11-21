@@ -1,0 +1,47 @@
+{
+  "date_jst": "2026-11-21",
+  "scientific_status": "ORIGINAL_LITERAL_BLOCK_HOLD; PROVISIONAL_3_SOURCE_PLOT_PREFIX_CLASSES",
+  "source_doi": "10.1594/PANGAEA.876725",
+  "original_cc_by": "CC BY 3.0",
+  "original_sha256": "458f61307df217d285c972f894ca5cf23709c3524dc6e13bb4d9dd3c26c2ab56",
+  "source_runs": {
+    "first_original_format_route_http400": 44847601029,
+    "official_content_negotiation_success": 44847711261,
+    "source_prefix_and_JEXIS_diagnostic": 44847964061,
+    "source_original_schema_artifact_id": 14683955989,
+    "source_original_schema_artifact_digest": "sha256:bb2cdf7be0fa0cd714a8721a4af5f5859be7baec9145f632bf2d880f00bf16cb",
+    "source_prefix_artifact_id": 14683592835,
+    "source_prefix_artifact_digest": "sha256:899a78b8808a45d885059d607d36337df70641051f5548d23668de4c2561c6b8"
+  },
+  "source_values": {
+    "original_unique_plots": 138,
+    "original_monthly_rows": 276,
+    "months": 2,
+    "source_species_mass_fields": 20,
+    "source_pools": 3,
+    "source_literal_Block_field_distinct_categories": 1,
+    "source_plots_qualified_two_months_richness_ge2": 114,
+    "high_vs_low_fd_matched_source_strata": 6,
+    "high_vs_low_fd_matched_source_plots": 84,
+    "original_sown_roster_disagreement_rows": 0,
+    "original_missing_sown_measurement_rows": 0
+  },
+  "plot_prefix_diagnostic": {
+    "frozen_source_plot_code_regex": "^B0B([ABC])[0-9]{3}$",
+    "all_138_plot_ids_match": true,
+    "source_prefix_counts_anonymized": [
+      46,
+      46,
+      46
+    ],
+    "all_three_species_pools_within_each_prefix": true,
+    "physical_block_identity_verified": false,
+    "JEXIS_official_design_dataset_id": 739,
+    "JEXIS_public_export_status": "TimeoutError",
+    "original_v01_3_literal_Block_levels_gate_remains_HOLD": true
+  },
+  "no_new_ecological_effect_estimated": true,
+  "no_original_biomass_values_exported": true,
+  "no_raw_plot_species_identifiers_redistributed": true,
+  "conclusion": "Source supports 84 rich-matched high/low designed FD mixtures across 3 pools; literal Block field is one value (not the paper's 3 spatial blocks). A/B/C source plot IDs are balanced 46×3 but not independently certified physical randomized blocks; JEXIS public design export timed out. No causal design result, no biomass effect has been estimated. Any v0.2 prefix-controlled association must be separate, transparently retrospective and noncausal."
+}

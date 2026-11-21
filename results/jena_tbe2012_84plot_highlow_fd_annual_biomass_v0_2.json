@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-21",
+  "status": "JENA_TBE2012_RETROSPECTIVE_DESCRIPTIVE_HIGHLOW_FD_BIOMASS_FIT_COMPLETE",
+  "source_original_PANGAEA_DOI": "10.1594/PANGAEA.876725",
+  "source_sha256": "458f61307df217d285c972f894ca5cf23709c3524dc6e13bb4d9dd3c26c2ab56",
+  "source_parent_pr": 72,
+  "source_run": 44847711261,
+  "source_design_prefix_run": 44847964061,
+  "actual_effect_run": 44848307503,
+  "original_effect_artifact_id": 14684067248,
+  "original_effect_artifact_digest": "sha256:40c45be6246e34c4c1b0618a85ced45c4bb21a105520ad98ff9b2ed3e44d12fa",
+  "original_plots": 138,
+  "annual_two_harvest_rows": 276,
+  "original_source_eligible_mixture_plots": 114,
+  "original_high_low_source_matched_strata": 6,
+  "original_high_low_source_plot_units": 84,
+  "stratum_plot_count_anonymized": [
+    12,
+    12,
+    12,
+    16,
+    16,
+    16
+  ],
+  "source_prefix_counts_anonymized": [
+    46,
+    46,
+    46
+  ],
+  "primary_original_2012_annual_sown_biomass_log1p_wls_highFD_minus_lowFD": 0.060335060739982974,
+  "primary_plot_bootstrap_95CI": [
+    -0.1709412067454682,
+    0.2838927375375765
+  ],
+  "primary_multiplicative_difference_approx_percent": 6.2192385894954905,
+  "secondary_raw_annual_mass_g_m2_highFD_minus_lowFD": 35.3417884482801,
+  "secondary_raw_g_m2_95CI": [
+    -76.27843095189692,
+    146.7342674382457
+  ],
+  "bootstrap_stratified_original_plot_draws": 2000,
+  "bootstrap_successful_refits": 2000,
+  "original_literal_Block_column_distinct_levels": 1,
+  "original_3_block_randomized_spatial_crosswalk_verified": false,
+  "official_JEXIS_739_crosswalk_status": "TimeoutError",
+  "old_literal_3_Block_source_gate_retained_HOLD": true,
+  "causal_FD_intervention_effect_identified": false,
+  "original_study_authors_already_reported_trait_pool_complementarity": true,
+  "new_independent_cross_study_replication": false,
+  "response": "2012 two-original-harvest annual sown-species dry biomass (g/m²), excludes weed/dead/unidentified",
+  "exposure": "designed categorical high wFDc 3-4 vs low wFDc 1-2 at same original species richness and pool",
+  "analysis": "6 original pool × richness strata fixed effect, 3 source plot-prefix classes proxy, stratum-equal WLS, fixed plot bootstrap",
+  "no_original_species_or_plot_ids_or_observations_republished": true,
+  "interpretation": "Point difference positive but source-plot bootstrap CI includes zero; neither FD-specific causal effect nor universal biomass benefit established. Physical block crosswalk unresolved, selection of original composition and associated species identities confounded. Same experiment previously analyzed by Wagg 2017."
+}

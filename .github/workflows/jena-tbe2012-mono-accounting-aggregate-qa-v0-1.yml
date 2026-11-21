@@ -1,0 +1,30 @@
+name: Jena 2012 original mono expected NDE CE SE absolute biomass source arithmetic QA
+on:
+  push:
+    branches:
+      - analysis/jena-tbe2012-mono-nde-ce-se-20261121
+    paths:
+      - '.github/workflows/jena-tbe2012-mono-accounting-aggregate-qa-v0-1.yml'
+      - 'scripts/analysis/verify_jena_tbe2012_mono_NDE_biomass_accounting_v0_1.py'
+      - 'results/jena_tbe2012_mono_based_84plot_NDE_CE_SE_v0_1.json'
+      - 'results/jena_tbe2012_original_84plot_expected_mono_NDE_mass_accounting_v0_1.json'
+  pull_request:
+    paths:
+      - '.github/workflows/jena-tbe2012-mono-accounting-aggregate-qa-v0-1.yml'
+      - 'scripts/analysis/verify_jena_tbe2012_mono_NDE_biomass_accounting_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-nonraw-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reconcile original source-matched CE SE NDE coefficients and 2000 paired intervals without new fit
+        run: |
+          python3 -m py_compile scripts/analysis/verify_jena_tbe2012_mono_NDE_biomass_accounting_v0_1.py
+          python3 scripts/analysis/verify_jena_tbe2012_mono_NDE_biomass_accounting_v0_1.py

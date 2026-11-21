@@ -1,0 +1,73 @@
+{
+  "as_of_jst": "2026-11-21",
+  "status": "JENA_TBE_2012_MONO_BASED_CE_SE_NDE_DESCRIPTIVE_PARTITION_COMPLETE",
+  "source_doi": "10.1594/PANGAEA.876725",
+  "source_original_sha256": "458f61307df217d285c972f894ca5cf23709c3524dc6e13bb4d9dd3c26c2ab56",
+  "frozen_design": "docs/JENA_TBE2012_MONOCULTURE_NDE_CE_SE_MECHANISM_FROZEN_20261121.md",
+  "original_execution_run": 44848773717,
+  "original_artifact_id": 14684232554,
+  "original_artifact_digest": "sha256:3b4c1efe7c097dee5154b09da210a8a1e2969f97bc71f4a04a36133bd1163afd",
+  "source_eligibility": {
+    "plot_ids": 138,
+    "harvest_plot_months": 276,
+    "mono_original_plot_ids": 24,
+    "mono_per_trait_pool": [
+      8,
+      8,
+      8
+    ],
+    "original_multispecies_plots": 114,
+    "matched_primary_mixtures": 84,
+    "matched_pool_richness_strata": 6,
+    "original_prefix_proxy_plot_counts": [
+      46,
+      46,
+      46
+    ],
+    "physical_block_crosswalk_verified": false,
+    "literal_Block_levels": 1,
+    "mono_species_pool_join_coverage_all_84": true
+  },
+  "identity": {
+    "maximum_abs_mixture_Loreau_Hector_CE_plus_SE_minus_NDE": 2.2737367544323206e-13,
+    "regression_beta_NDE_equals_beta_CE_plus_beta_SE": true
+  },
+  "primary": {
+    "NDE_high_minus_low_g_dry_m2": 68.96079640366669,
+    "NDE_CI95": [
+      -24.62863489860143,
+      163.52673211290633
+    ],
+    "CE_high_minus_low_g_dry_m2": 27.814900839689546,
+    "CE_CI95": [
+      -47.62623243451774,
+      104.00603581328897
+    ],
+    "SE_high_minus_low_g_dry_m2": 41.14589556397725,
+    "SE_CI95": [
+      -26.79529027726871,
+      104.39068128992174
+    ],
+    "CE_minus_SE_high_minus_low_g_dry_m2": -13.330994724287702,
+    "CE_minus_SE_CI95": [
+      -115.16376087557438,
+      98.51410541382994
+    ]
+  },
+  "uncertainty": {
+    "source_original_plot_stratified_bootstrap_draws": 2000,
+    "successful_refits": 2000,
+    "bootstrap_seed": 20261121,
+    "does_not_include_monoculture_reference_uncertainty": true
+  },
+  "scientific_guard": {
+    "retrospective_after_prior_absolute_mass_result": true,
+    "not_new_independent_Wagg_et_al_2017_discovery": true,
+    "FD_specific_causal_effect_identified": false,
+    "source_plot_prefix_as_random_block_certified": false,
+    "CE_SE_positive_point_but_CIs_include_zero": true,
+    "not_2025_452_study_generalization": true,
+    "no_rho_K_to_FD_biomass_mediation": true
+  },
+  "no_original_species_plot_or_biomass_rows_republished": true
+}

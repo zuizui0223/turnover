@@ -1,0 +1,54 @@
+name: Jena TBE 2012 original absolute biomass expected monoculture NDE accounting identity
+on:
+  push:
+    branches:
+      - analysis/jena-tbe2012-mono-nde-ce-se-20261121
+    paths:
+      - '.github/workflows/jena-tbe2012-monoculture-NDE-accounting-v0-1.yml'
+      - 'scripts/analysis/reconcile_jena_tbe2012_mono_expectation_ndeyield_v0_1.py'
+      - 'docs/JENA_TBE2012_ANNUAL_MASS_EXPECTED_MONO_NDE_RECONCILIATION_POSTHOC_20261121.md'
+  pull_request:
+    paths:
+      - '.github/workflows/jena-tbe2012-monoculture-NDE-accounting-v0-1.yml'
+      - 'scripts/analysis/reconcile_jena_tbe2012_mono_expectation_ndeyield_v0_1.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-identity-no-new-hypotheses:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original 24 mono identity and arithmetic fixture
+        run: |
+          python -m pip install -q numpy
+          python -m py_compile scripts/analysis/reconcile_jena_tbe2012_mono_expectation_ndeyield_v0_1.py
+          python scripts/analysis/reconcile_jena_tbe2012_mono_expectation_ndeyield_v0_1.py --self-test
+      - name: Reconcile original observed mass = original mono expected mass + NDE on same 84 plots and bootstrap
+        run: |
+          mkdir -p build/jena_tbe_accounting
+          python scripts/analysis/reconcile_jena_tbe2012_mono_expectation_ndeyield_v0_1.py \
+            --out build/jena_tbe_accounting/nonraw_reconciled.json
+          python - <<'PY'
+          import json
+          a=json.load(open('build/jena_tbe_accounting/nonraw_reconciled.json'))
+          assert a['status']=='JENA_TBE_ORIGINAL_84PLOT_OBSERVED_EXPECTED_MONO_NDE_ACCOUNTING_REPRODUCED'
+          assert a['model_and_source_identity_exactly_reproduced']
+          assert a['original_bootstrap_successful']>=1800
+          assert a['source_plot_units']==84 and a['source_unique_pool_specific_monos']==24
+          assert a['original_literal_Block_source_gate_still_HOLD']
+          assert not a['biological_FD_effect_causally_identified']
+          assert a['all_original_species_plot_and_biomass_rows_omitted']
+          print('JENA_TBE_EXPECTED_MONO_NDE_BIOMASS_ACCOUNTING_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-tbe2012-original-84plot-mono-NDE-absolute-biomass-identity
+          path: build/jena_tbe_accounting/nonraw_reconciled.json
+          if-no-files-found: ignore
+          retention-days: 90

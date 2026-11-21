@@ -1,0 +1,16 @@
+# Post-result algebraic accounting check: absolute biomass vs matched monoculture expectation and NDE
+**2026-11-21. This is NOT an outcome-blind new hypothesis.** Original independently frozen Jena TBE source/absolute mass comparison [PR #73](https://github.com/zuizui0223/turnover/pull/73) already calculated source-matched 84-plot **absolute observed highFD−lowFD +35.3417884483 g/m²**, and original separately frozen Loreau–Hector mechanistic partition on the **same 84 plots** gave **NDE contrast +68.9607964037 g/m²**, both with confidence intervals including zero.
+
+The observed contrast decomposition follows **exactly by definition** when the same source mixture, original plot, fixed pool×richness and source plot prefix model are used:
+`Y_observed = Y_expected_from_original_pool_specific_monocultures + NDE`, hence
+`beta_observed = beta_expected + beta_NDE`.
+
+Thus the already observed point coefficients imply `beta_expected = 35.3417884483 − 68.9607964037 = −33.6190079554 g dry mass/m²`. **Do not interpret this as a confirmed negative biological species-quality effect without its own uncertainty.** The cause is that original designed species combinations differ as FD is changed; original FD was not randomized separately from identity.
+
+## Exact deterministic verification, not selection
+- Using the **same source SHA**, original 24 same-pool monocultures, same 84 qualifying mixed plots and source plot prefix classes and the same 6 original pool×richness strata: verify **every original plot** observed annual planted dry mass equals source-expectation plus Loreau-Hector NDE within 1e−8 times max(1, |observed mass|).
+- Recompute original **unchanged** source-condition adjusted WLS to separately report three coefficients for annual observed mass, pool-specific monoculture expected mass, and NDE; require `beta_observed=beta_expected+beta_NDE` within 1e−8. Require observed and NDE model coefficients also to reproduce the saved independent [PR #73](https://github.com/zuizui0223/turnover/pull/73) and same original CE/SE output from this lane to absolute 1e−8. If not, SOURCE/MODEL IDENTITY HOLD.
+- For uncertainty of this **derived identity only**, 2,000 original-plot bootstrap samples (seed 20261121) reused identically for all three terms, stratified by original pool×richness×designed high/low; each sample refits the original same WLS design. Report 95% percentile intervals of all three, and paired contrast identity. This is post-result *uncertainty/accounting*, not a new randomized test or new ecological p-value. Do not use independent marginal CIs to infer an expected-yield contrast interval.
+- No new trait axes, source sites, pool-selective coefficients, outlier cuts, FD thresholds or original mono substitutions. Any inferential conclusion remains **retrospective, one Jena field, physically uncertified original A/B/C spatial proxy**, not K→FD→biomass mediation.
+
+Scientific question sharpened: **a positive source-matched mixing advantage can coexist with a smaller total biomass difference because the original monoculture-species baseline differs**. In the 84-plot same-source contrast both point estimates are themselves uncertain; this decomposition is an arithmetic mechanism illustration, **not proof of a new universal law or causally identified treatment**.

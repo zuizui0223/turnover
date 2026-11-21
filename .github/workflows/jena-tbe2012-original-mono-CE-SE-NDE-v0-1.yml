@@ -1,0 +1,64 @@
+name: Jena TBE original 24 monocultures CE SE NDE partition in same 84 FD mixtures
+on:
+  push:
+    branches:
+      - analysis/jena-tbe2012-mono-nde-ce-se-20261121
+    paths:
+      - '.github/workflows/jena-tbe2012-original-mono-CE-SE-NDE-v0-1.yml'
+      - 'scripts/analysis/jena_tbe2012_original_monoculture_CE_SE_partition_v0_1.py'
+      - 'docs/JENA_TBE2012_MONOCULTURE_NDE_CE_SE_MECHANISM_FROZEN_20261121.md'
+  pull_request:
+    paths:
+      - '.github/workflows/jena-tbe2012-original-mono-CE-SE-NDE-v0-1.yml'
+      - 'scripts/analysis/jena_tbe2012_original_monoculture_CE_SE_partition_v0_1.py'
+  workflow_dispatch:
+concurrency:
+  group: jena-tbe2012-monoculture-partition-20261121
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  original-mono-source-and-mechanism:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Original identity and analytical partition fixture
+        run: |
+          python -m pip install -q numpy
+          python -m py_compile scripts/analysis/jena_tbe2012_original_monoculture_CE_SE_partition_v0_1.py
+          python scripts/analysis/jena_tbe2012_original_monoculture_CE_SE_partition_v0_1.py --self-test
+          test -s docs/JENA_TBE2012_MONOCULTURE_NDE_CE_SE_MECHANISM_FROZEN_20261121.md
+      - name: Source-qualify original same-pool monocultures, then model predeclared fixed contrast
+        run: |
+          mkdir -p build/jena_tbe_mechanism
+          python scripts/analysis/jena_tbe2012_original_monoculture_CE_SE_partition_v0_1.py \
+             --out build/jena_tbe_mechanism/nonraw_result.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/jena_tbe_mechanism/nonraw_result.json'))
+          assert x['original_v01_Block_source_gate_HOLD_preserved'] is True
+          assert x['original_JEXIS_physical_block_source_HOLD_preserved'] is True
+          assert x['not_pure_randomized_FD_effect'] is True
+          assert x['no_original_species_plot_or_biomass_rows_exported'] is True
+          if x['status']=='JENA_TBE_2012_MONO_BASED_CE_SE_NDE_DESCRIPTIVE_PARTITION_COMPLETE':
+              assert x['original_source_support']['source_mono_plots']==24
+              assert x['original_source_support']['original_matched_mixplots']==84
+              assert x['original_partition_max_absolute_identity_discrepancy']<=1e-8
+              assert x['response']['n_bootstrap_refits']>=1800
+              assert set(x['response']['endpoints'])=={'NDE','CE','SE','CE_minus_SE'}
+              assert x['response']['source_partition_consistent_model_NDE_equals_CE_plus_SE']
+          else:
+              assert x['status']=='SOURCE_OR_CE_SE_PARTITION_HOLD'
+          print('ORIGINAL_MONO_PAIRED_NDE_CE_SE_GATE_OR_SOURCE_HOLD',x['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jena-tbe-2012-original-monoculture-84-mixture-CE-SE-NDE-nonraw
+          path: build/jena_tbe_mechanism/nonraw_result.json
+          retention-days: 90
+          if-no-files-found: ignore

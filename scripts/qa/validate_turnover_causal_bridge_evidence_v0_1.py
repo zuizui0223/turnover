@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 AUDIT = ROOT / "data/turnover_causal_bridge_audit_20261124.json"
 
 def git_blob_sha(contents: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(contents)).encode("ascii") + b"\\0" + contents).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(contents)).encode("ascii") + b"\0" + contents).hexdigest()
 
 def main() -> None:
     audit = json.loads(AUDIT.read_text(encoding="utf-8"))

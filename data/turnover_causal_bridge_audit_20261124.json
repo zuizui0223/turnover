@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "repository": "zuizui0223/turnover",
+  "registry_path": "data/turnover_evidence_registry_20261119.json",
+  "registry_git_blob_sha": "e97fae9ccbbf57e95ec3949f154f0cf481b85771",
+  "purpose": "Outcome-free provenance and identifiability audit. Never treat claim rows, PRs, study IDs or plot years as independent experiments.",
+  "claim_programmes": [
+    {
+      "claim_id": "BIEN-FAMILY-COMPONENT",
+      "source_programme": "BIEN-201-systems",
+      "audit_role": "trait_memory_primary"
+    },
+    {
+      "claim_id": "BIEN-RAW-PORTABILITY",
+      "source_programme": "BIEN-201-systems",
+      "audit_role": "trait_memory_primary"
+    },
+    {
+      "claim_id": "BIEN-ERROR-ROBUSTNESS",
+      "source_programme": "BIEN-201-systems",
+      "audit_role": "trait_memory_sensitivity"
+    },
+    {
+      "claim_id": "BIEN-LOG-EXPLORATORY",
+      "source_programme": "BIEN-201-systems",
+      "audit_role": "trait_memory_sensitivity"
+    },
+    {
+      "claim_id": "AUSTRAITS-RHO-FAMILY",
+      "source_programme": "AusTraits-v7",
+      "audit_role": "trait_memory_external"
+    },
+    {
+      "claim_id": "AUSTRAITS-K-ALLOCATION",
+      "source_programme": "AusTraits-v7",
+      "audit_role": "trait_memory_external"
+    },
+    {
+      "claim_id": "ORGAN-K",
+      "source_programme": "AusTraits-v7",
+      "audit_role": "trait_memory_posthoc"
+    },
+    {
+      "claim_id": "CEDAR-GUILD-IDENTITY",
+      "source_programme": "Cedar-E120",
+      "audit_role": "biomass_association"
+    },
+    {
+      "claim_id": "BIODEPTH-HEIGHT-FD",
+      "source_programme": "BIODEPTH-original",
+      "audit_role": "biomass_prediction"
+    },
+    {
+      "claim_id": "BIODEPTH-PD",
+      "source_programme": "BIODEPTH-original",
+      "audit_role": "biomass_prediction"
+    },
+    {
+      "claim_id": "TREEDIVNET-FD",
+      "source_programme": "TreeDivNet-Jensen2026",
+      "audit_role": "biomass_prediction"
+    },
+    {
+      "claim_id": "ASSIGNABILITY-METHOD",
+      "source_programme": "simulated-geometries",
+      "audit_role": "methods_only"
+    },
+    {
+      "claim_id": "JENA-ORIGINAL-SOURCE",
+      "source_programme": "Jena-Main-longitudinal",
+      "audit_role": "source_hold_only"
+    },
+    {
+      "claim_id": "FOREST-2026-ALI",
+      "source_programme": "Ali-forest-2026",
+      "audit_role": "source_hold_only"
+    },
+    {
+      "claim_id": "INDEPENDENT-NEXT-SOURCES",
+      "source_programme": "candidate-bundle-62-63",
+      "audit_role": "multi_source_gate_only"
+    },
+    {
+      "claim_id": "FUNDIVEUROPE-SOURCE-ACCESS",
+      "source_programme": "FunDivEUROPE",
+      "audit_role": "source_hold_only"
+    },
+    {
+      "claim_id": "TERRA-PNW-SOURCE-PREFLIGHT",
+      "source_programme": "TERRA-PNW",
+      "audit_role": "source_hold_only"
+    },
+    {
+      "claim_id": "BIEN-STAGEB-CORRECTED",
+      "source_programme": "BIEN-201-systems",
+      "audit_role": "trait_memory_primary_corrected"
+    },
+    {
+      "claim_id": "CADOTTE-2017-FD-NDE-EXPLORATORY",
+      "source_programme": "Cadotte-2017-single-experiment",
+      "audit_role": "single_experiment_prediction"
+    },
+    {
+      "claim_id": "CHEN452-LEAFN-FD-CE-SE-STUDY-TRANSPORT",
+      "source_programme": "Chen2025-published-meta-compilation",
+      "audit_role": "published_meta_prediction"
+    },
+    {
+      "claim_id": "JENA-TBE-2012-ASSIGNED-FD-MONO-NDE-ACCOUNTING",
+      "source_programme": "Jena-TBE-Wagg2017",
+      "audit_role": "single_experiment_partition"
+    }
+  ],
+  "edge_gates": [
+    {
+      "edge": "family_trait_memory_to_plot_functional_diversity",
+      "status": "not_identified",
+      "evidence": "BIEN and AusTraits memory systems lack a matched independent plot-level FD intervention/cohort",
+      "next_gate": "observed trait-by-species-by-plot composition with tree/source-matched family structure"
+    },
+    {
+      "edge": "designed_preplant_FD_to_signed_NDE",
+      "status": "not_identified",
+      "evidence": "Cadotte 2017 and Jena TBE within-experiment prediction/decomposition do not identify an FD-only causal contrast; proposed positive NDE transport did not meet its uncertainty gate",
+      "next_gate": "original randomized design/blocks, preplant traits, independent species pools, same-site monocultures and composition-based exchangeability"
+    },
+    {
+      "edge": "FD_to_absolute_biomass",
+      "status": "not_identified",
+      "evidence": "BIODEPTH and TreeDivNet outcome-frozen external prediction lacks a robust positive increment; Jena TBE 84-plot high-low interval crosses zero",
+      "next_gate": "independent original sites with valid species-level trait and absolute biomass grain; protect observational vs manipulated endpoints"
+    },
+    {
+      "edge": "FD_to_CE_or_SE_study_outofsample_prediction",
+      "status": "positive_generalization_not_supported",
+      "evidence": "Chen 2025 original published meta-compilation: 116 leaf-N and 127 SLA study-ID heldout cohorts, no robust CE gain",
+      "next_gate": "new genuinely independent experiments, not re-folding same retrospective source"
+    },
+    {
+      "edge": "CE_plus_SE_equals_signed_NDE",
+      "status": "arithmetic_identity_not_causal",
+      "evidence": "Same matched Jena TBE plots; CE+SE=NDE",
+      "next_gate": "no causal claim from identity"
+    },
+    {
+      "edge": "expected_monoculture_plus_signed_NDE_equals_observed_mass",
+      "status": "arithmetic_identity_not_causal",
+      "evidence": "Same matched Jena TBE plots; E+NDE=B",
+      "next_gate": "no causal claim from identity"
+    },
+    {
+      "edge": "planted_richness_or_assembly_assignment_to_biomass",
+      "status": "published_total_treatment_evidence_only",
+      "evidence": "External biodiversity experiments establish some randomized mixture/richness total effects; no FD-specific mediator effect demonstrated here",
+      "next_gate": "separate treatment total effect from FD mediation"
+    }
+  ],
+  "jena_tbe_rounded_checks": {
+    "source_experiment": "Jena-TBE-Wagg2017",
+    "n_monoculture_plots": 24,
+    "n_matched_mixture_plots": 84,
+    "estimates_g_dry_m2": {
+      "delta_E": -33.62,
+      "delta_NDE": 68.96,
+      "delta_CE": 27.81,
+      "delta_SE": 41.15,
+      "delta_B": 35.34
+    },
+    "bootstrap_95ci_g_dry_m2": {
+      "delta_E": [
+        -94.17,
+        32.13
+      ],
+      "delta_NDE": [
+        -24.63,
+        163.53
+      ],
+      "delta_CE": [
+        -47.63,
+        104.01
+      ],
+      "delta_SE": [
+        -26.8,
+        104.39
+      ],
+      "delta_B": [
+        -76.28,
+        146.73
+      ]
+    },
+    "note": "All intervals span zero; original plot bootstrap does not propagate within-species monoculture variability (one plot per species). Spatial A/B/C prefix has not been authenticated as physical randomized block. These are rounded adjusted CONTRASTS, not levels or causal FD effects."
+  },
+  "admission_gate": {
+    "unit": "independent original field experiment (not PR, study-year, plot or repeated publication)",
+    "required_before_effect": "Original plot×species trait and mixing composition; original monocultures at matched site/year; response units; treatment allocation and verified spatial block; calendar-year joins; source taxon identities; pre-registered richness/CWM/FD covariate support; at least two independent eligible experiments for transfer (more needed for generality)",
+    "hard_stops": [
+      "source_access_hold",
+      "plot_year_join_hold",
+      "original_trait_grain_hold",
+      "nonidentifiable_FD_given_composition",
+      "unverified_randomization",
+      "rank_deficient_training_folds"
+    ],
+    "outcome_peeking_policy": "Do not reopen terminal source gates, lower thresholds after observation, rerun held-out folds to mine significance, or equate paper-level statistical significance with independent FD intervention."
+  },
+  "new_biological_effect_fits": 0,
+  "primary_question_resolved": "NO",
+  "manuscript_implication": "Keep Evolution RC4 trait-memory scientific claim separate from the unverified FD→biomass causal hypothesis."
+}

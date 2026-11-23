@@ -1,0 +1,29 @@
+name: Turnover causal bridge evidence QA
+on:
+  push:
+    branches:
+      - synthesis/positive-evidence-map-20261119
+    paths:
+      - data/turnover_evidence_registry_20261119.json
+      - data/turnover_causal_bridge_audit_20261124.json
+      - scripts/qa/validate_turnover_causal_bridge_evidence_v0_1.py
+      - .github/workflows/turnover-causal-bridge-evidence-qa.yml
+  pull_request:
+    paths:
+      - data/turnover_evidence_registry_20261119.json
+      - data/turnover_causal_bridge_audit_20261124.json
+      - scripts/qa/validate_turnover_causal_bridge_evidence_v0_1.py
+      - .github/workflows/turnover-causal-bridge-evidence-qa.yml
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate nonraw causal evidence map
+        run: python scripts/qa/validate_turnover_causal_bridge_evidence_v0_1.py

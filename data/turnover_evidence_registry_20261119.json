@@ -1,0 +1,474 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-21",
+  "repository": "zuizui0223/turnover",
+  "purpose": "Cross-programme evidence inventory; no novel pooled effects, no reclassification of frozen primary outcomes",
+  "status_vocab": {
+    "primary_support": "Prospectively selected primary outcome, as qualified by study-specific criteria",
+    "qualified_support": "Original source and target qualified, with explicit estimator/provenance restriction",
+    "retrospective_support": "Reanalysis after previous outcomes known, not independent confirmatory test",
+    "mixed_or_no_generalization": "Positive cross-site/heldout criterion not established or fails; not a biological zero",
+    "source_hold": "No new biological effect opened",
+    "methods_result": "Known-truth methods analysis only"
+  },
+  "claims": [
+    {
+      "id": "BIEN-FAMILY-COMPONENT",
+      "status": "primary_support",
+      "citation": "https://github.com/zuizui0223/turnover/blob/main/README.md",
+      "unit": "201 family-trait systems in 45 families/12 traits",
+      "estimand": "crossed REML share of distance-dissimilarity rho",
+      "observations": {
+        "family_repeatability_S3": 0.1504,
+        "trait_repeatability_S3": 0.0433,
+        "residual_unresolved_S3": 0.8063,
+        "conditional_family_S3": 0.1825,
+        "conditional_family_95CI": [
+          0.0285,
+          0.3369
+        ]
+      },
+      "caveat": "Residual includes estimation error; no family-versus-trait variance dominance test"
+    },
+    {
+      "id": "BIEN-RAW-PORTABILITY",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/blob/main/README.md",
+      "unit": "Held-out whole families; 201 systems",
+      "estimand": "SSE prediction gain for same trait's mean in other families",
+      "observations": {
+        "gain_S3": -0.0242,
+        "p_S3": 0.091,
+        "gain_prune": -0.0324,
+        "p_prune": 0.193
+      },
+      "caveat": "Original raw criterion fails; does not rule out all information under alternative scales/regularization"
+    },
+    {
+      "id": "BIEN-ERROR-ROBUSTNESS",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/28",
+      "unit": "201 systems, unmerged draft sensitivity",
+      "estimand": "measurement-aware S3 typical total variance point decomposition",
+      "observations": {
+        "family_share": 0.151,
+        "trait_share": 0.057,
+        "unresolved_system_share": 0.549,
+        "sampling_error_share": 0.242,
+        "family_null_p_S3": 0.017,
+        "family_null_p_prune": 0.009,
+        "BLUP_gain_S3": 0.006,
+        "BLUP_gain_prune": -0.0048
+      },
+      "caveat": "Historical pre-cleaning v0.3 reliability/scale audit. Original all-201 no-offset log HOLD was subsequently **resolved only under the distinct frozen Stage B positive-only physical data-validity cleaning** in PR #30. Do not label the old uncleaned v0.3 result the corrected primary source."
+    },
+    {
+      "id": "BIEN-LOG-EXPLORATORY",
+      "status": "retrospective_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/31",
+      "unit": "Post-outcome positive-only cleaned BIEN 201 systems",
+      "estimand": "log-scale trait absolute/rank predictive portability",
+      "observations": {
+        "absolute_gain_S3": 0.059,
+        "absolute_gain_prune": 0.055,
+        "rank_gain_S3": 0.068,
+        "rank_gain_prune": 0.028
+      },
+      "caveat": "Distinct preprocessing from #28 original all-201 no-offset HOLD; do not retroactively pass it"
+    },
+    {
+      "id": "AUSTRAITS-RHO-FAMILY",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/13",
+      "unit": "259 systems/42 families/14 traits, independent compilation",
+      "estimand": "rho conditional family level and trait prediction",
+      "observations": {
+        "conditional_family_S3": 0.2958,
+        "conditional_family_prune": 0.391,
+        "absolute_trait_gain_S3": 0.0139,
+        "absolute_trait_gain_prune": 0.0163,
+        "rank_gain_S3": -0.0378,
+        "rank_gain_prune": -0.0155
+      },
+      "caveat": "Independent compilation, not independent primary measurements; original DOI recovery 67.4%"
+    },
+    {
+      "id": "AUSTRAITS-K-ALLOCATION",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/13",
+      "unit": "254 systems/42 families/13 traits, matched positive log core",
+      "estimand": "held-out-family Blomberg K rank prediction",
+      "observations": {
+        "conditional_family_S3": 0.5306,
+        "conditional_family_prune": 0.5881,
+        "rank_gain_S3": 0.0808,
+        "rank_gain_prune": 0.1531,
+        "p_S3": 0.0002,
+        "p_prune": 0.0001,
+        "rank_reversal_S3": 0.4403,
+        "rank_reversal_prune": 0.3988
+      },
+      "caveat": "K and rho are not equivalent; equal-BM null rejection does not establish adaptation; OU/source heterogeneity alternative remains"
+    },
+    {
+      "id": "ORGAN-K",
+      "status": "retrospective_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/38",
+      "unit": "Same-tip/tree reproductive-versus-vegetative comparisons, 34 families",
+      "estimand": "fraction of within-family K pairs higher for reproductive traits",
+      "observations": {
+        "n_pairs_S3": 406,
+        "reproductive_higher_S3": 313,
+        "n_pairs_prune": 397,
+        "reproductive_higher_prune": 314,
+        "source_matched_pairs_S3": 142,
+        "source_matched_reproductive_higher_S3": 120,
+        "source_matched_pairs_prune": 101,
+        "source_matched_reproductive_higher_prune": 81
+      },
+      "caveat": "Functional module identified post-K outcomes; cohort/tip selection influences magnitude, no external independent primary source"
+    },
+    {
+      "id": "CEDAR-GUILD-IDENTITY",
+      "status": "retrospective_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/44",
+      "unit": "Single E120 field experiment; secondary teaching source",
+      "estimand": "conditional guild-identity association with log standing biomass",
+      "observations": {
+        "within_18_fieldrows_permutation_p": 0.007
+      },
+      "caveat": "Guild indicators reflect assigned mixtures and no matched independent Jena replication"
+    },
+    {
+      "id": "BIODEPTH-HEIGHT-FD",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/46",
+      "unit": "174 original plots/7 fields",
+      "estimand": "equal-site held-out SSE gain from adding one-dimensional height FD",
+      "observations": {
+        "unmodified_GIFT_gain": -1.2309,
+        "source_corrected_gain": 0.0383,
+        "corrected_bootstrap_95CI": [
+          -0.1092,
+          0.1829
+        ]
+      },
+      "caveat": "Posthoc botanical height source correction; CI spans zero and 4/7 sites positive"
+    },
+    {
+      "id": "BIODEPTH-PD",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/51",
+      "unit": "150 original plots/449 plot-years/7 fields",
+      "estimand": "additional PD to standing biomass held-out SSE gain",
+      "observations": {
+        "gain": -0.01451,
+        "bootstrap_95CI": [
+          -0.07291,
+          0.03151
+        ]
+      },
+      "caveat": "Community MPD not K/rho; no causal effect inferred"
+    },
+    {
+      "id": "TREEDIVNET-FD",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/57",
+      "unit": "113 original plot-aggregate records/6 whole studies held out",
+      "estimand": "additional observed SLA+leafN FD to absolute woody stock beyond richness and CWM",
+      "observations": {
+        "site_equal_gain": -0.3491,
+        "bootstrap_95CI": [
+          -0.7078,
+          -0.0156
+        ],
+        "sensitivity_excluding_MataDIV_gain": -1.0619
+      },
+      "caveat": "Not net diversity effect; not an ecological negative effect of FD; six independent study clusters"
+    },
+    {
+      "id": "ASSIGNABILITY-METHOD",
+      "status": "methods_result",
+      "citation": "https://github.com/zuizui0223/turnover/pull/27",
+      "unit": "722 prequalified geometries/120 families/25 traits",
+      "estimand": "target rho=0.15 generator accessibility and recovery",
+      "observations": {
+        "recovery_success": 255,
+        "total": 722,
+        "continuous_success": 249,
+        "continuous_total": 443,
+        "categorical_success": 6,
+        "categorical_total": 279,
+        "OU_no_bracket": 220,
+        "categorical_total_restricted": 276,
+        "Mk2_rescued": 51,
+        "balance_rescued": 50
+      },
+      "caveat": "Simulation methodology, not evidence about evolution of categorical traits"
+    },
+    {
+      "id": "JENA-ORIGINAL-SOURCE",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/60",
+      "unit": "One Jena experiment; original 78 plots and 851 plot-years cross-file",
+      "estimand": "strict signed leafN+height source eligibility",
+      "observations": {
+        "eligible_training_plots": 55,
+        "predeclared_minimum": 60,
+        "test_plots_by_year": [
+          47,
+          48,
+          51
+        ]
+      },
+      "caveat": "No new FD–biomass effect opened; repeated plot-years are not independent sites"
+    },
+    {
+      "id": "FOREST-2026-ALI",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/61",
+      "unit": "200 original source rows",
+      "estimand": "physical AGB and species-level source validity",
+      "observations": {
+        "negative_AGB": 157,
+        "total": 200
+      },
+      "caveat": "Physical stock cannot be negative; raw species-by-plot trait data absent; no effect estimated"
+    },
+    {
+      "id": "INDEPENDENT-NEXT-SOURCES",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/63",
+      "unit": "Africa and BEF-China distinct candidate sources; also NutNet/CoRRE PR #62",
+      "estimand": "original source admission before ecological prediction",
+      "observations": {
+        "new_eligible_effects": 0
+      },
+      "caveat": "Respect existing independently frozen source-specific thresholds; no additional outcome opened"
+    },
+    {
+      "id": "FUNDIVEUROPE-SOURCE-ACCESS",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/65",
+      "unit": "Published six-region European forest network (209 plots; 15 named target species in article, not verified total species)",
+      "estimand": "new original species-by-plot directly measured traits and biomass source availability preflight",
+      "observations": {
+        "official_dryad_DOI_metadata_accessible": true,
+        "workbook_original_http": 403,
+        "original_headers_obtained": false,
+        "qualified_original_species_by_plot_trait_rows": false,
+        "qualified_biological_effects": 0,
+        "CI_source_audit_success_run_id": 44515506497
+      },
+      "caveat": "Original Dryad workbook blocked by HTTP 403. Cannot infer underlying trait grain absent; no biological regression estimated. The source-only action succeeded by correctly returning HOLD, not source PASS."
+    },
+    {
+      "id": "TERRA-PNW-SOURCE-PREFLIGHT",
+      "status": "source_hold",
+      "citation": "https://github.com/zuizui0223/turnover/pull/66",
+      "unit": "Published 1,296 individual leaf rows, 266 stand records, 35 tree/shrub species from 6 projects; these are not original matched eligible plot counts",
+      "estimand": "Original local SLA_PSA and leaf nitrogen paired to wood-carbon stock through exact PROJECT×PLOT_ID and year gaps<=2 with source overstory identity",
+      "observations": {
+        "published_individual_trait_rows": 1296,
+        "published_stand_records": 266,
+        "published_tree_shrub_species": 35,
+        "actual_original_csv_join_verified": false,
+        "source_gate_actions_pending_at_this_snapshot": false,
+        "new_biological_effects": 0,
+        "wood_stock_response": "AG_BIOMASS_TREE_WOOD_AS_CARBON g C m-2",
+        "original_leaf_http_status": 401,
+        "verified_successful_source_audit_run_id": 44518757061
+      },
+      "caveat": "Verified source-only GitHub Actions succeeded (synthetic tests 8/8), but anonymous official ORNL leaf CSV returned HTTP 401; source original-data eligibility unverified. No K or FD→wood stock model fitted; data-access HOLD, not evidence of zero ecological effect."
+    },
+    {
+      "id": "BIEN-STAGEB-CORRECTED",
+      "status": "qualified_support",
+      "citation": "https://github.com/zuizui0223/turnover/pull/30",
+      "unit": "All 201 frozen family×trait systems; 45 families, 12 continuous traits; 49 source-contaminated recomputed and 152 unchanged",
+      "estimand": "source-validity corrected BIEN distance–trait dissimilarity rho, crossed family repeatability and same-fold held-out-family BLUP SSE gain on raw/log state representations",
+      "observations": {
+        "verified_actions_run": 37443037590,
+        "source_downstream_job_id": 112205536516,
+        "original_stage_b_artifact_id": 11402782797,
+        "original_actions_artifact_retention_days": 30,
+        "source_qualified_all_201_systems": true,
+        "cleaned_log_all_201_available": true,
+        "naive_R_family_raw_S3": 0.15638977692065784,
+        "naive_R_family_raw_prune": 0.1541461232867591,
+        "naive_R_family_log_S3": 0.14885486339104514,
+        "naive_R_family_log_prune": 0.1614826346631868,
+        "BLUP_gain_raw_S3": 0.012078564256229551,
+        "BLUP_gain_raw_prune": 0.00003355500575730197,
+        "BLUP_gain_log_S3": 0.05921568531504062,
+        "BLUP_gain_log_prune": 0.05508136601822178,
+        "cleaned_raw_zero_family_correlated_trait_null_p_S3": 0.016983016983016984,
+        "cleaned_raw_zero_family_correlated_trait_null_p_prune": 0.012987012987012988,
+        "cleaned_raw_measurement_aware_typical_total_sampling_share_S3": 0.23180852087757872,
+        "new_biomass_related_effects": 0,
+        "recovered_full_201_effects_and_species_SE_rows": true,
+        "recovery_original_robust_v0_3_run": 37281031394,
+        "recovery_stage_b_cleaning_run": 37443037590,
+        "source_table_validation_and_figure_generation_run": 44541550788,
+        "all_Stage_B_delta_and_four_variance_inputs_match": true,
+        "corrected_rc4_figures_generated": 3,
+        "figure_artifact_id": 14538043215,
+        "frozen_R_model_replay_run": 44542568468,
+        "frozen_model_replay_30_checks": true,
+        "maximum_replayed_model_absolute_difference": 0
+      },
+      "caveat": "Data-validity correction frozen before cleaned outcomes. Full corrected 201 rho/SE table recovered from original job stdout with no source species rows republished; all corrected-row, impact and raw/log sampling-variance checks pass. A re-run of the three unchanged original R models matched all 30 frozen Stage B model statistics exactly (PR #67, Actions #44542568468). This confirms numerical reproducibility, not independent biological replication or causality. RC3 stays blocked and RC4 still needs visually reviewed anonymous DOCX/PDF, rights and author approval."
+    },
+    {
+      "id": "CADOTTE-2017-FD-NDE-EXPLORATORY",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/69",
+      "unit": "40 original mixtures, 14 trait species and 34 original planted composition holdout groups, one Canadian experiment",
+      "estimand": "same-plot and same-composition-fold FD incremental SSE prediction: NDE (signed) versus absolute biomass, plus selection and complementarity, adjusted for planted richness and mean SLA/height",
+      "observations": {
+        "source_zenodo": "https://zenodo.org/records/5022435",
+        "original_data_MD5_files_verified": 4,
+        "original_mixtures": 40,
+        "composition_holdout_groups": 34,
+        "NDE_equal_original_selection_plus_complementarity": true,
+        "source_plot_biomass_crosscheck_mismatches": 0,
+        "gain_absolute_biomass": 0.08819451939612577,
+        "gain_absolute_biomass_95CI": [
+          -0.13507909272815424,
+          0.2577613184007899
+        ],
+        "gain_NDE": -0.03619668084038774,
+        "gain_NDE_95CI": [
+          -0.1552250182457807,
+          0.04087317829716512
+        ],
+        "gain_complementarity": -0.06247859661441435,
+        "gain_selection": -0.012355025909775552,
+        "NDE_minus_absolute_gain": -0.12439120023651351,
+        "NDE_minus_absolute_gain_95CI": [
+          -0.2656392635670391,
+          0.008373569198313198
+        ],
+        "bootstrap_resamples_of_heldout_error_vectors": 1000,
+        "source_CI_run": 44750171096,
+        "source_qa_run": 44751586875
+      },
+      "caveat": "Source-verified separate retrospective and outcome-aware **single-study** pilot. All individual and paired 95% intervals cross zero; hypothesized better NDE prediction not supported, and opposite point sign is not conclusive. 34 composition holdouts are not 34 studies. Bootstrap resamples heldout errors without refitting. Pre-sown two-trait FD is an attribute of planted species, not an independently randomized FD intervention. Prior Cadotte selection/complementarity relationship already published; no new causal inference or global FD biomass generality."
+    },
+    {
+      "id": "CHEN452-LEAFN-FD-CE-SE-STUDY-TRANSPORT",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/71",
+      "unit": "2025 Nature author-published meta-analysis, 4598 original no-outlier mixture rows/452 StudyIDs. Fixed model complete-case cohorts: leaf N 1709 observations/116 author StudyIDs; SLA 2031/127 author StudyIDs.",
+      "estimand": "Extra predictive study-equal held-out-study squared error gain when a priori planted-species RaoQ functional diversity is added beyond richness, PD, CWM, N-fixer mix, stand age, ecosystem and climate, for signed CE vs signed SE with identical original StudyID folds",
+      "observations": {
+        "original_452_study_raw_nooutlier_source_rows": 4598,
+        "original_complete_leafN_rows": 1709,
+        "original_complete_leafN_StudyIDs": 116,
+        "original_complete_SLA_rows": 2031,
+        "original_complete_SLA_StudyIDs": 127,
+        "original_v01_model_all_folds_rank_hold": true,
+        "v02_identifiability_adjustment": "remove the exact redundant PlantType dummy, keep Eco1; source row/fold and numerical gates unchanged before outcomes",
+        "original_CE_plus_SE_equals_DY_source_checks": true,
+        "leafN_gain_CE": 0.007674929661180108,
+        "leafN_gain_CE_95CI": [
+          -0.028655280994113786,
+          0.03661520933855403
+        ],
+        "leafN_gain_SE": -0.011853713244749375,
+        "leafN_gain_SE_95CI": [
+          -0.01956819559641067,
+          -0.004970028227339615
+        ],
+        "leafN_gain_CE_minus_SE": 0.019528642905929483,
+        "leafN_gain_CE_minus_SE_95CI": [
+          -0.01592704775157274,
+          0.050832375848030915
+        ],
+        "SLA_gain_CE": -0.0012638897564301033,
+        "SLA_gain_CE_95CI": [
+          -0.007704730072469496,
+          0.004693574930923855
+        ],
+        "SLA_gain_SE": 0.0004396600868962208,
+        "SLA_gain_SE_95CI": [
+          -0.018784194671832528,
+          0.021190880160130952
+        ],
+        "SLA_gain_CE_minus_SE": -0.001703549843326324,
+        "SLA_gain_CE_minus_SE_95CI": [
+          -0.022006677457064965,
+          0.01781690602912832
+        ],
+        "new_source_2000_bootstrap_original_studyIDs": true,
+        "source_frozen_analytical_run": 44761456911,
+        "nonrefit_aggregate_arithmetic_QA_run": 44762349411
+      },
+      "caveat": "Retrospective predictive analysis on SAME originally published meta-analysis, not an independent original biological replication. Authors' earlier FD-vs-CE positive associations need not imply FD incremental holdout improvement. Pairwise CE-vs-SE gain difference intervals include zero, and leaf N FD worsens SE prediction score, not biologically suppressing selection. Original StudyID not independently verified unique article, source original outcome-based outlier removal 82 rows and substantial complete-case attrition (116/213 leaf N StudyIDs) limit generality. Study cluster 2000 bootstrap of fixed predictions omits refit uncertainty. No FD-only randomized treatment or phylogenetic-memory FD causal path."
+    },
+    {
+      "id": "JENA-TBE-2012-ASSIGNED-FD-MONO-NDE-ACCOUNTING",
+      "status": "mixed_or_no_generalization",
+      "citation": "https://github.com/zuizui0223/turnover/pull/74",
+      "unit": "One original Wagg et al. 2017 Jena Trait-Based Experiment: 138 source plots, 24 original pool-specific monocultures, 84 eligible mixture plot units in 6 matched pool×richness strata; 2012 May+August annual sown dry biomass g/m²",
+      "estimand": "Same-source high (wFDc 3–4) vs low (wFDc 1–2) assigned trait-disparity composition contrast, adjusted for source pool×richness and uncertified plot-prefix A/B/C source coding: observed annual biomass = same-pool mono expected yield + net diversity effect; NDE = Loreau–Hector complementarity CE + selection SE",
+      "observations": {
+        "source_original_doi": "10.1594/PANGAEA.876725",
+        "source_original_sha256": "458f61307df217d285c972f894ca5cf23709c3524dc6e13bb4d9dd3c26c2ab56",
+        "original_source_plot_count": 138,
+        "source_2012_plot_month_rows": 276,
+        "source_monoculture_plots": 24,
+        "source_monoculture_species_per_pool": [
+          8,
+          8,
+          8
+        ],
+        "original_source_eligible_mixtures": 84,
+        "source_eligible_pool_x_richness_strata": 6,
+        "annual_observed_biomass_highFD_minus_lowFD_g_m2": 35.341788448280155,
+        "annual_observed_biomass_95CI_g_m2": [
+          -76.27843095189722,
+          146.73426743824567
+        ],
+        "pool_specific_monoculture_expected_yield_difference_g_m2": -33.61900795538662,
+        "pool_specific_monoculture_expected_yield_95CI_g_m2": [
+          -94.17197945044131,
+          32.13192232992252
+        ],
+        "net_diversity_effect_NDE_difference_g_m2": 68.96079640366666,
+        "net_diversity_effect_NDE_95CI_g_m2": [
+          -24.628634898601447,
+          163.5267321129064
+        ],
+        "complementarity_CE_difference_g_m2": 27.81490083968951,
+        "complementarity_CE_95CI_g_m2": [
+          -47.626232434517796,
+          104.00603581328903
+        ],
+        "selection_SE_difference_g_m2": 41.14589556397725,
+        "selection_SE_95CI_g_m2": [
+          -26.79529027726879,
+          104.39068128992173
+        ],
+        "same_source_observed_equals_expected_plus_NDE": true,
+        "same_source_NDE_equals_CE_plus_SE": true,
+        "maximum_original_84_plot_CE_plus_SE_minus_NDE_error_g_m2": 2.2737367544323206e-13,
+        "repeated_plot_bootstrap_refits": 2000,
+        "original_field_Block_levels": 1,
+        "plot_ID_prefix_classes_three_46_each": true,
+        "prefix_identified_as_physical_randomized_block": false,
+        "JEXIS_original_block_assignment_source": "TIMEOUT_HOLD",
+        "new_causal_FD_only_effect_estimated": false,
+        "source_original_year_and_species_coverage_action": 44847711261,
+        "source_prefix_structural_action": 44847964061,
+        "annual_mass_descriptive_source_action": 44848307503,
+        "monoculture_CE_SE_NDE_source_action": 44848773717,
+        "accounting_identity_original_action": 44849069631,
+        "arithmetic_identity_replay_action": 44849252682,
+        "original_species_biomass_rows_republished": false
+      },
+      "caveat": "This reanalysis's source-certification gate required 3 verified physical Block levels and remains HOLD: the literal PANGAEA Block field has one; Plot A/B/C 46×3 are proxies NOT verified randomized physical blocks (JEXIS 739 timeout). A separate pre-fixed exploratory source-based contrast bundles assigned species identities with FD, so cannot identify a pure scalar FD causal intervention. All five plot-bootstrap intervals cross zero; source monos one original plot per species×pool so their yield-estimation uncertainty is not resampled. Already analyzed in original Wagg et al. 2017; one Jena experimental field (not 3 independent sites). The positive NDE contrast and negative high-minus-low expected-yield contrast reproduce the observed biomass contrast algebraically; this is not confirmed ecological compensation, external replication or rho/K→FD→biomass mediation."
+    }
+  ]
+}
+

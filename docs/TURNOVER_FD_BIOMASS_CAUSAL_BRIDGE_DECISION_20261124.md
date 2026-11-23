@@ -1,0 +1,33 @@
+# turnover: FD–biomass bridge evidence and causal-identification decision (2026-11-24)
+
+**Decision:** do not append an FD→biomass causal claim to the Evolution RC4 trait-memory manuscript. This is an evidence-audit advance, **not a biological effect estimate**. Source: [existing 21-claim registry](../data/turnover_evidence_registry_20261119.json). Machine-readable one-to-one claim→original programme map: [audit](../data/turnover_causal_bridge_audit_20261124.json).
+
+## What actually holds and what does not
+
+1. **Lineage/trait memory is an eligible question in its own right.** The 201 BIEN systems were rebuilt after positive-only data-validity cleaning; the measurement-aware variance point includes **23.18% sampling error**, not pure biological heterogeneity. Corrected held-out-family BLUP gains are raw **+1.21% / ~0%**, log **+5.92% / +5.51%** (S3/pruned). The independent compilation AusTraits has estimator-dependent results: K family-heldout rank gain **+8.08% / +15.31%**, unlike rho. Neither constitutes a community experiment.
+2. **Randomized planted mixtures/richness can have a total effect on production (published BEF evidence).** That intervention does not identify a continuous FD-only treatment or K-mediated pathway. Jensen 2026 reports a positive published FDis–relative-mixing-gain association; it is not an independent FD randomization or our new ecological replication.
+3. **The new retrospective FD→biomass/CE claims do not qualify as general positive effects.** TreeDivNet SLA×leafN FD adds **−34.91%** to held-out woody-mass SSE gain (6 studies; not a negative causal FD effect); Chen 2025 leafN-FD incremental CE held-out-study SSE gain **+0.77% [−2.87%, +3.66%]** (116 author StudyIDs) and SLA no robust gain; Cadotte 2017 NDE vs absolute-biomass predictive gain comparison is inconclusive; Jena TBE high-low designed FD biomass contrast **+35.34 g/m² [−76.28, +146.73]**, all component contrasts cross zero.
+4. **The Jena decomposition is real but algebraic.** On *the same 84 original mixture plots*, matched original mono baselines give `ΔB = ΔE + ΔNDE = −33.62 + 68.96 = +35.34` and `ΔNDE = ΔCE + ΔSE = 27.81 + 41.15 = 68.96` g dry mass/m². **Neither identity is evidence that FD caused compensation.** The physical randomized blocks have **not** been authenticated: source `Block` has one literal value, A/B/C prefix is proxy only. Each original source species has only one monoculture plot; the 2,000 mixture-plot bootstrap draws do **not** represent full monoculture-expectation uncertainty. The adjusted `ΔE` may be negative while baseline **E cannot be interpreted as negative standing biomass**.
+5. **Source-only HOLDs are not negative biological tests.** NutNet public 2025 species and 2026 biomass have 57 common site codes but *zero* exact site×calendar-year pairs (PR #62); African forest 276 plots have young stands only in Ethiopia and two countries below the original per-country minimum (PR #63); BEF-China original source lacks usable species×plot measured traits (also PR #63); FunDivEUROPE original file returned HTTP 403 (PR #65), TERRA-PNW HTTP 401 (PR #66). No FD effects were fitted behind these gates.
+
+## Independent-evidence counting rule
+
+A PR, an effect estimate, a publication reusing the same trial, a harvest year, a plot-year, an original StudyID, or a source-only preflight is **not** an independent biological experiment by itself. The existing registry has **21 claim records**, not 21 independent FD→biomass confirmations. BIEN original/cleaning/scale variants are one original trait frame; AusTraits rho/K/organ analyses one compilation; BIODEPTH height-FD/PD one experimental programme; Jena TBE PR #72/#73/#74 one experiment. The separate Jena Main longitudinal source is a different design, still source HOLD for its proposed time-FD effect. Chen 452 StudyIDs are from one published meta-data compilation, **not 452 new studies collected by us**.
+
+## Decision for next original-data analysis
+
+**GO only after an independent original experiment qualifies before any effects are opened:** named composition, measured preplant species traits, matching mono/sown mixtures and harvest year, unambiguous treatment and plot/block randomization, exact plot/calendar joins, sufficient FD variation *within* richness and trait pools, full-rank baseline including CWM, and at least two genuinely independent eligible experiments for a transport diagnostic. Species identity and FD are mathematically coupled for fixed trait vectors: conditioning on *all* species identity leaves no FD contrast. Hence merely adjusting a regression for richness does **not** identify the pure causal effect of FD. Factorial assembly is an assignment effect; any mediator interpretation additionally needs design/identification assumptions. Test independent transfer separately from causal mediation.
+
+**STOP** on access holds, species/plot/year mismatches, invalid original trait grain, unverifiable randomization/blocks or rank deficiencies. Do not lower any historical qualification threshold, refit old endpoints in new subsets after inspecting results, or treat mere algebraic decomposition as ecological mechanism. Keep `R_mix = B/E` (relative ratio) distinct from signed `NDE = B−E = CE+SE`, and never apply `log` to signed NDE/CE/SE.
+
+**Current action:** classify all existing 21 claims by original source and causal edge with a fail-closed validator. Preserve Evolution RC4's independent trait-memory result for review; treat K/ρ→FD→CE/SE→B as **not identified** until a newly qualified independent matched experiment exists.
+
+## Exact original work references
+
+- BIEN corrected Stage B/RC4: [PR #30](https://github.com/zuizui0223/turnover/pull/30), [PR #67](https://github.com/zuizui0223/turnover/pull/67).
+- AusTraits K and rho: [PR #13](https://github.com/zuizui0223/turnover/pull/13).
+- Independent-prediction constraints: [TreeDivNet PR #57](https://github.com/zuizui0223/turnover/pull/57), [Chen 452 PR #71](https://github.com/zuizui0223/turnover/pull/71), [Cadotte PR #69](https://github.com/zuizui0223/turnover/pull/69).
+- Same original Jena TBE: [source #72](https://github.com/zuizui0223/turnover/pull/72), [mass #73](https://github.com/zuizui0223/turnover/pull/73), [E/NDE/CE/SE #74](https://github.com/zuizui0223/turnover/pull/74).
+- Source HOLDs: [NutNet #62](https://github.com/zuizui0223/turnover/pull/62), [Africa/BEF-China #63](https://github.com/zuizui0223/turnover/pull/63), [FunDivEUROPE #65](https://github.com/zuizui0223/turnover/pull/65), [TERRA #66](https://github.com/zuizui0223/turnover/pull/66).
+
+Run without original files: `python scripts/qa/validate_turnover_causal_bridge_evidence_v0_1.py`.

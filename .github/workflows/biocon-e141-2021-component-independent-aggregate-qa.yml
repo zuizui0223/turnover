@@ -1,0 +1,29 @@
+name: Independent E141 biomass-component aggregate no-refit QA
+on:
+  push:
+    branches:
+      - audit/biocon-e141-2021-mass-component-accounting-20261124
+    paths:
+      - results/biocon_e141_original_2021_biomass_components_accounting_v0_1.json
+      - docs/BIOCON_E141_2021_BIOMASS_COMPONENT_ACCOUNTING_RESULTS_20261124.md
+      - scripts/audit/verify_biocon_e141_2021_component_identity_aggregate_v0_1.py
+      - .github/workflows/biocon-e141-2021-component-independent-aggregate-qa.yml
+  pull_request:
+    paths:
+      - results/biocon_e141_original_2021_biomass_components_accounting_v0_1.json
+      - docs/BIOCON_E141_2021_BIOMASS_COMPONENT_ACCOUNTING_RESULTS_20261124.md
+      - scripts/audit/verify_biocon_e141_2021_component_identity_aggregate_v0_1.py
+      - .github/workflows/biocon-e141-2021-component-independent-aggregate-qa.yml
+  workflow_dispatch:
+jobs:
+  no-refit-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reconcile original-source results and guard inference
+        run: python scripts/audit/verify_biocon_e141_2021_component_identity_aggregate_v0_1.py

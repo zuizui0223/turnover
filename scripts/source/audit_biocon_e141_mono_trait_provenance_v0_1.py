@@ -62,8 +62,18 @@ def assign_counts(data: bytes) -> dict:
     # named "Achillea millefolium (g/m^2)" columns in corresponding order.
     # Verify the mapping by unique genus+epithet 3-letter abbreviations;
     # NEVER accept arbitrary positional association without full validation.
-    species_full=[z.removesuffix(" (g/m^2)") for z in h if z.endswith(" (g/m^2)") and z!="AbovegroundTotal Biomass (g/m^2)"]
-    if len(species_full)!=16:raise ValueError("Original species biomass schema no longer exactly 16")
+    # The 16 original source species biomass columns are the contiguous
+    # group AFTER Monogroup and BEFORE AbovegroundTotal Biomass, followed
+    # separately by Miscellaneous Litter (g/m^2), not a 17th plant taxon.
+    try:
+        sp_start=h.index("Monogroup")+1
+        sp_end=h.index("AbovegroundTotal Biomass (g/m^2)")
+    except ValueError as exc:
+        raise ValueError("Missing source Monogroup/total biomass column boundaries") from exc
+    raw_species_cols=h[sp_start:sp_end]
+    if len(raw_species_cols)!=16 or not all(z.endswith(" (g/m^2)") for z in raw_species_cols):
+        raise ValueError("Official source species biomass contiguous 16-column block failed")
+    species_full=[z.removesuffix(" (g/m^2)") for z in raw_species_cols]
     if len(species_full)!=len(plant_cols):raise ValueError("Source flag/full-name mapping has unequal lengths")
     def code_of(full):
         parts=full.split()

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "source_programme": "Cedar Creek BioCON E141; ONE original experimental site with SIX whole CO2 rings",
+  "source_original_author_Figshare": "10.6084/m9.figshare.26841637.v3",
+  "original_biomass_file": "BioCON_biomass_cover_data_Sep2022.csv",
+  "original_MD5": "8185b8effca37c8740ad065c53eb75d2",
+  "direct_SLA_EDI_538_year_gate": {
+    "source_original_url": "https://pasta.lternet.edu/package/data/eml/knb-lter-cdr/538/9/d6a22544411064d397041a9548f73074",
+    "ci": "https://github.com/zuizui0223/turnover/actions/runs/45317325425",
+    "http_status": 403,
+    "status": "SOURCE_ACCESS_HOLD",
+    "source_original_trait_years_obtained": false,
+    "no_authenticated_private_source_fallback": true,
+    "original_catalog_year_range_for_dataset_538": "1998–2018 (published metadata only, not individual trait row verification)"
+  },
+  "sameharvest_biomass_presence": {
+    "ci": "https://github.com/zuizui0223/turnover/actions/runs/45317579532",
+    "original_source_full_csv_MD5_pass": true,
+    "observed_source_seasons": [
+      "June",
+      "August"
+    ],
+    "original_main_mixture_harvest_records": 8064,
+    "own_original_B_source_nonmissing": 6324,
+    "matching_two_physical_monos_all_sown_species_same_year_season_CO2_N": 6384,
+    "own_B_and_complete_monos": 6324,
+    "own_B_and_monos_and_no_additional_warming_or_water": 5388,
+    "mono_harvest_source_presence": {
+      "present": 4864,
+      "missing": 1280
+    },
+    "original_year_season_source_mono_species_contexts_two_replicates": 2432,
+    "original_year_season_source_mono_species_contexts_zero_replicates": 640,
+    "source_monoculture_year_season_treatment_species_contexts_total": 3072,
+    "original_management_indicator_pairs_raw_rows": {
+      "water0_temp0": 16368,
+      "water1_temp0": 480,
+      "water1_temp1": 960
+    },
+    "original_main_mixture_sown_richness_presence": {
+      "4": {
+        "original_harvest_rows": 2880,
+        "B_and_two_monos_present": 2244,
+        "no_additional_water_or_warming": 2244
+      },
+      "9": {
+        "original_harvest_rows": 2880,
+        "B_and_two_monos_present": 2256,
+        "no_additional_water_or_warming": 1320
+      },
+      "16": {
+        "original_harvest_rows": 2304,
+        "B_and_two_monos_present": 1824,
+        "no_additional_water_or_warming": 1824
+      }
+    },
+    "original_management_restricted_nonmissing_harvest_count_by_year": {
+      "1998": 336,
+      "1999": 336,
+      "2000": 336,
+      "2001": 336,
+      "2002": 336,
+      "2003": 336,
+      "2004": 336,
+      "2005": 336,
+      "2006": 336,
+      "2007": 240,
+      "2008": 240,
+      "2009": 240,
+      "2010": 240,
+      "2011": 240,
+      "2012": 120,
+      "2013": 120,
+      "2014": 120,
+      "2015": 120,
+      "2016": 120,
+      "2017": 120,
+      "2018": 120,
+      "2019": 120,
+      "2020": 84,
+      "2021": 120
+    },
+    "caveat": "Harvest source-record counts are repeated outcomes, not independent plots. Text nonmissing is not a numeric model-eligibility check. Eventual same-harvest source expected productivity uses source sown proportions (equal seed mass original) and original mono species treatment/season/yields, not invented values."
+  },
+  "biological_inference_status": "ORIGINAL_MONO_BIOMASS_PRESENCE_PASS_TRAIT_YEAR_ACCESS_HOLD_NO_FD_EFFECT",
+  "new_biological_effect_models_fit": 0,
+  "original_numeric_biomass_values_opened": false,
+  "original_numeric_trait_values_opened": false,
+  "next_gate": "Search a genuinely published time-valid original direct SLA source for a fixed target year, or obtain EDI originally authorized data. Do not reuse E120 Big Bio imputed taxa as native E141 source; do not treat a 403 as a biological zero."
+}

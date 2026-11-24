@@ -78,11 +78,110 @@
   ],
   "original_numeric_responses_opened": false,
   "statistical_models_fitted": 0,
-  "result": "SOURCE_BYTES_MD5_PASS_DESIGN_GRAIN_UNVERIFIED",
-  "ecological_effect_eligibility": "HOLD",
-  "source_ci_push": "https://github.com/zuizui0223/turnover/actions/runs/45308856389",
+  "result": "SOURCE_BYTES_MD5_PASS_T_SOURCE_CODE_DICTIONARY_HOLD",
+  "ecological_effect_eligibility": "HOLD_REQUIRED_ORIGINAL_T_SOURCE_DICTIONARY",
+  "source_ci_push": "https://github.com/zuizui0223/turnover/actions/runs/45309532853",
   "source_ci_prior": "https://github.com/zuizui0223/turnover/actions/runs/45308765094",
-  "source_only_artifact_id": 14881679010,
-  "source_only_artifact_sha256": "221129bfc5f1049faad4a3d265bf8ac88ee3639924ea591f31a8c2557ed307b5",
-  "next_gate": "obtain independently verified original design dictionary for site×plot×year×cultivar composition and pre/post root trait and mono-vs-mix response definitions before any biomass outcome model"
+  "source_only_artifact_id": 14882471711,
+  "source_only_artifact_sha256": "c67ee37f3fc578144b2b81bb51523d4aa77d63f63e4f17224eaf67728f20e57e",
+  "next_gate": "Original Su et al. source dictionary proving T coding and physical Site×sys×T×Block identity across the two tables; only then preplant root traits/monocultures, eligible cohorts, and response meanings can be qualified. No model until gate passes.",
+  "original_first_row_headers": {
+    "Sheet1": [
+      "Site",
+      "Cul",
+      "T",
+      "sys",
+      "Cs",
+      "Block",
+      "Grain yield",
+      "Biomass"
+    ],
+    "Sheet2": [
+      "Site",
+      "sys",
+      "T",
+      "Block",
+      "rCE-GY",
+      "rSE-GY",
+      "rCE-AB",
+      "rSE-AB"
+    ],
+    "Sheet3": [
+      "Site",
+      "Row",
+      "Block",
+      "Comp",
+      "RRD_RWD",
+      "RRD_MRD",
+      "rCE_GY",
+      "rSE_GY",
+      "rCE_AB",
+      "rSE_AB"
+    ],
+    "Sheet4": [
+      "Site",
+      "Row",
+      "MoMi",
+      "T",
+      "Block",
+      "ΔMRD_D",
+      "rCE_GY",
+      "rSE_GY",
+      "rCE_AB",
+      "rSE_AB"
+    ],
+    "Sheet5": [
+      "Site",
+      "Sys",
+      "Row",
+      "Block",
+      "RSA",
+      "SRL",
+      "RLD",
+      "RWD"
+    ],
+    "Sheet6": [
+      "Row",
+      "Cul",
+      "T",
+      "Cs",
+      "Block",
+      "RWD",
+      "MRD"
+    ]
+  },
+  "source_key_diagnostics": {
+    "candidate_source_key_names": [
+      "Site",
+      "sys",
+      "T",
+      "Block"
+    ],
+    "sheet1_original_rows_excluding_header": 222,
+    "sheet1_unique_four_field_keys": 96,
+    "sheet2_original_rows_excluding_header": 48,
+    "sheet2_unique_four_field_keys": 48,
+    "exact_four_field_key_overlap": 0,
+    "site_value_overlap": 2,
+    "sys_value_overlap": 4,
+    "T_value_overlap": 0,
+    "block_value_overlap": 3,
+    "exact_site_sys_block_projection_overlap": 21,
+    "sheet1_distinct_T_values": 30,
+    "sheet2_distinct_T_values": 9,
+    "original_Cul_code_histogram_per_sheet1_candidate_plot_key": {
+      "1": 48,
+      "2": 24,
+      "4": 15,
+      "6": 3,
+      "8": 6
+    },
+    "caveats": [
+      "T values are not in the same original value domain; no mapping, inferred translation, or fuzzy join attempted.",
+      "Matching site+sys+block is NOT sufficient to prove the same physical plot or composition.",
+      "Cul distinct code histogram does not certify true sown richness without an author dictionary.",
+      "Numeric biological response, root trait and original relative CE/SE values were not opened or modeled."
+    ]
+  },
+  "source_ci_pr": "https://github.com/zuizui0223/turnover/actions/runs/45309539446"
 }

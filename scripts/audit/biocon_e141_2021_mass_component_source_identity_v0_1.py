@@ -14,6 +14,7 @@ import hashlib
 import io
 import json
 import math
+import re
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -212,9 +213,9 @@ def audit():
       "author_source_text_mentions":{
         "README_defines_aboveground_total":("AbovegroundTotal Biomass" in rt),
         "README_defines_misc_litter":("Miscellaneous Litter" in rt),
-        "README_defines_alternate_total":("Total Biomass" in rt),
+        "README_defines_alternate_total":bool(re.search(r"(?<!Aboveground)Total Biomass",rt)),
         "author_R_uses_aboveground_total":("AbovegroundTotal Biomass" in code or "AbovegroundTotal.Biomass" in code),
-        "author_R_uses_alt_total":("Total Biomass" in code or "Total.Biomass" in code),
+        "author_R_uses_alt_total":bool(re.search(r"(?<!Aboveground)Total[. ]Biomass",code)),
         "author_R_mentions_species_biomass_estimation":("estimate" in code.lower() or "predict" in code.lower()),
       },
       "cohort_source":"Original 2021 August, main 4/9 species, fixed earlier 46 plots",
@@ -232,6 +233,9 @@ def audit():
 
 def test():
     assert near(10.,10.00001)
+    assert re.search(r"(?<!Aboveground)Total Biomass","AbovegroundTotal Biomass") is None
+    assert re.search(r"(?<!Aboveground)Total[. ]Biomass","AbovegroundTotal.Biomass") is None
+    assert re.search(r"(?<!Aboveground)Total Biomass","Total Biomass") is not None
     assert not near(10.,11.)
     assert number("NA") is None and number("1.25")==1.25
     assert distinct_plant_flags({"A planted":"1","B planted":""},["A planted","B planted"])==(1,0)

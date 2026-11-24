@@ -320,7 +320,16 @@ def audit():
             out["original_workbook_size_bytes"] = len(original)
             out["sheet_metadata_only"] = sheets
             out["provisional_same_named_source_key_support"] = inspect_same_named_source_keys(original)
-            out["source_verdict"] = "SOURCE_BYTES_MD5_PASS_DESIGN_GRAIN_UNVERIFIED"
+            key_audit = out["provisional_same_named_source_key_support"]
+            projections = key_audit.get("provisional_exact_key_projection_diagnostics", {})
+            shared = key_audit.get("sheet1_mass_vs_sheet2_relative_ce_se", {})
+            if (shared.get("exact_same_named_candidate_key_overlap") == 0
+                    and projections.get("site+sys+block", {}).get("exact_string_intersection", 0) > 0
+                    and projections.get("t", {}).get("exact_string_intersection") == 0):
+                out["source_verdict"] = "SOURCE_BYTES_MD5_PASS_T_SOURCE_CODE_DICTIONARY_HOLD"
+                out["unresolved_key_diagnosis"] = "Same-name T values have zero exact overlap across source mass and relative CE/SE tables; site, sys and block overlap. DO NOT infer T recoding or join on partial keys."
+            else:
+                out["source_verdict"] = "SOURCE_BYTES_MD5_PASS_DESIGN_GRAIN_UNVERIFIED"
             out["unverified_requirements"] = [
                 "correctly identify original experimental site, plot, block and harvest year in source",
                 "differentiate premixing monoculture root traits from plastic postmixing responses",

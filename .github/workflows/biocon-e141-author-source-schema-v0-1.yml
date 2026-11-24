@@ -1,0 +1,34 @@
+name: BioCON E141 official author four-file MD5 source schema audit
+on:
+  push:
+    branches:
+      - source/biocon-e141-20261124
+    paths:
+      - scripts/source/audit_biocon_e141_figshare_author_files_v0_1.py
+      - .github/workflows/biocon-e141-author-source-schema-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_biocon_e141_figshare_author_files_v0_1.py
+      - .github/workflows/biocon-e141-author-source-schema-v0-1.yml
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate synthetic source-header-only fixture
+        run: python scripts/source/audit_biocon_e141_figshare_author_files_v0_1.py --selftest
+      - name: Check author original source MD5 and CSV header
+        run: python scripts/source/audit_biocon_e141_figshare_author_files_v0_1.py --source
+      - name: Save nonraw source schema only
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-original-authored-source-four-md5-nonraw
+          path: results/biocon_e141_figshare_author_four_files_schema_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

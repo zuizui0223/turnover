@@ -40,7 +40,7 @@ def reconstruct_source_X(module):
     sp0=h.index("Monogroup")+1
     sp1=h.index("AbovegroundTotal Biomass (g/m^2)")
     species=[z.removesuffix(" (g/m^2)") for z in h[sp0:sp1]]
-    if len(species)!=len(flags)!=16:
+    if len(species)!=16 or len(flags)!=16:
         raise ValueError("Original 16 source plant taxon count not qualified")
     predicted=[s.split()[0][:3].casefold()+"."+s.split()[1][:3].casefold() for s in species]
     if predicted!=[z.removesuffix(" planted").casefold() for z in flags]:

@@ -159,6 +159,91 @@ def inspect_workbook(blob: bytes):
             })
     return report
 
+
+def inspect_same_named_source_keys(blob: bytes):
+    """Read only predeclared identifier columns; numeric biomass/traits/CE remain unopened.
+
+    Same-named source keys are provisional, NOT a verified physical plot-year crosswalk.
+    """
+    key_fields = ("site", "sys", "t", "block")
+    result = {"key_fields": list(key_fields),
+              "meaning": "candidate exact identical printed key values, not certified identical biological plot",
+              "original_response_values_read": False}
+    by_sheet = {}
+    with zipfile.ZipFile(io.BytesIO(blob)) as zf:
+        wb = ET.fromstring(zf.read("xl/workbook.xml"))
+        relxml = ET.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+        rels = {x.attrib.get("Id"): x.attrib.get("Target", "") for x in relxml.findall(f"{{{PKGREL}}}Relationship")}
+        shared = read_shared_strings(zf)
+        sheets = wb.find(f"{{{MAIN}}}sheets")
+        for index, sheet in enumerate(list(sheets), start=1):
+            rid = sheet.attrib.get(f"{{{DOCREL}}}id")
+            target = rels.get(rid, "")
+            xmlpath = target.lstrip("/") if target.startswith("/") else (
+                target if target.startswith("xl/") else posixpath.normpath(posixpath.join("xl", target)))
+            root = ET.fromstring(zf.read(xmlpath))
+            rows = root.findall(f".//{{{MAIN}}}sheetData/{{{MAIN}}}row")
+            if not rows:
+                continue
+            hdr = {}
+            for cell in rows[0].findall(f"{{{MAIN}}}c"):
+                name = literal_cell_string(cell, shared).strip().casefold()
+                if name in ("site", "sys", "t", "block", "cul"):
+                    col = re.match(r"([A-Z]+)", cell.attrib.get("r", ""))
+                    if col:
+                        hdr[col.group(1)] = name
+            got = []
+            for row in rows[1:]:
+                keyvals = {}
+                for cell in row.findall(f"{{{MAIN}}}c"):
+                    col = re.match(r"([A-Z]+)", cell.attrib.get("r", ""))
+                    if not col or col.group(1) not in hdr:
+                        continue  # never even inspect response cells
+                    value = literal_cell_string(cell, shared)
+                    if not value:
+                        v = cell.find(f"{{{MAIN}}}v")
+                        value = (v.text or "") if v is not None else ""
+                    keyvals[hdr[col.group(1)]] = value.strip().casefold()
+                got.append(keyvals)
+            by_sheet[index] = got
+            complete = [tuple(row.get(k, "") for k in key_fields)
+                        for row in got if all(row.get(k, "") for k in key_fields)]
+            sites = {row.get("site") for row in got if row.get("site")}
+            result[f"sheet{index}_source_key_support"] = {
+                "header_key_names_present": sorted(set(hdr.values())),
+                "rows_with_complete_site_sys_t_block": len(complete),
+                "distinct_complete_source_keys": len(set(complete)),
+                "distinct_site_key_values": len(sites),
+                "source_key_duplicates": len(complete) - len(set(complete)),
+            }
+    if 1 in by_sheet and 2 in by_sheet:
+        # Dedicated same-named key intersection, no post-result fuzzy or inferred mapping.
+        def sig(rows):
+            return {tuple(row.get(k, "") for k in key_fields) for row in rows
+                    if all(row.get(k, "") for k in key_fields)}
+        a, b = sig(by_sheet[1]), sig(by_sheet[2])
+        result["sheet1_mass_vs_sheet2_relative_ce_se"] = {
+            "sheet1_unique_candidate_keys": len(a),
+            "sheet2_unique_candidate_keys": len(b),
+            "exact_same_named_candidate_key_overlap": len(a & b),
+            "sheet2_candidate_keys_unmatched_to_sheet1": len(b - a),
+            "same_source_key_fields_do_not_establish_semantic_equivalence": True,
+            "no_biomass_or_component_value_read": True,
+        }
+        # Distinct cultivar label counts on each candidate mass-table key, not response quantities.
+        grps = {}
+        for row in by_sheet[1]:
+            if all(row.get(k, "") for k in key_fields) and row.get("cul"):
+                k = tuple(row[k] for k in key_fields)
+                grps.setdefault(k, set()).add(row["cul"])
+        cultivar_hist = {}
+        for labels in grps.values():
+            c = str(len(labels))
+            cultivar_hist[c] = cultivar_hist.get(c, 0) + 1
+        result["sheet1_n_distinct_cul_codes_per_candidate_key_histogram"] = cultivar_hist
+        result["cultivar_assignment_semantics_verified"] = False
+    return result
+
 def selftest():
     wb = '<workbook xmlns="' + MAIN + '" xmlns:r="' + DOCREL + '"><sheets><sheet name="Synthetic" sheetId="1" r:id="rId1"/></sheets></workbook>'
     rel = '<Relationships xmlns="' + PKGREL + '"><Relationship Id="rId1" Target="worksheets/sheet1.xml"/></Relationships>'
@@ -217,6 +302,7 @@ def audit():
             sheets = inspect_workbook(original)
             out["original_workbook_size_bytes"] = len(original)
             out["sheet_metadata_only"] = sheets
+            out["provisional_same_named_source_key_support"] = inspect_same_named_source_keys(original)
             out["source_verdict"] = "SOURCE_BYTES_MD5_PASS_DESIGN_GRAIN_UNVERIFIED"
             out["unverified_requirements"] = [
                 "correctly identify original experimental site, plot, block and harvest year in source",
@@ -237,6 +323,7 @@ def audit():
         "verified_md5": out.get("original_workbook_size_bytes") is not None,
         "sheet_count": len(out.get("sheet_metadata_only", [])),
         "sheet_schema": out.get("sheet_metadata_only", []),
+        "source_key_support": out.get("provisional_same_named_source_key_support", {}),
         "outcome_models_fitted": 0,
         "source_artifact": str(out_path),
     }))

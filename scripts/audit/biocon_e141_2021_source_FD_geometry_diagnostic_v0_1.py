@@ -157,13 +157,13 @@ def diagnose(x,rows,rings):
          for k in (4,9)],
      "train_weighted_condition_M0_median_max":[
          float(np.median([f["condition_m0"] for f in fold_stats])),
-         float(max(f["condition_m0"] for f in fold_stats]))],
+         float(max(f["condition_m0"] for f in fold_stats))],
      "train_weighted_condition_M1_median_max":[
          float(np.median([f["condition_m1"] for f in fold_stats])),
-         float(max(f["condition_m1"] for f in fold_stats]))],
+         float(max(f["condition_m1"] for f in fold_stats))],
      "new_FD_predictor_heldout_leverage_ratio_median_max":[
          float(np.median([f["incremental_leverage_ratio"] for f in fold_stats])),
-         float(max(f["incremental_leverage_ratio"] for f in fold_stats]))],
+         float(max(f["incremental_leverage_ratio"] for f in fold_stats))],
      "source_folds_M1_extra_predictor_increases_leverage_above_2x":
          sum(f["incremental_leverage_ratio"]>2.0 for f in fold_stats),
      "source_folds_M1_extra_predictor_increases_leverage_above_1_5x":

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "source": "Huang et al. (2025), BioCON E141, original Figshare 26841637 version 3",
+  "author_original_source_MD5": {
+    "README_txt": "9ce824a94a0ad0ab455a9cfcc1589670",
+    "data_calculation_R": "3166d7b1f8ee36e974812b3c7ac2cb48",
+    "figures_R": "92b07f0cc41cca51ecb589d6e450eca8"
+  },
+  "findings": {
+    "original_README_number_of_lines": 33,
+    "source_README_line25_AbovegroundTotal_explicit_plot_aboveground_definition": true,
+    "original_data_calculation_R_number_of_lines": 351,
+    "source_R_line53_biomtot_assigned_from_AbovegroundTotal_Biomass": true,
+    "original_figures_R_number_of_lines": 841,
+    "alternative_Total_Biomass_source_definition_verified": false,
+    "original_other_Total_Biomass_not_equal_AbovegroundTotal_in_174_previous_fixed_rows": true,
+    "source_aboveground_total_originally_selected_for_parent_2021_B_model": true,
+    "original_author_24year_CE_SE_estimand_distinct_from_our_2021_single_August_signed_B_minus_E": true
+  },
+  "boundaries": {
+    "original_4species_2021_sown_species_component_identity_missing_36_of_36": true,
+    "original_parent_prediction_gain_B_unchanged": -0.03885264669160127,
+    "original_parent_prediction_gain_signed_NDE_unchanged": -0.09085633242608204,
+    "source_MD5_and_semantics_pass_not_a_new_ecological_effect": true,
+    "original_EDI538_trait_measurement_year_HTTP403_hold": true,
+    "original_B_or_NDE_outcome_recomputed": false
+  },
+  "provenance": {
+    "original_README_and_R_source_CI": "https://github.com/zuizui0223/turnover/actions/runs/45330819747",
+    "original_README_and_R_PR_replay": "https://github.com/zuizui0223/turnover/actions/runs/45330825436",
+    "audit_script": "scripts/audit/biocon_e141_author_README_R_biomass_definitions_v0_1.py"
+  }
+}

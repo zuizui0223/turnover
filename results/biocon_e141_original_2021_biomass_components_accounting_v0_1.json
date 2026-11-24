@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "audit_scope": "Exact original 46 August 2021 main BioCON E141 sown mixtures and 128 same-year original monocultures, no FD model re-estimation",
+  "original_experiment": "Cedar Creek BioCON E141",
+  "source": {
+    "author_data_doi": "10.6084/m9.figshare.26841637.v3",
+    "source_original_csv_md5": "8185b8effca37c8740ad065c53eb75d2",
+    "original_author_readme_md5": "9ce824a94a0ad0ab455a9cfcc1589670",
+    "original_author_calculation_R_md5": "3166d7b1f8ee36e974812b3c7ac2cb48",
+    "source_original_nature_communications_doi": "10.1038/s41467-025-62691-0",
+    "source_published_measurement_caveat": "4-species original mass 2006-2021 and 9-species 2005-2006 not sorted by source species; published original derived species values may be reconstructed from cover",
+    "literal_target": "AbovegroundTotal Biomass (g/m^2)",
+    "literal_distinct_alternate": "Total Biomass",
+    "literal_misc_litter": "Miscellaneous Litter (g/m^2)",
+    "identity_check_tolerance": "0.001 g/m² + 1e-5 × largest compared magnitude"
+  },
+  "verified_source_matches": {
+    "original_main_four_species_mixture_plots": 36,
+    "four_species_plots_with_measured_total_B": 36,
+    "four_species_plots_with_no_reported_source_species_specific_mass": 36,
+    "four_species_plant_species_direct_mass_sum_auditable": 0,
+    "original_main_nine_species_mixture_plots": 10,
+    "nine_species_plots_with_all_sown_species_specific_masses_reported": 10,
+    "nine_species_B_equals_sum_of_sown_species_masses": 10,
+    "original_distinct_monoculture_plots": 128,
+    "monoculture_B_equals_originally_sown_one_species_mass": 128,
+    "planted_species_sum_exact_accounting_mismatches_when_auditable": 0,
+    "source_original_alternate_Total_Biomass_compared_rows": 174,
+    "original_alternate_Total_Biomass_equal_to_B_rows": 0,
+    "original_alternate_Total_Biomass_equal_to_B_plus_misc_litter_rows": 0,
+    "original_alternate_Total_Biomass_equal_to_B_minus_misc_litter_rows": 0,
+    "source_misc_litter_is_source_distinct_field": true,
+    "planted_source_components_missing_for_all_36_original_four_species_mixtures": true,
+    "source_detected_nonplanted_species_mass_above_identity_tolerance_among_ten_nine_species_and_128_mono": 0
+  },
+  "statistical_result_status": {
+    "existing_parent_pr_prediction_B_increment_minus3_89_percent": "unchanged; source plot-level physical total aboveground biomass",
+    "existing_parent_pr_prediction_signed_NDE_increment_minus9_09_percent": "unchanged; signed plot-total B minus equal-seeded source mono total E, not species-specific Loreau-Hector CE/SE",
+    "no_new_FD_model_fitted": true,
+    "no_new_CE_SE_effect_fitted": true,
+    "inference": "Original B is numerically consistent with sown-species sum when those values are directly reported (10 mixtures and 128 mono). In all 36 four-species mixtures no original reported species masses exist to independently confirm that identity; cannot assert planted-only biomass by source accounting.",
+    "wrong_interpretation_prohibited": "No claim that Miscellaneous Litter equals unspecified unsorted species mass, and no assumption that alternate Total Biomass equals AbovegroundTotal.",
+    "original_EDI538_source_year_access_hard_HOLD": true,
+    "original_field_experiments": 1,
+    "original_CO2_whole_rings": 6
+  },
+  "provenance": {
+    "original_source_audit_CI_push": "https://github.com/zuizui0223/turnover/actions/runs/45327786099",
+    "original_source_audit_CI_PR": "https://github.com/zuizui0223/turnover/actions/runs/45327814717",
+    "artifact_id": 14890287704,
+    "artifact_sha256": "572d3826782835e402328894de503fb60e816d617c0d7bcef7101187246b9565"
+  },
+  "source_original_numeric_values_published": false,
+  "original_plot_species_IDs_published": false
+}

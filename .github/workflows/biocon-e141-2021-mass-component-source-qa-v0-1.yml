@@ -1,0 +1,36 @@
+name: BioCON E141 original 2021 mass component identity source audit
+on:
+  push:
+    branches:
+      - audit/biocon-e141-2021-mass-component-accounting-20261124
+    paths:
+      - scripts/audit/biocon_e141_2021_mass_component_source_identity_v0_1.py
+      - docs/BIOCON_E141_2021_BIOMASS_COMPONENT_ACCOUNTING_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-2021-mass-component-source-qa-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/audit/biocon_e141_2021_mass_component_source_identity_v0_1.py
+      - docs/BIOCON_E141_2021_BIOMASS_COMPONENT_ACCOUNTING_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-2021-mass-component-source-qa-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-accounting-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic original mass arithmetic/missingness fixture
+        run: python scripts/audit/biocon_e141_2021_mass_component_source_identity_v0_1.py --selftest
+      - name: Verify original same 46 plots B vs source mass components without model refit
+        run: python scripts/audit/biocon_e141_2021_mass_component_source_identity_v0_1.py --source
+      - name: Preserve source-aggregate accounting result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-2021-mass-components-source-only
+          path: results/biocon_e141_original_2021_biomass_components_accounting_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

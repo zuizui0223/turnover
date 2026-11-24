@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "status": "RETROSPECTIVE_SECONDARY_2021_PREDICTION_COMPLETED_NO_CAUSAL_CLAIM",
+  "original_data_ref": "10.6084/m9.figshare.26841637.v3",
+  "original_biomass_file_md5": "8185b8effca37c8740ad065c53eb75d2",
+  "original_trait_processed_source": "https://github.com/kaitkimmel/FDiv/tree/e61c8814f3fc8e8fa7cac6141ee462c3e8b22554/data/Cleaned",
+  "original_trait_author_paper": "10.1371/journal.pone.0306342",
+  "original_EDI538_direct_trait_year_data_HTTP_403_HOLD_preserved": true,
+  "source_trait_year_bound_original_author_publication": "1998-2020, used retrospectively only for 2021 response",
+  "endpoint": "Original August 2021 aboveground total dry biomass (g/m2) and signed NDE = B - original August 2021 CO2×N matched source monoculture expectation E",
+  "observational_units": {
+    "field_experiments": 1,
+    "CO2_rings": 6,
+    "physical_main_mixture_plots": 46,
+    "original_heldout_planted_species_composition_groups": 46,
+    "richness4_physical_plots": 36,
+    "richness9_physical_plots": 10,
+    "original_sown_species_pool": 16,
+    "original_author_secondary_SLA_direct_E141_candidate_species": 14,
+    "original_source_mono_species_treatment_cells": 64,
+    "original_mono_replicates_each_cell": 2
+  },
+  "model": {
+    "M0": "intercept + richness9 indicator + N enrichment + 5 Ring fixed effects + directly native 14-species candidate log-SLA CWM",
+    "M1": "M0 + equal-sown-weight 1D candidate log-SLA Rao-type pairwise distance",
+    "trait_subset_coverage": ">=80% of sown species and >=2 native E141 candidate trait species",
+    "heldout": "leave one complete originally sown composition vector out across ring/N",
+    "train_predictor_preprocessing": "training-fold only CWM and FD standardization; no ring fixed effect with separately aliased CO2 dummy",
+    "source_yield_transforms": "none: untransformed signed NDE and absolute B in g/m2",
+    "original_mono_expected_ratio": "original 12 g/m2 seed evenly split among planted species; E=sum same-context mono means / S",
+    "training_weights": "equal total weight per original CO2 ring",
+    "target_score": "equal-ring weighted out-of-fold SSE increment 1-SSE(M1)/SSE(M0)"
+  },
+  "empirical_prediction": {
+    "absolute_B_gain": -0.03885264669160127,
+    "signed_NDE_gain": -0.09085633242608204,
+    "NDE_minus_B_gain": -0.052003685734480776,
+    "units": "proportions, not raw percent: times100 for percentage points",
+    "fixed_OOF_2000_CO2stratified_6ring_cluster_bootstrap_95CI": {
+      "absolute_B": [
+        -0.35717331310177625,
+        0.12145698908279923
+      ],
+      "signed_NDE": [
+        -0.6449488745337777,
+        0.1584996508548382
+      ],
+      "NDE_minus_B": [
+        -0.3084539126308399,
+        0.03714834713242299
+      ]
+    },
+    "original_mono_two_replicate_only_sensitivity_signed_NDE_gain": {
+      "deterministic_first_mono_by_original_plot_key": -0.09050324106172725,
+      "deterministic_second_mono_by_original_plot_key": -0.0884500217855857
+    }
+  },
+  "interpretation": {
+    "label": "MODEL_SPECIFIC_NO_POSITIVE_FD_HELDOUT_PREDICTION_IN_SINGLE_SITE",
+    "baseline_positive_gain_supported": false,
+    "NDE_vs_absolute_heldout_prediction_advantage_supported": false,
+    "no_negative_causal_FD_effect_established": true,
+    "no_BIEN_AusTraits_K_FD_biomass_mediation_established": true,
+    "no_independent_field_or_publication_replication_established": true,
+    "no_prespecified_confirmatory_analysis_claimed": true,
+    "uncertainty_caveat": "Fixed out-of-fold error ring bootstrap with six clusters, no model refit; mono and author derived trait uncertainty not fully propagated.",
+    "original_EDI_source_caveat": "Source native original EDI individual SLA dates not retrieved (HTTP403); author 2024 processed historical trait means and publication 1998-2020 date bound only.",
+    "allocation_caveat": "FD is derived from species compositions assigned in a one-site experiment; no separate FD intervention.",
+    "source_scope": "Secondary-derived retrospective one-year SLA subset, not 24-year causal or cross-experiment transport."
+  },
+  "provenance": {
+    "actual_original_biomass_data_and_traits_actions": "https://github.com/zuizui0223/turnover/actions/runs/45318673580",
+    "pull_request_validation_actions": "https://github.com/zuizui0223/turnover/actions/runs/45318678169",
+    "actions_nonraw_artifact_id": 14886832240,
+    "actions_nonraw_artifact_digest": "sha256:6af478af87b45f65b6e5f0ace92e268bc5f793a272dbcf03bf3781727a91a30e",
+    "frozen_protocol_path": "docs/BIOCON_E141_2021_SECONDARY_SLA_FD_NDE_PREDICTION_FROZEN_20261124.md",
+    "model_script": "scripts/analysis/biocon_e141_2021_secondary_sla_fd_nde_cv_v0_1.py",
+    "raw_original_species_data_redistributed": false
+  }
+}

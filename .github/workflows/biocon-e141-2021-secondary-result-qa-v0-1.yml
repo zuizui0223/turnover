@@ -1,0 +1,29 @@
+name: Independent aggregate QA BioCON 2021 secondary SLA model
+on:
+  push:
+    branches:
+      - analysis/biocon-e141-2021-secondary-sla-fd-nde-v0-1
+    paths:
+      - scripts/analysis/verify_biocon_e141_2021_secondary_sla_aggregate_v0_1.py
+      - results/biocon_e141_2021_secondary_sla_fd_B_NDE_composition_holdout_v0_1.json
+      - docs/BIOCON_E141_2021_SECONDARY_SLA_FD_B_NDE_RESULTS_20261124.md
+      - .github/workflows/biocon-e141-2021-secondary-result-qa-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/verify_biocon_e141_2021_secondary_sla_aggregate_v0_1.py
+      - results/biocon_e141_2021_secondary_sla_fd_B_NDE_composition_holdout_v0_1.json
+      - docs/BIOCON_E141_2021_SECONDARY_SLA_FD_B_NDE_RESULTS_20261124.md
+      - .github/workflows/biocon-e141-2021-secondary-result-qa-v0-1.yml
+  workflow_dispatch:
+jobs:
+  audit-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Independent nonrefit evidence/CI/arithmetic guard
+        run: python scripts/analysis/verify_biocon_e141_2021_secondary_sla_aggregate_v0_1.py

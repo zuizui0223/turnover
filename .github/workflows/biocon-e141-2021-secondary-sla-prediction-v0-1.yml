@@ -1,0 +1,36 @@
+name: BioCON 2021 secondary SLA fixed FD vs signed NDE and absolute mass
+on:
+  push:
+    branches:
+      - analysis/biocon-e141-2021-secondary-sla-fd-nde-v0-1
+    paths:
+      - scripts/analysis/biocon_e141_2021_secondary_sla_fd_nde_cv_v0_1.py
+      - .github/workflows/biocon-e141-2021-secondary-sla-prediction-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/analysis/biocon_e141_2021_secondary_sla_fd_nde_cv_v0_1.py
+      - .github/workflows/biocon-e141-2021-secondary-sla-prediction-v0-1.yml
+  workflow_dispatch:
+jobs:
+  retrospective:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original-pinned numerical dependency
+        run: python -m pip install numpy==2.1.3
+      - name: Synthetic original frozen model arithmetic fixture
+        run: python scripts/analysis/biocon_e141_2021_secondary_sla_fd_nde_cv_v0_1.py --selftest
+      - name: Run retrospective secondary-only heldout composition score
+        run: python scripts/analysis/biocon_e141_2021_secondary_sla_fd_nde_cv_v0_1.py --fit
+      - name: Keep aggregate-only source effect diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-2021-retrospective-secondary-SLA-FD-NDE-OOF-aggregate
+          path: results/biocon_e141_2021_secondary_sla_fd_B_NDE_composition_holdout_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

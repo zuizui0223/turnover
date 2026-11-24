@@ -121,6 +121,11 @@ def main():
                 summary.update({"author_source_text_keyword_flags":topic_flags(txt),
                                 "original_authored_line_count":len(txt.splitlines()),
                                 "data_row_values_parsed":0})
+                if name == "README.txt":
+                    summary["source_readme_design_statement_excerpts_only"] = [
+                        line.strip()[:240] for line in txt.splitlines()
+                        if re.search(r"plot|treatment|species|planted|missing|NA|blank|data table|experiment|variable", line, re.I)
+                    ][:18]
             summaries[name]=summary
         out["original_release_file_schemas"]=summaries
         out["source_access"]="SOURCE_AUTHOR_FOUR_ORIGINAL_FILES_MD5_PASS"

@@ -58,11 +58,29 @@ def assign_counts(data: bytes) -> dict:
     h=reader.fieldnames or []
     plant_cols=[z for z in h if z.endswith(" planted")]
     if len(plant_cols)!=16:raise ValueError("Original planted indicator design changed")
-    all_sp=[z.removesuffix(" planted") for z in plant_cols]
+    # Official CSV contains abbreviated "Ach.mil planted" flags and fully
+    # named "Achillea millefolium (g/m^2)" columns in corresponding order.
+    # Verify the mapping by unique genus+epithet 3-letter abbreviations;
+    # NEVER accept arbitrary positional association without full validation.
+    species_full=[z.removesuffix(" (g/m^2)") for z in h if z.endswith(" (g/m^2)") and z!="AbovegroundTotal Biomass (g/m^2)"]
+    if len(species_full)!=16:raise ValueError("Original species biomass schema no longer exactly 16")
+    if len(species_full)!=len(plant_cols):raise ValueError("Source flag/full-name mapping has unequal lengths")
+    def code_of(full):
+        parts=full.split()
+        if len(parts)!=2 or any(len(x)<3 for x in parts):
+            raise ValueError("Unexpected original full species-name tokenization")
+        return parts[0][:3].casefold()+"."+parts[1][:3].casefold()
+    species_abbrev=[z.removesuffix(" planted").casefold() for z in plant_cols]
+    if len(set(species_abbrev))!=16 or len(set(species_full))!=16:
+        raise ValueError("Original abbreviation/full-name collisions")
+    predicted=[code_of(n) for n in species_full]
+    if predicted!=species_abbrev:
+        raise ValueError("Source full-name-to-planting-code positional crosswalk failed")
     target=set(MISSING_DIRECT_SLA)
-    if not target.issubset(set(all_sp)):raise ValueError("SLA original source names do not match planted species")
-    present_index=[i for i,sp in enumerate(all_sp) if sp not in target]
-    missing_index=[i for i,sp in enumerate(all_sp) if sp in target]
+    if not target.issubset(set(species_full)):
+        raise ValueError("Original SLA provenance missing-species list conflicts with source full names")
+    present_index=[i for i,sp in enumerate(species_full) if sp not in target]
+    missing_index=[i for i,sp in enumerate(species_full) if sp in target]
     mono=collections.defaultdict(set)
     combos=collections.defaultdict(set)
     distinct_plots={}
@@ -107,6 +125,8 @@ def assign_counts(data: bytes) -> dict:
         coverage_by_group[(c,N,n,"eligible" if ok else "ineligible")]+=1
         full_species_mixture[(n,planted,sourced)]+=1
     return {
+        "official_abbrev_full_name_source_crosswalk_16_of_16":True,
+        "original_plant_abbrev_n":len(species_abbrev),
         "original_distinct_physical_plots":len(distinct_plots),
         "main_mono_original_treatment_species_cells_observed":len(original_cells),
         "main_mono_expected_original_cells":len(expected_cells),

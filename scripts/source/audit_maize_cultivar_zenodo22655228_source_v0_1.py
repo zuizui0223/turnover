@@ -222,6 +222,23 @@ def inspect_same_named_source_keys(blob: bytes):
             return {tuple(row.get(k, "") for k in key_fields) for row in rows
                     if all(row.get(k, "") for k in key_fields)}
         a, b = sig(by_sheet[1]), sig(by_sheet[2])
+        pairwise_diagnostics = {}
+        # Frozen source-only projection grid, never a substitute for the full exact physical key.
+        for dims in (("site",), ("sys",), ("t",), ("block",),
+                     ("site", "block"), ("site", "sys"), ("site", "t"),
+                     ("site", "sys", "block"), ("site", "t", "block"),
+                     ("site", "sys", "t")):
+            def project(rows):
+                return {tuple(row[k] for k in dims) for row in rows
+                        if all(row.get(k, "") for k in dims)}
+            p1, p2 = project(by_sheet[1]), project(by_sheet[2])
+            pairwise_diagnostics["+".join(dims)] = {
+                "sheet1_distinct": len(p1),
+                "sheet2_distinct": len(p2),
+                "exact_string_intersection": len(p1 & p2),
+            }
+        result["provisional_exact_key_projection_diagnostics"] = pairwise_diagnostics
+        result["never_use_partial_projection_for_biological_join"] = True
         result["sheet1_mass_vs_sheet2_relative_ce_se"] = {
             "sheet1_unique_candidate_keys": len(a),
             "sheet2_unique_candidate_keys": len(b),

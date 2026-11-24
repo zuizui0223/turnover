@@ -225,6 +225,7 @@ def audit():
         "source_verdict": out["source_verdict"],
         "verified_md5": out.get("original_workbook_size_bytes") is not None,
         "sheet_count": len(out.get("sheet_metadata_only", [])),
+        "sheet_schema": out.get("sheet_metadata_only", []),
         "outcome_models_fitted": 0,
         "source_artifact": str(out_path),
     }))

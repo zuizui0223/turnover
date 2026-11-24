@@ -1,0 +1,36 @@
+name: BioCON E141 original EDI 538 SLA source year gate
+on:
+  push:
+    branches:
+      - source/biocon-e141-20261124
+    paths:
+      - scripts/source/audit_biocon_e141_edi538_direct_SLA_year_v0_1.py
+      - docs/BIOCON_E141_DIRECT_SLA_YEAR_ORIGINAL_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-sla-original-year-source-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_biocon_e141_edi538_direct_SLA_year_v0_1.py
+      - docs/BIOCON_E141_DIRECT_SLA_YEAR_ORIGINAL_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-sla-original-year-source-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test synthetic original EDI year parser
+        run: python scripts/source/audit_biocon_e141_edi538_direct_SLA_year_v0_1.py --selftest
+      - name: Check official original EDI anonymous SLA measurement years
+        run: python scripts/source/audit_biocon_e141_edi538_direct_SLA_year_v0_1.py --source
+      - name: Save source-only original year provenance result
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-EDI538-original-direct-SLA-year-source
+          path: results/biocon_e141_edi538_original_SLA_measurement_year_gate_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

@@ -58,9 +58,10 @@ def source_record():
     meta_doi = meta.get("doi") or meta.get("pids", {}).get("doi", {}).get("identifier")
     if meta_doi and str(meta_doi).lower() != DOI.lower():
         raise ValueError("record DOI mismatch")
-    entries = meta.get("files", {}).get("entries", {})
-    if not entries and isinstance(meta.get("files"), list):
-        entries = {x.get("key", ""): x for x in meta["files"]}
+    files_value = meta.get("files", {})
+    entries = files_value.get("entries", {}) if isinstance(files_value, dict) else {}
+    if not entries and isinstance(files_value, list):
+        entries = {x.get("key", ""): x for x in files_value}
     entry = entries.get(FILE_NAME) or next(
         (x for x in entries.values() if x.get("key") == FILE_NAME), None)
     if not entry:

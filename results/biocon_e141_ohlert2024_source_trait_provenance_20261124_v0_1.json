@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "public_original_author_source": {
+    "publication": "Ohlert et al. 2024 PLOS ONE on functional diversity trait number/correlation, using Cedar Creek BioCON monoculture traits",
+    "upstream_repo": "https://github.com/kaitkimmel/FDiv",
+    "upstream_commit": "e61c8814f3fc8e8fa7cac6141ee462c3e8b22554",
+    "last_upstream_commit_date": "2024-04-18",
+    "cleaned_R_path": "R/CDRTraitCleaning.R",
+    "cleaned_R_git_blob": "e418bde5f8e09b515c3cd3a3b4f678ae24e97140",
+    "original_R_direct_source_urls": [
+      "knb-lter-cdr/322/8",
+      "knb-lter-cdr/538/9",
+      "knb-lter-cdr/342/9",
+      "knb-lter-cdr/324/8",
+      "knb-lter-cdr/298/10",
+      "knb-lter-cdr/325/10",
+      "knb-lter-cdr/305/10",
+      "knb-lter-cdr/329/8",
+      "knb-lter-cdr/414/8"
+    ],
+    "EDI_original_measurement_values_retrieved": false,
+    "author_original_source_remarks": {
+      "SLA_source_original_direct_species_by_four_treatments": "56/64 (authors' code comment, NOT independently replayed original EDI rows)",
+      "SLA_missing_two_source_species": [
+        "Poa pratensis",
+        "Bouteloua gracilis"
+      ],
+      "SLA_fill_source": "Big Bio/E120 neighboring experiment, assigned to all BioCON original treatments",
+      "seed_mass_original_source_species_treatment_cells": "44/64 (authors' code comment)",
+      "seed_mass_fill_species": [
+        "Achillea millefolium",
+        "Amorpha canescens",
+        "Anemone cylindrica",
+        "Asclepias tuberosa",
+        "Petalostemum villosum"
+      ],
+      "root_carbon_nitrogen_source_cells": "61/64 (authors' code comment)",
+      "root_carbon_nitrogen_copy": "Anemone cylindrica only measured source Cenrich,Namb copied to other CO2/N contexts",
+      "source_R_script_corresponds_to_mono_treatment_aggregation": true,
+      "source_R_script_uses_postplant_monoculture_measures_not_pre_sowing_source": true,
+      "trait_measurement_date_before_biomass_target_year_verified": false
+    },
+    "original_derived_trait_tables": [
+      {
+        "path": "data/Cleaned/cdrnaca_traitsout.csv",
+        "sha": "295d760e6cde3102a8e5b4ef325f6ea7d0a8372f",
+        "rows": 16
+      },
+      {
+        "path": "data/Cleaned/cdrnace_traitsout.csv",
+        "sha": "f7fc222803afc40d5759ae5e650f82c9ce36cad9",
+        "rows": 16
+      },
+      {
+        "path": "data/Cleaned/cdrneca_traitsout.csv",
+        "sha": "f7a0b4cd6e20fe1865d134a96c0a256a330a4918",
+        "rows": 16
+      },
+      {
+        "path": "data/Cleaned/cdrnece_traitsout.csv",
+        "sha": "b94f2822a2ff066ce7933af4e075df3e20d845c2",
+        "rows": 16
+      }
+    ],
+    "traits_from_completed_table": [
+      "SLA",
+      "I_star",
+      "R_star",
+      "Root_C",
+      "Root_N",
+      "Root_biomass",
+      "Shoot_C",
+      "Shoot_N",
+      "Seed_mass"
+    ],
+    "source_original_2018_community_scripts_reanalysis_scope": "Additional 2024 FD author community script restricts to August 2018, 16-species communities. Not a prospective 24-year observed experimental validation."
+  },
+  "direct_trait_sla_candidate_species": 14,
+  "full_planted_species": 16,
+  "naive_direct_trait_source_coverage_if_all_16_planted": 0.875,
+  "unresolved_identification": "Source Original EDI direct measurement years, plot IDs, and possible non-SLA source imputations not source row-verified; morphological FD may be coupled to later treatment/post-mixture response.",
+  "unqualified_inferences": [
+    "cannot treat all 64 treated SLA values as directly observed independent E141 species by treatment",
+    "cannot use seed mass external substitute in a directly measured source-FD contrast",
+    "cannot use reused E120 trait values as independent E141 data",
+    "cannot assert FD causally mediates richness→CE or biomass",
+    "cannot represent two papers citing E141 as independent biological replications"
+  ],
+  "ecological_effect_models_fitted": 0,
+  "original_biomass_responses_opened": false,
+  "status": "PUBLIC_AUTHOR_CODE_PROVENANCE_PASS_ORIGINAL_EDI_TRAIT_TIME_HOLD"
+}

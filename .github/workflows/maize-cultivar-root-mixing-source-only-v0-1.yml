@@ -1,0 +1,36 @@
+name: Original 2026 maize-cultivar root mixing source preflight
+on:
+  push:
+    branches:
+      - source/maize-cultivar-root-mixing-20261124
+    paths:
+      - scripts/source/audit_maize_cultivar_zenodo22655228_source_v0_1.py
+      - docs/MAIZE_CULTIVAR_ROOT_MIXING_2026_SOURCE_GATE.md
+      - .github/workflows/maize-cultivar-root-mixing-source-only-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_maize_cultivar_zenodo22655228_source_v0_1.py
+      - docs/MAIZE_CULTIVAR_ROOT_MIXING_2026_SOURCE_GATE.md
+      - .github/workflows/maize-cultivar-root-mixing-source-only-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic XLSX source-only parser contract
+        run: python scripts/source/audit_maize_cultivar_zenodo22655228_source_v0_1.py --selftest
+      - name: Uncredentialed official source MD5/header gate, fail closed
+        run: python scripts/source/audit_maize_cultivar_zenodo22655228_source_v0_1.py --source
+      - name: Upload aggregate source status only
+        uses: actions/upload-artifact@v4
+        with:
+          name: maize-cultivar-zenodo22655228-source-only-nonraw
+          path: results/maize_cultivar_zenodo22655228_source_gate_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

@@ -1,0 +1,11 @@
+# BioCON E141 original matched monoculture source PRESENCE (frozen before opening responses, 2026-11-24)
+
+The existing MD5-verified Figshare original E141 author file includes repeated May/August source plots, 64 treatment×species monoculture cells with two **physical** original replicates each and 168 main sown mixtures (4/9/16). This test asks whether original **nonmissing source presence**, not numerical biomass, exists in the exact same calendar year, season, CO2, N and sown species as each mixture.
+
+Use only source Ring, Plot, year, Season, CO2, N, Experiment=M, CountOfSpecies and 16 original planting flags. Check only whether the source AbovegroundTotal Biomass (g/m^2) cell is a missing token, do NOT read its numeric value. For each original year×season×CO2×N×monoculture species, count distinct physical plots that have nonmissing source response. For every original mixture harvest, require a nonmissing source response and at least 2 **distinct** original monos for every constituent sown species in the same year×season×CO2×N. Repeated year/harvest from one mono NEVER satisfies independent replication.
+
+Climate subexperiment control filter (frozen): original README says source Water trt and Temp trt are 0=not applied, 1=applied; count original source mixtures with both ==0 separately, never pool watered/warmed additions silently with original climate treatment. If source indicators are blank/ambiguous, report their counts and keep design HOLD, never assume control. Same-planting equal seed mass (official 1997 E141 12g/m2 split equally) is source-confirmed but does not guarantee per-season absence of demographic extinction, or valid same treatment/year biological E yields. Numeric outcome scale/nonzero tests are still NOT opened.
+
+The result is a **source-presence and year/season eligibility** audit, not FD, NDE, biomass, CE, SE, effect size, or causal treatment estimator. No raw records, original numeric outcomes, individual plot keys, or species names are committed. A successful CI source audit may return a science HOLD.
+
+Final original EDI 538 source measurement year and SLA directness remain required before any FD model, even if source mono yields are present. All earlier source gates and Evolution RC4 manuscript unchanged.

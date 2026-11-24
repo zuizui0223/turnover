@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "original_source": "Huang et al. 2025 E141 BioCON original author Figshare 10.6084/m9.figshare.26841637.v3",
+  "original_csv_id": 54836267,
+  "original_file_md5": "8185b8effca37c8740ad065c53eb75d2",
+  "original_file_size_bytes": 2785223,
+  "source_validated_design_only": {
+    "csv_original_rows": 17808,
+    "calendar_year_first": 1998,
+    "calendar_year_last": 2021,
+    "row_count_per_year": 742,
+    "source_physical_plots": 371,
+    "source_physical_plot_year_keys": 8904,
+    "source_repeated_measurements_per_plot_year": 2,
+    "source_duplicate_full_plot_year_season_sampling_keys": 0,
+    "original_CO2_whole_rings": 6,
+    "rings_with_multiple_CO2_assignments": 0,
+    "source_planted_species_indicator_count": 16,
+    "literal_plant_flag_values": {
+      "1": 92544,
+      "blank": 192384
+    },
+    "inferred_blank_is_zero_qualifier": "SOURCE-INTERNAL VALIDATION, not an independently published dictionary",
+    "planted_flag_counts_equal_original_CountOfSpecies_rows": 17808,
+    "planted_flag_count_mismatch_rows": 0,
+    "original_CoSO_species_richness_rows": {
+      "0": 576,
+      "1": 6144,
+      "4": 5904,
+      "9": 2880,
+      "16": 2304
+    },
+    "experiment_main_unique_physical_plots": 308,
+    "experiment_subplots_unique_physical_plots": 63,
+    "original_Experiment_richness_plots": [
+      {
+        "Experiment": "M",
+        "richness": 0,
+        "plots": 12
+      },
+      {
+        "Experiment": "M",
+        "richness": 1,
+        "plots": 128
+      },
+      {
+        "Experiment": "M",
+        "richness": 4,
+        "plots": 60
+      },
+      {
+        "Experiment": "M",
+        "richness": 9,
+        "plots": 60
+      },
+      {
+        "Experiment": "M",
+        "richness": 16,
+        "plots": 48
+      },
+      {
+        "Experiment": "S",
+        "richness": 4,
+        "plots": 63
+      }
+    ],
+    "physically_unique_plot_planted_identity_stable_over_years": true,
+    "physically_unique_plot_Experiment_stable_over_years": true,
+    "source_original_CO2_by_N_row_counts": [
+      {
+        "CO2": "Camb",
+        "N": "Namb",
+        "rows": 4512
+      },
+      {
+        "CO2": "Camb",
+        "N": "Nenrich",
+        "rows": 4464
+      },
+      {
+        "CO2": "Cenrich",
+        "N": "Namb",
+        "rows": 4416
+      },
+      {
+        "CO2": "Cenrich",
+        "N": "Nenrich",
+        "rows": 4416
+      }
+    ]
+  },
+  "outstanding_source_gates": [
+    "Each of the 64 treatment×sown-monoculture species source cells must have at least two distinct physical plots, independent of year and season; not yet validated in this frozen result",
+    "Original author trait code (Ohlert 2024) substitutes Big Bio/E120 SLA for Poa pratensis and Bouteloua gracilis, seed mass for 5 species, and fills Anemone root C/N across treatments",
+    "Original trait measurement timing and direct EDI raw source presence not yet validated",
+    "Source author 2025 raw CE/SE already published; new FD-only causal mechanism not identified",
+    "Only 6 whole CO2 rings; 371 plots and 24 years are not independent whole-plot CO2 experiments"
+  ],
+  "status": "PLANTED_COMPOSITION_SOURCE_KEY_PASS_MONOCULTURE_AND_DIRECT_TRAIT_HOLD",
+  "original_numeric_biomass_response_values_opened": false,
+  "original_numeric_traits_opened": false,
+  "new_ecological_model_fits": 0,
+  "provenance": {
+    "actions_push_run": "https://github.com/zuizui0223/turnover/actions/runs/45311297704",
+    "action_pr_run": "https://github.com/zuizui0223/turnover/actions/runs/45311304833"
+  }
+}

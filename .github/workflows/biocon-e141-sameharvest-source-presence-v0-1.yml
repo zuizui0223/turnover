@@ -1,0 +1,36 @@
+name: BioCON E141 source-only matched mono biomass presence check
+on:
+  push:
+    branches:
+      - source/biocon-e141-20261124
+    paths:
+      - scripts/source/audit_biocon_e141_sameharvest_biomass_presence_v0_1.py
+      - docs/BIOCON_E141_ORIGINAL_SAMEHARVEST_BIOMASS_PRESENCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-sameharvest-source-presence-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_biocon_e141_sameharvest_biomass_presence_v0_1.py
+      - docs/BIOCON_E141_ORIGINAL_SAMEHARVEST_BIOMASS_PRESENCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-sameharvest-source-presence-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test presence-only missing token parser
+        run: python scripts/source/audit_biocon_e141_sameharvest_biomass_presence_v0_1.py --selftest
+      - name: Verify original matched mono/year/season response presence without numeric outcomes
+        run: python scripts/source/audit_biocon_e141_sameharvest_biomass_presence_v0_1.py --source
+      - name: Save aggregate original source-presence result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-sameharvest-mono-source-presence-nonraw
+          path: results/biocon_e141_original_mono_mixture_annual_biomass_presence_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

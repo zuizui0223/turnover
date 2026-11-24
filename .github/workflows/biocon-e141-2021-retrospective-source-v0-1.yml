@@ -1,0 +1,36 @@
+name: BioCON E141 retrospective 2021-only design source gate
+on:
+  push:
+    branches:
+      - source/biocon-e141-20261124
+    paths:
+      - scripts/source/audit_biocon_e141_2021_only_source_v0_1.py
+      - docs/BIOCON_E141_2021_ONLY_RETROSPECTIVE_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-2021-retrospective-source-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_biocon_e141_2021_only_source_v0_1.py
+      - docs/BIOCON_E141_2021_ONLY_RETROSPECTIVE_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-2021-retrospective-source-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test frozen year2021 selection contract
+        run: python scripts/source/audit_biocon_e141_2021_only_source_v0_1.py --selftest
+      - name: Check source-only native-monoculture 2021 composition support
+        run: python scripts/source/audit_biocon_e141_2021_only_source_v0_1.py --source
+      - name: Save 2021 source eligibility only
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-2021-retrospective-only-original-design-nonraw
+          path: results/biocon_e141_2021_only_nonnumeric_source_design_gate_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

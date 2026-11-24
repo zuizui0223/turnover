@@ -1,0 +1,36 @@
+name: BioCON E141 original metadata and trait-grain source gate
+on:
+  push:
+    branches:
+      - source/biocon-e141-20261124
+    paths:
+      - scripts/source/audit_biocon_e141_figshare_edi_v0_1.py
+      - docs/BIOCON_E141_ORIGINAL_FD_NDE_MASS_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-original-source-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_biocon_e141_figshare_edi_v0_1.py
+      - docs/BIOCON_E141_ORIGINAL_FD_NDE_MASS_SOURCE_GATE_20261124.md
+      - .github/workflows/biocon-e141-original-source-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source EML schema-only parser with synthetic data
+        run: python scripts/source/audit_biocon_e141_figshare_edi_v0_1.py --selftest
+      - name: Audit official Figshare version and original EDI source headers
+        run: python scripts/source/audit_biocon_e141_figshare_edi_v0_1.py --source
+      - name: Preserve source-only audit result
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-official-original-source-manifest-nonraw
+          path: results/biocon_e141_figshare_edi_original_source_gate_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

@@ -1,0 +1,33 @@
+name: BioCON E141 monoculture replication and direct SLA provenance gate
+on:
+  push:
+    branches:
+      - source/biocon-e141-20261124
+    paths:
+      - scripts/source/audit_biocon_e141_mono_trait_provenance_v0_1.py
+      - .github/workflows/biocon-e141-mono-trait-provenance-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/source/audit_biocon_e141_mono_trait_provenance_v0_1.py
+      - .github/workflows/biocon-e141-mono-trait-provenance-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic original git-blob and planted flag tests
+        run: python scripts/source/audit_biocon_e141_mono_trait_provenance_v0_1.py --selftest
+      - name: Official original source mono replicate and author SLA provenance gate
+        run: python scripts/source/audit_biocon_e141_mono_trait_provenance_v0_1.py --source
+      - uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-mono-and-SLA-provenance-source-only
+          path: results/biocon_e141_source_mono_SLA_direct_provenance_20261124_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

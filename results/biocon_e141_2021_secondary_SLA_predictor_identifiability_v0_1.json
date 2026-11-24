@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "original_programme": "Cedar Creek BioCON E141 (one source field experiment, six CO2 whole rings)",
+  "audit_type": "POST_RESULT_RESPONSE_BLIND_PREDICTOR_ONLY",
+  "original_data_MD5": "8185b8effca37c8740ad065c53eb75d2",
+  "original_trait_pins": "kaitkimmel/FDiv author processed source e61c8814f3fc8e8fa7cac6141ee462c3e8b22554; 14 native-source-candidate SLA taxa, two Big Bio/E120 substitutes excluded",
+  "frozen_parent_comparison": "PR #77 2021 August 46 original composition folds, 36 rich4 and 10 rich9; M0 richness+N+ring(5)+CWM, M1 plus FD",
+  "source_only_results": {
+    "original_source_plots": 46,
+    "richness4_plots": 36,
+    "richness9_plots": 10,
+    "independent_CO2_rings": 6,
+    "original_ring_plot_counts_unlabeled": [
+      4,
+      7,
+      8,
+      9,
+      9,
+      9
+    ],
+    "FD_weighted_R2_given_M0": 0.242110938313009,
+    "FD_residual_fraction_given_M0": 0.757889061686991,
+    "FD_VIF": 1.3194543245868893,
+    "source_FD_global_SD": 0.06613913231250923,
+    "source_within_richness_FD_10_50_90_quantiles": [
+      {
+        "richness": 4,
+        "plots": 36,
+        "q10": 0.1297478673695716,
+        "q50": 0.2722224095318017,
+        "q90": 0.3057020835112955
+      },
+      {
+        "richness": 9,
+        "plots": 10,
+        "q10": 0.20675800971685893,
+        "q50": 0.3006092251814563,
+        "q90": 0.3252755129388176
+      }
+    ],
+    "full_46_fold_M0_weighted_design_condition_median": 7.971305365245826,
+    "full_46_fold_M1_weighted_design_condition_median": 8.025222392667523,
+    "full_46_fold_M0_weighted_design_condition_max": 8.16157436200189,
+    "full_46_fold_M1_weighted_design_condition_max": 8.30648891348433,
+    "FD_added_heldout_leverage_ratio_median": 1.0828320354162455,
+    "FD_added_heldout_leverage_ratio_max": 2.1619624846728853,
+    "folds_leverage_ratio_above_1_5": 4,
+    "folds_leverage_ratio_above_2": 1,
+    "M0_parameter_count": 9,
+    "M1_parameter_count": 10,
+    "original_biomass_NDE_values_opened": false,
+    "original_B_NDE_model_refitted": false
+  },
+  "conditional_interpretation": {
+    "strong_collinearity_explanation_supported": false,
+    "why": "Only 24.21% of candidate FD baseline explained, VIF 1.32 and modest full-fold matrix condition numbers; geometry alone does not force negative SSE scores",
+    "residual_uncertainties": "Only 46 compositions, 10 nine-species plots, one experiment, six CO2 rings, one trait axis; original native EDI SLA measurement-date source HTTP403",
+    "prior_numeric_prediction_gain_B": -0.03885264669160127,
+    "prior_numeric_prediction_gain_NDE": -0.09085633242608204,
+    "no_change_to_prior_effects_or_uncertainty": true,
+    "evidence_status": "DESIGN_INDEPENDENCE_NOT_ECOLOGICAL_SUPPORT",
+    "no_FD_causal_negative_effect_inference": true
+  },
+  "action_provenance": {
+    "source_only_push_run": "https://github.com/zuizui0223/turnover/actions/runs/45331157499",
+    "source_code": "scripts/audit/biocon_e141_2021_source_FD_geometry_diagnostic_v0_1.py"
+  }
+}

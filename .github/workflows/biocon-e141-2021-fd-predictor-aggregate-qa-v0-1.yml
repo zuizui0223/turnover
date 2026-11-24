@@ -1,0 +1,29 @@
+name: Independent BioCON 2021 FD predictor geometry aggregate QA
+on:
+  push:
+    branches:
+      - audit/biocon-e141-2021-fd-predictor-identifiability-20261124
+    paths:
+      - results/biocon_e141_2021_secondary_SLA_predictor_identifiability_v0_1.json
+      - docs/BIOCON_E141_2021_SOURCE_FD_IDENTIFIABILITY_RESULTS_20261124.md
+      - scripts/audit/verify_biocon_e141_2021_source_FD_geometry_aggregate_v0_1.py
+      - .github/workflows/biocon-e141-2021-fd-predictor-aggregate-qa-v0-1.yml
+  pull_request:
+    paths:
+      - results/biocon_e141_2021_secondary_SLA_predictor_identifiability_v0_1.json
+      - docs/BIOCON_E141_2021_SOURCE_FD_IDENTIFIABILITY_RESULTS_20261124.md
+      - scripts/audit/verify_biocon_e141_2021_source_FD_geometry_aggregate_v0_1.py
+      - .github/workflows/biocon-e141-2021-fd-predictor-aggregate-qa-v0-1.yml
+  workflow_dispatch:
+jobs:
+  nonrefit-qa:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify reported original FD design geometry without biomass outcomes
+        run: python scripts/audit/verify_biocon_e141_2021_source_FD_geometry_aggregate_v0_1.py

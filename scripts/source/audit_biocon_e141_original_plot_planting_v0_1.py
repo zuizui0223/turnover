@@ -56,6 +56,14 @@ def audit_design(raw: bytes):
     # The dict reader parses each raw CSV record structurally; NEVER touch the
     # banned response keys in the value object or emit original rows/plot IDs.
     years=collections.Counter()
+    seasons=collections.Counter()
+    planting_codes=collections.Counter()
+    exp_rich_plotkeys=collections.defaultdict(set)
+    exp_rich_treatment_plotkeys=collections.defaultdict(set)
+    blank_zero_candidate_sum=collections.Counter()
+    blank_zero_candidate_match=0
+    blank_zero_candidate_invalid=0
+    candidate_flag_design=collections.defaultdict(set)
     experiments=collections.Counter()
     richness=collections.Counter()
     flag_richness=collections.Counter()
@@ -77,6 +85,10 @@ def audit_design(raw: bytes):
         yr=d["year"]; ring=d["Ring"]; plot=d["Plot"]; season=d["Season"]
         sampling=d["Sampling #"]
         years[yr]+=1
+        seasons[season or "<missing>"]+=1
+        if ring and plot:
+            exp_rich_plotkeys[(exp,d["CountOfSpecies"])].add((ring,plot))
+            exp_rich_treatment_plotkeys[(exp,d["CountOfSpecies"],d["CO2 Treatment"],d["Nitrogen Treatment"])].add((ring,plot))
         exp=d["Experiment"];experiments[exp or "<missing>"]+=1
         richness[d["CountOfSpecies"] or "<missing>"]+=1
         treatments[(d["CO2 Treatment"] or "<missing>",d["Nitrogen Treatment"] or "<missing>")]+=1
@@ -90,6 +102,23 @@ def audit_design(raw: bytes):
             source_full_keys[(ring,plot,yr,season,sampling)]+=1
             plot_experiment[identity].add(exp)
         flags=[parse_flag(row.get(c,"")) for c in plant_cols]
+        original_flags=[(row.get(c) or "").strip().casefold() for c in plant_cols]
+        planting_codes.update(original_flags)
+        if all(z in ("","1","1.0","0","0.0","true","false","yes","no","y","n") for z in original_flags):
+            candidate=[0 if z=="" else parse_flag(z) for z in original_flags]
+            if None in candidate:
+                blank_zero_candidate_invalid+=1
+            else:
+                nflags=sum(candidate)
+                blank_zero_candidate_sum[str(nflags)]+=1
+                try:
+                    if nflags==int(float(d["CountOfSpecies"])):blank_zero_candidate_match+=1
+                except ValueError:
+                    pass
+                if ring and plot:
+                    candidate_flag_design[(ring,plot)].add(tuple(candidate))
+        else:
+            blank_zero_candidate_invalid+=1
         if any(x is None for x in flags):
             invalid_planted_rows+=1
         else:
@@ -115,6 +144,17 @@ def audit_design(raw: bytes):
         "design_header_names":[x for x in headers if x in DESIGN_FIELDS],
         "original_planted_indicator_field_count":len(plant_cols),
         "original_year_value_counts":dict(sorted(years.items())),
+        "original_season_labels_row_counts":dict(sorted(seasons.items())),
+        "all_planted_cells_original_literal_code_counts":dict(sorted(planting_codes.items())),
+        "sensitivity_only_blank_as_not_planted_possible_flags_n":dict(sorted(blank_zero_candidate_sum.items())),
+        "sensitivity_only_blank_as_not_planted_countOfSpecies_exact_matches":blank_zero_candidate_match,
+        "sensitivity_only_blank_as_not_planted_invalid_rows":blank_zero_candidate_invalid,
+        "sensitivity_only_plots_with_nonconstant_candidate_sown_vector":sum(len(v)>1 for v in candidate_flag_design.values()),
+        "blank_as_not_planted_author_codebook_certified":False,
+        "original_Experiment_by_richness_unique_plot_counts":[{"source_experiment_code":a,"source_richness_code":b,"unique_physical_plots":len(keys)}
+            for (a,b),keys in sorted(exp_rich_plotkeys.items())],
+        "original_Experiment_richness_CO2_N_unique_plot_counts":[{"experiment":a,"richness":b,"co2":c,"n":d,"unique_physical_plots":len(keys)}
+            for (a,b,c,d),keys in sorted(exp_rich_treatment_plotkeys.items())],
         "source_experiment_label_row_counts":dict(sorted(experiments.items())),
         "source_CountOfSpecies_row_counts":dict(sorted(richness.items())),
         "inferred_flag_sum_distribution_after_strict_0_1_parse":dict(sorted(flag_richness.items())),

@@ -192,16 +192,22 @@ def main():
         "new_ecological_effects_fitted":0,
     }
     try:
+        output["last_source_gate"]="retrieve_original_E141_CSV"
         blob=fetch(ORIGINAL_CSV)
+        output["last_source_gate"]="validate_original_E141_MD5"
         if hashlib.md5(blob).hexdigest()!=ORIGINAL_MD5:raise ValueError("Original E141 author source MD5 mismatch")
+        output["last_source_gate"]="original_mono_and_sown_design_support"
         output["source_mono_and_planting_support"]=assign_counts(blob)
+        output["last_source_gate"]="pinned_Ohlert2024_trait_code_and_tables"
         output["author_trait_provenance"]=inspect_author_trait_provenance()
+        output["last_source_gate"]="all_source_checks_passed"
         output["status"]="ORIGINAL_MONO_DESIGN_AND_SLA_SOURCE_PROVENANCE_CHECKED_TRAIT_TIME_HOLD"
         output["next_gate"]="Verify originally measured source trait records and acquisition years vs biomass outcomes (authors' completed 16-species trait CSV has imputed E120/Big Bio values). Source assignment eligibility does NOT establish causal FD or cross-site generalization."
     except (urllib.error.HTTPError,urllib.error.URLError,TimeoutError,ValueError,KeyError,TypeError,
             AssertionError,UnicodeError,csv.Error) as exc:
         output["status"]="SOURCE_ACCESS_OR_PROVENANCE_HOLD"
         output["failure_class"]=type(exc).__name__
+        output["failure_reason_source_only"]=str(exc)[:220] if isinstance(exc,ValueError) else "non-ValueError; source endpoint or schema"
     OUT.parent.mkdir(parents=True,exist_ok=True)
     OUT.write_text(json.dumps(output,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(output,ensure_ascii=False))

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "provenance": {
+    "original_biomass_author_source": "10.6084/m9.figshare.26841637.v3",
+    "original_biomass_file_id": 54836267,
+    "original_csv_md5": "8185b8effca37c8740ad065c53eb75d2",
+    "source_verified_pull_request_ci": "https://github.com/zuizui0223/turnover/actions/runs/45316896564",
+    "authors_direct_mono_trait_code": "https://github.com/kaitkimmel/FDiv/blob/e61c8814f3fc8e8fa7cac6141ee462c3e8b22554/R/CDRTraitCleaning.R",
+    "official_biocon_seed_design": "https://cedarcreek.umn.edu/research/experiments/e141"
+  },
+  "source_gate": "ORIGINAL_SOWN_DESIGN_AND_MONOCULTURE_SUPPORT_PASS_TRAIT_MEASUREMENT_TIME_HOLD",
+  "original_field_experiments": 1,
+  "original_CO2_ring_units": 6,
+  "main_biocON_sown_species": 16,
+  "mono": {
+    "expected_source_species_by_CO2_N_cells": 64,
+    "observed_qualified_cells": 64,
+    "original_independent_physical_mono_replicates_per_cell": 2,
+    "cells_below_original_prespecified_min_two": 0,
+    "distinct_original_monoculture_plots": 128,
+    "year_repeats_not_counted_as_physical_replicates": true
+  },
+  "seeding_design": {
+    "original_1997_seed_mass_g_m2": 12,
+    "source_declares_equal_share_per_planted_species": true,
+    "proposed_expected_yield_formula": "E = mean of matching original species monoculture mean biomasses at same treatment, year and harvest, conditional on original harvest outcome presence"
+  },
+  "mixtures": {
+    "original_M_4species": 60,
+    "original_M_9species": 60,
+    "original_M_16species": 48,
+    "total_main_mixtures": 168,
+    "directly_source_candidate_SLA_species": 14,
+    "excluded_external_SLA_species": [
+      "Bouteloua gracilis",
+      "Poa pratensis"
+    ],
+    "predeclared_min_fraction": 0.8,
+    "predeclared_min_source_species": 2,
+    "candidate_pass_counts_by_richness": {
+      "4": {
+        "pass": 36,
+        "fail": 24
+      },
+      "9": {
+        "pass": 42,
+        "fail": 18
+      },
+      "16": {
+        "pass": 48,
+        "fail": 0
+      }
+    },
+    "total_candidate_pass": 126,
+    "total_candidate_fail": 42,
+    "source_quantity": "physical original main plots, not annual repeated samples",
+    "temporal_eligibility_verified": false
+  },
+  "original_author_trait_source": {
+    "original_cleaned_SLA_coverage_reported": "56 / 64 original species-by-CO2-by-N cells (published code comment)",
+    "original_treatment_derived_complete_SLA_tables": "Four 16-species tables include Big Bio substitutions",
+    "root_CN_cross_treatment_copy_affected": true,
+    "original_EDI_species_by_measurement_year_loaded": false,
+    "original_post_sowing_traits_are_not_pre_sowing_randomized_FD": true,
+    "trait_within_year_time_order_unspecified": true
+  },
+  "effects": {
+    "original_numeric_biomass_read": false,
+    "new_fd_ce_se_ndebiomass_coefficients_fit": 0,
+    "original_author_published_biomass_CE_SE_results_are_not_independent_confirmation": true
+  },
+  "source_next_gate": "Original BioCON monoculture SLA source (EDI package 538 v9) measurement year and species/treatment identifiers; verify actual pre-outcome timing and native E141-only source without substituted Big Bio measurements; keep no-effect HOLD until year/harvest identity and source trait availability validated."
+}

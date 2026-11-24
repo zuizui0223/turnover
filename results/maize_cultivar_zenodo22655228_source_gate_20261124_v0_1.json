@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "as_of_jst": "2026-11-24",
+  "source": "Su et al. (2026) public original Zenodo record 22655228",
+  "doi": "10.5281/zenodo.22655228",
+  "original_file": "experimental data.xlsx",
+  "md5_expected": "26308df4b66c10527749ccb8bfa50bc9",
+  "source_md5_verified": true,
+  "source_metadata_verified": true,
+  "experiment_unit": "within Zea mays cultivar contrasts in Zhangye and Lishu (one published programme); NOT species-level FD or phylogenetic trait memory",
+  "original_workbook_sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "physical_xml_rows": 223,
+      "source_string_header_tags": [
+        "biomass",
+        "grain_yield",
+        "plot_or_block",
+        "site"
+      ]
+    },
+    {
+      "index": 2,
+      "name": "Sheet2",
+      "physical_xml_rows": 49,
+      "source_string_header_tags": [
+        "plot_or_block",
+        "site"
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Sheet3",
+      "physical_xml_rows": 49,
+      "source_string_header_tags": [
+        "plot_or_block",
+        "site"
+      ]
+    },
+    {
+      "index": 4,
+      "name": "Sheet4",
+      "physical_xml_rows": 97,
+      "source_string_header_tags": [
+        "plot_or_block",
+        "site"
+      ]
+    },
+    {
+      "index": 5,
+      "name": "Sheet5",
+      "physical_xml_rows": 193,
+      "source_string_header_tags": [
+        "plot_or_block",
+        "root_trait",
+        "site"
+      ]
+    },
+    {
+      "index": 6,
+      "name": "Sheet6",
+      "physical_xml_rows": 193,
+      "source_string_header_tags": [
+        "mixture_or_monoculture",
+        "plot_or_block",
+        "root_trait"
+      ]
+    }
+  ],
+  "key_limits": [
+    "physical XML row elements include workbook row/header and are not eligible independent plots or experiments",
+    "cultivar and CE/SE header classes not confirmed by initial first-eight-row literal string scan; may be coded elsewhere and absence is NOT established",
+    "same-site and same-year monoculture baseline source join is unverified",
+    "pre-mixture intrinsic vs post-mixture plastic root trait identity has not been established",
+    "original publication uses relative CE/SE and these cannot be silently recoded as signed additive CE/SE",
+    "only two locations; even qualified site holdout cannot support global cross-ecosystem claim"
+  ],
+  "original_numeric_responses_opened": false,
+  "statistical_models_fitted": 0,
+  "result": "SOURCE_BYTES_MD5_PASS_DESIGN_GRAIN_UNVERIFIED",
+  "ecological_effect_eligibility": "HOLD",
+  "source_ci_push": "https://github.com/zuizui0223/turnover/actions/runs/45308856389",
+  "source_ci_prior": "https://github.com/zuizui0223/turnover/actions/runs/45308765094",
+  "source_only_artifact_id": 14881679010,
+  "source_only_artifact_sha256": "221129bfc5f1049faad4a3d265bf8ac88ee3639924ea591f31a8c2557ed307b5",
+  "next_gate": "obtain independently verified original design dictionary for site×plot×year×cultivar composition and pre/post root trait and mono-vs-mix response definitions before any biomass outcome model"
+}

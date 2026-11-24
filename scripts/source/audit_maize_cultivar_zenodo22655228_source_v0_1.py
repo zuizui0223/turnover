@@ -126,6 +126,7 @@ def inspect_workbook(blob: bytes):
             root = ET.fromstring(zf.read(path))
             rows = root.findall(f".//{{{MAIN}}}sheetData/{{{MAIN}}}row")
             semantic = set()
+            header_examples = {}
             top_rows = rows[:8]
             for row in top_rows:
                 for cell in row.findall(f"{{{MAIN}}}c"):
@@ -136,11 +137,15 @@ def inspect_workbook(blob: bytes):
                     for cls, pattern in CLASSES.items():
                         if re.search(pattern, value, re.I):
                             semantic.add(cls)
+                            old = header_examples.setdefault(cls, [])
+                            if len(old) < 3:
+                                old.append({"position": cell.attrib.get("r", ""), "text_literal": re.sub(r"\\s+", " ", value)[:100]})
             report.append({
                 "worksheet_index": i + 1,
                 "worksheet_name": sheet.attrib.get("name", "")[:80],
                 "physical_row_elements": len(rows),
                 "semantic_header_tags_first_8_rows_only": sorted(semantic),
+                "matched_structural_string_labels_first_8_rows_only": header_examples,
                 "has_original_numeric_cells_unopened": any(
                     cell.attrib.get("t") not in ("s", "inlineStr", "str")
                     for row in top_rows for cell in row.findall(f"{{{MAIN}}}c")

@@ -1,0 +1,34 @@
+name: E141 author README and R biomass field meaning audit
+on:
+  push:
+    branches:
+      - audit/biocon-e141-2021-mass-component-accounting-20261124
+    paths:
+      - scripts/audit/biocon_e141_author_README_R_biomass_definitions_v0_1.py
+      - .github/workflows/biocon-e141-original-author-biomass-codebook-v0-1.yml
+  pull_request:
+    paths:
+      - scripts/audit/biocon_e141_author_README_R_biomass_definitions_v0_1.py
+      - .github/workflows/biocon-e141-original-author-biomass-codebook-v0-1.yml
+  workflow_dispatch:
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Source field tokenization fixture
+        run: python scripts/audit/biocon_e141_author_README_R_biomass_definitions_v0_1.py --selftest
+      - name: MD5-verified original author README and R codebook field check
+        run: python scripts/audit/biocon_e141_author_README_R_biomass_definitions_v0_1.py --source
+      - name: Save only original source line number metadata, not author text
+        uses: actions/upload-artifact@v4
+        with:
+          name: biocon-e141-author-README-R-biomass-field-source-only
+          path: results/biocon_e141_original_author_biomass_field_semantics_v0_1.json
+          if-no-files-found: error
+          retention-days: 60

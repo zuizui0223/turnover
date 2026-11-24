@@ -29,3 +29,30 @@ The article/dataset explicitly already describes associations between root respo
 **Future qualified mechanism test only (not run here):** within each source site and planned cultivar richness, does directly observed pre-mixing depth dissimilarity predict absolute biomass and **source-defined** mixture excess equally well after composition baselines, and is the *incremental* out-of-site gain direction concordant? No causal FD-only claim without a design that varies FD independently of cultivar identities. Keep a separate within-cultivar evidence tier and never merge it into the 21-entry original species-level evidence registry automatically.
 
 **Audit program:** \`python scripts/source/audit_maize_cultivar_zenodo22655228_source_v0_1.py --selftest\` and \`--source\`.
+
+
+## Executed original 6-sheet/identifier audit — 2026-11-24
+
+Official Zenodo original bytes **MD5 PASS** (no original source rows published). Original workbook has six worksheets with physical XML row-element counts **223/49/49/97/193/193**, and original headers were read as *string-only first row*:
+
+- Sheet1 (candidate biomass): \`Site, Cul, T, sys, Cs, Block, Grain yield, Biomass\`.
+- Sheet2 (published relative CE/SE): \`Site, sys, T, Block, rCE-GY, rSE-GY, rCE-AB, rSE-AB\`.
+- Sheet3: \`Site, Row, Block, Comp, RRD_RWD, RRD_MRD, rCE_GY, rSE_GY, rCE_AB, rSE_AB\`.
+- Sheet4: \`Site, Row, MoMi, T, Block, ΔMRD_D, rCE_GY, rSE_GY, rCE_AB, rSE_AB\`.
+- Sheet5: \`Site, Sys, Row, Block, RSA, SRL, RLD, RWD\`.
+- Sheet6: \`Row, Cul, T, Cs, Block, RWD, MRD\` (no same-name Site field).
+
+**Pre-outcome original key qualification:**
+- Sheet1 has **222 rows**, 96 distinct fully populated source \`Site×sys×T×Block\` candidate keys, two original Site values, and repeats consistent with multiple cultivar rows (but original \`Cul\` semantics not independently certified).
+- Sheet2 has **48 rows**, 48 distinct full same-name keys, two Site values.
+- The two tables share **2 Site codes, 4 sys codes, 3 block codes, 21 distinct Site×sys×Block combinations**.
+- Critically, original \`T\` has **30 distinct codes in Sheet1, 9 in Sheet2, ZERO exact values shared**. Thus **0 of Sheet2's 48 full keys** match Sheet1 by exact same-name four-column tuple. This mismatch is an original **source-encoding / dictionary** obstacle, **not** a negative ecological finding.
+- The apparent original Sheet1 cultivar-code multiplicity per candidate key is {1:48, 2:24, 4:15, 6:3, 8:6}; do **not** infer true planted richness (or fix unexpected 6) without author documentation.
+
+Source-only explicit STOP: **\`SOURCE_BYTES_MD5_PASS_T_SOURCE_CODE_DICTIONARY_HOLD\`**. The original manuscript/data dictionary must independently establish whether and how \`T\` identifiers correspond; **do not** join on the weaker shared \`Site×sys×Block\`, guess \`T\` recoding or inspect original biomass/CE outcomes to choose a mapping. No numeric biomass, root trait, CE/SE response or modeling was opened.
+
+Sources and reproducibility:
+- Final original [Actions #45309532853](https://github.com/zuizui0223/turnover/actions/runs/45309532853) **SUCCESS** as a fail-closed source-only audit.
+- Source-only artifact #14882471711, SHA256 \`c67ee37f3fc578144b2b81bb51523d4aa77d63f63e4f17224eaf67728f20e57e\`.
+- [Persistent nonraw original source-only verdict JSON](../results/maize_cultivar_zenodo22655228_source_gate_20261124_v0_1.json).
+- This programme remains **one cultivar experiment network** and must not enter the independent plant species-level 21-claim evidence registry or alter Evolution RC4.

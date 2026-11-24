@@ -33,3 +33,12 @@ Neither PR #77's source secondary SLA time limitation (official EDI 538 direct s
 - Source audit script: scripts/audit/biocon_e141_2021_mass_component_source_identity_v0_1.py. No source sample row, individual biomass or taxon state was written into the branch.
 
 **Decision:** Preserve prior numeric scores; downgrade any wording that identifies all 46 B values with measured sown-only component sums. Original CE/SE causality not established. Keep Draft/unmerged and primary Evolution RC4 untouched.
+
+
+## Original author README/R semantic verification (2026-11-24)
+
+A distinct **source text-only** audit fetched and MD5-verified the original Huang et al. Figshare v3 README and two released analysis R scripts, without loading any original biological response values or refitting the 2021 predictor. The original README at **line 25** explicitly defines `AbovegroundTotal Biomass (g/m^2)` as the plot's total aboveground biomass. The author's own original data-cleaning/calculation R script at **line 53** assigns `AbovegroundTotal.Biomass..g.m.2.` to the analysis variable `biomtot`. This validates the selected original author B column independently of the downstream FD analysis.
+
+The separate original CSV `Total Biomass` column is **not given a distinct explicit meaning in the author README or observed R script matches**. It fails to match plot-total B, B+litter or B−litter in the 174 fixed 2021 audited rows. **Do not invent its ecological definition or replace B with that other column.** Author 2025 CE/SE paths use 24-year mean biomass; this 2021 pilot constructs a different single-August plot-total excess B−E. A correct source column does **not** prove the source B of all 36 unsorted four-species mixtures is exclusively directly observed planted-species mass.
+
+Original source provenance: README MD5 `9ce824a94a0ad0ab455a9cfcc1589670`, calculation R MD5 `3166d7b1f8ee36e974812b3c7ac2cb48`, figures R MD5 `92b07f0cc41cca51ecb589d6e450eca8`. [Original author line-number/source dictionary run #45330819747](https://github.com/zuizui0223/turnover/actions/runs/45330819747), [PR CI #45330825436](https://github.com/zuizui0223/turnover/actions/runs/45330825436), both PASS. No author source texts are redistributed in the saved aggregate-only result.

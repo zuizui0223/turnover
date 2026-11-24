@@ -127,6 +127,11 @@ def inspect_workbook(blob: bytes):
             rows = root.findall(f".//{{{MAIN}}}sheetData/{{{MAIN}}}row")
             semantic = set()
             header_examples = {}
+            first_row_headers = []
+            for head_cell in (rows[0].findall(f"{{{MAIN}}}c") if rows else []):
+                name = literal_cell_string(head_cell, shared).strip()
+                if name and len(name) <= 120:
+                    first_row_headers.append({"cell": head_cell.attrib.get("r", ""), "header": name})
             top_rows = rows[:8]
             for row in top_rows:
                 for cell in row.findall(f"{{{MAIN}}}c"):
@@ -145,6 +150,7 @@ def inspect_workbook(blob: bytes):
                 "worksheet_name": sheet.attrib.get("name", "")[:80],
                 "physical_row_elements": len(rows),
                 "semantic_header_tags_first_8_rows_only": sorted(semantic),
+                "literal_first_row_header_names_only": first_row_headers,
                 "matched_structural_string_labels_first_8_rows_only": header_examples,
                 "has_original_numeric_cells_unopened": any(
                     cell.attrib.get("t") not in ("s", "inlineStr", "str")

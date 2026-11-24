@@ -84,6 +84,7 @@ def audit_design(raw: bytes):
         d={x:(row.get(x) or "").strip() for x in DESIGN_FIELDS}
         yr=d["year"]; ring=d["Ring"]; plot=d["Plot"]; season=d["Season"]
         sampling=d["Sampling #"]
+        exp=d["Experiment"]
         years[yr]+=1
         seasons[season or "<missing>"]+=1
         if ring and plot:

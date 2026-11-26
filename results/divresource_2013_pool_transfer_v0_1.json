@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-26",
+  "status": "COMPLETE_EXPLORATORY_TWO_POOL_TRANSFER",
+  "field_programme": "DivResource 2013 Bad Lauchstadt",
+  "doi": "10.1371/journal.pone.0158110",
+  "independent_of_other_meta_analysis_source_ids_verified": false,
+  "raw_source_rows_released": false,
+  "source_audit": {
+    "original_S5_sha256": "413fd1b856ce64385ea4935d8de1352e5fb5855d9c009e6a28de6c07dc516a53",
+    "original_S6_sha256": "6305db4081822e2b9105913be9b53526201f245fa40c32295d420198b1ae664b",
+    "source_S5_physical_plots": 96,
+    "source_S6_mixture_records": 64,
+    "original_species_sum_matches_BM_at_printed_precision": 96,
+    "source_distinct_Mix_within_pool_keys": 22,
+    "source_matched_author_NE": 64,
+    "source_NE_equals_TICE_plus_TDCE_plus_DE": 64,
+    "original_full_physical_shade_blocks": 8,
+    "shaded_blocks": 4,
+    "source_species_pools_disjoint": true,
+    "source_mono_species_treatment_replicates": 1
+  },
+  "results": {
+    "original_field_programmes": 1,
+    "disjoint_species_pools": 2,
+    "mixture_plots": 48,
+    "same_source_rows_and_folds": true,
+    "endpoint_results": {
+      "B": {
+        "both_directions": [
+          {
+            "train_pool": "A",
+            "test_pool": "B",
+            "n": 24,
+            "SSE_baseline": 1356873.091249999,
+            "SSE_plus_D": 1434042.9752083314,
+            "gain": -0.05687332474641438
+          },
+          {
+            "train_pool": "B",
+            "test_pool": "A",
+            "n": 24,
+            "SSE_baseline": 1708047.4029166643,
+            "SSE_plus_D": 1850977.2935416603,
+            "gain": -0.08368028333460109
+          }
+        ],
+        "pool_equal_gain": -0.07181255598709169
+      },
+      "NDE": {
+        "both_directions": [
+          {
+            "train_pool": "A",
+            "test_pool": "B",
+            "n": 24,
+            "SSE_baseline": 1362618.5881249998,
+            "SSE_plus_D": 1439788.472083333,
+            "gain": -0.05663351772158132
+          },
+          {
+            "train_pool": "B",
+            "test_pool": "A",
+            "n": 24,
+            "SSE_baseline": 1684432.3841666656,
+            "SSE_plus_D": 1827362.2747916654,
+            "gain": -0.08485344497559688
+          }
+        ],
+        "pool_equal_gain": -0.07223370287691577
+      }
+    },
+    "NDE_minus_B_gain": -0.00042114688982408666,
+    "population_CI_reported": false,
+    "causal_FD_only_estimated": false,
+    "mono_uncertainty": "one physical source monoculture per species x resource treatment, not resampled",
+    "D_interpretation": "fixed nonlinear contrast of planted binary trait means, not independent FD intervention"
+  },
+  "post_result_design_diagnostic": {
+    "type": "exact_design_identity_not_an_independent_biological_finding",
+    "source_original_deltas": [
+      {
+        "train_pool": "A",
+        "test_pool": "B",
+        "delta_SSE_B": 77169.88395833247,
+        "delta_SSE_NDE": 77169.88395833317,
+        "difference": -6.984919309616089e-10
+      },
+      {
+        "train_pool": "B",
+        "test_pool": "A",
+        "delta_SSE_B": 142929.89062499604,
+        "delta_SSE_NDE": 142929.89062499977,
+        "difference": -3.725290298461914e-9
+      }
+    ],
+    "formula": "For the complete six-pair binary 2×2 trait design d=D−2/3 is orthogonal to the equal-seed additive species-incidence matrix for every resource treatment. The heldout design is identical in the two pools. Therefore ΔSSE(B)=ΔSSE(B−E) when adding D to M0; the relative gains can differ only through baseline SSE denominators.",
+    "simulated_arbitrary_B_and_monoculture_vectors": 1000,
+    "max_absolute_simulated_difference": 1.1175870895385742e-8,
+    "causal_inference": false
+  },
+  "provenance": {
+    "schema_CI": 45759879363,
+    "original_model_CI": 45760171070,
+    "job": 139708048037,
+    "artifact_id": 15090110606,
+    "artifact_digest": "sha256:48319fafa81ff58e7ce4493ad66fac285958348e4872438359f7edf4373d7487",
+    "source_code_commit": "59b2e1c5589ce6361ebad43813dcd02a11e0e01f",
+    "source_result_copied_from_original_CI": true
+  }
+}

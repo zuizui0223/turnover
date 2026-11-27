@@ -1293,7 +1293,131 @@
       "A": 192.72500000000002,
       "B": 212.75
     },
-    "population_CI": null
+    "population_CI": null,
+    "component_partition_by_fertilizer_context": [
+      {
+        "pool": "A",
+        "fertilizer": 0,
+        "unshaded": {
+          "NDE": 154.65000000000003,
+          "CE": 89.35878677820443,
+          "SE": 65.29121322179554,
+          "TDCE": 13.357382201722444,
+          "DE": 51.9338310200731
+        },
+        "shaded": {
+          "NDE": 40.65000000000006,
+          "CE": 52.6801714466229,
+          "SE": -12.03017144662283,
+          "TDCE": 1.3237054221829396,
+          "DE": -13.35387686880577
+        },
+        "shade_change": {
+          "NDE": -113.99999999999997,
+          "CE": -36.67861533158153,
+          "SE": -77.32138466841837,
+          "TDCE": -12.033676779539505,
+          "DE": -65.28770788887887
+        }
+      },
+      {
+        "pool": "A",
+        "fertilizer": 1,
+        "unshaded": {
+          "NDE": -219.04999999999995,
+          "CE": -124.67511079333907,
+          "SE": -94.37488920666095,
+          "TDCE": 0.10377970316147866,
+          "DE": -94.47866890982243
+        },
+        "shaded": {
+          "NDE": 280.4000000000001,
+          "CE": 156.28261360804174,
+          "SE": 124.11738639195832,
+          "TDCE": 50.54945935539841,
+          "DE": 73.56792703655992
+        },
+        "shade_change": {
+          "NDE": 499.45000000000005,
+          "CE": 280.9577244013808,
+          "SE": 218.49227559861927,
+          "TDCE": 50.44567965223693,
+          "DE": 168.04659594638235
+        }
+      },
+      {
+        "pool": "B",
+        "fertilizer": 0,
+        "unshaded": {
+          "NDE": -198.94999999999996,
+          "CE": -79.76033383114785,
+          "SE": -119.18966616885214,
+          "TDCE": -28.649967234870147,
+          "DE": -90.539698933982
+        },
+        "shaded": {
+          "NDE": -87.35000000000002,
+          "CE": 27.392701872475016,
+          "SE": -114.7427018724751,
+          "TDCE": -38.73165127341278,
+          "DE": -76.01105059906232
+        },
+        "shade_change": {
+          "NDE": 111.59999999999994,
+          "CE": 107.15303570362286,
+          "SE": 4.446964296377047,
+          "TDCE": -10.081684038542633,
+          "DE": 14.52864833491968
+        }
+      },
+      {
+        "pool": "B",
+        "fertilizer": 1,
+        "unshaded": {
+          "NDE": -238.10000000000008,
+          "CE": -69.90764943585614,
+          "SE": -168.19235056414396,
+          "TDCE": -28.459720522026146,
+          "DE": -139.73263004211782
+        },
+        "shaded": {
+          "NDE": 75.79999999999998,
+          "CE": 175.09790491616604,
+          "SE": -99.29790491616603,
+          "TDCE": -4.103378196824167,
+          "DE": -95.19452671934187
+        },
+        "shade_change": {
+          "NDE": 313.9000000000001,
+          "CE": 245.0055543520222,
+          "SE": 68.89444564797793,
+          "TDCE": 24.35634232520198,
+          "DE": 44.53810332277595
+        }
+      }
+    ],
+    "shade_fertilizer_interaction_on_G_only_minus_H_only": {
+      "A": {
+        "NDE": 613.45,
+        "CE": 317.6363397329623,
+        "SE": 295.8136602670377,
+        "TDCE": 62.47935643177644,
+        "DE": 233.3343038352612
+      },
+      "B": {
+        "NDE": 202.30000000000015,
+        "CE": 137.85251864839933,
+        "SE": 64.44748135160089,
+        "TDCE": 34.43802636374461,
+        "DE": 30.009454987856273
+      }
+    },
+    "qualifications": [
+      "Calculated after original resource transfer scores were known; descriptive algebra of the eight previously fixed cells, not prospective confirmation.",
+      "Within fertilization, each matching contains two plots and one of each original species, but physical block effects and species interactions may differ. Exact additive species-incidence cancellation does not cancel block effects.",
+      "Fertilized contexts show a ranking reversal from H-only favored to G-only favored in both pools; unfertilized shade changes have opposite signs across pools.",
+      "No new model fit, p-value or population CI; no nutrient uptake, light competition or mediation mechanism directly measured."
+    ]
   },
   "provenance": {
     "run_id": 45951957874,

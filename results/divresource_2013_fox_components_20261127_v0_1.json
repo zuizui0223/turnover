@@ -1,0 +1,109 @@
+{
+  "status": "FOX_COMPONENTS_EXPLORATORY_COMPLETE",
+  "post_SE_result_followup": true,
+  "source_audit": {
+    "parent_original_B_NDE_replay": true,
+    "source_CE_interval_matches": 64,
+    "source_SE_interval_matches": 64,
+    "source_DE_interval_matches_if_requested": 64,
+    "source_TDCE_interval_matches_if_requested": 64,
+    "source_max_absolute_CE_central_rounding_difference_g_m2": 0.15546966833714315,
+    "source_max_absolute_SE_central_rounding_difference_g_m2": 0.17408215061691026,
+    "source_max_abs_NDE_components_minus_B_minus_E_all_64_g_m2": 0.15,
+    "original_source_S5_SHA256": "413fd1b856ce64385ea4935d8de1352e5fb5855d9c009e6a28de6c07dc516a53",
+    "original_source_S6_SHA256": "6305db4081822e2b9105913be9b53526201f245fa40c32295d420198b1ae664b"
+  },
+  "folds": [
+    {
+      "train_pool": "A",
+      "test_pool": "B",
+      "n": 24,
+      "SSE_M0": {
+        "TDCE": 47273.53458333333,
+        "DE": 598127.8429166665,
+        "SE": 672949.8966666664,
+        "twice_cross_product": 27548.519166666563
+      },
+      "SSE_M1": {
+        "TDCE": 45256.210208333345,
+        "DE": 584746.7202083337,
+        "SE": 647142.8566666672,
+        "twice_cross_product": 17139.92625000015
+      },
+      "delta_SSE": {
+        "TDCE": -2017.324374999982,
+        "DE": -13381.122708332841,
+        "SE": -25807.039999999222,
+        "twice_cross_product": -10408.592916666414
+      },
+      "gain": {
+        "TDCE": 0.04267344070589563,
+        "DE": 0.022371676668790585,
+        "SE": 0.038349125436870746
+      },
+      "D_coefficients": {
+        "TDCE": 26.387500000000074,
+        "DE": 72.01250000000005,
+        "SE": 98.40000000000012
+      }
+    },
+    {
+      "train_pool": "B",
+      "test_pool": "A",
+      "n": 24,
+      "SSE_M0": {
+        "TDCE": 33353.512916666696,
+        "DE": 397231.88958333345,
+        "SE": 541881.4683333336,
+        "twice_cross_product": 111296.06583333346
+      },
+      "SSE_M1": {
+        "TDCE": 32744.41354166664,
+        "DE": 391829.49687499925,
+        "SE": 532192.3516666656,
+        "twice_cross_product": 107618.44124999964
+      },
+      "delta_SSE": {
+        "TDCE": -609.0993750000562,
+        "DE": -5402.392708334199,
+        "SE": -9689.116666667978,
+        "twice_cross_product": -3677.624583333818
+      },
+      "gain": {
+        "TDCE": 0.018261925708451865,
+        "DE": 0.013600098204605171,
+        "SE": 0.017880509360227448
+      },
+      "D_coefficients": {
+        "TDCE": 41.86249999999997,
+        "DE": 105.68749999999994,
+        "SE": 147.5499999999999
+      }
+    }
+  ],
+  "combined_gain": {
+    "TDCE": 0.03257497119685593,
+    "DE": 0.018871082286490815,
+    "SE": 0.02921899918732107
+  },
+  "pooled_delta_SSE": {
+    "TDCE": -2626.423750000038,
+    "DE": -18783.51541666704,
+    "SE": -35496.1566666672,
+    "twice_cross_product": -14086.217500000232
+  },
+  "same_48_original_pair_plots": true,
+  "original_field_programmes": 1,
+  "disjoint_pools": 2,
+  "population_CI": null,
+  "causal_FD_only": false,
+  "prior_CE_SE_result_unchanged": true,
+  "provenance": {
+    "run_id": 45939556449,
+    "job_id": 140310478107,
+    "artifact_id": 15171169794,
+    "artifact_digest": "sha256:b8cc3c4549f1fadc561323b9d9ec2aca84ad26e364ae49107f00d4409d078f7a",
+    "code_commit": "5f1cd850859a4ff659950f418f8ab100f81f0f1d",
+    "copied_from_actual_successful_CI": true
+  }
+}

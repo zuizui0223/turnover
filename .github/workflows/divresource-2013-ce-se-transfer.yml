@@ -1,0 +1,31 @@
+name: DivResource 2013 CE SE fixed pool transfer and endpoint identity replay
+on:
+  push:
+    branches: [analysis/divresource-pool-transfer-20261126]
+    paths:
+      - scripts/analysis/divresource_2013_ce_se_transfer.py
+      - scripts/audit/verify_divresource_pair_endpoint_identity.py
+      - .github/workflows/divresource-2013-ce-se-transfer.yml
+  workflow_dispatch:
+jobs:
+  fixed-components:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.1.3
+      - name: Replay exact balanced pair identity and synthetic cases
+        run: python scripts/audit/verify_divresource_pair_endpoint_identity.py
+      - name: Verify source CE and SE and run fixed transfer folds
+        run: python scripts/analysis/divresource_2013_ce_se_transfer.py
+      - name: Preserve only aggregate source and component scores
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: divresource-2013-fixed-ce-se-transfer-aggregate
+          path: results/divresource_2013_ce_se_transfer_20261127_v0_1.json
+          if-no-files-found: warn

@@ -47,7 +47,7 @@ def source():
 def weight(rows):
     counts=collections.Counter((r["pool"],r["rich"]) for r in rows)
     return np.asarray([1/counts[(r["pool"],r["rich"])] for r in rows],float)
-def evaluate(rows):
+def evaluate(rows, *, purge_shared_species=False):
     pools=sorted({r["pool"] for r in rows});rich=sorted({r["rich"] for r in rows});pref=sorted({r["prefix"] for r in rows})
     require(len(pools)==3 and len(pref)==3 and len(rich)==2,"expected 3 original pools, 3 prefix codes, 2 shared richness categories")
     def matrix(rr):
@@ -56,7 +56,8 @@ def evaluate(rows):
     folds=[]
     for pool in pools:
         te=[r for r in rows if r["pool"]==pool];all_tr=[r for r in rows if r["pool"]!=pool]
-        ts={r["species"] for r in te};tr=[r for r in all_tr if r["species"] not in ts]
+        ts={r["species"] for r in te};heldout_taxa=set(s for r in te for s in r["species"])
+        tr=[r for r in all_tr if not (set(r["species"])&heldout_taxa)] if purge_shared_species else [r for r in all_tr if r["species"] not in ts]
         require(len(te)>0 and len(tr)>20 and set(r["rich"] for r in tr)==set(rich)==set(r["rich"] for r in te),"unmatched richness or insufficient original training support")
         require(len({r["pool"] for r in tr})==2,"training trait pool disappeared after roster purge")
         require(all(len({r["high"] for r in tr if (r["pool"],r["rich"])==(p,k)})==2 for p in pools if p!=pool for k in rich),"purge removed a complete FD class")
@@ -83,7 +84,8 @@ def evaluate(rows):
         coeff=dict(zip(NAMES,map(float,beta[-1])))
         sp_train=set(s for r in tr for s in r["species"]);sp_test=set(s for r in te for s in r["species"])
         folds.append({"heldout_pool":pool,"n_test":len(te),"n_train":len(tr),
-                      "n_train_removed_shared_exact_composition":len(all_tr)-len(tr),
+                      "n_train_removed_shared_exact_composition":sum(r["species"] in ts for r in all_tr),
+                      "n_train_removed_by_active_purge":len(all_tr)-len(tr),
                       "n_shared_train_test_taxa":len(sp_train&sp_test),
                       "n_test_taxa":len(sp_test),"test_richness_counts":dict(collections.Counter(r["rich"] for r in te)),
                       "gain":gains,"SE_minus_CE_gain":gains["SE"]-gains["CE"],"high_FD_training_beta_g_m2":coeff,
@@ -96,7 +98,8 @@ def evaluate(rows):
            "richness_levels":rich,"folds":folds,"combined_equal_pool_richness_gain":combined,
            "combined_SE_minus_CE_gain":combined["SE"]-combined["CE"],"criterion":criteria,
            "qualitative_SE_TDCE_DE_transport_reproduced":all(criteria[k]["all_three_and_pooled_positive"] for k in ("SE","TDCE","DE")),
-           "population_CI":None,"causal_FD_only":False,"physical_block_certified":False}
+           "population_CI":None,"causal_FD_only":False,"physical_block_certified":False,
+           "purge_shared_species":purge_shared_species}
 def selftest():
     z,err=partition([10,20],[6,8]);require(abs(z["NDE"]+1)<1e-10 and abs(z["CE"])<1e-10 and abs(z["SE"]+1)<1e-10,"known truth partition")
     require(abs(z["TDCE"]+z["DE"]-z["SE"])<1e-10,"Fox identity")

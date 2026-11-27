@@ -16,7 +16,7 @@ def load(path,name):
     if spec is None or spec.loader is None:raise ValueError("source module unavailable")
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 
-def audit_source():
+def audit_source(*, fox_components=False):
     a=load("scripts/analysis/divresource_2013_source_adapter.py","original_adapter")
     source=load("scripts/source/divresource_2013_original_schema.py","source_schema")
     core=load("scripts/analysis/divresource_2013_pool_transfer_core.py","original_core")
@@ -59,7 +59,7 @@ def audit_source():
         return x[0]/y[1],x[1]/y[0]
     def overlaps(a,b):
         return min(a[1],b[1])+Decimal("0.00000001")>=max(a[0],b[0])
-    rows=[];n_ce=n_se=0;max_diff=0.;max_ce_diff=0.;max_se_diff=0.
+    rows=[];n_ce=n_se=n_de=n_tdce=0;max_diff=0.;max_ce_diff=0.;max_se_diff=0.
     for (pool,t,ss),recs in bycell.items():
         k=len(ss)
         if k==1:continue
@@ -83,6 +83,15 @@ def audit_source():
             if not overlaps(ce,ce_obs):raise ValueError("CE reconstructed from species mass does not match published TICE interval")
             if not overlaps(se,se_obs):raise ValueError("SE reconstructed from species mass does not match published TDCE+DE interval")
             n_ce+=1;n_se+=1
+            if fox_components:
+                # Fox dominance = sum(Y_i)/RYT - mean(M_i); the remaining
+                # selection covariance is trait-dependent complementarity.
+                ratio=div_pos(Y,R)
+                de=(ratio[0]-M[1],ratio[1]-M[0])
+                tdce=(se[0]-de[1],se[1]-de[0])
+                if not overlaps(de,bounds(original["DE"])) or not overlaps(tdce,bounds(original["TDCE"])):
+                    raise ValueError("independent Fox component source rounding check failed")
+                n_de+=1;n_tdce+=1
             ce_value=a.decimal(original["TICE"])
             se_value=a.decimal(original["TDCE"])+a.decimal(original["DE"])
             mean_m=sum(raw_m)/k
@@ -97,10 +106,13 @@ def audit_source():
             hm=(classes[0][1]+classes[1][1])/2
             D=(abs(classes[0][0]-classes[1][0])+abs(classes[0][1]-classes[1][1]))/2
             rows.append({"pool":pool,"X":[1.,*(float(t==u) for u in core.TREATMENTS[1:]),gm,hm,D],
-                         "CE":float(ce_value),"SE":float(se_value)})
+                         "CE":float(ce_value),"SE":float(se_value),
+                         "TDCE":float(a.decimal(original["TDCE"])), "DE":float(a.decimal(original["DE"]))})
     if (n_ce,n_se)!=(64,64) or len(rows)!=48 or collections.Counter(r["pool"] for r in rows)!={"A":24,"B":24}:
         raise ValueError("fixed original source component cohort changed")
     return rows,{"parent_original_B_NDE_replay":True,"source_CE_interval_matches":n_ce,"source_SE_interval_matches":n_se,
+                 "source_DE_interval_matches_if_requested":n_de if fox_components else None,
+                 "source_TDCE_interval_matches_if_requested":n_tdce if fox_components else None,
                  "source_max_absolute_CE_central_rounding_difference_g_m2":max_ce_diff,
                  "source_max_absolute_SE_central_rounding_difference_g_m2":max_se_diff,
                  "source_max_abs_NDE_components_minus_B_minus_E_all_64_g_m2":max_diff,
